@@ -66,7 +66,7 @@ glabel func_8084FCAC
 /* 1DB8C 8084FD9C 44811000 */  mtc1    $at, $f2                   ## $f2 = 100.00
 /* 1DB90 8084FDA0 00000000 */  nop
 .L8084FDA4:
-/* 1DB94 8084FDA4 0C018DD7 */  jal     func_8006375C              
+/* 1DB94 8084FDA4 0C018DD7 */  jal     func_8006375C_cc0              
 /* 1DB98 8084FDA8 E7A20024 */  swc1    $f2, 0x0024($sp)           
 /* 1DB9C 8084FDAC 3C098086 */  lui     $t1, %hi(D_80858AB4)       ## $t1 = 80860000
 /* 1DBA0 8084FDB0 8D298AB4 */  lw      $t1, %lo(D_80858AB4)($t1)  
