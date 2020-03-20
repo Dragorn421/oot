@@ -71,7 +71,7 @@ void Main(void* arg0)
     }
     osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeap, debugHeapSize);
     DebugArena_Init(debugHeap, debugHeapSize);
-    func_800636C0();
+    func_800636C0_cc0();
 
     SREG(0) = 0;
 

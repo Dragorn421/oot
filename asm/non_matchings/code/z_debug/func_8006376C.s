@@ -1,4 +1,4 @@
-glabel func_8006376C
+glabel func_8006376C_cc0
 /* ADA90C 8006376C 3C098012 */  lui   $t1, %hi(D_8011E0B0) # $t1, 0x8012
 /* ADA910 80063770 2529E0B0 */  addiu $t1, %lo(D_8011E0B0) # addiu $t1, $t1, -0x1f50
 /* ADA914 80063774 85230000 */  lh    $v1, ($t1)
