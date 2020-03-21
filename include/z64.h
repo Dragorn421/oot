@@ -33,9 +33,19 @@
 // Data normally accessed through REG macros (see regs.h)
 typedef struct
 {
-    /* 0x00 */ char  unk_00[0x14];
+    /* 0x00 */ s32 unk0;
+    /* 0x04 */ s32 unk4;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ s32 unk10;
     /* 0x14 */ s16   data[0xAE0];
 } GameInfo; // size = 0x15D4
+
+typedef struct struct_8006390C_arg0 {
+    u16 unk00;
+    char unk02[0xA];
+    u16 unk0C;
+} struct_8006390C_arg0;
 
 typedef struct
 {
@@ -1385,5 +1395,13 @@ typedef struct ListAlloc
     /* 0x00 */ struct ListAlloc* prev;
     /* 0x04 */ struct ListAlloc* next;
 } ListAlloc; //size = 0x8
+
+typedef struct
+{
+    /* 0x00 */ u32 resetting;
+    /* 0x04 */ u32 resetCount;
+    /* 0x08 */ OSTime duration;
+    /* 0x10 */ OSTime resetTime;
+} PreNmiBuff; //size = 0x18 (actually osAppNmiBuffer is 0x40 bytes large but the rest is unused)
 
 #endif
