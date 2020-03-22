@@ -1,6 +1,6 @@
 #include "global.h"
 
-GameInfo *gGameInfo;
+GameInfo* gGameInfo;
 
 typedef struct struct_8015FA98_sub {
     s8 unk0;
