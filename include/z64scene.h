@@ -390,6 +390,12 @@ typedef struct
 	s32 properties;
 } WaterBoxHeader;
 
+typedef struct
+{
+    /* 0x00 */ u8 count; // Total number of points in the path for the actor to follow
+    /* 0x04 */ Vec3s* path;  // Segment Address of the start of the path list
+} Path; // size = 0x8
+
 typedef union
 {
     SCmdBase              base;
@@ -475,7 +481,7 @@ typedef enum
     /* 0x32 */ SCENE_NIGHT_SHOP,
     /* 0x33 */ SCENE_FACE_SHOP,
     /* 0x34 */ SCENE_LINK_HOME,
-    /* 0x35 */ SCENE_IMPA,
+    /* 0x35 */ SCENE_BACK_ALLEY,
     /* 0x36 */ SCENE_MALON_STABLE,
     /* 0x37 */ SCENE_LABO,
     /* 0x38 */ SCENE_HYLIA_LABO,
