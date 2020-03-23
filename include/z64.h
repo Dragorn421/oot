@@ -962,6 +962,16 @@ typedef struct LoadedParticleEntry {
     /* 0x005F */ u8 type;
 } LoadedParticleEntry; // size = 0x60
 
+// Some animation related structure
+typedef struct {
+    /* 0x00 */ u32      animation;
+    /* 0x04 */ f32      playbackSpeed;
+    /* 0x08 */ f32      unk_08;
+    /* 0x0C */ f32      frameCount;
+    /* 0x10 */ u8       unk_10;
+    /* 0x14 */ f32      transitionRate;
+} struct_80034EC0_Entry; // size = 0x18
+
 typedef struct {
     /* 0x00 */ u32 unk_00;
     /* 0x04 */ u32(*init)(GlobalContext*, u32, LoadedParticleEntry*, void*);
