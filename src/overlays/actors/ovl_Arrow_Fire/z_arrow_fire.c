@@ -1,7 +1,7 @@
 #include "z_arrow_fire.h"
 #include "../ovl_En_Arrow/z_en_arrow.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx);
