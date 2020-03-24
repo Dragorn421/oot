@@ -57,6 +57,7 @@ void func_8006375C_cc0(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 #ifdef NON_MATCHING
+// Note: matched by Roman in 64b5536ab
 void func_8006376C_cc0(s32 arg0, s32 arg1, s32 arg2, u8* arg3) {
     s16 var_v1;
     s8* var_t0;
