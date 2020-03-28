@@ -13,8 +13,7 @@ void func_80865DD8(ArrowFire* this, GlobalContext* globalCtx);
 void func_808660E8(ArrowFire* this, GlobalContext* globalCtx);
 void func_80865F1C(ArrowFire* this, GlobalContext* globalCtx);
 /*
-const ActorInit Arrow_Fire_InitVars =
-{
+const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
     ACTORTYPE_ITEMACTION,
     ROOM,
