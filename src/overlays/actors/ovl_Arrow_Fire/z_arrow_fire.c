@@ -125,8 +125,8 @@ void func_80865F1C(ArrowFire* this, GlobalContext* globalCtx) {
             this->fireRadius = (((1.0f - offset) * scale) + 10.0f);
             this->unk_158 += ((2.0f - this->unk_158) * 0.1f);
             if (this->timer < 0x10) {
-                if (this->timer){} // needed for regalloc
-                this->opacity = ((this->timer * 0x23) - 0x118);
+                if (1){} 
+                this->alpha = ((this->timer * 0x23) - 0x118);
             }
         }
     }
@@ -201,24 +201,62 @@ void ArrowFire_Update(ArrowFire* this, GlobalContext* globalCtx)
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Arrow_Fire/ArrowFire_Draw.s")
-
 void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx){
-    u32 gameplayFrames; //8c
+    s32 pad1;
+    s32 pad2;
+    u32 stateFrames;
+    GraphicsContext* gfxCtx;
     Actor* tranform; 
-    Gfx* gfxArr[2]; //70
-    EnArrow* arrow; //if this messes up the stack i need to cast
+    EnArrow* arrow;
+    s32 pad3;
+    s32 pad4;
+    Gfx* gfxArr[2];
 
-    gameplayFrames = globalCtx->state.frames;
-    arrow = this->actor.attachedA; // may need to assign elsewhere
+    if (1) {
+        stateFrames = globalCtx->state.frames;
+        arrow = this->actor.attachedA;
+    }
+
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 0xFF)) {
-        if (arrow->hitWall & 2){
-            tranform = &this->actor;
-        } else {
-            tranform = &arrow->actor;
+        if (1) {}
+        tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
+        gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618); 
+        Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
+        Matrix_RotateY(tranform->shape.rot.y * 9.58738E-05f, MTXMODE_APPLY); // 2*PI/65536, do we have a pi define?
+        Matrix_RotateX(tranform->shape.rot.x * 9.58738E-05f, MTXMODE_APPLY); // 2*PI/65536, do we have a pi define?
+        Matrix_RotateZ(tranform->shape.rot.z * 9.58738E-05f, MTXMODE_APPLY); // 2*PI/65536, do we have a pi define?
+        Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
+
+        // Draw red effect over the screen when arrow hits
+        if (this->unk_15C > 0) {
+            gfxCtx->polyXlu.p = func_800937C0(gfxCtx->polyXlu.p);
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, (s32)(40.0f * this->unk_15C) & 0xFF, 0x00, 0x00, 
+                            (s32)(150.0f * this->unk_15C) & 0xFF);
+            gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_DISABLE);
+            gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
+            gDPFillRectangle(gfxCtx->polyXlu.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
         }
-        func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
-        
+
+        // Draw fire on the arrow
+        func_80093D84(globalCtx->state.gfxCtx);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xC8, 0x00, this->alpha);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0x80);
+        Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);
+        if (this->timer != 0) {
+            Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
+        } else {
+            Matrix_Translate(0.0f, 1500.0f, 0.0f, MTXMODE_APPLY);
+        }
+        Matrix_Scale(this->fireRadius * 0.2f, this->unk_158 * 4.0f, this->fireRadius * 0.2f, MTXMODE_APPLY);
+        Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 666), G_MTX_NOPUSH |
+                  G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(gfxCtx->polyXlu.p++, &D_80867990);
+        gSPDisplayList(gfxCtx->polyXlu.p++, Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+                       255 - (stateFrames * 2) % 256, 0, 64, 32, 1, 255 - stateFrames % 256, 
+                       511 - (stateFrames * 10) % 512, 64, 64));
+        gSPDisplayList(gfxCtx->polyXlu.p++, &D_80867A40);
+        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 682);
     }
 
 }
