@@ -179,7 +179,7 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
         ArrowFire_SetupAction(this, ArrowFire_Hit);
         this->timer = 32;
         this->opacity = 0xFF;
-    } else if (arrow->timer < 0x22) {
+    } else if (arrow->timer < 34) {
         if (this->opacity < 0x23) {
             Actor_Kill(&this->actor);
         } else {
