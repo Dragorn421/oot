@@ -232,7 +232,7 @@ static void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnimation(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
 static void func_80AF2978(EnRu2* this, GlobalContext* globalCtx) {
@@ -306,8 +306,7 @@ static void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         csCmdActorAction = globalCtx->csCtx.actorActions[3];
         if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
-            SkelAnime_ChangeAnimation(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 2,
-                                      0.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 2, 0.0f);
             this->action = 4;
         }
     }
@@ -471,9 +470,9 @@ static void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     UNK_PTR addr = D_80AF410C[temp];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
@@ -484,7 +483,7 @@ static void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     gfxCtx->polyXlu.p = func_800A273C(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount,
                                       0, 0, 0, gfxCtx->polyXlu.p);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
 }
 
 static void func_80AF3394(EnRu2* this, GlobalContext* globalCtx) {
@@ -789,9 +788,9 @@ static void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     UNK_PTR addr = D_80AF410C[temp];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
@@ -799,9 +798,9 @@ static void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
-    func_800A1AC8(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
-                  &this->actor);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
+    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
+                     &this->actor);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
 }
 
 static void EnRu2_Draw(EnRu2* this, GlobalContext* globalCtx) {

@@ -218,10 +218,10 @@ void func_80063D7C_cc0(GraphicsContext* arg0) {
     s32 pad2[2];
     Gfx* sp30[4];
 
-    func_800C6AC4(sp30, arg0, "../z_debug.c", 0x274);
+    Graph_OpenDisp(sp30, arg0, "../z_debug.c", 0x274);
     GfxPrint_Ctor(&sp48);
     sp78 = arg0->polyOpa.p;
-    temp_v0 = func_800C6C20(sp78);
+    temp_v0 = Graph_GfxPlusOne(sp78);
     gSPDisplayList(arg0->overlay.p++, temp_v0);
     GfxPrint_Open(&sp48, temp_v0);
     if ((gGameInfo->data[0xC0] == 1) || (gGameInfo->data[0xC0] == 8)) {
@@ -233,9 +233,9 @@ void func_80063D7C_cc0(GraphicsContext* arg0) {
     D_8011E0B0 = 0;
     temp_v0 = GfxPrint_Close(&sp48);
     gSPEndDisplayList(temp_v0++);
-    func_800C6C28(sp78, temp_v0);
+    Graph_BranchDlist(sp78, temp_v0);
     arg0->polyOpa.p = temp_v0;
     if (1) {}
-    func_800C6B54(sp30, arg0, "../z_debug.c", 0x298);
+    Graph_CloseDisp(sp30, arg0, "../z_debug.c", 0x298);
     GfxPrint_Dtor(&sp48);
 }
