@@ -42,7 +42,7 @@ static ColliderCylinderSrc cylinderInit = {
         COLTYPE_CYLINDER,
     },
     {
-        0,
+        ELEM_MATERIAL_UNK0,
         {
             0x00000000,
             HIT_SPECIAL_EFFECT_NONE,
@@ -53,9 +53,9 @@ static ColliderCylinderSrc cylinderInit = {
             HIT_BACKLASH_NONE,
             0,
         },
-        0,
-        1,
-        1,
+        ATELEM_NONE,
+        ACELEM_ON,
+        OCELEM_ON,
     },
     {
         16,

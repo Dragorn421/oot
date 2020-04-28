@@ -400,6 +400,7 @@ Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx);
 s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, u16 (*unkFunc1)(GlobalContext*, Actor*),
                   s16 (*unkFunc2)(GlobalContext*, Actor*));
 s16 func_800347E8(s16 arg0);
+void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
                    PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
@@ -1656,8 +1657,8 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode);
 void Matrix_RotateX(f32 x, u8 mode);
 void Matrix_RotateY(f32 y, u8 mode);
 void Matrix_RotateZ(f32 z, u8 mode);
-void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
-void Matrix_TranslateThenRotateZYX(Vec3f* arg0, Vec3s* arg1);
+void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode);
+void Matrix_JointPosition(Vec3f* position, Vec3s* rotation);
 void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);
@@ -1678,7 +1679,7 @@ u32 SysUcode_GetUCodeBoot();
 u32 SysUcode_GetUCodeBootSize();
 u32 SysUcode_GetUCode();
 u32 SysUcode_GetUCodeData();
-void func_800D2E30(UnkRumbleStruct *arg0);
+void func_800D2E30(UnkRumbleStruct* arg0);
 void func_800D3140(UnkRumbleStruct* arg0);
 void func_800D3178(UnkRumbleStruct* arg0);
 // ? func_800D31F0(?);
@@ -2120,6 +2121,7 @@ void func_800F59E8(u16);
 // ? func_800F5CF8(?);
 // ? func_800F5E18(?);
 // ? func_800F5E90(?);
+void func_800F6268(f32, UNK_TYPE);
 // ? func_800F64E0(?);
 // ? func_800F66C0(?);
 // ? func_800F6700(?);
@@ -2340,7 +2342,9 @@ void guLookAtReflect(Mtx*, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 // ? osContStartQuery(?);
 void osContGetQuery(OSContStatus* data);
 // ? guLookAtHiliteF(?);
-void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt,  f32 yAt,  f32 zAt, f32 xUp,  f32 yUp,  f32 zUp, f32 xl1,  f32 yl1,  f32 zl1, f32 xl2,  f32 yl2,  f32 zl2, s32 hiliteWidth, s32 hiliteHeight);	
+void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp,
+                    f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1, f32 xl2, f32 yl2, f32 zl2, s32 hiliteWidth,
+                    s32 hiliteHeight);
 // ? __osSpDeviceBusy(?);
 // ? func_80103B60(?);
 // ? guPositionF(?);
