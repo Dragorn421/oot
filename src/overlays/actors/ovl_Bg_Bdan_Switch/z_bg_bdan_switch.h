@@ -39,9 +39,9 @@ typedef struct {
     /* 0x0158 */ u32 unk_158;
     /* 0x015C */ u32 unk_15C;
     /* 0x0160 */ u8 unk_160;
-    /* 0x0164 */ ActorFunc updateFunc;
-    /* 0x0168 */ ColliderCustomMain collider;
-    /* 0x01B4 */ char unk_1B4[0x14];
+    /* 0x0164 */ ActorFunc actionFunc;
+    /* 0x0168 */ ColliderSpheres collider;
+    /* 0x0188 */ ColliderSpheresElement colliderItems[1];
     /* 0x01C8 */ f32 unk_1C8;
     /* 0x01CC */ s16 unk_1CC;
     /* 0x01CE */ char unk_1CE[0x2];

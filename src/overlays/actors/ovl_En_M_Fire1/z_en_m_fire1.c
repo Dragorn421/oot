@@ -71,23 +71,23 @@ void EnMFire1_Init(EnMFire1* this, GlobalContext* globalCtx) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &thisLocal->actor, ACTORTYPE_ITEMACTION);
     }
 
-    Collider_InitCylinder(globalCtx, &thisLocal->capsule);
-    Collider_LoadCylinder(globalCtx, &thisLocal->capsule, &thisLocal->actor, &cylinderInitData);
+    Collider_InitCylinder(globalCtx, &thisLocal->collider);
+    Collider_LoadCylinder(globalCtx, &thisLocal->collider, &thisLocal->actor, &cylinderInitData);
 }
 
 void EnMFire1_Destroy(EnMFire1* this, GlobalContext* globalCtx) {
-    ColliderCylinder* capsule = &this->capsule;
-    Collider_DestroyCylinder(globalCtx, capsule);
+    ColliderCylinder* collider = &this->collider;
+    Collider_DestroyCylinder(globalCtx, collider);
 }
 
 void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx) {
     s32 pad;
     EnMFire1* thisLocal = this;
 
-    if (Math_ApproxF(&thisLocal->unk_0198, 1.0, 0.2)) {
+    if (Math_ApproxF(&thisLocal->unk_198, 1.0f, 0.2f)) {
         Actor_Kill(&this->actor);
     } else {
-        Collider_UpdateCylinderShape(&thisLocal->actor, &thisLocal->capsule);
-        Collider_AddAT(globalCtx, &globalCtx->colliderCtx, &thisLocal->capsule);
+        Collider_UpdateCylinderShape(&thisLocal->actor, &thisLocal->collider);
+        Collider_AddAT(globalCtx, &globalCtx->colliderCtx, &thisLocal->collider);
     }
 }

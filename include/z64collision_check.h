@@ -54,21 +54,20 @@ typedef struct ColliderSrc {
 } ColliderSrc; // size = 0x06
 
 typedef struct ColliderSrcAlt {
-    u8 colMaterial;
-    u8 atFlags;
-    u8 acFlags;
-    u8 ocFlags1;
-    u8 colType;
-    char unk_5[3];
-} ColliderSrcAlt;
+    /* 0x0 */ u8 colMaterial;
+    /* 0x1 */ u8 atFlags;
+    /* 0x2 */ u8 acFlags;
+    /* 0x3 */ u8 ocFlags1;
+    /* 0x4 */ u8 colType;
+} ColliderSrcAlt; // size = 0x5
 
 typedef struct ColliderSrcAltWithActor {
-    struct Actor* actor;
-    u8 atFlags;
-    u8 acFlags;
-    u8 ocFlags1;
-    u8 colType;
-} ColliderSrcAltWithActor;
+    /* 0x0 */ struct Actor* actor;
+    /* 0x4 */ u8 atFlags;
+    /* 0x5 */ u8 acFlags;
+    /* 0x6 */ u8 ocFlags1;
+    /* 0x7 */ u8 colType;
+} ColliderSrcAltWithActor; // size = 0x8
 
 typedef enum HitSpecialEffect {
     HIT_SPECIAL_EFFECT_NONE,
@@ -100,10 +99,10 @@ typedef struct ColliderElementDamageInfoAC {
 } ColliderElementDamageInfoAC; // size = 0x0C
 
 typedef struct ColliderElementDamageInfoACSrc {
-    u32 dmgFlags; /* Bumper Exclusion Mask */
-    u8 hitBacklash;
-    u8 unk5;
-} ColliderElementDamageInfoACSrc;
+    /* 0x0 */ u32 dmgFlags; /* Bumper Exclusion Mask */
+    /* 0x4 */ u8 hitBacklash;
+    /* 0x5 */ u8 unk5;
+} ColliderElementDamageInfoACSrc; // size = 0x8
 
 typedef enum ElementMaterial {
     /* 0 */ ELEM_MATERIAL_UNK0,
@@ -143,21 +142,21 @@ typedef struct ColliderElementSrc {
  */
 
 typedef struct ColliderSpheresElementShape {
-    Sphere16 model;
-    Sphere16 world;
-    f32 unkRadiusScale;
-    u8 unk14;
+    /* 0x00 */ Sphere16 model;
+    /* 0x08 */ Sphere16 world;
+    /* 0x10 */ f32 unkRadiusScale;
+    /* 0x14 */ u8 unk14;
 } ColliderSpheresElementShape; /* size = 0x18 */
 
 typedef struct ColliderSpheresElement {
-    ColliderElement base;
-    ColliderSpheresElementShape shape;
+    /* 0x00 */ ColliderElement base;
+    /* 0x28 */ ColliderSpheresElementShape shape;
 } ColliderSpheresElement; /* size = 0x40 */
 
 typedef struct ColliderSpheres {
-    Collider base;
-    s32 nElements;
-    ColliderSpheresElement* elements;
+    /* 0x00 */ Collider base;
+    /* 0x18 */ s32 nElements;
+    /* 0x1C */ ColliderSpheresElement* elements;
 } ColliderSpheres;
 
 typedef struct ColliderSpheresElementShapeSrc {

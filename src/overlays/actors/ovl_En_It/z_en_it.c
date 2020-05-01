@@ -69,21 +69,21 @@ void EnIt_Init(EnIt* this, GlobalContext* globalCtx) {
     EnIt* it = this;
 
     it->actor.params = 0x0D05;
-    Collider_InitCylinder(globalCtx, &it->cylinderCollider);
-    Collider_LoadCylinder(globalCtx, &it->cylinderCollider, &it->actor, &cylinderInitData);
-    func_80061EFC(&it->actor.collideData.damageChart, 0, &damageTblInitData); // Init Damage Chart
+    Collider_InitCylinder(globalCtx, &it->collider);
+    Collider_LoadCylinder(globalCtx, &it->collider, &it->actor, &cylinderInitData);
+    func_80061EFC(&it->actor.collideData, 0, &damageTblInitData); // Init Damage Chart
 }
 
 void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx) {
     EnIt* it = this;
 
-    Collider_DestroyCylinder(globalCtx, &it->cylinderCollider);
+    Collider_DestroyCylinder(globalCtx, &it->collider);
 }
 
 void EnIt_Update(EnIt* this, GlobalContext* globalCtx) {
     s32 pad;
     EnIt* it = this;
 
-    Collider_UpdateCylinderShape(&it->actor, &it->cylinderCollider);
-    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &it->cylinderCollider);
+    Collider_UpdateCylinderShape(&it->actor, &it->collider);
+    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &it->collider);
 }
