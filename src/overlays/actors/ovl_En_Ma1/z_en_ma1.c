@@ -37,7 +37,7 @@ const ActorInit En_Ma1_InitVars = {
     (ActorFunc)EnMa1_Draw,
 };
 
-ColliderCylinderSrc cylinderInit = {
+static ColliderCylinderSrc cylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
