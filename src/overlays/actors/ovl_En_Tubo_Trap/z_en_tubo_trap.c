@@ -8,17 +8,20 @@
 
 #include <vt.h>
 
-void EnTuboTrap_Init(EnTuboTrap* this, GlobalContext* globalCtx);
-void EnTuboTrap_Destroy(EnTuboTrap* this, GlobalContext* globalCtx);
-void EnTuboTrap_Update(EnTuboTrap* this, GlobalContext* globalCtx);
-void EnTuboTrap_Draw(EnTuboTrap* this, GlobalContext* globalCtx);
+#define FLAGS 0x00000010
+
+#define THIS ((EnTuboTrap*)thisx)
+
+void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTuboTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTuboTrap_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx);
 
-#define FLAGS 0x00000010
-
-static ColliderCylinderSrc cylinderInitData = {
+ColliderCylinderSrc cylinderInitData_EnTuboTrap = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -70,25 +73,28 @@ const ActorInit En_Tubo_Trap_InitVars = {
 extern UNK_TYPE D_05017A60;
 extern Gfx D_05017870[];
 
-void EnTuboTrap_Init(EnTuboTrap* this, GlobalContext* globalCtx) {
-    s32 pad;
+void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnTuboTrap* this = THIS;
+
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 2.0f);
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 壷トラップ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params); // "Urn Trap"
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData_EnTuboTrap);
     Actor_SetScale(&this->actor, 0.1f);
     this->actionFunc = (ActorFunc)EnTuboTrap_WaitForProximity;
 }
 
-void EnTuboTrap_Destroy(EnTuboTrap* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
-    Collider_DestroyCylinder(globalCtx, collider);
+void EnTuboTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnTuboTrap* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnTuboTrap_DropCollectible(EnTuboTrap* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
     s16 param3FF = (params >> 6) & 0x3FF;
+
     if (param3FF >= 0 && param3FF < 0x1A) {
         Item_DropCollectible(globalCtx, &this->actor.posRot, param3FF | ((params & 0x3F) << 8));
     }
@@ -306,19 +312,19 @@ void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx) {
     EnTuboTrap_HandleImpact(this, globalCtx);
 }
 
-void EnTuboTrap_Update(EnTuboTrap* this, GlobalContext* globalCtx) {
-    EnTuboTrap* tuboTrap = this;
-    ColliderContext* colliderCtx = &globalCtx->colliderCtx;
+void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnTuboTrap* this = THIS;
+    s32 pad;
 
-    tuboTrap->actionFunc(tuboTrap, globalCtx);
-    Actor_MoveForward(&tuboTrap->actor);
-    func_8002E4B4(globalCtx, &tuboTrap->actor, 10.0f, 10.0f, 20.0f, 0x1D);
-    Actor_SetHeight(&tuboTrap->actor, 0.0f);
-    Collider_UpdateCylinderShape(&tuboTrap->actor, &tuboTrap->collider);
-    Collider_AddAC(globalCtx, colliderCtx, &tuboTrap->collider);
-    Collider_AddAT(globalCtx, colliderCtx, &tuboTrap->collider);
+    this->actionFunc(this, globalCtx);
+    Actor_MoveForward(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 20.0f, 0x1D);
+    Actor_SetHeight(&this->actor, 0.0f);
+    Collider_UpdateCylinderShape(&this->actor, &this->collider);
+    Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->collider);
+    Collider_AddAT(globalCtx, &globalCtx->colliderCtx, &this->collider);
 }
 
-void EnTuboTrap_Draw(EnTuboTrap* this, GlobalContext* globalCtx) {
+void EnTuboTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, D_05017870);
 }

@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000000
 
-void EnIt_Init(EnIt* this, GlobalContext* globalCtx);
-void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx);
-void EnIt_Update(EnIt* this, GlobalContext* globalCtx);
+#define THIS ((EnIt*)thisx)
+
+void EnIt_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnIt_Update(Actor* thisx, GlobalContext* globalCtx);
 
 static ColliderCylinderSrc cylinderInitData = {
     {
@@ -49,7 +51,7 @@ static ColliderCylinderSrc cylinderInitData = {
     },
 };
 
-static u8 damageTblInitData[] = {
+static u8 collideDataInit[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00,
 };
 
@@ -65,25 +67,25 @@ const ActorInit En_It_InitVars = {
     (ActorFunc)NULL,
 };
 
-void EnIt_Init(EnIt* this, GlobalContext* globalCtx) {
-    EnIt* it = this;
+void EnIt_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnIt* this = THIS;
 
-    it->actor.params = 0x0D05;
-    Collider_InitCylinder(globalCtx, &it->collider);
-    Collider_LoadCylinder(globalCtx, &it->collider, &it->actor, &cylinderInitData);
-    func_80061EFC(&it->actor.collideData, 0, &damageTblInitData); // Init Damage Chart
+    this->actor.params = 0x0D05;
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    func_80061EFC(&this->actor.collideData, 0, &collideDataInit); // Init Damage Chart
 }
 
-void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx) {
-    EnIt* it = this;
+void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnIt* this = THIS;
 
-    Collider_DestroyCylinder(globalCtx, &it->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void EnIt_Update(EnIt* this, GlobalContext* globalCtx) {
+void EnIt_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnIt* this = THIS;
     s32 pad;
-    EnIt* it = this;
 
-    Collider_UpdateCylinderShape(&it->actor, &it->collider);
-    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &it->collider);
+    Collider_UpdateCylinderShape(&this->actor, &this->collider);
+    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider);
 }

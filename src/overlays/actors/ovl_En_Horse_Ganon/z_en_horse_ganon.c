@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx);
-void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx);
-void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx);
-void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx);
+#define THIS ((EnHorseGanon*)thisx)
+
+void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A68660(unk_D_80A69248* data, s32 index, Vec3f* vec);
 void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx);
@@ -21,7 +23,6 @@ void func_80A68AF0(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68B20(EnHorseGanon* this);
 void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx);
-void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderSpheresElement* colliderSphereItem);
 
 const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
@@ -216,8 +217,8 @@ void func_80A68870(EnHorseGanon* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68870.s")
 #endif
 
-void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx) {
-    ColliderCylinder* colliderCylinder = &this->colliderCylinder;
+void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnHorseGanon* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, initChain);
     Actor_SetScale(&this->actor, 0.0115f);
@@ -233,8 +234,8 @@ void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx) {
     this->currentAnimation = 0;
     SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A691B0[0]);
 
-    Collider_InitCylinder(globalCtx, colliderCylinder);
-    Collider_LoadCylinder(globalCtx, colliderCylinder, &this->actor, &cylinderInit_EnHorseGanon);
+    Collider_InitCylinder(globalCtx, &this->colliderCylinder);
+    Collider_LoadCylinder(globalCtx, &this->colliderCylinder, &this->actor, &cylinderInit_EnHorseGanon);
     Collider_InitSpheres(globalCtx, &this->colliderSphere);
     Collider_LoadSpheres(globalCtx, &this->colliderSphere, &this->actor, &jntsphInit_EnHorseGanon, &this->colliderSphereItem);
 
@@ -242,7 +243,9 @@ void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx) {
     func_80A68AC4(this);
 }
 
-void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx) {
+void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnHorseGanon* this = THIS;
+
     func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
     Collider_DestroySpheres(globalCtx, &this->colliderSphere);
@@ -317,7 +320,7 @@ void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx) {
 }
 
 void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
-    u32 padding;
+    s32 pad;
     CollisionPoly* col;
     f32 temp_ret;
     Vec3f v;
@@ -333,8 +336,9 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.x = D_80A692D0 * Math_atan2f(this->actor.posRot.pos.y - temp_ret, 30.0f);
 }
 
-void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx) {
-    u32 padding[2];
+void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnHorseGanon* this = THIS;
+    s32 pad;
 
     actionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
@@ -345,13 +349,13 @@ void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx) {
     Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->colliderCylinder.base);
 }
 
-void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderSpheresElement* colliderSphereItem) {
+void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, ColliderSpheresElement* colliderSphereItem) {
     Vec3f sp4C;
     Vec3f sp40;
-    ColliderSpheresElement* temp_v0;
+    EnHorseGanon* this = THIS;
     s32 index;
 
-    for (index = 0; index < this->colliderSphere.nElements; index += 1) {
+    for (index = 0; index < this->colliderSphere.nElements; index++) {
         sp4C.x = this->colliderSphere.elements[index].shape.model.center.x;
         sp4C.y = this->colliderSphere.elements[index].shape.model.center.y;
         sp4C.z = this->colliderSphere.elements[index].shape.model.center.z;
@@ -362,13 +366,15 @@ void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderSpheres
         this->colliderSphere.elements[index].shape.world.center.y = sp40.y;
         this->colliderSphere.elements[index].shape.world.center.z = sp40.z;
 
-        temp_v0 = &this->colliderSphere.elements[index];
-        temp_v0->shape.world.radius = temp_v0->shape.unkRadiusScale * temp_v0->shape.model.radius;
+        this->colliderSphere.elements[index].shape.world.radius =
+            this->colliderSphere.elements[index].shape.model.radius * this->colliderSphere.elements[index].shape.unkRadiusScale;
     }
     Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->colliderSphere.base);
 }
 
-void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx) {
+void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnHorseGanon* this = THIS;
+
     func_80A68E14(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, func_80A68FA8, 1);
