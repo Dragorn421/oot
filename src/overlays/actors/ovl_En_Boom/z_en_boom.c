@@ -15,7 +15,6 @@ void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc);
 void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx);
 
 const ActorInit En_Boom_InitVars = {
@@ -88,7 +87,7 @@ static Vec3f mtxSrc2 = { 960.0f, 0.0f, 0.0f };
 
 extern D_0400C808;
 
-void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc) {
+void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -129,7 +128,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_LoadQuad(globalCtx, &this->collider, this, &col);
 
-    EnBoom_SetupAction(this, &EnBoom_Fly);
+    EnBoom_SetupAction(this, EnBoom_Fly);
 }
 
 void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -188,13 +187,13 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     func_8002F974(this, 0x1010);
 
     // If the boomerang collides with EnItem00 or a Skulltula token, set grabbed pointer to pick it up
-    collided = (this->collider.atFlags & 0x2);
+    collided = (this->collider.base.atFlags & 0x2);
     collided = (!!(collided));
     if (collided) {
-        if (((this->collider.at->id == ACTOR_EN_ITEM00) || (this->collider.at->id == ACTOR_EN_SI))) {
-            this->grabbed = this->collider.at;
-            if (this->collider.at->id == ACTOR_EN_SI) {
-                this->collider.at->flags |= 0x2000;
+        if (((this->collider.base.at->id == ACTOR_EN_ITEM00) || (this->collider.base.at->id == ACTOR_EN_SI))) {
+            this->grabbed = this->collider.base.at;
+            if (this->collider.base.at->id == ACTOR_EN_SI) {
+                this->collider.base.at->flags |= 0x2000;
             }
         }
     }
@@ -225,7 +224,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else {
-        collided = (this->collider.atFlags & 0x2);
+        collided = (this->collider.base.atFlags & 0x2);
         collided = (!!(collided));
         if (collided) {
             // Copy the position from the prevous frame to the boomerang to start the bounce back.
