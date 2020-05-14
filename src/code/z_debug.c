@@ -109,17 +109,18 @@ void func_80063828_cc0(GfxPrint* arg0) {
     }
 }
 
-void func_8006390C_cc0(struct_8006390C_arg0* arg0) {
+void func_8006390C_cc0(Input* arg0) {
     s32 var_a3;
     s32 var_v1;
     s32 var_v1_2;
     s32 var = (((((gGameInfo->unk4 * 6) + gGameInfo->unk0) * 0x10) - 0x10));
 
-    var_a3 = arg0->unk00 & 0xF00;
-    if ((~(arg0->unk00 | ~0x20) == 0) || (~(arg0->unk00 | ~0x10) == 0) || (~(arg0->unk00 | ~0x1000) == 0)) {
+    var_a3 = arg0->cur.in.button & 0xF00;
+    if ((~(arg0->cur.in.button | ~0x20) == 0) || (~(arg0->cur.in.button | ~0x10) == 0) ||
+        (~(arg0->cur.in.button | ~0x1000) == 0)) {
         for (var_v1 = 0; var_v1 < 0x1D; var_v1++) {
-            if (!((~(~D_8011E0D4[var_v1].unk0 | arg0->unk00) != 0) ||
-                  (~(~D_8011E0D4[var_v1].unk2 | arg0->unk0C) != 0))) {
+            if (!((~(~D_8011E0D4[var_v1].unk0 | arg0->cur.in.button) != 0) ||
+                  (~(~D_8011E0D4[var_v1].unk2 | arg0->press.in.button) != 0))) {
                 break;
             }
         }
@@ -151,14 +152,14 @@ void func_8006390C_cc0(struct_8006390C_arg0* arg0) {
                     gGameInfo->unkC = var_a3;
                 }
 
-                var_v1_2 = (var_a3 & 0x100)   ? ((~(arg0->unk00 | ~0xC000) == 0)   ? 0x3E8
-                                                 : (~(arg0->unk00 | ~0x8000) == 0) ? 0x64
-                                                 : (~(arg0->unk00 | ~0x4000) == 0) ? 0xA
-                                                                                   : 1)
-                           : (var_a3 & 0x200) ? ((~(arg0->unk00 | ~0xC000) == 0)   ? -0x3E8
-                                                 : (~(arg0->unk00 | ~0x8000) == 0) ? -0x64
-                                                 : (~(arg0->unk00 | ~0x4000) == 0) ? -0xA
-                                                                                   : -1)
+                var_v1_2 = (var_a3 & 0x100)   ? ((~(arg0->cur.in.button | ~0xC000) == 0)   ? 0x3E8
+                                                 : (~(arg0->cur.in.button | ~0x8000) == 0) ? 0x64
+                                                 : (~(arg0->cur.in.button | ~0x4000) == 0) ? 0xA
+                                                                                           : 1)
+                           : (var_a3 & 0x200) ? ((~(arg0->cur.in.button | ~0xC000) == 0)   ? -0x3E8
+                                                 : (~(arg0->cur.in.button | ~0x8000) == 0) ? -0x64
+                                                 : (~(arg0->cur.in.button | ~0x4000) == 0) ? -0xA
+                                                                                           : -1)
                                               : 0;
 
                 gGameInfo->data[gGameInfo->unk8 + var] += var_v1_2;
