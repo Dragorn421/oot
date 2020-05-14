@@ -68,10 +68,41 @@ const ActorInit En_Heishi2_InitVars = {
     (ActorFunc)EnHeishi2_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 33, 40, 0, { 0, 0, 0 } },
+ColliderCylinderSrc cylinderInit_EnHeishi2 = {
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        {
+            0x00000000,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0x00000000,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
+    {
+        33,
+        40,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 
 void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -80,7 +111,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.01f);
     this->initParams = this->actor.params & 0xFF;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.collideData.mass = 0xFF;
 
     if ((this->initParams == 6) || (this->initParams == 9)) {
         this->actor.draw = func_80A54C6C;
@@ -114,10 +145,10 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->transitionDrawTable, 17);
         collider = &this->collider;
         Collider_InitCylinder(globalCtx, collider);
-        Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
-        this->collider.dim.yShift = 0;
-        this->collider.dim.radius = 0xF;
-        this->collider.dim.height = 0x46;
+        Collider_LoadCylinder(globalCtx, collider, &this->actor, &cylinderInit_EnHeishi2);
+        this->collider.shape.yShift = 0;
+        this->collider.shape.radius = 0xF;
+        this->collider.shape.height = 0x46;
         this->actor.unk_1F = 6;
 
         switch (this->initParams) {
@@ -153,7 +184,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi2* this = THIS;
-    if ((this->collider.dim.radius != 0) || (this->collider.dim.height != 0)) {
+    if ((this->collider.shape.radius != 0) || (this->collider.shape.height != 0)) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
@@ -814,8 +845,8 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
             break;
         default:
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 30.0f, 0x1D);
-            Collider_CylinderUpdate(&this->actor, &this->collider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            Collider_UpdateCylinderShape(&this->actor, &this->collider);
+            Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider);
             break;
     }
 }
