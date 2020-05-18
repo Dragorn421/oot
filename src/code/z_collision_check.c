@@ -1267,15 +1267,15 @@ void Collider_NoBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* arg2)
 #define BSS_DUMMY GLUE2(s8 sBssDummy, __LINE__)
 
 void Collider_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* arg2) {
-    static struct_8015D8A0 D_8015D8A0;
+    static EffectSparkInit D_8015D8A0;
 
     s32 sp24;
 
-    D_8015D8A0.unk0.x = (s16)(s32)arg2->x;
-    D_8015D8A0.unk0.y = (s16)(s32)arg2->y;
-    D_8015D8A0.unk0.z = (s16)(s32)arg2->z;
-    D_8015D8A0.unk494 = 5;
-    D_8015D8A0.unk498 = 5;
+    D_8015D8A0.pos.x = (s16)(s32)arg2->x;
+    D_8015D8A0.pos.y = (s16)(s32)arg2->y;
+    D_8015D8A0.pos.z = (s16)(s32)arg2->z;
+    D_8015D8A0.uDiv = 5;
+    D_8015D8A0.vDiv = 5;
     D_8015D8A0.unk49C[0].r = 0xA;
     D_8015D8A0.unk49C[0].g = 0xA;
     D_8015D8A0.unk49C[0].b = 0xC8;
@@ -1312,7 +1312,7 @@ void Collider_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* arg
     D_8015D8A0.unk4C0 = 0x10;
     D_8015D8A0.unk48C = 8.0f;
     D_8015D8A0.unk490 = -1.0f;
-    Effect_Add(globalCtx, &sp24, 0, 0U, 1U, &D_8015D8A0);
+    Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
 
 BSS_DUMMY;
@@ -1321,14 +1321,14 @@ BSS_DUMMY;
 BSS_DUMMY;
 
 void Collider_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* arg2) {
-    static struct_8015D8A0 D_8015DD68;
+    static EffectSparkInit D_8015DD68;
     s32 sp24;
 
-    D_8015DD68.unk0.x = arg2->x;
-    D_8015DD68.unk0.y = arg2->y;
-    D_8015DD68.unk0.z = arg2->z;
-    D_8015DD68.unk494 = 5;
-    D_8015DD68.unk498 = 5;
+    D_8015DD68.pos.x = arg2->x;
+    D_8015DD68.pos.y = arg2->y;
+    D_8015DD68.pos.z = arg2->z;
+    D_8015DD68.uDiv = 5;
+    D_8015DD68.vDiv = 5;
     D_8015DD68.unk49C[0].r = 0xA;
     D_8015DD68.unk49C[0].g = 0xC8;
     D_8015DD68.unk49C[0].b = 0xA;
@@ -1365,7 +1365,7 @@ void Collider_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* ar
     D_8015DD68.unk4C0 = 0x10;
     D_8015DD68.unk48C = 8.0f;
     D_8015DD68.unk490 = -1.0f;
-    Effect_Add(globalCtx, &sp24, 0, 0U, 1U, &D_8015DD68);
+    Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
 
 void func_80062B80(GlobalContext* globalCtx, Vec3f* arg1);
@@ -3119,14 +3119,14 @@ void func__800628A4_Type0(s32 arg0, ColliderSpheres* spheres) {
 }
 
 void func_80062A28(GlobalContext* globalCtx, Vec3f* arg1) {
-    static struct_8015D8A0 D_8015CF10;
+    static EffectSparkInit D_8015CF10;
     s32 sp24;
 
-    D_8015CF10.unk0.x = (s16)(s32)arg1->x;
-    D_8015CF10.unk0.y = (s16)(s32)arg1->y;
-    D_8015CF10.unk0.z = (s16)(s32)arg1->z;
-    D_8015CF10.unk494 = 5;
-    D_8015CF10.unk498 = 5;
+    D_8015CF10.pos.x = (s16)(s32)arg1->x;
+    D_8015CF10.pos.y = (s16)(s32)arg1->y;
+    D_8015CF10.pos.z = (s16)(s32)arg1->z;
+    D_8015CF10.uDiv = 5;
+    D_8015CF10.vDiv = 5;
     D_8015CF10.unk49C[0].r = 128;
     D_8015CF10.unk49C[0].g = 0;
     D_8015CF10.unk49C[0].b = 0x40;
@@ -3163,18 +3163,18 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* arg1) {
     D_8015CF10.unk4C0 = 0x10;
     D_8015CF10.unk48C = 8.0f;
     D_8015CF10.unk490 = -1.0f;
-    Effect_Add(globalCtx, &sp24, 0, 0U, 1U, &D_8015CF10);
+    Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015CF10);
 }
 
 void func_80062B80(GlobalContext* globalCtx, Vec3f* arg1) {
-    static struct_8015D8A0 D_8015D3D8;
+    static EffectSparkInit D_8015D3D8;
     s32 sp24;
 
-    D_8015D3D8.unk0.x = (s16)(s32)arg1->x;
-    D_8015D3D8.unk0.y = (s16)(s32)arg1->y;
-    D_8015D3D8.unk0.z = (s16)(s32)arg1->z;
-    D_8015D3D8.unk494 = 5;
-    D_8015D3D8.unk498 = 5;
+    D_8015D3D8.pos.x = (s16)(s32)arg1->x;
+    D_8015D3D8.pos.y = (s16)(s32)arg1->y;
+    D_8015D3D8.pos.z = (s16)(s32)arg1->z;
+    D_8015D3D8.uDiv = 5;
+    D_8015D3D8.vDiv = 5;
     D_8015D3D8.unk49C[0].r = 0xFF;
     D_8015D3D8.unk49C[0].g = 0xFF;
     D_8015D3D8.unk49C[0].b = 0xFF;
@@ -3211,30 +3211,44 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* arg1) {
     D_8015D3D8.unk4C0 = 0x10;
     D_8015D3D8.unk48C = 8.0f;
     D_8015D3D8.unk490 = -1.0f;
-    Effect_Add(globalCtx, &sp24, 0, 0U, 1U, &D_8015D3D8);
+    Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D3D8);
 }
 
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* arg1) {
-    static struct_8011E068 D_8011E028 = {
-        { 0x10, 0 },
+    static EffectShieldParticleInit D_8011E028 = {
+        0x10,
         { 0, 0, 0 },
+        { 0, 0xC8, 0xFF, 0xFF },
+        { 0xFF, 0xFF, 0xFF, 0xFF },
+        { 0xFF, 0xFF, 0x80, 0xFF },
+        { 0xFF, 0xFF, 0, 0xFF },
+        { 0xFF, 0x40, 0, 0xC8 },
+        { 0xFF, 0, 0, 0xFF },
+        2.1f,
+        35.0f,
+        30.0f,
+        8,
         {
-            0,    0xC8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0xFF, 0xFF,
-            0xFF, 0,    0xFF, 0xFF, 0x40, 0,    0xC8, 0xFF, 0,    0,    0xFF, 0x40, 6,
-            0x66, 0x66, 0x42, 0xC,  0,    0,    0x41, 0xF0, 0,    0,    8,    0,
+            0,
+            0,
+            0,
+            0,
+            0x80,
+            0xFF,
+            0,
+            300,
         },
-        { 0, 0, 0 },
-        { 0, 0x80, 0xFF, 0, 1, 0x2C, 0, 0, 0, 0, 0, 1 },
+        1,
     };
     s32 sp24;
 
-    D_8011E028.unk2.x = (s16)(s32)arg1->x;
-    D_8011E028.unk2.y = (s16)(s32)arg1->y;
-    D_8011E028.unk2.z = (s16)(s32)arg1->z;
-    D_8011E028.unk2E.x = D_8011E028.unk2.x;
-    D_8011E028.unk2E.y = D_8011E028.unk2.y;
-    D_8011E028.unk2E.z = D_8011E028.unk2.z;
-    Effect_Add(globalCtx, &sp24, 3, 0U, 1U, &D_8011E028);
+    D_8011E028.pos.x = arg1->x;
+    D_8011E028.pos.y = arg1->y;
+    D_8011E028.pos.z = arg1->z;
+    D_8011E028.lightParams.posX = D_8011E028.pos.x;
+    D_8011E028.lightParams.posY = D_8011E028.pos.y;
+    D_8011E028.lightParams.posZ = D_8011E028.pos.z;
+    Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &D_8011E028);
 }
 
 void func_80062D60(GlobalContext* globalCtx, Vec3f* arg1) {
@@ -3252,26 +3266,40 @@ void func_80062DF4(GlobalContext* globalCtx, Vec3f* arg1) {
 }
 
 void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
-    static struct_8011E068 D_8011E068 = {
-        { 0x10, 0 },
-        { 0, 0, 0 },
+    static EffectShieldParticleInit D_8011E068 = {
+        0x10,
+        { 0, 0, 0 }, // unk2
+        { 0, 0xC8, 0xFF, 0xFF },
+        { 0xFF, 0xFF, 0xFF, 0xFF },
+        { 0xFF, 0xFF, 0x80, 0xFF },
+        { 0xFF, 0xFF, 0, 0xFF },
+        { 0xFF, 0x40, 0, 0xC8 },
+        { 0xFF, 0, 0, 0xFF },
+        2.1f,
+        35.0f,
+        30.0f,
+        8,
         {
-            0,    0xC8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0xFF, 0xFF,
-            0xFF, 0,    0xFF, 0xFF, 0x40, 0,    0xC8, 0xFF, 0,    0,    0xFF, 0x40, 6,
-            0x66, 0x66, 0x42, 0xC,  0,    0,    0x41, 0xF0, 0,    0,    8,    0,
+            0,
+            0,
+            0,
+            0,
+            0x80,
+            0xFF,
+            0,
+            300,
         },
-        { 0, 0, 0 },
-        { 0, 0x80, 0xFF, 0, 1, 0x2C, 0, 0, 0, 0, 0, 0 },
+        0,
     };
     s32 sp24;
 
-    D_8011E068.unk2.x = arg1->x;
-    D_8011E068.unk2.y = arg1->y;
-    D_8011E068.unk2.z = arg1->z;
-    D_8011E068.unk2E.x = D_8011E068.unk2.x;
-    D_8011E068.unk2E.y = D_8011E068.unk2.y;
-    D_8011E068.unk2E.z = D_8011E068.unk2.z;
-    Effect_Add(globalCtx, &sp24, 3, 0U, 1U, &D_8011E068);
+    D_8011E068.pos.x = arg1->x;
+    D_8011E068.pos.y = arg1->y;
+    D_8011E068.pos.z = arg1->z;
+    D_8011E068.lightParams.posX = D_8011E068.pos.x;
+    D_8011E068.lightParams.posY = D_8011E068.pos.y;
+    D_8011E068.lightParams.posZ = D_8011E068.pos.z;
+    Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &D_8011E068);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
