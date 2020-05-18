@@ -1,4 +1,4 @@
-glabel func_800628A4_Type0
+glabel func__800628A4_Type0
 /* AD9A44 800628A4 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* AD9A48 800628A8 AFBF0034 */  sw    $ra, 0x34($sp)
 /* AD9A4C 800628AC AFB60030 */  sw    $s6, 0x30($sp)

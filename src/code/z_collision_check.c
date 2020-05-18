@@ -3096,7 +3096,7 @@ void func_8006285C(GlobalContext* globalCtx, struct_800627A0* arg1, s32 arg2, Ve
     Collider_LoadTrisElementShape(globalCtx, &new_var->unk28, arg3);
 }
 
-void func_800628A4_Type0(s32 arg0, ColliderSpheres* spheres) {
+void func__800628A4_Type0(s32 arg0, ColliderSpheres* spheres) {
     static Vec3f sModelCenter;
     // bss block number rollover!
     static Vec3f sWorldCenter;

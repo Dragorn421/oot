@@ -135,7 +135,7 @@ void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, &initChain);
     Collider_InitSpheres(globalCtx, &this->collider);
-    Collider_LoadSpheres(globalCtx, &this->collider, this, &D_80B92304, &this->colliderBody);
+    Collider_LoadSpheres(globalCtx, &this->collider, this, &D_80B92304, &this->colliderItems);
     ObjComb_SetWait(this);
 }
 
@@ -155,9 +155,9 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
         this->unk_1B0 = 0;
     }
 
-    if ((this->collider.acFlags & 0x2) != 0) {
-        this->collider.acFlags &= ~0x2;
-        toucherFlags = this->colliderBodyPtr->acHitElem->atDmgInfo.dmgFlags;
+    if ((this->collider.base.acFlags & 0x2) != 0) {
+        this->collider.base.acFlags &= ~0x2;
+        toucherFlags = this->collider.elements[0].base.acHitElem->atDmgInfo.dmgFlags;
         if (toucherFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
@@ -205,6 +205,6 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_050095B0);
 
-    func_800628A4_Type0(0, &this->collider);
+    func__800628A4_Type0(0, &this->collider);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
 }

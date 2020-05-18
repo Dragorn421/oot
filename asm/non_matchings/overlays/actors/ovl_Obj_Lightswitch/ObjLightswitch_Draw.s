@@ -14,7 +14,7 @@ glabel ObjLightswitch_Draw
 /* 012E8 80B97E88 24C50150 */  addiu   $a1, $a2, 0x0150           ## $a1 = 00000150
 /* 012EC 80B97E8C AFA30018 */  sw      $v1, 0x0018($sp)           
 /* 012F0 80B97E90 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 012F4 80B97E94 0C018A29 */  jal     func_800628A4_Type0              
+/* 012F4 80B97E94 0C018A29 */  jal     func__800628A4_Type0              
 /* 012F8 80B97E98 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 012FC 80B97E9C 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 01300 80B97EA0 8FA30018 */  lw      $v1, 0x0018($sp)           

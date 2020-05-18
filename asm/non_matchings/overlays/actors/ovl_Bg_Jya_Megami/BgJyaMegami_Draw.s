@@ -5,7 +5,7 @@ glabel BgJyaMegami_Draw
 /* 00E30 8089AF60 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00E34 8089AF64 24C50168 */  addiu   $a1, $a2, 0x0168           ## $a1 = 00000168
 /* 00E38 8089AF68 AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 00E3C 8089AF6C 0C018A29 */  jal     func_800628A4_Type0              
+/* 00E3C 8089AF6C 0C018A29 */  jal     func__800628A4_Type0              
 /* 00E40 8089AF70 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 00E44 8089AF74 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 00E48 8089AF78 3C0E808A */  lui     $t6, %hi(func_8089A820)    ## $t6 = 808A0000

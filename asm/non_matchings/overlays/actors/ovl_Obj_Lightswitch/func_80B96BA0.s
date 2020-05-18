@@ -31,7 +31,7 @@ glabel func_80B96BA0
 /* 00074 80B96C14 0C0342A3 */  jal     Matrix_Scale              
 /* 00078 80B96C18 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 0007C 80B96C1C 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 00080 80B96C20 0C018A29 */  jal     func_800628A4_Type0              
+/* 00080 80B96C20 0C018A29 */  jal     func__800628A4_Type0              
 /* 00084 80B96C24 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00088 80B96C28 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 0008C 80B96C2C 8FB00020 */  lw      $s0, 0x0020($sp)           

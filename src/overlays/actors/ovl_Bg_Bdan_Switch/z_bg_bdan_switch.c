@@ -500,7 +500,7 @@ void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
             func_8086DF58(this, globalCtx, &D_060061A0);
-            func_800628A4_Type0(0, &this->collider);
+            func__800628A4_Type0(0, &this->collider);
             Matrix_MultVec3f(&D_8086E0E0, &this->actor.posRot2);
             break;
         case BLUE:

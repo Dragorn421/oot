@@ -18,7 +18,7 @@ glabel EnButte_Draw
               
 /* 0122C 809CE29C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01230 809CE2A0 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 01234 809CE2A4 0C018A29 */  jal     func_800628A4_Type0              
+/* 01234 809CE2A4 0C018A29 */  jal     func__800628A4_Type0              
 /* 01238 809CE2A8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0123C 809CE2AC 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
 .L809CE2B0:
