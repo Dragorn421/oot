@@ -345,7 +345,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
         }
     } else {
         unkVar = ~0x80;
-       if (player->stateFlags2 & 0x80) {
+        if (player->stateFlags2 & 0x80) {
             if (&this->actor == player->actor.attachedA) {
                 player->stateFlags2 &= unkVar;
                 player->actor.attachedA = NULL;
@@ -367,7 +367,7 @@ void func_809ECF60(EnDha* this) {
 void func_809ECF8C(EnDha* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-   if (player->stateFlags2 & 0x80) {
+    if (player->stateFlags2 & 0x80) {
         if (&this->actor == player->actor.attachedA) {
             player->stateFlags2 &= ~0x80;
             player->actor.attachedA = NULL;
@@ -404,7 +404,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     Vec3f vector;
     Player* player = PLAYER;
 
-   if (player->stateFlags2 & 0x80) {
+    if (player->stateFlags2 & 0x80) {
         if (&this->actor == player->actor.attachedA) {
             player->stateFlags2 &= ~0x80;
             player->actor.attachedA = NULL;
