@@ -452,7 +452,7 @@ s32 func_80090440(s32 arg0, s32 arg1, UNK_PTR** arg2, s32 arg3, s32 arg4, Player
 u8 func_80090480(GlobalContext* globalCtx, Collider* collider, Struct_80090480_arg2* arg2, Vec3f* arg3, Vec3f* arg4) {
     if (arg2->active == 0) {
         if (collider != NULL) {
-            Collider_QuadSetAT(globalCtx, collider);
+            Collider_ClearQuadATHit(globalCtx, collider);
         }
         Math_Vec3f_Copy(&arg2->tip, arg3);
         Math_Vec3f_Copy(&arg2->base, arg4);
@@ -462,13 +462,13 @@ u8 func_80090480(GlobalContext* globalCtx, Collider* collider, Struct_80090480_a
         if (arg2->tip.x == arg3->x && arg2->tip.y == arg3->y && arg2->tip.z == arg3->z && arg2->base.x == arg4->x &&
             arg2->base.y == arg4->y && arg2->base.z == arg4->z) {
             if (collider != NULL) {
-                Collider_QuadSetAT(globalCtx, collider);
+                Collider_ClearQuadATHit(globalCtx, collider);
             }
             return 0;
         }
         if (collider != NULL) {
             func_80062734(collider, arg4, arg3, &arg2->base, &arg2->tip);
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, collider);
+            Collider_AddAT(globalCtx, &globalCtx->colliderCtx, collider);
         }
         Math_Vec3f_Copy(&arg2->base, arg4);
         Math_Vec3f_Copy(&arg2->tip, arg3);
@@ -477,25 +477,25 @@ u8 func_80090480(GlobalContext* globalCtx, Collider* collider, Struct_80090480_a
     }
 }
 
-void func_80090604(GlobalContext* globalCtx, Player* player, ColliderQuad* collider, ColliderQuadDimInit* quadInit) {
-    Vec3f d;
-    Vec3f c;
+void func_80090604(GlobalContext* globalCtx, Player* player, ColliderQuad* collider, ColliderQuadShape* quadInit) {
     Vec3f b;
     Vec3f a;
+    Vec3f c;
+    Vec3f d;
 
     if ((s32)(player->stateFlags1 << 9) < 0) {
         player->unk_5F8 = D_8012607C[player->currentShield];
-        Matrix_MultVec3f(&quadInit->quad[0], &a);
-        Matrix_MultVec3f(&quadInit->quad[1], &b);
-        Matrix_MultVec3f(&quadInit->quad[2], &c);
-        Matrix_MultVec3f(&quadInit->quad[3], &d);
-        func_80062734(collider, &a, &b, &c, &d);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
+        Matrix_MultVec3f(&quadInit->corners.cornerD, &d);
+        Matrix_MultVec3f(&quadInit->corners.cornerC, &c);
+        Matrix_MultVec3f(&quadInit->corners.cornerA, &a);
+        Matrix_MultVec3f(&quadInit->corners.cornerB, &b);
+        func_80062734(collider, &d, &c, &a, &b);
+        Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &collider->base);
+        Collider_AddAT(globalCtx, &globalCtx->colliderCtx, &collider->base);
     }
 }
 
-void func_800906D4(GlobalContext* globalCtx, Player* player, ColliderTrisItemDimInit* trisInit) {
+void func_800906D4(GlobalContext* globalCtx, Player* player, Vec3f* trisInit) {
     Vec3f sp44;
     Vec3f sp38;
     Vec3f sp2C;
@@ -503,13 +503,13 @@ void func_800906D4(GlobalContext* globalCtx, Player* player, ColliderTrisItemDim
     Matrix_MultVec3f(&D_801260A4, &sp2C);
     Matrix_MultVec3f(&D_801260B0, &sp38);
     Matrix_MultVec3f(&D_801260BC, &sp44);
-    if (func_80090480(globalCtx, NULL, &player->swordDimensions, &trisInit->vtx[0], &sp2C) != 0 &&
+    if (func_80090480(globalCtx, NULL, &player->swordDimensions, &trisInit[0], &sp2C) != 0 &&
         (s32)(player->stateFlags1 << 9) >= 0) {
         EffectBlure_AddVertex(Effect_GetByIndex(player->swordEffectId), &player->swordDimensions.tip, &player->swordDimensions.base);
     }
     if (player->swordState > 0 && ((player->swordAnimation < 0x18) || ((s32)(player->stateFlags2 << 0xE) < 0))) {
-        func_80090480(globalCtx, &player->unk_4E4, &player->unk_8D0, &trisInit->vtx[1], &sp38);
-        func_80090480(globalCtx, &player->unk_564, &player->unk_8EC, &trisInit->vtx[2], &sp44);
+        func_80090480(globalCtx, &player->unk_4E4, &player->unk_8D0, &trisInit[1], &sp38);
+        func_80090480(globalCtx, &player->unk_564, &player->unk_8EC, &trisInit[2], &sp44);
     }
 }
 
@@ -551,7 +551,7 @@ void func_800909B4(GlobalContext* globalCtx, Player* player) {
     }
 }
 
-void func_80090A28(Player* player, ColliderTrisItemDimInit* trisInit) {
+void func_80090A28(Player* player, Vec3f* trisInit) {
     D_8012608C.x = D_80126080.x;
     if (player->unk_845 >= 3) {
         player->unk_845 += 1;
@@ -559,9 +559,9 @@ void func_80090A28(Player* player, ColliderTrisItemDimInit* trisInit) {
     }
     D_8012608C.x += 1200.0f;
     D_80126098.x = D_8012608C.x;
-    Matrix_MultVec3f(&D_80126080, &trisInit->vtx[0]);
-    Matrix_MultVec3f(&D_8012608C, &trisInit->vtx[1]);
-    Matrix_MultVec3f(&D_80126098, &trisInit->vtx[2]);
+    Matrix_MultVec3f(&D_80126080, &trisInit[0]);
+    Matrix_MultVec3f(&D_8012608C, &trisInit[1]);
+    Matrix_MultVec3f(&D_80126098, &trisInit[2]);
 }
 
 #ifdef NON_MATCHING
