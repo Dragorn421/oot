@@ -142,28 +142,24 @@ endseg
 beginseg
     name "icon_item_static"
     romalign 0x1000
-    //include "build/baserom/icon_item_static.o"
     include "build/assets/textures/icon_item_static/icon_item_static.o"
 endseg
 
 beginseg
     name "icon_item_24_static"
     romalign 0x1000
-    //include "build/baserom/icon_item_24_static.o"
     include "build/assets/textures/icon_item_24_static/icon_item_24_static.o"
 endseg
 
 beginseg
     name "icon_item_field_static"
     romalign 0x1000
-    //include "build/baserom/icon_item_field_static.o"
     include "build/assets/textures/icon_item_field_static/icon_item_field_static.o"
 endseg
 
 beginseg
     name "icon_item_dungeon_static"
     romalign 0x1000
-    //include "build/baserom/icon_item_dungeon_static.o"
     include "build/assets/textures/icon_item_dungeon_static/icon_item_dungeon_static.o"
 endseg
 
@@ -8509,13 +8505,15 @@ endseg
 beginseg
     name "syotes_scene"
     romalign 0x1000
-    include "build/baserom/syotes_scene.o"
+    include "build/scenes/test_levels/syotes/syotes_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "syotes_room_0"
     romalign 0x1000
-    include "build/baserom/syotes_room_0.o"
+    include "build/scenes/test_levels/syotes/syotes_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -8934,32 +8932,36 @@ endseg
 beginseg
     name "spot18_room_3"
     romalign 0x1000
-     include "build/scenes/overworld/spot18/spot18_room_3.o"
+    include "build/scenes/overworld/spot18/spot18_room_3.o"
     address SEGMENT_ROOM
 endseg
 
 beginseg
     name "market_day_scene"
     romalign 0x1000
-    include "build/baserom/market_day_scene.o"
+    include "build/scenes/misc/market_day/market_day_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "market_day_room_0"
     romalign 0x1000
-    include "build/baserom/market_day_room_0.o"
+    include "build/scenes/misc/market_day/market_day_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "market_night_scene"
     romalign 0x1000
-    include "build/baserom/market_night_scene.o"
+    include "build/scenes/misc/market_night/market_night_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "market_night_room_0"
     romalign 0x1000
-    include "build/baserom/market_night_room_0.o"
+    include "build/scenes/misc/market_night/market_night_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9315,9 +9317,8 @@ endseg
 beginseg
     name "market_alley_room_0"
     romalign 0x1000
-    include "build/baserom/market_alley_room_0.o"
-    //include "build/scenes/misc/market_alley/market_alley_room_0.o"
-    //address SEGMENT_ROOM
+    include "build/scenes/misc/market_alley/market_alley_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9386,9 +9387,8 @@ endseg
 beginseg
     name "market_alley_n_room_0"
     romalign 0x1000
-    include "build/baserom/market_alley_n_room_0.o"
-    //include "build/scenes/misc/market_alley_n/market_alley_n_room_0.o"
-    //address SEGMENT_ROOM
+    include "build/scenes/misc/market_alley_n/market_alley_n_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9940,25 +9940,29 @@ endseg
 beginseg
     name "kakariko3_scene"
     romalign 0x1000
-    include "build/baserom/kakariko3_scene.o"
+    include "build/scenes/misc/kakariko3/kakariko3_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "kakariko3_room_0"
     romalign 0x1000
-    include "build/baserom/kakariko3_room_0.o"
+    include "build/scenes/misc/kakariko3/kakariko3_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "hairal_niwa2_scene"
     romalign 0x1000
-    include "build/baserom/hairal_niwa2_scene.o"
+    include "build/scenes/indoors/hairal_niwa2/hairal_niwa2_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "hairal_niwa2_room_0"
     romalign 0x1000
-    include "build/baserom/hairal_niwa2_room_0.o"
+    include "build/scenes/indoors/hairal_niwa2/hairal_niwa2_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -10027,9 +10031,8 @@ endseg
 beginseg
     name "shrine_room_0"
     romalign 0x1000
-    include "build/baserom/shrine_room_0.o"
-    //include "build/scenes/misc/shrine/shrine_room_0.o"
-    //address SEGMENT_ROOM
+    include "build/scenes/misc/shrine/shrine_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -10056,9 +10059,8 @@ endseg
 beginseg
     name "shrine_n_room_0"
     romalign 0x1000
-    include "build/baserom/shrine_n_room_0.o"
-    //include "build/scenes/misc/shrine_n/shrine_n_room_0.o"
-    //address SEGMENT_ROOM
+    include "build/scenes/misc/shrine_n/shrine_n_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -10071,9 +10073,8 @@ endseg
 beginseg
     name "shrine_r_room_0"
     romalign 0x1000
-    include "build/baserom/shrine_r_room_0.o"
-    //include "build/scenes/misc/shrine_r/shrine_r_room_0.o"
-    //address SEGMENT_ROOM
+    include "build/scenes/misc/shrine_r/shrine_r_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
