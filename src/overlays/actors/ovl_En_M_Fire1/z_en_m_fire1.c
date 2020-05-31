@@ -1,7 +1,7 @@
 /*
  * File: z_en_m_fire1.c
  * Overlay: ovl_En_M_Fire1
- * Description: The attack from a Deku Nut. Spawned by ovl_En_Arrow.
+ * Description: Deku Nut Hitbox
  */
 
 #include "z_en_m_fire1.h"
@@ -26,7 +26,7 @@ const ActorInit En_M_Fire1_InitVars = {
     NULL,
 };
 
-static ColliderCylinderSrc cylinderInitData = {
+static ColliderCylinderSrc sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
@@ -72,7 +72,7 @@ void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
 void EnMFire1_Destroy(Actor* thisx, GlobalContext* globalCtx) {

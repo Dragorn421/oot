@@ -44,7 +44,7 @@ const ActorInit En_Ani_InitVars = {
     (ActorFunc)EnAni_Draw,
 };
 
-static ColliderCylinderSrc cylinderInitData = {
+static ColliderCylinderSrc sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -81,12 +81,12 @@ static ColliderCylinderSrc cylinderInitData = {
     },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 850, ICHAIN_STOP),
 };
 
-static Vec3f EnAniVec = { 800.0f, 500.0f, 0.0f };
+static Vec3f sMultVec = { 800.0f, 500.0f, 0.0f };
 
 UNK_PTR D_809B0F80[] = {
     0x06000408,
@@ -102,13 +102,13 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnAni* this = THIS;
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawFunc_Circle, 36.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->limbDrawTable,
                      this->transitionDrawTable, 0x10);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_060076EC);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.collideData.mass = 0xFF;
     if (LINK_IS_CHILD) {
         EnAni_SetupAction(this, func_809B064C);
@@ -338,7 +338,7 @@ s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&EnAniVec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
     }
 }
 

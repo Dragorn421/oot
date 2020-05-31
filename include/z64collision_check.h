@@ -260,9 +260,9 @@ typedef struct ColliderQuadShapeCorners {
 } ColliderQuadShapeCorners; // size = 0x30
 
 typedef struct ColliderQuadSrc {
-    ColliderSrc base;
-    ColliderElementSrc elem;
-    ColliderQuadShapeCorners corners;
+    /* 0x00 */ ColliderSrc base;
+    /* 0x08 */ ColliderElementSrc elem;
+    /* 0x20 */ ColliderQuadShapeCorners corners;
 } ColliderQuadSrc;
 
 typedef struct ColliderQuadSrcAlt {

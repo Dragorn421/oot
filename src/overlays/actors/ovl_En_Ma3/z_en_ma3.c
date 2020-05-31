@@ -37,7 +37,7 @@ const ActorInit En_Ma3_InitVars = {
     (ActorFunc)EnMa3_Draw,
 };
 
-ColliderCylinderSrc cylinderInit_EnMa3 = {
+static ColliderCylinderSrc sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -74,50 +74,22 @@ ColliderCylinderSrc cylinderInit_EnMa3 = {
     },
 };
 
-CollideDataInitAlt D_80AA383C = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollideDataInitAlt sCollideDataInit = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF };
 
-struct_D_80AA1678 D_80AA3848[] = {
-    {
-        0x060007D4,
-        1.0f,
-        0x00,
-        0.0f,
-    },
-    {
-        0x060007D4,
-        1.0f,
-        0x00,
-        -10.0f,
-    },
-    {
-        0x060093BC,
-        1.0f,
-        0x00,
-        0.0f,
-    },
-    {
-        0x06009EE0,
-        1.0f,
-        0x00,
-        0.0f,
-    },
-    {
-        0x06009EE0,
-        1.0f,
-        0x00,
-        -10.0f,
-    },
+static struct_D_80AA1678 D_80AA3848[] = {
+    { 0x060007D4, 1.0f, 0x00, 0.0f }, { 0x060007D4, 1.0f, 0x00, -10.0f }, { 0x060093BC, 1.0f, 0x00, 0.0f },
+    { 0x06009EE0, 1.0f, 0x00, 0.0f }, { 0x06009EE0, 1.0f, 0x00, -10.0f },
 };
 
-Vec3f D_80AA3898 = { 900.0f, 0.0f, 0.0f };
+static Vec3f D_80AA3898 = { 900.0f, 0.0f, 0.0f };
 
-u32 D_80AA38A4[] = {
+static UNK_PTR D_80AA38A4[] = {
     0x06002970,
     0x06003570,
     0x06003770,
 };
 
-u32 D_80AA38B0[] = {
+static UNK_PTR D_80AA38B0[] = {
     0x06002570,
     0x06002C70,
     0x06003070,
@@ -302,8 +274,8 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008D90, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit_EnMa3);
-    func_80061EFC(&this->actor.collideData, CollisionBtlTbl_Get(0x16), &D_80AA383C);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.collideData, CollisionBtlTbl_Get(0x16), &sCollideDataInit);
 
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:

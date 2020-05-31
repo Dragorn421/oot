@@ -23,9 +23,6 @@ void EnDha_SetupDeath(EnDha* this);
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx);
 void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_06000BD8;
-extern AnimationHeader D_060015B0;
-
 const ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
     ACTORTYPE_ENEMY,
@@ -38,12 +35,12 @@ const ActorInit En_Dha_InitVars = {
     (ActorFunc)EnDha_Draw,
 };
 
-static ActorDamageChart damageTable = { {
+static ActorDamageChart sActorDamageChart = { {
     0x00, 0xF2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF2, 0xF4, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF4, 0xF2, 0xF4, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00,
 } };
 
-static ColliderSpheresElementSrc colliderItemsInit[5] = {
+static ColliderSpheresElementSrc sJntSphItemsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -196,7 +193,7 @@ static ColliderSpheresElementSrc colliderItemsInit[5] = {
     }, // 4
 };
 
-static ColliderSpheresSrc colliderInit = {
+static ColliderSpheresSrc sJntSphInit = {
     {
         COL_MATERIAL_HIT6,
         AT_NONE,
@@ -206,14 +203,17 @@ static ColliderSpheresSrc colliderInit = {
         COLTYPE_SPHERES,
     },
     5,
-    colliderItemsInit,
+    sJntSphItemsInit,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x2E, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
+
+extern SkeletonHeader D_06000BD8;
+extern AnimationHeader D_060015B0;
 
 void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -222,8 +222,8 @@ void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
-    this->actor.collideData.damageChart = &damageTable;
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    this->actor.collideData.damageChart = &sActorDamageChart;
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->limbDrawTable,
                      this->transitionDrawTable, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Teardrop, 90.0f);
@@ -233,7 +233,7 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.collideData.health = 8;
     this->unk_1CE = -0x4000;
     Collider_InitSpheres(globalCtx, &this->collider);
-    Collider_LoadSpheres(globalCtx, &this->collider, &this->actor, &colliderInit, &this->colliderItem);
+    Collider_LoadSpheres(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
     this->actor.flags &= ~1;
     func_809EC9C8(this);
 }

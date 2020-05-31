@@ -33,7 +33,7 @@ const ActorInit En_Ma2_InitVars = {
     (ActorFunc)EnMa2_Draw,
 };
 
-static ColliderCylinderSrc cylinderInit = {
+static ColliderCylinderSrc sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -70,57 +70,30 @@ static ColliderCylinderSrc cylinderInit = {
     },
 };
 
-CollideDataInitAlt D_80AA284C = {
+static CollideDataInitAlt sCollideDataInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
-struct_D_80AA1678 D_80AA2858[] = {
-    {
-        0x060007D4,
-        1.0f,
-        0x00,
-        0.0f,
-    },
-    {
-        0x060007D4,
-        1.0f,
-        0x00,
-        -10.0f,
-    },
-    {
-        0x060093BC,
-        1.0f,
-        0x00,
-        0.0f,
-    },
-    {
-        0x06009EE0,
-        1.0f,
-        0x00,
-        0.0f,
-    },
-    {
-        0x06009EE0,
-        1.0f,
-        0x00,
-        -10.0f,
-    },
+static struct_D_80AA1678 D_80AA2858[] = {
+    { 0x060007D4, 1.0f, 0x00, 0.0f }, { 0x060007D4, 1.0f, 0x00, -10.0f }, { 0x060093BC, 1.0f, 0x00, 0.0f },
+    { 0x06009EE0, 1.0f, 0x00, 0.0f }, { 0x06009EE0, 1.0f, 0x00, -10.0f },
 };
 
-Vec3f D_80AA28A8 = { 900.0f, 0.0f, 0.0f };
+static Vec3f D_80AA28A8 = { 900.0f, 0.0f, 0.0f };
 
-u32 D_80AA28B4[] = {
+static UNK_PTR D_80AA28B4[] = {
     0x06002970,
     0x06003570,
     0x06003770,
 };
-u32 D_80AA28C0[] = {
+
+static UNK_PTR D_80AA28C0[] = {
     0x06002570,
     0x06002C70,
     0x06003070,
 };
 
-extern u32 D_06005420;
+extern Gfx D_06005420[];
 extern SkeletonHeader D_06008D90;
 extern AnimationHeader D_060093BC;
 extern AnimationHeader D_06009EE0;
@@ -272,8 +245,8 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
-    func_80061EFC(&this->actor.collideData, CollisionBtlTbl_Get(0x16), &D_80AA284C);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.collideData, CollisionBtlTbl_Get(0x16), &sCollideDataInit);
 
     switch (func_80AA1B58(this, globalCtx)) {
         case 1:
@@ -418,7 +391,7 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animCurrentSeg == &D_060093BC)) {
-        gSPDisplayList(gfxCtx->polyOpa.p++, &D_06005420);
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_06005420);
     }
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma2.c", 927);

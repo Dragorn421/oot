@@ -54,7 +54,7 @@ extern AnimationHeader D_06005C30;
 extern AnimationHeader D_06005500;
 extern SkeletonHeader D_0600BAC8;
 extern Gfx D_0602B060[]; // Keaton Mask
-extern Gfx D_06002C10[];
+extern Gfx D_06002C10[]; // 2D Guard in Window
 
 const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
@@ -68,7 +68,7 @@ const ActorInit En_Heishi2_InitVars = {
     (ActorFunc)EnHeishi2_Draw,
 };
 
-ColliderCylinderSrc cylinderInit_EnHeishi2 = {
+ColliderCylinderSrc sCylinderInit_EnHeishi2 = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -111,7 +111,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.01f);
     this->initParams = this->actor.params & 0xFF;
-    this->actor.collideData.mass = 0xFF;
+    this->actor.collideData.mass = 255;
 
     if ((this->initParams == 6) || (this->initParams == 9)) {
         this->actor.draw = func_80A54C6C;
@@ -145,7 +145,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->transitionDrawTable, 17);
         collider = &this->collider;
         Collider_InitCylinder(globalCtx, collider);
-        Collider_LoadCylinder(globalCtx, collider, &this->actor, &cylinderInit_EnHeishi2);
+        Collider_LoadCylinder(globalCtx, collider, &this->actor, &sCylinderInit_EnHeishi2);
         this->collider.shape.yShift = 0;
         this->collider.shape.radius = 0xF;
         this->collider.shape.height = 0x46;
@@ -886,7 +886,7 @@ void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10); // 2D Guard in Window
+    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
 

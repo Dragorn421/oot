@@ -36,20 +36,13 @@ const ActorInit En_Horse_Ganon_InitVars = {
     (ActorFunc)EnHorseGanon_Draw,
 };
 
-extern SkeletonHeader D_06008668;
+AnimationHeader* D_80A691B0[] = { 0x06004AA4, 0x06005264, 0x06005B78, 0x06002CE4 };
 
-extern AnimationHeader D_06004AA4;
-extern AnimationHeader D_06005264;
-extern AnimationHeader D_06005B78;
-extern AnimationHeader D_06002CE4;
-extern AnimationHeader D_06002650;
-extern AnimationHeader D_06003858;
+AnimationHeader* D_80A691C0[] = { 0x06002650, 0x06003858 };
 
-AnimationHeader* D_80A691B0[] = { &D_06004AA4, &D_06005264, &D_06005B78, &D_06002CE4 };
-AnimationHeader* D_80A691C0[] = { &D_06002650, &D_06003858 };
-static f32 animPlaybackSpeed[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
+static f32 sAnimPlaybackSpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
-ColliderCylinderSrc cylinderInit_EnHorseGanon = {
+ColliderCylinderSrc sCylinderInit_EnHorseGanon = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -85,7 +78,8 @@ ColliderCylinderSrc cylinderInit_EnHorseGanon = {
         },
     },
 };
-ColliderSpheresElementSrc jntsphItemsInit_EnHorseGanon[1] = {
+
+ColliderSpheresElementSrc sJntSphItemsInit_EnHorseGanon[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -117,7 +111,8 @@ ColliderSpheresElementSrc jntsphItemsInit_EnHorseGanon[1] = {
         },
     }, // 0
 };
-ColliderSpheresSrc jntsphInit_EnHorseGanon = {
+
+ColliderSpheresSrc sJntSphInit_EnHorseGanon = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -127,10 +122,10 @@ ColliderSpheresSrc jntsphInit_EnHorseGanon = {
         COLTYPE_SPHERES,
     },
     1,
-    jntsphItemsInit_EnHorseGanon,
+    sJntSphItemsInit_EnHorseGanon,
 };
 
-static CollideDataInit collisionCheckInfoInit = {
+static CollideDataInit sCollideDataInit = {
     0x0A,
     0x0023,
     0x0064,
@@ -147,13 +142,16 @@ unk_D_80A69248 D_80A69248[] = { { 0x09B8, 0x0126, 0x0E2C, 0x07 }, { 0x0C11, 0x01
 
 s32 D_80A692B8[] = { 0, 0x00000010 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_F8, 1200, ICHAIN_STOP),
 };
 
-static EnHorseGanonActionFunc actionFuncs[] = { func_80A68AF0, func_80A68DB0, NULL };
+static EnHorseGanonActionFunc sActionFuncs[] = { func_80A68AF0, func_80A68DB0, NULL };
 
 const f32 D_80A692D0 = 10430.3779f;
+
+extern SkeletonHeader D_06008668;
+extern AnimationHeader D_06004AA4;
 
 void func_80A68660(unk_D_80A69248* data, s32 index, Vec3f* vec) {
     vec->x = data[index].unk_0.x;
@@ -220,7 +218,7 @@ void func_80A68870(EnHorseGanon* this) {
 void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseGanon* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.0115f);
 
     this->actor.gravity = -3.5f;
@@ -235,11 +233,11 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A691B0[0]);
 
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
-    Collider_LoadCylinder(globalCtx, &this->colliderCylinder, &this->actor, &cylinderInit_EnHorseGanon);
+    Collider_LoadCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit_EnHorseGanon);
     Collider_InitSpheres(globalCtx, &this->colliderSphere);
-    Collider_LoadSpheres(globalCtx, &this->colliderSphere, &this->actor, &jntsphInit_EnHorseGanon, &this->colliderSphereItem);
+    Collider_LoadSpheres(globalCtx, &this->colliderSphere, &this->actor, &sJntSphInit_EnHorseGanon, &this->colliderSphereItem);
 
-    func_80061ED4(&this->actor.collideData, 0, &collisionCheckInfoInit);
+    func_80061ED4(&this->actor.collideData, 0, &sCollideDataInit);
     func_80A68AC4(this);
 }
 
@@ -298,11 +296,11 @@ void func_80A68B20(EnHorseGanon* this) {
 
     if (animationChanged == 1) {
         SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
-                             animPlaybackSpeed[this->currentAnimation] * sp30 * 1.5f, 0.0f,
+                             sAnimPlaybackSpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
                              SkelAnime_GetFrameCount(&D_80A691B0[this->currentAnimation]->genericHeader), 2, -3.0f);
     } else {
         SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
-                             animPlaybackSpeed[this->currentAnimation] * sp30 * 1.5f, 0.0f,
+                             sAnimPlaybackSpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
                              SkelAnime_GetFrameCount(&D_80A691B0[this->currentAnimation]->genericHeader), 2, 0.0f);
     }
 }
@@ -340,7 +338,7 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseGanon* this = THIS;
     s32 pad;
 
-    actionFuncs[this->action](this, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
     this->actor.posRot2.pos = this->actor.posRot.pos;

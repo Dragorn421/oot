@@ -1,7 +1,7 @@
 /*
  * File: z_bg_hidan_firewall.c
  * Overlay: ovl_Bg_Hidan_Firewall
- * Description: Proximity Flame Wall
+ * Description: Proximity Triggered Flame Wall
  */
 
 #include "z_bg_hidan_firewall.h"
@@ -36,7 +36,7 @@ const ActorInit Bg_Hidan_Firewall_InitVars = {
     NULL,
 };
 
-static ColliderCylinderSrc cylinderInitData = {
+static ColliderCylinderSrc sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -73,7 +73,7 @@ static ColliderCylinderSrc cylinderInitData = {
     },
 };
 
-static CollideDataInit actor98InitData = {
+static CollideDataInit sCollideDataInit = {
     0x01,
     0x0050,
     0x0064,
@@ -94,11 +94,11 @@ void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_150 = 0;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
     this->collider.shape.pos.y = this->actor.posRot.pos.y;
 
-    func_80061ED4(&this->actor.collideData, NULL, &actor98InitData);
+    func_80061ED4(&this->actor.collideData, NULL, &sCollideDataInit);
 
     this->actionFunc = BgHidanFirewall_Wait;
 }

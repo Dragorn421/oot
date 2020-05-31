@@ -14,7 +14,7 @@ void EnIt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIt_Update(Actor* thisx, GlobalContext* globalCtx);
 
-static ColliderCylinderSrc cylinderInitData = {
+static ColliderCylinderSrc sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -51,8 +51,8 @@ static ColliderCylinderSrc cylinderInitData = {
     },
 };
 
-static u8 collideDataInit[] = {
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00,
+static CollideDataInitAlt sCollideDataInit = {
+    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
 const ActorInit En_It_InitVars = {
@@ -72,8 +72,8 @@ void EnIt_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.params = 0x0D05;
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
-    func_80061EFC(&this->actor.collideData, 0, &collideDataInit); // Init Damage Chart
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.collideData, 0, &sCollideDataInit);
 }
 
 void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx) {

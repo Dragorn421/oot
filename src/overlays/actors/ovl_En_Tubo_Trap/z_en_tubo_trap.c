@@ -21,7 +21,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx);
 
-ColliderCylinderSrc cylinderInitData_EnTuboTrap = {
+ColliderCylinderSrc sCylinderInit_EnTuboTrap = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -80,7 +80,7 @@ void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 壷トラップ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params); // "Urn Trap"
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData_EnTuboTrap);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit_EnTuboTrap);
     Actor_SetScale(&this->actor, 0.1f);
     this->actionFunc = EnTuboTrap_WaitForProximity;
 }

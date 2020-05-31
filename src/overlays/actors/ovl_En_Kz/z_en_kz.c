@@ -35,13 +35,44 @@ const ActorInit En_Kz_InitVars = {
     (ActorFunc)EnKz_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 80, 120, 0, { 0, 0, 0 } },
+static ColliderCylinderSrc sCylinderInit = {
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        {
+            0x00000000,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0x00000000,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
+    {
+        80,
+        120,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
+static CollideDataInitAlt sCollideDataInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -305,8 +336,8 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
                      12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.collideData, NULL, &sCollideDataInit);
     Actor_SetScale(&this->actor, 0.01);
     this->actor.unk_1F = 3;
     this->unk_1E0.unk_00 = 0;
@@ -439,8 +470,8 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (LINK_IS_ADULT && !(gSaveContext.infTable[19] & 0x100)) {
         gSaveContext.infTable[19] |= 0x100;
     }
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_UpdateCylinderShape(&this->actor, &this->collider);
+    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     EnKz_UpdateEyes(this);
     Actor_MoveForward(&this->actor);

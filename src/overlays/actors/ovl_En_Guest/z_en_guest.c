@@ -1,3 +1,9 @@
+/*
+ * File: z_en_guest.c
+ * Overlay: ovl_En_Guest
+ * Description: Happy Mask Shop Customer
+ */
+
 #include "z_en_guest.h"
 #include <vt.h>
 
@@ -14,13 +20,6 @@ void func_80A50518(EnGuest* this, GlobalContext* globalCtx);
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx);
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_060000F0;
-extern AnimationHeader D_060042AC;
-extern UNK_TYPE D_060005FC;
-extern UNK_TYPE D_060006FC;
-extern UNK_TYPE D_060007FC;
-extern Gfx D_060059B0[];
-
 const ActorInit En_Guest_InitVars = {
     ACTOR_EN_GUEST,
     ACTORTYPE_NPC,
@@ -33,7 +32,7 @@ const ActorInit En_Guest_InitVars = {
     NULL,
 };
 
-static ColliderCylinderSrcAlt sColliderInit = {
+static ColliderCylinderSrcAlt sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -75,10 +74,14 @@ static InitChainEntry sInitChain[] = {
 };
 
 UNK_PTR D_80A50BA4[] = {
-    &D_060005FC,
-    &D_060006FC,
-    &D_060007FC,
+    0x060005FC,
+    0x060006FC,
+    0x060007FC,
 };
+
+extern SkeletonHeader D_060000F0;
+extern AnimationHeader D_060042AC;
+extern Gfx D_060059B0[];
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
@@ -105,7 +108,7 @@ void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    u32 padding;
+    u32 pad;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
         this->actor.flags &= ~0x10;
@@ -121,7 +124,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.update = func_80A505CC;
 
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_LoadCylinderAlt(globalCtx, &this->collider, &this->actor, &sColliderInit);
+        Collider_LoadCylinderAlt(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
         Actor_SetHeight(&this->actor, 60.0f);
 
@@ -174,7 +177,7 @@ void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
 
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    u32 padding;
+    u32 pad;
     Player* player;
 
     player = PLAYER;

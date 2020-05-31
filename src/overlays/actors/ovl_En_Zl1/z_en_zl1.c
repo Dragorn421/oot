@@ -38,10 +38,41 @@ const ActorInit En_Zl1_InitVars = {
     (ActorFunc)EnZl1_Draw,
 };
 
-ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 20, 46, 0, { 0, 0, 0 } },
+ColliderCylinderSrc sCylinderInit = {
+    {
+        COL_MATERIAL_HIT0,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK1,
+        {
+            0x00000000,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0x00000000,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
+    {
+        20,
+        46,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 
 UNK_PTR D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
@@ -76,7 +107,7 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06012118, 1.0f, 0.0f, frameCount, 0, 0.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     Actor_SetScale(&this->actor, 0.01f);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
     this->actor.unk_1F = 0;
@@ -154,8 +185,8 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
         }
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    Collider_UpdateCylinderShape(&this->actor, &this->collider);
+    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider.base);
 }
 
 void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
@@ -569,8 +600,8 @@ void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != func_80B4B8B4) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        Collider_UpdateCylinderShape(&this->actor, &this->collider);
+        Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider.base);
     }
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->actor.posRot.rot.x, 0xA, 0x3E8, 1);
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 0xA, 0x3E8, 1);

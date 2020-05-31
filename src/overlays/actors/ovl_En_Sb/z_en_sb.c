@@ -111,7 +111,7 @@ void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSb* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.collideData.damageChart = sActorDamageChart;
+    this->actor.collideData.damageChart = &sActorDamageChart;
     this->actor.collideData.health = 2;
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002BF0, &D_06000194, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);

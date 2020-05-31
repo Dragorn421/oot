@@ -42,7 +42,7 @@ const ActorInit En_Heishi3_InitVars = {
     (ActorFunc)EnHeishi3_Draw,
 };
 
-static ColliderCylinderSrc cylinderInit = {
+static ColliderCylinderSrc sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -95,10 +95,10 @@ void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->limbDrawTable,
                    this->transitionDrawTable, 17);
-    this->actor.collideData.mass = -1;
+    this->actor.collideData.mass = 0xFF;
     this->actor.unk_1F = 6;
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     // "Castle Gate Soldier - Power Up"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n" VT_RST);
 

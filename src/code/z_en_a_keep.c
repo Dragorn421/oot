@@ -65,10 +65,51 @@ const ActorInit En_A_Obj_InitVars = {
     (ActorFunc)EnAObj_Draw,
 };
 
-// TODO: Define this section of .data here and rename the symbols
-extern ColliderCylinderSrc D_80115440;
-extern u32 D_8011546C[];
-extern u32 D_80115484[];
+static ColliderCylinderSrc sCylinderInit = {
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ALL,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK2,
+        {
+            0x00000000,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0xFFCFFFFF,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_NONE,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
+    {
+        25,
+        60,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
+};
+
+static UNK_PTR D_8011546C[] = {
+    0x040394B0, 0x040394B0, 0x0403A120, 0x0403A480, 0x0403A7F0, 0x06000730,
+};
+
+static Gfx* D_80115484[] = {
+    0x04039C00, 0x04039C00, 0x04039C00, 0x0403A2D0, 0x0403A2D0, 0x0403A630,
+    0x06000210, 0x0403AB80, 0x0403A9B0, 0x0403C050, 0x0403C5B0, 0x0400D340,
+};
 
 void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -153,7 +194,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_178 = 45.0f;
             func_8001D234(this, thisx->params);
             Collider_InitCylinder(globalCtx, &this->collider);
-            Collider_LoadCylinder(globalCtx, &this->collider, thisx, &D_80115440);
+            Collider_LoadCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
             thisx->collideData.mass = 0xFF;
             thisx->unk_1F = 0;
             break;

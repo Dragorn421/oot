@@ -1,7 +1,7 @@
 /*
  * File: z_en_dog.c
  * Overlay: ovl_En_Dog
- * Description: Dog actor that Link can interact with
+ * Description: Dog
  */
 
 #include "z_en_dog.h"
@@ -34,7 +34,7 @@ const ActorInit En_Dog_InitVars = {
     (ActorFunc)EnDog_Draw,
 };
 
-static ColliderCylinderSrc cylinderInit = {
+static ColliderCylinderSrc sCylinderInit = {
     {
         COL_MATERIAL_HIT6,
         AT_NONE,
@@ -71,7 +71,7 @@ static ColliderCylinderSrc cylinderInit = {
     },
 };
 
-static CollideDataInitAlt collideDataInit = {
+static CollideDataInitAlt sCollideDataInit = {
     0x00,   // health
     0x0000, // unk_10
     0x0000, // unk_12
@@ -79,7 +79,7 @@ static CollideDataInitAlt collideDataInit = {
     0x32,   // mass
 };
 
-static struct_80034EC0_Entry animations[] = {
+static struct_80034EC0_Entry sAnimations[] = {
     { 0x06001368, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },  { 0x06001368, 1.0f, 0.0f, -1.0f, 0x00, -6.0f },
     { 0x06000D78, 1.0f, 0.0f, -1.0f, 0x00, -6.0f }, { 0x06000278, 1.0f, 0.0f, -1.0f, 0x00, -6.0f },
     { 0x06001150, 1.0f, 0.0f, 4.0f, 0x02, -6.0f },  { 0x06001150, 1.0f, 5.0f, 25.0f, 0x04, -6.0f },
@@ -157,19 +157,19 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
                 animation = 6;
                 break;
         }
-        func_80034EC0(&this->skelAnime, &animations, animation);
+        func_80034EC0(&this->skelAnime, sAnimations, animation);
     }
 
     switch (this->behavior) {
         case DOG_SIT:
             if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
-                func_80034EC0(&this->skelAnime, &animations, 5);
+                func_80034EC0(&this->skelAnime, sAnimations, 5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
             if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
-                func_80034EC0(&this->skelAnime, &animations, 7);
+                func_80034EC0(&this->skelAnime, sAnimations, 7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }
             break;
@@ -258,7 +258,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
-    func_80034EC0(&this->skelAnime, animations, 0);
+    func_80034EC0(&this->skelAnime, sAnimations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
         this->actor.params = (this->actor.params & 0xF0FF) | ((((this->actor.params & 0x0F00) >> 8) + 1) << 8);
@@ -271,8 +271,8 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
-    func_80061EFC(&this->actor.collideData, 0, &collideDataInit);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.collideData, 0, &sCollideDataInit);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;

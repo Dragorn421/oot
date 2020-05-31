@@ -89,7 +89,7 @@ static ColliderCylinderSrc sCylinderInit = {
     },
 };
 
-static CollideDataInit sColChkInfoInit = {
+static CollideDataInit sCollideDataInit = {
     0x01,
     0x0012,
     0x0020,
@@ -117,7 +117,7 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->transitionDrawTable, 10);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        func_80061ED4(&this->actor.collideData, NULL, &sColChkInfoInit);
+        func_80061ED4(&this->actor.collideData, NULL, &sCollideDataInit);
         Actor_SetTextWithPrefix(globalCtx, &this->actor, (this->actor.params >> 8) & 0xFF);
         this->textIdCopy = this->actor.textId;
         this->actor.params &= 0xFF;
@@ -503,7 +503,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
         } else {
             this->actor.flags |= 1;
             this->actor.flags &= ~0x10;
-            this->actor.collideData.health = sColChkInfoInit.health;
+            this->actor.collideData.health = sCollideDataInit.health;
             this->actor.unk_114 = 0;
             EnHintnuts_SetupWait(this);
         }
