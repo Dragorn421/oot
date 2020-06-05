@@ -1202,6 +1202,7 @@ s32 func_8005DD5C(GlobalContext* globalCtx, ColliderContext* colliderCtx, Collid
             osSyncPrintf("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n");
             return -1;
         }
+        //! @bug Should be ocColliders
         colliderCtx->atColliders[i] = collider;
     } else {
         if (colliderCtx->nOCColliders >= ARRAY_COUNT(colliderCtx->ocColliders)) {
