@@ -213,9 +213,8 @@ void func_80063C04_cc0(GfxPrint* arg0) {
 void func_80063D7C_cc0(GraphicsContext* arg0) {
     Gfx* temp_v0;
     Gfx* sp78;
-    s32 pad1[7];
     GfxPrint sp48;
-    s32 pad2[2];
+    s32 pad[2];
     Gfx* sp30[4];
 
     Graph_OpenDisps(sp30, arg0, "../z_debug.c", 0x274);
