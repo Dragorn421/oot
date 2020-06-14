@@ -112,8 +112,8 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->actionFunc = &func_808806BC;
                     this->dyna.actor.velocity.y = 0.5f;
                 }
-                this->dyna.actor.unk_80 = this->dyna.actor.initPosRot.pos.y - 225.0f;
-                this->unk16A = this->dyna.actor.unk_80 + 50.0f - 25.0f;
+                this->dyna.actor.groundY = this->dyna.actor.initPosRot.pos.y - 225.0f;
+                this->unk16A = this->dyna.actor.groundY + 50.0f - 25.0f;
                 this->unk178.dim.radius = 0xA;
                 this->unk178.dim.height = 0x28;
             } else {
@@ -306,7 +306,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     sp74.x = this->dyna.actor.posRot.pos.x + 90.0f;
     sp74.y = this->dyna.actor.posRot.pos.y + 1.0f + 25.0f;
     sp74.z = this->dyna.actor.posRot.pos.z;
-    var_fs0 = this->dyna.actor.unk_80;
+    var_fs0 = this->dyna.actor.groundY;
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
         temp_fv1 =
             func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor, &sp74) - 25.0f;
