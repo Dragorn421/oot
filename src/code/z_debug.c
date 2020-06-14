@@ -1,3 +1,4 @@
+#include "functions.h"
 #include "global.h"
 
 GameInfo* gGameInfo;
@@ -218,7 +219,7 @@ void func_80063D7C_cc0(GraphicsContext* arg0) {
     Gfx* sp30[4];
 
     Graph_OpenDisps(sp30, arg0, "../z_debug.c", 0x274);
-    GfxPrint_Ctor(&sp48);
+    GfxPrint_Init(&sp48);
     sp78 = arg0->polyOpa.p;
     temp_v0 = Graph_GfxPlusOne(sp78);
     gSPDisplayList(arg0->overlay.p++, temp_v0);
@@ -236,5 +237,5 @@ void func_80063D7C_cc0(GraphicsContext* arg0) {
     arg0->polyOpa.p = temp_v0;
     if (1) {}
     Graph_CloseDisps(sp30, arg0, "../z_debug.c", 0x298);
-    GfxPrint_Dtor(&sp48);
+    GfxPrint_Destroy(&sp48);
 }
