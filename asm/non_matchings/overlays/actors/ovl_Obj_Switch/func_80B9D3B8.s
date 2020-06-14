@@ -15,7 +15,7 @@ glabel func_80B9D3B8
 /* 001DC 80B9D3EC AFB3002C */  sw      $s3, 0x002C($sp)           
 /* 001E0 80B9D3F0 AFB20028 */  sw      $s2, 0x0028($sp)           
 /* 001E4 80B9D3F4 AFB10024 */  sw      $s1, 0x0024($sp)           
-/* 001E8 80B9D3F8 0C0171F8 */  jal     func_8005C7E0              
+/* 001E8 80B9D3F8 0C0171F8 */  jal     Collider_InitTris              
 /* 001EC 80B9D3FC AFA50054 */  sw      $a1, 0x0054($sp)           
 /* 001F0 80B9D400 26AE01A0 */  addiu   $t6, $s5, 0x01A0           ## $t6 = 000001A0
 /* 001F4 80B9D404 AFAE0010 */  sw      $t6, 0x0010($sp)           

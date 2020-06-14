@@ -34,7 +34,7 @@ glabel D_8013A804
     .balign 4
 
 .text
-glabel func_8005C8C8
+glabel Collider_DestroyTris
 /* AD3A68 8005C8C8 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AD3A6C 8005C8CC AFBF0024 */  sw    $ra, 0x24($sp)
 /* AD3A70 8005C8D0 AFB2001C */  sw    $s2, 0x1c($sp)

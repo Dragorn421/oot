@@ -9,7 +9,7 @@ glabel EnDodongo_Destroy
 /* 00738 809F8988 8DC503D0 */  lw      $a1, 0x03D0($t6)           ## 000003D0
 /* 0073C 809F898C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00740 809F8990 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00744 809F8994 0C017232 */  jal     func_8005C8C8              
+/* 00744 809F8994 0C017232 */  jal     Collider_DestroyTris              
 /* 00748 809F8998 24A50454 */  addiu   $a1, $a1, 0x0454           ## $a1 = 00000454
 /* 0074C 809F899C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00750 809F89A0 8FA4001C */  lw      $a0, 0x001C($sp)           

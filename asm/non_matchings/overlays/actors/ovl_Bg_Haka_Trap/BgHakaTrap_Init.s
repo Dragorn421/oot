@@ -143,7 +143,7 @@ glabel BgHakaTrap_Init
 .L8087FE88:
 /* 001E8 8087FE88 260501C4 */  addiu   $a1, $s0, 0x01C4           ## $a1 = 000001C4
 /* 001EC 8087FE8C AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 001F0 8087FE90 0C0171F8 */  jal     func_8005C7E0              
+/* 001F0 8087FE90 0C0171F8 */  jal     Collider_InitTris              
 /* 001F4 8087FE94 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 001F8 8087FE98 3C078088 */  lui     $a3, %hi(D_80880FF8)       ## $a3 = 80880000
 /* 001FC 8087FE9C 260D01E4 */  addiu   $t5, $s0, 0x01E4           ## $t5 = 000001E4

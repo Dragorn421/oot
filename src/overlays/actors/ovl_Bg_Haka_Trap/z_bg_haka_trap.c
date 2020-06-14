@@ -117,8 +117,8 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->actionFunc = &func_808806BC;
                     this->dyna.actor.velocity.y = 0.5f;
                 }
-                this->dyna.actor.unk_80 = this->dyna.actor.initPosRot.pos.y - 225.0f;
-                this->unk16A = this->dyna.actor.unk_80 + 50.0f - 25.0f;
+                this->dyna.actor.groundY = this->dyna.actor.initPosRot.pos.y - 225.0f;
+                this->unk16A = this->dyna.actor.groundY + 50.0f - 25.0f;
                 this->unk178.shape.radius = 0xA;
                 this->unk178.shape.height = 0x28;
             } else {
@@ -129,7 +129,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->dyna.actor.initPosRot.pos.x += 200.0f;
                     DynaPolyInfo_Alloc(&D_6008D10, &sp2C);
                 }
-                func_8005C7E0(globalCtx, &this->unk1C4);
+                Collider_InitTris(globalCtx, &this->unk1C4);
                 Collider_LoadTris(globalCtx, &this->unk1C4, &this->dyna.actor, &D_80880FF8, &this->unk1E4);
                 this->unk178.shape.radius = 0x12;
                 this->unk178.shape.height = 0x73;
@@ -156,7 +156,7 @@ void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
             DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
             if ((this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) ||
                 (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_2)) {
-                func_8005C8C8(globalCtx, &this->unk1C4);
+                Collider_DestroyTris(globalCtx, &this->unk1C4);
             }
         }
         Collider_DestroyCylinder(globalCtx, &this->unk178);
@@ -311,7 +311,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     sp74.x = this->dyna.actor.posRot.pos.x + 90.0f;
     sp74.y = this->dyna.actor.posRot.pos.y + 1.0f + 25.0f;
     sp74.z = this->dyna.actor.posRot.pos.z;
-    var_fs0 = this->dyna.actor.unk_80;
+    var_fs0 = this->dyna.actor.groundY;
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
         temp_fv1 =
             func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor, &sp74) - 25.0f;

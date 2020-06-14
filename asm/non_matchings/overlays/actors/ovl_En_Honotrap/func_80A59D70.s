@@ -28,7 +28,7 @@ glabel func_80A59D70
 /* 0019C 80A59DCC 27D70150 */  addiu   $s7, $s8, 0x0150           ## $s7 = 00000150
 /* 001A0 80A59DD0 46000506 */  mov.s   $f20, $f0                  
 /* 001A4 80A59DD4 02E02825 */  or      $a1, $s7, $zero            ## $a1 = 00000150
-/* 001A8 80A59DD8 0C0171F8 */  jal     func_8005C7E0              
+/* 001A8 80A59DD8 0C0171F8 */  jal     Collider_InitTris              
 /* 001AC 80A59DDC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 001B0 80A59DE0 3C1480A6 */  lui     $s4, %hi(D_80A5AFF8)       ## $s4 = 80A60000
 /* 001B4 80A59DE4 2694AFF8 */  addiu   $s4, $s4, %lo(D_80A5AFF8)  ## $s4 = 80A5AFF8

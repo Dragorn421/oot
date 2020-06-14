@@ -4,7 +4,7 @@ glabel D_8013A750
     .balign 4
 
 .text
-glabel func_8005C7E0
+glabel Collider_InitTris
 /* AD3980 8005C7E0 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AD3984 8005C7E4 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AD3988 8005C7E8 0C016D97 */  jal   func_8005B65C

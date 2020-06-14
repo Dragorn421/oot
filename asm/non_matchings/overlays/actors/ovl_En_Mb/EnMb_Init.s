@@ -47,7 +47,7 @@ glabel EnMb_Init
 /* 00088 80AA60D8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0008C 80AA60DC 26050434 */  addiu   $a1, $s0, 0x0434           ## $a1 = 00000434
 /* 00090 80AA60E0 AFA50038 */  sw      $a1, 0x0038($sp)
-/* 00094 80AA60E4 0C0171F8 */  jal     func_8005C7E0
+/* 00094 80AA60E4 0C0171F8 */  jal     Collider_InitTris
 /* 00098 80AA60E8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0009C 80AA60EC 3C0780AB */  lui     $a3, %hi(D_80AA9CA4)       ## $a3 = 80AB0000
 /* 000A0 80AA60F0 26190454 */  addiu   $t9, $s0, 0x0454           ## $t9 = 00000454

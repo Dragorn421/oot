@@ -19,7 +19,7 @@ glabel EnIk_Destroy
 /* 00040 80A74350 8FA50020 */  lw      $a1, 0x0020($sp)           
 .L80A74354:
 /* 00044 80A74354 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 00048 80A74358 0C017232 */  jal     func_8005C8C8              
+/* 00048 80A74358 0C017232 */  jal     Collider_DestroyTris              
 /* 0004C 80A7435C 24A503EC */  addiu   $a1, $a1, 0x03EC           ## $a1 = 000003EC
 /* 00050 80A74360 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00054 80A74364 8FA40024 */  lw      $a0, 0x0024($sp)           

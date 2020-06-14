@@ -12,7 +12,7 @@ glabel BgYdanMaruta_Init
 /* 00024 808BED64 24A5F388 */  addiu   $a1, $a1, %lo(D_808BF388)  ## $a1 = 808BF388
 /* 00028 808BED68 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C
 /* 0002C 808BED6C AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00030 808BED70 0C0171F8 */  jal     func_8005C7E0              
+/* 00030 808BED70 0C0171F8 */  jal     Collider_InitTris              
 /* 00034 808BED74 8FA4007C */  lw      $a0, 0x007C($sp)           
 /* 00038 808BED78 3C07808C */  lui     $a3, %hi(D_808BF378)       ## $a3 = 808C0000
 /* 0003C 808BED7C 260E018C */  addiu   $t6, $s0, 0x018C           ## $t6 = 0000018C

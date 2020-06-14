@@ -10,7 +10,7 @@ glabel EnGeldB_Destroy
 /* 00248 80A35558 8DC5031C */  lw      $a1, 0x031C($t6)           ## 0000031C
 /* 0024C 80A3555C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00250 80A35560 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00254 80A35564 0C017232 */  jal     func_8005C8C8              
+/* 00254 80A35564 0C017232 */  jal     Collider_DestroyTris              
 /* 00258 80A35568 24A503EC */  addiu   $a1, $a1, 0x03EC           ## $a1 = 000003EC
 /* 0025C 80A3556C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00260 80A35570 8FA4001C */  lw      $a0, 0x001C($sp)           

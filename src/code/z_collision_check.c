@@ -569,7 +569,7 @@ s32 Collider_ClearTrisElementOCHit(GlobalContext* globalCtx, ColliderTrisElement
     return 1;
 }
 
-s32 func_8005C7E0(GlobalContext* globalCtx, ColliderTris* tris) {
+s32 Collider_InitTris(GlobalContext* globalCtx, ColliderTris* tris) {
     Collider_InitCollider(globalCtx, &tris->base);
     tris->nElements = 0;
     tris->elements = NULL;
@@ -592,7 +592,7 @@ s32 func_8005C810(GlobalContext* globalCtx, ColliderTris* arg1) {
     return 1;
 }
 
-s32 func_8005C8C8(GlobalContext* globalCtx, ColliderTris* tris) {
+s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris) {
     ColliderTrisElement* trisElem;
 
     Collider_DestroyCollider(globalCtx, &tris->base);
