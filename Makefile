@@ -18,7 +18,7 @@ CC         := tools/ido-7.1-recomp-linux/cc
 CC_OLD     := tools/ido-5.3-recomp-linux/cc
 
 # Check code syntax with host compiler
-CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h
+CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
