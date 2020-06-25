@@ -106,9 +106,9 @@ static ColliderSpheresSrc sJntSphInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_F4, 1400, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1200, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
 static u32 D_8086E0E0[] = { 0x00000000, 0x430C0000, 0x00000000, 0x00000000 };

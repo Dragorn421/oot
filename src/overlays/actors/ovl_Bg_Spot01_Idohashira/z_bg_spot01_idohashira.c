@@ -54,7 +54,7 @@ extern Gfx D_06000420[];
 extern UNK_TYPE D_0600075C;
 
 void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
-    func_80078914(&this->dyna.actor.unk_E4, NA_SE_EV_BOX_BREAK);
+    func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_BOX_BREAK);
 }
 
 void BgSpot01Idohashira_PlayBreakSfx2(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
@@ -65,47 +65,47 @@ void func_808AAD3C(GlobalContext* globalCtx, Vec3f* vec, u32 arg2) {
     EffectSparkInit effect;
     s32 sp24;
 
-    effect.position.x = vec->x;
-    effect.position.y = vec->y;
-    effect.position.z = vec->z;
-    effect.speed = 8.0f;
-    effect.gravity = -1.0f;
+    effect.pos.x = vec->x;
+    effect.pos.y = vec->y;
+    effect.pos.z = vec->z;
+    effect.unk48C = 8.0f;
+    effect.unk490 = -1.0f;
     effect.uDiv = arg2;
     effect.vDiv = arg2;
-    effect.colorStart[0].r = 0x00;
-    effect.colorStart[0].g = 0x00;
-    effect.colorStart[0].b = 0x00;
-    effect.colorStart[0].a = 0xFF;
-    effect.colorStart[1].r = 0x00;
-    effect.colorStart[1].g = 0x00;
-    effect.colorStart[1].b = 0x00;
-    effect.colorStart[1].a = 0xFF;
-    effect.colorStart[2].r = 0x00;
-    effect.colorStart[2].g = 0x00;
-    effect.colorStart[2].b = 0x00;
-    effect.colorStart[2].a = 0xFF;
-    effect.colorStart[3].r = 0x00;
-    effect.colorStart[3].g = 0x00;
-    effect.colorStart[3].b = 0x00;
-    effect.colorStart[3].a = 0xFF;
-    effect.colorEnd[0].r = 0x00;
-    effect.colorEnd[0].g = 0x00;
-    effect.colorEnd[0].b = 0x00;
-    effect.colorEnd[0].a = 0x00;
-    effect.colorEnd[1].r = 0x00;
-    effect.colorEnd[1].g = 0x00;
-    effect.colorEnd[1].b = 0x00;
-    effect.colorEnd[1].a = 0x00;
-    effect.colorEnd[2].r = 0x00;
-    effect.colorEnd[2].g = 0x00;
-    effect.colorEnd[2].b = 0x00;
-    effect.colorEnd[2].a = 0x00;
-    effect.colorEnd[3].r = 0x00;
-    effect.colorEnd[3].g = 0x00;
-    effect.colorEnd[3].b = 0x00;
-    effect.colorEnd[3].a = 0x00;
-    effect.timer = 0;
-    effect.duration = 32;
+    effect.unk49C[0].r = 0x00;
+    effect.unk49C[0].g = 0x00;
+    effect.unk49C[0].b = 0x00;
+    effect.unk49C[0].a = 0xFF;
+    effect.unk49C[1].r = 0x00;
+    effect.unk49C[1].g = 0x00;
+    effect.unk49C[1].b = 0x00;
+    effect.unk49C[1].a = 0xFF;
+    effect.unk49C[2].r = 0x00;
+    effect.unk49C[2].g = 0x00;
+    effect.unk49C[2].b = 0x00;
+    effect.unk49C[2].a = 0xFF;
+    effect.unk49C[3].r = 0x00;
+    effect.unk49C[3].g = 0x00;
+    effect.unk49C[3].b = 0x00;
+    effect.unk49C[3].a = 0xFF;
+    effect.unk4AC[0].r = 0x00;
+    effect.unk4AC[0].g = 0x00;
+    effect.unk4AC[0].b = 0x00;
+    effect.unk4AC[0].a = 0x00;
+    effect.unk4AC[1].r = 0x00;
+    effect.unk4AC[1].g = 0x00;
+    effect.unk4AC[1].b = 0x00;
+    effect.unk4AC[1].a = 0x00;
+    effect.unk4AC[2].r = 0x00;
+    effect.unk4AC[2].g = 0x00;
+    effect.unk4AC[2].b = 0x00;
+    effect.unk4AC[2].a = 0x00;
+    effect.unk4AC[3].r = 0x00;
+    effect.unk4AC[3].g = 0x00;
+    effect.unk4AC[3].b = 0x00;
+    effect.unk4AC[3].a = 0x00;
+    effect.unk4BC = 0;
+    effect.unk4C0 = 32;
 
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &effect);
 }

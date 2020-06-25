@@ -1370,7 +1370,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderElement* arg1, Collider* co
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4U, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         }
     } else if ((arg1->atElemFlags & ATELEM_SFX_MASK) == ATELEM_SFX_NORMAL) {
@@ -1378,14 +1378,14 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderElement* arg1, Collider* co
         if (collider->actor == NULL) {
             func_80062D60(globalCtx, arg3);
         } else {
-            func_80062DAC(globalCtx, arg3, &collider->actor->unk_E4);
+            func_80062DAC(globalCtx, arg3, &collider->actor->projectedPos);
         }
     } else if ((arg1->atElemFlags & ATELEM_SFX_MASK) == ATELEM_SFX_HARD) {
         func_80029CA4(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4U, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         }
     } else if ((arg1->atElemFlags & ATELEM_SFX_MASK) == ATELEM_SFX_WOOD) {
@@ -1393,8 +1393,8 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderElement* arg1, Collider* co
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->projectedPos, 4U, &D_801333E0,
+                                   &D_801333E0, &D_801333E8);
         }
     }
 }
@@ -1405,14 +1405,15 @@ s32 func_8005E4F8(Collider* collider, ColliderElement* arg1) {
     actor = collider->actor;
     if ((actor != NULL) && (actor->type == ACTORTYPE_PLAYER)) {
         if (arg1->elemMaterial == 0) {
-            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &actor->projectedPos, 4U, &D_801333E0, &D_801333E0,
+                                   &D_801333E8);
         } else if (arg1->elemMaterial == 1) {
-            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &actor->projectedPos, 4U, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         } else if (arg1->elemMaterial == 2) {
-            Audio_PlaySoundGeneral(0, &actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(0, &actor->projectedPos, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else if (arg1->elemMaterial == 3) {
-            Audio_PlaySoundGeneral(0, &actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(0, &actor->projectedPos, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
     return 1;
@@ -1490,7 +1491,7 @@ void func_8005E604(GlobalContext* globalCtx, Collider* atCollider, ColliderEleme
                     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4U, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                 } else {
-                    func_80062E14(globalCtx, arg5, &atCollider->actor->unk_E4);
+                    func_80062E14(globalCtx, arg5, &atCollider->actor->projectedPos);
                 }
             } else if (sHitInfo[acCollider->colMaterial].effect != 5) {
                 func_80029CA4(globalCtx, sHitInfo[acCollider->colMaterial].effect, arg5);
@@ -1503,8 +1504,8 @@ void func_8005E604(GlobalContext* globalCtx, Collider* atCollider, ColliderEleme
             if (acCollider->actor == NULL) {
                 Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
-                Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &acCollider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &acCollider->actor->projectedPos, 4U, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
             }
         }
     }

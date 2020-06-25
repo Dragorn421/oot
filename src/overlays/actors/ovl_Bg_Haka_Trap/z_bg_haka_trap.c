@@ -143,7 +143,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->unk168 = 0x28;
         this->actionFunc = &func_808809B0;
-        this->dyna.actor.unk_F8 = 500.0f;
+        this->dyna.actor.uncullZoneScale = 500.0f;
     }
     func_80061ED4(&this->dyna.actor.collideData, NULL, &D_80881008);
 }
