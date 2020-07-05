@@ -217,7 +217,7 @@ void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
         BgHidanFirewall_ColliderFollowPlayer(this, globalCtx);
         Collider_AddAT(globalCtx, &globalCtx->colliderCtx, &this->collider);
         Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider);
-        func_8002F974(&this->actor, 0x2034);
+        func_8002F974(&this->actor, NA_SE_EV_FIRE_PLATE - SFX_FLAG);
     }
 }
 

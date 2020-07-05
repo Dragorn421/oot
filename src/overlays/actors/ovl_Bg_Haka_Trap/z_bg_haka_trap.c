@@ -193,7 +193,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
 
     if ((D_80880F30 == 0) && (func_8008E988(globalCtx) == 0)) {
         if (Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x, 0.5f) == 0) {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - 0x800);
+            func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
         } else {
             if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) {
                 D_80881018 |= 1;
@@ -222,7 +222,7 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
     if (this->unk168 != 0) {
         this->unk168--;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_BURN_OUT - 0x800);
+    func_8002F974(&this->dyna.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
     for (var_s0 = 0; var_s0 < 2; var_s0++) {
         sp94.x =
             (Math_Rand_ZeroOne() * ((this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) ? -30.0f : 30.0f)) +
@@ -327,7 +327,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
         this->dyna.actor.velocity.y = 0.0f;
     }
     if (this->dyna.actor.velocity.y >= 0.01f) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - 0x800);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
     }
     if (this->unk168 == 0) {
         this->dyna.actor.velocity.y = 0.0f;
@@ -391,7 +391,7 @@ void func_80880AE8(BgHakaTrap* this, GlobalContext* globalCtx) {
     }
     this->dyna.actor.shape.rot.z += this->dyna.actor.posRot.rot.z;
     if (this->dyna.actor.posRot.rot.z > 0x1800) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - 0x800);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
     }
     func_808809E4(this, globalCtx, this->dyna.actor.posRot.rot.z);
 }
@@ -400,7 +400,7 @@ void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx) {
     if (this->unk168 != 0) {
         this->unk168--;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - 0x800);
+    func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
     if (this->unk168 == 0) {
         this->unk168 = 1;
         this->actionFunc = func_80880AE8;
@@ -471,6 +471,6 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sp2C.z = this->dyna.actor.posRot.pos.z;
         sp2C.y = this->dyna.actor.posRot.pos.y + 110.0f;
         func_800A6EF4(&globalCtx->mf_11D60, &sp2C, &this->unk16C);
-        func_80078914(&this->unk16C, NA_SE_EV_BRIDGE_CLOSE - 0x800);
+        func_80078914(&this->unk16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }
