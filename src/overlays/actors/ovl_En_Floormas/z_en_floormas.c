@@ -1084,7 +1084,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (this->actionFunc != EnFloormas_GrabLink) {
             if (this->actionFunc != EnFloormas_Split && this->actionFunc != EnFloormas_TakeDamage &&
-                this->actor.freeze == 0) {
+                this->actor.freezeTimer == 0) {
                 Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->collider);
             }
 

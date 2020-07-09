@@ -570,7 +570,7 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider);
 
         if ((this->actionFunc != EnWallmas_TakeDamage) && (this->actor.bgCheckFlags & 1) != 0 &&
-            (this->actor.freeze == 0)) {
+            (this->actor.freezeTimer == 0)) {
             Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->collider);
         }
     }

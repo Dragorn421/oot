@@ -2106,7 +2106,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 actor->yawTowardsLink = func_8002DA78(actor, &player->actor);
                 actor->flags &= ~0x1000000;
 
-                if ((DECR(actor->freeze) == 0) && (actor->flags & 0x50)) {
+                if ((DECR(actor->freezeTimer) == 0) && (actor->flags & 0x50)) {
                     if (actor == player->unk_664) {
                         actor->unk_10C = 1;
                     } else {
@@ -2499,14 +2499,14 @@ void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
 u8 sEnemyActorTypes[] = { ACTORTYPE_ENEMY, ACTORTYPE_BOSS };
 
-void Actor_FreezeAllEnemies(GlobalContext* globalCtx, ActorContext* actorCtx, s32 freezeValue) {
+void Actor_FreezeAllEnemies(GlobalContext* globalCtx, ActorContext* actorCtx, s32 duration) {
     Actor* actor;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sEnemyActorTypes); i++) {
         actor = actorCtx->actorList[sEnemyActorTypes[i]].first;
         while (actor != NULL) {
-            actor->freeze = freezeValue;
+            actor->freezeTimer = duration;
             actor = actor->next;
         }
     }
@@ -4052,7 +4052,7 @@ void func_80035650(Actor* actor, ColliderElement* colBody, s32 freezeFlag) {
     if (colBody->acHitElem == NULL) {
         actor->unk_116 = 0x00;
     } else if (freezeFlag && (colBody->acHitElem->atDmgInfo.dmgFlags & 0x10060000)) {
-        actor->freeze = colBody->acHitElem->atDmgInfo.damage;
+        actor->freezeTimer = colBody->acHitElem->atDmgInfo.damage;
         actor->unk_116 = 0x00;
     } else if (colBody->acHitElem->atDmgInfo.dmgFlags & 0x0800) {
         actor->unk_116 = 0x01;
@@ -4068,7 +4068,7 @@ void func_80035650(Actor* actor, ColliderElement* colBody, s32 freezeFlag) {
         actor->unk_116 = 0x20;
     } else if (colBody->acHitElem->atDmgInfo.dmgFlags & 0x80000) {
         if (freezeFlag) {
-            actor->freeze = colBody->acHitElem->atDmgInfo.damage;
+            actor->freezeTimer = colBody->acHitElem->atDmgInfo.damage;
         }
         actor->unk_116 = 0x40;
     } else {
@@ -4088,7 +4088,7 @@ void func_8003573C(Actor* actor, ColliderSpheres* spheres, s32 freezeFlag) {
         if (curColBody->acHitElem == NULL) {
             flag = 0x00;
         } else if (freezeFlag && (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x10060000)) {
-            actor->freeze = curColBody->acHitElem->atDmgInfo.damage;
+            actor->freezeTimer = curColBody->acHitElem->atDmgInfo.damage;
             flag = 0x00;
         } else if (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x0800) {
             flag = 0x01;
@@ -4104,7 +4104,7 @@ void func_8003573C(Actor* actor, ColliderSpheres* spheres, s32 freezeFlag) {
             flag = 0x20;
         } else if (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x80000) {
             if (freezeFlag) {
-                actor->freeze = curColBody->acHitElem->atDmgInfo.damage;
+                actor->freezeTimer = curColBody->acHitElem->atDmgInfo.damage;
             }
             flag = 0x40;
         } else {
