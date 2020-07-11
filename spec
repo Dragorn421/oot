@@ -535,6 +535,7 @@ endseg
 
 beginseg
     name "buffers"
+    align 0x40
     include "build/src/buffers/zbuffer.o"
     include "build/src/buffers/gfxbuffers.o"
     include "build/src/buffers/heaps.o"
