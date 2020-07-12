@@ -3002,24 +3002,10 @@ void Collider_UpdateCylinderShape(Actor* actor, ColliderCylinder* cylinder) {
     cylinder->shape.pos.z = actor->posRot.pos.z;
 }
 
-typedef struct struct_80062718_1 {
-    /* 0x00 */ char unk0[0x46];
-    /* 0x46 */ s16 unk46;
-    /* 0x48 */ s16 unk48;
-    /* 0x4A */ s16 unk4A;
-} struct_80062718_1;
-
-typedef struct struct_80062718_2 {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-} struct_80062718_2;
-
-// uses not decompiled
-void func_80062718(struct_80062718_1* arg0, struct_80062718_2* arg1) {
-    arg0->unk46 = arg1->unk0;
-    arg0->unk48 = arg1->unk2;
-    arg0->unk4A = arg1->unk4;
+void Collider_CylinderSetPos(ColliderCylinder* cylinder, Vec3s* pos) {
+    cylinder->shape.pos.x = pos->x;
+    cylinder->shape.pos.y = pos->y;
+    cylinder->shape.pos.z = pos->z;
 }
 
 typedef struct struct_80062734 {

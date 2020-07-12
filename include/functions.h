@@ -158,8 +158,8 @@ void __osSetHWIntrRoutine(s32 idx, OSMesgQueue* queue, OSMesg msg);
 void __osGetHWIntrRoutine(s32 idx, OSMesgQueue** outQueue, OSMesg* outMsg);
 void __osSetWatchLo(u32);
 
-Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
-Actor* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
+EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
+EnItem00* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
 void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3f* spawnPos, s16 params);
 void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2);
 void EffectBlure_AddSpace(EffectBlure* this);
@@ -701,6 +701,7 @@ s32 Camera_SetParam(Camera*, s32, void*);
 // ? func_8005AE64(?);
 Vec3f* func_8005AFB4(Vec3f* dst, Camera* camera);
 // ? func_8005B044(?);
+s32 func_8005B198();
 // ? func_8005B1A4(?);
 ActorDamageChart* CollisionBtlTbl_Get(s32 index);
 // ? func_8005B280(?);
@@ -798,7 +799,8 @@ void func_80061EFC(CollideData* sub98, ActorDamageChart* damageChart, CollideDat
 // ? func_800622E4(?);
 // ? func_80062530(?);
 // ? func_800626B0(?);
-void Collider_UpdateCylinderShape(Actor* actor, ColliderCylinder* collision);
+void Collider_UpdateCylinderShape(Actor* actor, ColliderCylinder* collider);
+void Collider_CylinderSetPos(ColliderCylinder* cylinder, Vec3s* pos);
 // ? func_80062734(?);
 void func_800627A0(ColliderTris* tris, s32 elemIndex, Vec3f* vtx0, Vec3f* vtx1, Vec3f* vtx2);
 // ? func_80062A28(?);

@@ -15,7 +15,7 @@ glabel Collider_UpdateCylinderShape
 /* AD98B0 80062710 03E00008 */  jr    $ra
 /* AD98B4 80062714 A4A9004A */   sh    $t1, 0x4a($a1)
 
-glabel func_80062718
+glabel Collider_CylinderSetPos
 /* AD98B8 80062718 84AE0000 */  lh    $t6, ($a1)
 /* AD98BC 8006271C A48E0046 */  sh    $t6, 0x46($a0)
 /* AD98C0 80062720 84AF0002 */  lh    $t7, 2($a1)
