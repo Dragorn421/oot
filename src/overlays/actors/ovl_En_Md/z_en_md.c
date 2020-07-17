@@ -576,7 +576,7 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
         this->unk210 = func_80034DD4(&this->actor, globalCtx, this->unk210, var_fv0);
         this->actor.shape.unk_14 = (u8)this->unk210;
     } else {
-        this->unk210 = 0xFF;
+        this->unk210 = 255;
         this->actor.shape.unk_14 = (u8)this->unk210;
     }
 }
@@ -597,7 +597,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80034EC0(&this->unk14C, D_80AAC348, 0);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.unk_1F = 6;
-    this->unk210 = 0xFF;
+    this->unk210 = 255;
     Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 3);
     if (((globalCtx->sceneNum == SCENE_SPOT04) && !(gSaveContext.eventChkInf[0] & 0x10)) ||
@@ -783,7 +783,7 @@ void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     sp48 = globalCtx->state.gfxCtx;
     Graph_OpenDisps(sp38, globalCtx->state.gfxCtx, "../z_en_md.c", 1280);
-    if (this->unk210 == 0xFF) {
+    if (this->unk210 == 255) {
         gSPSegment(sp48->polyOpa.p++, 8, SEGMENTED_TO_VIRTUAL(D_80AAC4A4[this->unk20E]));
         func_80034BA0(globalCtx, &this->unk14C, func_80AABEF0, func_80AAC104, &this->actor, this->unk210);
     } else if (this->unk210 != 0) {
