@@ -17,8 +17,8 @@ struct_8015FA98 D_8015FA98;
 
 s16 D_8011E0B0 = 0;
 Color_RGBA8 D_8011E0B4[] = {
-    { 0xFF, 0xFF, 0x20, 0xC0 }, { 0xFF, 0x96, 0x80, 0xC0 }, { 0x80, 0x60, 0x00, 0x40 }, { 0xC0, 0x80, 0x10, 0x80 },
-    { 0xFF, 0xC0, 0x20, 0x80 }, { 0xE6, 0xE6, 0xDC, 0x40 }, { 0x80, 0x96, 0xFF, 0x80 }, { 0x80, 0xFF, 0x20, 0x80 },
+    { 255, 255, 32, 192 }, { 255, 150, 128, 192 }, { 128, 96, 0, 64 },     { 192, 128, 16, 128 },
+    { 255, 192, 32, 128 }, { 230, 230, 220, 64 },  { 128, 150, 255, 128 }, { 128, 255, 32, 128 },
 };
 
 typedef struct struct_8011E0D4 {
@@ -196,16 +196,16 @@ void func_80063C04_cc0(GfxPrint* arg0) {
     sp4C[0] = 0x52;
     sp4C[1] = D_8011E148[gGameInfo->unk4];
     sp4C[2] = 0;
-    GfxPrint_SetColor(arg0, 0U, 0x80U, 0x80U, 0x80U);
+    GfxPrint_SetColor(arg0, 0, 128, 128, 128);
     var_s2 = temp_s4;
     for (var_s0 = 0; var_s0 != 0x10; var_s0++) {
         if (var_s0 == gGameInfo->unk8) {
-            GfxPrint_SetColor(arg0, 0U, 0xFFU, 0xFFU, 0xFFU);
+            GfxPrint_SetColor(arg0, 0, 255, 255, 255);
         }
         GfxPrint_SetPos(arg0, 3, var_s0 + 5);
         GfxPrint_Printf(arg0, "%s%02d%6d", &sp4C, var_s2, (s32)(gGameInfo->data[var_s0 + temp_s5]));
         if (var_s0 == gGameInfo->unk8) {
-            GfxPrint_SetColor(arg0, 0U, 0x80U, 0x80U, 0x80U);
+            GfxPrint_SetColor(arg0, 0, 128, 128, 128);
         }
         var_s2 += 1;
     }
