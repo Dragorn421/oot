@@ -1216,11 +1216,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idohashira"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/z_bg_spot01_idohashira.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/ovl_Bg_Spot01_Idohashira_reloc.o"
-#else
-    include "build/data/overlays/actors/z_bg_spot01_idohashira.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2139,11 +2135,7 @@ endseg
 beginseg
     name "ovl_En_Bx"
     include "build/src/overlays/actors/ovl_En_Bx/z_en_bx.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Bx/ovl_En_Bx_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_bx.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2528,11 +2520,7 @@ endseg
 beginseg
     name "ovl_En_Gs"
     include "build/src/overlays/actors/ovl_En_Gs/z_en_gs.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Gs/ovl_En_Gs_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_gs.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2683,7 +2671,11 @@ endseg
 beginseg
     name "ovl_En_Insect"
     include "build/src/overlays/actors/ovl_En_Insect/z_en_insect.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Insect/ovl_En_Insect_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_insect.reloc.o"
+#endif
 endseg
 
 beginseg
