@@ -15,7 +15,9 @@ void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+void func_808B02D0(BgSpot08Bakudankabe* this, GlobalContext* globalCtx);
+void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx);
+
 const ActorInit Bg_Spot08_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT08_BAKUDANKABE,
     ACTORTYPE_BG,
@@ -27,15 +29,235 @@ const ActorInit Bg_Spot08_Bakudankabe_InitVars = {
     (ActorFunc)BgSpot08Bakudankabe_Update,
     (ActorFunc)BgSpot08Bakudankabe_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/func_808B02D0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/func_808B0324.s")
+extern Gfx D_0500A880[];
+extern UNK_TYPE D_060039D4;
+extern Gfx D_06003898[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/BgSpot08Bakudankabe_Init.s")
+static ColliderSpheresElementSrc sJntSphItemsInit[3] = {
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            {
+                0x00000000,
+                HIT_SPECIAL_EFFECT_NONE,
+                0,
+            },
+            {
+                0x00000008,
+                HIT_BACKLASH_NONE,
+                0,
+            },
+            ATELEM_NONE,
+            ACELEM_ON,
+            OCELEM_NONE,
+        },
+        {
+            0,
+            {
+                {
+                    0,
+                    50,
+                    50,
+                },
+                70,
+            },
+            100,
+        },
+    }, // 0
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            {
+                0x00000000,
+                HIT_SPECIAL_EFFECT_NONE,
+                0,
+            },
+            {
+                0x00000008,
+                HIT_BACKLASH_NONE,
+                0,
+            },
+            ATELEM_NONE,
+            ACELEM_ON,
+            OCELEM_NONE,
+        },
+        {
+            0,
+            {
+                {
+                    -100,
+                    50,
+                    50,
+                },
+                70,
+            },
+            100,
+        },
+    }, // 1
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            {
+                0x00000000,
+                HIT_SPECIAL_EFFECT_NONE,
+                0,
+            },
+            {
+                0x00000008,
+                HIT_BACKLASH_NONE,
+                0,
+            },
+            ATELEM_NONE,
+            ACELEM_ON,
+            OCELEM_NONE,
+        },
+        {
+            0,
+            {
+                {
+                    100,
+                    50,
+                    50,
+                },
+                70,
+            },
+            100,
+        },
+    }, // 2
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/BgSpot08Bakudankabe_Destroy.s")
+static ColliderSpheresSrc sJntSphInit = {
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLTYPE_SPHERES,
+    },
+    3,
+    sJntSphItemsInit,
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/BgSpot08Bakudankabe_Update.s")
+Vec3f D_808B08AC[] = {
+    { 0.0f, 116.65f, 50.0f },
+    { 115.0f, 95.0f, 10.0f },
+    { -115.0f, 95.0f, 10.0f },
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/BgSpot08Bakudankabe_Draw.s")
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 3200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+};
+
+void func_808B02D0(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    Collider_InitSpheres(globalCtx, &this->collider);
+    Collider_LoadSpheres(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+}
+
+void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    s32 i;
+    Vec3f burstDepthY;
+    Vec3f burstDepthX;
+    f32 sinY;
+    f32 cosY;
+
+    sinY = Math_Sins(this->dyna.actor.shape.rot.y);
+    cosY = Math_Coss(this->dyna.actor.shape.rot.y);
+
+    burstDepthX.z = 0.0f;
+    burstDepthX.x = 0.0f;
+
+    for (i = 0; i < 24; i++) {
+        s16 gravityInfluence;
+        s16 scale;
+        f32 temp1;
+        f32 temp2;
+        s32 rotationSpeed;
+
+        temp1 = (Math_Rand_ZeroOne() - 0.5f) * 440.0f;
+        temp2 = (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
+        burstDepthY.x = this->dyna.actor.posRot.pos.x + temp2 * sinY + (temp1 * cosY);
+        burstDepthY.y = (this->dyna.actor.posRot.pos.y + 20.0f) + (i * 5.4166665f);
+        burstDepthY.z = this->dyna.actor.posRot.pos.z + temp2 * cosY - (temp1 * sinY);
+
+        burstDepthX.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
+        scale = Math_Rand_ZeroOne() * 75.0f + 10.0f;
+
+        if (scale < 25) {
+            gravityInfluence = -300;
+        } else if (scale < 50) {
+            gravityInfluence = -360;
+        } else {
+            gravityInfluence = -420;
+        }
+
+        if (Math_Rand_ZeroOne() < 0.4f) {
+            rotationSpeed = 65;
+        } else {
+            rotationSpeed = 33;
+        }
+
+        func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E, 4, 0,
+                      scale, 1, 3, 80, -1, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+    }
+
+    for (i = 0; i < ARRAY_COUNT(D_808B08AC); i++) {
+        burstDepthY.x = this->dyna.actor.posRot.pos.x + D_808B08AC[i].z * sinY + D_808B08AC[i].x * cosY;
+        burstDepthY.y = this->dyna.actor.posRot.pos.y + D_808B08AC[i].y;
+        burstDepthY.z = this->dyna.actor.posRot.pos.z + D_808B08AC[i].z * cosY - (D_808B08AC[i].x * sinY);
+        func_80033480(globalCtx, &burstDepthY, 120.0f, 4, 0x78, 0xA0, 1);
+    }
+}
+
+void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot08Bakudankabe* this = THIS;
+    s32 pad;
+    s32 sp24 = 0;
+
+    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
+        Actor_Kill(&this->dyna.actor);
+        return;
+    }
+    func_808B02D0(this, globalCtx);
+    DynaPolyInfo_Alloc(&D_060039D4, &sp24);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+}
+
+void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot08Bakudankabe* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    Collider_DestroySpheres(globalCtx, &this->collider);
+}
+
+void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot08Bakudankabe* this = THIS;
+
+    if (this->collider.base.acFlags & 2) {
+        func_808B0324(this, globalCtx);
+        Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
+        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Actor_Kill(&this->dyna.actor);
+    } else if (this->dyna.actor.xzDistFromLink < 800.0f) {
+        Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->collider.base);
+    }
+}
+
+void BgSpot08Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot08Bakudankabe* this = THIS;
+
+    func__800628A4_Type0(0, &this->collider);
+    func__800628A4_Type0(1, &this->collider);
+    func__800628A4_Type0(2, &this->collider);
+    Gfx_DrawDListOpa(globalCtx, D_06003898);
+}
