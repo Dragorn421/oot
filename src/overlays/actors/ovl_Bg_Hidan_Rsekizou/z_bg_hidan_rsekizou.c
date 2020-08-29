@@ -1,4 +1,5 @@
 #include "global.h"
+#include "macros.h"
 #include "z_bg_hidan_rsekizou.h"
 
 #define FLAGS 0x00000000
@@ -161,32 +162,29 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 var_s0;
     MtxF sp5C;
-    GraphicsContext* temp_a1;
-    Gfx* sp48[4];
 
-    temp_a1 = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(sp48, globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 564);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 564);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(temp_a1->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(temp_a1->polyOpa.p++, D_600AD00);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_600AD00);
     Matrix_MtxFCopy(&sp5C, &gMtxFClear);
-    temp_a1->polyXlu.p = Gfx_CallSetupDL(temp_a1->polyXlu.p, 0x14U);
+    oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x14U);
     if ((s16)((func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->dyna.actor.shape.rot.y) -
               0x2E6C) >= 0) {
         for (var_s0 = 3; var_s0 >= 0; var_s0--) {
-            temp_a1->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, temp_a1->polyXlu.p);
+            oGfxCtx->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, oGfxCtx->polyXlu.p);
         }
         for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            temp_a1->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, temp_a1->polyXlu.p);
+            oGfxCtx->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, oGfxCtx->polyXlu.p);
         }
     } else {
         for (var_s0 = 3; var_s0 >= 0; var_s0--) {
-            temp_a1->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, temp_a1->polyXlu.p);
+            oGfxCtx->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, oGfxCtx->polyXlu.p);
         }
         for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            temp_a1->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, temp_a1->polyXlu.p);
+            oGfxCtx->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, oGfxCtx->polyXlu.p);
         }
     }
-    Graph_CloseDisps(sp48, globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 600);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 600);
 }
