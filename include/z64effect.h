@@ -132,7 +132,7 @@ typedef struct {
     /* 0x24 */ f32 unk24;
     /* 0x28 */ f32 unk28;
     /* 0x2C */ u8 unk2C;
-    /* 0x2E */ LightInfoPositionalParams lightParams;
+    /* 0x2E */ LightPoint lightPoint;
     /* 0x3C */ s32 lightDecay; // halves light radius every frame when set to 1
 } EffectShieldParticleInit; // size = 0x40
 
@@ -152,8 +152,8 @@ typedef struct {
     /* 0x1AC */ f32 unk1AC;
     /* 0x1B0 */ u8 unk1B0;
     /* 0x1B1 */ u8 unk1B1;
-    /* 0x1B2 */ LightInfoPositional lightInfo;
-    /* 0x1C0 */ z_Light* light;
+    /* 0x1B2 */ LightInfo lightInfo;
+    /* 0x1C0 */ LightNode* lightNode;
     /* 0x1C4 */ s32 lightDecay; // halves light radius every frame when set to 1
 } EffectShieldParticle; // size = 0x1C8
 

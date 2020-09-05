@@ -3197,9 +3197,9 @@ void func_80062CD4(GlobalContext* globalCtx, Vec3f* arg1) {
     D_8011E028.pos.x = arg1->x;
     D_8011E028.pos.y = arg1->y;
     D_8011E028.pos.z = arg1->z;
-    D_8011E028.lightParams.posX = D_8011E028.pos.x;
-    D_8011E028.lightParams.posY = D_8011E028.pos.y;
-    D_8011E028.lightParams.posZ = D_8011E028.pos.z;
+    D_8011E028.lightPoint.x = D_8011E028.pos.x;
+    D_8011E028.lightPoint.y = D_8011E028.pos.y;
+    D_8011E028.lightPoint.z = D_8011E028.pos.z;
     Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &D_8011E028);
 }
 
@@ -3248,9 +3248,9 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
     D_8011E068.pos.x = arg1->x;
     D_8011E068.pos.y = arg1->y;
     D_8011E068.pos.z = arg1->z;
-    D_8011E068.lightParams.posX = D_8011E068.pos.x;
-    D_8011E068.lightParams.posY = D_8011E068.pos.y;
-    D_8011E068.lightParams.posZ = D_8011E068.pos.z;
+    D_8011E068.lightPoint.x = D_8011E068.pos.x;
+    D_8011E068.lightPoint.y = D_8011E068.pos.y;
+    D_8011E068.lightPoint.z = D_8011E068.pos.z;
     Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &D_8011E068);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
 }
