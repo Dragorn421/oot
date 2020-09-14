@@ -15,7 +15,6 @@ void BgMenkuriEye_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
 const ActorInit Bg_Menkuri_Eye_InitVars = {
     ACTOR_BG_MENKURI_EYE,
     ACTORTYPE_BG,
@@ -27,11 +26,137 @@ const ActorInit Bg_Menkuri_Eye_InitVars = {
     (ActorFunc)BgMenkuriEye_Update,
     (ActorFunc)BgMenkuriEye_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Menkuri_Eye/BgMenkuriEye_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Menkuri_Eye/BgMenkuriEye_Destroy.s")
+extern Gfx D_06002D20[];
+s32 D_8089C1A0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Menkuri_Eye/BgMenkuriEye_Update.s")
+static ColliderSpheresElementSrc sJntSphItemsInit[1] = {
+    {
+        {
+            ELEM_MATERIAL_UNK4,
+            {
+                0x00000000,
+                HIT_SPECIAL_EFFECT_NONE,
+                0,
+            },
+            {
+                0x0001F820,
+                HIT_BACKLASH_NONE,
+                0,
+            },
+            ATELEM_NONE,
+            ACELEM_ON,
+            OCELEM_NONE,
+        },
+        {
+            1,
+            {
+                {
+                    0,
+                    0,
+                    0,
+                },
+                14,
+            },
+            100,
+        },
+    }, // 0
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Menkuri_Eye/BgMenkuriEye_Draw.s")
+static ColliderSpheresSrc sJntSphInit = {
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLTYPE_SPHERES,
+    },
+    1,
+    sJntSphItemsInit,
+};
+
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
+
+void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgMenkuriEye* this = THIS;
+    ColliderSpheresElement* colliderList;
+
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    Collider_InitSpheres(globalCtx, &this->collider);
+    Collider_LoadSpheres(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    this->collider.elements[0].shape.world.center.x = this->actor.posRot.pos.x;
+    this->collider.elements[0].shape.world.center.y = this->actor.posRot.pos.y;
+    this->collider.elements[0].shape.world.center.z = this->actor.posRot.pos.z;
+    colliderList = this->collider.elements;
+    colliderList[0].shape.world.radius = colliderList[0].shape.model.radius;
+    if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
+        D_8089C1A0 = 0;
+    }
+    this->framesUntilDisable = -1;
+}
+
+void BgMenkuriEye_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgMenkuriEye* this = THIS;
+
+    Collider_DestroySpheres(globalCtx, &this->collider);
+}
+
+void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgMenkuriEye* this = THIS;
+
+    if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
+        if (this->framesUntilDisable != -1) {
+            if (this->framesUntilDisable != 0) {
+                this->framesUntilDisable -= 1;
+            }
+            if (this->framesUntilDisable == 0) {
+                this->framesUntilDisable = -1;
+                D_8089C1A0 -= 1;
+            }
+        }
+    }
+    if ((this->collider.base.acFlags & 2) &&
+        (ABS((s16)(this->collider.base.ac->posRot.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
+        this->collider.base.acFlags &= ~0x2;
+        if (this->framesUntilDisable == -1) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
+            D_8089C1A0 += 1;
+            D_8089C1A0 = CLAMP_MAX(D_8089C1A0, 4);
+        }
+        this->framesUntilDisable = 416;
+        if (D_8089C1A0 == 4) {
+            Flags_SetSwitch(globalCtx, this->actor.params);
+            func_80078884(NA_SE_SY_CORRECT_CHIME);
+        }
+    }
+    if (this->framesUntilDisable == -1) {
+        Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->collider.base);
+    }
+    Actor_SetHeight(&this->actor, 0.0f);
+}
+
+void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgMenkuriEye* this = THIS;
+    s32 pad;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_menkuri_eye.c", 292);
+    func_80093D84(globalCtx->state.gfxCtx);
+    if (Flags_GetSwitch(globalCtx, this->actor.params)) {
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 0, 0, 255);
+    } else if (this->framesUntilDisable == -1) {
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 0, 0, 0);
+    } else {
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 0, 0, 255);
+    }
+    Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0);
+    Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1);
+    Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_menkuri_eye.c", 331),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06002D20);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_menkuri_eye.c", 335);
+}
