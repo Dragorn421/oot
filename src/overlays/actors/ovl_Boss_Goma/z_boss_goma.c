@@ -70,6 +70,8 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_WallClimb(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_CeilingMoveToCenter(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 arg2);
+void BossGoma_SetupFloorRunAttack(BossGoma* this);
+void BossGoma_FloorRunAttack(BossGoma* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000AE8; // standing up, wiggle (first encounter?)
 extern AnimationHeader D_0600193C; // stretched, looking up (would make more sense with 0x8000 x rot?)
@@ -299,6 +301,7 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unusedInitZ = this->actor.posRot.pos.z;
     this->actor.posRot.pos.y = -300.0f; // ceiling
     this->actor.gravity = 0.0f;
+    this->framesSinceRunAttack = 10000;
     BossGoma_SetupEncounter(this, globalCtx);
     this->actor.colChkInfo.health = 10;
     this->actor.colChkInfo.mass = 0xFF;
@@ -620,7 +623,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             // entrance of the boss room
             if (fabsf(player->actor.posRot.pos.x - 150.0f) < 60.0f &&
                 fabsf(player->actor.posRot.pos.z - 350.0f) < 60.0f) {
-                if (gSaveContext.eventChkInf[7] & 1) {
+                if (true || (gSaveContext.eventChkInf[7] & 1)) {
                     BossGoma_SetupEncounterState4(this, globalCtx);
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 164.72f,
                                        -480.0f, 397.68002f, 0, -0x705C, 0, 0x180);
@@ -1030,9 +1033,12 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
             break;
         case 2:
             camera = Gameplay_GetCamera(globalCtx, 0);
-            Math_SmoothScaleMaxMinF(&this->subCameraEye.x, camera->eye.x, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothScaleMaxMinF(&this->subCameraEye.y, camera->eye.y, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothScaleMaxMinF(&this->subCameraEye.z, camera->eye.z, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
+            Math_SmoothScaleMaxMinF(&this->subCameraEye.x, camera->eye.x, 0.2f, this->subCameraFollowSpeed * 50.0f,
+                                    0.1f);
+            Math_SmoothScaleMaxMinF(&this->subCameraEye.y, camera->eye.y, 0.2f, this->subCameraFollowSpeed * 50.0f,
+                                    0.1f);
+            Math_SmoothScaleMaxMinF(&this->subCameraEye.z, camera->eye.z, 0.2f, this->subCameraFollowSpeed * 50.0f,
+                                    0.1f);
             Math_SmoothScaleMaxMinF(&this->subCameraAt.x, camera->at.x, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->subCameraAt.y, camera->at.y, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->subCameraAt.z, camera->at.z, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
@@ -1463,6 +1469,10 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
             // move towards the player
             Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.3333333f, 0.5f, 2.0f);
             Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, rot, 5, 0x3E8);
+            if (this->actor.xzDistFromLink > 300.0f && ABS(this->actor.posRot.rot.y - rot) < 0x600 &&
+                this->framesSinceRunAttack > 150) {
+                BossGoma_SetupFloorRunAttack(this);
+            }
         } else {
             /*
             timer setup values
@@ -1722,6 +1732,7 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->frameCount++;
     DECR(this->framesUntilNextAction);
     DECR(this->timer);
+    this->framesSinceRunAttack++;
     DECR(this->sfxFaintTimer);
     this->eyeState = BOSSGOMA_EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES;
     this->actionFunc(this, globalCtx);
@@ -1939,4 +1950,50 @@ void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 i) {
                        this->lastTailLimbWorldPos.y - 50.0f, this->lastTailLimbWorldPos.z, 0, i * 0x5555, 0, i);
     // @bug (maybe) if child gohma fails to spawn this softlocks due to the lack of a != NULL check?
     this->childrenGohmaState[i] = 1;
+}
+
+void BossGoma_SetupFloorRunAttack(BossGoma* this) {
+    SkelAnime_ChangeAnim(&this->skelanime, &D_060066DC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060066DC.genericHeader),
+                         0, -10.0f);
+    this->actor.speedXZ = 15.0f;
+    this->actionFunc = BossGoma_FloorRunAttack;
+    this->framesSinceRunAttack = 0;
+}
+
+void BossGoma_FloorRunAttack(BossGoma* this, GlobalContext* globalCtx) {
+    s16 rot = func_8002DA78(&this->actor, &PLAYER->actor);
+    s32 stopRunning = this->framesSinceRunAttack > 100;
+    s16 i;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    this->invincibilityFrames = 5;
+    this->eyeState = BOSSGOMA_EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
+    this->visualState = BOSSGOMA_VISUALSTATE_RED;
+    Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 0.2f, 0.5f);
+    Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, rot, 50, 0x3E8);
+
+    for (i = 0; i < this->collider.count; i++) {
+        if (this->collider.list[i].body.toucherFlags & 2) {
+            stopRunning = true;
+        }
+    }
+
+    if (stopRunning) {
+        this->actor.speedXZ = 0.0f;
+        this->framesSinceRunAttack = 0;
+        BossGoma_SetupFloorIdle(this);
+    } else if (this->actor.bgCheckFlags & 8) {
+        s16 quakeIndex = Quake_Add(ACTIVE_CAM, 3);
+        Quake_SetSpeed(quakeIndex, 15000);
+        Quake_SetQuakeValues(quakeIndex, 14, 2, 50, 0);
+        Quake_SetCountdown(quakeIndex, 20);
+
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DOWN);
+
+        this->actor.speedXZ = -10.0f;
+        this->actor.velocity.y = 10.0f;
+        this->framesUntilNextAction = 100;
+        this->framesSinceRunAttack = 0;
+        BossGoma_SetupFloorStunned(this);
+    }
 }

@@ -61,6 +61,7 @@ typedef struct BossGoma {
     /* 0x0758 */ u8 deadLimbsState[100]; // only 85/90 first indices actually used
     /* 0x07BC */ ColliderJntSph collider;
     /* 0x07DC */ ColliderJntSphItem colliderItems[13];
+    s16 framesSinceRunAttack;
 } BossGoma; // size = 0x0B1C
 
 extern const ActorInit Boss_Goma_InitVars;

@@ -49,3 +49,4 @@ tools/*dSYM/
 
 # Per-user configuration
 .python-version
+MakefileVars
