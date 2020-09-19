@@ -186,7 +186,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
 
     Player* player = PLAYER;
 
-    if ((D_80880F30 == 0) && (func_8008E988(globalCtx) == 0)) {
+    if ((D_80880F30 == 0) && (Player_InCsMode(globalCtx) == 0)) {
         if (Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x, 0.5f) == 0) {
             func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
         } else {
@@ -365,8 +365,8 @@ void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
 
     func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.posRot.pos);
     if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) && (PLAYER->currentBoots != 1)) {
-        player->fanWindSpeed = (((500.0f - sp18.z) * 0.06f) + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
-        player->fanWindDirection = this->dyna.actor.shape.rot.y;
+        player->windSpeed = (((500.0f - sp18.z) * 0.06f) + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
+        player->windDirection = this->dyna.actor.shape.rot.y;
     }
 }
 
