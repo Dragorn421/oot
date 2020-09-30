@@ -229,8 +229,8 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
             this->dyna.actor.posRot.pos.x;
         sp94.y = (Math_Rand_ZeroOne() * 10.0f) + this->dyna.actor.posRot.pos.y + 30.0f;
         sp94.z = Math_Rand_CenteredFloat(320.0f) + this->dyna.actor.posRot.pos.z;
-        func_8002A6B8(globalCtx, &sp94, &D_8088101C, &D_8088101C, 0x82U, 0x14, 0xFFU, 0xFFU, 0x96U, 0xAAU, 0xFFU, 0U,
-                      0U, 1U, 9U, 0U);
+        EffectSsDeadDb_Spawn(globalCtx, &sp94, &D_8088101C, &D_8088101C, 130, 20, 255, 255, 150, 170, 255, 0, 0, 1, 9,
+                             false);
     }
     if (this->unk168 == 0) {
         D_80880F30 = 0;

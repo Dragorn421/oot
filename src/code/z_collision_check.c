@@ -1347,7 +1347,7 @@ void Collider_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* ar
 void func_80062B80(GlobalContext* globalCtx, Vec3f* arg1);
 
 void Collider_WaterBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* arg2) {
-    func_800299AC(globalCtx, arg2);
+    EffectSsSibuki_SpawnBurst(globalCtx, arg2);
     func_80062B80(globalCtx, arg2);
 }
 
@@ -1366,7 +1366,7 @@ void func_80062DAC(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
 
 void func_8005E2EC(GlobalContext* globalCtx, ColliderElement* arg1, Collider* collider, Vec3f* arg3) {
     if (((arg1->atElemFlags & ATELEM_SFX_MASK) == ATELEM_SFX_NORMAL) && (collider->colMaterial != COL_MATERIAL_METAL)) {
-        func_80029CA4(globalCtx, 0, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
@@ -1374,14 +1374,14 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderElement* arg1, Collider* co
                                    &D_801333E8);
         }
     } else if ((arg1->atElemFlags & ATELEM_SFX_MASK) == ATELEM_SFX_NORMAL) {
-        func_80029CA4(globalCtx, 3, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 3, arg3);
         if (collider->actor == NULL) {
             func_80062D60(globalCtx, arg3);
         } else {
             func_80062DAC(globalCtx, arg3, &collider->actor->projectedPos);
         }
     } else if ((arg1->atElemFlags & ATELEM_SFX_MASK) == ATELEM_SFX_HARD) {
-        func_80029CA4(globalCtx, 0, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
@@ -1389,7 +1389,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderElement* arg1, Collider* co
                                    &D_801333E8);
         }
     } else if ((arg1->atElemFlags & ATELEM_SFX_MASK) == ATELEM_SFX_WOOD) {
-        func_80029CA4(globalCtx, 1, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 1, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
@@ -1494,13 +1494,13 @@ void func_8005E604(GlobalContext* globalCtx, Collider* atCollider, ColliderEleme
                     func_80062E14(globalCtx, arg5, &atCollider->actor->projectedPos);
                 }
             } else if (sHitInfo[acCollider->colMaterial].effect != 5) {
-                func_80029CA4(globalCtx, sHitInfo[acCollider->colMaterial].effect, arg5);
+                EffectSsHitMark_SpawnFixedScale(globalCtx, sHitInfo[acCollider->colMaterial].effect, arg5);
                 if (!(acElem->acElemFlags & ACELEM_NO_SWORD_SFX)) {
                     func_8005E4F8(atCollider, acElem);
                 }
             }
         } else {
-            func_80029CA4(globalCtx, 0U, arg5);
+            EffectSsHitMark_SpawnFixedScale(globalCtx, 0U, arg5);
             if (acCollider->actor == NULL) {
                 Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {

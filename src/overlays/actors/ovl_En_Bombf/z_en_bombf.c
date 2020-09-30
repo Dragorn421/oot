@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bombf.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS 0x00000011
 
@@ -358,7 +359,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f effAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
-    Color_RGBA8_n dustColor = { 255, 255, 255, 255 };
+    Color_RGBA8 dustColor = { 255, 255, 255, 255 };
     s32 pad[2];
     EnBombf* this = THIS;
 
@@ -423,7 +424,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (this->timer < 127) {
                 // spawn spark effect on even frames
                 if ((globalCtx->gameplayFrames % 2) == 0) {
-                    func_80029184(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
+                    EffectSsGSpk_SpawnFuse(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
                 }
                 Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
@@ -459,7 +460,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 effPos.y = thisx->groundY;
                 if (thisx->groundY > -32000.0f) {
-                    func_80029024(globalCtx, &effPos, &effVelocity, &effAccel);
+                    EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
                 }
 
                 Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
@@ -490,7 +491,8 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMBFLOWER_EXPLOSION)) {
         if (thisx->waterY >= 20.0f) {
-            EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 10);
+            EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
+                                              DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);
             return;
         }
