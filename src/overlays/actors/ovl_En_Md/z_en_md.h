@@ -1,9 +1,8 @@
 #ifndef _Z_EN_MD_H_
 #define _Z_EN_MD_H_
 
-#include "z64.h"
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnMd;
 

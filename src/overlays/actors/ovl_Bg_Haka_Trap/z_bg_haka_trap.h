@@ -1,6 +1,7 @@
 #ifndef BG_HAKA_TRAP_H
 #define BG_HAKA_TRAP_H
 
+#include "ultra64.h"
 #include "global.h"
 
 typedef enum BgHakaTrapType {
