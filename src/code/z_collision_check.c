@@ -1574,8 +1574,8 @@ void Collider_ATSpheresVsACSpheres(GlobalContext* globalCtx, ColliderContext* co
                      acSpheresElem++) {
                     if (((Collider_IsElementACOff(&acSpheresElem->base) != 1) &&
                          (Collider_AreDmgFlagsDisjoint(&atSpheresElem->base, &acSpheresElem->base) != 1)) &&
-                        (Math3D_SphVsSphOverlapCenter(&atSpheresElem->shape.world, &acSpheresElem->shape.world,
-                                                             &sp8C, &sp88) == 1)) {
+                        (Math3D_SphVsSphOverlapCenter(&atSpheresElem->shape.world, &acSpheresElem->shape.world, &sp8C,
+                                                      &sp88) == 1)) {
                         atSpheresElemPos.x = atSpheresElem->shape.world.center.x;
                         atSpheresElemPos.y = atSpheresElem->shape.world.center.y;
                         atSpheresElemPos.z = atSpheresElem->shape.world.center.z;
@@ -1621,7 +1621,8 @@ void Collider_ATSpheresVsACCylinder(GlobalContext* globalCtx, ColliderContext* c
              atSpheresElem++) {
             if ((Collider_IsElementATOff(&atSpheresElem->base) != 1) &&
                 (Collider_AreDmgFlagsDisjoint(&atSpheresElem->base, &acCylinder->elem) != 1) &&
-                (Math3D_SphVsCylOverlapCenterDist(&atSpheresElem->shape.world, &acCylinder->shape, &sp80, &sp7C) != 0)) {
+                (Math3D_SphVsCylOverlapCenterDist(&atSpheresElem->shape.world, &acCylinder->shape, &sp80, &sp7C) !=
+                 0)) {
                 atSpheresElemPos.x = atSpheresElem->shape.world.center.x;
                 atSpheresElemPos.y = atSpheresElem->shape.world.center.y;
                 atSpheresElemPos.z = atSpheresElem->shape.world.center.z;
@@ -1666,7 +1667,8 @@ void Collider_ATCylinderVsACSpheres(GlobalContext* globalCtx, ColliderContext* c
                  acSpheresElem++) {
                 if ((Collider_IsElementACOff(&acSpheresElem->base) != 1) &&
                     (Collider_AreDmgFlagsDisjoint(&atCylinder->elem, &acSpheresElem->base) != 1) &&
-                    (Math3D_SphVsCylOverlapCenterDist(&acSpheresElem->shape.world, &atCylinder->shape, &sp9C, &sp98) != 0)) {
+                    (Math3D_SphVsCylOverlapCenterDist(&acSpheresElem->shape.world, &atCylinder->shape, &sp9C, &sp98) !=
+                     0)) {
                     atCylinderPos.x = (f32)atCylinder->shape.pos.x;
                     atCylinderPos.y = (f32)atCylinder->shape.pos.y;
                     atCylinderPos.z = (f32)atCylinder->shape.pos.z;
@@ -1759,7 +1761,8 @@ void Collider_ATTrisVsACSpheres(GlobalContext* globalCtx, ColliderContext* colli
                          atTrisElem++) {
                         if (((Collider_IsElementATOff(&atTrisElem->base) != 1))) {
                             if (((Collider_AreDmgFlagsDisjoint(&atTrisElem->base, &acSpheresElem->base) != 1) &&
-                                 (Math3D_TriVsSphIntersect(&acSpheresElem->shape.world, &atTrisElem->shape, &hitPos) == 1))) {
+                                 (Math3D_TriVsSphIntersect(&acSpheresElem->shape.world, &atTrisElem->shape, &hitPos) ==
+                                  1))) {
                                 Math_Vec3s_ToVec3f(&acSpheresElemPos, &acSpheresElem->shape.world.center);
                                 atTrisElemPos.x = (atTrisElem->shape.vtx[0].x + atTrisElem->shape.vtx[1].x +
                                                    atTrisElem->shape.vtx[2].x) *
@@ -1837,6 +1840,7 @@ void Collider_ATSpheresVsACQuad(GlobalContext* globalCtx, ColliderContext* colli
 }
 
 TriNorm D_8015E2A0;
+BSS_DUMMY;
 BSS_DUMMY;
 TriNorm D_8015E2D8;
 
@@ -2593,8 +2597,7 @@ void Collider_OCSpheresVsOCSpheres(GlobalContext* globalCtx, ColliderContext* co
                 if (!(rightSpheresElem->base.ocElemFlags & OCELEM_ON)) {
                     continue;
                 }
-                if (Math3D_SphVsSphOverlap(&leftSpheresElem->shape.world, &rightSpheresElem->shape.world,
-                                                  &sp74) == 1) {
+                if (Math3D_SphVsSphOverlap(&leftSpheresElem->shape.world, &rightSpheresElem->shape.world, &sp74) == 1) {
                     Math_Vec3s_ToVec3f(&leftSpheresElemPos, &leftSpheresElem->shape.world.center);
                     Math_Vec3s_ToVec3f(&rightSpheresElemPos, &rightSpheresElem->shape.world.center);
                     Collider_OCVsOCHit(&leftSpheres->base, &leftSpheresElem->base, &leftSpheresElemPos,

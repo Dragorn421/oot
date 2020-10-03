@@ -237,7 +237,7 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if (this->actor.parent->colChkInfo.health != 0) {
+    if (this->actor.parent->collideData.health != 0) {
         Actor_Kill(&this->actor);
     }
 }

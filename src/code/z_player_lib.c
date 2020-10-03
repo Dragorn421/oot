@@ -1,6 +1,4 @@
-#include "z64collision_check.h"
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 typedef struct {
     /* 0x00 */ u8 flag;

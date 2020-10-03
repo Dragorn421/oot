@@ -116,11 +116,12 @@ void func_8006390C_cc0(Input* arg0) {
     s32 var_v1_2;
     s32 var = (((((gGameInfo->unk4 * 6) + gGameInfo->unk0) * 0x10) - 0x10));
 
-    var_a3 = arg0->cur.in.button & 0xF00;
-    if (CHECK_PAD(arg0->cur, 0x20) || CHECK_PAD(arg0->cur, 0x10) || CHECK_PAD(arg0->cur, 0x1000)) {
+    var_a3 = arg0->cur.button & 0xF00;
+    if (CHECK_BTN_ALL(arg0->cur.button, 0x20) || CHECK_BTN_ALL(arg0->cur.button, 0x10) ||
+        CHECK_BTN_ALL(arg0->cur.button, 0x1000)) {
         for (var_v1 = 0; var_v1 < 0x1D; var_v1++) {
-            if (!((~(~D_8011E0D4[var_v1].unk0 | arg0->cur.in.button) != 0) ||
-                  (~(~D_8011E0D4[var_v1].unk2 | arg0->press.in.button) != 0))) {
+            if (!((~(~D_8011E0D4[var_v1].unk0 | arg0->cur.button) != 0) ||
+                  (~(~D_8011E0D4[var_v1].unk2 | arg0->press.button) != 0))) {
                 break;
             }
         }
@@ -152,14 +153,14 @@ void func_8006390C_cc0(Input* arg0) {
                     gGameInfo->unkC = var_a3;
                 }
 
-                var_v1_2 = (var_a3 & 0x100)   ? (CHECK_PAD(arg0->cur, 0xC000)   ? 0x3E8
-                                                 : CHECK_PAD(arg0->cur, 0x8000) ? 0x64
-                                                 : CHECK_PAD(arg0->cur, 0x4000) ? 0xA
-                                                                                : 1)
-                           : (var_a3 & 0x200) ? (CHECK_PAD(arg0->cur, 0xC000)   ? -0x3E8
-                                                 : CHECK_PAD(arg0->cur, 0x8000) ? -0x64
-                                                 : CHECK_PAD(arg0->cur, 0x4000) ? -0xA
-                                                                                : -1)
+                var_v1_2 = (var_a3 & 0x100)   ? (CHECK_BTN_ALL(arg0->cur.button, 0xC000)   ? 0x3E8
+                                                 : CHECK_BTN_ALL(arg0->cur.button, 0x8000) ? 0x64
+                                                 : CHECK_BTN_ALL(arg0->cur.button, 0x4000) ? 0xA
+                                                                                           : 1)
+                           : (var_a3 & 0x200) ? (CHECK_BTN_ALL(arg0->cur.button, 0xC000)   ? -0x3E8
+                                                 : CHECK_BTN_ALL(arg0->cur.button, 0x8000) ? -0x64
+                                                 : CHECK_BTN_ALL(arg0->cur.button, 0x4000) ? -0xA
+                                                                                           : -1)
                                               : 0;
 
                 gGameInfo->data[gGameInfo->unk8 + var] += var_v1_2;
