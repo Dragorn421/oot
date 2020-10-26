@@ -38,7 +38,7 @@ const ActorInit En_Zl1_InitVars = {
     (ActorFunc)EnZl1_Draw,
 };
 
-ColliderCylinderSrc sCylinderInit = {
+static ColliderCylinderSrc sCylinderInit = {
     {
         COL_MATERIAL_HIT0,
         AT_NONE,
