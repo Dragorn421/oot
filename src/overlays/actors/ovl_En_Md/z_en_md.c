@@ -781,10 +781,10 @@ void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_md.c", 1280);
     if (this->unk210 == 255) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 8, SEGMENTED_TO_VIRTUAL(D_80AAC4A4[this->unk20E]));
+        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80AAC4A4[this->unk20E]));
         func_80034BA0(globalCtx, &this->unk14C, func_80AABEF0, func_80AAC104, &this->actor, this->unk210);
     } else if (this->unk210 != 0) {
-        gSPSegment(oGfxCtx->polyXlu.p++, 8, SEGMENTED_TO_VIRTUAL(D_80AAC4A4[this->unk20E]));
+        gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80AAC4A4[this->unk20E]));
         func_80034CC4(globalCtx, &this->unk14C, func_80AABEF0, func_80AAC104, &this->actor, this->unk210);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_md.c", 1317);
