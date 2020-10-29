@@ -165,25 +165,25 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 564);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_600AD00);
+    gSPDisplayList(POLY_OPA_DISP++, D_600AD00);
     Matrix_MtxFCopy(&sp5C, &gMtxFClear);
-    oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x14U);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14U);
     if ((s16)((func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->dyna.actor.shape.rot.y) -
               0x2E6C) >= 0) {
         for (var_s0 = 3; var_s0 >= 0; var_s0--) {
-            oGfxCtx->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, oGfxCtx->polyXlu.p);
+            POLY_XLU_DISP = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, POLY_XLU_DISP);
         }
         for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            oGfxCtx->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, oGfxCtx->polyXlu.p);
+            POLY_XLU_DISP = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, POLY_XLU_DISP);
         }
     } else {
         for (var_s0 = 3; var_s0 >= 0; var_s0--) {
-            oGfxCtx->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, oGfxCtx->polyXlu.p);
+            POLY_XLU_DISP = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, POLY_XLU_DISP);
         }
         for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            oGfxCtx->polyXlu.p = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, oGfxCtx->polyXlu.p);
+            POLY_XLU_DISP = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, POLY_XLU_DISP);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 600);

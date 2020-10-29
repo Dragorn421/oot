@@ -137,9 +137,9 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 315);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_60003A0);
+    gSPDisplayList(POLY_OPA_DISP++, D_60003A0);
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Color_RGBA8* sp64;
         Color_RGBA8* sp60;
@@ -150,17 +150,17 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Lights_PointSetColorAndRadius(&this->unk154, sp64->r * temp_fv1, sp64->g * temp_fv1, sp64->b * temp_fv1, 200);
         func_80093D84(globalCtx->state.gfxCtx);
         gSPSegment(
-            oGfxCtx->polyXlu.p++, 0x08,
+            POLY_XLU_DISP++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->unk14E * -0x14) & 0x1FF, 32, 128));
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, sp64->r, sp64->g, sp64->b, 255);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, sp60->r, sp60->g, sp60->b, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, sp64->r, sp64->g, sp64->b, 255);
+        gDPSetEnvColor(POLY_XLU_DISP++, sp60->r, sp60->g, sp60->b, 255);
         Matrix_Translate(0.0f, 52.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY((s16)((func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * 0.0000958738f,
                        MTXMODE_APPLY);
         Matrix_Scale(0.0027f, 0.0027f, 0.0027f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, D_404D4E0);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 373);
 }
