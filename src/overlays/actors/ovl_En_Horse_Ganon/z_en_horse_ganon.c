@@ -338,7 +338,7 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->colliderCylinder.base);
 }
 
-void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, ColliderSpheresElement* colliderSphereItem) {
+void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseGanon* this = THIS;
@@ -349,7 +349,7 @@ void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, ColliderSpheresElemen
         sp4C.y = this->colliderSphere.elements[index].shape.model.center.y;
         sp4C.z = this->colliderSphere.elements[index].shape.model.center.z;
 
-        func_800A6408(colliderSphereItem, this->colliderSphere.elements[index].shape.unk14, &sp4C, &sp40);
+        func_800A6408(skin, this->colliderSphere.elements[index].shape.unk14, &sp4C, &sp40);
 
         this->colliderSphere.elements[index].shape.world.center.x = sp40.x;
         this->colliderSphere.elements[index].shape.world.center.y = sp40.y;

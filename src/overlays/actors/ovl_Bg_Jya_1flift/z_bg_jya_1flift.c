@@ -24,7 +24,7 @@ void func_80892E0C(BgJya1flift* this);
 void BgJya1flift_ResetMoveDelay(BgJya1flift* this);
 void BgJya1flift_DelayMove(BgJya1flift* this, GlobalContext* globalCtx);
 
-u8 sHasSpawned = false;
+static u8 sHasSpawned = false;
 
 const ActorInit Bg_Jya_1flift_InitVars = {
     ACTOR_BG_JYA_1FLIFT,
@@ -75,7 +75,7 @@ static ColliderCylinderSrc sCylinderInit = {
     },
 };
 
-f32 finalPositions[] = { 443.0f, -50.0f };
+static f32 sFinalPositions[] = { 443.0f, -50.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -147,7 +147,7 @@ void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80892DB0(BgJya1flift* this) {
     this->actionFunc = func_80892DCC;
-    this->dyna.actor.posRot.pos.y = finalPositions[0];
+    this->dyna.actor.posRot.pos.y = sFinalPositions[0];
 }
 
 void func_80892DCC(BgJya1flift* this, GlobalContext* globalCtx) {
@@ -158,7 +158,7 @@ void func_80892DCC(BgJya1flift* this, GlobalContext* globalCtx) {
 
 void func_80892E0C(BgJya1flift* this) {
     this->actionFunc = BgJya1flift_DoNothing;
-    this->dyna.actor.posRot.pos.y = finalPositions[0];
+    this->dyna.actor.posRot.pos.y = sFinalPositions[0];
 }
 
 void BgJya1flift_DoNothing(BgJya1flift* this, GlobalContext* globalCtx) {
@@ -179,9 +179,9 @@ void BgJya1flift_Move(BgJya1flift* this, GlobalContext* globalCtx) {
     } else {
         tempVelocity = this->dyna.actor.velocity.y;
     }
-    if (fabsf(Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, (finalPositions[this->isMovingDown]), 0.5f,
+    if (fabsf(Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f,
                                       tempVelocity, 1.0f)) < 0.001f) {
-        this->dyna.actor.posRot.pos.y = finalPositions[this->isMovingDown];
+        this->dyna.actor.posRot.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {

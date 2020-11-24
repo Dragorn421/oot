@@ -71,7 +71,7 @@ static ColliderCylinderSrc sCylinderInit = {
 
 static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 
-Gfx* D_80AB99D8[] = { 0x06004178, 0x06004978, 0x06005178 };
+static Gfx* D_80AB99D8[] = { 0x06004178, 0x06004978, 0x06005178 };
 
 extern SkeletonHeader D_06009948;
 extern AnimationHeader D_06000378;

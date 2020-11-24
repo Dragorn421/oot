@@ -33,7 +33,7 @@ const ActorInit Bg_Ydan_Maruta_InitVars = {
     (ActorFunc)BgYdanMaruta_Draw,
 };
 
-ColliderTrisElementSrc D_808BF300[2] = {
+static ColliderTrisElementSrc sTrisItemInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -106,7 +106,7 @@ ColliderTrisElementSrc D_808BF300[2] = {
     }, // 1
 };
 
-ColliderTrisSrc D_808BF378 = {
+static ColliderTrisSrc sTrisInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -116,10 +116,10 @@ ColliderTrisSrc D_808BF378 = {
         COLTYPE_TRIANGLES,
     },
     2,
-    D_808BF300,
+    sTrisItemInit,
 };
 
-InitChainEntry D_808BF388[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -137,18 +137,18 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 localConst = 0;
     ColliderTrisElementSrc* items;
 
-    Actor_ProcessInitChain(thisx, D_808BF388);
+    Actor_ProcessInitChain(thisx, sInitChain);
     Collider_InitTris(globalCtx, &this->collider);
-    Collider_LoadTris(globalCtx, &this->collider, thisx, &D_808BF378, &this->colliderItems);
+    Collider_LoadTris(globalCtx, &this->collider, thisx, &sTrisInit, &this->colliderItems);
 
     this->unk_168 = thisx->params & 0xFFFF;
     thisx->params = (thisx->params >> 8) & 0xFF;
 
     if (thisx->params == 0) {
-        items = &D_808BF300[0];
+        items = &sTrisItemInit[0];
         this->actionFunc = func_808BEFF4;
     } else {
-        items = &D_808BF300[1];
+        items = &sTrisItemInit[1];
         DynaPolyInfo_SetActorMove(&this->dyna, 0);
         DynaPolyInfo_Alloc(&D_060066A8, &localConst);
         this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);

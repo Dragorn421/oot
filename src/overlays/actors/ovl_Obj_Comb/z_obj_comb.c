@@ -33,7 +33,7 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-ColliderSpheresElementSrc sJntSphItemsInit[1] = {
+static ColliderSpheresElementSrc sJntSphItemsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -66,7 +66,7 @@ ColliderSpheresElementSrc sJntSphItemsInit[1] = {
     }, // 0
 };
 
-ColliderSpheresSrc sJntSphInit = {
+static ColliderSpheresSrc sJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,

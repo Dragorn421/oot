@@ -612,7 +612,7 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80A6948C(this);
 }
 
-void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, ColliderSpheresElement* collider) {
+void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f center;
     Vec3f newCenter;
     EnHorseLinkChild* this = THIS;
@@ -622,7 +622,7 @@ void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, ColliderSpheresElemen
         center.x = this->headCollider.elements[i].shape.model.center.x;
         center.y = this->headCollider.elements[i].shape.model.center.y;
         center.z = this->headCollider.elements[i].shape.model.center.z;
-        func_800A6408(collider, this->headCollider.elements[i].shape.unk14, &center, &newCenter);
+        func_800A6408(skin, this->headCollider.elements[i].shape.unk14, &center, &newCenter);
         this->headCollider.elements[i].shape.world.center.x = newCenter.x;
         this->headCollider.elements[i].shape.world.center.y = newCenter.y;
         this->headCollider.elements[i].shape.world.center.z = newCenter.z;
