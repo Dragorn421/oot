@@ -172,7 +172,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     osSyncPrintf("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", D_809F0424[this->actor.params]);
     Actor_ProcessInitChain(&this->actor, D_809F052C);
-    SkelAnime_InitSV(globalCtx, &this->unk14C, &D_60041A8, &D_60009A0, this->unk190, this->unk1FC, 0x12);
+    SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_60041A8, &D_60009A0, this->unk190, this->unk1FC, 0x12);
     Collider_InitCylinder(globalCtx, &this->unk26C);
     Collider_SetCylinder_Set3(globalCtx, &this->unk26C, &this->actor, &D_809F03E0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
@@ -198,7 +198,7 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_809EF51C(EnDns* this, u8 arg1) {
     s16 temp_ft0;
 
-    temp_ft0 = SkelAnime_GetFrameCount(&D_809F0538[arg1].unk0->genericHeader);
+    temp_ft0 = SkelAnime_GetFrameCount(D_809F0538[arg1].unk0);
     this->unk2BA = arg1;
     SkelAnime_ChangeAnim(&this->unk14C, D_809F0538[arg1].unk0, 1.0f, 0.0f, temp_ft0, D_809F0538[arg1].unk4,
                          D_809F0538[arg1].unk8);
@@ -513,6 +513,6 @@ void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = (EnDns*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->unk14C.skeleton, this->unk14C.limbDrawTbl, this->unk14C.dListCount, NULL, NULL,
-                     &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.limbDrawTbl, this->unk14C.dListCount, NULL,
+                          NULL, &this->actor);
 }
