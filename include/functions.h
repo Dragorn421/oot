@@ -861,7 +861,7 @@ s32 Collider_AddOC(GlobalContext* globalCtx, ColliderContext* simpleBodyGroups,
 // ? Collider_IsElementATOff(?);
 // ? Collider_IsElementACOff(?);
 // ? Collider_AreDmgFlagsDisjoint(?);
-// ? Collider_BlueBlood(?);
+void Collider_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* arg2);
 // ? func_8005E2EC(?);
 // ? func_8005E4F8(?);
 // ? func_8005E604(?);
@@ -891,6 +891,7 @@ void func_800627A0(ColliderTris* tris, s32 elemIndex, Vec3f* vtx0, Vec3f* vtx1, 
 void func__800628A4_Type0(s32 arg0, ColliderSpheres* collider);
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* arg1);
 void func_80062D60(GlobalContext*, Vec3f*);
+void func_80062DF4(GlobalContext* globalCtx, Vec3f* v);
 void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
 s32 func_80062ECC(f32, f32, f32, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
 void SaveContext_Init(void);
