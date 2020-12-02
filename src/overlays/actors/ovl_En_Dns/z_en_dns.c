@@ -57,7 +57,7 @@ typedef struct _struct_D_809F0538_0xC {
 } _struct_D_809F0538_0xC;
 
 extern AnimationHeader D_60009A0;
-extern SkeletonHeader D_60041A8;
+extern FlexSkeletonHeader D_60041A8;
 extern AnimationHeader D_6004404;
 
 const ActorInit En_Dns_InitVars = {
@@ -172,7 +172,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     osSyncPrintf("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", D_809F0424[this->actor.params]);
     Actor_ProcessInitChain(&this->actor, D_809F052C);
-    SkelAnime_InitSV(globalCtx, &this->unk14C, &D_60041A8, &D_60009A0, this->unk190, this->unk1FC, 0x12);
+    SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_60041A8, &D_60009A0, this->unk190, this->unk1FC, 0x12);
     Collider_InitCylinder(globalCtx, &this->unk26C);
     Collider_LoadCylinderAlt(globalCtx, &this->unk26C, &this->actor, &D_809F03E0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
@@ -513,6 +513,6 @@ void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = (EnDns*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->unk14C.skeleton, this->unk14C.limbDrawTbl, this->unk14C.dListCount, NULL, NULL,
-                     &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.limbDrawTbl, this->unk14C.dListCount, NULL,
+                          NULL, &this->actor);
 }

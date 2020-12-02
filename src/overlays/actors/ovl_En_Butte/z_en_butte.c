@@ -444,7 +444,7 @@ void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawSkelAnime) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
         func__800628A4_Type0(0, &this->collider);
     }
 

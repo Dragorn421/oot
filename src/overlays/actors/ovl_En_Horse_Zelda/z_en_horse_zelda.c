@@ -242,7 +242,7 @@ void func_80A6DD14(EnHorseZelda* this) {
     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex],
                          sAnimPlaybackSpeeds[this->animationIndex] * sp34 * 1.5f, 0.0f,
-                         SkelAnime_GetFrameCount(&sAnimationHeaders[this->animationIndex]->genericHeader), 2, 0.0f);
+                         SkelAnime_GetFrameCount(sAnimationHeaders[this->animationIndex]), 2, 0.0f);
 }
 
 void func_80A6DDFC(EnHorseZelda* this, GlobalContext* globalCtx) {
@@ -280,7 +280,7 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->colliderCylinder.base);
 }
 
-void func_80A6DFD4(EnHorseZelda* this, GlobalContext* globalCtx, ColliderSpheresElement* colliderSphereItem) {
+void func_80A6DFD4(EnHorseZelda* this, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     s32 pad;
@@ -291,7 +291,7 @@ void func_80A6DFD4(EnHorseZelda* this, GlobalContext* globalCtx, ColliderSpheres
         sp4C.y = this->colliderSphere.elements[i].shape.model.center.y;
         sp4C.z = this->colliderSphere.elements[i].shape.model.center.z;
 
-        func_800A6408(colliderSphereItem, this->colliderSphere.elements[i].shape.unk14, &sp4C, &sp40);
+        func_800A6408(skin, this->colliderSphere.elements[i].shape.unk14, &sp4C, &sp40);
 
         this->colliderSphere.elements[i].shape.world.center.x = sp40.x;
         this->colliderSphere.elements[i].shape.world.center.y = sp40.y;
