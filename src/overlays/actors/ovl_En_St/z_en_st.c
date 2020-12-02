@@ -548,7 +548,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
     }
 
     if (EnSt_CheckHitBackside(&this->actor, globalCtx)) {
-        // player has hit the backside ofthe skulltulla
+        // player has hit the backside of the skulltulla
         return true;
     }
 
@@ -676,7 +676,7 @@ void EnSt_UpdateYaw(EnSt* this, GlobalContext* globalCtx) {
         rot = this->actor.shape.rot;
         yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsLink : this->initalYaw);
         yawDiff = rot.y - (yawTarget ^ yawDir);
-        if (ABS(yawDiff) < 0x4001) {
+        if (ABS(yawDiff) <= 0x4000) {
             Math_SmoothScaleMaxMinS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
         } else {
             rot.y += 0x2000;
