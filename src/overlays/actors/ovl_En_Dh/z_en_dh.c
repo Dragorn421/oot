@@ -257,8 +257,8 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupWalk(EnDh* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f,
-                         SkelAnime_GetFrameCount(&D_06003A8C) - 3.0f, 0, -6.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06003A8C) - 3.0f, 0,
+                         -6.0f);
     this->curAction = DH_WALK;
     this->timer = 300;
     this->actor.speedXZ = 1.0f;
@@ -350,12 +350,12 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             break;
         case 3:
             if ((this->actor.xzDistFromLink <= 100.0f) && (func_8002E084(&this->actor, 60 * 0x10000 / 360) != 0)) {
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, 1.0f, 20.0f,
-                                     SkelAnime_GetFrameCount(&D_06004658), 2, -6.0f);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, 1.0f, 20.0f, SkelAnime_GetFrameCount(&D_06004658),
+                                     2, -6.0f);
                 this->actionState = 0;
             } else {
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f,
-                                     SkelAnime_GetFrameCount(&D_06004658), 0.0f, 2, -4.0f);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f, SkelAnime_GetFrameCount(&D_06004658), 0.0f,
+                                     2, -4.0f);
                 this->actionState++;
                 this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags = 0;
                 this->collider2.elements[0].base.atDmgInfo.dmgFlags = this->collider2.elements[0].base.atDmgInfo.damage = 0;
