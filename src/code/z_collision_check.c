@@ -2994,9 +2994,9 @@ void func_8006268C(GlobalContext* globalCtx, ColliderContext* colliderCtx, Vec3f
     func_80062530(globalCtx, colliderCtx, arg2, arg3, NULL, 0);
 }
 
-void func_800626B0(GlobalContext* globalCtx, ColliderContext* colliderCtx, Vec3f* arg2, Vec3f* arg3, Actor** skipActors,
+s32 func_800626B0(GlobalContext* globalCtx, ColliderContext* colliderCtx, Vec3f* arg2, Vec3f* arg3, Actor** skipActors,
                    s32 nSkipActors) {
-    func_80062530(globalCtx, colliderCtx, arg2, arg3, skipActors, nSkipActors);
+    return func_80062530(globalCtx, colliderCtx, arg2, arg3, skipActors, nSkipActors);
 }
 
 void Collider_UpdateCylinderShape(Actor* actor, ColliderCylinder* cylinder) {

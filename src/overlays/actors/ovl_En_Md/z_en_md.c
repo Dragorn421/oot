@@ -503,7 +503,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
         var_a3_real = 4;
         var_v1_real = 1;
     }
-    if ((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) {
+    if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
         this->unk1E0.unk_18 = globalCtx->view.eye;
         this->unk1E0.unk_14 = 40.0f;
         var_a3_real = 2;

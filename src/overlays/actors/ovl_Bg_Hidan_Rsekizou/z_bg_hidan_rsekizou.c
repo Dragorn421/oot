@@ -170,7 +170,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_OPA_DISP++, D_600AD00);
     Matrix_MtxFCopy(&sp5C, &gMtxFClear);
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14U);
-    if ((s16)((func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->dyna.actor.shape.rot.y) -
+    if ((s16)((Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->dyna.actor.shape.rot.y) -
               0x2E6C) >= 0) {
         for (var_s0 = 3; var_s0 >= 0; var_s0--) {
             POLY_XLU_DISP = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, POLY_XLU_DISP);
