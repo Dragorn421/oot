@@ -253,10 +253,15 @@ typedef struct ColliderTris {
  */
 
 typedef struct ColliderQuadShapeCorners {
-    /* 0x00 */ Vec3f cornerD;
-    /* 0x0C */ Vec3f cornerC;
-    /* 0x18 */ Vec3f cornerA;
-    /* 0x24 */ Vec3f cornerB;
+    union {
+        struct {
+            /* 0x00 */ Vec3f cornerD;
+            /* 0x0C */ Vec3f cornerC;
+            /* 0x18 */ Vec3f cornerA;
+            /* 0x24 */ Vec3f cornerB;
+        };
+        Vec3f corners[4];
+    };
 } ColliderQuadShapeCorners; // size = 0x30
 
 typedef struct ColliderQuadSrc {

@@ -708,12 +708,12 @@ s32 Collider_ClearTrisOCHit(GlobalContext* globalCtx, Collider* collider) {
 }
 
 static ColliderQuadShape sColliderQuadShapeInit = {
-    {
+    { { {
         { 0.0f, 0.0f, 0.0f },
         { 0.0f, 0.0f, 0.0f },
         { 0.0f, 0.0f, 0.0f },
         { 0.0f, 0.0f, 0.0f },
-    },
+    } } },
     { 0, 0, 0 },
     { 0, 0, 0 },
     1e38f,
