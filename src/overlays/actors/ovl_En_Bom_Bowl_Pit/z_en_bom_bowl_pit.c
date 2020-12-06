@@ -95,7 +95,7 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 this->unk1D4.x = fabsf(this->unk180.x - this->unk1BC.x) * 0.02f;
                 this->unk1D4.y = fabsf(this->unk180.y - this->unk1BC.y) * 0.02f;
                 this->unk1D4.z = fabsf(this->unk180.z - this->unk1BC.z) * 0.02f;
-                func_800C04D8(globalCtx, this->unk152, &this->unk180, &this->unk18C);
+                Gameplay_CameraSetAtEye(globalCtx, this->unk152, &this->unk180, &this->unk18C);
                 this->actor.textId = 0xF;
                 func_8010B680(globalCtx, this->actor.textId, NULL);
                 this->unk154 = 5;
@@ -119,7 +119,7 @@ void func_809C5184(EnBomBowlPit* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxF(&this->unk18C.y, this->unk198.y, this->unk1A4.y, this->unk1B0.y);
         Math_SmoothScaleMaxF(&this->unk18C.z, this->unk198.z, this->unk1A4.z, this->unk1B0.z);
     }
-    func_800C04D8(globalCtx, this->unk152, &this->unk180, &this->unk18C);
+    Gameplay_CameraSetAtEye(globalCtx, this->unk152, &this->unk180, &this->unk18C);
     if ((this->unk154 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
     }

@@ -78,8 +78,8 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
                                              D_809C4A28[var_s1].y, D_809C4A28[var_s1].z, 0, 0, 0, 1);
         if (temp_v0 != NULL) {
             temp_v0->unk_2F4 = D_809C4A40[var_s1];
-            temp_v0->collider.shape.radius = (s16)(s32)D_809C4A10[var_s1].unk0;
-            temp_v0->collider.shape.height = (s16)(s32)D_809C4A10[var_s1].unk4;
+            temp_v0->collider.dim.radius = (s16)(s32)D_809C4A10[var_s1].unk0;
+            temp_v0->collider.dim.height = (s16)(s32)D_809C4A10[var_s1].unk4;
         }
     }
     this->unk242 = (u16)(s32)Math_Rand_ZeroFloat(4.99f);
