@@ -198,8 +198,11 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
 }
 
-void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroySpheres(globalCtx, &THIS->collider);
+void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnButte* this = THIS;
+
+    Collider_DestroySpheres(globalCtx, &this->collider);
 }
 
 void func_809CD56C(EnButte* this) {

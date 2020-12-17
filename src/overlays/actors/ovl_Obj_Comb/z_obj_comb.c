@@ -178,8 +178,11 @@ void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjComb_SetupWait(this);
 }
 
-void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroySpheres(globalCtx, &THIS->collider);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    ObjComb* this = THIS;
+
+    Collider_DestroySpheres(globalCtx, &this->collider);
 }
 
 void ObjComb_SetupWait(ObjComb* this) {

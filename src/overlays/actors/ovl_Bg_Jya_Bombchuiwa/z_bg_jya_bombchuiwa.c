@@ -113,8 +113,11 @@ void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetHeight(thisx, 0.0f);
 }
 
-void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroySpheres(globalCtx, &THIS->collider);
+void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    BgJyaBombchuiwa* this = THIS;
+
+    Collider_DestroySpheres(globalCtx, &this->collider);
 }
 
 void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
