@@ -2,11 +2,64 @@
 #include "global.h"
 #include "z64collision_check.h"
 
-void func_8005B280(GraphicsContext* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
-    func_8005B2AC(arg0, arg1, arg2, arg3, 255, 0, 0);
+void func_8005B280(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
+    func_8005B2AC(gfxCtx, vA, vB, vC, 255, 0, 0);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B2AC.s")
+void func_8005B2AC(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b) {
+    Vtx* vtxTbl;
+    Vtx* vtx;
+    f32 nx;
+    f32 ny;
+    f32 nz;
+    f32 originDist;
+
+    OPEN_DISPS(gfxCtx, "../z_collision_check.c", 713);
+
+    gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0xFF, r, g, b, 50);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
+    gSPTexture(POLY_OPA_DISP++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCombineLERP(POLY_OPA_DISP++, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
+                      COMBINED);
+    gSPClearGeometryMode(POLY_OPA_DISP++, G_CULL_BOTH);
+    gSPSetGeometryMode(POLY_OPA_DISP++, G_LIGHTING);
+    gDPPipeSync(POLY_OPA_DISP++);
+
+    vtxTbl = Graph_Alloc(gfxCtx, 3 * sizeof(Vtx));
+    if (vtxTbl == NULL) {
+        __assert("vtx_tbl != NULL", "../z_collision_check.c", 726);
+    }
+
+    vtxTbl[0].n.ob[0] = vA->x;
+    vtxTbl[0].n.ob[1] = vA->y;
+    vtxTbl[0].n.ob[2] = vA->z;
+    vtxTbl[1].n.ob[0] = vB->x;
+    vtxTbl[1].n.ob[1] = vB->y;
+    vtxTbl[1].n.ob[2] = vB->z;
+    vtxTbl[2].n.ob[0] = vC->x;
+    vtxTbl[2].n.ob[1] = vC->y;
+    vtxTbl[2].n.ob[2] = vC->z;
+
+    Math3D_DefPlane(vA, vB, vC, &nx, &ny, &nz, &originDist);
+
+    for (vtx = vtxTbl; vtx < vtxTbl + 3; vtx++) {
+        vtx->n.flag = 0;
+        vtx->n.tc[0] = 0;
+        vtx->n.tc[1] = 0;
+        vtx->n.n[0] = (u8)(s32)nx & 0xFF;
+        vtx->n.n[1] = (u8)(s32)ny & 0xFF;
+        vtx->n.n[2] = (u8)(s32)nz & 0xFF;
+        vtx->n.a = 255;
+    }
+
+    gSPVertex(POLY_OPA_DISP++, vtxTbl, 3, 0);
+    gSP1Triangle(POLY_OPA_DISP++, 0, 1, 2, 0);
+
+    CLOSE_DISPS(gfxCtx, "../z_collision_check.c", 757);
+}
 
 static Collider sColliderInit = {
     NULL, NULL, NULL, NULL, AT_NONE, AC_NONE, OC1_NONE, OC2_NONE, COL_MATERIAL_HIT3, COLTYPE_MAX,
@@ -1840,6 +1893,7 @@ void Collider_ATSpheresVsACQuad(GlobalContext* globalCtx, ColliderContext* colli
 }
 
 TriNorm D_8015E2A0;
+BSS_DUMMY;
 BSS_DUMMY;
 BSS_DUMMY;
 TriNorm D_8015E2D8;

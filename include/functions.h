@@ -670,7 +670,8 @@ s32 func_80042048(CollisionContext*, CollisionPoly*, s32);
 // ? func_80042108(?);
 s32 func_8004213C(GlobalContext*, CollisionContext*, f32, f32, f32*, WaterBox**);
 s32 func_8004239C(GlobalContext* globalCtx, CollisionContext* colCtx, Vec3f* arg2, f32 arg3, WaterBox** arg4);
-s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox);
+s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
+                  WaterBox** outWaterBox);
 u32 func_80042538(CollisionContext* colCtx, WaterBox* waterBox);
 u16 func_80042548(CollisionContext* colCtx, WaterBox* waterBox);
 u32 func_8004259C(CollisionContext* colCtx, WaterBox* waterBox);
@@ -831,7 +832,8 @@ void func_80062CD4(GlobalContext* globalCtx, Vec3f* arg1);
 void func_80062D60(GlobalContext*, Vec3f*);
 void func_80062DF4(GlobalContext* globalCtx, Vec3f* v);
 void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
-s32 func_80062ECC(f32, f32, f32, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
+s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos, Vec3f* itemProjPos, Vec3f* out1,
+                  Vec3f* out2);
 void SaveContext_Init(void);
 void func_800636C0_cc0(void);
 void func_8006375C_cc0(UNK_TYPE, UNK_TYPE, UNK_TYPE);
@@ -1273,9 +1275,9 @@ void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimation
                    LinkAnimationHeader* linkAnimSeg2, f32 frame, f32 transitionRate, Vec3s* arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
 s32 SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                    AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
+                   AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
 s32 SkelAnime_InitFlex(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                        AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
+                       AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
 void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                         AnimationHeader* animationseg);
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
