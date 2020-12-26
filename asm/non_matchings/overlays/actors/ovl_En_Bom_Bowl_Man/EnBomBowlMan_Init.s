@@ -119,7 +119,7 @@ glabel EnBomBowlMan_Init
 /* 00180 809C37B0 1637FFDF */  bne     $s1, $s7, .L809C3730
 /* 00184 809C37B4 2652000C */  addiu   $s2, $s2, 0x000C           ## $s2 = 0000000C
 /* 00188 809C37B8 3C01809C */  lui     $at, %hi(D_809C4C74)       ## $at = 809C0000
-/* 0018C 809C37BC 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0018C 809C37BC 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 00190 809C37C0 C42C4C74 */  lwc1    $f12, %lo(D_809C4C74)($at)
 /* 00194 809C37C4 4600020D */  trunc.w.s $f8, $f0

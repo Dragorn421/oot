@@ -74,7 +74,7 @@ glabel func_80B8D110
 /* 001D0 80B8D220 44192000 */  mfc1    $t9, $f4                   
 /* 001D4 80B8D224 00000000 */  nop
 /* 001D8 80B8D228 A7B90040 */  sh      $t9, 0x0040($sp)           
-/* 001DC 80B8D22C 0C01DE5F */  jal     Math_ApproxS
+/* 001DC 80B8D22C 0C01DE5F */  jal     Math_StepToS
               
 /* 001E0 80B8D230 86250016 */  lh      $a1, 0x0016($s1)           ## 00000016
 /* 001E4 80B8D234 9228001C */  lbu     $t0, 0x001C($s1)           ## 0000001C
@@ -96,7 +96,7 @@ glabel func_80B8D110
 .L80B8D270:
 /* 00220 80B8D270 26040298 */  addiu   $a0, $s0, 0x0298           ## $a0 = 00000298
 /* 00224 80B8D274 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00228 80B8D278 0C01DE5F */  jal     Math_ApproxS
+/* 00228 80B8D278 0C01DE5F */  jal     Math_StepToS
               
 /* 0022C 80B8D27C 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
 /* 00230 80B8D280 860C0298 */  lh      $t4, 0x0298($s0)           ## 00000298

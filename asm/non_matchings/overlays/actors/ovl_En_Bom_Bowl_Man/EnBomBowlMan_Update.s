@@ -60,7 +60,7 @@ glabel EnBomBowlMan_Update
 /* 011D4 809C4804 14200009 */  bne     $at, $zero, .L809C482C     
 /* 011D8 809C4808 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 011DC 809C480C 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 011E0 809C4810 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 011E0 809C4810 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 011E4 809C4814 A6000234 */  sh      $zero, 0x0234($s0)         ## 00000234
 /* 011E8 809C4818 4600010D */  trunc.w.s $f4, $f0                   

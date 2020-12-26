@@ -29,7 +29,7 @@ glabel func_80880AE8
 /* 00E98 80880B38 44062000 */  mfc1    $a2, $f4                   
 /* 00E9C 80880B3C 00000000 */  nop
 /* 00EA0 80880B40 00063400 */  sll     $a2, $a2, 16               
-/* 00EA4 80880B44 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00EA4 80880B44 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00EA8 80880B48 00063403 */  sra     $a2, $a2, 16               
 /* 00EAC 80880B4C 1040001D */  beq     $v0, $zero, .L80880BC4     
@@ -55,7 +55,7 @@ glabel func_80880AE8
 /* 00EF8 80880B98 44063000 */  mfc1    $a2, $f6                   
 /* 00EFC 80880B9C 00000000 */  nop
 /* 00F00 80880BA0 00063400 */  sll     $a2, $a2, 16               
-/* 00F04 80880BA4 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00F04 80880BA4 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00F08 80880BA8 00063403 */  sra     $a2, $a2, 16               
 /* 00F0C 80880BAC 10400005 */  beq     $v0, $zero, .L80880BC4     

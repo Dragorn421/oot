@@ -171,7 +171,7 @@ glabel BgPoSyokudai_Init
 /* 00258 808A8308 00310821 */  addu    $at, $at, $s1              
 /* 0025C 808A830C A0280AE3 */  sb      $t0, 0x0AE3($at)           ## 00010AE3
 .L808A8310:
-/* 00260 808A8310 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00260 808A8310 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00264 808A8314 00000000 */  nop
 /* 00268 808A8318 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000

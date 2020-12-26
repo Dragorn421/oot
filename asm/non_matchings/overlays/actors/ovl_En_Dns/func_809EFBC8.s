@@ -8,7 +8,7 @@ glabel func_809EFBC8
 /* 00890 809EFBE0 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00894 809EFBE4 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
 /* 00898 809EFBE8 24060003 */  addiu   $a2, $zero, 0x0003         ## $a2 = 00000003
-/* 0089C 809EFBEC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 0089C 809EFBEC 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 008A0 809EFBF0 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
 /* 008A4 809EFBF4 860E00B6 */  lh      $t6, 0x00B6($s0)           ## 000000B6

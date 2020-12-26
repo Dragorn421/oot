@@ -85,7 +85,7 @@ void func_8086F260(BgBowlWall* this, GlobalContext* globalCtx) {
     s16 params = this->dyna.actor.params;
 
     if (params != 0) {
-        params += (s16)Math_Rand_ZeroFloat(2.99f);
+        params += (s16)Rand_ZeroFloat(2.99f);
         this->dyna.actor.shape.rot.z = this->dyna.actor.posRot.rot.z = D_8086FA70[params];
         osSyncPrintf("\n\n");
     }
@@ -132,22 +132,22 @@ void func_8086F464(BgBowlWall* this, GlobalContext* globalCtx) {
 
     var_s0 = false;
     if (this->dyna.actor.params == 0) {
-        Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, -0x3E80, 3, 0x1F4, 0);
+        Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 3, 0x1F4, 0);
         this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x;
         if (this->dyna.actor.shape.rot.x < -0x3C1E) {
             var_s0 = true;
         }
     } else {
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
         if (this->dyna.actor.posRot.pos.y < (this->unk168.y - 400.0f)) {
             var_s0 = true;
         }
     }
     if (var_s0) {
         for (var_s0_2 = 0; var_s0_2 < 15; var_s0_2++) {
-            sp88.x = Math_Rand_CenteredFloat(300.0f) + this->unk174.x;
+            sp88.x = Rand_CenteredFloat(300.0f) + this->unk174.x;
             sp88.y = -100.0f;
-            sp88.z = Math_Rand_CenteredFloat(400.0f) + this->unk174.z;
+            sp88.z = Rand_CenteredFloat(400.0f) + this->unk174.z;
             EffectSsBomb2_SpawnLayered(globalCtx, &sp88, &sp94, &spA0, 100, 30);
             sp88.y = -50.0f;
             EffectSsHahen_SpawnBurst(globalCtx, &sp88, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
@@ -165,9 +165,9 @@ void func_8086F464(BgBowlWall* this, GlobalContext* globalCtx) {
 void func_8086F718(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->unk182 >= 2) {
         if (this->dyna.actor.params == 0) {
-            Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 0xC8, 0);
+            Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 0xC8, 0);
         } else {
-            Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
+            Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
         }
     } else if (this->unk182 == 1) {
         this->dyna.actor.posRot.pos.y = this->unk168.y - 450.0f;
@@ -179,7 +179,7 @@ void func_8086F718(BgBowlWall* this, GlobalContext* globalCtx) {
 
 void func_8086F7F8(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->unk184->unk23E_arr[this->dyna.actor.params] != 2) {
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->unk168.y, 0.3f, 50.0f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->unk168.y, 0.3f, 50.0f);
         if (fabsf(this->dyna.actor.posRot.pos.y - this->unk168.y) <= 10.0f) {
             this->dyna.actor.posRot.pos.y = this->unk168.y;
             this->unk180 = 0;

@@ -41,7 +41,7 @@ glabel EnKusa_Init
 /* 00754 80A9B6F4 55E0000B */  bnel    $t7, $zero, .L80A9B724     
 /* 00758 80A9B6F8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0075C 80A9B6FC 44816000 */  mtc1    $at, $f12                  ## $f12 = 65536.00
-/* 00760 80A9B700 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00760 80A9B700 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00764 80A9B704 00000000 */  nop
 /* 00768 80A9B708 4600028D */  trunc.w.s $f10, $f0                  

@@ -26,11 +26,11 @@ glabel BgHidanRsekizou_Update
 /* 001A0 8088C3A0 860900B6 */  lh      $t1, 0x00B6($s0)           ## 000000B6
 /* 001A4 8088C3A4 252A0180 */  addiu   $t2, $t1, 0x0180           ## $t2 = 00000180
 /* 001A8 8088C3A8 A60A00B6 */  sh      $t2, 0x00B6($s0)           ## 000000B6
-/* 001AC 8088C3AC 0C01DE1C */  jal     Math_Sins
+/* 001AC 8088C3AC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 001B0 8088C3B0 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 001B4 8088C3B4 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
-/* 001B8 8088C3B8 0C01DE0D */  jal     Math_Coss
+/* 001B8 8088C3B8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 001BC 8088C3BC E7A00024 */  swc1    $f0, 0x0024($sp)           
 /* 001C0 8088C3C0 8E020184 */  lw      $v0, 0x0184($s0)           ## 00000184

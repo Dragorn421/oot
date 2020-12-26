@@ -8,12 +8,12 @@ glabel func_8087FFC0
 /* 00338 8087FFD8 0C00B6F4 */  jal     func_8002DBD0              
 /* 0033C 8087FFDC 24460024 */  addiu   $a2, $v0, 0x0024           ## $a2 = 00000024
 /* 00340 8087FFE0 8FA70038 */  lw      $a3, 0x0038($sp)           
-/* 00344 8087FFE4 0C01DE1C */  jal     Math_Sins
+/* 00344 8087FFE4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00348 8087FFE8 84E400B6 */  lh      $a0, 0x00B6($a3)           ## 000000B6
 /* 0034C 8087FFEC 8FA70038 */  lw      $a3, 0x0038($sp)           
 /* 00350 8087FFF0 84E400B6 */  lh      $a0, 0x00B6($a3)           ## 000000B6
-/* 00354 8087FFF4 0C01DE0D */  jal     Math_Coss
+/* 00354 8087FFF4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00358 8087FFF8 E7A00024 */  swc1    $f0, 0x0024($sp)           
 /* 0035C 8087FFFC 8FA70038 */  lw      $a3, 0x0038($sp)           

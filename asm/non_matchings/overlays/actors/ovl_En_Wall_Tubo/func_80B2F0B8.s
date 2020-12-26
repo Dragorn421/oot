@@ -53,14 +53,14 @@ glabel func_80B2F0B8
 /* 0033C 80B2F12C 55C0002C */  bnel    $t6, $zero, .L80B2F1E0     
 /* 00340 80B2F130 860C0150 */  lh      $t4, 0x0150($s0)           ## 00000150
 /* 00344 80B2F134 44816000 */  mtc1    $at, $f12                  ## $f12 = 300.00
-/* 00348 80B2F138 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00348 80B2F138 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0034C 80B2F13C 00000000 */  nop
 /* 00350 80B2F140 C6040154 */  lwc1    $f4, 0x0154($s0)           ## 00000154
 /* 00354 80B2F144 3C014396 */  lui     $at, 0x4396                ## $at = 43960000
 /* 00358 80B2F148 44816000 */  mtc1    $at, $f12                  ## $f12 = 300.00
 /* 0035C 80B2F14C 46040180 */  add.s   $f6, $f0, $f4              
-/* 00360 80B2F150 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00360 80B2F150 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00364 80B2F154 E7A60038 */  swc1    $f6, 0x0038($sp)           
 /* 00368 80B2F158 C6080158 */  lwc1    $f8, 0x0158($s0)           ## 00000158

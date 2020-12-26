@@ -42,7 +42,7 @@ glabel func_809C3B50
 /* 005B4 809C3BE4 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 005B8 809C3BE8 240F0003 */  addiu   $t7, $zero, 0x0003         ## $t7 = 00000003
 /* 005BC 809C3BEC 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 005C0 809C3BF0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 005C0 809C3BF0 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 005C4 809C3BF4 A60F0238 */  sh      $t7, 0x0238($s0)           ## 00000238
 /* 005C8 809C3BF8 4600020D */  trunc.w.s $f8, $f0

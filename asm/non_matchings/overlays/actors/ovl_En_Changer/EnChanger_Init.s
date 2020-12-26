@@ -279,7 +279,7 @@ glabel EnChanger_Init
 /* 002D8 809D2968 A7A2006E */  sh      $v0, 0x006E($sp)           
 /* 002DC 809D296C AFA50050 */  sw      $a1, 0x0050($sp)           
 /* 002E0 809D2970 AFA40054 */  sw      $a0, 0x0054($sp)           
-/* 002E4 809D2974 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 002E4 809D2974 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 002E8 809D2978 A7A30068 */  sh      $v1, 0x0068($sp)           
 /* 002EC 809D297C 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

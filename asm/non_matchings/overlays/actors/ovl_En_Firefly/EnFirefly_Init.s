@@ -75,7 +75,7 @@ glabel EnFirefly_Init
 /* 00170 80A131E0 24040014 */  addiu   $a0, $zero, 0x0014         ## $a0 = 00000014
 /* 00174 80A131E4 11E0000D */  beq     $t7, $zero, .L80A1321C     
 /* 00178 80A131E8 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
-/* 0017C 80A131EC 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 0017C 80A131EC 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00180 80A131F0 AE1801B4 */  sw      $t8, 0x01B4($s0)           ## 000001B4
 /* 00184 80A131F4 C604000C */  lwc1    $f4, 0x000C($s0)           ## 0000000C

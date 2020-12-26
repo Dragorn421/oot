@@ -71,7 +71,7 @@ glabel func_80A138B8
 /* 00938 80A139A8 00022C00 */  sll     $a1, $v0, 16               
 /* 0093C 80A139AC 00052C03 */  sra     $a1, $a1, 16               
 /* 00940 80A139B0 266400B6 */  addiu   $a0, $s3, 0x00B6           ## $a0 = 000000B6
-/* 00944 80A139B4 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00944 80A139B4 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00948 80A139B8 24060300 */  addiu   $a2, $zero, 0x0300         ## $a2 = 00000300
 /* 0094C 80A139BC 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
@@ -81,7 +81,7 @@ glabel func_80A138B8
 /* 0095C 80A139CC 00052C00 */  sll     $a1, $a1, 16               
 /* 00960 80A139D0 00052C03 */  sra     $a1, $a1, 16               
 /* 00964 80A139D4 266400B4 */  addiu   $a0, $s3, 0x00B4           ## $a0 = 000000B4
-/* 00968 80A139D8 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00968 80A139D8 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 0096C 80A139DC 24060100 */  addiu   $a2, $zero, 0x0100         ## $a2 = 00000100
 /* 00970 80A139E0 10000001 */  beq     $zero, $zero, .L80A139E8   

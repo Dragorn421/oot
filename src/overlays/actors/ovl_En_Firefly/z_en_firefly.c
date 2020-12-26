@@ -104,7 +104,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->unk1B9 != 0) {
         this->actionFunc = func_80A13A08_Action;
-        this->unk1BA_timer = Math_Rand_S16Offset(20, 60);
+        this->unk1BA_timer = Rand_S16Offset(20, 60);
         this->actor.shape.rot.x = 0x1554;
         this->unk1B8 = 1;
         this->actor.naviEnemyId = 0x11;
@@ -141,9 +141,9 @@ void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A132F4_Setup(EnFirefly* this) {
     s32 var_v0;
 
-    this->unk1BA_timer = Math_Rand_S16Offset(0x46, 0x64);
-    this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 1.5f;
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x300);
+    this->unk1BA_timer = Rand_S16Offset(0x46, 0x64);
+    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 1.5f;
+    Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x300);
     if (this->unk310_homeY < this->actor.posRot.pos.y) {
         var_v0 = 0xC00;
     } else {
@@ -181,7 +181,7 @@ void func_80A13464_Setup(EnFirefly* this) {
 void func_80A1349C_Setup(EnFirefly* this) {
     s32 var_v0;
 
-    this->unk1BA_timer = Math_Rand_S16Offset(70, 100);
+    this->unk1BA_timer = Rand_S16Offset(70, 100);
     this->skelAnime.animPlaybackSpeed = 1.0f;
     if (this->actor.yDistFromLink > 0.0f) {
         var_v0 = -0xC00;
@@ -223,7 +223,7 @@ void func_80A135A8_Setup(EnFirefly* this, GlobalContext* globalCtx) {
         sp78.y = this->actor.posRot.pos.y + ((var_s0 & 2) ? 7.0f : -7.0f);
         sp78.z = this->actor.posRot.pos.z + ((var_s0 & 4) ? 7.0f : -7.0f);
         EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &sp78, 150, 150, 150, 250, 235, 245, 255,
-                                       (Math_Rand_ZeroOne() * 0.15f) + 0.85f);
+                                       (Rand_ZeroOne() * 0.15f) + 0.85f);
     }
     this->actionFunc = func_80A14294_Action;
 }
@@ -260,10 +260,10 @@ s32 func_80A1379C_HoneInOnHomeIfPlayerFar_(EnFirefly* this, GlobalContext* globa
             if (temp_fv1 < 1.0f) {
                 this->actor.speedXZ *= temp_fv1;
             }
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                     0x300);
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.x,
-                                     func_8002DB28(&this->actor, &this->actor.initPosRot.pos) + 0x1554, 0x100);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
+                               0x300);
+            Math_ScaledStepToS(&this->actor.shape.rot.x,
+                               func_8002DB28(&this->actor, &this->actor.initPosRot.pos) + 0x1554, 0x100);
         }
         return true;
     } else {
@@ -299,9 +299,8 @@ s32 func_80A138B8_HoneInOnLitTorch(EnFirefly* this, GlobalContext* globalCtx) {
             func_80A13098_Ignite_(this);
             return true;
         } else {
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, func_8002DA78(&this->actor, closestLitTorch), 0x300);
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, func_8002DB28(&this->actor, &torchFlamePos) + 0x1554,
-                                     0x100);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DA78(&this->actor, closestLitTorch), 0x300);
+            Math_ScaledStepToS(&this->actor.shape.rot.x, func_8002DB28(&this->actor, &torchFlamePos) + 0x1554, 0x100);
             return true;
         }
     } else {
@@ -318,17 +317,17 @@ void func_80A13A08_Action(EnFirefly* this, GlobalContext* globalCtx) {
         this->unk1BA_timer--;
     }
     sp3C = func_800A56C8(&this->skelAnime, 0.0f);
-    this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 1.5f;
+    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 1.5f;
     if ((this->unk1B9 != 0) || (this->actor.params == 4) ||
         (!func_80A1379C_HoneInOnHomeIfPlayerFar_(this, globalCtx) &&
          !func_80A138B8_HoneInOnLitTorch(this, globalCtx))) {
         if (sp3C != 0) {
-            temp_fv0 = Math_Rand_ZeroOne();
+            temp_fv0 = Rand_ZeroOne();
             if (temp_fv0 < 0.5f) {
-                Math_ApproxUpdateScaledS(&this->actor.shape.rot.y,
-                                         func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x300);
+                Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
+                                   0x300);
             } else if (temp_fv0 < 0.8f) {
-                f32 new_var = Math_Rand_CenteredFloat(1536.0f);
+                f32 new_var = Rand_CenteredFloat(1536.0f);
 
                 this->actor.shape.rot.y = (s16)(s32)(this->actor.shape.rot.y + new_var);
             }
@@ -336,7 +335,7 @@ void func_80A13A08_Action(EnFirefly* this, GlobalContext* globalCtx) {
                 this->unk1BC_targetRotX = 0x954;
             } else if (this->unk310_homeY < this->actor.posRot.pos.y) {
                 this->unk1BC_targetRotX = 0x2154;
-            } else if (Math_Rand_ZeroOne() > 0.35f) {
+            } else if (Rand_ZeroOne() > 0.35f) {
                 this->unk1BC_targetRotX = 0x954;
             } else {
                 this->unk1BC_targetRotX = 0x2154;
@@ -348,10 +347,10 @@ void func_80A13A08_Action(EnFirefly* this, GlobalContext* globalCtx) {
                 this->unk1BC_targetRotX = 0x2154;
             }
         }
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
     }
     if (this->actor.bgCheckFlags & 8) {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.wallPolyRot, 2, 0xC00, 0x300);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallPolyRot, 2, 0xC00, 0x300);
     }
     if ((this->unk1BA_timer == 0) && (this->actor.xzDistFromLink < 200.0f) && (Player_GetMask(globalCtx) != 2)) {
         func_80A1349C_Setup(this);
@@ -364,11 +363,11 @@ void func_80A13C98_Action(EnFirefly* this, GlobalContext* globalCtx) {
     }
     this->actor.dmgEffectTimer = 40;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     if (this->actor.flags & 0x8000) {
         this->actor.dmgEffectTimer = 40;
     } else {
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x6800, 0x200);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x6800, 0x200);
         this->actor.shape.rot.y -= 0x300;
         if (this->unk1BA_timer != 0) {
             this->unk1BA_timer--;
@@ -383,7 +382,7 @@ void func_80A13D68_Action(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->unk1BA_timer != 0) {
         this->unk1BA_timer--;
     }
-    Math_ApproxF(&this->actor.scale.x, 0.0f, 0.00034f);
+    Math_StepToF(&this->actor.scale.x, 0.0f, 0.00034f);
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
     if (this->unk1BA_timer == 0) {
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xE0);
@@ -400,25 +399,25 @@ void func_80A13DE4_Action(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->unk1BA_timer != 0) {
         this->unk1BA_timer--;
     }
-    Math_ApproxF(&this->actor.speedXZ, 4.0f, 0.5f);
+    Math_StepToF(&this->actor.speedXZ, 4.0f, 0.5f);
     if (this->actor.bgCheckFlags & 8) {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.wallPolyRot, 2, 0xC00, 0x300);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallPolyRot, 2, 0xC00, 0x300);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
     } else if (func_8002E084(&this->actor, 0x2800) != 0) {
         if (func_800A56C8(&this->skelAnime, 4.0f) != 0) {
             this->skelAnime.animPlaybackSpeed = 0.0f;
             this->skelAnime.animCurrentFrame = 4.0f;
         }
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xC00, 0x300);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xC00, 0x300);
         sp38.x = sp44->posRot.pos.x;
         sp38.y = sp44->posRot.pos.y + 20.0f;
         sp38.z = sp44->posRot.pos.z;
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, (s16)(func_8002DB28(&this->actor, (Vec3f*)&sp38) + 0x1554), 2,
-                                0x400, 0x100);
+        Math_SmoothStepToS(&this->actor.shape.rot.x, (s16)(func_8002DB28(&this->actor, (Vec3f*)&sp38) + 0x1554), 2,
+                           0x400, 0x100);
     } else {
         this->skelAnime.animPlaybackSpeed = 1.5f;
         if (this->actor.xzDistFromLink > 80.0f) {
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xC00, 0x300);
+            Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xC00, 0x300);
         }
         if (this->actor.bgCheckFlags & 1) {
             this->unk1BC_targetRotX = 0x954;
@@ -428,7 +427,7 @@ void func_80A13DE4_Action(EnFirefly* this, GlobalContext* globalCtx) {
         } else {
             this->unk1BC_targetRotX = 0x954;
         }
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
     }
     if ((this->unk1BA_timer == 0) || (Player_GetMask(globalCtx) == 2)) {
         func_80A1350C_Setup(this);
@@ -437,9 +436,9 @@ void func_80A13DE4_Action(EnFirefly* this, GlobalContext* globalCtx) {
 
 void func_80A13FF4_Action(EnFirefly* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x100);
-    Math_ApproxF(&this->actor.velocity.y, 0.0f, 0.4f);
-    if (Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.15f) != 0) {
+    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x100);
+    Math_StepToF(&this->actor.velocity.y, 0.0f, 0.4f);
+    if (Math_StepToF(&this->actor.speedXZ, 0.0f, 0.15f) != 0) {
         if (this->unk1BA_timer != 0) {
             this->unk1BA_timer--;
         }
@@ -459,7 +458,7 @@ void func_80A14088_Action(EnFirefly* this, GlobalContext* globalCtx) {
         (this->unk1BA_timer == 0)) {
         func_80A132F4_Setup(this);
     } else {
-        Math_ApproxF(&this->actor.speedXZ, 3.0f, 0.3f);
+        Math_StepToF(&this->actor.speedXZ, 3.0f, 0.3f);
         if (this->actor.bgCheckFlags & 1) {
             this->unk1BC_targetRotX = 0x954;
         } else if ((this->actor.bgCheckFlags & 0x10) || (this->unk310_homeY < this->actor.posRot.pos.y)) {
@@ -468,19 +467,19 @@ void func_80A14088_Action(EnFirefly* this, GlobalContext* globalCtx) {
             this->unk1BC_targetRotX = 0x954;
         }
         if (this->actor.bgCheckFlags & 8) {
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.wallPolyRot, 2, 0xC00, 0x300);
+            Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallPolyRot, 2, 0xC00, 0x300);
         } else {
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                     0x300);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
+                               0x300);
         }
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
     }
 }
 
 void func_80A141F0_Action(EnFirefly* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x1554, 0x100);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1554, 0x100);
     if (this->unk1BA_timer != 0) {
         this->unk1BA_timer--;
     }
@@ -504,13 +503,13 @@ void func_80A14294_Action(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void func_80A142F4_Action_Perched_(EnFirefly* this, GlobalContext* globalCtx) {
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x100);
+    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x100);
     if (this->unk1BA_timer != 0) {
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
         if (func_800A56C8(&this->skelAnime, 6.0f) != 0) {
             this->unk1BA_timer--;
         }
-    } else if (Math_Rand_ZeroOne() < 0.02f) {
+    } else if (Rand_ZeroOne() < 0.02f) {
         this->unk1BA_timer = 1;
     }
     if (this->actor.xzDistFromLink < 120.0f) {
@@ -527,13 +526,13 @@ void func_80A143B4_Action_SwoopOnPlayer(EnFirefly* this, GlobalContext* globalCt
         this->unk1BA_timer--;
     }
     if (this->unk1BA_timer < 40) {
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0xAAC, 0x100);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, -0xAAC, 0x100);
     } else {
         sp28.x = temp_a2->actor.posRot.pos.x;
         sp28.y = temp_a2->actor.posRot.pos.y + 20.0f;
         sp28.z = temp_a2->actor.posRot.pos.z;
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, func_8002DB28(&this->actor, &sp28) + 0x1554, 0x100);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x300);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, func_8002DB28(&this->actor, &sp28) + 0x1554, 0x100);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x300);
     }
     if (this->unk1BA_timer == 0) {
         func_80A132F4_Setup(this);
@@ -632,11 +631,11 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    sp34 = Math_Sins(this->actor.shape.rot.x);
-    this->actor.posRot2.pos.x = (Math_Sins(this->actor.shape.rot.y) * (10.0f * sp34)) + this->actor.posRot.pos.x;
-    this->actor.posRot2.pos.y = (Math_Coss(this->actor.shape.rot.x) * 10.0f) + this->actor.posRot.pos.y;
-    sp34 = Math_Sins(this->actor.shape.rot.x);
-    this->actor.posRot2.pos.z = (Math_Coss(this->actor.shape.rot.y) * (10.0f * sp34)) + this->actor.posRot.pos.z;
+    sp34 = Math_SinS(this->actor.shape.rot.x);
+    this->actor.posRot2.pos.x = (Math_SinS(this->actor.shape.rot.y) * (10.0f * sp34)) + this->actor.posRot.pos.x;
+    this->actor.posRot2.pos.y = (Math_CosS(this->actor.shape.rot.x) * 10.0f) + this->actor.posRot.pos.y;
+    sp34 = Math_SinS(this->actor.shape.rot.x);
+    this->actor.posRot2.pos.z = (Math_CosS(this->actor.shape.rot.y) * (10.0f * sp34)) + this->actor.posRot.pos.z;
 }
 
 s32 EnFirefly_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -666,18 +665,18 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         if (((this->unk1B8 == 1) || (this->unk1B8 == 2)) && ((limbIndex == 0xF) || (limbIndex == 0x15))) {
             if (this->actionFunc != func_80A13D68_Action) {
                 Matrix_Get(&sp48);
-                sp94.x = (Math_Rand_ZeroOne() * 5.0f) + sp48.wx;
-                sp94.y = (Math_Rand_ZeroOne() * 5.0f) + sp48.wy;
-                sp94.z = (Math_Rand_ZeroOne() * 5.0f) + sp48.wz;
+                sp94.x = (Rand_ZeroOne() * 5.0f) + sp48.wx;
+                sp94.y = (Rand_ZeroOne() * 5.0f) + sp48.wy;
+                sp94.z = (Rand_ZeroOne() * 5.0f) + sp48.wz;
                 var_t0 = -0x28;
                 var_t1 = 3;
             } else {
                 if (limbIndex == 0xF) {
-                    sp94.x = (Math_Sins(this->unk1BA_timer * 0x238C) * this->unk1BA_timer) + this->actor.posRot.pos.x;
-                    sp94.z = (Math_Coss(this->unk1BA_timer * 0x238C) * this->unk1BA_timer) + this->actor.posRot.pos.z;
+                    sp94.x = (Math_SinS(this->unk1BA_timer * 0x238C) * this->unk1BA_timer) + this->actor.posRot.pos.x;
+                    sp94.z = (Math_CosS(this->unk1BA_timer * 0x238C) * this->unk1BA_timer) + this->actor.posRot.pos.z;
                 } else {
-                    sp94.x = this->actor.posRot.pos.x - (Math_Sins(this->unk1BA_timer * 0x238C) * this->unk1BA_timer);
-                    sp94.z = this->actor.posRot.pos.z - (Math_Coss(this->unk1BA_timer * 0x238C) * this->unk1BA_timer);
+                    sp94.x = this->actor.posRot.pos.x - (Math_SinS(this->unk1BA_timer * 0x238C) * this->unk1BA_timer);
+                    sp94.z = this->actor.posRot.pos.z - (Math_CosS(this->unk1BA_timer * 0x238C) * this->unk1BA_timer);
                 }
                 var_t0 = -5;
                 var_t1 = 0xA;

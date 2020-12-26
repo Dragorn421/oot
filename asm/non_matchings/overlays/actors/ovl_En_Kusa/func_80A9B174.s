@@ -11,7 +11,7 @@ glabel func_80A9B174
 /* 001D8 80A9B178 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 001DC 80A9B17C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 001E0 80A9B180 AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 001E4 80A9B184 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 001E4 80A9B184 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 001E8 80A9B188 E7AC001C */  swc1    $f12, 0x001C($sp)          
 /* 001EC 80A9B18C 3C0180AA */  lui     $at, %hi(D_80A9C318)       ## $at = 80AA0000

@@ -65,7 +65,7 @@ glabel func_80AAB370
 /* 01204 80AAB454 44054000 */  mfc1    $a1, $f8                   
 /* 01208 80AAB458 00000000 */  nop
 /* 0120C 80AAB45C 00052C00 */  sll     $a1, $a1, 16               
-/* 01210 80AAB460 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01210 80AAB460 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01214 80AAB464 00052C03 */  sra     $a1, $a1, 16               
 /* 01218 80AAB468 C7AC002C */  lwc1    $f12, 0x002C($sp)          

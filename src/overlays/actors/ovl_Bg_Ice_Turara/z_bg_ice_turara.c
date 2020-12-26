@@ -90,13 +90,13 @@ void func_80892040(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
     sp88 = 0;
     do {
         for (var_s0 = 0; var_s0 < 10; var_s0++) {
-            sp90.x = Math_Rand_CenteredFloat(8.0f) + this->dyna.actor.posRot.pos.x;
-            sp90.y = (Math_Rand_ZeroOne() * arg2) + this->dyna.actor.posRot.pos.y + (sp88 * arg2);
-            sp90.z = Math_Rand_CenteredFloat(8.0f) + this->dyna.actor.posRot.pos.z;
-            sp9C.x = Math_Rand_CenteredFloat(7.0f);
-            sp9C.z = Math_Rand_CenteredFloat(7.0f);
-            sp9C.y = (Math_Rand_ZeroOne() * 4.0f) + 8.0f;
-            EffectSsEnIce_Spawn(globalCtx, &sp90, (Math_Rand_ZeroOne() * 0.2f) + 0.1f, &sp9C, &D_8089267C, &D_80892688,
+            sp90.x = Rand_CenteredFloat(8.0f) + this->dyna.actor.posRot.pos.x;
+            sp90.y = (Rand_ZeroOne() * arg2) + this->dyna.actor.posRot.pos.y + (sp88 * arg2);
+            sp90.z = Rand_CenteredFloat(8.0f) + this->dyna.actor.posRot.pos.z;
+            sp9C.x = Rand_CenteredFloat(7.0f);
+            sp9C.z = Rand_CenteredFloat(7.0f);
+            sp9C.y = (Rand_ZeroOne() * 4.0f) + 8.0f;
+            EffectSsEnIce_Spawn(globalCtx, &sp90, (Rand_ZeroOne() * 0.2f) + 0.1f, &sp9C, &D_8089267C, &D_80892688,
                                 &D_8089268C, 30);
         }
         sp88 = sp88 + 1;
@@ -137,15 +137,15 @@ void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         this->unk164 = func_80892424;
     } else {
-        sp28 = Math_Rand_ZeroOne();
-        if (Math_Rand_ZeroOne() < 0.5f) {
+        sp28 = Rand_ZeroOne();
+        if (Rand_ZeroOne() < 0.5f) {
             var_v0_2 = -1;
         } else {
             var_v0_2 = 1;
         }
         this->dyna.actor.posRot.pos.x = (var_v0_2 * ((0.5f * sp28) + 0.5f)) + this->dyna.actor.initPosRot.pos.x;
-        sp28 = Math_Rand_ZeroOne();
-        if (Math_Rand_ZeroOne() < 0.5f) {
+        sp28 = Rand_ZeroOne();
+        if (Rand_ZeroOne() < 0.5f) {
             var_v0_2 = -1;
         } else {
             var_v0_2 = 1;
@@ -180,7 +180,7 @@ void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void func_80892574(BgIceTurara* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f)) {
         this->unk164 = func_80892280;
         this->dyna.actor.velocity.y = 0.0f;
     }

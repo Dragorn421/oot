@@ -6,7 +6,7 @@ glabel func_80A9BBB0
 /* 00C20 80A9BBC0 24A5BC1C */  addiu   $a1, $a1, %lo(func_80A9BC1C) ## $a1 = 80A9BC1C
 /* 00C24 80A9BBC4 240EF448 */  addiu   $t6, $zero, 0xF448         ## $t6 = FFFFF448
 /* 00C28 80A9BBC8 3C0180AA */  lui     $at, %hi(D_80A9C1D0)       ## $at = 80AA0000
-/* 00C2C 80A9BBCC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00C2C 80A9BBCC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00C30 80A9BBD0 A42EC1D0 */  sh      $t6, %lo(D_80A9C1D0)($at)  
 /* 00C34 80A9BBD4 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

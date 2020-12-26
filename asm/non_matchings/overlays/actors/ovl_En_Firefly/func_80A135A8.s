@@ -77,7 +77,7 @@ glabel func_80A135A8
 .L80A1369C:
 /* 0062C 80A1369C C632002C */  lwc1    $f18, 0x002C($s1)          ## 0000002C
 /* 00630 80A136A0 46120100 */  add.s   $f4, $f0, $f18             
-/* 00634 80A136A4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00634 80A136A4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00638 80A136A8 E7A40080 */  swc1    $f4, 0x0080($sp)           
 /* 0063C 80A136AC 46180182 */  mul.s   $f6, $f0, $f24             

@@ -28,7 +28,7 @@ glabel func_80AAB948
 /* 01748 80AAB998 C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008
 /* 0174C 80AAB99C 00022400 */  sll     $a0, $v0, 16               
 /* 01750 80AAB9A0 00042403 */  sra     $a0, $a0, 16               
-/* 01754 80AAB9A4 0C01DE1C */  jal     Math_Sins
+/* 01754 80AAB9A4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01758 80AAB9A8 E6040024 */  swc1    $f4, 0x0024($s0)           ## 00000024
 /* 0175C 80AAB9AC 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
@@ -39,7 +39,7 @@ glabel func_80AAB948
 /* 01770 80AAB9C0 E612002C */  swc1    $f18, 0x002C($s0)          ## 0000002C
 /* 01774 80AAB9C4 460A3400 */  add.s   $f16, $f6, $f10            
 /* 01778 80AAB9C8 E6100024 */  swc1    $f16, 0x0024($s0)          ## 00000024
-/* 0177C 80AAB9CC 0C01DE0D */  jal     Math_Coss
+/* 0177C 80AAB9CC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01780 80AAB9D0 87A40022 */  lh      $a0, 0x0022($sp)           
 /* 01784 80AAB9D4 3C014040 */  lui     $at, 0x4040                ## $at = 40400000

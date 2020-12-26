@@ -83,7 +83,7 @@ glabel BgPoSyokudai_Draw
 /* 00454 808A8504 004C4021 */  addu    $t0, $v0, $t4              
 /* 00458 808A8508 004D7021 */  addu    $t6, $v0, $t5              
 /* 0045C 808A850C AFAE0060 */  sw      $t6, 0x0060($sp)           
-/* 00460 808A8510 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00460 808A8510 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00464 808A8514 AFA80064 */  sw      $t0, 0x0064($sp)           
 /* 00468 808A8518 3C01808B */  lui     $at, %hi(D_808A8A34)       ## $at = 808B0000

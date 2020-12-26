@@ -122,14 +122,14 @@ glabel func_80A9BC1C
 /* 00E3C 80A9BDDC 3C0580AA */  lui     $a1, %hi(D_80A9C1D0)       ## $a1 = 80AA0000
 /* 00E40 80A9BDE0 84A5C1D0 */  lh      $a1, %lo(D_80A9C1D0)($a1)  
 /* 00E44 80A9BDE4 2484C1D4 */  addiu   $a0, $a0, %lo(D_80A9C1D4)  ## $a0 = 80A9C1D4
-/* 00E48 80A9BDE8 0C01DE5F */  jal     Math_ApproxS
+/* 00E48 80A9BDE8 0C01DE5F */  jal     Math_StepToS
               
 /* 00E4C 80A9BDEC 240601F4 */  addiu   $a2, $zero, 0x01F4         ## $a2 = 000001F4
 /* 00E50 80A9BDF0 3C0480AA */  lui     $a0, %hi(D_80A9C1DC)       ## $a0 = 80AA0000
 /* 00E54 80A9BDF4 3C0580AA */  lui     $a1, %hi(D_80A9C1D8)       ## $a1 = 80AA0000
 /* 00E58 80A9BDF8 84A5C1D8 */  lh      $a1, %lo(D_80A9C1D8)($a1)  
 /* 00E5C 80A9BDFC 2484C1DC */  addiu   $a0, $a0, %lo(D_80A9C1DC)  ## $a0 = 80A9C1DC
-/* 00E60 80A9BE00 0C01DE5F */  jal     Math_ApproxS
+/* 00E60 80A9BE00 0C01DE5F */  jal     Math_StepToS
               
 /* 00E64 80A9BE04 240600AA */  addiu   $a2, $zero, 0x00AA         ## $a2 = 000000AA
 /* 00E68 80A9BE08 3C0F80AA */  lui     $t7, %hi(D_80A9C1D4)       ## $t7 = 80AA0000

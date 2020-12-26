@@ -249,12 +249,12 @@ void MirRay_UpdateLight(MirRay* this, GlobalContext* globalCtx) {
         pointLightPos.x = (temp_s1->unk18_pointLightPosRatio * sp44.x) + this->coneFrustumCenterTop.x;
         pointLightPos.y = (temp_s1->unk18_pointLightPosRatio * sp44.y) + this->coneFrustumCenterTop.y;
         pointLightPos.z = (temp_s1->unk18_pointLightPosRatio * sp44.z) + this->coneFrustumCenterTop.z;
-        Math_ApproxS(&this->pointLightRadius, temp_s1->unk16_pointLightRadius, 6);
+        Math_StepToS(&this->pointLightRadius, temp_s1->unk16_pointLightRadius, 6);
         Lights_PointNoGlowSetInfo(&this->lightInfo, pointLightPos.x, pointLightPos.y, pointLightPos.z,
                                   temp_s1->unk1C_lightColor.r, temp_s1->unk1C_lightColor.g, temp_s1->unk1C_lightColor.b,
                                   this->pointLightRadius);
     } else {
-        Math_ApproxS(&this->pointLightRadius, 0, 6);
+        Math_StepToS(&this->pointLightRadius, 0, 6);
         Lights_PointSetColorAndRadius(&this->lightInfo, temp_s1->unk1C_lightColor.r, temp_s1->unk1C_lightColor.g,
                                       temp_s1->unk1C_lightColor.b, this->pointLightRadius);
     }

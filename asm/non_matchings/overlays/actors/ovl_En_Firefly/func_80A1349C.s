@@ -4,7 +4,7 @@ glabel func_80A1349C
 /* 00434 80A134A4 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 00438 80A134A8 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 0043C 80A134AC 24040046 */  addiu   $a0, $zero, 0x0046         ## $a0 = 00000046
-/* 00440 80A134B0 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00440 80A134B0 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00444 80A134B4 24050064 */  addiu   $a1, $zero, 0x0064         ## $a1 = 00000064
 /* 00448 80A134B8 8FA60018 */  lw      $a2, 0x0018($sp)           

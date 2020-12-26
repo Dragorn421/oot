@@ -145,11 +145,11 @@ glabel EnFirefly_Update
 /* 01844 80A148B4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01848 80A148B8 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0184C 80A148BC 0C01DE1C */  jal     Math_Sins
+/* 0184C 80A148BC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01850 80A148C0 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 01854 80A148C4 E7A00034 */  swc1    $f0, 0x0034($sp)           
-/* 01858 80A148C8 0C01DE1C */  jal     Math_Sins
+/* 01858 80A148C8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0185C 80A148CC 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 01860 80A148D0 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -161,7 +161,7 @@ glabel EnFirefly_Update
 /* 01878 80A148E8 00000000 */  nop
 /* 0187C 80A148EC 46120102 */  mul.s   $f4, $f0, $f18             
 /* 01880 80A148F0 46062200 */  add.s   $f8, $f4, $f6              
-/* 01884 80A148F4 0C01DE0D */  jal     Math_Coss
+/* 01884 80A148F4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01888 80A148F8 E6080038 */  swc1    $f8, 0x0038($s0)           ## 00000038
 /* 0188C 80A148FC 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -170,11 +170,11 @@ glabel EnFirefly_Update
 /* 01898 80A14908 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 0189C 80A1490C 460A0402 */  mul.s   $f16, $f0, $f10            
 /* 018A0 80A14910 46128100 */  add.s   $f4, $f16, $f18            
-/* 018A4 80A14914 0C01DE1C */  jal     Math_Sins
+/* 018A4 80A14914 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 018A8 80A14918 E604003C */  swc1    $f4, 0x003C($s0)           ## 0000003C
 /* 018AC 80A1491C E7A00034 */  swc1    $f0, 0x0034($sp)           
-/* 018B0 80A14920 0C01DE0D */  jal     Math_Coss
+/* 018B0 80A14920 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 018B4 80A14924 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 018B8 80A14928 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

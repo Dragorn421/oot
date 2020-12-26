@@ -62,12 +62,12 @@ glabel func_80892040
 /* 001EC 8089210C 46083602 */  mul.s   $f24, $f6, $f8             
 /* 001F0 80892110 00000000 */  nop
 .L80892114:
-/* 001F4 80892114 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 001F4 80892114 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 001F8 80892118 4600A306 */  mov.s   $f12, $f20                 
 /* 001FC 8089211C C62A0024 */  lwc1    $f10, 0x0024($s1)          ## 00000024
 /* 00200 80892120 460A0400 */  add.s   $f16, $f0, $f10            
-/* 00204 80892124 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00204 80892124 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00208 80892128 E7B00090 */  swc1    $f16, 0x0090($sp)          
 /* 0020C 8089212C C7B200B0 */  lwc1    $f18, 0x00B0($sp)          
@@ -76,25 +76,25 @@ glabel func_80892040
 /* 00218 80892138 46120102 */  mul.s   $f4, $f0, $f18             
 /* 0021C 8089213C 46062200 */  add.s   $f8, $f4, $f6              
 /* 00220 80892140 46184280 */  add.s   $f10, $f8, $f24            
-/* 00224 80892144 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00224 80892144 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00228 80892148 E7AA0094 */  swc1    $f10, 0x0094($sp)          
 /* 0022C 8089214C C630002C */  lwc1    $f16, 0x002C($s1)          ## 0000002C
 /* 00230 80892150 4600B306 */  mov.s   $f12, $f22                 
 /* 00234 80892154 46100480 */  add.s   $f18, $f0, $f16            
-/* 00238 80892158 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00238 80892158 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0023C 8089215C E7B20098 */  swc1    $f18, 0x0098($sp)          
 /* 00240 80892160 E7A0009C */  swc1    $f0, 0x009C($sp)           
-/* 00244 80892164 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00244 80892164 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00248 80892168 4600B306 */  mov.s   $f12, $f22                 
-/* 0024C 8089216C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0024C 8089216C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00250 80892170 E7A000A4 */  swc1    $f0, 0x00A4($sp)           
 /* 00254 80892174 461A0102 */  mul.s   $f4, $f0, $f26             
 /* 00258 80892178 46142180 */  add.s   $f6, $f4, $f20             
-/* 0025C 8089217C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0025C 8089217C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00260 80892180 E7A600A0 */  swc1    $f6, 0x00A0($sp)           
 /* 00264 80892184 461C0202 */  mul.s   $f8, $f0, $f28             

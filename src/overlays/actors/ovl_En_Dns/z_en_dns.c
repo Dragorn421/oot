@@ -338,7 +338,7 @@ void func_809EFB84(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809EFBC8(EnDns* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x7D0, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x7D0, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->unk268 = func_809EFC9C;

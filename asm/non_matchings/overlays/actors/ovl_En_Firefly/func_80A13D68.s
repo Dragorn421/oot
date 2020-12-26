@@ -12,7 +12,7 @@ glabel func_80A13D68
 /* 00D20 80A13D90 A48E01BA */  sh      $t6, 0x01BA($a0)           ## 000001BA
 .L80A13D94:
 /* 00D24 80A13D94 26040050 */  addiu   $a0, $s0, 0x0050           ## $a0 = 00000050
-/* 00D28 80A13D98 0C01DE80 */  jal     Math_ApproxF
+/* 00D28 80A13D98 0C01DE80 */  jal     Math_StepToF
               
 /* 00D2C 80A13D9C 34C64207 */  ori     $a2, $a2, 0x4207           ## $a2 = 39B24207
 /* 00D30 80A13DA0 C6000050 */  lwc1    $f0, 0x0050($s0)           ## 00000050

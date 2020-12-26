@@ -19,7 +19,7 @@ glabel func_8086F260
 /* 0011C 8086F27C 50400016 */  beql    $v0, $zero, .L8086F2D8     
 /* 00120 8086F280 00024880 */  sll     $t1, $v0,  2               
 /* 00124 8086F284 C42CFB10 */  lwc1    $f12, %lo(D_8086FB10)($at) 
-/* 00128 8086F288 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00128 8086F288 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 0012C 8086F28C A7A20062 */  sh      $v0, 0x0062($sp)           
 /* 00130 8086F290 4600010D */  trunc.w.s $f4, $f0                   

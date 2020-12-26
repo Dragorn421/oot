@@ -11,7 +11,7 @@ glabel func_80A142F4
 /* 01294 80A14304 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01298 80A14308 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0129C 80A1430C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
-/* 012A0 80A14310 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 012A0 80A14310 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 012A4 80A14314 24060100 */  addiu   $a2, $zero, 0x0100         ## $a2 = 00000100
 /* 012A8 80A14318 860E01BA */  lh      $t6, 0x01BA($s0)           ## 000001BA
@@ -31,7 +31,7 @@ glabel func_80A142F4
 /* 012DC 80A1434C 1000000B */  beq     $zero, $zero, .L80A1437C   
 /* 012E0 80A14350 A61801BA */  sh      $t8, 0x01BA($s0)           ## 000001BA
 .L80A14354:
-/* 012E4 80A14354 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 012E4 80A14354 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 012E8 80A14358 00000000 */  nop
 /* 012EC 80A1435C 3C0180A1 */  lui     $at, %hi(D_80A15048)       ## $at = 80A10000

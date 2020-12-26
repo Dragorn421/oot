@@ -10,7 +10,7 @@ glabel func_80A9BFA8
 /* 01028 80A9BFC8 3C063F19 */  lui     $a2, 0x3F19                ## $a2 = 3F190000
 /* 0102C 80A9BFCC 8CE5000C */  lw      $a1, 0x000C($a3)           ## 0000000C
 /* 01030 80A9BFD0 AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 01034 80A9BFD4 0C01DE80 */  jal     Math_ApproxF
+/* 01034 80A9BFD4 0C01DE80 */  jal     Math_StepToF
               
 /* 01038 80A9BFD8 34C6999A */  ori     $a2, $a2, 0x999A           ## $a2 = 3F19999A
 /* 0103C 80A9BFDC 10400007 */  beq     $v0, $zero, .L80A9BFFC     

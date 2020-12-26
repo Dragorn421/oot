@@ -15,7 +15,7 @@ glabel func_8086F718
 /* 005EC 8086F74C 3C0143E1 */  lui     $at, 0x43E1                ## $at = 43E10000
 /* 005F0 8086F750 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 005F4 8086F754 240700C8 */  addiu   $a3, $zero, 0x00C8         ## $a3 = 000000C8
-/* 005F8 8086F758 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 005F8 8086F758 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 005FC 8086F75C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00600 8086F760 10000021 */  beq     $zero, $zero, .L8086F7E8   
