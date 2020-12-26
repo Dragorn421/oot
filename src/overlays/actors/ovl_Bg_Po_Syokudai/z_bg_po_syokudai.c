@@ -105,7 +105,7 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (!Flags_GetSwitch(globalCtx, this->actor.params) && (globalCtx->envCtx.unk_BF == 0xFF)) {
         globalCtx->envCtx.unk_BF = 4;
     }
-    this->unk14E = Math_Rand_ZeroOne() * 20.0f;
+    this->unk14E = Rand_ZeroOne() * 20.0f;
 }
 
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -146,7 +146,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         sp64 = &D_808A898C[this->unk14C];
         sp60 = &D_808A899C[this->unk14C];
-        temp_fv1 = (Math_Rand_ZeroOne() * 0.3f) + 0.7f;
+        temp_fv1 = (Rand_ZeroOne() * 0.3f) + 0.7f;
         Lights_PointSetColorAndRadius(&this->unk154, sp64->r * temp_fv1, sp64->g * temp_fv1, sp64->b * temp_fv1, 200);
         func_80093D84(globalCtx->state.gfxCtx);
         gSPSegment(

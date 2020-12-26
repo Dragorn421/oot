@@ -112,12 +112,12 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
 
 void func_809C5184(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->unk152 != 0) {
-        Math_SmoothScaleMaxF(&this->unk180.x, this->unk1BC.x, this->unk1C8.x, this->unk1D4.x);
-        Math_SmoothScaleMaxF(&this->unk180.y, this->unk1BC.y, this->unk1C8.y, this->unk1D4.y);
-        Math_SmoothScaleMaxF(&this->unk180.z, this->unk1BC.z, this->unk1C8.z, this->unk1D4.z);
-        Math_SmoothScaleMaxF(&this->unk18C.x, this->unk198.x, this->unk1A4.x, this->unk1B0.x);
-        Math_SmoothScaleMaxF(&this->unk18C.y, this->unk198.y, this->unk1A4.y, this->unk1B0.y);
-        Math_SmoothScaleMaxF(&this->unk18C.z, this->unk198.z, this->unk1A4.z, this->unk1B0.z);
+        Math_ApproachF(&this->unk180.x, this->unk1BC.x, this->unk1C8.x, this->unk1D4.x);
+        Math_ApproachF(&this->unk180.y, this->unk1BC.y, this->unk1C8.y, this->unk1D4.y);
+        Math_ApproachF(&this->unk180.z, this->unk1BC.z, this->unk1C8.z, this->unk1D4.z);
+        Math_ApproachF(&this->unk18C.x, this->unk198.x, this->unk1A4.x, this->unk1B0.x);
+        Math_ApproachF(&this->unk18C.y, this->unk198.y, this->unk1A4.y, this->unk1B0.y);
+        Math_ApproachF(&this->unk18C.z, this->unk198.z, this->unk1A4.z, this->unk1B0.z);
     }
     Gameplay_CameraSetAtEye(globalCtx, this->unk152, &this->unk180, &this->unk18C);
     if ((this->unk154 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {

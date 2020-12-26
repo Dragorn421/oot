@@ -37,13 +37,13 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
         this->unk1B1 = 0;
 
         for (elem = &this->elements[0]; elem < &this->elements[this->numElements]; elem++) {
-            elem->unk00 = (Math_Rand_ZeroOne() * (this->unk1A8 * 0.5f)) + (this->unk1A8 * 0.5f);
+            elem->unk00 = (Rand_ZeroOne() * (this->unk1A8 * 0.5f)) + (this->unk1A8 * 0.5f);
             elem->endX = 0.0f;
             elem->startXChange = 0.0f;
             elem->startX = 0.0f;
             elem->endXChange = elem->unk00;
-            elem->yaw = Math_Rand_ZeroOne() * 65534.0f;
-            elem->pitch = Math_Rand_ZeroOne() * 65534.0f;
+            elem->yaw = Rand_ZeroOne() * 65534.0f;
+            elem->pitch = Rand_ZeroOne() * 65534.0f;
         }
 
         this->lightDecay = initParams->lightDecay;

@@ -82,7 +82,7 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
             temp_v0->collider.shape.height = (s16)(s32)D_809C4A10[var_s1].unk4;
         }
     }
-    this->unk242 = (u16)(s32)Math_Rand_ZeroFloat(4.99f);
+    this->unk242 = (u16)(s32)Rand_ZeroFloat(4.99f);
     this->actor.unk_1F = 1;
     this->actionFunc = func_809C3820;
 }
@@ -159,7 +159,7 @@ void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->unk254_curAnimFraceCount = SkelAnime_GetFrameCount(&D_060072AC);
         SkelAnime_ChangeAnim(&this->unk14C, &D_060072AC, 1.0f, 0.0f, this->unk254_curAnimFraceCount, 0U, -10.0f);
         this->unk238 = 3;
-        this->unk236 = (s16)Math_Rand_ZeroFloat(60.0f) + 0x14;
+        this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
         if (!(gSaveContext.eventChkInf[2] & 0x20) && (gGameInfo->data[0x962] == 0)) {
             this->actionFunc = func_809C3C7C;
         } else {
@@ -448,7 +448,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk234 += 1;
                 if (this->unk234 >= 3) {
                     this->unk234 = 0;
-                    this->unk236 = (s16)Math_Rand_ZeroFloat(60.0f) + 0x14;
+                    this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
                 }
             }
             func_80038290(globalCtx, &this->actor, &this->unk218, &this->unk224, this->actor.posRot2.pos);

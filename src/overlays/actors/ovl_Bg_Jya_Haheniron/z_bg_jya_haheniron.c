@@ -71,11 +71,11 @@ void func_80898114(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
     s32 var_v0;
 
     for (var_s1 = 0; var_s1 < ARRAY_COUNT(D_80898774); var_s1++) {
-        temp_fv0 = Math_Rand_ZeroOne() * 10.0f;
-        spB4.x = (Math_Sins(var_s1 * 0x3333) * temp_fv0) + arg2->x;
-        spB4.y = (Math_Rand_ZeroOne() * 10.0f) + arg2->y;
-        spB4.z = (Math_Coss(var_s1 * 0x3333) * temp_fv0) + arg2->z;
-        temp_fv0 = Math_Rand_ZeroOne();
+        temp_fv0 = Rand_ZeroOne() * 10.0f;
+        spB4.x = (Math_SinS(var_s1 * 0x3333) * temp_fv0) + arg2->x;
+        spB4.y = (Rand_ZeroOne() * 10.0f) + arg2->y;
+        spB4.z = (Math_CosS(var_s1 * 0x3333) * temp_fv0) + arg2->z;
+        temp_fv0 = Rand_ZeroOne();
         if (temp_fv0 < 0.2f) {
             var_v0 = 0x60;
         } else if (temp_fv0 < 0.8f) {
@@ -99,7 +99,7 @@ void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, D_80898794[this->actor.params]);
     if (this->actor.params == 0) {
         func_808980C0(this, globalCtx);
-        this->actor.shape.rot.z = (s16)(s32)(Math_Rand_ZeroOne() * 65535.0f);
+        this->actor.shape.rot.z = (s16)(s32)(Rand_ZeroOne() * 65535.0f);
         func_8089843C(this);
     } else if (this->actor.params == 1) {
         func_80898588(this);
@@ -127,9 +127,9 @@ void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
     if ((this->actor.bgCheckFlags & 9) ||
         ((this->unk150.base.atFlags & 2) && (this->unk150.base.at != NULL) && (this->unk150.base.at->type == 2))) {
-        sp2C.x = -Math_Rand_ZeroOne() * this->actor.velocity.x;
-        sp2C.y = -Math_Rand_ZeroOne() * this->actor.velocity.y;
-        sp2C.z = -Math_Rand_ZeroOne() * this->actor.velocity.z;
+        sp2C.x = -Rand_ZeroOne() * this->actor.velocity.x;
+        sp2C.y = -Rand_ZeroOne() * this->actor.velocity.y;
+        sp2C.z = -Rand_ZeroOne() * this->actor.velocity.z;
         func_80898114(globalCtx, &this->actor.posRot.pos, &sp2C);
         Actor_Kill(&this->actor);
     } else if (this->unk1B0 >= 0x3D) {

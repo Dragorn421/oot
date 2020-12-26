@@ -464,7 +464,7 @@ void func_80AAB0E0(EnMd* arg0) {
     if (DECR(arg0->unk20C) == 0) {
         arg0->unk20E += 1;
         if (arg0->unk20E >= 3) {
-            arg0->unk20C = Math_Rand_S16Offset(0x1E, 0x1E);
+            arg0->unk20C = Rand_S16Offset(0x1E, 0x1E);
             arg0->unk20E = 0;
         }
     }
@@ -539,7 +539,7 @@ s32 func_80AAB370(EnMd* this, GlobalContext* globalCtx) {
     temp_v0 += this->unk212;
     temp_fa0 = (f32)temp_v0->x - this->actor.posRot.pos.x;
     temp_fa1 = (f32)temp_v0->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (Math_atan2f(temp_fa0, temp_fa1) * 10430.378f), 4, 0xFA0, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, (Math_FAtan2F(temp_fa0, temp_fa1) * 10430.378f), 4, 0xFA0, 1);
     if (((temp_fa0 * temp_fa0) + (temp_fa1 * temp_fa1)) < 100.0f) {
         this->unk212++;
         if (this->unk212 >= temp_a0->count) {
@@ -655,9 +655,9 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
         temp_v0_3 = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &sp24->actor.posRot.pos);
         this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
-        this->actor.posRot.pos.x += 60.0f * Math_Sins(temp_v0_3);
+        this->actor.posRot.pos.x += 60.0f * Math_SinS(temp_v0_3);
         this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
-        this->actor.posRot.pos.z += 60.0f * Math_Coss(temp_v0_3);
+        this->actor.posRot.pos.z += 60.0f * Math_CosS(temp_v0_3);
         temp_fv1 = fabsf((f32)this->actor.yawTowardsLink - (f32)temp_v0_3) * 0.001f * 3.0f;
         this->unk14C.animPlaybackSpeed = CLAMP(temp_fv1, 1.0f, 3.0f);
     }
@@ -765,8 +765,8 @@ s32 func_80AABEF0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateY((sp2C.y / 32768.0f) * 3.1415927f, MTXMODE_APPLY);
     }
     if ((limbIndex == 9) || (limbIndex == 0xA) || (limbIndex == 0xD)) {
-        rot->y += (Math_Sins(this->unk214[limbIndex]) * 200.0f);
-        rot->z += (Math_Coss(this->unk236[limbIndex]) * 200.0f);
+        rot->y += (Math_SinS(this->unk214[limbIndex]) * 200.0f);
+        rot->z += (Math_CosS(this->unk236[limbIndex]) * 200.0f);
     }
     return 0;
 }

@@ -150,7 +150,7 @@ void func_80B4AE18(EnZl1* this) {
         this->unk_1FC = 2;
     } else {
         if (DECR(this->unk_1FC) == 0) {
-            this->unk_1FC = Math_Rand_S16Offset(0x1E, 0xA);
+            this->unk_1FC = Rand_S16Offset(0x1E, 0xA);
         }
         this->unk_1FE = (this->unk_1FC < 4) ? this->unk_1FC : 0;
 
@@ -586,9 +586,9 @@ void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_UpdateCylinderShape(&this->actor, &this->collider);
         Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider.base);
     }
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->actor.posRot.rot.x, 0xA, 0x3E8, 1);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 0xA, 0x3E8, 1);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->actor.posRot.rot.z, 0xA, 0x3E8, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.posRot.rot.x, 0xA, 0x3E8, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 0xA, 0x3E8, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, this->actor.posRot.rot.z, 0xA, 0x3E8, 1);
     func_80B4AE18(this);
 }
 

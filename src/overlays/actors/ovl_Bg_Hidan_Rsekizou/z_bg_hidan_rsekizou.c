@@ -104,8 +104,8 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk164 = 3;
     }
     this->dyna.actor.shape.rot.y += 0x180;
-    sp24 = Math_Sins(this->dyna.actor.shape.rot.y);
-    temp_fv0 = Math_Coss(this->dyna.actor.shape.rot.y);
+    sp24 = Math_SinS(this->dyna.actor.shape.rot.y);
+    temp_fv0 = Math_CosS(this->dyna.actor.shape.rot.y);
     for (i = 0; i < 6; i++) {
         temp_v0_2 = &this->unk168.elements[i];
         temp_v0_2->shape.world.center.x = this->dyna.actor.initPosRot.pos.x +
@@ -138,11 +138,11 @@ Gfx* func_8088C70C(GraphicsContext** arg0, BgHidanRsekizou* arg1, s16 arg2, MtxF
     gDPSetPrimColor(arg5++, 0x00, 0x01, 255, 255, 0, 150);
     gDPSetEnvColor(arg5++, 255, 0, 0, 255);
     if (arg4 == 0) {
-        sp58 = -Math_Sins((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
-        var_fa0 = -Math_Coss((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
+        sp58 = -Math_SinS((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
+        var_fa0 = -Math_CosS((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
     } else {
-        sp58 = Math_Sins((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
-        var_fa0 = Math_Coss((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
+        sp58 = Math_SinS((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
+        var_fa0 = Math_CosS((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
     }
     temp_fv0 = (0.7f * var_fa1) + 0.5f;
     arg3->mf[0][0] = arg3->mf[1][1] = arg3->mf[2][2] = temp_fv0;

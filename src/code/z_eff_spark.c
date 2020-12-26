@@ -66,9 +66,9 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
             elem->pos.x = this->pos.x;
             elem->pos.y = this->pos.y;
             elem->pos.z = this->pos.z;
-            elem->velocity.x = Math_Rand_ZeroOne() - 0.5f;
-            elem->velocity.y = Math_Rand_ZeroOne() - 0.5f;
-            elem->velocity.z = Math_Rand_ZeroOne() - 0.5f;
+            elem->velocity.x = Rand_ZeroOne() - 0.5f;
+            elem->velocity.y = Rand_ZeroOne() - 0.5f;
+            elem->velocity.z = Rand_ZeroOne() - 0.5f;
 
             velocityNorm = sqrtf(SQ(elem->velocity.x) + SQ(elem->velocity.y) + SQ(elem->velocity.z));
 
@@ -81,12 +81,12 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
                 elem->velocity.y = this->unk48C;
             }
 
-            elem->unk18.x = 30000.0f - Math_Rand_ZeroOne() * 15000.0f;
-            elem->unk18.y = 30000.0f - Math_Rand_ZeroOne() * 15000.0f;
-            elem->unk18.z = 30000.0f - Math_Rand_ZeroOne() * 15000.0f;
-            elem->unk1E.x = Math_Rand_ZeroOne() * 65534.0f;
-            elem->unk1E.y = Math_Rand_ZeroOne() * 65534.0f;
-            elem->unk1E.z = Math_Rand_ZeroOne() * 65534.0f;
+            elem->unk18.x = 30000.0f - Rand_ZeroOne() * 15000.0f;
+            elem->unk18.y = 30000.0f - Rand_ZeroOne() * 15000.0f;
+            elem->unk18.z = 30000.0f - Rand_ZeroOne() * 15000.0f;
+            elem->unk1E.x = Rand_ZeroOne() * 65534.0f;
+            elem->unk1E.y = Rand_ZeroOne() * 65534.0f;
+            elem->unk1E.z = Rand_ZeroOne() * 65534.0f;
         }
 
         this->timer = 0;
@@ -214,7 +214,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             elem = &this->elements[i];
 
             SkinMatrix_SetTranslate(&spEC, elem->pos.x, elem->pos.y, elem->pos.z);
-            temp = ((Math_Rand_ZeroOne() * 2.5f) + 1.5f) * 0.015625f;
+            temp = ((Rand_ZeroOne() * 2.5f) + 1.5f) * 0.015625f;
             SkinMatrix_SetScale(&spAC, temp, temp, 1.0f);
             SkinMatrix_MtxFMtxFMult(&spEC, &globalCtx->mf_11DA0, &sp6C);
             SkinMatrix_MtxFMtxFMult(&sp6C, &spAC, &sp12C);

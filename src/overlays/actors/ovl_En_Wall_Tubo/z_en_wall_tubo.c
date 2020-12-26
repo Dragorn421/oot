@@ -115,8 +115,8 @@ void func_80B2F0B8(EnWallTubo* this, GlobalContext* globalCtx) {
     sp50 = D_80B2F358;
     sp44 = D_80B2F364;
     if (!(globalCtx->gameplayFrames & 1)) {
-        sp38.x = Math_Rand_CenteredFloat(300.0f) + this->unk154.x;
-        sp38.y = Math_Rand_CenteredFloat(300.0f) + this->unk154.y;
+        sp38.x = Rand_CenteredFloat(300.0f) + this->unk154.x;
+        sp38.y = Rand_CenteredFloat(300.0f) + this->unk154.y;
         sp38.z = this->unk154.z;
         EffectSsBomb2_SpawnLayered(globalCtx, &sp38, &sp44, &sp50, 100, 30);
         EffectSsHahen_SpawnBurst(globalCtx, &sp38, 10.0f, 0, 50, 15, 3, -1, 10, NULL);

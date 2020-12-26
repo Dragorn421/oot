@@ -111,16 +111,16 @@ void func_80870D2C(BgDdanJd* this, GlobalContext* globalCtx) {
     sp34.y = this->dyna.actor.initPosRot.pos.y;
     if (globalCtx->gameplayFrames & 1) {
         sp34.x = this->dyna.actor.posRot.pos.x + 65.0f;
-        sp34.z = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
+        sp34.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
         func_80033480(globalCtx, &sp34, 5.0f, 1, 0x14, 0x3C, 1U);
         sp34.x = this->dyna.actor.posRot.pos.x - 65.0f;
-        sp34.z = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
+        sp34.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
         func_80033480(globalCtx, &sp34, 5.0f, 1, 0x14, 0x3C, 1U);
     } else {
-        sp34.x = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
+        sp34.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
         sp34.z = this->dyna.actor.posRot.pos.z + 65.0f;
         func_80033480(globalCtx, &sp34, 5.0f, 1, 0x14, 0x3C, 1U);
-        sp34.x = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
+        sp34.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
         sp34.z = this->dyna.actor.posRot.pos.z - 65.0f;
         func_80033480(globalCtx, &sp34, 5.0f, 1, 0x14, 0x3C, 1U);
     }
@@ -139,7 +139,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
         this->actionFunc = BgDdanJd_Idle;
         func_800800F8(globalCtx, 0xBF4, -0x63, &this->dyna.actor, 0);
     } else {
-        if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->targetPosY, this->yVelocity)) {
+        if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->targetPosY, this->yVelocity)) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
             this->actionFunc = BgDdanJd_Idle;
         }

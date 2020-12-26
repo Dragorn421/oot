@@ -92,7 +92,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->unk15E_r = temp_v1_curRoomIndex | 1;
     this->unk162 = 0x71;
     sp66_rightChestThing = 0xD;
-    if (Math_Rand_ZeroFloat(1.99f) < 1.0f) {
+    if (Rand_ZeroFloat(1.99f) < 1.0f) {
         sp6C_rightChestParams = (D_809D3130[globalCtx->roomCtx.curRoom.num] << 5) | 0x4000;
         this->unk15E_r = temp_v1_curRoomIndex;
         this->unk162 = D_809D3130[globalCtx->roomCtx.curRoom.num];

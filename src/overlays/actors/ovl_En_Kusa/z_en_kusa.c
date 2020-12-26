@@ -118,7 +118,7 @@ void func_80A9B07C(EnKusa* this, GlobalContext* globalCtx) {
             Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, var_v0 * 0x10);
             break;
         case 1:
-            if (Math_Rand_ZeroOne() < 0.5f) {
+            if (Rand_ZeroOne() < 0.5f) {
                 Item_DropCollectible(globalCtx, &this->actor.posRot.pos, 0x10);
             } else {
                 Item_DropCollectible(globalCtx, &this->actor.posRot.pos, 3);
@@ -135,7 +135,7 @@ void func_80A9B140(EnKusa* this) {
 }
 
 void func_80A9B174(Vec3f* arg0, f32 arg1) {
-    arg1 += ((Math_Rand_ZeroOne() * 0.2f) - 0.1f) * arg1;
+    arg1 += ((Rand_ZeroOne() * 0.2f) - 0.1f) * arg1;
     arg0->x -= arg0->x * arg1;
     arg0->y -= arg0->y * arg1;
     arg0->z -= arg0->z * arg1;
@@ -160,20 +160,20 @@ void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
         spB8.x = this->actor.posRot.pos.x + (var_s1->x * this->actor.scale.x * 20.0f);
         spB8.y = this->actor.posRot.pos.y + (var_s1->y * this->actor.scale.y * 20.0f) + 10.0f;
         spB8.z = this->actor.posRot.pos.z + (var_s1->z * this->actor.scale.z * 20.0f);
-        spC4.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        spC4.y = Math_Rand_ZeroOne() * 10.0f;
-        spC4.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        new_var = (s32)(Math_Rand_ZeroOne() * 111.1f) & 7;
+        spC4.x = (Rand_ZeroOne() - 0.5f) * 8.0f;
+        spC4.y = Rand_ZeroOne() * 10.0f;
+        spC4.z = (Rand_ZeroOne() - 0.5f) * 8.0f;
+        new_var = (s32)(Rand_ZeroOne() * 111.1f) & 7;
         EffectSsKakera_Spawn(globalCtx, &spB8, &spC4, &spB8, -100, 0x40, 0x28, 3, 0, D_80A9C26C[new_var], 0, 0, 80, -1,
                              1, D_40355E0);
 
         spB8.x = this->actor.posRot.pos.x + (var_s1->x * this->actor.scale.x * 40.0f);
         spB8.y = this->actor.posRot.pos.y + (var_s1->y * this->actor.scale.y * 40.0f) + 10.0f;
         spB8.z = this->actor.posRot.pos.z + (var_s1->z * this->actor.scale.z * 40.0f);
-        spC4.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-        spC4.y = Math_Rand_ZeroOne() * 10.0f;
-        spC4.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-        new_var = (s32)(Math_Rand_ZeroOne() * 111.1f) % 7;
+        spC4.x = (Rand_ZeroOne() - 0.5f) * 6.0f;
+        spC4.y = Rand_ZeroOne() * 10.0f;
+        spC4.z = (Rand_ZeroOne() - 0.5f) * 6.0f;
+        new_var = (s32)(Rand_ZeroOne() * 111.1f) % 7;
         EffectSsKakera_Spawn(globalCtx, &spB8, &spC4, &spB8, -100, 0x40, 0x28, 3, 0, D_80A9C26C[new_var], 0, 0, 80, -1,
                              1, D_40356A0);
     }
@@ -185,7 +185,7 @@ void func_80A9B574(EnKusa* this, GlobalContext* globalCtx) {
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                        (s16)(s32)(Math_Rand_ZeroOne() * 65535.0f), 0, 1) == NULL) {
+                        (s16)(s32)(Rand_ZeroOne() * 65535.0f), 0, 1) == NULL) {
             break;
         }
     }
@@ -210,7 +210,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80061ED4(&this->actor.collideData, NULL, &D_80A9C234);
     if (this->actor.shape.rot.y == 0) {
         this->actor.shape.rot.y = this->actor.initPosRot.rot.y = this->actor.posRot.rot.y =
-            (s16)(s32)Math_Rand_ZeroFloat(65536.0f);
+            (s16)(s32)Rand_ZeroFloat(65536.0f);
     }
     if (func_80A9AFAC(this, globalCtx, 0.0f) == 0) {
         Actor_Kill(&this->actor);
@@ -301,8 +301,8 @@ void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx) {
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
         func_80A9BBB0(this);
-        this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
-        this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
+        this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
+        this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
         this->actor.collideData.mass = 240;
         this->actor.gravity = -0.1f;
         func_80A9B140(this);
@@ -316,7 +316,7 @@ void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx) {
 void func_80A9BBB0(EnKusa* this) {
     func_80A9AFA0(this, func_80A9BC1C);
     D_80A9C1D0 = -0xBB8;
-    D_80A9C1D8 = (s16)(s32)((Math_Rand_ZeroOne() - 0.5f) * 1600.0f);
+    D_80A9C1D8 = (s16)(s32)((Rand_ZeroOne() - 0.5f) * 1600.0f);
     D_80A9C1D4 = 0;
     D_80A9C1DC = 0;
 }
@@ -358,8 +358,8 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
         }
         func_80A9B140(this);
-        Math_ApproxS(&D_80A9C1D4, D_80A9C1D0, 0x1F4);
-        Math_ApproxS(&D_80A9C1DC, D_80A9C1D8, 0xAA);
+        Math_StepToS(&D_80A9C1D4, D_80A9C1D0, 0x1F4);
+        Math_StepToS(&D_80A9C1DC, D_80A9C1D8, 0xAA);
         this->actor.shape.rot.x += D_80A9C1D4;
         this->actor.shape.rot.y += D_80A9C1DC;
         func_80A9B174(&this->actor.velocity, 0.05f);
@@ -400,7 +400,7 @@ void func_80A9BF3C(EnKusa* this) {
 }
 
 void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
-    if ((this->unk19C >= 0x79) && Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.6f) &&
+    if ((this->unk19C >= 0x79) && Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.6f) &&
         (this->unk19C >= 0xAA)) {
         func_80A9C00C(this);
     }
@@ -416,8 +416,8 @@ void func_80A9C00C(EnKusa* this) {
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     s32 temp_v1 = 1;
 
-    temp_v1 &= Math_ApproxF(&this->actor.scale.y, 0.4f, 0.014f);
-    temp_v1 &= Math_ApproxF(&this->actor.scale.x, 0.4f, 0.011f);
+    temp_v1 &= Math_StepToF(&this->actor.scale.y, 0.4f, 0.014f);
+    temp_v1 &= Math_StepToF(&this->actor.scale.x, 0.4f, 0.011f);
     this->actor.scale.z = this->actor.scale.x;
     if (temp_v1) {
         Actor_SetScale(&this->actor, 0.4f);
