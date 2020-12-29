@@ -17,7 +17,7 @@ glabel EnMd_Update
 /* 01C1C 80AABE6C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01C20 80AABE70 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01C24 80AABE74 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01C24 80AABE74 0C02927F */  jal     SkelAnime_Update
               
 /* 01C28 80AABE78 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01C2C 80AABE7C 0C2AAC38 */  jal     func_80AAB0E0              

@@ -21,7 +21,7 @@ glabel EnDns_Update
 /* 00F78 809F02C8 0C00B58B */  jal     Actor_SetScale
               
 /* 00F7C 809F02CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00F80 809F02D0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00F80 809F02D0 0C02927F */  jal     SkelAnime_Update
               
 /* 00F84 809F02D4 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00F88 809F02D8 0C00B638 */  jal     Actor_MoveForward

@@ -52,12 +52,12 @@ void func_80AAA250(EnMd* this) {
     f32 temp_fv0;
     f32 temp_fv1;
 
-    temp_fv0 = this->unk14C.initialFrame;
-    temp_fv1 = this->unk14C.animFrameCount;
-    this->unk14C.initialFrame = temp_fv1;
-    this->unk14C.animCurrentFrame = temp_fv1;
-    this->unk14C.animFrameCount = temp_fv0;
-    this->unk14C.animPlaybackSpeed = -1.0f;
+    temp_fv0 = this->unk14C.startFrame;
+    temp_fv1 = this->unk14C.endFrame;
+    this->unk14C.startFrame = temp_fv1;
+    this->unk14C.curFrame = temp_fv1;
+    this->unk14C.endFrame = temp_fv0;
+    this->unk14C.playSpeed = -1.0f;
 }
 
 void func_80AAA274(EnMd* this) {
@@ -66,7 +66,7 @@ void func_80AAA274(EnMd* this) {
             func_80034EC0(&this->unk14C, D_80AAC348, 2);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 3);
                 this->unk20A++;
             }
@@ -80,7 +80,7 @@ void func_80AAA308(EnMd* this) {
             func_80034EC0(&this->unk14C, D_80AAC348, 4);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 5);
                 this->unk20A++;
             }
@@ -95,14 +95,14 @@ void func_80AAA39C(EnMd* this) {
             func_80AAA250(this);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 7);
                 this->unk20A++;
             } else {
                 break;
             }
         case 2:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 8);
                 this->unk20A++;
             }
@@ -115,7 +115,7 @@ void func_80AAA474(EnMd* this) {
             func_80034EC0(&this->unk14C, D_80AAC348, 7);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
                 this->unk20A++;
             }
@@ -130,7 +130,7 @@ void func_80AAA508(EnMd* this) {
             func_80AAA250(this);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
                 this->unk20A++;
             }
@@ -144,7 +144,7 @@ void func_80AAA5A4(EnMd* this) {
             func_80034EC0(&this->unk14C, D_80AAC348, 9);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 6);
                 this->unk20A++;
             }
@@ -159,7 +159,7 @@ void func_80AAA638(EnMd* this) {
             func_80AAA250(this);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
                 this->unk20A++;
             }
@@ -173,7 +173,7 @@ void func_80AAA6D4(EnMd* this) {
             func_80034EC0(&this->unk14C, D_80AAC348, 0xB);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 6);
                 this->unk20A++;
             }
@@ -187,7 +187,7 @@ void func_80AAA768(EnMd* this) {
             func_80034EC0(&this->unk14C, D_80AAC348, 0xC);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 3);
                 this->unk20A++;
             }
@@ -201,7 +201,7 @@ void func_80AAA7FC(EnMd* this) {
             func_80034EC0(&this->unk14C, D_80AAC348, 0xD);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 6);
                 this->unk20A++;
             }
@@ -216,7 +216,7 @@ void func_80AAA890(EnMd* this) {
             func_80AAA250(this);
             this->unk20A++;
         case 1:
-            if (func_800A56C8(&this->unk14C, this->unk14C.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
                 this->unk20A++;
             }
@@ -654,7 +654,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
         this->actor.posRot.pos.z += 60.0f * Math_CosS(temp_v0_3);
         temp_fv1 = fabsf((f32)this->actor.yawTowardsLink - (f32)temp_v0_3) * 0.001f * 3.0f;
-        this->unk14C.animPlaybackSpeed = CLAMP(temp_fv1, 1.0f, 3.0f);
+        this->unk14C.playSpeed = CLAMP(temp_fv1, 1.0f, 3.0f);
     }
     if (this->unk1E0.unk_00 == 2) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
@@ -720,7 +720,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         func_80AAA92C(this, 0xB);
-        this->unk14C.animPlaybackSpeed = 0.0f;
+        this->unk14C.playSpeed = 0.0f;
         this->actor.speedXZ = 0.0f;
         this->actor.initPosRot.pos = this->actor.posRot.pos;
         this->unk190 = func_80AAB8F8;
@@ -733,7 +733,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_CylinderUpdate(&this->actor, &this->unk194);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk194.base);
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     func_80AAB0E0(this);
     func_80AAB5A4(this, globalCtx);
     Actor_MoveForward(&this->actor);

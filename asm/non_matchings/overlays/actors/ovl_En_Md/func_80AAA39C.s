@@ -26,7 +26,7 @@ glabel func_80AAA39C
 .L80AAA3F8:
 /* 001A8 80AAA3F8 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 001AC 80AAA3FC 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 001B0 80AAA400 0C0295B2 */  jal     func_800A56C8              
+/* 001B0 80AAA400 0C0295B2 */  jal     Animation_OnFrame              
 /* 001B4 80AAA404 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 001B8 80AAA408 10400015 */  beq     $v0, $zero, .L80AAA460     
 /* 001BC 80AAA40C 8FA40020 */  lw      $a0, 0x0020($sp)           
@@ -40,7 +40,7 @@ glabel func_80AAA39C
 /* 001DC 80AAA42C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 .L80AAA430:
 /* 001E0 80AAA430 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 001E4 80AAA434 0C0295B2 */  jal     func_800A56C8              
+/* 001E4 80AAA434 0C0295B2 */  jal     Animation_OnFrame              
 /* 001E8 80AAA438 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 001EC 80AAA43C 10400008 */  beq     $v0, $zero, .L80AAA460     
 /* 001F0 80AAA440 8FA40020 */  lw      $a0, 0x0020($sp)           
