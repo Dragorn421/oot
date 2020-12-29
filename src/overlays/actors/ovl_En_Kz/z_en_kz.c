@@ -335,8 +335,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
     s32 pad;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
-                       12);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, this->jointTable, this->morphTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -417,7 +416,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0;
         this->actionFunc = EnKz_StopMweep;
     }
-    if (this->skelanime.animCurrentFrame == 13.0f) {
+    if (this->skelanime.curFrame == 13.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_KZ_MOVE);
     }
 }
@@ -475,7 +474,7 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     Collider_UpdateCylinderShape(&this->actor, &this->collider);
     Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider);
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
     EnKz_UpdateEyes(this);
     Actor_MoveForward(&this->actor);
     if (this->actionFunc != EnKz_StartTimer) {
@@ -492,7 +491,7 @@ s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         rot->z += Math_CosS(this->unk_2BE[limbIndex]) * 200.0f;
     }
     if (limbIndex) {}
-    return 0;
+    return false;
 }
 
 void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -516,7 +515,7 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount,
                           EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);

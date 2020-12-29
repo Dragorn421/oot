@@ -91,8 +91,8 @@ void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809C3820(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    this->unk254_curAnimFraceCount = SkelAnime_GetFrameCount(&D_06000710);
-    SkelAnime_ChangeAnim(&this->unk14C, &D_06000710, 1.0f, 0.0f, this->unk254_curAnimFraceCount, 0U, -10.0f);
+    this->unk254_curAnimFraceCount = Animation_GetLastFrame(&D_06000710);
+    Animation_Change(&this->unk14C, &D_06000710, 1.0f, 0.0f, this->unk254_curAnimFraceCount, 0U, -10.0f);
     this->actor.textId = 0xC0;
     this->unk22E = 5;
     this->actionFunc = func_809C38A8_WaitTalk;
@@ -102,7 +102,7 @@ void func_809C38A8_WaitTalk(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 relYawTowardsPlayer;
     s16 relYawTowardsPlayerAbs;
 
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_809C395C;
     } else {
@@ -115,7 +115,7 @@ void func_809C38A8_WaitTalk(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C395C(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         globalCtx->msgCtx.msgMode = 0x37;
         this->actionFunc = func_809C39D0;
@@ -123,8 +123,8 @@ void func_809C395C(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C39D0(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    this->unk254_curAnimFraceCount = SkelAnime_GetFrameCount(&D_06000080);
-    SkelAnime_ChangeAnim(&this->unk14C, &D_06000080, 1.0f, 0.0f, this->unk254_curAnimFraceCount, 2U, -10.0f);
+    this->unk254_curAnimFraceCount = Animation_GetLastFrame(&D_06000080);
+    Animation_Change(&this->unk14C, &D_06000080, 1.0f, 0.0f, this->unk254_curAnimFraceCount, 2U, -10.0f);
     this->unk238 = 1;
     this->actionFunc = func_809C3A54;
 }
@@ -132,8 +132,8 @@ void func_809C39D0(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void func_809C3A54(EnBomBowlMan* this, GlobalContext* globalCtx) {
     f32 sp1C;
 
-    sp1C = this->unk14C.animCurrentFrame;
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    sp1C = this->unk14C.curFrame;
+    SkelAnime_Update(&this->unk14C);
     if (sp1C == 30.0f) {
         this->unk22E = 5;
         if ((gSaveContext.eventChkInf[2] & 0x20) || (gGameInfo->data[0x962] != 0)) {
@@ -153,11 +153,11 @@ void func_809C3A54(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
-        this->unk254_curAnimFraceCount = SkelAnime_GetFrameCount(&D_060072AC);
-        SkelAnime_ChangeAnim(&this->unk14C, &D_060072AC, 1.0f, 0.0f, this->unk254_curAnimFraceCount, 0U, -10.0f);
+        this->unk254_curAnimFraceCount = Animation_GetLastFrame(&D_060072AC);
+        Animation_Change(&this->unk14C, &D_060072AC, 1.0f, 0.0f, this->unk254_curAnimFraceCount, 0U, -10.0f);
         this->unk238 = 3;
         this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
         if (!(gSaveContext.eventChkInf[2] & 0x20) && (gGameInfo->data[0x962] == 0)) {
@@ -172,7 +172,7 @@ void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C3C7C(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_809C3CD4;
     } else {
@@ -181,7 +181,7 @@ void func_809C3C7C(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C3CD4(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->actionFunc = func_809C3C7C;
@@ -189,7 +189,7 @@ void func_809C3CD4(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C3D40(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if (this->unk_258 == 0) {
         if (this->unk232 == 0) {
             this->actor.textId = 0x18;
@@ -208,7 +208,7 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 relYawTowardsPlayer;
     s16 relYawTowardsPlayerAbs;
 
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if (gGameInfo->data[0x963] != 0) {
         osSyncPrintf("\x1b[31m☆ game_play->bomchu_game_flag ☆ %d\n\x1b[m", globalCtx->bombchuBowlingStatus);
         osSyncPrintf("\x1b[31m☆ 壁１の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[0]);
@@ -260,7 +260,7 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -305,7 +305,7 @@ void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         if (((this->actor.textId == 0x2D) || (this->actor.textId == 0x85)) && Flags_GetSwitch(globalCtx, 0x38)) {
@@ -332,7 +332,7 @@ void func_809C4318(EnBomBowlMan* this, GlobalContext* globalCtx) {
     Vec3f sp38 = D_809C4A54;
     Vec3f sp2C;
 
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         sp2C.x = 148.0f;
         sp2C.y = 40.0f;
@@ -348,7 +348,7 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 var_v1;
     s32 pad;
 
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if (this->unk22A == 0) {
         switch (this->unk242) {
             case 0:
@@ -404,7 +404,7 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C4664(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
@@ -482,7 +482,7 @@ void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809C4AA8[this->unk234]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.limbDrawTbl, this->unk14C.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,
                           EnBomBowlMan_OverrideLimbDraw, NULL, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_bowl_man.c", 923);
 }

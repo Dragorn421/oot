@@ -205,7 +205,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
         } else {
             ObjComb_Break(this, globalCtx);
             ObjComb_ChooseItemDrop(this, globalCtx);
-            Actor_Kill(this);
+            Actor_Kill(&this->actor);
         }
     } else {
         Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->collider);

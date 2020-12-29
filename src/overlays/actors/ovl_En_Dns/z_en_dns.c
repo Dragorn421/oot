@@ -198,9 +198,9 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_809EF51C(EnDns* this, u8 arg1) {
     s16 temp_ft0;
 
-    temp_ft0 = SkelAnime_GetFrameCount(&D_809F0538[arg1].unk0->genericHeader);
+    temp_ft0 = Animation_GetLastFrame(D_809F0538[arg1].unk0);
     this->unk2BA = arg1;
-    SkelAnime_ChangeAnim(&this->unk14C, D_809F0538[arg1].unk0, 1.0f, 0.0f, temp_ft0, D_809F0538[arg1].unk4,
+    Animation_Change(&this->unk14C, D_809F0538[arg1].unk0, 1.0f, 0.0f, temp_ft0, D_809F0538[arg1].unk4,
                          D_809F0538[arg1].unk8);
 }
 
@@ -331,7 +331,7 @@ void EnDns_ConcludePurchase_DekuNutsCapacity(EnDns* this) {
 }
 
 void func_809EFB84(EnDns* this, GlobalContext* globalCtx) {
-    if (this->unk14C.animCurrentFrame == this->unk14C.animFrameCount) {
+    if (this->unk14C.curFrame == this->unk14C.endFrame) {
         this->unk268 = func_809EFBC8;
         func_809EF51C(this, 0);
     }
@@ -453,9 +453,9 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809F0100(EnDns* this, GlobalContext* globalCtx) {
-    f32 f = SkelAnime_GetFrameCount(&D_6004404);
+    f32 f = Animation_GetLastFrame(&D_6004404);
 
-    if (this->unk14C.animCurrentFrame == f) {
+    if (this->unk14C.curFrame == f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->unk268 = func_809F017C;
         this->unk2BC = 0;
@@ -497,7 +497,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.textId = D_809F040C[this->actor.params];
     Actor_SetHeight(&this->actor, 60.0f);
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    SkelAnime_Update(&this->unk14C);
     Actor_MoveForward(&this->actor);
     this->unk268(this, globalCtx);
     if (this->unk2BC != 0) {
@@ -513,6 +513,6 @@ void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = (EnDns*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.limbDrawTbl, this->unk14C.dListCount, NULL,
+    SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount, NULL,
                           NULL, &this->actor);
 }
