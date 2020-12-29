@@ -88,7 +88,7 @@ const ActorInit En_Torch2_InitVars = {
 /* static */ s8 sLastSwordAnim;
 /* static */ u8 sAlpha;
 
-static DamageTable sDamageTable = {
+static ActorDamageChart sActorDamageChart = {
     0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02,
     0x02, 0xE2, 0x60, 0xD3, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
 };
@@ -107,15 +107,15 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->cylinder.base.acFlags = 9;
     this->swordQuads[0].base.atFlags = this->swordQuads[1].base.atFlags = 0x11;
     this->swordQuads[0].base.acFlags = this->swordQuads[1].base.acFlags = 0xD;
-    this->swordQuads[0].base.type = this->swordQuads[1].base.type = 9;
-    this->swordQuads[0].body.toucher.damage = this->swordQuads[1].body.toucher.damage = 8;
-    this->swordQuads[0].body.bumperFlags = this->swordQuads[1].body.bumperFlags = 1;
+    this->swordQuads[0].base.colMaterial = this->swordQuads[1].base.colMaterial = 9;
+    this->swordQuads[0].elem.atDmgInfo.damage = this->swordQuads[1].elem.atDmgInfo.damage = 8;
+    this->swordQuads[0].elem.acElemFlags = this->swordQuads[1].elem.acElemFlags = 1;
     this->shieldQuad.base.atFlags = 0x11;
     this->shieldQuad.base.acFlags = 0xD;
-    this->actor.colChkInfo.damageTable = &sDamageTable;
-    this->actor.colChkInfo.health = gSaveContext.healthCapacity >> 3;
-    this->actor.colChkInfo.unk_10 = 60;
-    this->actor.colChkInfo.unk_12 = 100;
+    this->actor.collideData.damageChart = &sActorDamageChart;
+    this->actor.collideData.health = gSaveContext.healthCapacity >> 3;
+    this->actor.collideData.unk_10 = 60;
+    this->actor.collideData.unk_12 = 100;
     globalCtx->func_11D54(this, globalCtx);
 
     sActionState = ENTORCH2_WAIT;
@@ -284,8 +284,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
             }
             if ((sCounterState != 0) && (this->swordState != 0)) {
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->swordQuads[0].base);
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->swordQuads[1].base);
+                Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->swordQuads[0].base);
+                Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->swordQuads[1].base);
             }
 
             // Ignores hits when jumping on Link's sword
@@ -572,13 +572,13 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     // Handles Dark Link being damaged
 
-    if ((this->actor.colChkInfo.health == 0) && sDeathFlag) {
+    if ((this->actor.collideData.health == 0) && sDeathFlag) {
         this->csMode = 0x18;
         this->unk_448 = &player->actor;
         this->unk_46A = 1;
         sDeathFlag = false;
     }
-    if ((this->invincibilityTimer == 0) && (this->actor.colChkInfo.health != 0) && (this->cylinder.base.acFlags & 2) &&
+    if ((this->invincibilityTimer == 0) && (this->actor.collideData.health != 0) && (this->cylinder.base.acFlags & 2) &&
         !(this->stateFlags1 & 0x04000000) && !(this->swordQuads[0].base.atFlags & 2) &&
         !(this->swordQuads[1].base.atFlags & 2)) {
 
@@ -588,7 +588,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->unk_8A1 = 2;
             this->unk_8A4 = 6.0f;
             this->unk_8A8 = 6.0f;
-            this->unk_8A0 = this->actor.colChkInfo.damage;
+            this->unk_8A0 = this->actor.collideData.damage;
             this->unk_8A2 = this->actor.yawTowardsLink + 0x8000;
             sDeathFlag++;
             sActionState = ENTORCH2_DEATH;
@@ -597,7 +597,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->stateFlags3 &= ~4;
         } else {
             func_800F5ACC(0x38);
-            if (this->actor.colChkInfo.damageEffect == 1) {
+            if (this->actor.collideData.damageEffect == 1) {
                 if (sAlpha == 255) {
                     func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
                 } else {
@@ -607,10 +607,10 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->actor.flags &= ~1;
                 this->unk_8A1 = 1;
                 this->unk_8A8 = 6.0f;
-                this->unk_8A0 = this->actor.colChkInfo.damage;
+                this->unk_8A0 = this->actor.collideData.damage;
                 this->unk_8A4 = 8.0f;
                 this->unk_8A2 = this->actor.yawTowardsLink + 0x8000;
-                func_80035650(&this->actor, &this->cylinder.body, 1);
+                func_80035650(&this->actor, &this->cylinder.elem, 1);
                 this->stateFlags3 &= ~4;
                 this->stateFlags3 |= 1;
                 sActionState = ENTORCH2_DAMAGE;
@@ -621,7 +621,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
             }
         }
-        this->actor.colChkInfo.damage = 0;
+        this->actor.collideData.damage = 0;
         this->unk_8A0 = 0;
     }
 
@@ -690,8 +690,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->skelAnime.animCurrentFrame = player->skelAnime.animCurrentFrame - player->skelAnime.animPlaybackSpeed;
             this->skelAnime.animPlaybackSpeed = player->skelAnime.animPlaybackSpeed;
             func_800A3BC0(globalCtx, &this->skelAnime);
-            Collider_QuadSetAT(globalCtx, &this->swordQuads[0].base);
-            Collider_QuadSetAT(globalCtx, &this->swordQuads[1].base);
+            Collider_ClearQuadATHit(globalCtx, &this->swordQuads[0].base);
+            Collider_ClearQuadATHit(globalCtx, &this->swordQuads[1].base);
         }
     }
     if (sStaggerTimer != 0) {
@@ -708,11 +708,11 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         sDodgeRollState = (this->invincibilityTimer > 0) ? 2 : 0;
     }
     if (this->invincibilityTimer != 0) {
-        this->cylinder.base.type = 0xA;
-        this->cylinder.body.flags = 5;
+        this->cylinder.base.colMaterial = 0xA;
+        this->cylinder.elem.elemMaterial = 5;
     } else {
-        this->cylinder.base.type = 5;
-        this->cylinder.body.flags = 1;
+        this->cylinder.base.colMaterial = 5;
+        this->cylinder.elem.elemMaterial = 1;
     }
     /*
      * Handles the jump movement onto Link's sword. Dark Link doesn't move during the
