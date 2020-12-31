@@ -155,7 +155,7 @@ s32 func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx) {
     if ((this->unk178 != 0) && (func_80043590(&this->dyna) != 0)) {
         return 0;
     }
-    if ((this->dyna.actor.xzDistFromLink <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7])) {
+    if ((this->dyna.actor.xzDistToLink <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7])) {
         func_8002DBD0(&this->dyna.actor, &sp1C, &PLAYER->actor.posRot.pos);
         temp_fv1 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
         if ((temp_fv1 < fabsf(sp1C.x)) || (temp_fv1 < fabsf(sp1C.z))) {

@@ -292,7 +292,7 @@ void func_8086ED70(BgBombwall* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~2;
         func_8086EDFC(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
-    } else if (this->dyna.actor.xzDistFromLink < 600.0f) {
+    } else if (this->dyna.actor.xzDistToLink < 600.0f) {
         Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->collider.base);
     }
 }

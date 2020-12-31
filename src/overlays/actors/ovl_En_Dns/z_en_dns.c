@@ -348,7 +348,7 @@ void func_809EFBC8(EnDns* this, GlobalContext* globalCtx) {
         } else {
             this->actor.flags &= ~0x10000;
         }
-        if (this->actor.xzDistFromLink < 130.0f) {
+        if (this->actor.xzDistToLink < 130.0f) {
             func_8002F2F4(&this->actor, globalCtx);
         }
     }

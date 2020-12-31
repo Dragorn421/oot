@@ -478,7 +478,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     s16 var_a3_real;
 
     temp_a2 = PLAYER;
-    if (this->actor.xzDistFromLink < 170.0f) {
+    if (this->actor.xzDistToLink < 170.0f) {
         temp_ft1 = (f32)this->actor.yawTowardsLink - (f32)this->actor.shape.rot.y;
         temp_v1 = ABS(temp_ft1);
         if (temp_v1 <= func_800347E8(2)) {
@@ -688,7 +688,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
                 sp2C->unk_6A8 = &this->actor;
                 func_8010BD58(globalCtx, 0x22U);
                 this->unk190 = func_80AABC10;
-            } else if (this->actor.xzDistFromLink < (30.0f + (f32)this->unk194.shape.radius)) {
+            } else if (this->actor.xzDistToLink < (30.0f + (f32)this->unk194.shape.radius)) {
                 sp2C->stateFlags2 |= 0x800000;
             }
         }

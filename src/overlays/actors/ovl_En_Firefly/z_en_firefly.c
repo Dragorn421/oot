@@ -183,7 +183,7 @@ void func_80A1349C_Setup(EnFirefly* this) {
 
     this->unk1BA_timer = Rand_S16Offset(70, 100);
     this->skelAnime.playSpeed = 1.0f;
-    if (this->actor.yDistFromLink > 0.0f) {
+    if (this->actor.yDistToLink > 0.0f) {
         var_v0 = -0xC00;
     } else {
         var_v0 = 0xC00;
@@ -353,7 +353,7 @@ void func_80A13A08_Action(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallPolyRot, 2, 0xC00, 0x300);
     }
-    if ((this->unk1BA_timer == 0) && (this->actor.xzDistFromLink < 200.0f) && (Player_GetMask(globalCtx) != 2)) {
+    if ((this->unk1BA_timer == 0) && (this->actor.xzDistToLink < 200.0f) && (Player_GetMask(globalCtx) != 2)) {
         func_80A1349C_Setup(this);
     }
 }
@@ -417,7 +417,7 @@ void func_80A13DE4_Action(EnFirefly* this, GlobalContext* globalCtx) {
                                 0x400, 0x100);
     } else {
         this->skelAnime.playSpeed = 1.5f;
-        if (this->actor.xzDistFromLink > 80.0f) {
+        if (this->actor.xzDistToLink > 80.0f) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xC00, 0x300);
         }
         if (this->actor.bgCheckFlags & 1) {
@@ -513,7 +513,7 @@ void func_80A142F4_Action_Perched_(EnFirefly* this, GlobalContext* globalCtx) {
     } else if (Rand_ZeroOne() < 0.02f) {
         this->unk1BA_timer = 1;
     }
-    if (this->actor.xzDistFromLink < 120.0f) {
+    if (this->actor.xzDistToLink < 120.0f) {
         func_80A13764_Setup_SwoopOnPlayer(this);
     }
 }

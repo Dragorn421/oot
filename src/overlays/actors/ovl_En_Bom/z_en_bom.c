@@ -211,7 +211,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
 
     if (this->explosionCollider.elements[0].shape.model.radius == 0) {
         this->actor.flags |= 0x20;
-        func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+        func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
     }
 
     this->explosionCollider.elements[0].shape.world.radius += this->actor.shape.rot.z + 8;
@@ -279,7 +279,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(thisx, 0.01f);
     }
 
-    if ((thisx->xzDistFromLink >= 20.0f) || (ABS(thisx->yDistFromLink) >= 80.0f)) {
+    if ((thisx->xzDistToLink >= 20.0f) || (ABS(thisx->yDistToLink) >= 80.0f)) {
         this->bumpOn = true;
     }
 
@@ -378,7 +378,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMB_EXPLOSION)) {
-        if (thisx->waterY >= 20.0f) {
+        if (thisx->yDistToWater >= 20.0f) {
             EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
                                               DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);

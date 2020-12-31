@@ -409,14 +409,13 @@ void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
     s32 phi_a0 = (this->unk_2FB == 0) ? 0xAAA : 0x3FFC;
     s16 yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
-    if ((ABS(yawDiff) <= phi_a0) && (this->actor.xzDistFromLink < 100.0f) &&
-        (ABS(this->actor.yDistFromLink) < 150.0f)) {
+    if ((ABS(yawDiff) <= phi_a0) && (this->actor.xzDistToLink < 100.0f) && (ABS(this->actor.yDistToLink) < 150.0f)) {
         if ((globalCtx->gameplayFrames & 1)) {
             func_80A74E2C(this);
         } else {
             func_80A751C8(this);
         }
-    } else if ((ABS(yawDiff) <= 0x4000) && (ABS(this->actor.yDistFromLink) < 150.0f)) {
+    } else if ((ABS(yawDiff) <= 0x4000) && (ABS(this->actor.yDistToLink) < 150.0f)) {
         func_80A74AAC(this);
     } else {
         func_80A74AAC(this);
@@ -468,8 +467,8 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if ((ABS(yawDiff) <= temp_t0) && (this->actor.xzDistFromLink < 100.0f)) {
-        if (ABS(this->actor.yDistFromLink) < 150.0f) {
+    if ((ABS(yawDiff) <= temp_t0) && (this->actor.xzDistToLink < 100.0f)) {
+        if (ABS(this->actor.yDistToLink) < 150.0f) {
             if ((globalCtx->gameplayFrames & 1)) {
                 func_80A74E2C(this);
             } else {
@@ -519,7 +518,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
         sp2C.y = this->actor.posRot.pos.y;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
         Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
-        func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+        func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
         func_80062CD4(globalCtx, &sp2C);
     }
 
@@ -661,7 +660,7 @@ void func_80A7567C(EnIk* this, GlobalContext* globalCtx) {
     Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->shieldCollider.base);
     if (SkelAnime_Update(&this->skelAnime)) {
         if ((ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4000) &&
-            (this->actor.xzDistFromLink < 100.0f) && (ABS(this->actor.yDistFromLink) < 150.0f)) {
+            (this->actor.xzDistToLink < 100.0f) && (ABS(this->actor.yDistToLink) < 150.0f)) {
             if ((globalCtx->gameplayFrames & 1)) {
                 func_80A74E2C(this);
             } else {
