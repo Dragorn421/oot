@@ -113,7 +113,7 @@ void func_80892220(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void func_80892280(BgIceTurara* this, GlobalContext* globalCtx) {
-    if (this->dyna.actor.xzDistFromLink < 60.0f) {
+    if (this->dyna.actor.xzDistToLink < 60.0f) {
         this->unk168 = 0xA;
         this->unk164 = func_808922B8;
     }

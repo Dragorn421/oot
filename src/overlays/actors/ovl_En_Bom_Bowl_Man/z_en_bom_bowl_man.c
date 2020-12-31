@@ -108,7 +108,7 @@ void func_809C38A8_WaitTalk(EnBomBowlMan* this, GlobalContext* globalCtx) {
     } else {
         relYawTowardsPlayer = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         relYawTowardsPlayerAbs = ABS(relYawTowardsPlayer);
-        if (!(this->actor.xzDistFromLink > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
+        if (!(this->actor.xzDistToLink > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
             func_8002F2CC(&this->actor, globalCtx, 120.0f);
         }
     }
@@ -253,7 +253,7 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
     } else {
         relYawTowardsPlayer = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         relYawTowardsPlayerAbs = ABS(relYawTowardsPlayer);
-        if (!(this->actor.xzDistFromLink > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
+        if (!(this->actor.xzDistToLink > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
             func_8002F2CC(&this->actor, globalCtx, 120.0f);
         }
     }
