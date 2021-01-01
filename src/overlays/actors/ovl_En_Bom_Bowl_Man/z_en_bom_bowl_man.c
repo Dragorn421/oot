@@ -234,7 +234,7 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->unk22E = 4;
         this->unk_258 = 0;
         if ((this->unk260 != NULL) && (this->unk260->actor.update != NULL)) {
-            this->unk260->unk160 = 1;
+            this->unk260->killItem = 1;
             this->unk260 = NULL;
         }
         globalCtx->bombchuBowlingStatus = 0;

@@ -1,5 +1,6 @@
 #include "z_en_bom_bowl_pit.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0x00000010
 
@@ -149,7 +150,7 @@ void func_809C53F0(EnBomBowlPit* this, GlobalContext* globalCtx) {
             case 0:
                 gSaveContext.itemGetInf[1] |= 2;
                 break;
-            case 1:
+            case EXITEM_HEART_PIECE_BOWLING:
                 gSaveContext.itemGetInf[1] |= 4;
                 break;
         }
