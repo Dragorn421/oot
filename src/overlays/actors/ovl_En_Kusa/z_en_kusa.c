@@ -91,8 +91,8 @@ s32 func_80A9AFAC(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
     sp2C.x = this->actor.posRot.pos.x;
     sp2C.y = this->actor.posRot.pos.y + 30.0f;
     sp2C.z = this->actor.posRot.pos.z;
-    temp_fv0 = func_8003C9A4(&globalCtx->colCtx, &sp38, &sp28, &this->actor, &sp2C);
-    if (temp_fv0 > -32000.0f) {
+    temp_fv0 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp38, &sp28, &this->actor, &sp2C);
+    if (temp_fv0 > BGCHECK_Y_MIN) {
         this->actor.posRot.pos.y = temp_fv0 + arg2;
         Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
         return 1;

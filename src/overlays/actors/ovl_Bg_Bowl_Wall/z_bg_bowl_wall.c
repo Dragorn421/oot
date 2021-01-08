@@ -24,9 +24,9 @@ void func_8086F718(BgBowlWall* this, GlobalContext* globalCtx);
 void func_8086F7F8(BgBowlWall* this, GlobalContext* globalCtx);
 
 extern Gfx D_6000610[];
-extern UNK_TYPE D_6000CB8;
+extern CollisionHeader D_6000CB8;
 extern Gfx D_6001390[];
-extern UNK_TYPE D_6001B00;
+extern CollisionHeader D_6001B00;
 
 const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
@@ -52,17 +52,17 @@ Vec3f D_8086FA84 = { 0.0f, 0.0f, 0.0f };
 void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgBowlWall* this = (BgBowlWall*)thisx;
     s32 pad1[2];
-    s32 sp28;
+    CollisionHeader* sp28;
     s32 pad2[2];
 
-    sp28 = 0;
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
+    sp28 = NULL;
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (this->dyna.actor.params == 0) {
-        DynaPolyInfo_Alloc(&D_6000CB8, &sp28);
+        CollisionHeader_GetVirtual(&D_6000CB8, &sp28);
     } else {
-        DynaPolyInfo_Alloc(&D_6001B00, &sp28);
+        CollisionHeader_GetVirtual(&D_6001B00, &sp28);
     }
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp28);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp28);
     this->unk168 = this->dyna.actor.posRot.pos;
     osSyncPrintf("\n\n");
     osSyncPrintf("\x1b[32m ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n\x1b[m", this->dyna.actor.params);
@@ -75,7 +75,7 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgBowlWall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgBowlWall* this = (BgBowlWall*)thisx;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, (s32)this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, (s32)this->dyna.bgId);
 }
 
 void func_8086F260(BgBowlWall* this, GlobalContext* globalCtx) {

@@ -415,7 +415,7 @@ void func_80B8D8A0(MirRay* this, GlobalContext* globalCtx, struct_80B8D8A0* arg2
         reflectionMaxPos.x = forwards.x + reflectionOriginPos.x;
         reflectionMaxPos.y = forwards.y + reflectionOriginPos.y;
         reflectionMaxPos.z = forwards.z + reflectionOriginPos.z;
-        if (func_8003E0B8(&globalCtx->colCtx, &reflectionOriginPos, &reflectionMaxPos, &sp70, &sp6C, 1) != 0) {
+        if (BgCheck_AnyLineTest1(&globalCtx->colCtx, &reflectionOriginPos, &reflectionMaxPos, &sp70, &sp6C, 1) != 0) {
             arg2[i].unk4C = sp6C;
         } else {
             arg2[i].unk4C = NULL;
@@ -490,9 +490,9 @@ void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, struct_80B8D8A0* arg2
         var_s0 = &arg2[i];
         if (var_s0->unk4C != NULL) {
             if (&forwards) {} //! FAKE
-            spDC.x = var_s0->unk4C->unk8 * 0.00003051851f;
-            spDC.y = var_s0->unk4C->unkA * 0.00003051851f;
-            spDC.z = var_s0->unk4C->unkC * 0.00003051851f;
+            spDC.x = COLPOLY_GET_NORMAL(var_s0->unk4C->unk8);
+            spDC.y = COLPOLY_GET_NORMAL(var_s0->unk4C->unkA);
+            spDC.z = COLPOLY_GET_NORMAL(var_s0->unk4C->unkC);
             if (Math3D_LineSegVsPlane(*new_var, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPos, &inFrontPos,
                                       &intersect, true)) {
                 var_s0->reflectionPos.x = intersect.x;

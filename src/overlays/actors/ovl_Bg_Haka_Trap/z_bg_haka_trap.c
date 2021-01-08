@@ -1,5 +1,6 @@
 #include "functions.h"
 #include "global.h"
+#include "z64.h"
 #include "z_bg_haka_trap.h"
 
 #define FLAGS 0
@@ -34,9 +35,9 @@ const ActorInit Bg_Haka_Trap_InitVars = {
     /**/ BgHakaTrap_Draw,
 };
 
-extern UNK_TYPE D_60081D0;
-extern UNK_TYPE D_6008D10;
-extern UNK_TYPE D_6009CD0;
+extern CollisionHeader D_60081D0;
+extern CollisionHeader D_6008D10;
+extern CollisionHeader D_6009CD0;
 
 ColliderCylinderInit D_80880F54 = {
     { 9, 0x11, 0xD, 9, 0x20, 1 },
@@ -77,9 +78,9 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     s32* new_var;
     BgHakaTrap* this = (BgHakaTrap*)thisx;
-    s32 sp2C;
+    CollisionHeader* sp2C;
 
-    sp2C = 0;
+    sp2C = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, D_80881010);
     this->dyna.actor.params &= 0xFF;
     new_var = &D_80881014;
@@ -99,10 +100,10 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             this->actionFunc = &func_80880484;
         } else {
-            DynaPolyInfo_SetActorMove((DynaPolyActor*)this, DPM_PLAYER);
+            DynaPolyActor_Init((DynaPolyActor*)this, DPM_PLAYER);
             this->dyna.actor.flags |= 0x10;
             if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_CRUSHER) {
-                DynaPolyInfo_Alloc(&D_6009CD0, &sp2C);
+                CollisionHeader_GetVirtual(&D_6009CD0, &sp2C);
                 this->unk168 = 0x1E;
                 if (*new_var != 0) {
                     this->actionFunc = &func_808808F4;
@@ -118,11 +119,11 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk178.dim.height = 0x28;
             } else {
                 if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) {
-                    DynaPolyInfo_Alloc(&D_60081D0, &sp2C);
+                    CollisionHeader_GetVirtual(&D_60081D0, &sp2C);
                     this->dyna.actor.initPosRot.pos.x -= 200.0f;
                 } else {
                     this->dyna.actor.initPosRot.pos.x += 200.0f;
-                    DynaPolyInfo_Alloc(&D_6008D10, &sp2C);
+                    CollisionHeader_GetVirtual(&D_6008D10, &sp2C);
                 }
                 Collider_InitTris(globalCtx, &this->unk1C4);
                 Collider_SetTris(globalCtx, &this->unk1C4, &this->dyna.actor, &D_80880FF8, &this->unk1E4);
@@ -132,8 +133,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk178.body.toucherFlags |= 0x10;
                 this->actionFunc = &func_808801B8;
             }
-            this->dyna.dynaPolyId =
-                DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
         }
     } else {
         this->unk168 = 0x28;
@@ -148,7 +148,7 @@ void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.params != BG_HAKA_TRAP_PROPELLER) {
         if (this->dyna.actor.params != BG_HAKA_TRAP_GUILLOTINE) {
-            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             if ((this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) ||
                 (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_2)) {
                 Collider_DestroyTris(globalCtx, &this->unk1C4);
@@ -219,9 +219,8 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
     }
     func_8002F974(&this->dyna.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
     for (var_s0 = 0; var_s0 < 2; var_s0++) {
-        sp94.x =
-            (Rand_ZeroOne() * ((this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) ? -30.0f : 30.0f)) +
-            this->dyna.actor.posRot.pos.x;
+        sp94.x = (Rand_ZeroOne() * ((this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) ? -30.0f : 30.0f)) +
+                 this->dyna.actor.posRot.pos.x;
         sp94.y = (Rand_ZeroOne() * 10.0f) + this->dyna.actor.posRot.pos.y + 30.0f;
         sp94.z = Rand_CenteredFloat(320.0f) + this->dyna.actor.posRot.pos.z;
         EffectSsDeadDb_Spawn(globalCtx, &sp94, &D_8088101C, &D_8088101C, 130, 20, 255, 255, 150, 170, 255, 0, 0, 1, 9,
@@ -308,8 +307,9 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     sp74.z = this->dyna.actor.posRot.pos.z;
     var_fs0 = this->dyna.actor.groundY;
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
-        temp_fv1 =
-            func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor, &sp74) - 25.0f;
+        temp_fv1 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &sp64,
+                                               &this->dyna.actor, &sp74) -
+                   25.0f;
         if (var_fs0 < temp_fv1) {
             var_fs0 = temp_fv1;
         }
@@ -372,14 +372,14 @@ void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
 
 void func_80880AE8(BgHakaTrap* this, GlobalContext* globalCtx) {
     if (this->unk168 != 0) {
-        if (Math_ScaledStepToS(&this->dyna.actor.posRot.rot.z, 0,
-                                     (this->dyna.actor.posRot.rot.z * 0.03f) + 5.0f) != 0) {
+        if (Math_ScaledStepToS(&this->dyna.actor.posRot.rot.z, 0, (this->dyna.actor.posRot.rot.z * 0.03f) + 5.0f) !=
+            0) {
             this->unk168 = 0x28;
             this->actionFunc = func_808809B0;
         }
     } else {
         if (Math_ScaledStepToS(&this->dyna.actor.posRot.rot.z, 0x3A00,
-                                     (this->dyna.actor.posRot.rot.z * 0.03f) + 5.0f) != 0) {
+                               (this->dyna.actor.posRot.rot.z * 0.03f) + 5.0f) != 0) {
             this->unk168 = 0x64;
             this->actionFunc = func_80880C0C;
         }

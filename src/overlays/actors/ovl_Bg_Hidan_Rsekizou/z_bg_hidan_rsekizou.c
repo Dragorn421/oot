@@ -24,7 +24,7 @@ const ActorInit Bg_Hidan_Rsekizou_InitVars = {
 };
 
 extern Gfx D_600AD00[];
-extern UNK_TYPE D_600D5C0;
+extern CollisionHeader D_600D5C0;
 extern Gfx D_600DC30[];
 
 static ColliderJntSphItemInit D_8088CC80[6] = {
@@ -67,13 +67,13 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
     s32 pad;
-    s32 sp30;
+    CollisionHeader* sp30;
 
-    sp30 = 0;
+    sp30 = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, D_8088CD68);
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
-    DynaPolyInfo_Alloc(&D_600D5C0, &sp30);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_600D5C0, &sp30);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
     Collider_InitJntSph(globalCtx, &this->unk168);
     Collider_SetJntSph(globalCtx, &this->unk168, &this->dyna.actor, &D_8088CD58, this->unk188);
     for (i = 0; i < 6; i++) {
@@ -86,7 +86,7 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->unk168);
 }
 

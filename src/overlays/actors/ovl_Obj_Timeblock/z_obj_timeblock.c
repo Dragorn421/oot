@@ -101,13 +101,13 @@ void func_80BA00CC(GlobalContext* globalCtx, s32 arg1) {
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjTimeblock* this = (ObjTimeblock*)thisx;
     s32 pad;
-    s32 sp2C;
+    CollisionHeader* sp2C;
 
-    sp2C = 0;
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
+    sp2C = NULL;
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
-    DynaPolyInfo_Alloc(&D_6000B30, &sp2C);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
+    CollisionHeader_GetVirtual(&D_6000B30, &sp2C);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
     Actor_ProcessInitChain(&this->dyna.actor, D_80BA0B28);
     Actor_SetScale(&this->dyna.actor, D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk0);
     if ((this->dyna.actor.params >> 6) & 1) {
@@ -145,7 +145,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjTimeblock* this = (ObjTimeblock*)thisx;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 s32 func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx) {
@@ -335,10 +335,10 @@ void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk16C = temp_v0 - 1;
     }
     if (this->unk178 != 0) {
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         return;
     }
-    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx) {

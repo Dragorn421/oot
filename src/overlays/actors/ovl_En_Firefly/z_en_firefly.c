@@ -494,7 +494,7 @@ void func_80A141F0_Action(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void func_80A14294_Action(EnFirefly* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
+    if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == BGCHECK_Y_MIN)) {
         this->actor.dmgEffectTimer = 0;
         func_80A13444_Setup(this);
     } else {

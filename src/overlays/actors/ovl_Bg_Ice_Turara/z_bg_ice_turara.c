@@ -23,7 +23,7 @@ void func_80892424(BgIceTurara*, GlobalContext*);
 void func_80892574(BgIceTurara*, GlobalContext*);
 
 extern Gfx D_60023D0[];
-extern UNK_TYPE D_6002594;
+extern CollisionHeader D_6002594;
 
 static ColliderCylinderInit D_80892620 = {
     { 0xA, 0x11, 9, 0, 0x20, 1 },
@@ -54,16 +54,16 @@ static Color_RGBA8 D_8089268C = { 0, 0x32, 0x64, 0xFF };
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgIceTurara* this = (BgIceTurara*)thisx;
     s32 pad;
-    s32 sp24;
+    CollisionHeader* sp24;
 
-    sp24 = 0;
+    sp24 = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, D_8089266C);
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
-    DynaPolyInfo_Alloc(&D_6002594, &sp24);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_6002594, &sp24);
     Collider_InitCylinder(globalCtx, &this->unk16C);
     Collider_SetCylinder(globalCtx, &this->unk16C, &this->dyna.actor, &D_80892620);
     Collider_CylinderUpdate(&this->dyna.actor, &this->unk16C);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
     if (this->dyna.actor.params == 0) {
         this->unk164 = func_80892220;
     } else {
@@ -76,7 +76,7 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgIceTurara* this = (BgIceTurara*)thisx;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->unk16C);
 }
 
@@ -134,7 +134,7 @@ void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.pos.z = this->dyna.actor.initPosRot.pos.z;
         Collider_CylinderUpdate(&this->dyna.actor, &this->unk16C);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk16C.base);
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->unk164 = func_80892424;
     } else {
         sp28 = Rand_ZeroOne();
@@ -164,7 +164,7 @@ void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
         func_80892040(this, globalCtx, 40.0f);
         if (this->dyna.actor.params == 2) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 120.0f;
-            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             this->unk164 = func_80892574;
         } else {
             Actor_Kill(&this->dyna.actor);
