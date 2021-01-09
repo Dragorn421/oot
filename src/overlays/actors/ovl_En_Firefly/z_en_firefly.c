@@ -157,7 +157,7 @@ void func_80A132F4_Setup(EnFirefly* this) {
 void func_80A133A0_Setup(EnFirefly* this) {
     this->unk1BA_timer = 0x28;
     this->actor.velocity.y = 0.0f;
-    Animation_Change(&this->skelAnime, &D_600017C, 0.5f, 0.0f, 0.0f, 1U, -3.0f);
+    Animation_Change(&this->skelAnime, &D_600017C, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= 0x10;
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x28);
