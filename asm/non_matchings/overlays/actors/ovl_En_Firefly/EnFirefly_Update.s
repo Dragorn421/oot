@@ -75,7 +75,7 @@ glabel EnFirefly_Update
 /* 01748 80A147B8 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 0174C 80A147BC 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 01750 80A147C0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 01754 80A147C4 0C00B92D */  jal     func_8002E4B4              
+/* 01754 80A147C4 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01758 80A147C8 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0175C 80A147CC C6060024 */  lwc1    $f6, 0x0024($s0)           ## 00000024
 /* 01760 80A147D0 8E0A0330 */  lw      $t2, 0x0330($s0)           ## 00000330

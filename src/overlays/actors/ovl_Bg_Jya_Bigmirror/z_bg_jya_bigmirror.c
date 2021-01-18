@@ -24,7 +24,7 @@ static u8 D_80893ED0 = 0;
 
 const ActorInit Bg_Jya_Bigmirror_InitVars = {
     ACTOR_BG_JYA_BIGMIRROR,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBigmirror),
@@ -202,11 +202,11 @@ void func_80893C68(BgJyaBigmirror* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);
     func_80093D84(globalCtx->state.gfxCtx);
-    temp_v0 = Actor_Find(&globalCtx->actorCtx, ACTOR_BG_JYA_LIFT, ACTORTYPE_BG);
+    temp_v0 = Actor_Find(&globalCtx->actorCtx, ACTOR_BG_JYA_LIFT, ACTORCAT_BG);
     if (temp_v0 != NULL) {
-        this->unk170 = temp_v0->posRot.pos.y;
+        this->unk170 = temp_v0->world.pos.y;
     }
-    func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z,
+    func_800D1694(this->actor.world.pos.x, this->actor.world.pos.y + 40.0f, this->actor.world.pos.z,
                   &this->actor.shape.rot);
     Matrix_Scale(0.1f, (this->unk170 * -0.00078125f) + 1.3901563f, 0.1f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
@@ -214,7 +214,7 @@ void func_80893C68(BgJyaBigmirror* this, GlobalContext* globalCtx) {
     if (1) {}
     gSPDisplayList(POLY_XLU_DISP++, D_600BC70);
     if (temp_v0 != NULL) {
-        func_800D1694(temp_v0->posRot.pos.x, temp_v0->posRot.pos.y, temp_v0->posRot.pos.z, &D_80893F4C);
+        func_800D1694(temp_v0->world.pos.x, temp_v0->world.pos.y, temp_v0->world.pos.z, &D_80893F4C);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

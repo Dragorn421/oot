@@ -26,7 +26,7 @@ glabel func_80A138B8
 /* 00890 80A13900 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00894 80A13904 51E0000A */  beql    $t7, $zero, .L80A13930     
 /* 00898 80A13908 8E100124 */  lw      $s0, 0x0124($s0)           ## 00000124
-/* 0089C 80A1390C 0C00B6D2 */  jal     func_8002DB48              
+/* 0089C 80A1390C 0C00B6D2 */  jal     Actor_WorldDistXYZToActor              
 /* 008A0 80A13910 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 008A4 80A13914 4614003C */  c.lt.s  $f0, $f20                  
 /* 008A8 80A13918 00000000 */  nop
@@ -55,7 +55,7 @@ glabel func_80A138B8
 /* 008FC 80A1396C 46145400 */  add.s   $f16, $f10, $f20           
 /* 00900 80A13970 E7B00038 */  swc1    $f16, 0x0038($sp)          
 /* 00904 80A13974 C632002C */  lwc1    $f18, 0x002C($s1)          ## 0000002C
-/* 00908 80A13978 0C00B6DB */  jal     func_8002DB6C              
+/* 00908 80A13978 0C00B6DB */  jal     Actor_WorldDistXYZToPoint              
 /* 0090C 80A1397C E7B2003C */  swc1    $f18, 0x003C($sp)          
 /* 00910 80A13980 4614003C */  c.lt.s  $f0, $f20                  
 /* 00914 80A13984 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
@@ -66,7 +66,7 @@ glabel func_80A138B8
 /* 00928 80A13998 10000013 */  beq     $zero, $zero, .L80A139E8   
 /* 0092C 80A1399C 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80A139A0:
-/* 00930 80A139A0 0C00B69E */  jal     func_8002DA78              
+/* 00930 80A139A0 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 00934 80A139A4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00938 80A139A8 00022C00 */  sll     $a1, $v0, 16               
 /* 0093C 80A139AC 00052C03 */  sra     $a1, $a1, 16               
@@ -75,7 +75,7 @@ glabel func_80A138B8
               
 /* 00948 80A139B8 24060300 */  addiu   $a2, $zero, 0x0300         ## $a2 = 00000300
 /* 0094C 80A139BC 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00950 80A139C0 0C00B6CA */  jal     func_8002DB28              
+/* 00950 80A139C0 0C00B6CA */  jal     Actor_WorldPitchTowardPoint              
 /* 00954 80A139C4 02002825 */  or      $a1, $s0, $zero            ## $a1 = FFFFFFE4
 /* 00958 80A139C8 24451554 */  addiu   $a1, $v0, 0x1554           ## $a1 = 00001554
 /* 0095C 80A139CC 00052C00 */  sll     $a1, $a1, 16               

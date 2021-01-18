@@ -125,8 +125,8 @@ glabel EnDns_Init
 /* 000F0 809EF440 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 000F4 809EF444 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 000F8 809EF448 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 000FC 809EF44C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00100 809EF450 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 000FC 809EF44C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00100 809EF450 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00104 809EF454 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00108 809EF458 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0010C 809EF45C 0C00AC78 */  jal     ActorShape_Init

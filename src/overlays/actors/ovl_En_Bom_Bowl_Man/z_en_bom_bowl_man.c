@@ -34,7 +34,7 @@ extern AnimationHeader D_60072AC;
 
 const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_BG,
     sizeof(EnBomBowlMan),
@@ -66,12 +66,12 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
     s32 var_s1;
     EnSyatekiNiw* temp_v0;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_6006EB0, &D_6000710, &this->unk190, &this->unk1D2, 0xB);
     osSyncPrintf("\x1b[32m☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n\x1b[m");
     osSyncPrintf("\x1b[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n\x1b[m", globalCtx->bombchuBowlingStatus);
-    this->unk248 = this->actor.posRot.pos;
-    this->actor.shape.unk_08 = -60.0f;
+    this->unk248 = this->actor.world.pos;
+    this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
     for (var_s1 = 0; var_s1 < 2; var_s1++) {
         temp_v0 = (EnSyatekiNiw*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x143, D_809C4A28[var_s1].x,
@@ -83,7 +83,7 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
     this->unk242 = (u16)(s32)Rand_ZeroFloat(4.99f);
-    this->actor.unk_1F = 1;
+    this->actor.targetMode = 1;
     this->actionFunc = func_809C3820;
 }
 
@@ -106,9 +106,9 @@ void func_809C38A8_WaitTalk(EnBomBowlMan* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_809C395C;
     } else {
-        relYawTowardsPlayer = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         relYawTowardsPlayerAbs = ABS(relYawTowardsPlayer);
-        if (!(this->actor.xzDistToLink > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
+        if (!(this->actor.xzDistToPlayer > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
             func_8002F2CC(&this->actor, globalCtx, 120.0f);
         }
     }
@@ -223,7 +223,7 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->unk25C->unk164 = 0U;
             osSyncPrintf("\x1b[35m☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n\x1b[m");
         }
-        if ((globalCtx->bombchuBowlingStatus == -1) && (globalCtx->actorCtx.actorList[3].length == 0) &&
+        if ((globalCtx->bombchuBowlingStatus == -1) && (globalCtx->actorCtx.actorLists[3].length == 0) &&
             (this->unk25C->unk164 == 0) && (this->unk23E_arr[0] != 1) && (this->unk23E_arr[1] != 1)) {
             this->unk244 = 2;
             osSyncPrintf("\x1b[35m☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n\x1b[m");
@@ -251,9 +251,9 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->actionFunc = func_809C41FC;
         }
     } else {
-        relYawTowardsPlayer = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         relYawTowardsPlayerAbs = ABS(relYawTowardsPlayer);
-        if (!(this->actor.xzDistToLink > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
+        if (!(this->actor.xzDistToPlayer > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
             func_8002F2CC(&this->actor, globalCtx, 120.0f);
         }
     }
@@ -422,8 +422,8 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlMan* this = (EnBomBowlMan*)thisx;
 
     this->unk22C += 1;
-    this->actor.posRot2.pos.y = 60.0f;
-    Actor_SetHeight(&this->actor, 60.0f);
+    this->actor.focus.pos.y = 60.0f;
+    Actor_SetFocus(&this->actor, 60.0f);
     switch (this->unk238) {
         case 0:
             this->unk234 = 2;
@@ -451,7 +451,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
                     this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
                 }
             }
-            func_80038290(globalCtx, &this->actor, &this->unk218, &this->unk224, this->actor.posRot2.pos);
+            func_80038290(globalCtx, &this->actor, &this->unk218, &this->unk224, this->actor.focus.pos);
             break;
     }
     if (this->unk22A == 0) {

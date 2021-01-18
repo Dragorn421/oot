@@ -63,7 +63,7 @@ glabel func_80A13A08
 /* 00A54 80A13AC4 00000000 */  nop
 /* 00A58 80A13AC8 4500000A */  bc1f    .L80A13AF4                 
 /* 00A5C 80A13ACC 00000000 */  nop
-/* 00A60 80A13AD0 0C00B6B0 */  jal     func_8002DAC0              
+/* 00A60 80A13AD0 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 00A64 80A13AD4 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 00A68 80A13AD8 00022C00 */  sll     $a1, $v0, 16               
 /* 00A6C 80A13ADC 00052C03 */  sra     $a1, $a1, 16               

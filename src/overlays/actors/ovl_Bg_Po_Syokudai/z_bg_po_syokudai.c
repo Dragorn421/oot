@@ -32,7 +32,7 @@ static Color_RGBA8 D_808A899C[4] = {
 
 const ActorInit Bg_Po_Syokudai_InitVars = {
     ACTOR_BG_PO_SYOKUDAI,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SYOKUDAI,
     sizeof(BgPoSyokudai),
@@ -55,21 +55,21 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.params &= 0x3F;
     this->actor.colChkInfo.mass = 0xFF;
     this->unk150 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->unk154);
-    Lights_PointGlowSetInfo(&this->unk154, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 65,
-                            this->actor.posRot.pos.z, 0, 0, 0, 0);
+    Lights_PointGlowSetInfo(&this->unk154, this->actor.world.pos.x, (s16)this->actor.world.pos.y + 65,
+                            this->actor.world.pos.z, 0, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->unk164);
     Collider_SetCylinder(globalCtx, &this->unk164, &this->actor, &D_808A8960);
-    this->unk164.dim.pos.x = this->actor.posRot.pos.x;
-    this->unk164.dim.pos.y = this->actor.posRot.pos.y;
-    this->unk164.dim.pos.z = this->actor.posRot.pos.z;
+    this->unk164.dim.pos.x = this->actor.world.pos.x;
+    this->unk164.dim.pos.y = this->actor.world.pos.y;
+    this->unk164.dim.pos.z = this->actor.world.pos.z;
     if ((this->unk14C == 0) && Flags_GetSwitch(globalCtx, 0x1F) && Flags_GetSwitch(globalCtx, 0x1E) &&
         Flags_GetSwitch(globalCtx, 0x1D) && !Flags_GetSwitch(globalCtx, this->actor.params)) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0,
                     this->actor.params);
         globalCtx->envCtx.unk_BF = 4;
     } else if (!Flags_GetSwitch(globalCtx, 0x1C) && !Flags_GetSwitch(globalCtx, 0x1B)) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, this->actor.posRot.pos.x,
-                    this->actor.posRot.pos.y + 52.0f, this->actor.posRot.pos.z, 0, 0, 0,
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,
+                    this->actor.world.pos.y + 52.0f, this->actor.world.pos.z, 0, 0, 0,
                     (this->unk14C << 8) + this->actor.params + 0x1000);
     } else if (!Flags_GetSwitch(globalCtx, this->actor.params) && (globalCtx->envCtx.unk_BF == 0xFF)) {
         globalCtx->envCtx.unk_BF = 4;

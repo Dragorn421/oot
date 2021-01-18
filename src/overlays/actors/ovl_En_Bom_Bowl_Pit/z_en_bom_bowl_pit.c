@@ -25,7 +25,7 @@ static s32 D_809C56E0[5] = {
 
 const ActorInit En_Bom_Bowl_Pit_InitVars = {
     ACTOR_EN_BOM_BOWL_PIT,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBomBowlPit),
@@ -58,15 +58,15 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     if (globalCtx->cameraPtrs[0]->setting == 0x15) {
-        var_v1 = globalCtx->actorCtx.actorList[3].first;
+        var_v1 = globalCtx->actorCtx.actorLists[3].head;
         while (var_v1 != NULL) {
             if ((var_v1 == thisx) || (var_v1->id != ACTOR_EN_BOM_CHU)) {
                 var_v1 = var_v1->next;
                 continue;
             }
-            diff.x = var_v1->posRot.pos.x - this->actor.posRot.pos.x;
-            diff.y = var_v1->posRot.pos.y - this->actor.posRot.pos.y;
-            diff.z = var_v1->posRot.pos.z - this->actor.posRot.pos.z;
+            diff.x = var_v1->world.pos.x - this->actor.world.pos.x;
+            diff.y = var_v1->world.pos.y - this->actor.world.pos.y;
+            diff.z = var_v1->world.pos.z - this->actor.world.pos.z;
             if (((fabsf(diff.x) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
                 ((fabsf(diff.y) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
                 ((fabsf(diff.z) < 40.0f) || (gGameInfo->data[0x962] != 0))) {
@@ -136,8 +136,8 @@ void func_809C5184(EnBomBowlPit* this, GlobalContext* globalCtx) {
 void func_809C5360(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->unk158 == 0) {
         this->unk1E0 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
-                                          this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                          this->actor.posRot.pos.z - 70.0f, 0, 0, 0, this->unk15A);
+                                          this->actor.world.pos.x, this->actor.world.pos.y,
+                                          this->actor.world.pos.z - 70.0f, 0, 0, 0, this->unk15A);
         if (this->unk1E0 != NULL) {
             this->unk14C = func_809C53F0;
         }

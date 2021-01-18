@@ -23,7 +23,7 @@ void func_80B2F0B8(EnWallTubo* this, GlobalContext* globalCtx);
 
 const ActorInit En_Wall_Tubo_InitVars = {
     ACTOR_EN_WALL_TUBO,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWallTubo),
@@ -42,7 +42,7 @@ void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("\n\n");
     osSyncPrintf("\x1b[33m☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n\x1b[m");
-    this->unk164 = this->actor.posRot.pos;
+    this->unk164 = this->actor.world.pos;
     this->unk14C = func_80B2EE5C;
 }
 
@@ -52,7 +52,7 @@ void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B2EE5C(EnWallTubo* this, GlobalContext* globalCtx) {
     Actor* var_v0;
 
-    var_v0 = globalCtx->actorCtx.actorList[4].first;
+    var_v0 = globalCtx->actorCtx.actorLists[4].head;
     while (var_v0 != NULL) {
         if (var_v0->id != ACTOR_EN_BOM_BOWL_MAN) {
             var_v0 = var_v0->next;
@@ -76,15 +76,15 @@ void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
     sp4C = D_80B2F340;
     sp40 = D_80B2F34C;
     if ((this->unk160->unk_258 != 0) && (globalCtx->cameraPtrs[0]->setting == 0x15)) {
-        var_v0 = globalCtx->actorCtx.actorList[3].first;
+        var_v0 = globalCtx->actorCtx.actorLists[3].head;
         while (var_v0 != NULL) {
             if ((var_v0 == thisx) || (var_v0->id != ACTOR_EN_BOM_CHU)) {
                 var_v0 = var_v0->next;
                 continue;
             }
-            diff.x = var_v0->posRot.pos.x - this->actor.posRot.pos.x;
-            diff.y = var_v0->posRot.pos.y - this->actor.posRot.pos.y;
-            diff.z = var_v0->posRot.pos.z - this->actor.posRot.pos.z;
+            diff.x = var_v0->world.pos.x - this->actor.world.pos.x;
+            diff.y = var_v0->world.pos.y - this->actor.world.pos.y;
+            diff.z = var_v0->world.pos.z - this->actor.world.pos.z;
             if (((fabsf(diff.x) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
                 ((fabsf(diff.y) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
                 ((fabsf(diff.z) < 40.0f) || (gGameInfo->data[0x962] != 0))) {
@@ -144,8 +144,8 @@ void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->unk14C(this, globalCtx);
     if (gGameInfo->data[0x960] != 0) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 0, 255, 255, 4, globalCtx->state.gfxCtx);
     }
 }

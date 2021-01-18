@@ -85,7 +85,7 @@ glabel func_80A14088
 /* 01138 80A141A8 10000009 */  beq     $zero, $zero, .L80A141D0   
 /* 0113C 80A141AC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 .L80A141B0:
-/* 01140 80A141B0 0C00B6B0 */  jal     func_8002DAC0              
+/* 01140 80A141B0 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 01144 80A141B4 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 01148 80A141B8 00022C00 */  sll     $a1, $v0, 16               
 /* 0114C 80A141BC 00052C03 */  sra     $a1, $a1, 16               

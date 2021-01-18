@@ -29,7 +29,7 @@ extern Gfx D_6000880[];
 
 const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_JYA_IRON,
     sizeof(BgJyaHaheniron),
@@ -124,13 +124,13 @@ void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     Vec3f sp2C;
 
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
     if ((this->actor.bgCheckFlags & 9) ||
-        ((this->unk150.base.atFlags & AT_HIT) && (this->unk150.base.at != NULL) && (this->unk150.base.at->type == 2))) {
+        ((this->unk150.base.atFlags & AT_HIT) && (this->unk150.base.at != NULL) && (this->unk150.base.at->category == 2))) {
         sp2C.x = -Rand_ZeroOne() * this->actor.velocity.x;
         sp2C.y = -Rand_ZeroOne() * this->actor.velocity.y;
         sp2C.z = -Rand_ZeroOne() * this->actor.velocity.z;
-        func_80898114(globalCtx, &this->actor.posRot.pos, &sp2C);
+        func_80898114(globalCtx, &this->actor.world.pos, &sp2C);
         Actor_Kill(&this->actor);
     } else if (this->unk1B0 >= 0x3D) {
         Actor_Kill(&this->actor);
@@ -149,7 +149,7 @@ void func_80898598(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     if (this->unk1B0 >= 8) {
         Actor_MoveForward(&this->actor);
     } else if (this->unk1B0 >= 0x11) {
-        func_80898114(globalCtx, &this->actor.posRot.pos, &D_808987A0);
+        func_80898114(globalCtx, &this->actor.world.pos, &D_808987A0);
         Actor_Kill(&this->actor);
     }
     this->actor.shape.rot.y += 0x258;
@@ -162,8 +162,8 @@ void func_8089861C(BgJyaHaheniron* this) {
 
 void func_8089862C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     if (this->unk1B0 >= 0x11) {
-        func_80898114(globalCtx, &this->actor.posRot.pos, &D_808987AC);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
+        func_80898114(globalCtx, &this->actor.world.pos, &D_808987AC);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
         Actor_Kill(&this->actor);
     }
 }

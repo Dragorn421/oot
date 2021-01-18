@@ -75,7 +75,7 @@ glabel ObjTimeblock_Init
 /* 00260 80BA0200 01194023 */  subu    $t0, $t0, $t9              
 /* 00264 80BA0204 00084080 */  sll     $t0, $t0,  2               
 /* 00268 80BA0208 00A82821 */  addu    $a1, $a1, $t0              
-/* 0026C 80BA020C 0C00B56E */  jal     Actor_SetHeight
+/* 0026C 80BA020C 0C00B56E */  jal     Actor_SetFocus
               
 /* 00270 80BA0210 8CA50AF4 */  lw      $a1, %lo(D_80BA0AF4)($a1)  
 /* 00274 80BA0214 8605001C */  lh      $a1, 0x001C($s0)           ## 0000001C

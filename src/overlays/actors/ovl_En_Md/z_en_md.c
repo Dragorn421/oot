@@ -20,7 +20,7 @@ extern SkeletonHeader D_6007FB8;
 
 const ActorInit En_Md_InitVars = {
     /**/ ACTOR_EN_MD,
-    /**/ ACTORTYPE_NPC,
+    /**/ ACTORCAT_NPC,
     /**/ FLAGS,
     /**/ OBJECT_MD,
     /**/ sizeof(EnMd),
@@ -473,8 +473,8 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     s16 var_a3_real;
 
     temp_a2 = PLAYER;
-    if (this->actor.xzDistToLink < 170.0f) {
-        temp_ft1 = (f32)this->actor.yawTowardsLink - (f32)this->actor.shape.rot.y;
+    if (this->actor.xzDistToPlayer < 170.0f) {
+        temp_ft1 = (f32)this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y;
         temp_v1 = ABS(temp_ft1);
         if (temp_v1 <= func_800347E8(2)) {
             var_a3_real = 2;
@@ -503,7 +503,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
         this->unk1E0.unk_14 = 40.0f;
         var_a3_real = 2;
     } else {
-        this->unk1E0.unk_18 = temp_a2->actor.posRot.pos;
+        this->unk1E0.unk_18 = temp_a2->actor.world.pos;
         if (gSaveContext.linkAge > 0) {
             this->unk1E0.unk_14 = 0.0f;
         } else {
@@ -532,9 +532,9 @@ s32 func_80AAB370(EnMd* this, GlobalContext* globalCtx) {
     temp_a0 = &globalCtx->setupPathList[temp_a2 >> 8];
     temp_v0 = SEGMENTED_TO_VIRTUAL(temp_a0->points);
     temp_v0 += this->unk212;
-    temp_fa0 = (f32)temp_v0->x - this->actor.posRot.pos.x;
-    temp_fa1 = (f32)temp_v0->z - this->actor.posRot.pos.z;
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, (Math_FAtan2F(temp_fa0, temp_fa1) * 10430.378f), 4, 0xFA0, 1);
+    temp_fa0 = (f32)temp_v0->x - this->actor.world.pos.x;
+    temp_fa1 = (f32)temp_v0->z - this->actor.world.pos.z;
+    Math_SmoothStepToS(&this->actor.world.rot.y, (Math_FAtan2F(temp_fa0, temp_fa1) * 10430.378f), 4, 0xFA0, 1);
     if (((temp_fa0 * temp_fa0) + (temp_fa1 * temp_fa1)) < 100.0f) {
         this->unk212++;
         if (this->unk212 >= temp_a0->count) {
@@ -557,9 +557,9 @@ s32 func_80AAB4DC(EnMd* this, GlobalContext* globalCtx) {
     temp_a1 = &globalCtx->setupPathList[temp_v1 >> 8];
     temp_a3 = SEGMENTED_TO_VIRTUAL(temp_a1->points);
     temp_a3 += temp_a1->count - 1;
-    this->actor.posRot.pos.x = temp_a3->x;
-    this->actor.posRot.pos.y = temp_a3->y;
-    this->actor.posRot.pos.z = temp_a3->z;
+    this->actor.world.pos.x = temp_a3->x;
+    this->actor.world.pos.y = temp_a3->y;
+    this->actor.world.pos.z = temp_a3->z;
     return 1;
 }
 
@@ -574,10 +574,10 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
             var_fv0 = 400.0f;
         }
         this->unk210 = func_80034DD4(&this->actor, globalCtx, this->unk210, var_fv0);
-        this->actor.shape.unk_14 = (u8)this->unk210;
+        this->actor.shape.shadowAlpha = (u8)this->unk210;
     } else {
         this->unk210 = 255;
-        this->actor.shape.unk_14 = (u8)this->unk210;
+        this->actor.shape.shadowAlpha = (u8)this->unk210;
     }
 }
 
@@ -585,7 +585,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMd* this = (EnMd*)thisx;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_6007FB8, NULL, this->unk258, this->unk2BE, 0x11);
     Collider_InitCylinder(globalCtx, &this->unk194);
     Collider_SetCylinder(globalCtx, &this->unk194, &this->actor, &D_80AAC310);
@@ -596,15 +596,15 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     func_80034EC0(&this->unk14C, D_80AAC348, 0);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->unk210 = 255;
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_KOKIRI);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
+                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
     if (((globalCtx->sceneNum == SCENE_SPOT04) && !(gSaveContext.eventChkInf[0] & 0x10)) ||
         ((globalCtx->sceneNum == SCENE_SPOT04) && (gSaveContext.eventChkInf[0] & 0x10) &&
          CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) ||
         ((globalCtx->sceneNum == SCENE_SPOT10) && !(gSaveContext.eventChkInf[0] & 0x400))) {
-        this->actor.initPosRot.pos = this->actor.posRot.pos;
+        this->actor.home.pos = this->actor.world.pos;
         this->unk190 = func_80AAB948;
     } else {
         if (globalCtx->sceneNum != SCENE_KOKIRI_HOME4) {
@@ -647,13 +647,13 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     sp24 = PLAYER;
     func_80AAAA24(this);
     if (this->unk1E0.unk_00 == 0) {
-        this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-        temp_v0_3 = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &sp24->actor.posRot.pos);
-        this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
-        this->actor.posRot.pos.x += 60.0f * Math_SinS(temp_v0_3);
-        this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
-        this->actor.posRot.pos.z += 60.0f * Math_CosS(temp_v0_3);
-        temp_fv1 = fabsf((f32)this->actor.yawTowardsLink - (f32)temp_v0_3) * 0.001f * 3.0f;
+        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+        temp_v0_3 = Math_Vec3f_Yaw(&this->actor.home.pos, &sp24->actor.world.pos);
+        this->actor.world.pos.x = this->actor.home.pos.x;
+        this->actor.world.pos.x += 60.0f * Math_SinS(temp_v0_3);
+        this->actor.world.pos.z = this->actor.home.pos.z;
+        this->actor.world.pos.z += 60.0f * Math_CosS(temp_v0_3);
+        temp_fv1 = fabsf((f32)this->actor.yawTowardsPlayer - (f32)temp_v0_3) * 0.001f * 3.0f;
         this->unk14C.playSpeed = CLAMP(temp_fv1, 1.0f, 3.0f);
     }
     if (this->unk1E0.unk_00 == 2) {
@@ -683,7 +683,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
                 sp2C->unk_6A8 = &this->actor;
                 func_8010BD58(globalCtx, 0x22U);
                 this->unk190 = func_80AABC10;
-            } else if (this->actor.xzDistToLink < (30.0f + (f32)this->unk194.dim.radius)) {
+            } else if (this->actor.xzDistToPlayer < (30.0f + (f32)this->unk194.dim.radius)) {
                 sp2C->stateFlags2 |= 0x800000;
             }
         }
@@ -712,7 +712,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
     func_80034F54(globalCtx, this->unk214, this->unk236, 0x11);
     func_80AAA93C(this);
     if ((func_80AAB370(this, globalCtx) == 0) || (this->unk212 != 0)) {
-        this->actor.shape.rot = this->actor.posRot.rot;
+        this->actor.shape.rot = this->actor.world.rot;
     } else if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
                (globalCtx->sceneNum == SCENE_SPOT04)) {
         func_80106CCC(globalCtx);
@@ -722,7 +722,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
         func_80AAA92C(this, 0xB);
         this->unk14C.playSpeed = 0.0f;
         this->actor.speedXZ = 0.0f;
-        this->actor.initPosRot.pos = this->actor.posRot.pos;
+        this->actor.home.pos = this->actor.world.pos;
         this->unk190 = func_80AAB8F8;
     }
 }
@@ -738,7 +738,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80AAB5A4(this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_80AAB158(this, globalCtx);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->unk190(this, globalCtx);
 }
 
@@ -772,7 +772,7 @@ void func_80AAC104(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
     sp18 = D_80AAC498;
     if (limbIndex == 0x10) {
-        Matrix_MultVec3f(&sp18, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&sp18, &this->actor.focus.pos);
     }
 }
 

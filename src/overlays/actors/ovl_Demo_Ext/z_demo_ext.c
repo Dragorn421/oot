@@ -30,7 +30,7 @@ static DemoExtDrawFunc sDrawFuncs[] = {
 };
 const ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_FHG,
     sizeof(DemoExt),
@@ -82,12 +82,12 @@ void func_80977508(DemoExt* this, GlobalContext* globalCtx) {
 
     temp_v0 = func_809774D8(globalCtx, 5);
     if (temp_v0 != NULL) {
-        this->actor.posRot.pos.x = temp_v0->startPos.x;
-        this->actor.posRot.pos.y = temp_v0->startPos.y;
-        this->actor.posRot.pos.z = temp_v0->startPos.z;
+        this->actor.world.pos.x = temp_v0->startPos.x;
+        this->actor.world.pos.y = temp_v0->startPos.y;
+        this->actor.world.pos.z = temp_v0->startPos.z;
         temp_v1 = temp_v0->rot.y;
         this->actor.shape.rot.y = temp_v1;
-        this->actor.posRot.rot.y = temp_v1;
+        this->actor.world.rot.y = temp_v1;
     }
     this->unk14C = 1;
     this->unk150 = 1;

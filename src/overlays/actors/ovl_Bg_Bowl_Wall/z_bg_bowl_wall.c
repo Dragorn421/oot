@@ -30,7 +30,7 @@ extern CollisionHeader D_6001B00;
 
 const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_BOWL,
     sizeof(BgBowlWall),
@@ -63,7 +63,7 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
         CollisionHeader_GetVirtual(&D_6001B00, &sp28);
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp28);
-    this->unk168 = this->dyna.actor.posRot.pos;
+    this->unk168 = this->dyna.actor.world.pos;
     osSyncPrintf("\n\n");
     osSyncPrintf("\x1b[32m ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n\x1b[m", this->dyna.actor.params);
     this->actionFunc = func_8086F260;
@@ -86,12 +86,12 @@ void func_8086F260(BgBowlWall* this, GlobalContext* globalCtx) {
 
     if (params != 0) {
         params += (s16)Rand_ZeroFloat(2.99f);
-        this->dyna.actor.shape.rot.z = this->dyna.actor.posRot.rot.z = D_8086FA70[params];
+        this->dyna.actor.shape.rot.z = this->dyna.actor.world.rot.z = D_8086FA70[params];
         osSyncPrintf("\n\n");
     }
-    this->unk174.x = D_8086FA40[params].x + this->dyna.actor.posRot.pos.x;
-    this->unk174.y = D_8086FA40[params].y + this->dyna.actor.posRot.pos.y;
-    this->unk174.z = D_8086FA40[params].z + this->dyna.actor.posRot.pos.z;
+    this->unk174.x = D_8086FA40[params].x + this->dyna.actor.world.pos.x;
+    this->unk174.y = D_8086FA40[params].y + this->dyna.actor.world.pos.y;
+    this->unk174.z = D_8086FA40[params].z + this->dyna.actor.world.pos.z;
     if (0) {}
     temp_v0_2 = (EnWallTubo*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_WALL_TUBO,
                                                 this->unk174.x, this->unk174.y, this->unk174.z, 0, 0, 0,
@@ -99,10 +99,10 @@ void func_8086F260(BgBowlWall* this, GlobalContext* globalCtx) {
     if (temp_v0_2 != NULL) {
         temp_v0_2->unk154 = this->unk174;
         if (params != 0) {
-            temp_v0_2->unk154 = this->unk174 = this->dyna.actor.posRot.pos;
+            temp_v0_2->unk154 = this->unk174 = this->dyna.actor.world.pos;
         }
         if (this->unk184 == NULL) {
-            var_v0_2 = globalCtx->actorCtx.actorList[4].first;
+            var_v0_2 = globalCtx->actorCtx.actorLists[4].head;
             while (var_v0_2 != NULL) {
                 if (var_v0_2->id != ACTOR_EN_BOM_BOWL_MAN) {
                     var_v0_2 = var_v0_2->next;
@@ -133,13 +133,13 @@ void func_8086F464(BgBowlWall* this, GlobalContext* globalCtx) {
     var_s0 = false;
     if (this->dyna.actor.params == 0) {
         Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 3, 0x1F4, 0);
-        this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x;
+        this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x;
         if (this->dyna.actor.shape.rot.x < -0x3C1E) {
             var_s0 = true;
         }
     } else {
-        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
-        if (this->dyna.actor.posRot.pos.y < (this->unk168.y - 400.0f)) {
+        Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
+        if (this->dyna.actor.world.pos.y < (this->unk168.y - 400.0f)) {
             var_s0 = true;
         }
     }
@@ -167,11 +167,11 @@ void func_8086F718(BgBowlWall* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.params == 0) {
             Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 0xC8, 0);
         } else {
-            Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
+            Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
         }
     } else if (this->unk182 == 1) {
-        this->dyna.actor.posRot.pos.y = this->unk168.y - 450.0f;
-        this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x = 0;
+        this->dyna.actor.world.pos.y = this->unk168.y - 450.0f;
+        this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x = 0;
         this->unk184->unk23E_arr[this->dyna.actor.params] = 2;
         this->actionFunc = func_8086F7F8;
     }
@@ -179,9 +179,9 @@ void func_8086F718(BgBowlWall* this, GlobalContext* globalCtx) {
 
 void func_8086F7F8(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->unk184->unk23E_arr[this->dyna.actor.params] != 2) {
-        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->unk168.y, 0.3f, 50.0f);
-        if (fabsf(this->dyna.actor.posRot.pos.y - this->unk168.y) <= 10.0f) {
-            this->dyna.actor.posRot.pos.y = this->unk168.y;
+        Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk168.y, 0.3f, 50.0f);
+        if (fabsf(this->dyna.actor.world.pos.y - this->unk168.y) <= 10.0f) {
+            this->dyna.actor.world.pos.y = this->unk168.y;
             this->unk180 = 0;
             this->actionFunc = func_8086F260;
         }

@@ -26,7 +26,7 @@ extern Gfx D_6007E20[];
 
 const ActorInit En_Wood02_InitVars = {
     ACTOR_EN_WOOD02,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_WOOD02,
     sizeof(EnWood02),
@@ -43,7 +43,7 @@ static ColliderCylinderInit D_80B3BF00 = {
 static f32 sSpawnDistances[] = { 707.0f, 525.0f, 510.0f, 500.0f, 566.0f, 141.0f };
 static s16 sSpawnAngles[] = { 0x1FFF, 0x4C9E, 0x77F5, 0xA5C9, -0x293D, 0xA000 };
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_4C, 5600, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
 };
 static Gfx* D_80B3BF54[7] = {
     (Gfx*)0x060078D0, (Gfx*)0x06007CA0, (Gfx*)0x060080D0, D_6000090, D_6000340, D_6000340, D_6000700,
@@ -89,11 +89,11 @@ void EnWood02_SpawnUnculledChildren(EnWood02* this, GlobalContext* globalCtx) {
             if (this->actor.params == EN_WOOD_02_TYPE_15) {
                 spawnAngleModifier = 0x4000;
             }
-            sCos = Math_CosS(sSpawnAngles[i] + this->actor.posRot.rot.y + spawnAngleModifier);
-            sSin = Math_SinS(sSpawnAngles[i] + this->actor.posRot.rot.y + spawnAngleModifier);
-            newEnWood02Pos.x = (sSpawnDistances[i] * sSin) + this->actor.initPosRot.pos.x;
-            newEnWood02Pos.y = this->actor.initPosRot.pos.y;
-            newEnWood02Pos.z = (sSpawnDistances[i] * sCos) + this->actor.initPosRot.pos.z;
+            sCos = Math_CosS(sSpawnAngles[i] + this->actor.world.rot.y + spawnAngleModifier);
+            sSin = Math_SinS(sSpawnAngles[i] + this->actor.world.rot.y + spawnAngleModifier);
+            newEnWood02Pos.x = (sSpawnDistances[i] * sSin) + this->actor.home.pos.x;
+            newEnWood02Pos.y = this->actor.home.pos.y;
+            newEnWood02Pos.z = (sSpawnDistances[i] * sCos) + this->actor.home.pos.z;
             if (EnWood02_IsInUncullZone(this, globalCtx, &newEnWood02Pos)) {
                 if (this->unk14E[i] & 0x80) {
                     newEnWood02Params = ((this->actor.params + 1) | 0xFF00);
@@ -102,7 +102,7 @@ void EnWood02_SpawnUnculledChildren(EnWood02* this, GlobalContext* globalCtx) {
                 }
                 newEnWood02 = (EnWood02*)Actor_SpawnAsChild(
                     &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_WOOD02, newEnWood02Pos.x, newEnWood02Pos.y,
-                    newEnWood02Pos.z, this->actor.posRot.rot.x, sSpawnAngles[i], 0, newEnWood02Params);
+                    newEnWood02Pos.z, this->actor.world.rot.x, sSpawnAngles[i], 0, newEnWood02Params);
                 if (newEnWood02 != NULL) {
                     newEnWood02->unk14E[0] = i;
                     this->unk14E[i] |= 1;
@@ -128,11 +128,11 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx) {
     scale = 1.0f;
     var_t0_sp4E = 0;
     this->unk14C = (this->actor.params >> 8) & 0xFF;
-    if (this->actor.initPosRot.rot.z != 0) {
+    if (this->actor.home.rot.z != 0) {
         this->actor.shape.rot.z = 0;
-        this->actor.initPosRot.rot.z = (this->actor.initPosRot.rot.z << 8) | this->unk14C;
+        this->actor.home.rot.z = (this->actor.home.rot.z << 8) | this->unk14C;
         this->unk14C = -1;
-        this->actor.posRot.rot.z = this->actor.shape.rot.z;
+        this->actor.world.rot.z = this->actor.shape.rot.z;
     } else if (this->unk14C & 0x80) {
         this->unk14C = -1;
     }
@@ -221,25 +221,25 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (var_t0_sp4E == 2) {
             this->unk154 |= this->unk14C * 0x10;
             EnWood02_SpawnUnculledChildren(this, globalCtx);
-            sCos = Math_CosS(sSpawnAngles[5] + this->actor.posRot.rot.y + spawnAngleModifier);
-            sSin = Math_SinS(sSpawnAngles[5] + this->actor.posRot.rot.y + spawnAngleModifier);
-            this->actor.posRot.pos.x += sSin * sSpawnDistances[5];
-            this->actor.posRot.pos.z += sCos * sSpawnDistances[5];
+            sCos = Math_CosS(sSpawnAngles[5] + this->actor.world.rot.y + spawnAngleModifier);
+            sSin = Math_SinS(sSpawnAngles[5] + this->actor.world.rot.y + spawnAngleModifier);
+            this->actor.world.pos.x += sSin * sSpawnDistances[5];
+            this->actor.world.pos.z += sCos * sSpawnDistances[5];
         } else {
             this->actor.flags |= 0x10;
         }
-        this->actor.posRot.pos.y += 200.0f;
+        this->actor.world.pos.y += 200.0f;
         floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &floorBgId, &this->actor,
-                                             &this->actor.posRot.pos);
+                                             &this->actor.world.pos);
         if (floorY > BGCHECK_Y_MIN) {
-            this->actor.posRot.pos.y = floorY;
+            this->actor.world.pos.y = floorY;
         } else {
             Actor_Kill(&this->actor);
             return;
         }
     }
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-    this->actor.initPosRot.rot.y = 0;
+    this->actor.home.rot.y = 0;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
@@ -282,17 +282,17 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk158.base.acFlags &= ~AC_HIT;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
-        if (this->actor.initPosRot.rot.y != 0) {
-            sp58 = this->actor.posRot.pos;
+        if (this->actor.home.rot.y != 0) {
+            sp58 = this->actor.world.pos;
             sp58.y += 200.0f;
             if ((this->unk14C >= 0) && (this->unk14C < 0x64)) {
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &sp58, this->unk14C * 0x10);
-            } else if (this->actor.initPosRot.rot.z != 0) {
-                this->actor.initPosRot.rot.z &= 0x1FFF;
-                this->actor.initPosRot.rot.z |= 0xE000;
+            } else if (this->actor.home.rot.z != 0) {
+                this->actor.home.rot.z &= 0x1FFF;
+                this->actor.home.rot.z |= 0xE000;
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, sp58.x, sp58.y, sp58.z, 0,
-                            this->actor.posRot.rot.y, 0, this->actor.initPosRot.rot.z);
-                this->actor.initPosRot.rot.z = 0;
+                            this->actor.world.rot.y, 0, this->actor.home.rot.z);
+                this->actor.home.rot.z = 0;
             }
             var_v1_sp44_or_sp50 = EN_WOOD_02_TYPE_23;
             if (this->unk14C >= -1) {
@@ -306,21 +306,22 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
             this->unk14C = -21;
-            this->actor.initPosRot.rot.y = 0;
+            this->actor.home.rot.y = 0;
         }
-        if (this->actor.xzDistToLink < 600.0f) {
+        if (this->actor.xzDistToPlayer < 600.0f) {
             Collider_UpdateCylinder(&this->actor, &this->unk158);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk158.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk158.base);
         }
     } else if (this->actor.params < EN_WOOD_02_TYPE_23) {
         player = PLAYER;
-        if ((this->unk14C >= (-1)) && (((((player->rideActor == NULL)) && (sqrt(this->actor.xyzDistToLinkSq) < 20.0)) &&
-                                        (player->linearVelocity != 0.0f)) ||
-                                       (((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToLinkSq) < 60.0)) &&
-                                        (player->rideActor->speedXZ != 0.0f)))) {
+        if ((this->unk14C >= (-1)) &&
+            (((((player->rideActor == NULL)) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0)) &&
+              (player->linearVelocity != 0.0f)) ||
+             (((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0)) &&
+              (player->rideActor->speedXZ != 0.0f)))) {
             if ((this->unk14C >= 0) && (this->unk14C < 0x64)) {
-                Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos,
+                Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos,
                                            (this->unk14C * 0x10) | 0x8000);
             }
             this->unk14C = -21;
@@ -340,8 +341,8 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk14C < -1) {
         this->unk14C += 1;
         sp6C = Math_SinS((this->unk14C ^ 0xFFFF) * 0x3332) * 250.0f;
-        this->actor.shape.rot.x = Math_CosS(this->actor.yawTowardsLink - this->actor.shape.rot.y) * sp6C;
-        this->actor.shape.rot.z = Math_SinS(this->actor.yawTowardsLink - this->actor.shape.rot.y) * sp6C;
+        this->actor.shape.rot.x = Math_CosS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y) * sp6C;
+        this->actor.shape.rot.z = Math_SinS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y) * sp6C;
     }
 }
 

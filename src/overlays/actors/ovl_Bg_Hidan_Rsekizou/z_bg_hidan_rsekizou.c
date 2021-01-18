@@ -13,7 +13,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     ACTOR_BG_HIDAN_RSEKIZOU,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanRsekizou),
@@ -110,12 +110,11 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
     temp_fv0 = Math_CosS(this->dyna.actor.shape.rot.y);
     for (i = 0; i < 6; i++) {
         temp_v0_2 = &this->unk168.elements[i];
-        temp_v0_2->dim.worldSphere.center.x = this->dyna.actor.initPosRot.pos.x +
+        temp_v0_2->dim.worldSphere.center.x = this->dyna.actor.home.pos.x +
                                               (temp_fv0 * temp_v0_2->dim.modelSphere.center.x) +
                                               (sp24 * temp_v0_2->dim.modelSphere.center.z);
-        temp_v0_2->dim.worldSphere.center.y =
-            (s16)this->dyna.actor.initPosRot.pos.y + temp_v0_2->dim.modelSphere.center.y;
-        temp_v0_2->dim.worldSphere.center.z = this->dyna.actor.initPosRot.pos.z -
+        temp_v0_2->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + temp_v0_2->dim.modelSphere.center.y;
+        temp_v0_2->dim.worldSphere.center.z = this->dyna.actor.home.pos.z -
                                               (sp24 * temp_v0_2->dim.modelSphere.center.x) +
                                               (temp_fv0 * temp_v0_2->dim.modelSphere.center.z);
     }
@@ -151,9 +150,9 @@ Gfx* func_8088C70C(GraphicsContext** arg0, BgHidanRsekizou* arg1, s16 arg2, MtxF
     temp_fv0 = (0.7f * var_fa1) + 0.5f;
     arg3->mf[0][0] = arg3->mf[1][1] = arg3->mf[2][2] = temp_fv0;
     temp_fv1 = (temp_fv0 * 10.0f * var_fa1) + 20.0f;
-    arg3->mf[3][0] = (temp_fv1 * sp58) + arg1->dyna.actor.posRot.pos.x;
-    arg3->mf[3][1] = arg1->dyna.actor.posRot.pos.y + 30.0f + (0.70f * var_fa1);
-    arg3->mf[3][2] = (temp_fv1 * var_fa0) + arg1->dyna.actor.posRot.pos.z;
+    arg3->mf[3][0] = (temp_fv1 * sp58) + arg1->dyna.actor.world.pos.x;
+    arg3->mf[3][1] = arg1->dyna.actor.world.pos.y + 30.0f + (0.70f * var_fa1);
+    arg3->mf[3][2] = (temp_fv1 * var_fa0) + arg1->dyna.actor.world.pos.z;
     gSPMatrix(arg5++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(arg3, "../z_bg_hidan_rsekizou.c", 543), Graph_Alloc(*arg0, 0x40U)),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

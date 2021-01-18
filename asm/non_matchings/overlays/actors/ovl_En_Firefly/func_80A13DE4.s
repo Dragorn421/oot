@@ -73,7 +73,7 @@ glabel func_80A13DE4
 /* 00E70 80A13EE0 46105480 */  add.s   $f18, $f10, $f16           
 /* 00E74 80A13EE4 E7B2003C */  swc1    $f18, 0x003C($sp)          
 /* 00E78 80A13EE8 C464002C */  lwc1    $f4, 0x002C($v1)           ## 0000002C
-/* 00E7C 80A13EEC 0C00B6CA */  jal     func_8002DB28              
+/* 00E7C 80A13EEC 0C00B6CA */  jal     Actor_WorldPitchTowardPoint              
 /* 00E80 80A13EF0 E7A40040 */  swc1    $f4, 0x0040($sp)           
 /* 00E84 80A13EF4 24451554 */  addiu   $a1, $v0, 0x1554           ## $a1 = 00001554
 /* 00E88 80A13EF8 00052C00 */  sll     $a1, $a1, 16               

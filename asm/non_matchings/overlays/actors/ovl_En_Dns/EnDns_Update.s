@@ -13,7 +13,7 @@ glabel EnDns_Update
 /* 00F5C 809F02AC 9508040C */  lhu     $t0, %lo(D_809F040C)($t0)  
 /* 00F60 809F02B0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00F64 809F02B4 3C054270 */  lui     $a1, 0x4270                ## $a1 = 42700000
-/* 00F68 809F02B8 0C00B56E */  jal     Actor_SetHeight
+/* 00F68 809F02B8 0C00B56E */  jal     Actor_SetFocus
               
 /* 00F6C 809F02BC A488010E */  sh      $t0, 0x010E($a0)           ## 0000010E
 /* 00F70 809F02C0 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
@@ -42,7 +42,7 @@ glabel EnDns_Update
 /* 00FC0 809F0310 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 00FC4 809F0314 44060000 */  mfc1    $a2, $f0                   
 /* 00FC8 809F0318 44070000 */  mfc1    $a3, $f0                   
-/* 00FCC 809F031C 0C00B92D */  jal     func_8002E4B4              
+/* 00FCC 809F031C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00FD0 809F0320 E7A00010 */  swc1    $f0, 0x0010($sp)           
 .L809F0324:
 /* 00FD4 809F0324 920B02BB */  lbu     $t3, 0x02BB($s0)           ## 000002BB

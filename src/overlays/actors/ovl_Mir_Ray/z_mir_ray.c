@@ -39,7 +39,7 @@ extern UNK_TYPE D_6000C50;
 
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_MIR_RAY,
     sizeof(MirRay),
@@ -239,11 +239,11 @@ void MirRay_UpdateLight(MirRay* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     temp_s1 = &D_80B8E6F8[this->actor.params];
-    if (MirRay_IsInConeFrustum(&this->coneFrustumCenterTop, &this->coneFrustumCenterBase, player->actor.posRot.pos.x,
-                               player->actor.posRot.pos.y + 30.0f, player->actor.posRot.pos.z,
-                               this->coneFrustumRadiusTop, this->coneFrustumRadiusBase)) {
+    if (MirRay_IsInConeFrustum(&this->coneFrustumCenterTop, &this->coneFrustumCenterBase, player->actor.world.pos.x,
+                               player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->coneFrustumRadiusTop,
+                               this->coneFrustumRadiusBase)) {
         if (temp_s1->unk1F & UNK1F_POINTLIGHTPOS_TO_PLAYER) {
-            Math_Vec3f_Diff(&player->actor.posRot.pos, &this->coneFrustumCenterTop, &sp44);
+            Math_Vec3f_Diff(&player->actor.world.pos, &this->coneFrustumCenterTop, &sp44);
         } else {
             Math_Vec3f_Diff(&this->coneFrustumCenterBase, &this->coneFrustumCenterTop, &sp44);
         }

@@ -38,7 +38,7 @@ glabel EnMd_Update
 /* 01C64 80AABEB4 44070000 */  mfc1    $a3, $f0                   
 /* 01C68 80AABEB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01C6C 80AABEBC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 01C70 80AABEC0 0C00B92D */  jal     func_8002E4B4              
+/* 01C70 80AABEC0 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01C74 80AABEC4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 01C78 80AABEC8 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190
 /* 01C7C 80AABECC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

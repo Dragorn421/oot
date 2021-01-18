@@ -36,7 +36,7 @@ static s16 D_80A9C1D8 = 0;
 static s16 D_80A9C1DC = 0;
 const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnKusa),
@@ -88,13 +88,13 @@ s32 func_80A9AFAC(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
     UNK_TYPE sp28;
     f32 temp_fv0;
 
-    sp2C.x = this->actor.posRot.pos.x;
-    sp2C.y = this->actor.posRot.pos.y + 30.0f;
-    sp2C.z = this->actor.posRot.pos.z;
+    sp2C.x = this->actor.world.pos.x;
+    sp2C.y = this->actor.world.pos.y + 30.0f;
+    sp2C.z = this->actor.world.pos.z;
     temp_fv0 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp38, &sp28, &this->actor, &sp2C);
     if (temp_fv0 > BGCHECK_Y_MIN) {
-        this->actor.posRot.pos.y = temp_fv0 + arg2;
-        Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
+        this->actor.world.pos.y = temp_fv0 + arg2;
+        Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return 1;
     } else {
         osSyncPrintf("\x1b[43;30m");
@@ -115,13 +115,13 @@ void func_80A9B07C(EnKusa* this, GlobalContext* globalCtx) {
             if (var_v0 >= 0xD) {
                 var_v0 = 0;
             }
-            Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, var_v0 * 0x10);
+            Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, var_v0 * 0x10);
             break;
         case 1:
             if (Rand_ZeroOne() < 0.5f) {
-                Item_DropCollectible(globalCtx, &this->actor.posRot.pos, 0x10);
+                Item_DropCollectible(globalCtx, &this->actor.world.pos, 0x10);
             } else {
-                Item_DropCollectible(globalCtx, &this->actor.posRot.pos, 3);
+                Item_DropCollectible(globalCtx, &this->actor.world.pos, 3);
             }
             break;
     }
@@ -157,9 +157,9 @@ void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(D_80A9C23C); i++) {
         var_s1 = &D_80A9C23C[i];
-        spB8.x = this->actor.posRot.pos.x + (var_s1->x * this->actor.scale.x * 20.0f);
-        spB8.y = this->actor.posRot.pos.y + (var_s1->y * this->actor.scale.y * 20.0f) + 10.0f;
-        spB8.z = this->actor.posRot.pos.z + (var_s1->z * this->actor.scale.z * 20.0f);
+        spB8.x = this->actor.world.pos.x + (var_s1->x * this->actor.scale.x * 20.0f);
+        spB8.y = this->actor.world.pos.y + (var_s1->y * this->actor.scale.y * 20.0f) + 10.0f;
+        spB8.z = this->actor.world.pos.z + (var_s1->z * this->actor.scale.z * 20.0f);
         spC4.x = (Rand_ZeroOne() - 0.5f) * 8.0f;
         spC4.y = Rand_ZeroOne() * 10.0f;
         spC4.z = (Rand_ZeroOne() - 0.5f) * 8.0f;
@@ -167,9 +167,9 @@ void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
         EffectSsKakera_Spawn(globalCtx, &spB8, &spC4, &spB8, -100, 0x40, 0x28, 3, 0, D_80A9C26C[new_var], 0, 0, 80, -1,
                              1, D_40355E0);
 
-        spB8.x = this->actor.posRot.pos.x + (var_s1->x * this->actor.scale.x * 40.0f);
-        spB8.y = this->actor.posRot.pos.y + (var_s1->y * this->actor.scale.y * 40.0f) + 10.0f;
-        spB8.z = this->actor.posRot.pos.z + (var_s1->z * this->actor.scale.z * 40.0f);
+        spB8.x = this->actor.world.pos.x + (var_s1->x * this->actor.scale.x * 40.0f);
+        spB8.y = this->actor.world.pos.y + (var_s1->y * this->actor.scale.y * 40.0f) + 10.0f;
+        spB8.z = this->actor.world.pos.z + (var_s1->z * this->actor.scale.z * 40.0f);
         spC4.x = (Rand_ZeroOne() - 0.5f) * 6.0f;
         spC4.y = Rand_ZeroOne() * 10.0f;
         spC4.z = (Rand_ZeroOne() - 0.5f) * 6.0f;
@@ -183,9 +183,9 @@ void func_80A9B574(EnKusa* this, GlobalContext* globalCtx) {
     s32 var_s0;
 
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
-        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x,
-                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                        (s16)(s32)(Rand_ZeroOne() * 65535.0f), 0, 1) == NULL) {
+        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.world.pos.x,
+                        this->actor.world.pos.y, this->actor.world.pos.z, 0, (s16)(s32)(Rand_ZeroOne() * 65535.0f), 0,
+                        1) == NULL) {
             break;
         }
     }
@@ -209,8 +209,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80A9B630(&this->actor, globalCtx);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &D_80A9C234);
     if (this->actor.shape.rot.y == 0) {
-        this->actor.shape.rot.y = this->actor.initPosRot.rot.y = this->actor.posRot.rot.y =
-            (s16)(s32)Rand_ZeroFloat(65536.0f);
+        this->actor.shape.rot.y = this->actor.home.rot.y = this->actor.world.rot.y = (s16)(s32)Rand_ZeroFloat(65536.0f);
     }
     if (func_80A9AFAC(this, globalCtx, 0.0f) == 0) {
         Actor_Kill(&this->actor);
@@ -259,12 +258,12 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         func_80A9BA98(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_PL_PULL_UP_PLANT);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
     } else if (this->unk150.base.acFlags & AC_HIT) {
         this->unk150.base.acFlags &= ~AC_HIT;
         func_80A9B21C(this, globalCtx);
         func_80A9B07C(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_PLANT_BROKEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         if ((this->actor.params >> 4) & 1) {
             func_80A9B574(this, globalCtx);
         }
@@ -275,15 +274,15 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
         func_80A9BEAC(this);
         this->actor.flags |= 0x800;
     } else {
-        if (!(this->unk150.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToLink > 12.0f)) {
+        if (!(this->unk150.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
             this->unk150.base.ocFlags1 |= OC1_TYPE_PLAYER;
         }
-        if (this->actor.xzDistToLink < 600.0f) {
+        if (this->actor.xzDistToPlayer < 600.0f) {
             Collider_UpdateCylinder(&this->actor, &this->unk150);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
-            if (this->actor.xzDistToLink < 400.0f) {
+            if (this->actor.xzDistToPlayer < 400.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
-                if (this->actor.xzDistToLink < 100.0f) {
+                if (this->actor.xzDistToPlayer < 100.0f) {
                     func_8002F580(&this->actor, globalCtx);
                 }
             }
@@ -301,14 +300,14 @@ void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx) {
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
         func_80A9BBB0(this);
-        this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
-        this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
+        this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
+        this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
         this->actor.colChkInfo.mass = 240;
         this->actor.gravity = -0.1f;
         func_80A9B140(this);
         func_80A9B174(&this->actor.velocity, 0.005f);
         func_8002D7EC(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
         this->actor.gravity = -3.2f;
     }
 }
@@ -327,7 +326,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 0xB) {
         if (!(this->actor.bgCheckFlags & 0x20)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_PLANT_BROKEN);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         func_80A9B21C(this, globalCtx);
         func_80A9B07C(this, globalCtx);
@@ -342,9 +341,9 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
         }
     } else {
         if (this->actor.bgCheckFlags & 0x40) {
-            sp30.x = this->actor.posRot.pos.x;
-            sp30.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
-            sp30.z = this->actor.posRot.pos.z;
+            sp30.x = this->actor.world.pos.x;
+            sp30.y = this->actor.world.pos.y + this->actor.yDistToWater;
+            sp30.z = this->actor.world.pos.z;
             EffectSsGSplash_Spawn(globalCtx, &sp30, NULL, NULL, 0, 400);
             EffectSsGRipple_Spawn(globalCtx, &sp30, 150, 650, 0);
             EffectSsGRipple_Spawn(globalCtx, &sp30, 400, 800, 4);
@@ -355,7 +354,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
             D_80A9C1DC = (s16)((s16)D_80A9C1DC >> 1);
             D_80A9C1D8 = (s16)((s16)D_80A9C1D8 >> 1);
             this->actor.bgCheckFlags &= ~0x40;
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
         }
         func_80A9B140(this);
         Math_StepToS(&D_80A9C1D4, D_80A9C1D0, 0x1F4);
@@ -364,7 +363,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y += D_80A9C1DC;
         func_80A9B174(&this->actor.velocity, 0.05f);
         func_8002D7EC(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
         Collider_UpdateCylinder(&this->actor, &this->unk150);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
     }
@@ -391,16 +390,16 @@ void func_80A9BF30(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9BF3C(EnKusa* this) {
-    this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
-    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - 9.0f;
-    this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
+    this->actor.world.pos.x = this->actor.home.pos.x;
+    this->actor.world.pos.y = this->actor.home.pos.y - 9.0f;
+    this->actor.world.pos.z = this->actor.home.pos.z;
     func_80A9B1FC(this);
-    this->actor.shape.rot = this->actor.initPosRot.rot;
+    this->actor.shape.rot = this->actor.home.rot;
     func_80A9AFA0(this, func_80A9BFA8);
 }
 
 void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
-    if ((this->unk19C >= 0x79) && Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.6f) &&
+    if ((this->unk19C >= 0x79) && Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.6f) &&
         (this->unk19C >= 0xAA)) {
         func_80A9C00C(this);
     }
@@ -409,7 +408,7 @@ void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
 void func_80A9C00C(EnKusa* this) {
     func_80A9AFA0(this, func_80A9C068);
     func_80A9B1FC(this);
-    this->actor.shape.rot = this->actor.initPosRot.rot;
+    this->actor.shape.rot = this->actor.home.rot;
     this->actor.flags &= ~0x800;
 }
 
@@ -431,9 +430,9 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk19C += 1;
     this->actionFunc(this, globalCtx);
     if (this->actor.flags & 0x800) {
-        this->actor.shape.unk_08 = -6.25f;
+        this->actor.shape.yOffset = -6.25f;
     } else {
-        this->actor.shape.unk_08 = 0.0f;
+        this->actor.shape.yOffset = 0.0f;
     }
 }
 

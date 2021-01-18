@@ -15,7 +15,7 @@ void func_809D2F74(EnChanger* this, GlobalContext* globalCtx);
 
 const ActorInit En_Changer_InitVars = {
     ACTOR_EN_CHANGER,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnChanger),
@@ -172,9 +172,9 @@ void func_809D2D70(EnChanger* this, GlobalContext* globalCtx) {
     if (this->unk166 == 0) {
         switch (this->unk164) {
             case 0:
-                pos.x = temp_v1->dyna.actor.posRot.pos.x;
-                pos.y = temp_v1->dyna.actor.posRot.pos.y;
-                pos.z = temp_v1->dyna.actor.posRot.pos.z;
+                pos.x = temp_v1->dyna.actor.world.pos.x;
+                pos.y = temp_v1->dyna.actor.world.pos.y;
+                pos.z = temp_v1->dyna.actor.world.pos.z;
                 if (this->unk162 == 0x71) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, 0xF);
                     Flags_SetSwitch(globalCtx, 0x32);
@@ -186,9 +186,9 @@ void func_809D2D70(EnChanger* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 1:
-                pos.x = temp_v0->dyna.actor.posRot.pos.x;
-                pos.y = temp_v0->dyna.actor.posRot.pos.y;
-                pos.z = temp_v0->dyna.actor.posRot.pos.z;
+                pos.x = temp_v0->dyna.actor.world.pos.x;
+                pos.y = temp_v0->dyna.actor.world.pos.y;
+                pos.z = temp_v0->dyna.actor.world.pos.z;
                 if (this->unk160 == 0x71) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, 0xF);
                     Flags_SetSwitch(globalCtx, 0x32);
@@ -221,8 +221,8 @@ void EnChanger_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk166--;
     }
     if (gGameInfo->data[0x960] != 0) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 255, 255, 4, globalCtx->state.gfxCtx);
     }
 }

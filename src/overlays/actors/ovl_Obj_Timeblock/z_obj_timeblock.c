@@ -30,7 +30,7 @@ extern UNK_TYPE D_6000B30;
 
 const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_TIMEBLOCK,
     sizeof(ObjTimeblock),
@@ -47,7 +47,7 @@ typedef struct struct_80BA0AF0 {
 struct_80BA0AF0 D_80BA0AF0[2] = { { 1.0f, 60.0f, 0x18 }, { 0.6f, 40.0f, 0x19 } };
 static f32 D_80BA0B08[8] = { 60.0f, 100.0f, 140.0f, 180.0f, 220.0f, 260.0f, 300.0f, 300.0f };
 static InitChainEntry D_80BA0B28[4] = {
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1800, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
@@ -85,8 +85,8 @@ s32 func_80B9FFA0(ObjTimeblock* this) {
 }
 
 void func_80BA0058(ObjTimeblock* this, GlobalContext* globalCtx) {
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->dyna.actor.posRot.pos.x,
-                this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, 0, 0,
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x,
+                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, 0, 0,
                 (D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk8));
 }
 
@@ -105,7 +105,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     sp2C = NULL;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
+    this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
     CollisionHeader_GetVirtual(&D_6000B30, &sp2C);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
     Actor_ProcessInitChain(&this->dyna.actor, D_80BA0B28);
@@ -118,7 +118,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk177 = 1;
     }
     this->unk168 = func_80BA040C;
-    Actor_SetHeight(&this->dyna.actor, D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk4);
+    Actor_SetFocus(&this->dyna.actor, D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk4);
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         this->unk174 = 1;
     } else {
@@ -138,7 +138,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80BA083C(this);
     }
     osSyncPrintf("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n",
-                 this->dyna.actor.params & 0xFFFF, this->unk177, this->dyna.actor.initPosRot.rot.z & 7,
+                 this->dyna.actor.params & 0xFFFF, this->unk177, this->dyna.actor.home.rot.z & 7,
                  (this->dyna.actor.params >> 0xB) & 7, (this->dyna.actor.params >> 0xA) & 1);
 }
 
@@ -155,8 +155,8 @@ s32 func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx) {
     if ((this->unk178 != 0) && (func_80043590(&this->dyna) != 0)) {
         return 0;
     }
-    if ((this->dyna.actor.xzDistToLink <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7])) {
-        func_8002DBD0(&this->dyna.actor, &sp1C, &PLAYER->actor.posRot.pos);
+    if ((this->dyna.actor.xzDistToPlayer <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7])) {
+        func_8002DBD0(&this->dyna.actor, &sp1C, &PLAYER->actor.world.pos);
         temp_fv1 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
         if ((temp_fv1 < fabsf(sp1C.x)) || (temp_fv1 < fabsf(sp1C.z))) {
             return 1;
@@ -345,7 +345,7 @@ void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGB8* sp44;
 
     if (((ObjTimeblock*)thisx)->unk178 != 0) {
-        sp44 = &D_80BA0B38[thisx->initPosRot.rot.z & 7];
+        sp44 = &D_80BA0B38[thisx->home.rot.z & 7];
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 762);
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 766),

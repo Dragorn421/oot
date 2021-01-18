@@ -32,7 +32,7 @@ static ColliderCylinderInit D_80892620 = {
 };
 const ActorInit Bg_Ice_Turara_InitVars = {
     ACTOR_BG_ICE_TURARA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceTurara),
@@ -68,7 +68,7 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk164 = func_80892220;
     } else {
         this->dyna.actor.shape.rot.x = -0x8000;
-        this->dyna.actor.shape.unk_08 = 1200.0f;
+        this->dyna.actor.shape.yOffset = 1200.0f;
         this->unk164 = func_80892280;
     }
 }
@@ -86,13 +86,13 @@ void func_80892040(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
     s32 var_s0;
     s32 sp88;
 
-    Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, NA_SE_EV_ICE_BROKEN);
+    Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
     sp88 = 0;
     do {
         for (var_s0 = 0; var_s0 < 10; var_s0++) {
-            sp90.x = Rand_CenteredFloat(8.0f) + this->dyna.actor.posRot.pos.x;
-            sp90.y = (Rand_ZeroOne() * arg2) + this->dyna.actor.posRot.pos.y + (sp88 * arg2);
-            sp90.z = Rand_CenteredFloat(8.0f) + this->dyna.actor.posRot.pos.z;
+            sp90.x = Rand_CenteredFloat(8.0f) + this->dyna.actor.world.pos.x;
+            sp90.y = (Rand_ZeroOne() * arg2) + this->dyna.actor.world.pos.y + (sp88 * arg2);
+            sp90.z = Rand_CenteredFloat(8.0f) + this->dyna.actor.world.pos.z;
             sp9C.x = Rand_CenteredFloat(7.0f);
             sp9C.z = Rand_CenteredFloat(7.0f);
             sp9C.y = (Rand_ZeroOne() * 4.0f) + 8.0f;
@@ -113,7 +113,7 @@ void func_80892220(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void func_80892280(BgIceTurara* this, GlobalContext* globalCtx) {
-    if (this->dyna.actor.xzDistToLink < 60.0f) {
+    if (this->dyna.actor.xzDistToPlayer < 60.0f) {
         this->unk168 = 0xA;
         this->unk164 = func_808922B8;
     }
@@ -130,8 +130,8 @@ void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ICE_SWING);
     }
     if (this->unk168 == 0) {
-        this->dyna.actor.posRot.pos.x = this->dyna.actor.initPosRot.pos.x;
-        this->dyna.actor.posRot.pos.z = this->dyna.actor.initPosRot.pos.z;
+        this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
+        this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
         Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk16C.base);
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -143,14 +143,14 @@ void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
         } else {
             var_v0_2 = 1;
         }
-        this->dyna.actor.posRot.pos.x = (var_v0_2 * ((0.5f * sp28) + 0.5f)) + this->dyna.actor.initPosRot.pos.x;
+        this->dyna.actor.world.pos.x = (var_v0_2 * ((0.5f * sp28) + 0.5f)) + this->dyna.actor.home.pos.x;
         sp28 = Rand_ZeroOne();
         if (Rand_ZeroOne() < 0.5f) {
             var_v0_2 = -1;
         } else {
             var_v0_2 = 1;
         }
-        this->dyna.actor.posRot.pos.z = (var_v0_2 * ((0.5f * sp28) + 0.5f)) + this->dyna.actor.initPosRot.pos.z;
+        this->dyna.actor.world.pos.z = (var_v0_2 * ((0.5f * sp28) + 0.5f)) + this->dyna.actor.home.pos.z;
     }
 }
 
@@ -158,12 +158,12 @@ void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
     if ((this->unk16C.base.atFlags & AT_HIT) || (this->dyna.actor.bgCheckFlags & 1)) {
         this->unk16C.base.atFlags &= ~AT_HIT;
         this->dyna.actor.bgCheckFlags &= ~1;
-        if (this->dyna.actor.posRot.pos.y < this->dyna.actor.groundY) {
-            this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
+        if (this->dyna.actor.world.pos.y < this->dyna.actor.floorHeight) {
+            this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         }
         func_80892040(this, globalCtx, 40.0f);
         if (this->dyna.actor.params == 2) {
-            this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 120.0f;
+            this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 120.0f;
             func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             this->unk164 = func_80892574;
         } else {
@@ -171,16 +171,16 @@ void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
         }
     } else {
         Actor_MoveForward(&this->dyna.actor);
-        this->dyna.actor.posRot.pos.y += 40.0f;
-        func_8002E4B4(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
-        this->dyna.actor.posRot.pos.y -= 40.0f;
+        this->dyna.actor.world.pos.y += 40.0f;
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
+        this->dyna.actor.world.pos.y -= 40.0f;
         Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk16C.base);
     }
 }
 
 void func_80892574(BgIceTurara* this, GlobalContext* globalCtx) {
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f)) {
         this->unk164 = func_80892280;
         this->dyna.actor.velocity.y = 0.0f;
     }

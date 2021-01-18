@@ -64,7 +64,7 @@ extern AnimationHeader D_6004404;
 
 const ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SHOPNUTS,
     sizeof(EnDns),
@@ -152,8 +152,8 @@ static EnDnsPurchaseInfo* sEnDnsPurchaseInfos[] = {
 };
 static InitChainEntry D_809F052C[3] = {
     ICHAIN_S8(naviEnemyId, 78, ICHAIN_CONTINUE),
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 static struct _struct_D_809F0538_0xC D_809F0538[3] = {
     { 0x06001108, 0, 0.0f },
@@ -177,7 +177,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_60041A8, &D_60009A0, this->unk190, this->unk1FC, 0x12);
     Collider_InitCylinder(globalCtx, &this->unk26C);
     Collider_SetCylinderType1(globalCtx, &this->unk26C, &this->actor, &D_809F03E0);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     this->actor.textId = D_809F040C[this->actor.params];
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.colChkInfo.mass = 0xFF;
@@ -340,17 +340,17 @@ void func_809EFB84(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809EFBC8(EnDns* this, GlobalContext* globalCtx) {
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x7D0, 0);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x7D0, 0);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->unk268 = func_809EFC9C;
     } else {
-        if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.unk_10C != 0)) {
+        if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.isTargeted != 0)) {
             this->actor.flags |= 0x10000;
         } else {
             this->actor.flags &= ~0x10000;
         }
-        if (this->actor.xzDistToLink < 130.0f) {
+        if (this->actor.xzDistToPlayer < 130.0f) {
             func_8002F2F4(&this->actor, globalCtx);
         }
     }
@@ -461,7 +461,7 @@ void func_809F0100(EnDns* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->unk268 = func_809F017C;
         this->unk2BC = 0;
-        this->unk2C4 = this->actor.posRot.pos.y;
+        this->unk2C4 = this->actor.world.pos.y;
     }
 }
 
@@ -470,19 +470,19 @@ void func_809F017C(EnDns* this, GlobalContext* globalCtx) {
     Vec3f sp38;
     s32 var_s0;
 
-    var_fv0 = this->unk2C4 - this->actor.posRot.pos.y;
+    var_fv0 = this->unk2C4 - this->actor.world.pos.y;
     if ((this->unk2B8 % 4) == 0) {
-        sp38.x = this->actor.posRot.pos.x;
+        sp38.x = this->actor.world.pos.x;
         sp38.y = this->unk2C4;
-        sp38.z = this->actor.posRot.pos.z;
+        sp38.z = this->actor.world.pos.z;
         func_80028990(globalCtx, 20.0f, &sp38);
     }
     this->actor.shape.rot.y += 0x2000;
     if (var_fv0 > 400.0f) {
         if (this->unk2BD != 0) {
-            sp38.x = this->actor.posRot.pos.x;
+            sp38.x = this->actor.world.pos.x;
             sp38.y = this->unk2C4;
-            sp38.z = this->actor.posRot.pos.z;
+            sp38.z = this->actor.world.pos.z;
             for (var_s0 = 0; var_s0 < 3; var_s0++) {
                 Item_DropCollectible(globalCtx, &sp38, 3);
             }
@@ -497,13 +497,13 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk2B8++;
     this->actor.textId = D_809F040C[this->actor.params];
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_Update(&this->unk14C);
     Actor_MoveForward(&this->actor);
     this->unk268(this, globalCtx);
     if (this->unk2BC != 0) {
-        func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 4);
     }
     if (this->unk2BB != 0) {
         Collider_UpdateCylinder(&this->actor, &this->unk26C);
