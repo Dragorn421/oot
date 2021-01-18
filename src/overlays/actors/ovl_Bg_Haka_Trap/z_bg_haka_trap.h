@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "z64collision_check.h"
 
 typedef enum BgHakaTrapType {
     /* 0 */ BG_HAKA_TRAP_GUILLOTINE,
@@ -26,7 +27,7 @@ typedef struct BgHakaTrap {
     /* 0x16C */ Vec3f unk16C;
     /* 0x178 */ ColliderCylinder unk178;
     /* 0x1C4 */ ColliderTris unk1C4;
-    /* 0x1E4 */ ColliderTrisItem unk1E4[2];
+    /* 0x1E4 */ ColliderTrisElement unk1E4[2];
 } BgHakaTrap; // size = 0x29C
 
 #endif

@@ -62,7 +62,7 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(&D_6002594, &sp24);
     Collider_InitCylinder(globalCtx, &this->unk16C);
     Collider_SetCylinder(globalCtx, &this->unk16C, &this->dyna.actor, &D_80892620);
-    Collider_CylinderUpdate(&this->dyna.actor, &this->unk16C);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
     if (this->dyna.actor.params == 0) {
         this->unk164 = func_80892220;
@@ -104,7 +104,7 @@ void func_80892040(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
 }
 
 void func_80892220(BgIceTurara* this, GlobalContext* globalCtx) {
-    if (this->unk16C.base.acFlags & 2) {
+    if (this->unk16C.base.acFlags & AC_HIT) {
         func_80892040(this, globalCtx, 50.0f);
         Actor_Kill(&this->dyna.actor);
     } else {
@@ -132,7 +132,7 @@ void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
     if (this->unk168 == 0) {
         this->dyna.actor.posRot.pos.x = this->dyna.actor.initPosRot.pos.x;
         this->dyna.actor.posRot.pos.z = this->dyna.actor.initPosRot.pos.z;
-        Collider_CylinderUpdate(&this->dyna.actor, &this->unk16C);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk16C.base);
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->unk164 = func_80892424;
@@ -155,8 +155,8 @@ void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
-    if ((this->unk16C.base.atFlags & 2) || (this->dyna.actor.bgCheckFlags & 1)) {
-        this->unk16C.base.atFlags &= ~2;
+    if ((this->unk16C.base.atFlags & AT_HIT) || (this->dyna.actor.bgCheckFlags & 1)) {
+        this->unk16C.base.atFlags &= ~AT_HIT;
         this->dyna.actor.bgCheckFlags &= ~1;
         if (this->dyna.actor.posRot.pos.y < this->dyna.actor.groundY) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
@@ -174,7 +174,7 @@ void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.pos.y += 40.0f;
         func_8002E4B4(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
         this->dyna.actor.posRot.pos.y -= 40.0f;
-        Collider_CylinderUpdate(&this->dyna.actor, &this->unk16C);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk16C.base);
     }
 }

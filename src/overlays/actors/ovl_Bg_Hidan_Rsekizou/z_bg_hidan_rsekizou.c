@@ -27,7 +27,7 @@ extern Gfx D_600AD00[];
 extern CollisionHeader D_600D5C0;
 extern Gfx D_600DC30[];
 
-static ColliderJntSphItemInit D_8088CC80[6] = {
+static ColliderJntSphElementInit D_8088CC80[6] = {
     {
         { 0, { 0x20000000, 1, 4 }, { 0, 0, 0 }, 0x19, 0, 0 },
         { 1, { { 0, 0x1E, 0x28 }, 0x19 }, 0x64 },
@@ -77,7 +77,7 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->unk168);
     Collider_SetJntSph(globalCtx, &this->unk168, &this->dyna.actor, &D_8088CD58, this->unk188);
     for (i = 0; i < 6; i++) {
-        this->unk168.list[i].dim.worldSphere.radius = this->unk168.list[i].dim.modelSphere.radius;
+        this->unk168.elements[i].dim.worldSphere.radius = this->unk168.elements[i].dim.modelSphere.radius;
     }
     this->unk166 = 0;
     this->unk164 = 0;
@@ -94,7 +94,7 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad[4];
     f32 sp24;
     s32 i;
-    ColliderJntSphItem* temp_v0_2;
+    ColliderJntSphElement* temp_v0_2;
     f32 temp_fv0;
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
 
@@ -109,7 +109,7 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
     sp24 = Math_SinS(this->dyna.actor.shape.rot.y);
     temp_fv0 = Math_CosS(this->dyna.actor.shape.rot.y);
     for (i = 0; i < 6; i++) {
-        temp_v0_2 = &this->unk168.list[i];
+        temp_v0_2 = &this->unk168.elements[i];
         temp_v0_2->dim.worldSphere.center.x = this->dyna.actor.initPosRot.pos.x +
                                               (temp_fv0 * temp_v0_2->dim.modelSphere.center.x) +
                                               (sp24 * temp_v0_2->dim.modelSphere.center.z);

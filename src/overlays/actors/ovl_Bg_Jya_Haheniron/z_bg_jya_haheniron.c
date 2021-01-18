@@ -38,7 +38,7 @@ const ActorInit Bg_Jya_Haheniron_InitVars = {
     (ActorFunc)BgJyaHaheniron_Update,
     (ActorFunc)BgJyaHaheniron_Draw,
 };
-static ColliderJntSphItemInit D_80898740[1] = {
+static ColliderJntSphElementInit D_80898740[1] = {
     {
         { 0, { 0xFFCFFFFF, 0, 4 }, { 0, 0, 0 }, 1, 0, 0 },
         { 0, { { 0, 0, 0 }, 0xA }, 0x64 },
@@ -126,7 +126,7 @@ void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
     if ((this->actor.bgCheckFlags & 9) ||
-        ((this->unk150.base.atFlags & 2) && (this->unk150.base.at != NULL) && (this->unk150.base.at->type == 2))) {
+        ((this->unk150.base.atFlags & AT_HIT) && (this->unk150.base.at != NULL) && (this->unk150.base.at->type == 2))) {
         sp2C.x = -Rand_ZeroOne() * this->actor.velocity.x;
         sp2C.y = -Rand_ZeroOne() * this->actor.velocity.y;
         sp2C.z = -Rand_ZeroOne() * this->actor.velocity.z;
@@ -179,7 +179,7 @@ void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     if (this->actor.params == 0) {
-        func_800628A4(0, &this->unk150);
+        Collider_UpdateSpheres(0, &this->unk150);
     }
     Gfx_DrawDListOpa(globalCtx, D_808987B8[this->actor.params]);
 }

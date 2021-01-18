@@ -5,6 +5,7 @@
  */
 
 #include "z_mir_ray.h"
+#include "z64collision_check.h"
 
 #define FLAGS 0x00000030
 
@@ -59,7 +60,7 @@ static ColliderQuadInit D_80B8E674 = {
         { 0.0f, 0.0f, 0.0f },
     } },
 };
-static ColliderJntSphItemInit D_80B8E6C4[1] = {
+static ColliderJntSphElementInit D_80B8E6C4[1] = {
     {
         { 0, { 0x200000, 0, 0 }, { 0, 0, 0 }, 1, 0, 0 },
         { 0, { { 0, 0, 0 }, 0x32 }, 0x64 },
@@ -214,7 +215,7 @@ static InitChainEntry D_80B8E838[] = {
 void MirRay_UpdateColliderSphereShape(MirRay* this) {
     Vec3f vec;
     struct_80B8E6F8* temp_v0;
-    ColliderJntSphItem* new_var;
+    ColliderJntSphElement* new_var;
 
     temp_v0 = &D_80B8E6F8[this->actor.params];
     vec.x = (this->coneFrustumCenterBase.x - this->coneFrustumCenterTop.x) *
@@ -223,10 +224,10 @@ void MirRay_UpdateColliderSphereShape(MirRay* this) {
             temp_v0->unk10_sphereColliderPosRatioTowardsBase;
     vec.z = (this->coneFrustumCenterBase.z - this->coneFrustumCenterTop.z) *
             temp_v0->unk10_sphereColliderPosRatioTowardsBase;
-    this->unk14C.list[0].dim.worldSphere.center.x = this->coneFrustumCenterTop.x + vec.x;
-    this->unk14C.list[0].dim.worldSphere.center.y = this->coneFrustumCenterTop.y + vec.y;
-    this->unk14C.list[0].dim.worldSphere.center.z = this->coneFrustumCenterTop.z + vec.z;
-    new_var = &this->unk14C.list[0];
+    this->unk14C.elements[0].dim.worldSphere.center.x = this->coneFrustumCenterTop.x + vec.x;
+    this->unk14C.elements[0].dim.worldSphere.center.y = this->coneFrustumCenterTop.y + vec.y;
+    this->unk14C.elements[0].dim.worldSphere.center.z = this->coneFrustumCenterTop.z + vec.z;
+    new_var = &this->unk14C.elements[0];
     new_var->dim.worldSphere.radius = temp_v0->unk14_sphereColliderRadiusModel * new_var->dim.scale;
 }
 
@@ -484,7 +485,7 @@ void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, struct_80B8D8A0* arg2
     upAndInFrontPos.x = (shieldMf->xx * 300.0f) + inFrontPos.x;
     upAndInFrontPos.y = (shieldMf->xy * 300.0f) + inFrontPos.y;
     upAndInFrontPos.z = (shieldMf->xz * 300.0f) + inFrontPos.z;
-    func_80062734(&this->unk1AC, &upPos, &originPos, &upAndInFrontPos, &inFrontPos);
+    Collider_SetQuadVertices(&this->unk1AC, &upPos, &originPos, &upAndInFrontPos, &inFrontPos);
     for (i = 0; i < 6; i++) {
         new_var = &spDC.x; //! FAKE
         var_s0 = &arg2[i];

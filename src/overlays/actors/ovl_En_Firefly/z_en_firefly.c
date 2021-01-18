@@ -37,7 +37,7 @@ const ActorInit En_Firefly_InitVars = {
     (ActorFunc)EnFirefly_Update,
     (ActorFunc)EnFirefly_DrawOpa,
 };
-static ColliderJntSphItemInit D_80A14F30 = {
+static ColliderJntSphElementInit D_80A14F30 = {
     { 0, { 0xFFCFFFFF, 1, 8 }, { 0xFFCFFFFF, 0, 0 }, 9, 1, 1 },
     { 1, { { 0, 0x3E8, 0 }, 0xF }, 0x64 },
 };
@@ -65,7 +65,7 @@ static Vec3f D_80A14FC8 = { 0.0f, 0.0f, 0.0f };
 
 void func_80A13070_Unignite_(EnFirefly* this) {
     this->actor.params += 2;
-    this->collider.list->body.toucher.effect = 0;
+    this->collider.elements->info.toucher.effect = 0;
     this->unk1B8 = 0;
     this->unk1B9 = 0;
     this->actor.naviEnemyId = 0x12;
@@ -77,7 +77,7 @@ void func_80A13098_Ignite_(EnFirefly* this) {
     } else {
         this->actor.params -= 2;
     }
-    this->collider.list->body.toucher.effect = 1;
+    this->collider.elements->info.toucher.effect = 1;
     this->unk1B8 = 1;
     this->unk1B9 = 1;
     this->actor.naviEnemyId = 0x11;
@@ -91,7 +91,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_60018B8, &D_600017C, this->unk1BE, this->unk266, 0x1C);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80A14F54, this->colliderElements);
-    func_80061ED4(&this->actor.colChkInfo, &D_80A14F6C, &D_80A14F64);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80A14F6C, &D_80A14F64);
     if (this->actor.params & 0x8000) {
         this->actor.flags |= 0x80;
         thisx->draw = EnFirefly_DrawXlu;
@@ -116,10 +116,10 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_80A13A08_Action;
         }
         if (this->actor.params == 4) {
-            this->collider.list->body.toucher.effect = 2;
+            this->collider.elements->info.toucher.effect = 2;
             this->actor.naviEnemyId = 0x56;
         } else {
-            this->collider.list->body.toucher.effect = 0;
+            this->collider.elements->info.toucher.effect = 0;
             this->actor.naviEnemyId = 0x12;
         }
         this->unk310_homeY = this->actor.initPosRot.pos.y + 100.0f;
@@ -129,7 +129,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk1B8 = 0;
         }
     }
-    this->collider.list->dim.worldSphere.radius = D_80A14F54.list->dim.modelSphere.radius;
+    this->collider.elements->dim.worldSphere.radius = D_80A14F54.elements->dim.modelSphere.radius;
 }
 
 void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -549,9 +549,9 @@ void func_80A1448C_SpawnFireEffects(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void func_80A1450C_ReactToAC(EnFirefly* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
-        func_80035650(&this->actor, &this->collider.list->body, 1);
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        func_80035650(&this->actor, &this->collider.elements->info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 func_80032C7C(globalCtx, &this->actor);
@@ -594,8 +594,8 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     f32 sp34;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_ATTACK);
         if (this->unk1B9 != 0) {
             func_80A13070_Unignite_(this);
@@ -617,9 +617,9 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 15.0f, 7);
-    this->collider.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
-    this->collider.list->dim.worldSphere.center.y = this->actor.posRot.pos.y + 10.0f;
-    this->collider.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    this->collider.elements->dim.worldSphere.center.x = this->actor.posRot.pos.x;
+    this->collider.elements->dim.worldSphere.center.y = this->actor.posRot.pos.y + 10.0f;
+    this->collider.elements->dim.worldSphere.center.z = this->actor.posRot.pos.z;
     if ((this->actionFunc == func_80A13DE4_Action) || (this->actionFunc == func_80A143B4_Action_SwoopOnPlayer)) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }

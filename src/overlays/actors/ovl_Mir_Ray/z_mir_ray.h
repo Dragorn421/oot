@@ -3,13 +3,14 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "z64collision_check.h"
 
 struct MirRay;
 
 typedef struct MirRay {
     /* 0x000 */ Actor actor;
     /* 0x14C */ ColliderJntSph unk14C;
-    /* 0x16C */ ColliderJntSphItem unk16C;
+    /* 0x16C */ ColliderJntSphElement unk16C;
     /* 0x1AC */ ColliderQuad unk1AC;
     /* 0x22C */ f32 lightReflectionFactor;
     /* 0x230 */ Vec3f reflectionOriginModelPositions[6];

@@ -196,7 +196,7 @@ void func_80A9B630(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->unk150);
     Collider_SetCylinder(globalCtx, &this->unk150, &this->actor, &D_80A9C208);
-    Collider_CylinderUpdate(&this->actor, &this->unk150);
+    Collider_UpdateCylinder(&this->actor, &this->unk150);
 }
 
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -207,7 +207,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     func_80A9B630(&this->actor, globalCtx);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &D_80A9C234);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &D_80A9C234);
     if (this->actor.shape.rot.y == 0) {
         this->actor.shape.rot.y = this->actor.initPosRot.rot.y = this->actor.posRot.rot.y =
             (s16)(s32)Rand_ZeroFloat(65536.0f);
@@ -260,8 +260,8 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         func_80A9BA98(this);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_PL_PULL_UP_PLANT);
-    } else if (this->unk150.base.acFlags & 2) {
-        this->unk150.base.acFlags &= ~2;
+    } else if (this->unk150.base.acFlags & AC_HIT) {
+        this->unk150.base.acFlags &= ~AC_HIT;
         func_80A9B21C(this, globalCtx);
         func_80A9B07C(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_PLANT_BROKEN);
@@ -275,11 +275,11 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
         func_80A9BEAC(this);
         this->actor.flags |= 0x800;
     } else {
-        if (!(this->unk150.base.maskA & 8) && (this->actor.xzDistToLink > 12.0f)) {
-            this->unk150.base.maskA |= 8;
+        if (!(this->unk150.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToLink > 12.0f)) {
+            this->unk150.base.ocFlags1 |= OC1_TYPE_PLAYER;
         }
         if (this->actor.xzDistToLink < 600.0f) {
-            Collider_CylinderUpdate(&this->actor, &this->unk150);
+            Collider_UpdateCylinder(&this->actor, &this->unk150);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
             if (this->actor.xzDistToLink < 400.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
@@ -365,7 +365,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
         func_80A9B174(&this->actor.velocity, 0.05f);
         func_8002D7EC(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
-        Collider_CylinderUpdate(&this->actor, &this->unk150);
+        Collider_UpdateCylinder(&this->actor, &this->unk150);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
     }
 }
@@ -422,7 +422,7 @@ void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     if (temp_v1) {
         Actor_SetScale(&this->actor, 0.4f);
         func_80A9B89C(this);
-        this->unk150.base.maskA &= 0xFFF7;
+        this->unk150.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
     }
 }
 

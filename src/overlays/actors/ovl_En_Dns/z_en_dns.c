@@ -1,4 +1,6 @@
 #include "z_en_dns.h"
+#include "functions.h"
+#include "z64collision_check.h"
 
 #define FLAGS 0x00000009
 
@@ -71,7 +73,7 @@ const ActorInit En_Dns_InitVars = {
     (ActorFunc)EnDns_Update,
     (ActorFunc)EnDns_Draw,
 };
-static ColliderCylinderInit_Set3 D_809F03E0 = {
+static ColliderCylinderInitType1 D_809F03E0 = {
     { 0xA, 0, 9, 0x39, 1 },
     { 0, { 0, 0, 0 }, { 0xFFCFFFFF, 0, 0 }, 0, 1, 1 },
     { 0x12, 0x20, 0, { 0, 0, 0 } },
@@ -174,7 +176,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, D_809F052C);
     SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_60041A8, &D_60009A0, this->unk190, this->unk1FC, 0x12);
     Collider_InitCylinder(globalCtx, &this->unk26C);
-    Collider_SetCylinder_Set3(globalCtx, &this->unk26C, &this->actor, &D_809F03E0);
+    Collider_SetCylinderType1(globalCtx, &this->unk26C, &this->actor, &D_809F03E0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
     this->actor.textId = D_809F040C[this->actor.params];
     Actor_SetScale(&this->actor, 0.01f);
@@ -343,7 +345,7 @@ void func_809EFBC8(EnDns* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->unk268 = func_809EFC9C;
     } else {
-        if ((this->unk26C.base.maskA & 2) || (this->actor.unk_10C != 0)) {
+        if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.unk_10C != 0)) {
             this->actor.flags |= 0x10000;
         } else {
             this->actor.flags &= ~0x10000;
@@ -504,7 +506,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 4);
     }
     if (this->unk2BB != 0) {
-        Collider_CylinderUpdate(&this->actor, &this->unk26C);
+        Collider_UpdateCylinder(&this->actor, &this->unk26C);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk26C.base);
     }
 }

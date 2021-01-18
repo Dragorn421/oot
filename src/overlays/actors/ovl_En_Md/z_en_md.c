@@ -589,7 +589,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_6007FB8, NULL, this->unk258, this->unk2BE, 0x11);
     Collider_InitCylinder(globalCtx, &this->unk194);
     Collider_SetCylinder(globalCtx, &this->unk194, &this->actor, &D_80AAC310);
-    func_80061EFC(&this->actor.colChkInfo, NULL, &D_80AAC33C);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AAC33C);
     if (func_80AAB03C(this, globalCtx) == 0) {
         Actor_Kill(&this->actor);
         return;
@@ -731,7 +731,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMd* this = (EnMd*)thisx;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->unk194);
+    Collider_UpdateCylinder(&this->actor, &this->unk194);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk194.base);
     SkelAnime_Update(&this->unk14C);
     func_80AAB0E0(this);

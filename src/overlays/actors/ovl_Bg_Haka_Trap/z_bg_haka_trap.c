@@ -1,6 +1,7 @@
 #include "functions.h"
 #include "global.h"
 #include "z64.h"
+#include "z64collision_check.h"
 #include "z_bg_haka_trap.h"
 
 #define FLAGS 0
@@ -45,7 +46,7 @@ ColliderCylinderInit D_80880F54 = {
     { 0x1E, 0x5A, 0, { 0, 0, 0 } },
 };
 
-ColliderTrisItemInit D_80880F80[2] = {
+ColliderTrisElementInit D_80880F80[2] = {
     {
         { 0, { 0, 0, 0 }, { 0x20000, 0, 0 }, 0, 1, 0 },
         {
@@ -126,11 +127,11 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                     CollisionHeader_GetVirtual(&D_6008D10, &sp2C);
                 }
                 Collider_InitTris(globalCtx, &this->unk1C4);
-                Collider_SetTris(globalCtx, &this->unk1C4, &this->dyna.actor, &D_80880FF8, &this->unk1E4);
+                Collider_SetTris(globalCtx, &this->unk1C4, &this->dyna.actor, &D_80880FF8, this->unk1E4);
                 this->unk178.dim.radius = 0x12;
                 this->unk178.dim.height = 0x73;
-                this->unk178.body.toucherFlags |= 0;
-                this->unk178.body.toucherFlags |= 0x10;
+                this->unk178.info.toucherFlags |= 0;
+                this->unk178.info.toucherFlags |= 0x10;
                 this->actionFunc = &func_808801B8;
             }
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
@@ -140,7 +141,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc = &func_808809B0;
         this->dyna.actor.uncullZoneScale = 500.0f;
     }
-    func_80061ED4(&this->dyna.actor.colChkInfo, NULL, &D_80881008);
+    CollisionCheck_SetInfo(&this->dyna.actor.colChkInfo, NULL, &D_80881008);
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -198,7 +199,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
         }
     }
     func_8087FFC0(this, globalCtx);
-    if (this->unk1C4.base.acFlags & 2) {
+    if (this->unk1C4.base.acFlags & AC_HIT) {
         this->unk168 = 0x14;
         D_80880F30 = 1;
         this->actionFunc = func_808802D8;
@@ -432,9 +433,9 @@ void func_80880D68(BgHakaTrap* this) {
     Matrix_MultVec3f(&D_80880F80[0].dim.vtx[0], &sp24);
     Matrix_MultVec3f(&D_80880F80[0].dim.vtx[1], &sp30);
     Matrix_MultVec3f(&D_80880F80[0].dim.vtx[2], &sp3C);
-    func_800627A0(&this->unk1C4, 0, &sp24, &sp30, &sp3C);
+    Collider_SetTrisVertices(&this->unk1C4, 0, &sp24, &sp30, &sp3C);
     Matrix_MultVec3f(&D_80880F80[1].dim.vtx[2], &sp30);
-    func_800627A0(&this->unk1C4, 1, &sp24, &sp3C, &sp30);
+    Collider_SetTrisVertices(&this->unk1C4, 1, &sp24, &sp3C, &sp30);
 }
 
 Gfx* D_80881028[5] = {

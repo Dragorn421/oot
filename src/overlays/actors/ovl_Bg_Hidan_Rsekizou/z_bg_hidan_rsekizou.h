@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "z64collision_check.h"
 
 struct BgHidanRsekizou;
 
@@ -11,7 +12,7 @@ typedef struct BgHidanRsekizou {
     /* 0x164 */ s16 unk164;
     /* 0x166 */ s16 unk166;
     /* 0x168 */ ColliderJntSph unk168;
-    /* 0x188 */ ColliderJntSphItem unk188[6];
+    /* 0x188 */ ColliderJntSphElement unk188[6];
 } BgHidanRsekizou; // size = 0x0308
 
 extern const ActorInit Bg_Hidan_Rsekizou_InitVars;

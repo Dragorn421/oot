@@ -40,7 +40,7 @@ glabel EnMd_Init
 /* 0148C 80AAB6DC 3C0680AB */  lui     $a2, %hi(D_80AAC33C)       ## $a2 = 80AB0000
 /* 01490 80AAB6E0 24C6C33C */  addiu   $a2, $a2, %lo(D_80AAC33C)  ## $a2 = 80AAC33C
 /* 01494 80AAB6E4 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 01498 80AAB6E8 0C0187BF */  jal     func_80061EFC
+/* 01498 80AAB6E8 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 0149C 80AAB6EC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 014A0 80AAB6F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 014A4 80AAB6F4 0C2AAC0F */  jal     func_80AAB03C

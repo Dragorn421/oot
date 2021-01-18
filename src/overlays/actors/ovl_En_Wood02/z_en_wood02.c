@@ -240,7 +240,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     this->actor.initPosRot.rot.y = 0;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -278,8 +278,8 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnWood02_SpawnUnculledChildren(this, globalCtx);
     }
     if (thisx->params < EN_WOOD_02_TYPE_11) {
-        if (this->unk158.base.acFlags & 2) {
-            this->unk158.base.acFlags &= ~2;
+        if (this->unk158.base.acFlags & AC_HIT) {
+            this->unk158.base.acFlags &= ~AC_HIT;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
         if (this->actor.initPosRot.rot.y != 0) {
@@ -309,7 +309,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.initPosRot.rot.y = 0;
         }
         if (this->actor.xzDistToLink < 600.0f) {
-            Collider_CylinderUpdate(&this->actor, &this->unk158);
+            Collider_UpdateCylinder(&this->actor, &this->unk158);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk158.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk158.base);
         }
