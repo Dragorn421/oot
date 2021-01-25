@@ -1,4 +1,5 @@
 #include "z_en_kusa.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00800010
 
@@ -25,8 +26,6 @@ void func_80A9C00C(EnKusa* this);
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx);
 void func_80A9C164(Actor* thisx, GlobalContext* globalCtx);
 
-extern Gfx D_40355E0[];
-extern Gfx D_40356A0[];
 extern Gfx D_6000140[];
 extern Gfx D_60002E0[];
 
@@ -165,7 +164,7 @@ void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
         spC4.z = (Rand_ZeroOne() - 0.5f) * 8.0f;
         new_var = (s32)(Rand_ZeroOne() * 111.1f) & 7;
         EffectSsKakera_Spawn(globalCtx, &spB8, &spC4, &spB8, -100, 0x40, 0x28, 3, 0, D_80A9C26C[new_var], 0, 0, 80, -1,
-                             1, D_40355E0);
+                             1, gCuttableShrubStalkDL);
 
         spB8.x = this->actor.world.pos.x + (var_s1->x * this->actor.scale.x * 40.0f);
         spB8.y = this->actor.world.pos.y + (var_s1->y * this->actor.scale.y * 40.0f) + 10.0f;
@@ -175,7 +174,7 @@ void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
         spC4.z = (Rand_ZeroOne() - 0.5f) * 6.0f;
         new_var = (s32)(Rand_ZeroOne() * 111.1f) % 7;
         EffectSsKakera_Spawn(globalCtx, &spB8, &spC4, &spB8, -100, 0x40, 0x28, 3, 0, D_80A9C26C[new_var], 0, 0, 80, -1,
-                             1, D_40356A0);
+                             1, gCuttableShrubTipDL);
     }
 }
 

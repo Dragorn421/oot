@@ -1,4 +1,5 @@
 #include "z_en_m_thunder.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -335,13 +336,13 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     switch (this->unk1C6) {
         case 0:
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 0xAA, (u8)(this->unk1B0 * 255.0f));
-            gSPDisplayList(POLY_XLU_DISP++, D_4012AF0);
-            gSPDisplayList(POLY_XLU_DISP++, D_4012C10);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack3DL);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack4DL);
             break;
         case 1:
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 0xAA, 255, 255, (u8)(this->unk1B0 * 255.0f));
-            gSPDisplayList(POLY_XLU_DISP++, D_4012570);
-            gSPDisplayList(POLY_XLU_DISP++, D_4012690);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack1DL);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack2DL);
             break;
     }
     Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
@@ -380,6 +381,6 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->gameplayFrames * 5) & 0xFF, 0U, 32, 32, 1,
                                 (globalCtx->gameplayFrames * 0x14) & 0xFF, (globalCtx->gameplayFrames * var_t1) & 0xFF,
                                 8, 8));
-    gSPDisplayList(POLY_XLU_DISP++, D_4013610);
+    gSPDisplayList(POLY_XLU_DISP++, gSpinAttackChargingDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 0x407);
 }

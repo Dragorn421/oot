@@ -1,4 +1,5 @@
 #include "z_bg_po_syokudai.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -9,7 +10,6 @@ void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern Gfx D_404D4E0[];
 extern Gfx D_60003A0[];
 
 static ColliderCylinderInit D_808A8960 = {
@@ -129,7 +129,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(0.0027f, 0.0027f, 0.0027f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 373);
 }
