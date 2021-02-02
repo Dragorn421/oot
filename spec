@@ -2679,8 +2679,7 @@ endseg
 beginseg
     name "ovl_En_Mm2"
     include "build/src/overlays/actors/ovl_En_Mm2/z_en_mm2.o"
-    include "build/data/overlays/actors/z_en_mm2.data.o"
-    include "build/data/overlays/actors/z_en_mm2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Mm2/ovl_En_Mm2_reloc.o"
 endseg
 
 beginseg
@@ -8216,7 +8215,7 @@ beginseg
     name "syotes2_scene"
     romalign 0x1000
     include "build/assets/scenes/test_levels/syotes2/syotes2_scene.o"
-    number 2   
+    number 2
 endseg
 
 beginseg
