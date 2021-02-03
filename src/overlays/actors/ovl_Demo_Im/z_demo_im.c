@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_im.h"
-
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "vt.h"
 
 #define FLAGS 0x00000011
@@ -750,7 +750,7 @@ void func_809865F8(DemoIm* this, GlobalContext* globalCtx, s32 arg2) {
                 f32 spawnPosZ = thisPos->z + (Math_CosS(shapeRotY) * 30.0f);
 
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ARROW, spawnPosX, spawnPosY, spawnPosZ, 0xFA0,
-                            this->actor.shape.rot.y, 0, 0xFFF6);
+                            this->actor.shape.rot.y, 0, ARROW_CS_NUT);
                 this->unk_27C = 1;
             }
         } else {
@@ -1171,7 +1171,7 @@ s32 func_80987514(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 void func_809875C0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     DemoIm* this = THIS;
 
-    if (limbIndex == 0x10) {
+    if (limbIndex == 16) {
         Vec3f sp28 = D_809887D8;
         Vec3f dest;
 

@@ -10,6 +10,7 @@
 #include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "overlays/actors/ovl_En_Door/z_en_door.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
@@ -1929,13 +1930,13 @@ s32 func_80834380(GlobalContext* globalCtx, Player* this, s32* itemPtr, s32* typ
     if (LINK_IS_ADULT) {
         *itemPtr = ITEM_BOW;
         if (this->stateFlags1 & 0x800000) {
-            *typePtr = 1;
+            *typePtr = ARROW_NORMAL_HORSE;
         } else {
             *typePtr = this->heldItemActionParam - 6;
         }
     } else {
         *itemPtr = ITEM_SLINGSHOT;
-        *typePtr = 9;
+        *typePtr = ARROW_SEED;
     }
 
     if (gSaveContext.minigameState == 1) {
@@ -1965,12 +1966,12 @@ s32 func_8083442C(Player* this, GlobalContext* globalCtx) {
             func_8002F7DC(&this->actor, D_80854398[ABS(this->unk_860) - 1]);
 
             if (!Player_HoldsHookshot(this) && (func_80834380(globalCtx, this, &item, &arrowType) > 0)) {
-                magicArrowType = arrowType - 3;
+                magicArrowType = arrowType - ARROW_FIRE;
 
                 if (this->unk_860 >= 0) {
-                    if ((magicArrowType >= 0) && (magicArrowType < 3) &&
+                    if ((magicArrowType >= 0) && (magicArrowType <= 2) &&
                         !func_80087708(globalCtx, sMagicArrowCosts[magicArrowType], 0)) {
-                        arrowType = 2;
+                        arrowType = ARROW_NORMAL;
                     }
 
                     this->heldActor = Actor_SpawnAsChild(
@@ -10015,8 +10016,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this) ? &gPlayer515Anim
-                                                      : (this->shockTimer != 0) ? &gPlayer386Anim : &gPlayer176Anim);
+                                  func_808332B8(this)       ? &gPlayer515Anim
+                                  : (this->shockTimer != 0) ? &gPlayer386Anim
+                                                            : &gPlayer176Anim);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&
