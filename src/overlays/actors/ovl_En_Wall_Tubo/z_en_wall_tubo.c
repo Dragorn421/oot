@@ -89,7 +89,7 @@ void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
                 ((fabsf(diff.y) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
                 ((fabsf(diff.z) < 40.0f) || (gGameInfo->data[0x962] != 0))) {
                 this->unk160->unk23E_arr[this->actor.params] = 1;
-                ((EnBomChu*)var_v0)->unk150 = 2;
+                ((EnBomChu*)var_v0)->timer = 2;
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 this->unk150 = 0x3C;
                 EffectSsBomb2_SpawnLayered(globalCtx, &this->unk154, &sp40, &sp4C, 200, 40);

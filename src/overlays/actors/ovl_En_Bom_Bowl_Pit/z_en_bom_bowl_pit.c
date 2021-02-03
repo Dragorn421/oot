@@ -72,7 +72,7 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 ((fabsf(diff.z) < 40.0f) || (gGameInfo->data[0x962] != 0))) {
                 sp24 = (EnBomChu*)var_v1;
                 func_8002DF54(globalCtx, NULL, 8U);
-                sp24->unk150 = 1;
+                sp24->timer = 1;
                 this->unk152 = Gameplay_CreateSubCamera(globalCtx);
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
                 Gameplay_ChangeCameraStatus(globalCtx, this->unk152, 7);
