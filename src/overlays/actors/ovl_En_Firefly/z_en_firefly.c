@@ -160,7 +160,7 @@ void func_80A133A0_Setup(EnFirefly* this) {
     Animation_Change(&this->skelAnime, &D_600017C, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= 0x10;
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x28);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x28);
     this->actionFunc = func_80A13C98_Action;
 }
 
@@ -201,7 +201,7 @@ void func_80A1350C_Setup(EnFirefly* this) {
 
 void func_80A13538_Setup(EnFirefly* this) {
     this->unk1BA_timer = 80;
-    func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
     this->unk1B8 = 0;
     this->actor.velocity.y = 0.0f;
     this->skelAnime.playSpeed = 3.0f;
@@ -216,7 +216,7 @@ void func_80A135A8_Setup(EnFirefly* this, GlobalContext* globalCtx) {
     this->actor.flags |= 0x10;
     this->unk1B8 = 0;
     this->actor.speedXZ = 0.0f;
-    func_8003426C(&this->actor, 0, 0xFF, 0, 0xFF);
+    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xFF);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
     for (var_s0 = 0; var_s0 < 8; var_s0++) {
         sp78.x = this->actor.world.pos.x + ((var_s0 & 1) ? 7.0f : -7.0f);
@@ -260,9 +260,10 @@ s32 func_80A1379C_HoneInOnHomeIfPlayerFar_(EnFirefly* this, GlobalContext* globa
             if (temp_fv1 < 1.0f) {
                 this->actor.speedXZ *= temp_fv1;
             }
-            Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
-            Math_ScaledStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &this->actor.home.pos) + 0x1554,
-                               0x100);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
+                               0x300);
+            Math_ScaledStepToS(&this->actor.shape.rot.x,
+                               Actor_WorldPitchTowardPoint(&this->actor, &this->actor.home.pos) + 0x1554, 0x100);
         }
         return true;
     } else {
@@ -298,8 +299,10 @@ s32 func_80A138B8_HoneInOnLitTorch(EnFirefly* this, GlobalContext* globalCtx) {
             func_80A13098_Ignite_(this);
             return true;
         } else {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, closestLitTorch), 0x300);
-            Math_ScaledStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &torchFlamePos) + 0x1554, 0x100);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, closestLitTorch),
+                               0x300);
+            Math_ScaledStepToS(&this->actor.shape.rot.x,
+                               Actor_WorldPitchTowardPoint(&this->actor, &torchFlamePos) + 0x1554, 0x100);
             return true;
         }
     } else {
@@ -323,7 +326,8 @@ void func_80A13A08_Action(EnFirefly* this, GlobalContext* globalCtx) {
         if (sp3C != 0) {
             temp_fv0 = Rand_ZeroOne();
             if (temp_fv0 < 0.5f) {
-                Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
+                Math_ScaledStepToS(&this->actor.shape.rot.y,
+                                   Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
             } else if (temp_fv0 < 0.8f) {
                 f32 new_var = Rand_CenteredFloat(1536.0f);
 
@@ -410,8 +414,8 @@ void func_80A13DE4_Action(EnFirefly* this, GlobalContext* globalCtx) {
         sp38.x = sp44->world.pos.x;
         sp38.y = sp44->world.pos.y + 20.0f;
         sp38.z = sp44->world.pos.z;
-        Math_SmoothStepToS(&this->actor.shape.rot.x, (s16)(Actor_WorldPitchTowardPoint(&this->actor, (Vec3f*)&sp38) + 0x1554), 2,
-                           0x400, 0x100);
+        Math_SmoothStepToS(&this->actor.shape.rot.x,
+                           (s16)(Actor_WorldPitchTowardPoint(&this->actor, (Vec3f*)&sp38) + 0x1554), 2, 0x400, 0x100);
     } else {
         this->skelAnime.playSpeed = 1.5f;
         if (this->actor.xzDistToPlayer > 80.0f) {
@@ -467,7 +471,8 @@ void func_80A14088_Action(EnFirefly* this, GlobalContext* globalCtx) {
         if (this->actor.bgCheckFlags & 8) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
         } else {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
+                               0x300);
         }
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
     }

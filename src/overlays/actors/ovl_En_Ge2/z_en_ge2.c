@@ -514,7 +514,7 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         if (this->unk14C.base.acFlags & 2) {
             if ((this->unk14C.info.acHitInfo != NULL) && (this->unk14C.info.acHitInfo->toucher.dmgFlags & 0x80)) {
-                func_8003426C(&this->actor, 0, 0x78, 0, 0x190);
+                Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x190);
                 this->actor.update = func_80A3402C;
                 return;
             }
