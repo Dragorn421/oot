@@ -211,7 +211,7 @@ void func_80977950(DemoExt* this, GlobalContext* globalCtx) {
     Matrix_RotateRPY(gGameInfo->data[0xA30] + 0x4000, this->unk168, gGameInfo->data[0xA32], MTXMODE_APPLY);
     Matrix_Translate(gGameInfo->data[0xA36], gGameInfo->data[0xA37], gGameInfo->data[0xA38], MTXMODE_APPLY);
     Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
-    Matrix_Pull();
+    Matrix_Pop();
     func_80093D84(gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, gGameInfo->data[0xA41] + 0x80, gGameInfo->data[0xA39] + 0x8C,
                     gGameInfo->data[0xA3A] + 0x50, gGameInfo->data[0xA3B] + 0x8C, this->unk170);

@@ -891,7 +891,7 @@ void func_80874EAC(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 sp94.y = 3.0f;
                 sp94.x = 3.0f;
                 Matrix_MultVec3f(&sp94, &sp88);
-                Matrix_Pull();
+                Matrix_Pop();
                 var_s0->unk4.x += sp88.x;
                 var_s0->unk4.y += sp88.y;
                 var_s0->unk4.z += sp88.z;
