@@ -3520,7 +3520,8 @@ endseg
 beginseg
     name "object_okuta"
     romalign 0x1000
-    include "build/baserom/object_okuta.o"
+    include "build/assets/objects/object_okuta/object_okuta.o"
+    number 6
 endseg
 
 beginseg
@@ -3532,7 +3533,8 @@ endseg
 beginseg
     name "object_wallmaster"
     romalign 0x1000
-    include "build/baserom/object_wallmaster.o"
+    include "build/assets/objects/object_wallmaster/object_wallmaster.o"
+    number 6
 endseg
 
 beginseg
@@ -3544,19 +3546,22 @@ endseg
 beginseg
     name "object_firefly"
     romalign 0x1000
-    include "build/baserom/object_firefly.o"
+    include "build/assets/objects/object_firefly/object_firefly.o"
+    number 6
 endseg
 
 beginseg
     name "object_dodongo"
     romalign 0x1000
-    include "build/baserom/object_dodongo.o"
+    include "build/assets/objects/object_dodongo/object_dodongo.o"
+    number 6
 endseg
 
 beginseg
     name "object_fire"
     romalign 0x1000
-    include "build/baserom/object_fire.o"
+    include "build/assets/objects/object_fire/object_fire.o"
+    number 6
 endseg
 
 beginseg
@@ -5812,7 +5817,8 @@ endseg
 beginseg
     name "object_crow"
     romalign 0x1000
-    include "build/baserom/object_crow.o"
+    include "build/assets/objects/object_crow/object_crow.o"
+    number 6
 endseg
 
 beginseg

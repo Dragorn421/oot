@@ -1,4 +1,5 @@
 #include "z_en_firefly.h"
+#include "objects/object_firefly/object_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
 #define FLAGS 0x00005005
@@ -21,10 +22,6 @@ void func_80A14294_Action(EnFirefly*, GlobalContext*);
 void func_80A142F4_Action_Perched_(EnFirefly*, GlobalContext*);
 void func_80A143B4_Action_SwoopOnPlayer(EnFirefly*, GlobalContext*);
 void EnFirefly_DrawXlu(Actor*, GlobalContext*);
-
-extern AnimationHeader D_600017C;
-extern Gfx D_6001678[];
-extern SkeletonHeader D_60018B8;
 
 const ActorInit En_Firefly_InitVars = {
     ACTOR_EN_FIREFLY,
@@ -88,7 +85,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, D_80A14F8C);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_60018B8, &D_600017C, this->unk1BE, this->unk266, 0x1C);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gKeeseSkeleton, &gKeeseFlyAnim, this->unk1BE, this->unk266, 0x1C);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80A14F54, this->colliderElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80A14F6C, &D_80A14F64);
@@ -157,7 +154,7 @@ void func_80A132F4_Setup(EnFirefly* this) {
 void func_80A133A0_Setup(EnFirefly* this) {
     this->unk1BA_timer = 0x28;
     this->actor.velocity.y = 0.0f;
-    Animation_Change(&this->skelAnime, &D_600017C, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
+    Animation_Change(&this->skelAnime, &gKeeseFlyAnim, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= 0x10;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x28);
@@ -662,7 +659,7 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     s16 var_t1;
 
     if ((this->unk1B9 == 0) && (limbIndex == 0x1B)) {
-        gSPDisplayList((*gfx)++, D_6001678);
+        gSPDisplayList((*gfx)++, gKeeseEyesDL);
     } else {
         if (((this->unk1B8 == 1) || (this->unk1B8 == 2)) && ((limbIndex == 0xF) || (limbIndex == 0x15))) {
             if (this->actionFunc != func_80A13D68_Action) {
