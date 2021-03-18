@@ -1,8 +1,15 @@
+/*
+ * File: z_bg_hidan_rsekizou.c
+ * Overlay: ovl_Bg_Hidan_Rsekizou
+ * Description: Spinning Stone flamethrower
+ */
+
 #include "functions.h"
 #include "global.h"
 #include "macros.h"
 #include "z64collision_check.h"
 #include "z_bg_hidan_rsekizou.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -22,10 +29,6 @@ const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     (ActorFunc)BgHidanRsekizou_Update,
     (ActorFunc)BgHidanRsekizou_Draw,
 };
-
-extern Gfx D_600AD00[];
-extern CollisionHeader D_600D5C0;
-extern Gfx D_600DC30[];
 
 static ColliderJntSphElementInit D_8088CC80[6] = {
     {
@@ -59,8 +62,10 @@ InitChainEntry D_8088CD68[] = {
     ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
-s32 D_8088CD74[] = {
-    0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920,
+
+static u64* sFireballsTexs[] = {
+    gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
+    gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
 };
 
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -72,7 +77,7 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     sp30 = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, D_8088CD68);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_600D5C0, &sp30);
+    CollisionHeader_GetVirtual(&gFireTempleSpinningFlamethrowerCol, &sp30);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
     Collider_InitJntSph(globalCtx, &this->unk168);
     Collider_SetJntSph(globalCtx, &this->unk168, &this->dyna.actor, &D_8088CD58, this->unk188);
@@ -131,7 +136,7 @@ Gfx* func_8088C70C(GraphicsContext** arg0, BgHidanRsekizou* arg1, s16 arg2, MtxF
     f32 temp_fv1;
 
     i = (s32)(((arg1->unk166 + arg2) % 8) * 7 * 0.14285715f);
-    gSPSegment(arg5++, 9, SEGMENTED_TO_VIRTUAL(D_8088CD74[i]));
+    gSPSegment(arg5++, 9, SEGMENTED_TO_VIRTUAL(sFireballsTexs[i]));
     arg2 = arg2 + 1;
     if (arg2 != 4) {
         var_fa1 = arg2 + ((3 - arg1->unk164) * 0.33333334f);
@@ -156,7 +161,7 @@ Gfx* func_8088C70C(GraphicsContext** arg0, BgHidanRsekizou* arg1, s16 arg2, MtxF
     gSPMatrix(arg5++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(arg3, "../z_bg_hidan_rsekizou.c", 543), Graph_Alloc(*arg0, 0x40U)),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(arg5++, D_600DC30);
+    gSPDisplayList(arg5++, gFireTempleFireballDL);
     return arg5;
 }
 
@@ -170,7 +175,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_600AD00);
+    gSPDisplayList(POLY_OPA_DISP++, gFireTempleSpinningFlamethrowerDL);
     Matrix_MtxFCopy(&sp5C, &gMtxFClear);
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14U);
     if ((s16)((Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->dyna.actor.shape.rot.y) -

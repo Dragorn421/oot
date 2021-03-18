@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_fslift.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -18,9 +19,6 @@ void BgHidanFslift_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx);
 void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx);
 void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx);
-
-extern Gfx D_0600B630[];
-extern CollisionHeader D_0600E1E8;
 
 const ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
@@ -49,7 +47,7 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(thisx, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&D_0600E1E8, &colHeader);
+    CollisionHeader_GetVirtual(&gFireTempleHookshotElevatorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x,
                            thisx->world.pos.y + 40.0f, thisx->world.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
@@ -151,5 +149,5 @@ void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanFslift_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0600B630);
+    Gfx_DrawDListOpa(globalCtx, gFireTempleHookshotElevatorDL);
 }
