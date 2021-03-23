@@ -17,16 +17,16 @@
         <Texture Name="object_bg_006310_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x6310"/>
         <Texture Name="object_bg_006510_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x6510"/>
         <Texture Name="object_bg_006D10_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x6D10"/>
-        <Limb Name="object_bg_006E10_Limb" Type="Standard" Offset="0x6E10"/>
-        <Limb Name="object_bg_006E1C_Limb" Type="Standard" Offset="0x6E1C"/>
-        <Limb Name="object_bg_006E28_Limb" Type="Standard" Offset="0x6E28"/>
-        <Limb Name="object_bg_006E34_Limb" Type="Standard" Offset="0x6E34"/>
-        <Limb Name="object_bg_006E40_Limb" Type="Standard" Offset="0x6E40"/>
-        <Limb Name="object_bg_006E4C_Limb" Type="Standard" Offset="0x6E4C"/>
-        <Limb Name="object_bg_006E58_Limb" Type="Standard" Offset="0x6E58"/>
-        <Limb Name="object_bg_006E64_Limb" Type="Standard" Offset="0x6E64"/>
-        <Limb Name="object_bg_006E70_Limb" Type="Standard" Offset="0x6E70"/>
-        <Limb Name="object_bg_006E7C_Limb" Type="Standard" Offset="0x6E7C"/>
+        <Limb Name="object_bg_006E10_Limb" LimbType="Standard" Offset="0x6E10"/>
+        <Limb Name="object_bg_006E1C_Limb" LimbType="Standard" Offset="0x6E1C"/>
+        <Limb Name="object_bg_006E28_Limb" LimbType="Standard" Offset="0x6E28"/>
+        <Limb Name="object_bg_006E34_Limb" LimbType="Standard" Offset="0x6E34"/>
+        <Limb Name="object_bg_006E40_Limb" LimbType="Standard" Offset="0x6E40"/>
+        <Limb Name="object_bg_006E4C_Limb" LimbType="Standard" Offset="0x6E4C"/>
+        <Limb Name="object_bg_006E58_Limb" LimbType="Standard" Offset="0x6E58"/>
+        <Limb Name="object_bg_006E64_Limb" LimbType="Standard" Offset="0x6E64"/>
+        <Limb Name="object_bg_006E70_Limb" LimbType="Standard" Offset="0x6E70"/>
+        <Limb Name="object_bg_006E7C_Limb" LimbType="Standard" Offset="0x6E7C"/>
         <Skeleton Name="object_bg_006EB0_Skel" Type="Flex" LimbType="Standard" Offset="0x6EB0"/>
         <Animation Name="object_bg_0072AC_Anim" Offset="0x72AC"/>
     </File>
