@@ -287,9 +287,9 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     } else {
         globalCtx->envCtx.unk_BF = 2;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            func_800800F8(globalCtx, 0x219B, -0x63, NULL, 0);
+            OnePointCutscene_Init(globalCtx, 8603, -99, NULL, MAIN_CAM);
         } else {
-            func_800800F8(globalCtx, 0x219C, -0x63, NULL, 0);
+            OnePointCutscene_Init(globalCtx, 8604, -99, NULL, MAIN_CAM);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
         this->actor.draw = BgDyYoseizo_Draw;

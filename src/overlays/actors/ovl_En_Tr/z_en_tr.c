@@ -399,8 +399,8 @@ s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3f*
     sp20 = this->actor.child;
     if ((sp20 != NULL) && (arg1 == 0x13)) {
         Matrix_MultVec3f(&sp34, &sp28);
-        sp28.x -= 10.0f * Math_SinS(Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]));
-        sp28.z -= 10.0f * Math_CosS(Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]));
+        sp28.x -= 10.0f * Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM));
+        sp28.z -= 10.0f * Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM));
         sp20->world.pos = sp28;
     }
     return 0;

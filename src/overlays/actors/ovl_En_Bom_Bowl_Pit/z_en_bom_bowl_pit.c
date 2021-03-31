@@ -1,6 +1,7 @@
 #include "z_en_bom_bowl_pit.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+#include "z64camera.h"
 
 #define FLAGS 0x00000010
 
@@ -57,7 +58,7 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
     Vec3f diff;
     Actor* thisx = &this->actor;
 
-    if (globalCtx->cameraPtrs[0]->setting == 0x15) {
+    if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FIXED1) {
         var_v1 = globalCtx->actorCtx.actorLists[3].head;
         while (var_v1 != NULL) {
             if ((var_v1 == thisx) || (var_v1->id != ACTOR_EN_BOM_CHU)) {
@@ -74,8 +75,8 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, NULL, 8U);
                 sp24->timer = 1;
                 this->unk152 = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-                Gameplay_ChangeCameraStatus(globalCtx, this->unk152, 7);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, this->unk152, CAM_STAT_ACTIVE);
                 this->unk1C8.x = this->unk1C8.y = this->unk1C8.z = 0.1f;
                 this->unk1A4.x = this->unk1A4.y = this->unk1A4.z = 0.1f;
                 this->unk180.x = this->unk168.x = globalCtx->view.lookAt.x;
@@ -112,7 +113,7 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void func_809C5184(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if (this->unk152 != 0) {
+    if (this->unk152 != SUBCAM_FREE) {
         Math_ApproachF(&this->unk180.x, this->unk1BC.x, this->unk1C8.x, this->unk1D4.x);
         Math_ApproachF(&this->unk180.y, this->unk1BC.y, this->unk1C8.y, this->unk1D4.y);
         Math_ApproachF(&this->unk180.z, this->unk1BC.z, this->unk1C8.z, this->unk1D4.z);
@@ -155,7 +156,7 @@ void func_809C53F0(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 break;
         }
         Gameplay_ClearCamera(globalCtx, this->unk152);
-        Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
+        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
         func_8002DF54(globalCtx, NULL, 8U);
         this->unk14C = func_809C54A8;
     }

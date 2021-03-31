@@ -618,7 +618,7 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isS
 void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
-    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
         if (this->getItem.isPositionInit) {
             DemoEffect_MoveGetItem(this, globalCtx, this->csActionId, 0.1f);
         } else {
@@ -831,7 +831,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
 void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     this->triforceSpot.rotation += 0x03E8;
 
-    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
@@ -916,7 +916,7 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalC
 
     DemoEffect_UpdatePositionToParent(this, globalCtx);
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if (globalCtx->csCtx.npcActions[this->csActionId] != NULL &&
             globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
             blueOrb = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT,
@@ -1042,7 +1042,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
 
     isLargeSize = ((this->actor.params & 0x0F00) >> 8);
 
-    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 2:
@@ -1143,7 +1143,7 @@ void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
 void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* fireBall;
 
-    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 1);
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
@@ -1193,7 +1193,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
 void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lightRing;
 
-    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 1);
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
@@ -1254,7 +1254,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
 void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lgtShower;
 
-    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[this->csActionId] != NULL) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 1);
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
@@ -1623,7 +1623,7 @@ void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
     Vec3f velocity;
     Vec3f accel;
 
-    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != NULL &&
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[this->csActionId] != NULL &&
         globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
         pos = this->actor.world.pos;
 
@@ -1657,7 +1657,7 @@ void DemoEffect_Update(Actor* thisx, GlobalContext* globalCtx) {
  * Check if the current cutscene action matches the passed in cutscene action ID.
  */
 s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csActionCompareId) {
-    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != NULL &&
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[this->csActionId] != NULL &&
         globalCtx->csCtx.npcActions[this->csActionId]->action == csActionCompareId) {
         return 1;
     }

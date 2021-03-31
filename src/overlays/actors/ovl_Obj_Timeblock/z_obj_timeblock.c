@@ -214,7 +214,7 @@ void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx) {
     if ((this->unk168(this, globalCtx) != 0) && (this->unk16C <= 0)) {
         func_80BA0058(this, globalCtx);
         this->unk16C = 0xA0;
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", globalCtx->state.frames);
         this->unk170 = 0xC;
         if (this->unk177 == 0) {
@@ -284,7 +284,7 @@ void func_80BA0768(ObjTimeblock* this, GlobalContext* globalCtx) {
         this->unk170 = 0xC;
         func_80BA0058(this, globalCtx);
         this->unk16C = 0xA0;
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", globalCtx->state.frames);
         func_80BA00CC(globalCtx, this->dyna.actor.params & 0x3F);
     }

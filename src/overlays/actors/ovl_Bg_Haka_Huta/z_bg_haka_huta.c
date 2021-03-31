@@ -110,7 +110,7 @@ void func_8087D2F0(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) && !Player_InCsMode(globalCtx)) {
         this->unk168 = 0x19;
         this->actionFunc = func_8087D5B8;
-        func_800800F8(globalCtx, 0x1771, 0x3E7, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 6001, 999, &this->dyna.actor, MAIN_CAM);
         if (this->unk16A == 2) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY,
                         this->dyna.actor.world.pos.x + (-25.0f * Math_CosS(this->dyna.actor.shape.rot.y)) +

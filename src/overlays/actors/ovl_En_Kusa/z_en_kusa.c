@@ -202,7 +202,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = (EnKusa*)thisx;
 
     Actor_ProcessInitChain(&this->actor, D_80A9C27C);
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     func_80A9B630(&this->actor, globalCtx);
