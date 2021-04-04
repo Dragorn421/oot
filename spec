@@ -3519,7 +3519,8 @@ endseg
 beginseg
     name "object_poh"
     romalign 0x1000
-    include "build/baserom/object_poh.o"
+    include "build/assets/objects/object_poh/object_poh.o"
+    number 6
 endseg
 
 beginseg
@@ -4198,7 +4199,8 @@ endseg
 beginseg
     name "object_tk"
     romalign 0x1000
-    include "build/baserom/object_tk.o"
+    include "build/assets/objects/object_tk/object_tk.o"
+    number 6
 endseg
 
 beginseg
@@ -4306,7 +4308,8 @@ endseg
 beginseg
     name "object_po_sisters"
     romalign 0x1000
-    include "build/baserom/object_po_sisters.o"
+    include "build/assets/objects/object_po_sisters/object_po_sisters.o"
+    number 6
 endseg
 
 beginseg
@@ -5708,7 +5711,8 @@ endseg
 beginseg
     name "object_po_field"
     romalign 0x1000
-    include "build/baserom/object_po_field.o"
+    include "build/assets/objects/object_po_field/object_po_field.o"
+    number 6
 endseg
 
 beginseg
@@ -5771,7 +5775,8 @@ endseg
 beginseg
     name "object_po_composer"
     romalign 0x1000
-    include "build/baserom/object_po_composer.o"
+    include "build/assets/objects/object_po_composer/object_po_composer.o"
+    number 6
 endseg
 
 beginseg
@@ -5820,7 +5825,8 @@ endseg
 beginseg
     name "object_ps"
     romalign 0x1000
-    include "build/baserom/object_ps.o"
+    include "build/assets/objects/object_ps/object_ps.o"
+    number 6
 endseg
 
 beginseg
