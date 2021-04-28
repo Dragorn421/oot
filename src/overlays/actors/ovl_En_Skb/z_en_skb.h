@@ -18,7 +18,7 @@ typedef struct EnSkb {
     /* 0x284 */ void (*unk284)(struct EnSkb*, GlobalContext*);
     /* 0x288 */ s16 unk288;
     /* 0x28A */ char pad28A[2];
-    /* 0x28C */ struct_80032E24 unk28C;
+    /* 0x28C */ BodyBreak bodyBreak;
     /* 0x2A4 */ ColliderJntSph unk2A4;
     /* 0x2C4 */ ColliderJntSphElement unk2C4[2];
 } EnSkb; // size = 0x344

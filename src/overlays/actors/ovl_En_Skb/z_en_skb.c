@@ -346,7 +346,7 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
     u8* new_var;
 
     new_var = &this->unk283;
-    if ((this->unk283 != 1) || (func_8003305C(&this->actor, &this->unk28C, globalCtx, 1) != 0)) {
+    if ((this->unk283 != 1) || BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, 1)) {
         if (*new_var != 0) {
             this->unk283 = *new_var | 2;
         }
@@ -373,7 +373,7 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
     }
     this->unk280 = 1;
     this->actor.flags &= ~1;
-    func_80032E24(&this->unk28C, 0x12, globalCtx);
+    BodyBreak_Alloc(&this->bodyBreak, 18, globalCtx);
     this->unk283 |= 4;
     EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 40);
     func_80AFC9A0(this, func_80AFD880);
@@ -381,17 +381,15 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
 
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx) {
 
-    if (func_8003305C(&this->actor, &this->unk28C, globalCtx, 1) != 0) {
+    if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, 1)) {
         if (this->actor.scale.x == 0.01f) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x10);
+        } else if (this->actor.scale.x <= 0.015f) {
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, 1);
         } else {
-            if (this->actor.scale.x <= 0.015f) {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, 1);
-            } else {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, 2);
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, 2);
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, 2);
-            }
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, 2);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, 2);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, 2);
         }
         this->unk283 |= 8;
         Actor_Kill(&this->actor);
@@ -444,7 +442,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                          ((this->actor.colChkInfo.damageEffect == 0xE) &&
                           (((((player->swordAnimation >= 4))) && (player->swordAnimation < 0xC)) ||
                            (player->swordAnimation == 0x14) || (player->swordAnimation == 0x15))))) {
-                        func_80032E24(&this->unk28C, 2, globalCtx);
+                        BodyBreak_Alloc(&this->bodyBreak, 2, globalCtx);
                         this->unk283 = 1;
                     }
                     func_80AFD644(this);
@@ -499,9 +497,9 @@ void func_80AFDF24(GlobalContext* arg0, s32 arg1, Gfx** arg2, Vec3s* arg3, void*
 
     Collider_UpdateSpheres(arg1, &this->unk2A4);
     if ((this->unk283 ^ 1) == 0) {
-        func_80032F54(&this->unk28C, arg1, 0xB, 0xC, 0x12U, arg2, -1);
+        BodyBreak_SetInfo(&this->bodyBreak, arg1, 11, 12, 18, arg2, BODYBREAK_OBJECT_DEFAULT);
     } else if ((this->unk283 ^ (this->unk283 | 4)) == 0) {
-        func_80032F54(&this->unk28C, arg1, 0, 0x12, 0x12U, arg2, -1);
+        BodyBreak_SetInfo(&this->bodyBreak, arg1, 0, 18, 18, arg2, BODYBREAK_OBJECT_DEFAULT);
     }
 }
 
