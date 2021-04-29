@@ -132,7 +132,7 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         default:
-            __assert("0", "../z_en_ge2.c", 0x1A2);
+            ASSERT(0, "0", "../z_en_ge2.c", 0x1A2);
             break;
     }
     this->unk2F4 = 0;
