@@ -1,4 +1,5 @@
 #include "z_bg_jya_bigmirror.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0x00000030
 
@@ -14,11 +15,6 @@ void func_80893750(BgJyaBigmirror* this, GlobalContext* globalCtx);
 void func_8089394C(BgJyaBigmirror* this, GlobalContext* globalCtx);
 void func_8089399C(BgJyaBigmirror* this, GlobalContext* globalCtx);
 void func_80893C68(BgJyaBigmirror* this, GlobalContext* globalCtx);
-
-extern Gfx D_600BC70[];
-extern Gfx D_600BD80[];
-extern Gfx D_600E1B0[];
-extern Gfx D_600E2D0[];
 
 static u8 D_80893ED0 = 0;
 
@@ -212,13 +208,13 @@ void func_80893C68(BgJyaBigmirror* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (1) {}
-    gSPDisplayList(POLY_XLU_DISP++, D_600BC70);
+    gSPDisplayList(POLY_XLU_DISP++, gBigMirror1DL);
     if (temp_v0 != NULL) {
         func_800D1694(temp_v0->world.pos.x, temp_v0->world.pos.y, temp_v0->world.pos.z, &D_80893F4C);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_600BD80);
+        gSPDisplayList(POLY_XLU_DISP++, gBigMirror2DL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 476);
 }
@@ -227,8 +223,8 @@ void BgJyaBigmirror_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (this->unk15C & 0x10) {
-        Gfx_DrawDListOpa(globalCtx, D_600E1B0);
-        Gfx_DrawDListXlu(globalCtx, D_600E2D0);
+        Gfx_DrawDListOpa(globalCtx, gBigMirror3DL);
+        Gfx_DrawDListXlu(globalCtx, gBigMirror4DL);
     }
     if ((this->unk15C & 0x38) && (this->unk15C & 2) && (this->unk15C & 1)) {
         func_80893C68(this, globalCtx);

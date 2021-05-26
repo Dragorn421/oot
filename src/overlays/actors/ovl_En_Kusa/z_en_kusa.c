@@ -1,5 +1,6 @@
 #include "z_en_kusa.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0x00800010
 
@@ -70,7 +71,7 @@ static InitChainEntry D_80A9C27C[6] = {
     ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),         ICHAIN_F32(uncullZoneDownward, 120, ICHAIN_STOP),
 };
 static Gfx* D_80A9C294[3] = {
-    (Gfx*)0x0500B9D0,
+    gFieldBushDL,
     D_6000140,
     D_6000140,
 };
