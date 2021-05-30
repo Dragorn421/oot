@@ -1,4 +1,5 @@
 #include "z_bg_haka_huta.h"
+#include "objects/object_hakach_objects/object_hakach_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -14,10 +15,7 @@ void func_8087D2F0(BgHakaHuta* this, GlobalContext* globalCtx);
 void func_8087D5B8(BgHakaHuta* this, GlobalContext* globalCtx);
 void func_8087D66C(BgHakaHuta* this, GlobalContext* globalCtx);
 void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx);
-void func_8087D8C0(BgHakaHuta* this, GlobalContext* globalCtx);
-
-extern Gfx D_60006B0[];
-extern CollisionHeader D_6000870;
+void BgHakaHuta_DoNothing(BgHakaHuta* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Haka_Huta_InitVars = {
     ACTOR_BG_HAKA_HUTA,
@@ -45,7 +43,7 @@ void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     sp24 = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, D_8087D940);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&D_6000870, &sp24);
+    CollisionHeader_GetVirtual(&gBotwCoffinLidCol, &sp24);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
     this->unk16A = (this->dyna.actor.params >> 8) & 0xFF;
     thisx->params &= 0xFF;
@@ -93,7 +91,7 @@ void func_8087D0AC(BgHakaHuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8087D268(BgHakaHuta* this, GlobalContext* globalCtx, u16 arg2) {
+void BgHakaHuta_PlaySound(BgHakaHuta* this, GlobalContext* globalCtx, u16 arg2) {
     Vec3f sp24;
 
     if (this->dyna.actor.shape.rot.y == 0) {
@@ -155,7 +153,7 @@ void func_8087D5B8(BgHakaHuta* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + var_fv0, 2.0f);
     if (this->unk168 == 0) {
         this->unk168 = 0x25;
-        func_8087D268(this, globalCtx, NA_SE_EV_COFFIN_CAP_OPEN);
+        BgHakaHuta_PlaySound(this, globalCtx, NA_SE_EV_COFFIN_CAP_OPEN);
         this->actionFunc = func_8087D66C;
     }
 }
@@ -177,7 +175,7 @@ void func_8087D66C(BgHakaHuta* this, GlobalContext* globalCtx) {
         func_8087D0AC(this, globalCtx);
     }
     if (this->unk168 == 0) {
-        func_8087D268(this, globalCtx, NA_SE_EV_COFFIN_CAP_BOUND);
+        BgHakaHuta_PlaySound(this, globalCtx, NA_SE_EV_COFFIN_CAP_BOUND);
         this->actionFunc = func_8087D720;
     }
 }
@@ -191,14 +189,14 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
 
     this->unk168 += 1;
     if (this->unk168 == 6) {
-        this->actionFunc = func_8087D8C0;
+        this->actionFunc = BgHakaHuta_DoNothing;
         temp_v0 = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 3U);
         Quake_SetSpeed(temp_v0, 0x7530);
         Quake_SetQuakeValues(temp_v0, 4, 0, 0, 0);
         Quake_SetCountdown(temp_v0, 2);
     } else if (this->unk168 == 0) {
         this->unk168 = 6;
-        this->actionFunc = func_8087D8C0;
+        this->actionFunc = BgHakaHuta_DoNothing;
     }
     D_8087D958.x = this->unk168 + 24.0f;
     if (D_8087D958.x > 30.0f) {
@@ -214,7 +212,7 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     func_800D20CC(&sp40, &this->dyna.actor.shape.rot, 0);
 }
 
-void func_8087D8C0(BgHakaHuta* this, GlobalContext* globalCtx) {
+void BgHakaHuta_DoNothing(BgHakaHuta* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -226,5 +224,5 @@ void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgHakaHuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaHuta* this = (BgHakaHuta*)thisx;
 
-    Gfx_DrawDListOpa(globalCtx, D_60006B0);
+    Gfx_DrawDListOpa(globalCtx, gBotwCoffinLidDL);
 }

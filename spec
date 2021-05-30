@@ -3887,7 +3887,8 @@ endseg
 beginseg
     name "object_warp1"
     romalign 0x1000
-    include "build/baserom/object_warp1.o"
+    include "build/assets/objects/object_warp1/object_warp1.o"
+    number 6
 endseg
 
 beginseg
@@ -4275,7 +4276,8 @@ endseg
 beginseg
     name "object_hakach_objects"
     romalign 0x1000
-    include "build/baserom/object_hakach_objects.o"
+    include "build/assets/objects/object_hakach_objects/object_hakach_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4639,7 +4641,8 @@ endseg
 beginseg
     name "object_spot16_obj"
     romalign 0x1000
-    include "build/baserom/object_spot16_obj.o"
+    include "build/assets/objects/object_spot16_obj/object_spot16_obj.o"
+    number 6
 endseg
 
 beginseg
@@ -5490,7 +5493,8 @@ endseg
 beginseg
     name "object_cs"
     romalign 0x1000
-    include "build/baserom/object_cs.o"
+    include "build/assets/objects/object_cs/object_cs.o"
+    number 6
 endseg
 
 beginseg
@@ -5761,7 +5765,8 @@ endseg
 beginseg
     name "object_jya_door"
     romalign 0x1000
-    include "build/baserom/object_jya_door.o"
+    include "build/assets/objects/object_jya_door/object_jya_door.o"
+    number 6
 endseg
 
 beginseg
