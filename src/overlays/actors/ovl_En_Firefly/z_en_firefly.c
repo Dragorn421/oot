@@ -402,7 +402,7 @@ void func_80A13DE4_Action(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
-    } else if (func_8002E084(&this->actor, 0x2800) != 0) {
+    } else if (Actor_IsFacingPlayer(&this->actor, 0x2800) != 0) {
         if (Animation_OnFrame(&this->skelAnime, 4.0f) != 0) {
             this->skelAnime.playSpeed = 0.0f;
             this->skelAnime.curFrame = 4.0f;
@@ -550,16 +550,16 @@ void func_80A1448C_SpawnFireEffects(EnFirefly* this, GlobalContext* globalCtx) {
 void func_80A1450C_ReactToAC(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.elements->info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements->info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 this->actor.flags &= ~1;
             }
             if (this->actor.colChkInfo.damageEffect == 2) {
                 if (this->actor.params == 4) {
                     this->actor.colChkInfo.health = 0;
-                    func_80032C7C(globalCtx, &this->actor);
+                    Enemy_StartFinishingBlow(globalCtx, &this->actor);
                     func_80A1448C_SpawnFireEffects(this, globalCtx);
                     func_80A133A0_Setup(this);
                 } else if (this->unk1B9 == 0) {

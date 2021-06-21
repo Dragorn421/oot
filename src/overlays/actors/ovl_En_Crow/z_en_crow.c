@@ -282,7 +282,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
 void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 yaw;
+    s32 facingPlayer;
     Vec3f pos;
     s16 target;
 
@@ -291,9 +291,9 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    yaw = func_8002E084(&this->actor, 0x2800);
+    facingPlayer = Actor_IsFacingPlayer(&this->actor, 0x2800);
 
-    if (yaw != 0) {
+    if (facingPlayer) {
         pos.x = player->actor.world.pos.x;
         pos.y = player->actor.world.pos.y + 20.0f;
         pos.z = player->actor.world.pos.z;
@@ -306,7 +306,7 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         Math_ApproachS(&this->actor.shape.rot.x, -0x1000, 2, 0x100);
     }
 
-    if ((yaw != 0) || (this->actor.xzDistToPlayer > 80.0f)) {
+    if (facingPlayer || (this->actor.xzDistToPlayer > 80.0f)) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 4, 0xC00);
     }
 
@@ -409,14 +409,14 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
 void func_809E1174(EnCrow* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.elements[0].info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) {
                 func_809E06E8(this);
             } else {
                 Actor_ApplyDamage(&this->actor);
                 this->actor.flags &= ~1;
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 func_809E03B4(this, globalCtx);
             }
         }
