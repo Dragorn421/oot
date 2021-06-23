@@ -1,0 +1,11 @@
+export to .zscene/.zmap
+$ mips-linux-gnu-objcopy -I binary -O elf32-big test_scene.zscene test_scene.o
+$ mips-linux-gnu-objcopy -I binary -O elf32-big test_room_0.zmap test_room_0.o
+make
+find offset of room and edit zscene accordingly, save
+$ mips-linux-gnu-objcopy -I binary -O elf32-big test_scene.zscene test_scene.o
+make
+should work
+
+todo:
+must automate finding the rooms offsets

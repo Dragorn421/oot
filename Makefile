@@ -60,8 +60,9 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR = mupen64plus
-EMU_FLAGS = --noosd
+EMULATOR := "/mnt/e/Programmes/Project64 v2.4.0/Project64.exe"
+EMULATOR_DIR := "/mnt/e/Programmes/Project64 v2.4.0/"
+EMU_FLAGS :=
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
@@ -198,7 +199,7 @@ setup:
 
 resources: $(ASSET_FILES_OUT)
 test: $(ROM)
-	$(EMULATOR) $(EMU_FLAGS) $<
+	cp $< $(EMULATOR_DIR)/ ; cd $(EMULATOR_DIR) ; $(EMULATOR) $(EMU_FLAGS) $< ; exit 0
 
 .PHONY: all clean setup test distclean assetclean
 

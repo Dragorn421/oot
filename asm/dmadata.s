@@ -1540,6 +1540,8 @@ DMA_TABLE_ENTRY anime_texture_4_static
 DMA_TABLE_ENTRY anime_texture_5_static
 DMA_TABLE_ENTRY anime_texture_6_static
 DMA_TABLE_ENTRY softsprite_matrix_static
+DMA_TABLE_ENTRY test_scene
+DMA_TABLE_ENTRY test_room_0
 
 # Why the empty space?
 .space 0x100

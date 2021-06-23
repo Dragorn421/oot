@@ -270,8 +270,9 @@ void Fault_Sleep(u32 duration) {
 }
 
 void Fault_PadCallback(Input* input) {
-    //! @bug This function is not called correctly and thus will crash from reading a bad pointer at 0x800C7E4C
-    PadMgr_RequestPadData(input, 0);
+    // fix by Tharo
+    // Hylian Modding: https://discord.com/channels/388361645073629187/437302484038451201/729039805874307113
+    PadMgr_RequestPadData(&gPadMgr, input, 0);
 }
 
 void Fault_UpdatePadImpl() {
@@ -936,10 +937,89 @@ void Fault_UpdatePad() {
     Fault_UpdatePadImpl();
 }
 
+void Fault_PageContext(OSThread* faultedThread) {
+    FaultDrawer_SetForeColor(0xFFFF);
+    Fault_PrintThreadContext(faultedThread);
+    Fault_LogThreadContext(faultedThread);
+}
+
+void Fault_PageTrace(OSThread* faultedThread) {
+    Fault_FillScreenBlack();
+    FaultDrawer_DrawText(0x78, 0x10, "STACK TRACE");
+    Fault_DrawStackTrace(faultedThread, 0x24, 0x18, 0x16);
+    Fault_LogStackTrace(faultedThread, 0x32);
+}
+
+void Fault_PageMemDump(OSThread* faultedThread) {
+    // not using, emulator does it better
+    Fault_DrawMemDump(faultedThread->context.pc - 0x100, (u32)faultedThread->context.sp, 0, 0);
+}
+
+void Fault_PageClients(OSThread* faultedThread, s32 subPage) {
+    // don't use, crashes (lol)
+    FaultClient* iter = sFaultStructPtr->clients;
+    s32 idx = 0;
+
+    while (idx < subPage && iter != NULL) {
+        if (iter->callback != 0) {
+            idx++;
+        }
+        iter = iter->next;
+    }
+    osSyncPrintf("idx=%d ", idx);
+
+    Fault_FillScreenBlack();
+    FaultDrawer_SetCharPad(-2, 0);
+    FaultDrawer_Printf("\x1a"
+                       "8CallBack (%d) %08x %08x %08x\n"
+                       "\x1a"
+                       "7",
+                       idx, iter, iter->param1, iter->param2);
+    osSyncPrintf("Fault_PageClients 1");
+    FaultDrawer_SetCharPad(0, 0);
+    osSyncPrintf("Fault_PageClients 2"); // last message printed
+    Fault_ProcessClient(iter->callback, iter->param1, iter->param2);
+    osSyncPrintf("Fault_PageClients 3");
+    Fault_CommitFB();
+    osSyncPrintf("Fault_PageClients 4");
+}
+
+s32 Fault_PageClientsGetAmount(OSThread* faultedThread) {
+    FaultClient* iter = sFaultStructPtr->clients;
+    s32 nPages = 0;
+
+    while (iter != NULL) {
+        if (iter->callback != 0) {
+            nPages++;
+        }
+        iter = iter->next;
+    }
+
+    return nPages;
+}
+
+void Fault_PageCongrats(OSThread* faultedThread) {
+    Fault_FillScreenRed();
+    FaultDrawer_DrawText(0x40, 0x50, "    CONGRATURATIONS!    ");
+    FaultDrawer_DrawText(0x40, 0x5A, "All Pages are displayed.");
+    FaultDrawer_DrawText(0x40, 0x64, "       THANK YOU!       ");
+    FaultDrawer_DrawText(0x40, 0x6E, " You are great debugger!");
+}
+
+typedef struct FaultPage {
+    void (*draw)(OSThread* faultedThread);
+} FaultPage;
+
+FaultPage faultPages[] = {
+    { Fault_PageCongrats },
+    { Fault_PageContext },
+    { Fault_PageTrace },
+};
+
 void Fault_ThreadEntry(void* arg) {
     OSMesg msg;
     OSThread* faultedThread;
-    s32 pad;
+    s32 curPageIdx = 0;
 
     osSetEventMesg(OS_EVENT_CPU_BREAK, &sFaultStructPtr->queue, 1);
     osSetEventMesg(OS_EVENT_FAULT, &sFaultStructPtr->queue, 2);
@@ -986,7 +1066,7 @@ void Fault_ThreadEntry(void* arg) {
             Fault_Wait5Seconds();
         } else {
             Fault_DrawCornerRec(0xF801);
-            Fault_WaitForButtonCombo();
+            // Fault_WaitForButtonCombo();
         }
 
         sFaultStructPtr->faultActive = true;
@@ -994,22 +1074,28 @@ void Fault_ThreadEntry(void* arg) {
         FaultDrawer_SetBackColor(0);
 
         do {
-            Fault_PrintThreadContext(faultedThread);
-            Fault_LogThreadContext(faultedThread);
-            Fault_WaitForInput();
-            Fault_FillScreenBlack();
-            FaultDrawer_DrawText(0x78, 0x10, "STACK TRACE");
-            Fault_DrawStackTrace(faultedThread, 0x24, 0x18, 0x16);
-            Fault_LogStackTrace(faultedThread, 0x32);
-            Fault_WaitForInput();
-            Fault_ProcessClients();
-            Fault_DrawMemDump(faultedThread->context.pc - 0x100, (u32)faultedThread->context.sp, 0, 0);
-            Fault_FillScreenRed();
-            FaultDrawer_DrawText(0x40, 0x50, "    CONGRATURATIONS!    ");
-            FaultDrawer_DrawText(0x40, 0x5A, "All Pages are displayed.");
-            FaultDrawer_DrawText(0x40, 0x64, "       THANK YOU!       ");
-            FaultDrawer_DrawText(0x40, 0x6E, " You are great debugger!");
-            Fault_WaitForInput();
+            s32 nPages = ARRAY_COUNT(faultPages) + Fault_PageClientsGetAmount(faultedThread);;
+            if (curPageIdx >= ARRAY_COUNT(faultPages)) {
+                Fault_PageClients(faultedThread, curPageIdx - ARRAY_COUNT(faultPages));
+            } else {
+                faultPages[curPageIdx].draw(faultedThread);
+            }
+            FaultDrawer_SetForeColor(0x0F0F);
+            FaultDrawer_DrawText(0x20, 0x10, "%d/%d", curPageIdx+1, nPages);
+            do {
+                Fault_Sleep(0x10);
+                Fault_UpdatePadImpl();
+            } while (sFaultStructPtr->padInput.press.button == 0);
+            if (sFaultStructPtr->padInput.press.button & BTN_DLEFT) {
+                curPageIdx--;
+            }
+            if (sFaultStructPtr->padInput.press.button & BTN_DRIGHT) {
+                curPageIdx++;
+            }
+            curPageIdx %= nPages;
+            if (curPageIdx < 0) {
+                curPageIdx += nPages;
+            }
         } while (!sFaultStructPtr->exitDebugger);
 
         while (!sFaultStructPtr->exitDebugger) {}
