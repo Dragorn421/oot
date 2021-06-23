@@ -7,12 +7,12 @@
 #include "global.h"
 
 void Opening_SetupTitleScreen(OpeningContext* this) {
-    gSaveContext.gameMode = 1;
+    gSaveContext.gameMode = 0;
     this->state.running = false;
     gSaveContext.linkAge = 0;
     Sram_InitDebugSave();
-    gSaveContext.cutsceneIndex = 0xFFF3;
-    gSaveContext.sceneSetupIndex = 7;
+    gSaveContext.cutsceneIndex = 0;
+    gSaveContext.sceneSetupIndex = 0;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }
 

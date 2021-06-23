@@ -3431,6 +3431,12 @@ beginseg
 endseg
 
 beginseg
+    name "ovl_TestActor"
+    include "build/runner/actors/test_actor/test_actor.o"
+    include "build/runner/actors/test_actor/test_actor_reloc.o"
+endseg
+
+beginseg
     name "gameplay_keep"
     romalign 0x1000
     include "build/assets/objects/gameplay_keep/gameplay_keep.o"

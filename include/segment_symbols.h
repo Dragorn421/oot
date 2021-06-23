@@ -1646,5 +1646,6 @@ DECLARE_ROM_SEGMENT(testroom_room_4)
 
 
 DECLARE_ROM_SEGMENT(test_scene)
+DECLARE_OVERLAY_SEGMENT(TestActor)
 
 #endif

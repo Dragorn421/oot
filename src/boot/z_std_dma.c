@@ -1548,6 +1548,7 @@ const char* sDmaMgrFileNames[] = {
     "softsprite_matrix_static",
     "test_scene",
     "test_room_0",
+    "ovl_TestActor",
 };
 
 s32 DmaMgr_CompareName(const char* name1, const char* name2) {

@@ -826,6 +826,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
     if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
         Actor_SetObjectDependency(globalCtx, actor);
+        osSyncPrintf("actor->init=%08X\n", actor->init);
         actor->init(actor, globalCtx);
         actor->init = NULL;
     }

@@ -2,7 +2,7 @@
 <!--Created with SharpOcarina 1.26-->
 <ZScene cloneid="0" xmlns="clr-namespace:SharpOcarina;assembly=SharpOcarina">
   <Name>test</Name>
-  <Scale>10</Scale>
+  <Scale>30</Scale>
   <Music>2</Music>
   <NightSFX>0</NightSFX>
   <Skybox>0</Skybox>
@@ -167,19 +167,7 @@
     <Capacity>0</Capacity>
   </Cutscene>
   <Cameras>
-    <Capacity>4</Capacity>
-    <ZCamera>
-      <XPos>0</XPos>
-      <YPos>0</YPos>
-      <ZPos>0</ZPos>
-      <XRot>0</XRot>
-      <YRot>0</YRot>
-      <ZRot>0</ZRot>
-      <Type>3</Type>
-      <Fov>45</Fov>
-      <Unk1>65535</Unk1>
-      <Unk2>65535</Unk2>
-    </ZCamera>
+    <Capacity>0</Capacity>
   </Cameras>
   <SceneHeaders>
     <Capacity>0</Capacity>
@@ -212,10 +200,24 @@
       </AdditionalLights>
       <InjectOffset>47185920</InjectOffset>
       <ZObjects>
-        <Capacity>0</Capacity>
+        <Capacity>4</Capacity>
       </ZObjects>
       <ZActors>
-        <Capacity>0</Capacity>
+        <Capacity>4</Capacity>
+        <ZActor>
+          <Number>1</Number>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <ZPos>0</ZPos>
+          <XRot>0</XRot>
+          <YRot>0</YRot>
+          <ZRot>0</ZRot>
+          <Variable>0</Variable>
+          <FrontSwitchTo>0</FrontSwitchTo>
+          <FrontCamera>0</FrontCamera>
+          <BackSwitchTo>0</BackSwitchTo>
+          <BackCamera>0</BackCamera>
+        </ZActor>
       </ZActors>
       <GroupSettings>
         <TintAlpha>

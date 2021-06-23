@@ -39,6 +39,7 @@ extern EffectSsInit Effect_Ss_Dead_Sound_InitVars;
 extern EffectSsInit Effect_Ss_Ice_Smoke_InitVars;
 
 extern ActorInit Player_InitVars;
+extern ActorInit TestActor_InitVars;
 extern ActorInit En_Test_InitVars;
 extern ActorInit En_GirlA_InitVars;
 extern ActorInit En_Part_InitVars;

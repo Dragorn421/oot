@@ -96,7 +96,7 @@ ELF := $(ROM:.z64=.elf)
 # description of ROM segments
 SPEC := spec
 
-SRC_DIRS := $(shell find src -type d)
+SRC_DIRS := $(shell find src runner -type d)
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
@@ -219,6 +219,13 @@ build/assets/%.o: assets/%.c
 	$(OBJCOPY) -O binary $@ $@.bin
 
 build/src/overlays/%.o: src/overlays/%.c
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC_CHECK) $<
+	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
+	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
+	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+
+build/runner/actors/%.o: runner/actors/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s

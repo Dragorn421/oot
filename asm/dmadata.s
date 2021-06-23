@@ -1542,6 +1542,7 @@ DMA_TABLE_ENTRY anime_texture_6_static
 DMA_TABLE_ENTRY softsprite_matrix_static
 DMA_TABLE_ENTRY test_scene
 DMA_TABLE_ENTRY test_room_0
+DMA_TABLE_ENTRY ovl_TestActor
 
 # Why the empty space?
 .space 0x100
