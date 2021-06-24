@@ -10472,3 +10472,10 @@ beginseg
     include "runner/test_scene/test_room_0.o"
     number 3
 endseg
+
+beginseg
+    name "test_object"
+    romalign 0x1000
+    include "runner/objects/test_object/test_object.o"
+    number 6
+endseg

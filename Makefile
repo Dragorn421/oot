@@ -103,6 +103,7 @@ ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f)
+RAW_ASSETS := $(shell find runner -iregex ".+\.\(zscene\|zmap\|zobj\)" | sed "s/.\(zscene\|zmap\|zobj\)$$/.o/")
 
 # source files
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
@@ -169,7 +170,7 @@ endif
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(RAW_ASSETS) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 build/ldscript.txt: $(SPEC)
@@ -198,10 +199,12 @@ setup:
 	python3 extract_assets.py
 
 resources: $(ASSET_FILES_OUT)
+test2: $(ROM)
+	cp $< $(EMULATOR_DIR)/
 test: $(ROM)
 	cp $< $(EMULATOR_DIR)/ ; cd $(EMULATOR_DIR) ; $(EMULATOR) $(EMU_FLAGS) $< ; exit 0
 
-.PHONY: all clean setup test distclean assetclean
+.PHONY: all clean setup test2 test distclean assetclean
 
 #### Various Recipes ####
 
@@ -261,5 +264,14 @@ build/assets/%.bin.inc.c: assets/%.bin
 
 build/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
+
+runner/%.o: runner/%.zscene
+	$(OBJCOPY) -I binary -O elf32-big $< $@
+
+runner/%.o: runner/%.zmap
+	$(OBJCOPY) -I binary -O elf32-big $< $@
+
+runner/%.o: runner/%.zobj
+	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 -include $(DEP_FILES)

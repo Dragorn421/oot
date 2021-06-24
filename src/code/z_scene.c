@@ -524,7 +524,7 @@ RomFile gObjectTable[] = {
     ROM_FILE(gameplay_keep),
     ROM_FILE(gameplay_field_keep),
     ROM_FILE(gameplay_dangeon_keep),
-    ROM_FILE_UNSET,
+    ROM_FILE(test_object),
     ROM_FILE_UNSET,
     ROM_FILE(object_human),
     ROM_FILE(object_okuta),

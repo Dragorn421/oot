@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Created with SharpOcarina 1.28-->
 <ZScene cloneid="0" xmlns="clr-namespace:SharpOcarina;assembly=SharpOcarina">
-  <Name>test</Name>
-  <Scale>30</Scale>
+  <Name>unnamed</Name>
+  <Scale>1</Scale>
   <Music>2</Music>
   <NightSFX>0</NightSFX>
   <Skybox>0</Skybox>
@@ -34,7 +34,7 @@
   <CutsceneFlag>0</CutsceneFlag>
   <CutsceneTableRow>-1</CutsceneTableRow>
   <version>4736</version>
-  <CollisionFilename>\\wsl$\Ubuntu-18.04\home\dragorn421\oot64decomp\oot\runner\test_scene\scene.obj</CollisionFilename>
+  <CollisionFilename>\\wsl$\Ubuntu-18.04\home\dragorn421\oot64decomp\oot\runner\objects\test_object\tunnel_part_ugly_brick.obj</CollisionFilename>
   <Transitions>
     <Capacity>0</Capacity>
   </Transitions>
@@ -167,19 +167,7 @@
     <Capacity>0</Capacity>
   </Cutscene>
   <Cameras>
-    <Capacity>4</Capacity>
-    <ZCamera>
-      <XPos>0</XPos>
-      <YPos>0</YPos>
-      <ZPos>0</ZPos>
-      <XRot>0</XRot>
-      <YRot>0</YRot>
-      <ZRot>0</ZRot>
-      <Type>3</Type>
-      <Fov>45</Fov>
-      <Unk1>65535</Unk1>
-      <Unk2>65535</Unk2>
-    </ZCamera>
+    <Capacity>0</Capacity>
   </Cameras>
   <SceneHeaders>
     <Capacity>0</Capacity>
@@ -193,7 +181,7 @@
   <Rooms>
     <Capacity>4</Capacity>
     <ZScene-ZRoom>
-      <ModelFilename>\\wsl$\Ubuntu-18.04\home\dragorn421\oot64decomp\oot\runner\test_scene\scene.obj</ModelFilename>
+      <ModelFilename>\\wsl$\Ubuntu-18.04\home\dragorn421\oot64decomp\oot\runner\objects\test_object\tunnel_part_ugly_brick.obj</ModelFilename>
       <StartTime>65535</StartTime>
       <TimeSpeed>10</TimeSpeed>
       <DisableSkybox>false</DisableSkybox>
@@ -212,27 +200,10 @@
       </AdditionalLights>
       <InjectOffset>47185920</InjectOffset>
       <ZObjects>
-        <Capacity>4</Capacity>
-        <ZScene-ZUShort>
-          <Value>4</Value>
-        </ZScene-ZUShort>
+        <Capacity>0</Capacity>
       </ZObjects>
       <ZActors>
-        <Capacity>4</Capacity>
-        <ZActor>
-          <Number>1</Number>
-          <XPos>0</XPos>
-          <YPos>0</YPos>
-          <ZPos>0</ZPos>
-          <XRot>0</XRot>
-          <YRot>0</YRot>
-          <ZRot>0</ZRot>
-          <Variable>0</Variable>
-          <FrontSwitchTo>0</FrontSwitchTo>
-          <FrontCamera>0</FrontCamera>
-          <BackSwitchTo>0</BackSwitchTo>
-          <BackCamera>0</BackCamera>
-        </ZActor>
+        <Capacity>0</Capacity>
       </ZActors>
       <GroupSettings>
         <TintAlpha>
@@ -320,7 +291,7 @@
           <boolean xmlns="https://extendedxmlserializer.github.io/system">false</boolean>
         </VertexNormals>
       </GroupSettings>
-      <ModelShortFilename>scene</ModelShortFilename>
+      <ModelShortFilename>tunnel_part_ugly_brick</ModelShortFilename>
     </ZScene-ZRoom>
   </Rooms>
 </ZScene>

@@ -1549,6 +1549,7 @@ const char* sDmaMgrFileNames[] = {
     "test_scene",
     "test_room_0",
     "ovl_TestActor",
+    "test_object",
 };
 
 s32 DmaMgr_CompareName(const char* name1, const char* name2) {
@@ -1865,6 +1866,7 @@ s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk
 
     if ((1 && (ram == 0)) || (osMemSize < ram + size + 0x80000000) || (vrom & 1) || (vrom > 0x4000000U) ||
         (size == 0) || (size & 1)) {
+        osSyncPrintf("DMA error: ram=%X vrom=%X size=%X\n", ram, vrom, size);
         DmaMgr_Error(req, NULL, "ILLIGAL DMA-FUNCTION CALL", "パラメータ異常です");
     }
 
