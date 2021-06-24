@@ -51,3 +51,5 @@ graphs/
 
 # Per-user configuration
 .python-version
+*.bak
+*.blend1

@@ -8,8 +8,12 @@
 #define MODEL 0x06000B50
 
 typedef struct TestActor {
-    Actor actor;
+    DynaPolyActor dyna;
     s32 timer;
+    f32 offset;
+    s32 enabled;
+    Actor* bombiwas[10];
+    s32 nextBombiwaIdx;
 } TestActor;
 
 extern const ActorInit TestActor_InitVars;

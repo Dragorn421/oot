@@ -305,6 +305,11 @@ typedef union {
 } SceneCmd; // size = 0x8
 
 typedef enum {
+    /* 0 */ SCENE_TEST_SCENE,
+} SceneID;
+
+// removed (kinda)
+typedef enum {
     /* 0x00 */ SCENE_YDAN,
     /* 0x01 */ SCENE_DDAN,
     /* 0x02 */ SCENE_BDAN,
@@ -417,7 +422,7 @@ typedef enum {
     /* 0x6C */ SCENE_SASATEST,
     /* 0x6D */ SCENE_TESTROOM,
     /* 0x6E */ SCENE_ID_MAX
-} SceneID;
+} SceneIDvanilla;
 
 // Scene commands
 

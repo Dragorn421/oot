@@ -9041,6 +9041,8 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     s32 sp50;
     s32 sp4C;
 
+    this->runnerRunning = false;
+
     globalCtx->shootingGalleryStatus = globalCtx->bombchuBowlingStatus = 0;
 
     globalCtx->playerInit = Player_InitCommon;
@@ -10250,6 +10252,11 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Input sp44;
     Actor* dog;
+
+    if (this->runnerRunning) {
+        globalCtx->state.input[0].cur.stick_y = 60;
+        globalCtx->state.input[0].rel.stick_y = 60;
+    }
 
     if (func_8084FCAC(this, globalCtx)) {
         if (gSaveContext.dogParams < 0) {
