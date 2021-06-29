@@ -7,6 +7,8 @@
 #include "z_bg_dy_yoseizo.h"
 #include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+#include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
+#include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
 #define FLAGS 0x02000030
 
@@ -37,12 +39,6 @@ void func_80874D9C(BgDyYoseizo* this, Vec3f*, Vec3f*, Vec3f*, Color_RGB8*, Color
 void func_80874EAC(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx);
 
-extern CutsceneData D_2000130[];
-extern CutsceneData D_2000160[];
-extern CutsceneData D_2001020[];
-extern CutsceneData D_20013E0[];
-extern CutsceneData D_2001F40[];
-extern CutsceneData D_20025D0[];
 extern AnimationHeader D_600092C;
 extern AnimationHeader D_6001DF0;
 extern AnimationHeader D_60031C0;
@@ -250,34 +246,34 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
             if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
                 switch (this->unk2EC) {
                     case 0:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_2000160);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 1:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_2001020);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 2:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_2001F40);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
             } else {
                 switch (this->unk2EC) {
                     case 0:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_2000130);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 1:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_20013E0);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 2:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_20025D0);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenceCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
