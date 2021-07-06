@@ -59,7 +59,7 @@ animdict ={
     "bumper.flags":"bumper.dmgFlags",
     "maskA ":"ocFlags1 ",
     "maskB ":"ocFlags2 ",
-    "base.type":"base.colType",
+    #"base.type":"base.colType",
     "COLTYPE_UNK11":"COLTYPE_HARD",
     "COLTYPE_UNK12":"COLTYPE_WOOD",
     "COLTYPE_UNK13":"COLTYPE_TREE",
@@ -89,6 +89,9 @@ animdict ={
     "func_80033260": "Actor_SpawnFloorDust",
     "func_80032C7C": "Enemy_StartFinishingBlow",
     "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
+    "func_8002D868": "Actor_UpdateVelocity",
+    "func_800D20CC": "Matrix_MtxFToRotS",
+    "func_8002D7EC": "Actor_UpdatePosition",
 }
 
 def replace_anim(file):

@@ -1638,7 +1638,7 @@ void Fishing_DrawLureHook(GlobalContext* globalCtx, Vec3f* pos, Vec3f* refPos, u
 
             Matrix_MultVec3f(&sZeroVec, &effect->pos);
             Matrix_Get(&mf);
-            func_800D20CC(&mf, &sEffOwnerHatRot, 0);
+            Matrix_MtxFToRotS(&mf, &sEffOwnerHatRot, 0);
 
             D_80B7A690 = 0;
             D_80B7A68C = 0;
@@ -4059,7 +4059,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             func_8002D908(&this->actor);
         }
 
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePosition(&this->actor);
 
         this->actor.world.pos.y += (this->unk_184 * 1.5f);
 
