@@ -7,6 +7,43 @@ import json
 import time
 import signal
 
+import subprocess
+
+def extractWithoutZAPD():
+    print('Extracting without ZAPD...')
+
+    extract = [
+        ('ci8', 'ydan_room_0', 0xE1C0, 'ydan_scene', 0xB810, 32, 64, 'deku_tree_wall.png'),
+        ('ci8', 'ydan_room_0', 0xD9C0, 'ydan_scene', 0xB810, 32, 64, 'deku_tree_roof.png'),
+        ('ci8', 'ydan_room_0', 0xF1C0, 'ydan_scene', 0xB810, 32, 64, 'deku_tree_floor.png'),
+        ('ci8', 'ydan_room_0', 0xC5C0, 'ydan_scene', 0xB810, 32, 64, 'deku_tree_floortowall.png'),
+    ]
+
+    os.makedirs('assets/notzapd', exist_ok=True)
+
+    for format, texFile, texOff, palFile, palOff, w, h, outFile in extract:
+        if format not in ('ci8',):
+            print(f'Format not implemented: {format}')
+            exit()
+        with open(f'baserom/{palFile}', 'rb') as fPal:
+            fPal.seek(palOff)
+            palData = fPal.read(2 * (256 if format == 'ci8' else 16))
+        with open(f'baserom/{texFile}', 'rb') as fTex:
+            fTex.seek(texOff)
+            texData = fTex.read(w*h)
+        with open('temp_raw_rgba', 'wb') as fRgba:
+            for y in range(h):
+                for x in range(w):
+                    palIdx = texData[y*w+x]
+                    pixelRgba16 = (palData[2*palIdx] << 8) + palData[2*palIdx+1]
+                    r = round(((pixelRgba16 >> 11) & 0b11111) * 0xFF/0b11111)
+                    g = round(((pixelRgba16 >> 6) & 0b11111) * 0xFF/0b11111)
+                    b = round(((pixelRgba16 >> 1) & 0b11111) * 0xFF/0b11111)
+                    a = (pixelRgba16 & 1) * 0xFF
+                    fRgba.write(bytes([r,g,b,a]))
+        subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', f'{w}x{h}', '-i', 'temp_raw_rgba', f'assets/notzapd/{outFile}'])
+    os.remove('temp_raw_rgba')
+
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
 
 def SignalHandler(sig, frame):
@@ -116,3 +153,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    extractWithoutZAPD()
