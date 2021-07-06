@@ -4782,7 +4782,7 @@ glabel L80B75278
 /* 0BB18 80B754B8 0C00B642 */  jal     func_8002D908
 /* 0BB1C 80B754BC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B754C0:
-/* 0BB20 80B754C0 0C00B5FB */  jal     func_8002D7EC
+/* 0BB20 80B754C0 0C00B5FB */  jal     Actor_UpdatePosition
 /* 0BB24 80B754C4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0BB28 80B754C8 3C013FC0 */  lui     $at, 0x3FC0                ## $at = 3FC00000
 /* 0BB2C 80B754CC 44814000 */  mtc1    $at, $f8                   ## $f8 = 1.50

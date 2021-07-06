@@ -196,14 +196,14 @@ s32 Math_AsymStepToF(f32* pValue, f32 target, f32 incrStep, f32 decrStep) {
     return 0;
 }
 
-void func_80077D10(f32* arg0, s16* arg1, Input* input) {
+void Math_StickToPolarCoords(f32* norm, s16* angle, Input* input) {
     f32 relX = input->rel.stick_x;
     f32 relY = input->rel.stick_y;
 
-    *arg0 = sqrtf(SQ(relX) + SQ(relY));
-    *arg0 = (60.0f < *arg0) ? 60.0f : *arg0;
+    *norm = sqrtf(SQ(relX) + SQ(relY));
+    *norm = (60.0f < *norm) ? 60.0f : *norm;
 
-    *arg1 = Math_Atan2S(relY, -relX);
+    *angle = Math_Atan2S(relY, -relX);
 }
 
 s16 Rand_S16Offset(s16 base, s16 range) {

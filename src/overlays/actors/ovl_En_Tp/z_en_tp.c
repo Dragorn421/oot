@@ -362,7 +362,7 @@ void EnTp_Fragment_SetupFade(EnTp* this) {
 }
 
 void EnTp_Fragment_Fade(EnTp* this, GlobalContext* globalCtx) {
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePosition(&this->actor);
     this->alpha -= 20;
 
     if (this->alpha < 20) {

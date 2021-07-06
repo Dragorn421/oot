@@ -470,8 +470,8 @@ static PlayerAgeProperties sAgeProperties[] = {
 };
 
 static u32 D_808535D0 = false;
-static f32 D_808535D4 = 0.0f;
-static s16 D_808535D8 = 0;
+static f32 sCurStickNorm = 0.0f;
+static s16 sCurStickAngle = 0;
 static s16 D_808535DC = 0;
 static s32 D_808535E0 = 0;
 static s32 D_808535E4 = 0;
@@ -1256,9 +1256,9 @@ void func_80832564(GlobalContext* globalCtx, Player* this) {
 }
 
 s32 func_80832594(Player* this, s32 arg1, s32 arg2) {
-    s16 temp = this->unk_A80 - D_808535D8;
+    s16 relStickAngle = this->prevStickAngle - sCurStickAngle;
 
-    this->unk_850 += arg1 + (s16)(ABS(temp) * fabsf(D_808535D4) * 2.5415802156203426e-06f);
+    this->unk_850 += arg1 + (s16)(ABS(relStickAngle) * fabsf(sCurStickNorm) * 2.5415802156203426e-06f);
 
     if (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B)) {
         this->unk_850 += 5;
@@ -1532,20 +1532,25 @@ void func_8083315C(GlobalContext* globalCtx, Player* this) {
     s8 phi_v1;
     s8 phi_v0;
 
-    this->unk_A7C = D_808535D4;
-    this->unk_A80 = D_808535D8;
+    this->prevStickNorm = sCurStickNorm;
+    this->prevStickAngle = sCurStickAngle;
 
-    func_80077D10(&D_808535D4, &D_808535D8, sControlInput);
+    Math_StickToPolarCoords(&sCurStickNorm, &sCurStickAngle, sControlInput);
+    /*
+    if (this->runnerRunning) {
+        sCurStickNorm = 60.0f;
+    }
+    */
 
-    D_808535DC = Camera_GetInputDirYaw(ACTIVE_CAM) + D_808535D8;
+    D_808535DC = Camera_GetInputDirYaw(ACTIVE_CAM) + sCurStickAngle;
 
     this->unk_846 = (this->unk_846 + 1) % 4;
 
-    if (D_808535D4 < 55.0f) {
+    if (sCurStickNorm < 55.0f) {
         phi_v0 = -1;
         phi_v1 = -1;
     } else {
-        phi_v1 = (u16)(D_808535D8 + 0x2000) >> 9;
+        phi_v1 = (u16)(sCurStickAngle + 0x2000) >> 9;
         phi_v0 = (u16)((s16)(D_808535DC - this->actor.shape.rot.y) + 0x2000) >> 14;
     }
 
@@ -3068,8 +3073,8 @@ s32 func_80836FAC(GlobalContext* globalCtx, Player* this, f32* arg2, s16* arg3, 
         *arg2 = 0.0f;
         *arg3 = this->actor.shape.rot.y;
     } else {
-        *arg2 = D_808535D4;
-        *arg3 = D_808535D8;
+        *arg2 = sCurStickNorm;
+        *arg3 = sCurStickAngle;
 
         if (arg4 != 0.0f) {
             *arg2 -= 20.0f;
@@ -3083,7 +3088,14 @@ s32 func_80836FAC(GlobalContext* globalCtx, Player* this, f32* arg2, s16* arg3, 
             *arg2 *= 0.8f;
         }
 
-        if (D_808535D4 != 0.0f) {
+        /*
+        // this does force link running, not sure how
+        if (this->runnerRunning) {
+            *arg2 = 10.0f;
+        }
+        */
+
+        if (sCurStickNorm != 0.0f) {
             temp_f0 = Math_SinS(this->unk_898);
             temp_f12 = this->unk_880;
             temp_f14 = CLAMP(temp_f0, 0.0f, 0.6f);
@@ -7606,6 +7618,11 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
 
     if (this->unk_850 != 0) {
         sp54 = sControlInput->rel.stick_y * 100;
+        /*
+        if (this->runnerRunning) {
+            sp54 = 60 * 100;
+        }
+        */
         sp50 = sControlInput->rel.stick_x * -120;
         sp4E = this->actor.shape.rot.y - Camera_GetInputDirYaw(ACTIVE_CAM);
 
@@ -9042,6 +9059,8 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     s32 sp4C;
 
     this->runnerRunning = false;
+    this->runnerMinZ = 0.0f;
+    this->runnerMaxZ = 0.0f;
 
     globalCtx->shootingGalleryStatus = globalCtx->bombchuBowlingStatus = 0;
 
@@ -10009,7 +10028,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 this->actor.world.rot.y = this->currentYaw;
             }
 
-            func_8002D868(&this->actor);
+            Actor_UpdateVelocity(&this->actor);
 
             if ((this->windSpeed != 0.0f) && !Player_InCsMode(globalCtx) && !(this->stateFlags1 & 0x206000) &&
                 (func_80845668 != this->func_674) && (func_808507F4 != this->func_674)) {
@@ -10017,7 +10036,13 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 this->actor.velocity.z += this->windSpeed * Math_CosS(this->windDirection);
             }
 
-            func_8002D7EC(&this->actor);
+            /*
+            if (this->runnerRunning) {
+                this->actor.velocity.x = 10.0f;
+            }
+            */
+
+            Actor_UpdatePosition(&this->actor);
             func_80847BA0(globalCtx, this);
         } else {
             D_808535E4 = 0;
@@ -10254,9 +10279,27 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor* dog;
 
     if (this->runnerRunning) {
-        globalCtx->state.input[0].cur.stick_y = 60;
-        globalCtx->state.input[0].rel.stick_y = 60;
+        Input* input = &globalCtx->state.input[0];
+        input->rel.stick_y = input->cur.stick_y = input->press.stick_y = 60;
+        input->prev.button &= ~BTN_CUP;
+        input->rel.button &= ~BTN_CUP;
+        input->cur.button &= ~BTN_CUP;
+        input->press.button &= ~BTN_CUP;
+        if ((input->cur.stick_x > 0 && this->actor.world.pos.z < this->runnerMinZ) || (input->cur.stick_x < 0 && this->actor.world.pos.z > this->runnerMaxZ)) {
+            if(!(input->cur.button & BTN_DDOWN))
+            input->rel.stick_x = input->cur.stick_x = input->press.stick_x = 0;
+        }
     }
+    /*
+    if (this->runnerRunning) {
+
+        s8 x = globalCtx->state.input[0].cur.stick_x;
+        s8 yRatioSq = 1.0f - (f32)ABS(x) / 60.0f;
+        s8 y = (s8)(30.0f + 70.0f * sqrt(CLAMP_MIN(yRatioSq, 0.0f)));
+        globalCtx->state.input[0].cur.stick_y = 100;
+        globalCtx->state.input[0].rel.stick_y = y;
+    }
+    */
 
     if (func_8084FCAC(this, globalCtx)) {
         if (gSaveContext.dogParams < 0) {
@@ -12906,6 +12949,12 @@ void func_80850AEC(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         func_80832284(globalCtx, this, &gPlayerAnim_002C98);
     }
+
+    /*
+    if (this->runnerRunning) {
+        this->actor.velocity.x = 10.0f;
+    }
+    */
 
     Math_Vec3f_Sum(&this->actor.world.pos, &this->actor.velocity, &this->actor.world.pos);
 

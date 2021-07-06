@@ -142,7 +142,7 @@ glabel func_80945D14
 /* 0D1E4 80945EB4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0D1E8 80945EB8 0C00B642 */  jal     func_8002D908              
 /* 0D1EC 80945EBC AFA20050 */  sw      $v0, 0x0050($sp)           
-/* 0D1F0 80945EC0 0C00B5FB */  jal     func_8002D7EC              
+/* 0D1F0 80945EC0 0C00B5FB */  jal     Actor_UpdatePosition              
 /* 0D1F4 80945EC4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0D1F8 80945EC8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0D1FC 80945ECC 0C00BE0A */  jal     Audio_PlayActorSound2

@@ -848,7 +848,7 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-s16 func_8002D7EC(Actor* actor) {
+s16 Actor_UpdatePosition(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
 
     actor->world.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;
@@ -856,7 +856,7 @@ s16 func_8002D7EC(Actor* actor) {
     actor->world.pos.z += (actor->velocity.z * speedRate) + actor->colChkInfo.displacement.z;
 }
 
-void func_8002D868(Actor* actor) {
+void Actor_UpdateVelocity(Actor* actor) {
     actor->velocity.x = Math_SinS(actor->world.rot.y) * actor->speedXZ;
     actor->velocity.z = Math_CosS(actor->world.rot.y) * actor->speedXZ;
 
@@ -867,8 +867,8 @@ void func_8002D868(Actor* actor) {
 }
 
 void Actor_MoveForward(Actor* actor) {
-    func_8002D868(actor);
-    func_8002D7EC(actor);
+    Actor_UpdateVelocity(actor);
+    Actor_UpdatePosition(actor);
 }
 
 void func_8002D908(Actor* actor) {
@@ -881,7 +881,7 @@ void func_8002D908(Actor* actor) {
 
 void func_8002D97C(Actor* actor) {
     func_8002D908(actor);
-    func_8002D7EC(actor);
+    Actor_UpdatePosition(actor);
 }
 
 void func_8002D9A4(Actor* actor, f32 arg1) {

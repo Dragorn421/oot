@@ -305,7 +305,7 @@ typedef union {
 } SceneCmd; // size = 0x8
 
 typedef enum {
-    /* 0 */ SCENE_TEST_SCENE,
+    /* 0 */ SCENE_TEST_SCENE
 } SceneID;
 
 // removed (kinda)

@@ -374,14 +374,16 @@ typedef struct Player {
     /* 0x0A79 */ u8         unk_A79;
     /* 0x0A7A */ u8         unk_A7A;
     /* 0x0A7B */ u8         unk_A7B;
-    /* 0x0A7C */ f32        unk_A7C;
-    /* 0x0A80 */ s16        unk_A80;
+    /* 0x0A7C */ f32        prevStickNorm;
+    /* 0x0A80 */ s16        prevStickAngle;
     /* 0x0A82 */ u16        unk_A82;
     /* 0x0A84 */ s16        unk_A84;
     /* 0x0A86 */ s8         unk_A86;
     /* 0x0A87 */ u8         unk_A87;
     /* 0x0A88 */ Vec3f      unk_A88; // previous body part 0 position
     s32 runnerRunning;
+    f32 runnerMinZ;
+    f32 runnerMaxZ;
 } Player; // size = 0xA94
 
 #endif

@@ -192,7 +192,7 @@ glabel func_808E1034
 /* 0A9F0 808E1260 46005181 */  sub.s   $f6, $f10, $f0             
 /* 0A9F4 808E1264 0C00B642 */  jal     func_8002D908              
 /* 0A9F8 808E1268 E7A60080 */  swc1    $f6, 0x0080($sp)           
-/* 0A9FC 808E126C 0C00B5FB */  jal     func_8002D7EC              
+/* 0A9FC 808E126C 0C00B5FB */  jal     Actor_UpdatePosition              
 /* 0AA00 808E1270 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0AA04 808E1274 963901C2 */  lhu     $t9, 0x01C2($s1)           ## 000001C2
 /* 0AA08 808E1278 C7B00078 */  lwc1    $f16, 0x0078($sp)          
