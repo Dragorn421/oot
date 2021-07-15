@@ -52,4 +52,16 @@ graphs/
 # Per-user configuration
 .python-version
 *.bak
+*.tga
+runner/tools/z64convert
 *.blend1
+**/objex_export_log.txt
+*.objex
+*.mtlex
+*.skel
+*.anim
+*.o
+*.zscene
+*.zmap
+*.zobj
+runner/objects/**/*.h

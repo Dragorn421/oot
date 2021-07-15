@@ -9,10 +9,18 @@
 void Opening_SetupTitleScreen(OpeningContext* this) {
     gSaveContext.gameMode = 0;
     this->state.running = false;
-    gSaveContext.linkAge = 0;
     Sram_InitDebugSave();
+    gSaveContext.magicAcquired = false;
+    gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;
+    gSaveContext.equips.buttonItems[1] = ITEM_NONE;
+    gSaveContext.equips.buttonItems[2] = ITEM_NONE;
+    gSaveContext.equips.buttonItems[3] = ITEM_NONE;
+    gSaveContext.equips.equipment = 0x1111;
+    gSaveContext.linkAge = 1;
+    gSaveContext.health = gSaveContext.healthCapacity = 3*16;
     gSaveContext.cutsceneIndex = 0;
     gSaveContext.sceneSetupIndex = 0;
+    gSaveContext.dayTime = 0x8000;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }
 

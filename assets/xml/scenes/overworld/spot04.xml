@@ -4,6 +4,8 @@
         <Path Name="gSpot04Path_00031C" Offset="0x31C"/>
         <Path Name="gSpot04Path_00D730" Offset="0xD730"/>
 
+		<Texture Name="spot04_sceneTex_00FA18" OutName="spot04_sceneTex_00FA18" Format="ci8" Width="32" Height="32" Offset="0xFA18" TlutOffset="0xE010"/>
+
         <Cutscene Name="gSpot04Cs_10E20" Offset="0x10E20"/>
 
         <Scene Name="spot04_scene" Offset="0x0"/>

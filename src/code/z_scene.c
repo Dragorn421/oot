@@ -161,6 +161,8 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
 s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
     u32 cmdCode;
 
+    osSyncPrintf("Scene_ExecuteCommands(sceneCmd = 0x%08X)\n", sceneCmd);
+
     while (true) {
         cmdCode = sceneCmd->base.code;
         osSyncPrintf("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
@@ -224,6 +226,7 @@ void func_80098674(GlobalContext* globalCtx, SceneCmd* cmd) {
 void func_800987A4(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->nbRooms = cmd->roomList.num;
     globalCtx->roomList = SEGMENTED_TO_VIRTUAL(cmd->roomList.segment);
+    osSyncPrintf("SceneCmd 0x04 globalCtx->roomList = %08X\n", globalCtx->roomList);
 }
 
 // Scene Command 0x06: Entrance List
@@ -525,7 +528,7 @@ RomFile gObjectTable[] = {
     ROM_FILE(gameplay_field_keep),
     ROM_FILE(gameplay_dangeon_keep),
     ROM_FILE(test_object),
-    ROM_FILE_UNSET,
+    ROM_FILE(object_env_kokiri_forest),
     ROM_FILE(object_human),
     ROM_FILE(object_okuta),
     ROM_FILE(object_crow),
@@ -536,8 +539,8 @@ RomFile gObjectTable[] = {
     ROM_FILE(object_firefly),
     ROM_FILE(object_box),
     ROM_FILE(object_fire),
-    ROM_FILE_UNSET,
-    ROM_FILE_UNSET,
+    ROM_FILE(object_transi_kokiri_to_deku),
+    ROM_FILE(object_env_deku_tree),
     ROM_FILE(object_bubble),
     ROM_FILE(object_niw),
     ROM_FILE(object_link_boy),

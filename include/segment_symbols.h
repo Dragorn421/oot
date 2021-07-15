@@ -1667,5 +1667,8 @@ DECLARE_ROM_SEGMENT(testroom_room_4)
 DECLARE_ROM_SEGMENT(test_scene)
 DECLARE_OVERLAY_SEGMENT(TestActor)
 DECLARE_ROM_SEGMENT(test_object)
+DECLARE_ROM_SEGMENT(object_env_kokiri_forest)
+DECLARE_ROM_SEGMENT(object_transi_kokiri_to_deku)
+DECLARE_ROM_SEGMENT(object_env_deku_tree)
 
 #endif

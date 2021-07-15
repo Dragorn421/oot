@@ -4,7 +4,7 @@
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000035
+#define FLAGS 0x00000034
 
 #define THIS ((EnGoma*)thisx)
 
@@ -38,6 +38,7 @@ void EnGoma_SetupHurt(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_SetupDie(EnGoma* this);
 void EnGoma_SetupDead(EnGoma* this);
 void EnGoma_SetupStand(EnGoma* this);
+void EnGoma_SetupRun(EnGoma* this);
 void EnGoma_SetupChasePlayer(EnGoma* this);
 void EnGoma_SetupPrepareJump(EnGoma* this);
 void EnGoma_SetupLand(EnGoma* this);
@@ -45,7 +46,7 @@ void EnGoma_SetupJump(EnGoma* this);
 void EnGoma_SetupStunned(EnGoma* this, GlobalContext* globalCtx);
 
 const ActorInit En_Goma_InitVars = {
-    ACTOR_BOSS_GOMA,
+    ACTOR_EN_GOMA,
     ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_GOL,
@@ -108,13 +109,29 @@ static InitChainEntry sInitChain[] = {
 
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoma* this = THIS;
-    s16 params;
+    s16 params = this->actor.params;
 
-    this->eggTimer = Rand_ZeroOne() * 200.0f;
+    this->visualState = 1;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01f);
-    params = this->actor.params;
 
+    if (params == 0) {
+        SkelAnime_Init(globalCtx, &this->skelanime, &gObjectGolSkel, &gObjectGolRunningAnim, this->jointTable,
+                       this->morphTable, GOMA_LIMB_MAX);
+
+        Collider_InitCylinder(globalCtx, &this->colCyl1);
+        Collider_SetCylinder(globalCtx, &this->colCyl1, &this->actor, &D_80A4B7A0);
+        this->colCyl1.info.toucher.damage = 16;
+        Collider_InitCylinder(globalCtx, &this->colCyl2);
+        Collider_SetCylinder(globalCtx, &this->colCyl2, &this->actor, &D_80A4B7CC);
+
+        thisx->world.rot.y = thisx->shape.rot.y = -0x4000;
+        EnGoma_SetupRun(this);
+
+        return;
+    }
+
+    this->eggTimer = Rand_ZeroOne() * 200.0f;
     if (params >= 100) { // piece of boss goma
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_BOSS);
         this->actionFunc = EnGoma_BossLimb;
@@ -435,6 +452,87 @@ void EnGoma_SetupStand(EnGoma* this) {
     this->gomaType = ENGOMA_NORMAL;
 }
 
+void EnGoma_LandAfterRunJump(EnGoma* this, GlobalContext* globalCtx) {
+    this->actor.world.pos.x -= this->actor.speedXZ;
+
+    SkelAnime_Update(&this->skelanime);
+}
+
+void EnGoma_JumpAfterRun(EnGoma* this, GlobalContext* globalCtx) {
+    this->visualState = 0;
+
+    Actor_MoveForward(&this->actor);
+
+    if (this->actor.world.pos.y < this->actor.home.pos.y) {
+        this->actor.world.pos.y = this->actor.home.pos.y;
+        Animation_Change(&this->skelanime, &gObjectGolLandFromJumpAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gObjectGolLandFromJumpAnim), ANIMMODE_ONCE, -5.0f);
+        this->actionFunc = EnGoma_LandAfterRunJump;
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_LAND2);
+    }
+
+    SkelAnime_Update(&this->skelanime);
+    if (this->skelanime.curFrame > 3.0f) {
+        this->skelanime.startFrame = this->skelanime.curFrame = 1.0f;
+        this->skelanime.endFrame = 4.0f;
+    }
+}
+
+void EnGoma_PrepareJumpAfterRun(EnGoma* this, GlobalContext* globalCtx) {
+    s16 targetYaw = CLAMP((this->actor.yawTowardsPlayer + 0x4000) * 4, -0x2000, 0x2000) - 0x4000;
+
+    this->visualState = 0;
+    Math_SmoothStepToS(&this->actor.shape.rot.y, targetYaw, 2, 0x400, 0x80);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
+
+    if (SkelAnime_Update(&this->skelanime)) {
+        this->actor.speedXZ = 9.0f;
+        this->actor.velocity.y = 15.0f;
+        this->actor.gravity = -2.0f;
+        Animation_Change(&this->skelanime, &gObjectGolJumpHeadbuttAnim, 1.0f, 0.0f, 4.0f, ANIMMODE_LOOP, -5.0f);
+        this->actionFunc = EnGoma_JumpAfterRun;
+        if (Rand_ZeroOne() < 0.2f) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_CRY);
+        } else {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_LAND2);
+        }
+    }
+}
+
+void EnGoma_StopRunning(EnGoma* this, GlobalContext* globalCtx) {
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
+    this->actor.world.pos.x -= this->actor.speedXZ;
+
+    if (SkelAnime_Update(&this->skelanime)) {
+        this->actor.speedXZ = 0.0f;
+        Animation_Change(&this->skelanime, &gObjectGolPrepareJumpAnim, 2.0f, 0.0f,
+                         Animation_GetLastFrame(&gObjectGolPrepareJumpAnim), ANIMMODE_ONCE, -5.0f);
+        this->actionFunc = EnGoma_PrepareJumpAfterRun;
+    } else {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_WALK - SFX_FLAG);
+    }
+}
+
+void EnGoma_Run(EnGoma* this, GlobalContext* globalCtx) {
+    SkelAnime_Update(&this->skelanime);
+    this->actor.world.pos.x -= this->actor.speedXZ;
+
+    if (fabsf(this->actor.world.pos.x - PLAYER->actor.world.pos.x) < 1200.0f) {
+        Animation_Change(&this->skelanime, &gObjectGolStopRunningAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gObjectGolStopRunningAnim), ANIMMODE_ONCE, -5.0f);
+        this->actionFunc = EnGoma_StopRunning;
+    }
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_WALK - SFX_FLAG);
+}
+
+void EnGoma_SetupRun(EnGoma* this) {
+    Animation_Change(&this->skelanime, &gObjectGolRunningAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gObjectGolRunningAnim), ANIMMODE_LOOP, -5.0f);
+    this->actor.speedXZ = 10.0f / 3.0f;
+    this->actionFunc = EnGoma_Run;
+    this->actionTimer = Rand_S16Offset(70, 110);
+}
+
 void EnGoma_SetupChasePlayer(EnGoma* this) {
     Animation_Change(&this->skelanime, &gObjectGolRunningAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gObjectGolRunningAnim), ANIMMODE_LOOP, -5.0f);
@@ -698,6 +796,23 @@ void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
+    if (thisx->params == 0) {
+        this->actionFunc(this, globalCtx);
+
+        EnGoma_LookAtPlayer(this, globalCtx);
+        EnGoma_UpdateEyeEnvColor(this);
+        this->visualState = 1;
+
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 5);
+        Collider_UpdateCylinder(&this->actor, &this->colCyl1);
+        Collider_UpdateCylinder(&this->actor, &this->colCyl2);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colCyl1.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCyl2.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colCyl1.base);
+
+        return;
+    }
+
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
@@ -705,7 +820,6 @@ void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->invincibilityTimer--;
     }
 
-    this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     this->actor.world.pos.x = this->actor.world.pos.x + this->shieldKnockbackVel.x;
     this->actor.world.pos.z = this->actor.world.pos.z + this->shieldKnockbackVel.z;
@@ -778,6 +892,14 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGoma* this = THIS;
     s32 y;
     s32 pad;
+
+    if (this->actor.params == 0) {
+        func_80093D18(globalCtx->state.gfxCtx);
+        SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, EnGoma_OverrideLimbDraw,
+                          NULL, this);
+
+        return;
+    }
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_goma.c", 2040);
     func_80093D18(globalCtx->state.gfxCtx);

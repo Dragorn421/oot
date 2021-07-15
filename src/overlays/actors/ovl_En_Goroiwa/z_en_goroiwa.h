@@ -4,6 +4,11 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define GOROIWA_SPEED 10.0f
+#define GOROIWA_RADIUS 50.0f
+#define GOROIWA_COL_RADIUS ((s16)(GOROIWA_RADIUS - 10))
+#define GOROIWA_ROTSPEED_BIN RADF_TO_BINANG(GOROIWA_SPEED / GOROIWA_RADIUS)
+
 struct EnGoroiwa;
 
 typedef void (*EnGoroiwaActionFunc)(struct EnGoroiwa*, GlobalContext*);

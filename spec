@@ -10545,3 +10545,24 @@ beginseg
     include "runner/objects/test_object/test_object.o"
     number 6
 endseg
+
+beginseg
+    name "object_env_kokiri_forest"
+    romalign 0x1000
+    include "runner/objects/env_kokiri_forest/env_kokiri_forest.o"
+    number 6
+endseg
+
+beginseg
+    name "object_transi_kokiri_to_deku"
+    romalign 0x1000
+    include "runner/objects/transi_kokiri_to_deku/transi_kokiri_to_deku.o"
+    number 6
+endseg
+
+beginseg
+    name "object_env_deku_tree"
+    romalign 0x1000
+    include "runner/objects/env_deku_tree/env_deku_tree.o"
+    number 6
+endseg

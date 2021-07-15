@@ -1544,6 +1544,9 @@ DMA_TABLE_ENTRY test_scene
 DMA_TABLE_ENTRY test_room_0
 DMA_TABLE_ENTRY ovl_TestActor
 DMA_TABLE_ENTRY test_object
+DMA_TABLE_ENTRY object_env_kokiri_forest
+DMA_TABLE_ENTRY object_transi_kokiri_to_deku
+DMA_TABLE_ENTRY object_env_deku_tree
 
 # Why the empty space?
 .space 0x100

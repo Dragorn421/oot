@@ -1550,6 +1550,9 @@ const char* sDmaMgrFileNames[] = {
     "test_room_0",
     "ovl_TestActor",
     "test_object",
+    "object_env_kokiri_forest",
+    "object_transi_kokiri_to_deku",
+    "object_env_deku_tree",
 };
 
 s32 DmaMgr_CompareName(const char* name1, const char* name2) {

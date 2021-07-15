@@ -7,6 +7,7 @@
 #include "z_en_goroiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "actors/test_actor/test_actor.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -65,7 +66,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             BUMP_NONE,
             OCELEM_ON,
         },
-        { 0, { { 0, 0, 0 }, 58 }, 100 },
+        { 0, { { 0, 0, 0 }, GOROIWA_COL_RADIUS }, 100 },
     },
 };
 
@@ -89,11 +90,10 @@ static f32 sUnused[] = { 10.0f, 9.2f };
 extern Gfx gRollingRockDL[];
 
 void EnGoroiwa_UpdateCollider(EnGoroiwa* this) {
-    static f32 yOffsets[] = { 0.0f, 59.5f };
     Sphere16* worldSphere = &this->collider.elements[0].dim.worldSphere;
 
     worldSphere->center.x = this->actor.world.pos.x;
-    worldSphere->center.y = this->actor.world.pos.y + yOffsets[(this->actor.params >> 10) & 1];
+    worldSphere->center.y = this->actor.world.pos.y + GOROIWA_RADIUS;
     worldSphere->center.z = this->actor.world.pos.z;
 }
 
@@ -103,7 +103,8 @@ void EnGoroiwa_InitCollider(EnGoroiwa* this, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     EnGoroiwa_UpdateCollider(this);
-    this->collider.elements[0].dim.worldSphere.radius = 58;
+    this->collider.elements[0].dim.worldSphere.radius = GOROIWA_COL_RADIUS;
+    this->collider.elements[0].info.toucher.damage = 16;
 }
 
 void EnGoroiwa_UpdateFlags(EnGoroiwa* this, u8 setFlags) {
@@ -232,9 +233,21 @@ void EnGoroiwa_TeleportToWaypoint(EnGoroiwa* this, GlobalContext* globalCtx, s32
     this->actor.world.pos.z = pointPos->z;
 }
 
-void EnGoroiwa_InitRotation(EnGoroiwa* this) {
+void EnGoroiwa_InitRotation(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s16 yaw;
+
     this->prevUnitRollAxis.x = 1.0f;
     this->rollRotSpeed = 1.0f;
+
+    if (this->actor.params == -1) {
+        yaw = -0x4000 + (s16)(Rand_ZeroOne() * 0x2000) - 0x1000;
+
+        if (yaw > -0x4400 && yaw < -0x3C00) {
+            yaw = -0x4000;
+        }
+
+        this->actor.world.rot.y = this->actor.shape.rot.y = yaw;
+    }
 }
 
 s32 EnGoroiwa_GetAscendDirection(EnGoroiwa* this, GlobalContext* globalCtx) {
@@ -440,7 +453,7 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->flags & ENGOROIWA_RETAIN_ROT_SPEED) {
         rollAngleDiff = this->prevRollAngleDiff;
     } else {
-        this->prevRollAngleDiff = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.prevPos) * (1.0f / 59.5f);
+        this->prevRollAngleDiff = this->actor.speedXZ / GOROIWA_RADIUS;
         rollAngleDiff = this->prevRollAngleDiff;
     }
     rollAngleDiff *= this->rollRotSpeed;
@@ -486,7 +499,7 @@ void EnGoroiwa_NextWaypoint(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void EnGoroiwa_SpawnFragments(EnGoroiwa* this, GlobalContext* globalCtx) {
-    static f32 yOffsets[] = { 0.0f, 59.5f };
+    static f32 yOffsets[] = { 0.0f, GOROIWA_RADIUS };
     s16 angle1;
     s16 angle2;
     s32 pad;
@@ -523,9 +536,9 @@ void EnGoroiwa_SpawnFragments(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32_DIV1000(gravity, -860, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),  ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),  ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -860, ICHAIN_CONTINUE),   ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -533,8 +546,25 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa* this = THIS;
     s32 pathIdx;
 
+    Actor_SetScale(thisx, 0.1f * GOROIWA_RADIUS / 60.0f);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnGoroiwa_InitCollider(this, globalCtx);
+
+    if (thisx->params == -1) {
+        this->actor.flags |= 0x20; // don't cull draw()
+        CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+        ActorShape_Init(&this->actor.shape, 595.0f, ActorShadow_DrawCircle, 9.4f);
+        this->actor.shape.shadowAlpha = 200;
+        EnGoroiwa_InitRotation(this, globalCtx);
+        this->actor.world.pos.y -= GOROIWA_RADIUS / 7.0f;
+        this->actor.speedXZ = GOROIWA_SPEED;
+        this->actor.gravity = 0.0f;
+        EnGoroiwa_SetupRoll(this);
+        osSyncPrintf("goroiwa spawn\n");
+
+        return;
+    }
+
     pathIdx = this->actor.params & 0xFF;
     if (pathIdx == 0xFF) {
         // Translation: Error: Invalid arg_data
@@ -555,7 +585,7 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa_SetSpeed(this, globalCtx);
     EnGoroiwa_InitPath(this, globalCtx);
     EnGoroiwa_TeleportToWaypoint(this, globalCtx, 0);
-    EnGoroiwa_InitRotation(this);
+    EnGoroiwa_InitRotation(this, globalCtx);
     EnGoroiwa_FaceNextWaypoint(this, globalCtx);
     EnGoroiwa_SetupRoll(this);
     // Translation: (Goroiwa)
@@ -586,6 +616,14 @@ void EnGoroiwa_Roll(EnGoroiwa* this, GlobalContext* globalCtx) {
     s16 loopMode;
 
     if (this->collider.base.atFlags & AT_HIT) {
+        if (this->actor.params == -1) {
+            EnGoroiwa_SpawnFragments(this, globalCtx);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_WALL_BROKEN);
+            this->actor.draw = NULL;
+
+            return;
+        }
+
         this->collider.base.atFlags &= ~AT_HIT;
         this->flags &= ~ENGOROIWA_PLAYER_IN_THE_WAY;
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
@@ -606,6 +644,26 @@ void EnGoroiwa_Roll(EnGoroiwa* this, GlobalContext* globalCtx) {
         if ((this->actor.home.rot.z & 1) == 1) {
             this->collisionDisabledTimer = 50;
         }
+    } else if (this->actor.params == -1) {
+        f32 minZ = -WIDTH / 2.0f + GOROIWA_RADIUS;
+        f32 maxZ = WIDTH / 2.0f - GOROIWA_RADIUS;
+        f32 zRelPos = (this->actor.world.pos.z - minZ) / (maxZ - minZ) * 2.0f - 1.0f;
+
+        if (fabsf(zRelPos) >= 1.0f) {
+            s16 yaw = this->actor.world.rot.y;
+            Vec3f dustPos = this->actor.world.pos;
+
+            yaw = -(yaw + 0x4000) - 0x4000;
+
+            dustPos.y += 50.0f;
+            dustPos.z = (zRelPos < 0.0f ? -1 : 1) * WIDTH / 2.0f;
+            EnGoroiwa_SpawnDust(globalCtx, &dustPos);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
+
+            this->actor.world.rot.y = yaw;
+        }
+
+        Actor_MoveForward(&this->actor);
     } else if (moveFuncs[(this->actor.params >> 10) & 1](this, globalCtx)) {
         loopMode = (this->actor.params >> 8) & 3;
         if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK &&
@@ -732,15 +790,19 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->collisionDisabledTimer--;
         }
         this->actionFunc(this, globalCtx);
-        switch ((this->actor.params >> 10) & 1) {
-            case 1:
-                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
-                break;
-            case 0:
-                this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30,
-                                                                      &this->actor, &this->actor.world.pos);
-                break;
+
+        if (this->actor.params != -1) {
+            switch ((this->actor.params >> 10) & 1) {
+                case 1:
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+                    break;
+                case 0:
+                    this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly,
+                                                                          &sp30, &this->actor, &this->actor.world.pos);
+                    break;
+            }
         }
+
         EnGoroiwa_UpdateRotation(this, globalCtx);
         if (this->actor.xzDistToPlayer < 300.0f) {
             EnGoroiwa_UpdateCollider(this);

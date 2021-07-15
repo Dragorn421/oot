@@ -9058,9 +9058,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     s32 sp50;
     s32 sp4C;
 
-    this->runnerRunning = false;
-    this->runnerMinZ = 0.0f;
-    this->runnerMaxZ = 0.0f;
+    this->runner = NULL;
 
     globalCtx->shootingGalleryStatus = globalCtx->bombchuBowlingStatus = 0;
 
@@ -10278,16 +10276,18 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     Input sp44;
     Actor* dog;
 
-    if (this->runnerRunning) {
+    if (this->runner != NULL && this->runner->running) {
         Input* input = &globalCtx->state.input[0];
         input->rel.stick_y = input->cur.stick_y = input->press.stick_y = 60;
         input->prev.button &= ~BTN_CUP;
         input->rel.button &= ~BTN_CUP;
         input->cur.button &= ~BTN_CUP;
         input->press.button &= ~BTN_CUP;
-        if ((input->cur.stick_x > 0 && this->actor.world.pos.z < this->runnerMinZ) || (input->cur.stick_x < 0 && this->actor.world.pos.z > this->runnerMaxZ)) {
-            if(!(input->cur.button & BTN_DDOWN))
-            input->rel.stick_x = input->cur.stick_x = input->press.stick_x = 0;
+        if ((input->cur.stick_x < 0 && this->actor.world.pos.z <= this->runner->softMinZ) ||
+            (input->cur.stick_x > 0 && this->actor.world.pos.z >= this->runner->softMaxZ)) {
+            if (!(input->cur.button & BTN_DDOWN)) {
+                input->rel.stick_x = input->cur.stick_x = input->press.stick_x = 0;
+            }
         }
     }
     /*

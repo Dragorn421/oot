@@ -206,6 +206,8 @@ typedef void (*PlayerFunc674)(struct Player*, struct GlobalContext*);
 typedef s32 (*PlayerFunc82C)(struct Player*, struct GlobalContext*);
 typedef void (*PlayerFuncA74)(struct GlobalContext*, struct Player*);
 
+struct PlayerRunner;
+
 typedef struct Player {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ s8         currentTunic; // current tunic from `PlayerTunic`
@@ -381,9 +383,19 @@ typedef struct Player {
     /* 0x0A86 */ s8         unk_A86;
     /* 0x0A87 */ u8         unk_A87;
     /* 0x0A88 */ Vec3f      unk_A88; // previous body part 0 position
-    s32 runnerRunning;
-    f32 runnerMinZ;
-    f32 runnerMaxZ;
+    // SHOULD NOT ADD stuff here, whatever spawns the player actor doesn't seem to be decompiled
+    // looks like a few bytes are fine though (thanks arena align?)
+    // (3 words were fine, 5 words weren't)
+    // and no clue where else to put a pointer
+    struct PlayerRunner* runner;
 } Player; // size = 0xA94
+
+typedef struct PlayerRunner {
+    s32 running;
+    f32 softMinZ;
+    f32 softMaxZ;
+    f32 hardMinZ;
+    f32 hardMaxZ;
+} PlayerRunner;
 
 #endif

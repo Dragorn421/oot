@@ -571,6 +571,8 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
         if (0) {} // Also necessary to match
 
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
+        osSyncPrintf("func_8009728C (load room file): dma from vrom=%08X (size=%X) to %08X\n",
+                     globalCtx->roomList[roomNum].vromStart, size, roomCtx->unk_34);
         DmaMgr_SendRequest2(&roomCtx->dmaRequest, roomCtx->unk_34, globalCtx->roomList[roomNum].vromStart, size, 0,
                             &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
         roomCtx->unk_30 ^= 1;
@@ -587,6 +589,8 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
             roomCtx->status = 0;
             roomCtx->curRoom.segment = roomCtx->unk_34;
             gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->unk_34);
+
+            osSyncPrintf("roomCtx->unk_34 = 0x%08X\n", roomCtx->unk_34);
 
             Scene_ExecuteCommands(globalCtx, roomCtx->curRoom.segment);
             Player_SetBootData(globalCtx, PLAYER);
