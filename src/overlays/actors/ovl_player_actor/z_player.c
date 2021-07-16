@@ -1153,7 +1153,7 @@ s32 func_80832224(Player* this) {
 s32 func_8083224C(GlobalContext* globalCtx) {
     Player* this = PLAYER;
 
-    return (this->actor.flags & 0x100) == 0x100;
+    return (this->actor.flags & ACTOR_FLAG_8) == 0x100;
 }
 
 void func_80832264(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
@@ -4763,7 +4763,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                             func_80835EA4(globalCtx, 4);
                         }
 
-                        this->actor.flags |= 0x100;
+                        this->actor.flags |= ACTOR_FLAG_8;
                         this->exchangeItemId = sp2C;
 
                         if (this->unk_84F < 0) {
@@ -5983,7 +5983,7 @@ void func_8083EA94(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083EAF0(Player* this, Actor* actor) {
-    if ((actor != NULL) && !(actor->flags & 0x800000) &&
+    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_23) &&
         ((this->linearVelocity < 1.1f) || (actor->id == ACTOR_EN_BOM_CHU))) {
         return 0;
     }
@@ -7373,7 +7373,7 @@ void func_8084279C(Player* this, GlobalContext* globalCtx) {
             func_8083A098(this, D_80853C44[this->modelAnimType], globalCtx);
         }
 
-        this->actor.flags &= ~0x100;
+        this->actor.flags &= ~ACTOR_FLAG_8;
         func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
     }
 }
@@ -9634,7 +9634,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             } else if (this->stateFlags2 & 0x100) {
                 camMode = CAM_MODE_PUSHPULL;
             } else if ((unk_664 = this->unk_664) != NULL) {
-                if ((this->actor.flags & 0x100) == 0x100) {
+                if ((this->actor.flags & ACTOR_FLAG_8) == 0x100) {
                     camMode = CAM_MODE_TALK;
                 } else if (this->stateFlags1 & 0x10000) {
                     if (this->stateFlags1 & 0x2000000) {
@@ -10154,7 +10154,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         func_808368EC(this, globalCtx);
 
-        if ((this->actor.flags & 0x100) == 0x100) {
+        if ((this->actor.flags & ACTOR_FLAG_8) == 0x100) {
             this->targetActorDistance = 0.0f;
         } else {
             this->targetActor = NULL;
@@ -10687,7 +10687,7 @@ void func_8084B530(Player* this, GlobalContext* globalCtx) {
     func_80836670(this, globalCtx);
 
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        this->actor.flags &= ~0x100;
+        this->actor.flags &= ~ACTOR_FLAG_8;
 
         if ((this->targetActor->flags & 5) != 5) {
             this->stateFlags2 &= ~0x2000;
@@ -12239,7 +12239,7 @@ void func_8084F104(Player* this, GlobalContext* globalCtx) {
 
             this->unk_862 = 0;
             if (targetActor->textId != 0xFFFF) {
-                this->actor.flags |= 0x100;
+                this->actor.flags |= ACTOR_FLAG_8;
             }
 
             func_80853148(globalCtx, targetActor);
@@ -12263,7 +12263,7 @@ void func_8084F104(Player* this, GlobalContext* globalCtx) {
 
                 this->unk_850 = 1;
             } else if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-                this->actor.flags &= ~0x100;
+                this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_862 = 0;
 
                 if (this->unk_84F == 1) {
@@ -13974,7 +13974,7 @@ void func_80852C50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 
     if (linkCsAction == NULL) {
-        this->actor.flags &= ~0x40;
+        this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 
@@ -14085,8 +14085,8 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
     Player* this = PLAYER;
     s32 pad;
 
-    if ((this->targetActor != NULL) || (actor == this->naviActor) || ((actor->flags & 0x40001) == 0x40001)) {
-        actor->flags |= 0x100;
+    if ((this->targetActor != NULL) || (actor == this->naviActor) || ((actor->flags & (ACTOR_FLAG_0 | ACTOR_FLAG_18)) == 0x40001)) {
+        actor->flags |= ACTOR_FLAG_8;
     }
 
     this->targetActor = actor;
@@ -14094,13 +14094,13 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
 
     if (actor->textId == 0xFFFF) {
         func_8002DF54(globalCtx, actor, 1);
-        actor->flags |= 0x100;
+        actor->flags |= ACTOR_FLAG_8;
         func_80832528(globalCtx, this);
     } else {
-        if (this->actor.flags & 0x100) {
+        if (this->actor.flags & ACTOR_FLAG_8) {
             this->actor.textId = 0;
         } else {
-            this->actor.flags |= 0x100;
+            this->actor.flags |= ACTOR_FLAG_8;
             this->actor.textId = actor->textId;
         }
 

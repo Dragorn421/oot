@@ -6,7 +6,7 @@
 
 #include "z_en_mk.h"
 
-#define FLAGS 0x00000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
 #define THIS ((EnMk*)thisx)
 
@@ -87,7 +87,7 @@ void EnMk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AACA40(EnMk* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
-        this->actor.flags &= 0xFFFEFFFF;
+        this->actor.flags &= ACTOR_FLAG_0 | ACTOR_FLAG_1 | ACTOR_FLAG_2 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_6 | ACTOR_FLAG_7 | ACTOR_FLAG_8 | ACTOR_FLAG_9 | ACTOR_FLAG_10 | ACTOR_FLAG_11 | ACTOR_FLAG_12 | ACTOR_FLAG_13 | ACTOR_FLAG_14 | ACTOR_FLAG_15 | ACTOR_FLAG_17 | ACTOR_FLAG_18 | ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21 | ACTOR_FLAG_22 | ACTOR_FLAG_23 | ACTOR_FLAG_24 | ACTOR_FLAG_25 | ACTOR_FLAG_26 | ACTOR_FLAG_27 | ACTOR_FLAG_28 | ACTOR_FLAG_29 | ACTOR_FLAG_30 | ACTOR_FLAG_31;
         this->actionFunc = EnMk_Wait;
     }
 

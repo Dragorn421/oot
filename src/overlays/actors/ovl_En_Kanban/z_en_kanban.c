@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
 #define THIS ((EnKanban*)thisx)
 
@@ -200,7 +200,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     if (this->actor.params != ENKANBAN_PIECE) {
         this->actor.targetMode = 0;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         osSyncPrintf("KANBAN ARG    %x\n", this->actor.params);
@@ -272,7 +272,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->zTargetTimer--;
             }
             if (this->zTargetTimer == 1) {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
             if (this->partFlags == 0xFFFF) {
                 EnKanban_Message(this, globalCtx);
@@ -402,7 +402,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer > 500.0f) {
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
                 this->partFlags = 0xFFFF;
             }
             if (this->cutMarkTimer != 0) {

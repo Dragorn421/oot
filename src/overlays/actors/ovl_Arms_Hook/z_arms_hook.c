@@ -1,6 +1,6 @@
 #include "z_arms_hook.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((ArmsHook*)thisx)
 
@@ -136,7 +136,7 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
 }
 
 void ArmsHook_AttachHookToActor(ArmsHook* this, Actor* actor) {
-    actor->flags |= 0x2000;
+    actor->flags |= ACTOR_FLAG_13;
     this->grabbed = actor;
     Math_Vec3f_Diff(&actor->world.pos, &this->actor.world.pos, &this->grabbedDistDiff);
 }
