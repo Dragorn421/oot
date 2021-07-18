@@ -1663,5 +1663,9 @@ DECLARE_ROM_SEGMENT(testroom_room_2)
 DECLARE_ROM_SEGMENT(testroom_room_3)
 DECLARE_ROM_SEGMENT(testroom_room_4)
 
+DECLARE_OVERLAY_SEGMENT(mod_actor)
+DECLARE_ROM_SEGMENT(mod_scene)
+DECLARE_ROM_SEGMENT(mod_room_0)
+DECLARE_ROM_SEGMENT(object_mod_cube)
 
 #endif

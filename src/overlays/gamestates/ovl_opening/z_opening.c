@@ -11,8 +11,11 @@ void Opening_SetupTitleScreen(OpeningContext* this) {
     this->state.running = false;
     gSaveContext.linkAge = 0;
     Sram_InitDebugSave();
-    gSaveContext.cutsceneIndex = 0xFFF3;
-    gSaveContext.sceneSetupIndex = 7;
+    gSaveContext.cutsceneIndex = 0;
+    gSaveContext.sceneSetupIndex = 0;
+    gSaveContext.entranceIndex = 0;
+    gSaveContext.respawnFlag = 0;
+    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }
 

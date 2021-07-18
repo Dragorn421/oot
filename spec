@@ -3430,6 +3430,12 @@ beginseg
 endseg
 
 beginseg
+    name "ovl_mod_actor"
+    include "build/mod/actor/actor.o"
+    include "build/mod/actor/actor_reloc.o"
+endseg
+
+beginseg
     name "gameplay_keep"
     romalign 0x1000
     include "build/assets/objects/gameplay_keep/gameplay_keep.o"
@@ -10452,4 +10458,24 @@ beginseg
     name "softsprite_matrix_static"
     romalign 0x1000
     include "build/baserom/softsprite_matrix_static.o"
+endseg
+
+beginseg
+    name "mod_scene"
+    romalign 0x1000
+    include "build/mod/scene/mod_scene.o"
+    number 2
+endseg
+
+beginseg
+    name "mod_room_0"
+    romalign 0x1000
+    include "build/mod/scene/mod_room_0.o"
+    number 3
+endseg
+
+beginseg
+    name "object_mod_cube"
+    romalign 0x1000
+    include "mod/object/cube.o"
 endseg

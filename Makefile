@@ -1,9 +1,20 @@
 MAKEFLAGS += --no-builtin-rules
 
+Z64CONVERT := mod_gitignore/z64convert
+BLENDER := '/mnt/c/Program Files/Blender Foundation/Blender 2.93/blender2.93.exe'
+BLENDER_ARGS := --background --python-exit-code 1
+BLENDER_EXPORT_OBJEX_SCRIPT := mod/tools/export_objex.py
+
+CUSTOM_ASSETS_BLEND := $(shell find mod/object -iregex ".+\.blend")
+CUSTOM_ASSETS_OBJEX := $(CUSTOM_ASSETS_BLEND:.blend=.objex)
+CUSTOM_ASSETS_ZOBJ := $(CUSTOM_ASSETS_BLEND:.blend=.zobj)
+CUSTOM_ASSETS_ZOBJ_H := $(CUSTOM_ASSETS_BLEND:.blend=.h)
+CUSTOM_ASSETS_O := $(CUSTOM_ASSETS_BLEND:.blend=.o)
+
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
 
 # If COMPARE is 1, check the output md5sum after building
-COMPARE ?= 1
+COMPARE ?= 0
 # If NON_MATCHING is 1, define the NON_MATCHING C flag when building
 NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
@@ -60,8 +71,10 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR = mupen64plus
-EMU_FLAGS = --noosd
+
+EMULATOR := "/mnt/e/Programmes/Project64 v2.4.0/Project64.exe"
+EMULATOR_DIR := "/mnt/e/Programmes/Project64 v2.4.0/"
+EMU_FLAGS :=
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
@@ -95,7 +108,7 @@ ELF := $(ROM:.z64=.elf)
 # description of ROM segments
 SPEC := spec
 
-SRC_DIRS := $(shell find src -type d)
+SRC_DIRS := $(shell find src mod -type d)
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
@@ -109,7 +122,7 @@ S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
-
+$(shell echo $(C_FILES) > C_FILES.txt)
 # Automatic dependency files
 # (Only asm_processor dependencies are handled for now)
 DEP_FILES := $(O_FILES:.o=.asmproc.d)
@@ -168,7 +181,7 @@ endif
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(CUSTOM_ASSETS_O) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 build/ldscript.txt: $(SPEC)
@@ -198,7 +211,7 @@ setup:
 
 resources: $(ASSET_FILES_OUT)
 test: $(ROM)
-	$(EMULATOR) $(EMU_FLAGS) $<
+	cp $< $(EMULATOR_DIR)/ ; cd $(EMULATOR_DIR) ; $(EMULATOR) $(EMU_FLAGS) $< ; exit 0
 
 .PHONY: all clean setup test distclean assetclean
 
@@ -253,5 +266,29 @@ build/assets/%.bin.inc.c: assets/%.bin
 
 build/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
+
+build/mod/scene/%.o: mod/scene/%.c
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(OBJCOPY) -O binary $@ $@.bin
+
+build/mod/actor/%.o: mod/actor/%.c
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC_CHECK) $<
+	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
+	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
+	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+
+mod/%.o: mod/%.zobj
+	$(OBJCOPY) -I binary -O elf32-big $< $@
+
+mod/%.zobj mod/%.h: mod/%.objex
+	$(Z64CONVERT) --scale 1 --in $< --out $(@:.h=.zobj) > $(@:.zobj=.h)
+
+mod/%.objex: mod/%.blend
+	$(BLENDER) $(BLENDER_ARGS) $< --python $(BLENDER_EXPORT_OBJEX_SCRIPT) -- $@
+
+build/mod/actor/actor.o: mod/object/cube.h
+
+.SECONDARY: $(CUSTOM_ASSETS_OBJEX) $(CUSTOM_ASSETS_ZOBJ) $(CUSTOM_ASSETS_ZOBJ_H)
 
 -include $(DEP_FILES)

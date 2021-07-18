@@ -308,7 +308,7 @@ typedef enum {
 
 typedef enum {
     /* 0x0000 */ ACTOR_PLAYER,
-    /* 0x0001 */ ACTOR_UNSET_1,
+    /* 0x0001 */ ACTOR_MOD_ACTOR,
     /* 0x0002 */ ACTOR_EN_TEST,
     /* 0x0003 */ ACTOR_UNSET_3,
     /* 0x0004 */ ACTOR_EN_GIRLA,

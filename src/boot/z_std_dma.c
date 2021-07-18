@@ -13,7 +13,7 @@ u32 D_80009460 = 0;
 u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrDataExistError = 0;
 
-const char* sDmaMgrFileNames[0x5FC] = {
+const char* sDmaMgrFileNames[] = {
     "makerom",
     "boot",
     "dmadata",
@@ -512,6 +512,7 @@ const char* sDmaMgrFileNames[0x5FC] = {
     "ovl_Oceff_Wipe3",
     "ovl_Oceff_Wipe4",
     "ovl_Shot_Sun",
+    "ovl_mod_actor",
     "gameplay_keep",
     "gameplay_field_keep",
     "gameplay_dangeon_keep",
@@ -1546,6 +1547,9 @@ const char* sDmaMgrFileNames[0x5FC] = {
     "anime_texture_5_static",
     "anime_texture_6_static",
     "softsprite_matrix_static",
+    "mod_scene",
+    "mod_room_0",
+    "object_mod_cube",
 };
 
 s32 DmaMgr_CompareName(const char* name1, const char* name2) {
@@ -1923,10 +1927,12 @@ void DmaMgr_Init(void) {
             sDmaMgrDataExistError = 1;
         }
 
+        /*
         osSyncPrintf(
             "%3d %08x %08x %08x %08x %08x %c %s\n", idx, iter->vromStart, iter->vromEnd, iter->romStart, iter->romEnd,
             (iter->romEnd != 0) ? iter->romEnd - iter->romStart : iter->vromEnd - iter->vromStart,
             (((iter->romEnd != 0) ? iter->romEnd - iter->romStart : 0) > 0x10000) ? '*' : ' ', name ? *name : "");
+        */
 
         idx++;
         iter++;

@@ -506,6 +506,7 @@ DMA_TABLE_ENTRY ovl_Oceff_Wipe2
 DMA_TABLE_ENTRY ovl_Oceff_Wipe3
 DMA_TABLE_ENTRY ovl_Oceff_Wipe4
 DMA_TABLE_ENTRY ovl_Shot_Sun
+DMA_TABLE_ENTRY ovl_mod_actor
 DMA_TABLE_ENTRY gameplay_keep
 DMA_TABLE_ENTRY gameplay_field_keep
 DMA_TABLE_ENTRY gameplay_dangeon_keep
@@ -1540,6 +1541,9 @@ DMA_TABLE_ENTRY anime_texture_4_static
 DMA_TABLE_ENTRY anime_texture_5_static
 DMA_TABLE_ENTRY anime_texture_6_static
 DMA_TABLE_ENTRY softsprite_matrix_static
+DMA_TABLE_ENTRY mod_scene
+DMA_TABLE_ENTRY mod_room_0
+DMA_TABLE_ENTRY object_mod_cube
 
 # Why the empty space?
 .space 0x100
