@@ -65,3 +65,7 @@ mod_gitignore
 *.zmap
 *.zobj
 mod/object/*.h
+mod/object/cube.xml
+mod/object/cube_linked_faces.c
+mod/object/displaylists.txt
+mod/object/zapd/

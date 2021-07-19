@@ -108,7 +108,7 @@ ELF := $(ROM:.z64=.elf)
 # description of ROM segments
 SPEC := spec
 
-SRC_DIRS := $(shell find src mod -type d)
+SRC_DIRS := $(shell find src mod -type d -not -path "mod/object*")
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
@@ -122,7 +122,7 @@ S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
-$(shell echo $(C_FILES) > C_FILES.txt)
+
 # Automatic dependency files
 # (Only asm_processor dependencies are handled for now)
 DEP_FILES := $(O_FILES:.o=.asmproc.d)
@@ -287,7 +287,10 @@ mod/%.zobj mod/%.h: mod/%.objex
 mod/%.objex: mod/%.blend
 	$(BLENDER) $(BLENDER_ARGS) $< --python $(BLENDER_EXPORT_OBJEX_SCRIPT) -- $@
 
-build/mod/actor/actor.o: mod/object/cube.h
+mod/object/cube_linked_faces.c: mod/object/cube.blend
+	$(BLENDER) $(BLENDER_ARGS) $< --python mod/object/export_linked_faces.py -- Cube $@
+
+build/mod/actor/actor.o: mod/object/cube.h mod/object/cube_linked_faces.c
 
 .SECONDARY: $(CUSTOM_ASSETS_OBJEX) $(CUSTOM_ASSETS_ZOBJ) $(CUSTOM_ASSETS_ZOBJ_H)
 
