@@ -22,20 +22,20 @@
         <Animation Name="object_nb_008BD0_Anim" Offset="0x8BD0"/>
         <Animation Name="object_nb_009238_Anim" Offset="0x9238"/>
         <Animation Name="object_nb_009694_Anim" Offset="0x9694"/>
-        <Texture Name="object_nb_0096B0_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x96B0"/>
+        <Texture Name="object_nb_0096B0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x96B0"/>
         <Texture Name="object_nb_0098B0_Tex" Format="ci8" Width="16" Height="16" Offset="0x98B0"/>
         <Texture Name="object_nb_0099B0_Tex" Format="ci8" Width="8" Height="8" Offset="0x99B0"/>
         <Texture Name="object_nb_0099F0_Tex" Format="ci8" Width="16" Height="16" Offset="0x99F0"/>
         <Texture Name="object_nb_009AF0_Tex" Format="ci8" Width="32" Height="32" Offset="0x9AF0"/>
         <Texture Name="object_nb_009EF0_Tex" Format="ci8" Width="8" Height="8" Offset="0x9EF0"/>
-        <Texture Name="object_nb_009F30_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x9F30"/>
+        <Texture Name="object_nb_009F30_Tex" Format="rgba16" Width="16" Height="16" Offset="0x9F30"/>
         <Texture Name="object_nb_00A130_Tex" Format="ci8" Width="16" Height="16" Offset="0xA130"/>
         <Texture Name="object_nb_00A230_Tex" Format="ci8" Width="8" Height="8" Offset="0xA230"/>
         <Texture Name="object_nb_00A270_Tex" Format="ci8" Width="16" Height="16" Offset="0xA270"/>
-        <Texture Name="object_nb_00A370_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0xA370"/>
+        <Texture Name="object_nb_00A370_Tex" Format="rgba16" Width="16" Height="16" Offset="0xA370"/>
         <Texture Name="object_nb_00A570_Tex" Format="ci8" Width="16" Height="16" Offset="0xA570"/>
-        <Texture Name="object_nb_00A670_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0xA670"/>
-        <Texture Name="object_nb_00AE70_TLUT" Format="rgb5a1" Width="4" Height="59" Offset="0xAE70"/>
+        <Texture Name="object_nb_00A670_Tex" Format="rgba16" Width="32" Height="32" Offset="0xA670"/>
+        <Texture Name="object_nb_00AE70_TLUT" Format="rgba16" Width="4" Height="59" Offset="0xAE70"/>
         <Texture Name="object_nb_00B248_Tex" Format="ci8" Width="8" Height="8" Offset="0xB248"/>
         <Texture Name="object_nb_00B288_Tex" Format="ci8" Width="8" Height="4" Offset="0xB288"/>
         <Texture Name="object_nb_00B2A8_Tex" Format="ci8" Width="8" Height="16" Offset="0xB2A8"/>
@@ -45,7 +45,7 @@
         <Texture Name="object_nb_00B928_Tex" Format="ci8" Width="16" Height="16" Offset="0xB928"/>
         <Texture Name="object_nb_00BA28_Tex" Format="ci8" Width="8" Height="16" Offset="0xBA28"/>
         <Texture Name="object_nb_00BAA8_Tex" Format="ci8" Width="32" Height="32" Offset="0xBAA8"/>
-        <Texture Name="object_nb_00BEA8_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0xBEA8"/>
+        <Texture Name="object_nb_00BEA8_Tex" Format="rgba16" Width="32" Height="32" Offset="0xBEA8"/>
         <Texture Name="object_nb_00C6A8_Tex" Format="ci8" Width="32" Height="32" Offset="0xC6A8"/>
         <Texture Name="object_nb_00CAA8_Tex" Format="ci8" Width="16" Height="16" Offset="0xCAA8"/>
         <Texture Name="object_nb_00CBA8_Tex" Format="ci8" Width="8" Height="8" Offset="0xCBA8"/>
@@ -56,7 +56,7 @@
         <Texture Name="object_nb_00D0E8_Tex" Format="ci8" Width="32" Height="32" Offset="0xD0E8"/>
         <Texture Name="object_nb_00D4E8_Tex" Format="ci8" Width="32" Height="32" Offset="0xD4E8"/>
         <Texture Name="object_nb_00D8E8_Tex" Format="ci8" Width="32" Height="32" Offset="0xD8E8"/>
-        <Texture Name="object_nb_00DCE8_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0xDCE8"/>
+        <Texture Name="object_nb_00DCE8_Tex" Format="rgba16" Width="8" Height="8" Offset="0xDCE8"/>
         <DList Name="object_nb_0114A8_DL" Offset="0x114A8"/>
         <DList Name="object_nb_0125A0_DL" Offset="0x125A0"/>
         <DList Name="object_nb_0125A8_DL" Offset="0x125A8"/>

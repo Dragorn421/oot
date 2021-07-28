@@ -12,11 +12,11 @@
         <DList Name="object_bg_003BC8_DL" Offset="0x3BC8"/>
         <DList Name="object_bg_003DB0_DL" Offset="0x3DB0"/>
         <DList Name="object_bg_004038_DL" Offset="0x4038"/>
-        <Texture Name="object_bg_005910_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x5910"/>
-        <Texture Name="object_bg_006110_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x6110"/>
-        <Texture Name="object_bg_006310_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x6310"/>
-        <Texture Name="object_bg_006510_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x6510"/>
-        <Texture Name="object_bg_006D10_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x6D10"/>
+        <Texture Name="object_bg_005910_Tex" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
+        <Texture Name="object_bg_006110_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
+        <Texture Name="object_bg_006310_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
+        <Texture Name="object_bg_006510_Tex" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
+        <Texture Name="object_bg_006D10_Tex" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
         <Limb Name="object_bg_006E10_Limb" LimbType="Standard" Offset="0x6E10"/>
         <Limb Name="object_bg_006E1C_Limb" LimbType="Standard" Offset="0x6E1C"/>
         <Limb Name="object_bg_006E28_Limb" LimbType="Standard" Offset="0x6E28"/>

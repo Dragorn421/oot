@@ -2,8 +2,8 @@
     <File Name="object_hata" Segment="6">
         <Collision Name="object_hata_0000C0_Col" Offset="0xC0"/>
         <Animation Name="object_hata_000444_Anim" Offset="0x444"/>
-        <Texture Name="object_hata_000460_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x460"/>
-        <Texture Name="object_hata_000C60_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0xC60"/>
+        <Texture Name="object_hata_000460_Tex" Format="rgba16" Width="32" Height="32" Offset="0x460"/>
+        <Texture Name="object_hata_000C60_Tex" Format="rgba16" Width="32" Height="32" Offset="0xC60"/>
         <Texture Name="object_hata_001460_Tex" Format="ia8" Width="128" Height="32" Offset="0x1460"/>
         <DList Name="object_hata_0026D0_DL" Offset="0x26D0"/>
         <DList Name="object_hata_002850_DL" Offset="0x2850"/>

@@ -4,15 +4,15 @@
         <Animation Name="object_skb_0009DC_Anim" Offset="0x9DC"/>
         <Animation Name="object_skb_000D98_Anim" Offset="0xD98"/>
         <Animation Name="object_skb_001854_Anim" Offset="0x1854"/>
-        <Texture Name="object_skb_0018A0_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x18A0"/>
-        <Texture Name="object_skb_001AA0_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x1AA0"/>
-        <Texture Name="object_skb_001BA0_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x1BA0"/>
-        <Texture Name="object_skb_001C20_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x1C20"/>
-        <Texture Name="object_skb_001CA0_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x1CA0"/>
-        <Texture Name="object_skb_001D20_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x1D20"/>
-        <Texture Name="object_skb_001E20_Tex" Format="rgb5a1" Width="16" Height="8" Offset="0x1E20"/>
-        <Texture Name="object_skb_001F20_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x1F20"/>
-        <Texture Name="object_skb_002120_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x2120"/>
+        <Texture Name="object_skb_0018A0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x18A0"/>
+        <Texture Name="object_skb_001AA0_Tex" Format="rgba16" Width="8" Height="16" Offset="0x1AA0"/>
+        <Texture Name="object_skb_001BA0_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1BA0"/>
+        <Texture Name="object_skb_001C20_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1C20"/>
+        <Texture Name="object_skb_001CA0_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1CA0"/>
+        <Texture Name="object_skb_001D20_Tex" Format="rgba16" Width="8" Height="16" Offset="0x1D20"/>
+        <Texture Name="object_skb_001E20_Tex" Format="rgba16" Width="16" Height="8" Offset="0x1E20"/>
+        <Texture Name="object_skb_001F20_Tex" Format="rgba16" Width="16" Height="16" Offset="0x1F20"/>
+        <Texture Name="object_skb_002120_Tex" Format="rgba16" Width="8" Height="8" Offset="0x2120"/>
         <DList Name="object_skb_003230_DL" Offset="0x3230"/>
         <DList Name="object_skb_003598_DL" Offset="0x3598"/>
         <DList Name="object_skb_003640_DL" Offset="0x3640"/>

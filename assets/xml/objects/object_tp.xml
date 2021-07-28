@@ -4,10 +4,10 @@
         <DList Name="object_tp_000690_DL" Offset="0x690"/>
         <DList Name="object_tp_000840_DL" Offset="0x840"/>
         <DList Name="object_tp_0008D0_DL" Offset="0x8D0"/>
-        <Texture Name="object_tp_0008E8_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x8E8"/>
-        <Texture Name="object_tp_0009E8_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x9E8"/>
-        <Texture Name="object_tp_000A68_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0xA68"/>
+        <Texture Name="object_tp_0008E8_Tex" Format="rgba16" Width="8" Height="16" Offset="0x8E8"/>
+        <Texture Name="object_tp_0009E8_Tex" Format="rgba16" Width="8" Height="8" Offset="0x9E8"/>
+        <Texture Name="object_tp_000A68_Tex" Format="rgba16" Width="16" Height="16" Offset="0xA68"/>
         <Texture Name="object_tp_000C68_Tex" Format="ia8" Width="64" Height="64" Offset="0xC68"/>
-        <Texture Name="object_tp_001C68_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x1C68"/>
+        <Texture Name="object_tp_001C68_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1C68"/>
     </File>
 </Root>

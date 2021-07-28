@@ -14,22 +14,22 @@
         <DList Name="object_jj_0054D0_DL" Offset="0x54D0"/>
         <DList Name="object_jj_0055B0_DL" Offset="0x55B0"/>
         <DList Name="object_jj_005690_DL" Offset="0x5690"/>
-        <Texture Name="object_jj_005B58_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x5B58"/>
-        <Texture Name="object_jj_006358_Tex" Format="rgb5a1" Width="32" Height="16" Offset="0x6358"/>
-        <Texture Name="object_jj_006758_Tex" Format="rgb5a1" Width="8" Height="32" Offset="0x6758"/>
-        <Texture Name="object_jj_006958_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x6958"/>
-        <Texture Name="object_jj_006A58_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x6A58"/>
-        <Texture Name="object_jj_006B58_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x6B58"/>
-        <Texture Name="object_jj_006D58_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x6D58"/>
-        <Texture Name="object_jj_006E58_Tex" Format="rgb5a1" Width="16" Height="64" Offset="0x6E58"/>
-        <Texture Name="object_jj_007658_Tex" Format="rgb5a1" Width="4" Height="8" Offset="0x7658"/>
-        <Texture Name="object_jj_008298_Tex" Format="rgb5a1" Width="32" Height="64" Offset="0x8298"/>
-        <Texture Name="object_jj_009298_Tex" Format="rgb5a1" Width="4" Height="8" Offset="0x9298"/>
-        <Texture Name="object_jj_0092D8_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x92D8"/>
-        <Texture Name="object_jj_009358_Tex" Format="rgb5a1" Width="32" Height="64" Offset="0x9358"/>
-        <Texture Name="object_jj_00A358_Tex" Format="rgb5a1" Width="16" Height="32" Offset="0xA358"/>
-        <Texture Name="object_jj_00A758_Tex" Format="rgb5a1" Width="16" Height="8" Offset="0xA758"/>
-        <Texture Name="object_jj_00A858_Tex" Format="rgb5a1" Width="32" Height="64" Offset="0xA858"/>
+        <Texture Name="object_jj_005B58_Tex" Format="rgba16" Width="32" Height="32" Offset="0x5B58"/>
+        <Texture Name="object_jj_006358_Tex" Format="rgba16" Width="32" Height="16" Offset="0x6358"/>
+        <Texture Name="object_jj_006758_Tex" Format="rgba16" Width="8" Height="32" Offset="0x6758"/>
+        <Texture Name="object_jj_006958_Tex" Format="rgba16" Width="8" Height="16" Offset="0x6958"/>
+        <Texture Name="object_jj_006A58_Tex" Format="rgba16" Width="8" Height="16" Offset="0x6A58"/>
+        <Texture Name="object_jj_006B58_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6B58"/>
+        <Texture Name="object_jj_006D58_Tex" Format="rgba16" Width="8" Height="16" Offset="0x6D58"/>
+        <Texture Name="object_jj_006E58_Tex" Format="rgba16" Width="16" Height="64" Offset="0x6E58"/>
+        <Texture Name="object_jj_007658_Tex" Format="rgba16" Width="4" Height="8" Offset="0x7658"/>
+        <Texture Name="object_jj_008298_Tex" Format="rgba16" Width="32" Height="64" Offset="0x8298"/>
+        <Texture Name="object_jj_009298_Tex" Format="rgba16" Width="4" Height="8" Offset="0x9298"/>
+        <Texture Name="object_jj_0092D8_Tex" Format="rgba16" Width="8" Height="8" Offset="0x92D8"/>
+        <Texture Name="object_jj_009358_Tex" Format="rgba16" Width="32" Height="64" Offset="0x9358"/>
+        <Texture Name="object_jj_00A358_Tex" Format="rgba16" Width="16" Height="32" Offset="0xA358"/>
+        <Texture Name="object_jj_00A758_Tex" Format="rgba16" Width="16" Height="8" Offset="0xA758"/>
+        <Texture Name="object_jj_00A858_Tex" Format="rgba16" Width="32" Height="64" Offset="0xA858"/>
         <Limb Name="object_jj_00B858_Limb" LimbType="Standard" Offset="0xB858"/>
         <Limb Name="object_jj_00B864_Limb" LimbType="Standard" Offset="0xB864"/>
         <Limb Name="object_jj_00B870_Limb" LimbType="Standard" Offset="0xB870"/>
