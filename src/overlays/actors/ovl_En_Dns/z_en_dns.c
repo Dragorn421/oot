@@ -1,6 +1,7 @@
 #include "z_en_dns.h"
 #include "functions.h"
 #include "z64collision_check.h"
+#include "objects/object_shopnuts/object_shopnuts.h"
 
 #define FLAGS 0x00000009
 
@@ -57,10 +58,6 @@ typedef struct _struct_D_809F0538_0xC {
     /* 0x4 */ u8 unk4;
     /* 0x8 */ f32 unk8;
 } _struct_D_809F0538_0xC;
-
-extern AnimationHeader D_60009A0;
-extern SkeletonHeader D_60041A8;
-extern AnimationHeader D_6004404;
 
 const ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
@@ -156,9 +153,9 @@ static InitChainEntry D_809F052C[3] = {
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 static struct _struct_D_809F0538_0xC D_809F0538[3] = {
-    { 0x06001108, 0, 0.0f },
-    { 0x06004404, 2, 0.0f },
-    { 0x060009A0, 2, 0.0f },
+    { &gBusinessScrubNervousIdleAnim, 0, 0.0f },
+    { &gBusinessScrubAnim_4404, 2, 0.0f },
+    { &gBusinessScrubNervousTransitionAnim, 2, 0.0f },
 };
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -174,7 +171,8 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     osSyncPrintf("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", D_809F0424[this->actor.params]);
     Actor_ProcessInitChain(&this->actor, D_809F052C);
-    SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_60041A8, &D_60009A0, this->unk190, this->unk1FC, 0x12);
+    SkelAnime_InitFlex(globalCtx, &this->unk14C, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,
+                       this->unk190, this->unk1FC, 0x12);
     Collider_InitCylinder(globalCtx, &this->unk26C);
     Collider_SetCylinderType1(globalCtx, &this->unk26C, &this->actor, &D_809F03E0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
@@ -455,7 +453,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809F0100(EnDns* this, GlobalContext* globalCtx) {
-    f32 f = Animation_GetLastFrame(&D_6004404);
+    f32 f = Animation_GetLastFrame(&gBusinessScrubAnim_4404);
 
     if (this->unk14C.curFrame == f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);

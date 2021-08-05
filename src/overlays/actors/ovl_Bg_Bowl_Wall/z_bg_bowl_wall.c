@@ -7,6 +7,7 @@
 #include "z_bg_bowl_wall.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
+#include "objects/object_bowl/object_bowl.h"
 
 #define FLAGS 0x00000030
 
@@ -22,11 +23,6 @@ void func_8086F440(BgBowlWall* this, GlobalContext* globalCtx);
 void func_8086F464(BgBowlWall* this, GlobalContext* globalCtx);
 void func_8086F718(BgBowlWall* this, GlobalContext* globalCtx);
 void func_8086F7F8(BgBowlWall* this, GlobalContext* globalCtx);
-
-extern Gfx D_6000610[];
-extern CollisionHeader D_6000CB8;
-extern Gfx D_6001390[];
-extern CollisionHeader D_6001B00;
 
 const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
@@ -58,9 +54,9 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     sp28 = NULL;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (this->dyna.actor.params == 0) {
-        CollisionHeader_GetVirtual(&D_6000CB8, &sp28);
+        CollisionHeader_GetVirtual(&gBowlingFirstAndFinalRoundCol, &sp28);
     } else {
-        CollisionHeader_GetVirtual(&D_6001B00, &sp28);
+        CollisionHeader_GetVirtual(&gBowlingSecondRoundCol, &sp28);
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp28);
     this->unk168 = this->dyna.actor.world.pos;
@@ -210,9 +206,9 @@ void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_bowl_wall.c", 453),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->dyna.actor.params == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, D_6000610);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlingRound1WallDL);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, D_6001390);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlingRound2WallDL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_bowl_wall.c", 464);
 }

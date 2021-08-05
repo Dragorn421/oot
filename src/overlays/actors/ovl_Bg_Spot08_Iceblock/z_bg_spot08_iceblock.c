@@ -1,4 +1,5 @@
 #include "z_bg_spot08_iceblock.h"
+#include "objects/object_spot08_obj/object_spot08_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -16,11 +17,6 @@ void func_808B1420(BgSpot08Iceblock* this, GlobalContext* globalCtx);
 void func_808B147C(BgSpot08Iceblock* this);
 void func_808B14A0(BgSpot08Iceblock* this, GlobalContext* globalCtx);
 void func_808B1574(BgSpot08Iceblock* this);
-
-extern Gfx D_6000DE0[];
-extern CollisionHeader D_6001904;
-extern Gfx D_6002BD0[];
-extern CollisionHeader D_6002FD8;
 
 const ActorInit Bg_Spot08_Iceblock_InitVars = {
     ACTOR_BG_SPOT08_ICEBLOCK,
@@ -258,11 +254,11 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_808B09F0(this);
     switch (this->dyna.actor.params & 0x200) {
         case 0:
-            var_a2 = &D_6002FD8;
+            var_a2 = &gZorasFountainIcebergCol;
             break;
 
         case 0x200:
-            var_a2 = &D_6001904;
+            var_a2 = &gZorasFountainIceRampCol;
             break;
     }
     temp_v0_2 = this->dyna.actor.params & 0xF;
@@ -396,11 +392,11 @@ void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params & 0x200) {
         case 0x0:
-            sp1C = D_6002BD0;
+            sp1C = gZorasFountainIcebergDL;
             break;
 
         case 0x200:
-            sp1C = D_6000DE0;
+            sp1C = gZorasFountainIceRampDL;
             break;
     }
     Gfx_DrawDListOpa(globalCtx, sp1C);

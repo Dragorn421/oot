@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_timeblock.h"
+#include "objects/object_timeblock/object_timeblock.h"
 
 #define FLAGS 0x0A000011
 
@@ -24,9 +25,6 @@ void func_80BA0758(ObjTimeblock* arg0);
 void func_80BA0768(ObjTimeblock* arg0, GlobalContext* arg1);
 void func_80BA083C(ObjTimeblock* arg0);
 void func_80BA084C(ObjTimeblock* arg0, GlobalContext* arg1);
-
-extern Gfx D_6000980[];
-extern UNK_TYPE D_6000B30;
 
 const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
@@ -106,7 +104,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     sp2C = NULL;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
-    CollisionHeader_GetVirtual(&D_6000B30, &sp2C);
+    CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &sp2C);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
     Actor_ProcessInitChain(&this->dyna.actor, D_80BA0B28);
     Actor_SetScale(&this->dyna.actor, D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk0);
@@ -351,7 +349,7 @@ void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 766),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sp44->r, sp44->g, sp44->b, 255);
-        gSPDisplayList(POLY_OPA_DISP++, D_6000980);
+        gSPDisplayList(POLY_OPA_DISP++, gSongOfTimeBlockDL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 772);
     }
 }

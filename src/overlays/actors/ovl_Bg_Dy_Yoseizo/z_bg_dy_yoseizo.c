@@ -7,6 +7,7 @@
 #include "z_bg_dy_yoseizo.h"
 #include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+#include "objects/object_dy_obj/object_dy_obj.h"
 #include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
@@ -39,20 +40,6 @@ void func_80874D9C(BgDyYoseizo* this, Vec3f*, Vec3f*, Vec3f*, Color_RGB8*, Color
 void func_80874EAC(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx);
 
-extern AnimationHeader D_600092C;
-extern AnimationHeader D_6001DF0;
-extern AnimationHeader D_60031C0;
-extern AnimationHeader D_6004344;
-extern AnimationHeader D_6005810;
-extern Gfx D_6005860[];
-extern Gfx D_60058D8[];
-extern AnimationHeader D_6005E60;
-extern AnimationHeader D_60069E8;
-extern AnimationHeader D_6007CA8;
-extern AnimationHeader D_6008698;
-extern FlexSkeletonHeader D_601C450;
-extern AnimationHeader D_601D514;
-
 static s32 D_80875440[3] = { 0x5D, 0x5E, 0x5C };
 const ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
@@ -78,8 +65,17 @@ static s16 D_808754B0[4] = { 2, 0, 1, 0 };
 static s16 D_808754B8[4] = { 0x11, 0x10, 0x12, 0 };
 static s16 D_808754C0[4] = { 0x100, 0x200, 0x400, 0 };
 static u8 D_808754C8[4] = { 0xD, 5, 0x13, 0 };
-static s32 D_808754CC[3] = { 0x06017930, 0x06018130, 0x06018930 };
-static s32 D_808754D8[2] = { 0x06019130, 0x0601A130 };
+
+static void* D_808754CC[] = {
+    gGreatFairyEyeOpenTex,
+    gGreatFairyEyeHalfTex,
+    gGreatFairyEyeClosedTex,
+};
+
+static void* D_808754D8[] = {
+    gGreatFairyMouthClosedTex,
+    gGreatFairyMouthOpenTex,
+};
 
 void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
@@ -94,10 +90,12 @@ void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.focus.pos = this->actor.world.pos;
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         osSyncPrintf("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", globalCtx->curSpawn);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_601C450, &D_6008698, this->unk194, this->unk23C, 28);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
+                           this->unk194, this->unk23C, 28);
     } else {
         osSyncPrintf("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", globalCtx->curSpawn);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_601C450, &D_60031C0, this->unk194, this->unk23C, 28);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
+                           this->unk194, this->unk23C, 28);
     }
     this->actionFunc = func_80872D20;
 }
@@ -295,11 +293,13 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void func_8087328C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        this->unk32C = Animation_GetLastFrame(&D_6008698);
-        Animation_Change(&this->skelAnime, &D_6008698, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+        this->unk32C = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
+                         -10.0f);
     } else {
-        this->unk32C = Animation_GetLastFrame(&D_60031C0);
-        Animation_Change(&this->skelAnime, &D_60031C0, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+        this->unk32C = Animation_GetLastFrame(&gGreatFairyLayingDownTransitionAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->unk32C,
+                         ANIMMODE_ONCE, -10.0f);
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_VO_FR_LAUGH_0);
     func_8002DF54(globalCtx, &this->actor, 1U);
@@ -345,11 +345,12 @@ void func_808734DC(BgDyYoseizo* this, GlobalContext* globalCtx) {
 void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1U);
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        this->unk32C = Animation_GetLastFrame(&D_601D514);
-        Animation_Change(&this->skelAnime, &D_601D514, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
+        this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
     } else {
-        this->unk32C = Animation_GetLastFrame(&D_6001DF0);
-        Animation_Change(&this->skelAnime, &D_6001DF0, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
+        this->unk32C = Animation_GetLastFrame(&gGreatFairyLayingSidewaysAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairyLayingSidewaysAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
+                         -10.0f);
     }
     this->actor.textId = 0xDB;
     this->unk2EE = 5;
@@ -376,11 +377,12 @@ void func_808736A4(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void func_80873780(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        this->unk32C = Animation_GetLastFrame(&D_60069E8);
-        Animation_Change(&this->skelAnime, &D_60069E8, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+        this->unk32C = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
+                         -10.0f);
     } else {
-        this->unk32C = Animation_GetLastFrame(&D_6005810);
-        Animation_Change(&this->skelAnime, &D_6005810, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+        this->unk32C = Animation_GetLastFrame(&gGreatFairyAnim_005810);
+        Animation_Change(&this->skelAnime, &gGreatFairyAnim_005810, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_VO_FR_SMILE_0);
     this->unk2F6 = 1;
@@ -404,11 +406,13 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk32C <= temp_fv1) && (this->unk2FC == 0)) {
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            this->unk32C = Animation_GetLastFrame(&D_6007CA8);
-            Animation_Change(&this->skelAnime, &D_6007CA8, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
+            this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
+                             -10.0f);
         } else {
-            this->unk32C = Animation_GetLastFrame(&D_6004344);
-            Animation_Change(&this->skelAnime, &D_6004344, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
+            this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterSpellAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyAfterSpellAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
+                             -10.0f);
         }
         this->unk302 = 0x96;
         this->unk2FC = 1;
@@ -474,11 +478,13 @@ void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void func_80873C14(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        this->unk32C = Animation_GetLastFrame(&D_6005E60);
-        Animation_Change(&this->skelAnime, &D_6005E60, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+        this->unk32C = Animation_GetLastFrame(&gGreatFairyJewelFountainSpinShrinkAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairyJewelFountainSpinShrinkAnim, 1.0f, 0.0f, this->unk32C,
+                         ANIMMODE_ONCE, -10.0f);
     } else {
-        this->unk32C = Animation_GetLastFrame(&D_600092C);
-        Animation_Change(&this->skelAnime, &D_600092C, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+        this->unk32C = Animation_GetLastFrame(&gGreatFairySpellFountainSpinShrinkAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairySpellFountainSpinShrinkAnim, 1.0f, 0.0f, this->unk32C,
+                         ANIMMODE_ONCE, -10.0f);
     }
     this->unk2E8 = 5;
     this->unk318 = 0.0f;
@@ -532,11 +538,13 @@ void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx) {
         func_8002DF54(globalCtx, &this->actor, 1U);
         this->unk2FE = 0;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            this->unk32C = Animation_GetLastFrame(&D_6008698);
-            Animation_Change(&this->skelAnime, &D_6008698, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+            this->unk32C = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->unk32C,
+                             ANIMMODE_ONCE, -10.0f);
         } else {
-            this->unk32C = Animation_GetLastFrame(&D_60031C0);
-            Animation_Change(&this->skelAnime, &D_60031C0, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+            this->unk32C = Animation_GetLastFrame(&gGreatFairyLayingDownTransitionAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->unk32C,
+                             ANIMMODE_ONCE, -10.0f);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
         this->actionFunc = func_80873FD8;
@@ -569,11 +577,13 @@ void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
         SkelAnime_Update(&this->skelAnime);
         if ((this->unk32C <= temp_fv0) && (this->unk2FC == 0)) {
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-                this->unk32C = Animation_GetLastFrame(&D_601D514);
-                Animation_Change(&this->skelAnime, &D_601D514, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
+                this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
+                Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
+                                 -10.0f);
             } else {
-                this->unk32C = Animation_GetLastFrame(&D_6001DF0);
-                Animation_Change(&this->skelAnime, &D_6001DF0, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
+                this->unk32C = Animation_GetLastFrame(&gGreatFairyLayingSidewaysAnim);
+                Animation_Change(&this->skelAnime, &gGreatFairyLayingSidewaysAnim, 1.0f, 0.0f, this->unk32C,
+                                 ANIMMODE_LOOP, -10.0f);
             }
             this->unk2FC = 1;
         }
@@ -581,11 +591,13 @@ void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
             (globalCtx->csCtx.npcActions[0]->action == 3)) {
             this->unk2FE = this->unk2FC = 0;
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-                this->unk32C = Animation_GetLastFrame(&D_60069E8);
-                Animation_Change(&this->skelAnime, &D_60069E8, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+                this->unk32C = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
+                Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->unk32C,
+                                 ANIMMODE_ONCE, -10.0f);
             } else {
-                this->unk32C = Animation_GetLastFrame(&D_6005810);
-                Animation_Change(&this->skelAnime, &D_6005810, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+                this->unk32C = Animation_GetLastFrame(&gGreatFairyAnim_005810);
+                Animation_Change(&this->skelAnime, &gGreatFairyAnim_005810, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
+                                 -10.0f);
             }
             this->unk2F6 = 1;
             this->actionFunc = func_80874304;
@@ -612,11 +624,13 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk32C <= temp_fv1_sp5C) && (this->unk2FC == 0)) {
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            this->unk32C = Animation_GetLastFrame(&D_6007CA8);
-            Animation_Change(&this->skelAnime, &D_6007CA8, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
+            this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
+                             -10.0f);
         } else {
-            this->unk32C = Animation_GetLastFrame(&D_6004344);
-            Animation_Change(&this->skelAnime, &D_6004344, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
+            this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterSpellAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyAfterSpellAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
+                             -10.0f);
         }
         this->unk2FC = 1;
     }
@@ -923,7 +937,7 @@ void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx) {
     for (var_s4 = 0; var_s4 < ARRAY_COUNT(this->unk394); var_s4++, var_s0++) {
         if (var_s0->unk0 == 1) {
             if (materialFlag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_6005860));
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleAppearDL));
                 gDPPipeSync(POLY_XLU_DISP++);
                 materialFlag++;
             }
@@ -936,7 +950,7 @@ void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx) {
             Matrix_RotateZ(var_s0->unk40, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_60058D8));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleAliveDL));
         }
     }
     CLOSE_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1819);

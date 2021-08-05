@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot12_gate.h"
+#include "objects/object_spot12_obj/object_spot12_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -43,9 +44,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-extern Gfx D_06001080[];
-extern CollisionHeader D_060011EC;
-
 void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
     Actor* thisx = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
@@ -63,7 +61,7 @@ void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, CollisionHeader
 void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Gate* this = THIS;
 
-    func_808B2F90(this, globalCtx, &D_060011EC, DPM_UNK);
+    func_808B2F90(this, globalCtx, &gGerudoFortressWastelandGateCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
@@ -147,5 +145,5 @@ void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Gate_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06001080);
+    Gfx_DrawDListOpa(globalCtx, gGerudoFortressWastelandGateDL);
 }

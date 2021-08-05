@@ -1,5 +1,6 @@
 #include "global.h"
 #include "z_en_md.h"
+#include "objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "z64cutscene.h"
 
@@ -38,16 +39,27 @@ ColliderCylinderInit D_80AAC310 = {
 };
 CollisionCheckInfoInit2 D_80AAC33C = { 0, 0, 0, 0, 0xFF };
 struct_80034EC0_Entry D_80AAC348[] = {
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, 0, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, 0, -10.0f },
-    { 0x0600917C, 1.0f, 0.0f, -1.0f, 2, -1.0f }, { 0x06009E68, 1.0f, 0.0f, -1.0f, 0, -1.0f },
-    { 0x06009B1C, 1.0f, 0.0f, -1.0f, 2, -1.0f }, { 0x06008E84, 1.0f, 0.0f, -1.0f, 0, -1.0f },
-    { 0x060097F0, 1.0f, 0.0f, -1.0f, 0, -1.0f }, { 0x060092B0, 1.0f, 0.0f, -1.0f, 2, -1.0f },
-    { 0x0600A138, 1.0f, 0.0f, -1.0f, 0, -1.0f }, { 0x06008FC0, 1.0f, 0.0f, -1.0f, 2, -1.0f },
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, 0, -8.0f }, { 0x06008510, 1.0f, 0.0f, -1.0f, 0, -1.0f },
-    { 0x060095BC, 1.0f, 0.0f, -1.0f, 2, -1.0f }, { 0x06008738, 1.0f, 0.0f, -1.0f, 0, -1.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, 0, 0.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, 0, -10.0f },
+    { &gMidoRaiseHand1Anim, 1.0f, 0.0f, -1.0f, 2, -1.0f },
+    { &gMidoHaltAnim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
+    { &gMidoPutHandDownAnim, 1.0f, 0.0f, -1.0f, 2, -1.0f },
+    { &gMidoAnnoyedPointedHeadIdle1Anim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
+    { &gMidoAnnoyedPointedHeadIdle2Anim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
+    { &gMidoAnim_92B0, 1.0f, 0.0f, -1.0f, 2, -1.0f },
+    { &gMidoWalkingAnim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
+    { &gMidoHandsOnHipsTransitionAnim, 1.0f, 0.0f, -1.0f, 2, -1.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, 0, -8.0f },
+    { &gMidoSlamAnim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
+    { &gMidoRaiseHand2Anim, 1.0f, 0.0f, -1.0f, 2, -1.0f },
+    { &gMidoAngryHeadTurnAnim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
 };
 Vec3f D_80AAC498 = { 400.0f, 0.0f, 0.0f };
-s32 D_80AAC4A4[3] = { 0x06004FF0, 0x06005930, 0x06005D30 };
+void* D_80AAC4A4[3] = {
+    gMidoEyeOpenTex,
+    gMidoEyeHalfTex,
+    gMidoEyeClosedTex,
+};
 
 void func_80AAA250(EnMd* this) {
     f32 temp_fv0;
@@ -314,7 +326,7 @@ void func_80AAAA24(EnMd* this) {
                 }
                 break;
         }
-    } else if (this->unk14C.animation != &D_60002C8) {
+    } else if (this->unk14C.animation != &gMidoHandsOnHipsIdleAnim) {
         func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
         func_80AAA92C(this, 0);
     }
@@ -587,7 +599,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_6007FB8, NULL, this->unk258, this->unk2BE, 0x11);
+    SkelAnime_InitFlex(globalCtx, &this->unk14C, &gMidoSkel, NULL, this->unk258, this->unk2BE, 0x11);
     Collider_InitCylinder(globalCtx, &this->unk194);
     Collider_SetCylinder(globalCtx, &this->unk194, &this->actor, &D_80AAC310);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AAC33C);
@@ -622,7 +634,7 @@ void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
-    if (this->unk14C.animation == &D_60002C8) {
+    if (this->unk14C.animation == &gMidoHandsOnHipsIdleAnim) {
         func_80034F54(globalCtx, this->unk214, this->unk236, 0x11);
     } else if ((this->unk1E0.unk_00 == 0) && (this->unk20B != 7)) {
         func_80AAA92C(this, 7);
@@ -631,7 +643,7 @@ void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx) {
-    if (this->unk14C.animation == &D_60002C8) {
+    if (this->unk14C.animation == &gMidoHandsOnHipsIdleAnim) {
         func_80034F54(globalCtx, this->unk214, this->unk236, 0x11);
     }
     func_80AAA93C(this);
@@ -675,7 +687,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         this->unk190 = func_80AABD0C;
         this->actor.speedXZ = 1.5f;
     } else {
-        if (this->unk14C.animation == &D_60002C8) {
+        if (this->unk14C.animation == &gMidoHandsOnHipsIdleAnim) {
             func_80034F54(globalCtx, this->unk214, this->unk236, 0x11);
         }
         if ((this->unk1E0.unk_00 == 0) && (globalCtx->sceneNum == SCENE_SPOT10)) {
