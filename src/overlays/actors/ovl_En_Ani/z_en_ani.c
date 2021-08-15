@@ -67,12 +67,6 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f sMultVec = { 800.0f, 500.0f, 0.0f };
 
-static UNK_PTR D_809B0F80[] = {
-    gRoofManEyeOpenTex,
-    gRoofManEyeHalfTex,
-    gRoofManEyeClosedTex,
-};
-
 void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -321,6 +315,11 @@ void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* eyeTextures[] = {
+        gRoofManEyeOpenTex,
+        gRoofManEyeHalfTex,
+        gRoofManEyeClosedTex,
+    };
     EnAni* this = THIS;
     s32 pad;
 
@@ -328,7 +327,7 @@ void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800943C8(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->unk_2AC]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, this);
