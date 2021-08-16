@@ -8,6 +8,8 @@
 
 #define SCALE 0.01f
 
+#define BOMBCHU_FIXES
+
 void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -152,6 +154,12 @@ void EnBomChu_UpdateFloorPoly(EnBomChu* this, CollisionPoly* floorPoly, GlobalCo
 
         if (!(angle < 0.001f)) {
             EnBomChu_CrossProduct(&this->axisUp, &normal, &vec);
+#ifdef BOMBCHU_FIXES
+            magnitude = Math3D_Vec3fMagnitude(&vec); // angle >= 0.001f so magnitude shouldn't be tiny
+            vec.x /= magnitude;
+            vec.y /= magnitude;
+            vec.z /= magnitude;
+#endif
             //! @bug this function expects a unit vector but `vec` is not normalized
             func_800D23FC(angle, &vec, MTXMODE_NEW);
 
@@ -191,9 +199,15 @@ void EnBomChu_UpdateFloorPoly(EnBomChu* this, CollisionPoly* floorPoly, GlobalCo
 
             func_800D20CC(&mf, &this->actor.world.rot, 0);
 
-            // why? `shape.rot.x = -world.rot.x` cancels it out visually,
-            // but what about the movement (func_8002D97C)
+/*
+ * A hack for preventing bombchus from sticking to ledges.
+ * The visual rotation reverts the sign inversion (shape.rot.x = -world.rot.x).
+ * The better fix would be making func_8002D908 compute XYZ velocity better,
+ * or not using it and make the bombchu compute its own velocity.
+ */
+#ifndef BOMBCHU_FIXES
             this->actor.world.rot.x = -this->actor.world.rot.x;
+#endif
         }
     }
 }
@@ -336,7 +350,12 @@ void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx) {
         }
     }
 
-    Math_ScaledStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x, 0x800);
+    Math_ScaledStepToS(&this->actor.shape.rot.x,
+#ifndef BOMBCHU_FIXES
+                       -
+#endif
+                       this->actor.world.rot.x,
+                       0x800);
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x800);
     Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.world.rot.z, 0x800);
 
@@ -394,6 +413,9 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Vec3f blureP2;
     WaterBox* waterBox;
     f32 waterY;
+#ifdef BOMBCHU_FIXES
+    Vec3f speed;
+#endif
 
     if (this->actor.floorBgId != BGCHECK_SCENE) {
         yaw = this->actor.shape.rot.y;
@@ -420,7 +442,16 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     this->actionFunc(this, globalCtx);
-    func_8002D97C(&this->actor);
+#ifdef BOMBCHU_FIXES
+    func_800D1694(0, 0, 0, &this->actor.world.rot);
+    speed.x = 0;
+    speed.y = 0;
+    speed.z = this->actor.speedXZ;
+    Matrix_MultVec3f(&speed, &this->actor.velocity);
+    func_8002D7EC(&this->actor); // move xyz
+#else
+    func_8002D97C(&this->actor); // update velocity xyz and move xyz
+#endif
 
     this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
     this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y;
