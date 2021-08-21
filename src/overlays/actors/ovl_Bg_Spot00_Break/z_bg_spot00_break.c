@@ -51,7 +51,7 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         Actor_Kill(&this->actor);
     }
 }

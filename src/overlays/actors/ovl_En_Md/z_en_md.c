@@ -1,5 +1,6 @@
 #include "global.h"
 #include "z_en_md.h"
+#include "macros.h"
 #include "objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "z64cutscene.h"
@@ -459,7 +460,7 @@ s32 func_80AAB03C(EnMd* this, GlobalContext* globalCtx) {
         !(gSaveContext.eventChkInf[4] & 1)) {
         return 1;
     } else if ((globalCtx->sceneNum == SCENE_KOKIRI_HOME4) &&
-               ((gSaveContext.eventChkInf[1] & 0x1000) || (gSaveContext.eventChkInf[4] & 1)) && LINK_IS_CHILD) {
+               ((gSaveContext.eventChkInf[1] & 0x1000) || (gSaveContext.eventChkInf[4] & 1)) && !LINK_IS_ADULT) {
         return 1;
     } else if (globalCtx->sceneNum == SCENE_SPOT10) {
         return 1;

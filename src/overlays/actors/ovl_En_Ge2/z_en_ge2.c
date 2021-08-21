@@ -1,4 +1,5 @@
 #include "z_en_ge2.h"
+#include "macros.h"
 #include "objects/object_gla/object_gla.h"
 
 #define FLAGS 0x00000019
@@ -154,7 +155,7 @@ void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A32ECC(GlobalContext* globalCtx, EnGe2* this) {
     f32 var_fv0;
 
-    if (gSaveContext.nightFlag != 0) {
+    if (!IS_DAY) {
         var_fv0 = 0.75f;
     } else {
         var_fv0 = 1.5f;
@@ -178,7 +179,7 @@ s32 func_80A32F74(GlobalContext* globalCtx, EnGe2* this, Vec3f* arg2, s16 arg3, 
     f32 var_fv0;
     s16 temp_v0;
 
-    if (gSaveContext.nightFlag != 0) {
+    if (!IS_DAY) {
         var_fv0 = 0.75f;
     } else {
         var_fv0 = 1.5f;

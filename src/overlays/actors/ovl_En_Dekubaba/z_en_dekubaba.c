@@ -174,7 +174,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk238.elements[var_a0].dim.worldSphere.radius =
                 this->unk238.elements[var_a0].dim.modelSphere.radius = D_809E8ECC[var_a0].dim.modelSphere.radius * 2.5f;
         }
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             D_809E9000.table[0x1B] = 4;
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E9000, &D_809E8FD8);
@@ -186,7 +186,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
         for (var_a0 = 0; var_a0 < D_809E8FC8.count; var_a0++) {
             this->unk238.elements[var_a0].dim.worldSphere.radius = this->unk238.elements[var_a0].dim.modelSphere.radius;
         }
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             D_809E8FE0.table[0x1B] = 4;
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E8FE0, &D_809E8FD8);

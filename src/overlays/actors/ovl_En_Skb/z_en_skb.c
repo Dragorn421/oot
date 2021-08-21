@@ -160,7 +160,7 @@ void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AFCD60(EnSkb* this) {
-    if (gSaveContext.nightFlag == 0) {
+    if (IS_DAY) {
         func_80AFCF48(this);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
@@ -247,7 +247,7 @@ void func_80AFD13C(EnSkb* this, GlobalContext* globalCtx) {
          ((temp_ft4 < 0x10) && (((s32)var_fv1_2 + temp_ft2_sp34) >= 0xF)))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_WALK);
     }
-    if ((Math_Vec3f_DistXZ(&this->actor.home.pos, &sp28->world.pos) > 800.0f) || (gSaveContext.nightFlag == 0)) {
+    if ((Math_Vec3f_DistXZ(&this->actor.home.pos, &sp28->world.pos) > 800.0f) || IS_DAY) {
         func_80AFCF48(this);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
