@@ -6,6 +6,7 @@
 
 #include "z_bg_ice_turara.h"
 #include "functions.h"
+#include "objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -21,9 +22,6 @@ void func_80892280(BgIceTurara*, GlobalContext*);
 void func_808922B8(BgIceTurara*, GlobalContext*);
 void func_80892424(BgIceTurara*, GlobalContext*);
 void func_80892574(BgIceTurara*, GlobalContext*);
-
-extern Gfx D_60023D0[];
-extern CollisionHeader D_6002594;
 
 static ColliderCylinderInit D_80892620 = {
     { 0xA, 0x11, 9, 0, 0x20, 1 },
@@ -59,7 +57,7 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
     sp24 = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, D_8089266C);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_6002594, &sp24);
+    CollisionHeader_GetVirtual(&object_ice_objects_Col_002594, &sp24);
     Collider_InitCylinder(globalCtx, &this->unk16C);
     Collider_SetCylinder(globalCtx, &this->unk16C, &this->dyna.actor, &D_80892620);
     Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
@@ -195,5 +193,5 @@ void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgIceTurara_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgIceTurara* this = (BgIceTurara*)thisx;
 
-    Gfx_DrawDListOpa(globalCtx, D_60023D0);
+    Gfx_DrawDListOpa(globalCtx, object_ice_objects_DL_0023D0);
 }

@@ -1,5 +1,6 @@
 #include "z_bg_po_syokudai.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_syokudai/object_syokudai.h"
 
 #define FLAGS 0x00000000
 
@@ -9,8 +10,6 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern Gfx D_60003A0[];
 
 static ColliderCylinderInit D_808A8960 = {
     { 9, 0, 0xD, 0x39, 0x20, 1 },
@@ -108,7 +107,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_60003A0);
+    gSPDisplayList(POLY_OPA_DISP++, gGoldenTorchDL);
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Color_RGBA8* sp64;
         Color_RGBA8* sp60;

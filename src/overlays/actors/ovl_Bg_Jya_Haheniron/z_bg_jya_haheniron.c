@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_jya_haheniron.h"
+#include "objects/object_jya_iron/object_jya_iron.h"
 
 #define FLAGS 0x00000010
 
@@ -23,9 +24,6 @@ void func_80898588(BgJyaHaheniron* this);
 void func_80898598(BgJyaHaheniron* this, GlobalContext* globalCtx);
 void func_8089861C(BgJyaHaheniron* this);
 void func_8089862C(BgJyaHaheniron* this, GlobalContext* globalCtx);
-
-extern Gfx D_6000600[];
-extern Gfx D_6000880[];
 
 const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
@@ -54,7 +52,7 @@ static InitChainEntry D_80898780[5] = {
 static f32 D_80898794[3] = { 0.13f, 0.1f, 0.1f };
 static Vec3f D_808987A0 = { 0.0f, 14.0f, 0.0f };
 static Vec3f D_808987AC = { 0.0f, 8.0f, 0.0f };
-static Gfx* D_808987B8[6] = { D_6000880, (Gfx*)0x06000AE0, D_6000600, NULL, NULL, NULL };
+static Gfx* D_808987B8[6] = { 0x06000880, (Gfx*)0x06000AE0, 0x06000600, NULL, NULL, NULL };
 
 void func_808980C0(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -84,7 +82,7 @@ void func_80898114(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
             var_v0 = 0x20;
         }
         EffectSsKakera_Spawn(globalCtx, arg1, &spB4, arg1, -350, (s16)var_v0, 0x28, 4, 0, D_80898774[var_s1], 0, 0x14,
-                             40, -1, OBJECT_JYA_IRON, D_6000880);
+                             40, -1, OBJECT_JYA_IRON, gObjectJyaIronDL_000880);
     }
     spA8.x = arg1->x + (arg2->x * 5.0f);
     spA8.y = arg1->y + (arg2->y * 5.0f);

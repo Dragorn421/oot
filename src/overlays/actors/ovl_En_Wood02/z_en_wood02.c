@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wood02.h"
+#include "objects/object_wood02/object_wood02.h"
 
 #define FLAGS 0x00000000
 
@@ -46,11 +47,22 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
 };
 static Gfx* D_80B3BF54[7] = {
-    (Gfx*)0x060078D0, (Gfx*)0x06007CA0, (Gfx*)0x060080D0, D_6000090, D_6000340, D_6000340, D_6000700,
+    object_wood02_DL_0078D0, object_wood02_DL_007CA0, object_wood02_DL_0080D0, object_wood02_DL_000090,
+    object_wood02_DL_000340, object_wood02_DL_000340, object_wood02_DL_000700,
 };
 static Gfx* D_80B3BF70[0xC] = {
-    (Gfx*)0x06007968, (Gfx*)0x06007D38, (Gfx*)0x060081A8, NULL,      NULL,      NULL, (Gfx*)0x06007AD0,
-    D_6007E20,        (Gfx*)0x06008350, (Gfx*)0x06000160, D_6000440, D_6000700,
+    object_wood02_DL_007968,
+    object_wood02_DL_007D38,
+    object_wood02_DL_0081A8,
+    NULL,
+    NULL,
+    NULL,
+    object_wood02_DL_007AD0,
+    object_wood02_DL_007E20,
+    object_wood02_DL_008350,
+    object_wood02_DL_000160,
+    object_wood02_DL_000440,
+    object_wood02_DL_000700,
 };
 static f32 sCos;
 static f32 sSin;
@@ -373,7 +385,7 @@ void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.params == EN_WOOD_02_TYPE_23) || (this->actor.params == EN_WOOD_02_TYPE_24)) {
         func_80093D18(gfxCtx);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, r, g, b, 127);
-        Gfx_DrawDListOpa(globalCtx, D_6000700);
+        Gfx_DrawDListOpa(globalCtx, object_wood02_DL_000700);
     } else {
         if (D_80B3BF70[this->unk154 & 0xF] != NULL) {
             Gfx_DrawDListOpa(globalCtx, D_80B3BF54[this->unk154 & 0xF]);

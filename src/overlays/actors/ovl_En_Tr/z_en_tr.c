@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tr.h"
+#include "objects/object_tr/object_tr.h"
 
 #define FLAGS 0x00000010
 
@@ -23,15 +24,6 @@ void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 arg2);
 void func_80B24230(EnTr* this, GlobalContext* globalCtx, s32 arg2);
 void func_80B242B4(EnTr* this, GlobalContext* globalCtx, s32 arg2);
 
-extern AnimationHeader D_6000BFC;
-extern AnimationHeader D_60013CC;
-extern AnimationHeader D_6001CDC;
-extern AnimationHeader D_60035CC;
-extern AnimationHeader D_6003FC8;
-extern AnimationHeader D_60049C8;
-extern FlexSkeletonHeader D_600C530;
-extern FlexSkeletonHeader D_6011688;
-
 const ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
     ACTORCAT_NPC,
@@ -43,10 +35,10 @@ const ActorInit En_Tr_InitVars = {
     (ActorFunc)EnTr_Update,
     (ActorFunc)EnTr_Draw,
 };
-static AnimationHeader* D_80B24360[2] = { &D_6003FC8, &D_6001CDC };
-static AnimationHeader* D_80B24368[2] = { (AnimationHeader*)0x06002BC4, &D_6000BFC };
-static AnimationHeader* D_80B24370[2] = { &D_60035CC, &D_60013CC };
-static AnimationHeader* D_80B24378[2] = { &D_60049C8, &D_60049C8 };
+static AnimationHeader* D_80B24360[2] = { 0x06003FC8, 0x06001CDC };
+static AnimationHeader* D_80B24368[2] = { (AnimationHeader*)0x06002BC4, 0x06000BFC };
+static AnimationHeader* D_80B24370[2] = { 0x060035CC, 0x060013CC };
+static AnimationHeader* D_80B24378[2] = { 0x060049C8, 0x060049C8 };
 static AnimationHeader* D_80B24380[2] = { (AnimationHeader*)0x06012E1C, (AnimationHeader*)0x06012E1C };
 static f32 D_80B24388[7] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
 static f32 D_80B243A4[7] = { 0.0f, 30.0f, 0.0f, -30.0f, 30.0f, -30.0f, 0.0f };
@@ -74,16 +66,18 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     switch (this->actor.params) {
         case 0:
-            SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_6011688, &D_6003FC8, this->unk190, this->unk232, 27);
-            Animation_PlayOnce(&this->unk14C, &D_6003FC8);
+            SkelAnime_InitFlex(globalCtx, &this->unk14C, &object_tr_Skel_011688, &object_tr_Anim_003FC8, this->unk190,
+                               this->unk232, 27);
+            Animation_PlayOnce(&this->unk14C, &object_tr_Anim_003FC8);
             this->unk2E4 = NULL;
             EnTr_SetupAction(this, func_80B23A88);
             this->unk2D8 = 3;
             break;
 
         case 1:
-            SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_600C530, &D_6001CDC, this->unk190, this->unk232, 27);
-            Animation_PlayOnce(&this->unk14C, &D_6001CDC);
+            SkelAnime_InitFlex(globalCtx, &this->unk14C, &object_tr_Skel_00C530, &object_tr_Anim_001CDC, this->unk190,
+                               this->unk232, 27);
+            Animation_PlayOnce(&this->unk14C, &object_tr_Anim_001CDC);
             this->unk2E4 = NULL;
             EnTr_SetupAction(this, func_80B23A88);
             this->unk2D8 = 2;
@@ -273,7 +267,7 @@ void func_80B23820(EnTr* this, GlobalContext* globalCtx) {
             this->unk2D6 = 0x22;
             func_80B242B4(this, globalCtx, this->unk2D8);
             EnTr_SetupAction(this, func_80B23690);
-            Animation_PlayLoop(&this->unk14C, &D_60049C8);
+            Animation_PlayLoop(&this->unk14C, &object_tr_Anim_0049C8);
             this->unk2E4 = NULL;
             Actor_SetScale(&this->actor, 0.003f);
         }
@@ -327,7 +321,7 @@ void func_80B23A88(EnTr* this, GlobalContext* globalCtx) {
                 case 3:
                     func_80B242B4(this, globalCtx, this->unk2D8);
                     EnTr_SetupAction(this, func_80B22F28);
-                    Animation_PlayLoop(&this->unk14C, &D_60049C8);
+                    Animation_PlayLoop(&this->unk14C, &object_tr_Anim_0049C8);
                     this->unk2E4 = NULL;
                     break;
 
@@ -338,7 +332,7 @@ void func_80B23A88(EnTr* this, GlobalContext* globalCtx) {
 
                 case 7:
                     EnTr_SetupAction(this, func_80B230D8);
-                    Animation_PlayLoop(&this->unk14C, &D_60049C8);
+                    Animation_PlayLoop(&this->unk14C, &object_tr_Anim_0049C8);
                     this->unk2E4 = NULL;
                     if (this->actor.params != 0) {
                         this->unk2D6 = ((u8)temp_a3 * 0x400) + 0x8000;
@@ -359,17 +353,17 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if (SkelAnime_Update(&this->unk14C)) {
         if (this->unk2E4 != NULL) {
-            if ((this->unk2E4 == &D_60035CC) || (this->unk2E4 == &D_60013CC)) {
+            if ((this->unk2E4 == &object_tr_Anim_0035CC) || (this->unk2E4 == &object_tr_Anim_0013CC)) {
                 if (this->actor.params != 0) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
                 } else {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
                 }
                 Animation_PlayLoop(&this->unk14C, this->unk2E4);
-            } else if (this->unk2E4 == &D_60049C8) {
+            } else if (this->unk2E4 == &object_tr_Anim_0049C8) {
                 EnTr_SetupAction(this, func_80B22F28);
-                Animation_Change(&this->unk14C, &D_60049C8, 1.0f, 0.0f, Animation_GetLastFrame(&D_60049C8),
-                                 ANIMMODE_LOOP, -5.0f);
+                Animation_Change(&this->unk14C, &object_tr_Anim_0049C8, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&object_tr_Anim_0049C8), ANIMMODE_LOOP, -5.0f);
             } else {
                 Animation_PlayLoop(&this->unk14C, this->unk2E4);
             }

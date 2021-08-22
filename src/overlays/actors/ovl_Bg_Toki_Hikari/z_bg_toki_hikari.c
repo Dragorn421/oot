@@ -1,4 +1,5 @@
 #include "z_bg_toki_hikari.h"
+#include "objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS 0x00000020
 
@@ -15,13 +16,6 @@ void func_808BA204(BgTokiHikari* this, GlobalContext* globalCtx);
 void func_808BA22C(BgTokiHikari* this, GlobalContext* globalCtx);
 void func_808BA274(BgTokiHikari* this, GlobalContext* globalCtx);
 void func_808BA2CC(BgTokiHikari* this, GlobalContext* globalCtx);
-
-extern Gfx D_6000880[];
-extern Gfx D_60009C0[];
-extern Gfx D_6000A10[];
-extern Gfx D_6007E20[];
-extern Gfx D_6007EE0[];
-extern Gfx D_6008190[];
 
 const ActorInit Bg_Toki_Hikari_InitVars = {
     ACTOR_BG_TOKI_HIKARI,
@@ -95,9 +89,9 @@ void func_808BA018(BgTokiHikari* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0xFC),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (gSaveContext.linkAge == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, D_6008190);
+        gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_008190);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, D_6007E20);
+        gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007E20);
         func_80093D84(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 8,
                    Gfx_TexScroll(globalCtx->state.gfxCtx, 0U, globalCtx->gameplayFrames & 0x7F, 0x40, 0x20));
@@ -105,7 +99,7 @@ void func_808BA018(BgTokiHikari* this, GlobalContext* globalCtx) {
                    Gfx_TexScroll(globalCtx->state.gfxCtx, 0U, globalCtx->gameplayFrames & 0x7F, 0x40, 0x20));
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x116),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_6007EE0);
+        gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_007EE0);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x11C);
 }
@@ -155,7 +149,7 @@ void func_808BA2CC(BgTokiHikari* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 8,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->gameplayFrames & 0x7F) * -2, 0U, 0x20, 0x40, 1,
                                 (globalCtx->gameplayFrames & 0x7F) * 4, 0U, 0x20, 0x40));
-    gSPDisplayList(POLY_XLU_DISP++, D_6000880);
+    gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_000880);
     Matrix_Pop();
     Matrix_Push();
     gDPPipeSync(POLY_XLU_DISP++);
@@ -164,7 +158,7 @@ void func_808BA2CC(BgTokiHikari* this, GlobalContext* globalCtx) {
                    (u8)(this->unk14C * 255.0f), (u8)(200.0f * this->unk14C));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x19F),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_60009C0);
+    gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_0009C0);
     Matrix_Pop();
     Matrix_Push();
     gDPPipeSync(POLY_XLU_DISP++);
@@ -173,7 +167,7 @@ void func_808BA2CC(BgTokiHikari* this, GlobalContext* globalCtx) {
                    (u8)(this->unk14C * 255.0f), (u8)(200.0f * this->unk14C));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x1B5),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_6000A10);
+    gSPDisplayList(POLY_XLU_DISP++, &object_toki_objects_DL_0009C0[10]);
     Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x1BB);
 }

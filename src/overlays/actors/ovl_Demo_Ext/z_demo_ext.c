@@ -1,4 +1,5 @@
 #include "z_demo_ext.h"
+#include "objects/object_fhg/object_fhg.h"
 
 #define FLAGS 0x00000010
 
@@ -14,8 +15,6 @@ void func_80977874(DemoExt* arg0, GlobalContext* arg1);
 void func_809778AC(DemoExt* arg0, GlobalContext* arg1);
 void func_80977944(DemoExt* arg0, GlobalContext* arg1);
 void func_80977950(DemoExt* arg0, GlobalContext* arg1);
-
-extern Gfx D_600FAA0[];
 
 typedef void (*DemoExtUpdateFunc)(DemoExt*, GlobalContext*);
 static DemoExtUpdateFunc sUpdateFuncs[] = {
@@ -221,7 +220,7 @@ void func_80977950(DemoExt* this, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(gfxCtx, 0, texScrollPos[0], texScrollPos[1], 64, 64, 1, texScrollPos[2],
                                 texScrollPos[3], 64, 64));
     gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_600FAA0);
+    gSPDisplayList(POLY_XLU_DISP++, gPhantomWarpDL);
     gSPPopMatrix(POLY_XLU_DISP++, G_MTX_MODELVIEW);
     CLOSE_DISPS(gfxCtx, "../z_demo_ext.c", 512);
 }

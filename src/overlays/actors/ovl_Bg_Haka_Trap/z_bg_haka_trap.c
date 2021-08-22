@@ -3,6 +3,7 @@
 #include "z64.h"
 #include "z64collision_check.h"
 #include "z_bg_haka_trap.h"
+#include "objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0
 
@@ -35,10 +36,6 @@ const ActorInit Bg_Haka_Trap_InitVars = {
     /**/ BgHakaTrap_Update,
     /**/ BgHakaTrap_Draw,
 };
-
-extern CollisionHeader D_60081D0;
-extern CollisionHeader D_6008D10;
-extern CollisionHeader D_6009CD0;
 
 ColliderCylinderInit D_80880F54 = {
     { 9, 0x11, 0xD, 9, 0x20, 1 },
@@ -104,7 +101,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             DynaPolyActor_Init((DynaPolyActor*)this, DPM_PLAYER);
             this->dyna.actor.flags |= 0x10;
             if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_CRUSHER) {
-                CollisionHeader_GetVirtual(&D_6009CD0, &sp2C);
+                CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &sp2C);
                 this->unk168 = 0x1E;
                 if (*new_var != 0) {
                     this->actionFunc = &func_808808F4;
@@ -120,11 +117,11 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk178.dim.height = 0x28;
             } else {
                 if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) {
-                    CollisionHeader_GetVirtual(&D_60081D0, &sp2C);
+                    CollisionHeader_GetVirtual(&object_haka_objects_Col_0081D0, &sp2C);
                     this->dyna.actor.home.pos.x -= 200.0f;
                 } else {
                     this->dyna.actor.home.pos.x += 200.0f;
-                    CollisionHeader_GetVirtual(&D_6008D10, &sp2C);
+                    CollisionHeader_GetVirtual(&object_haka_objects_Col_008D10, &sp2C);
                 }
                 Collider_InitTris(globalCtx, &this->unk1C4);
                 Collider_SetTris(globalCtx, &this->unk1C4, &this->dyna.actor, &D_80880FF8, this->unk1E4);
