@@ -203,13 +203,13 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
         D_8087D958.x = 30.0f;
     }
     Matrix_RotateY(this->dyna.actor.world.rot.y * 0.0000958738f, MTXMODE_NEW);
-    func_800D23FC(this->unk168 * 0.16001178f, &D_8087D964, MTXMODE_APPLY);
+    Matrix_RotateAxis(this->unk168 * 0.16001178f, &D_8087D964, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_8087D958, &sp34);
     this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + sp34.x;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + sp34.y;
     this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z + sp34.z;
     Matrix_Get(&sp40);
-    func_800D20CC(&sp40, &this->dyna.actor.shape.rot, 0);
+    Matrix_MtxFToYXZRotS(&sp40, &this->dyna.actor.shape.rot, 0);
 }
 
 void BgHakaHuta_DoNothing(BgHakaHuta* this, GlobalContext* globalCtx) {

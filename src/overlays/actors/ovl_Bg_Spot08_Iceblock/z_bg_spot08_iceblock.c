@@ -217,10 +217,10 @@ void func_808B0CE0(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     } else {
         this->unk168 = D_808B16B0;
     }
-    func_800D23FC(Math_FAcosF(Math3D_Cos(&D_808B16B0, &this->unk168)), &this->unk180, MTXMODE_NEW);
+    Matrix_RotateAxis(Math_FAcosF(Math3D_Cos(&D_808B16B0, &this->unk168)), &this->unk180, MTXMODE_NEW);
     Matrix_RotateY(this->dyna.actor.shape.rot.y * 0.0000958738f, MTXMODE_APPLY);
     Matrix_Get(&sp44);
-    func_800D20CC(&sp44, &this->dyna.actor.shape.rot, 0);
+    Matrix_MtxFToYXZRotS(&sp44, &this->dyna.actor.shape.rot, 0);
 }
 
 void func_808B1054(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
