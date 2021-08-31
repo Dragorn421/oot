@@ -664,9 +664,9 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         if (((this->unk1B8 == 1) || (this->unk1B8 == 2)) && ((limbIndex == 0xF) || (limbIndex == 0x15))) {
             if (this->actionFunc != func_80A13D68_Action) {
                 Matrix_Get(&sp48);
-                sp94.x = (Rand_ZeroOne() * 5.0f) + sp48.wx;
-                sp94.y = (Rand_ZeroOne() * 5.0f) + sp48.wy;
-                sp94.z = (Rand_ZeroOne() * 5.0f) + sp48.wz;
+                sp94.x = (Rand_ZeroOne() * 5.0f) + sp48.xw;
+                sp94.y = (Rand_ZeroOne() * 5.0f) + sp48.yw;
+                sp94.z = (Rand_ZeroOne() * 5.0f) + sp48.zw;
                 var_t0 = -0x28;
                 var_t1 = 3;
             } else {

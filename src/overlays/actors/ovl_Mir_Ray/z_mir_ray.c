@@ -357,9 +357,9 @@ void func_80B8D6F0(MirRay* this, GlobalContext* globalCtx) {
     player = GET_PLAYER(globalCtx);
     this->lightReflectionFactor = 0.0f;
     shieldMf = &player->shieldMf;
-    if (MirRay_IsInConeFrustum(&this->coneFrustumCenterTop, &this->coneFrustumCenterBase, shieldMf->wx, shieldMf->wy,
-                               shieldMf->wz, this->coneFrustumRadiusTop, this->coneFrustumRadiusBase)) {
-        temp_fv0 = sqrtf(SQ(shieldMf->zz) + (SQ(shieldMf->zx) + SQ(shieldMf->zy)));
+    if (MirRay_IsInConeFrustum(&this->coneFrustumCenterTop, &this->coneFrustumCenterBase, shieldMf->xw, shieldMf->yw,
+                               shieldMf->zw, this->coneFrustumRadiusTop, this->coneFrustumRadiusBase)) {
+        temp_fv0 = sqrtf(SQ(shieldMf->zz) + (SQ(shieldMf->xz) + SQ(shieldMf->yz)));
         if (temp_fv0 == 0.0f) {
             this->shieldForwardNormalizeFactor = 1.0f;
         } else {
@@ -373,7 +373,7 @@ void func_80B8D6F0(MirRay* this, GlobalContext* globalCtx) {
             sp4C_lightShineDirection.z = this->coneFrustumCenterBase.z - this->coneFrustumCenterTop.z;
             sp4C_lightShineDirection = sp4C_lightShineDirection; //! FAKE
             // The shield's forward direction is -z in model space
-            temp_fv1_2 = (-shieldMf->zx * sp4C_lightShineDirection.x) - (shieldMf->zy * sp4C_lightShineDirection.y) -
+            temp_fv1_2 = (-shieldMf->xz * sp4C_lightShineDirection.x) - (shieldMf->yz * sp4C_lightShineDirection.y) -
                          (sp4C_lightShineDirection.z * shieldMf->zz);
             if (temp_fv1_2 < 0.0f) {
                 temp_fv0_2 = sqrtf(SQ(sp4C_lightShineDirection.z) +
@@ -399,18 +399,18 @@ void func_80B8D8A0(MirRay* this, GlobalContext* globalCtx, struct_80B8D8A0* arg2
 
     player = GET_PLAYER(globalCtx);
     shieldMf = &player->shieldMf;
-    forwards.x = -(shieldMf->zx * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
-    forwards.y = -(shieldMf->zy * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
+    forwards.x = -(shieldMf->xz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
+    forwards.y = -(shieldMf->yz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
     forwards.z = -(shieldMf->zz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
     for (i = 0; i < 6; i++) {
         if (!(&forwards) != 0) {} //! FAKE
         //! FAKE (*shieldMf)
-        reflectionOriginPos.x = shieldMf->wx + (this->reflectionOriginModelPositions[i].x * shieldMf->xx) +
-                                (this->reflectionOriginModelPositions[i].y * (*shieldMf).yx);
-        reflectionOriginPos.y = shieldMf->wy + (this->reflectionOriginModelPositions[i].x * shieldMf->xy) +
+        reflectionOriginPos.x = shieldMf->xw + (this->reflectionOriginModelPositions[i].x * shieldMf->xx) +
+                                (this->reflectionOriginModelPositions[i].y * (*shieldMf).xy);
+        reflectionOriginPos.y = shieldMf->yw + (this->reflectionOriginModelPositions[i].x * shieldMf->yx) +
                                 (this->reflectionOriginModelPositions[i].y * (*shieldMf).yy);
-        reflectionOriginPos.z = shieldMf->wz + (this->reflectionOriginModelPositions[i].x * shieldMf->xz) +
-                                (this->reflectionOriginModelPositions[i].y * (*shieldMf).yz);
+        reflectionOriginPos.z = shieldMf->zw + (this->reflectionOriginModelPositions[i].x * shieldMf->zx) +
+                                (this->reflectionOriginModelPositions[i].y * (*shieldMf).zy);
         reflectionMaxPos.x = forwards.x + reflectionOriginPos.x;
         reflectionMaxPos.y = forwards.y + reflectionOriginPos.y;
         reflectionMaxPos.z = forwards.z + reflectionOriginPos.z;
@@ -463,26 +463,26 @@ void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, struct_80B8D8A0* arg2
 
     player = GET_PLAYER(globalCtx);
     shieldMf = &player->shieldMf;
-    forwards.x = -(shieldMf->zx * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
+    forwards.x = -(shieldMf->xz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
     new_var2 = 100.0f;
-    forwards.y = -(shieldMf->zy * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
+    forwards.y = -(shieldMf->yz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
     forwards.z = -(shieldMf->zz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
     // Where the mirror shield is located
-    originPos.x = shieldMf->wx;
-    originPos.y = shieldMf->wy;
-    originPos.z = shieldMf->wz;
+    originPos.x = shieldMf->xw;
+    originPos.y = shieldMf->yw;
+    originPos.z = shieldMf->zw;
     // In front of the mirror shield
     inFrontPos.x = forwards.x + originPos.x;
     inFrontPos.y = forwards.y + originPos.y;
     inFrontPos.z = forwards.z + originPos.z;
     // Above the mirror shield origin
     upPos.x = (shieldMf->xx * 300.0f) + originPos.x;
-    upPos.y = (shieldMf->xy * 300.0f) + originPos.y;
-    upPos.z = (shieldMf->xz * 300.0f) + originPos.z;
+    upPos.y = (shieldMf->yx * 300.0f) + originPos.y;
+    upPos.z = (shieldMf->zx * 300.0f) + originPos.z;
     // Above and in front of the origin
     upAndInFrontPos.x = (shieldMf->xx * 300.0f) + inFrontPos.x;
-    upAndInFrontPos.y = (shieldMf->xy * 300.0f) + inFrontPos.y;
-    upAndInFrontPos.z = (shieldMf->xz * 300.0f) + inFrontPos.z;
+    upAndInFrontPos.y = (shieldMf->yx * 300.0f) + inFrontPos.y;
+    upAndInFrontPos.z = (shieldMf->zx * 300.0f) + inFrontPos.z;
     Collider_SetQuadVertices(&this->unk1AC, &upPos, &originPos, &upAndInFrontPos, &inFrontPos);
     for (i = 0; i < 6; i++) {
         new_var = &spDC.x; //! FAKE
@@ -515,8 +515,8 @@ void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, struct_80B8D8A0* arg2
                 // gives the transformation for the x axis, then the same in the y direction.
 
                 originPosWithOffset.x = (shieldMf->xx * new_var2) + originPos.x;
-                originPosWithOffset.y = (shieldMf->xy * new_var2) + originPos.y;
-                originPosWithOffset.z = (shieldMf->xz * 100.0f) + originPos.z;
+                originPosWithOffset.y = (shieldMf->yx * new_var2) + originPos.y;
+                originPosWithOffset.z = (shieldMf->zx * 100.0f) + originPos.z;
                 inFrontPosWithOffset.x = (forwards.x * 4.0f) + originPosWithOffset.x;
                 inFrontPosWithOffset.y = (forwards.y * 4.0f) + originPosWithOffset.y;
                 inFrontPosWithOffset.z = (forwards.z * 4.0f) + originPosWithOffset.z;
@@ -524,33 +524,33 @@ void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, struct_80B8D8A0* arg2
                     var_s0->reflectionTransform.ww = 1.0f;
 
                 //! FAKE
-                sp80 = var_s0->reflectionTransform.wz = 0.0f;
-                new_var3 = var_s0->reflectionTransform.zx = var_s0->reflectionTransform.zy =
-                    var_s0->reflectionTransform.zw = var_s0->reflectionTransform.wx = var_s0->reflectionTransform.wy =
+                sp80 = var_s0->reflectionTransform.zw = 0.0f;
+                new_var3 = var_s0->reflectionTransform.xz = var_s0->reflectionTransform.yz =
+                    var_s0->reflectionTransform.wz = var_s0->reflectionTransform.xw = var_s0->reflectionTransform.yw =
                         sp80;
-                var_s0->reflectionTransform.xy = var_s0->reflectionTransform.xz = var_s0->reflectionTransform.xw =
-                    var_s0->reflectionTransform.yx = var_s0->reflectionTransform.yz = var_s0->reflectionTransform.yw =
+                var_s0->reflectionTransform.yx = var_s0->reflectionTransform.zx = var_s0->reflectionTransform.wx =
+                    var_s0->reflectionTransform.xy = var_s0->reflectionTransform.zy = var_s0->reflectionTransform.wy =
                         new_var3;
                 if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPosWithOffset,
                                           &inFrontPosWithOffset, &intersectWithOffset, true)) {
                     do {
                     } while (0); //! FAKE
                     var_s0->reflectionTransform.xx = intersectWithOffset.x - intersect.x;
-                    var_s0->reflectionTransform.xy = intersectWithOffset.y - intersect.y;
-                    var_s0->reflectionTransform.xz = intersectWithOffset.z - intersect.z;
+                    var_s0->reflectionTransform.yx = intersectWithOffset.y - intersect.y;
+                    var_s0->reflectionTransform.zx = intersectWithOffset.z - intersect.z;
                 }
-                originPosWithOffset.x = (shieldMf->yx * 100.0f) + originPos.x;
+                originPosWithOffset.x = (shieldMf->xy * 100.0f) + originPos.x;
                 originPosWithOffset.y = (shieldMf->yy * 100.0f) + originPos.y;
-                originPosWithOffset.z = (shieldMf->yz * 100.0f) + originPos.z;
+                originPosWithOffset.z = (shieldMf->zy * 100.0f) + originPos.z;
                 inFrontPosWithOffset.x = (forwards.x * 4.0f) + originPosWithOffset.x;
                 inFrontPosWithOffset.y = (forwards.y * 4.0f) + originPosWithOffset.y;
                 inFrontPosWithOffset.z = (forwards.z * 4.0f) + originPosWithOffset.z;
                 if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPosWithOffset,
                                           &inFrontPosWithOffset, &intersectWithOffset, true)) {
                     if (!intersect.z) {} //! FAKE
-                    var_s0->reflectionTransform.yx = intersectWithOffset.x - intersect.x;
+                    var_s0->reflectionTransform.xy = intersectWithOffset.x - intersect.x;
                     var_s0->reflectionTransform.yy = intersectWithOffset.y - intersect.y;
-                    var_s0->reflectionTransform.yz = intersectWithOffset.z - intersect.z;
+                    var_s0->reflectionTransform.zy = intersectWithOffset.z - intersect.z;
                 }
             } else {
                 var_s0->unk4C = NULL;
