@@ -433,7 +433,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     func_80AFD7B4(this, globalCtx);
                 } else {
-                    player = PLAYER;
+                    player = GET_PLAYER(globalCtx);
                     if ((this->unk283 == 0) &&
                         (((this->actor.colChkInfo.damageEffect == 0xD)) ||
                          ((this->actor.colChkInfo.damageEffect == 0xE) &&

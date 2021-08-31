@@ -173,7 +173,7 @@ s32 func_80A32ECC(GlobalContext* globalCtx, EnGe2* this) {
 }
 
 s32 func_80A32F74(GlobalContext* globalCtx, EnGe2* this, Vec3f* arg2, s16 arg3, f32 arg4) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp38;
     CollisionPoly* sp34;
     f32 var_fv0;

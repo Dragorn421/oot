@@ -108,7 +108,7 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, GlobalContext* globalCtx) {
 }
 
 void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* thisx = &this->dyna.actor;
 
     if ((player->currentBoots != 2) && (func_8004356C(&this->dyna) != 0)) {

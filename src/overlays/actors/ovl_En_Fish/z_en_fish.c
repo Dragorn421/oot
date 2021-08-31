@@ -332,7 +332,7 @@ void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
     s16 v;
     s16 temp_a0_2;
 
-    sp48 = PLAYER;
+    sp48 = GET_PLAYER(globalCtx);
     func_80A155D0(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
     if (func_80A15280(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) {

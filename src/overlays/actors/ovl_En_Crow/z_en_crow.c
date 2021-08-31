@@ -224,7 +224,7 @@ void func_809E0770(EnCrow* this) {
 }
 
 void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 skelanimeUpdated;
     s16 var;
 
@@ -281,7 +281,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 facingPlayer;
     Vec3f pos;
     s16 target;

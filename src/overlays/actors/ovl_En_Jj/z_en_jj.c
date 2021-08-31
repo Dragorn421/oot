@@ -300,7 +300,7 @@ void func_80A87BEC(EnJj* this, GlobalContext* globalCtx) {
 }
 
 void func_80A87C30(EnJj* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) &&
         globalCtx->isPlayerDroppingFish(globalCtx)) {

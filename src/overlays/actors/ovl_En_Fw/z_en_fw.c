@@ -91,7 +91,7 @@ s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
 }
 
 s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     CollisionPoly* poly;
     u32 bgId;
     Vec3f collisionPos;

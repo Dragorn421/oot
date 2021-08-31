@@ -395,7 +395,7 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
     s16 var_v0;
     Vec3f vec;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     temp_fv1 = this->skelAnime.curFrame;
     if (this->unk2FC != 0) {
         this->unk324 = this->skelAnime.curFrame * 1300.0f;
@@ -614,7 +614,7 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
     Vec3f var_fv1;
 
     temp_fv1_sp5C = this->skelAnime.curFrame;
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if (this->unk2FC != 0) {
         this->unk324 = this->skelAnime.curFrame * 1400.0f;
         if (this->unk324 >= (this->unk32C * 1400.0f)) {
@@ -874,7 +874,7 @@ void func_80874EAC(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 temp_fs1;
 
     var_s0 = this->unk394;
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     for (var_s5 = 0; var_s5 < ARRAY_COUNT(this->unk394); var_s5++, var_s0++) {
         if (var_s0->unk0 != 0) {
             var_s0->unk40 += 3000.0f;

@@ -667,7 +667,7 @@ s32 EnBili_OverrideLimbDraw(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3
         func_809C1020(this, temp_fv0, &sp20);
     } else if (arg1 == 4) {
         func_809C1240(this, temp_fv0, &sp20);
-        arg4->y = Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000;
+        arg4->y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000;
     }
     Matrix_Scale(sp20.x, sp20.y, sp20.z, MTXMODE_APPLY);
     return 0;

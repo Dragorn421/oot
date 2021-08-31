@@ -241,7 +241,7 @@ void func_80A13764_Setup_SwoopOnPlayer(EnFirefly* this) {
 }
 
 s32 func_80A1379C_HoneInOnHomeIfPlayerFar_(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp_fv0;
     f32 temp_fv1;
 
@@ -517,7 +517,7 @@ void func_80A142F4_Action_Perched_(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void func_80A143B4_Action_SwoopOnPlayer(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* temp_a2 = PLAYER;
+    Player* temp_a2 = GET_PLAYER(globalCtx);
     Vec3f sp28;
 
     SkelAnime_Update(&this->skelAnime);

@@ -187,7 +187,7 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     s16 temp_s0;
     s16 sp40;
 
-    sp44 = ACTIVE_CAM->eye;
+    sp44 = GET_ACTIVE_CAM(globalCtx)->eye;
     temp_s0 = Math_Vec3f_Yaw(&sp44, &this->actor.world.pos);
     sp40 = -Math_Vec3f_Pitch(&sp44, &this->actor.world.pos);
     sp64.z = 0.0f;
@@ -393,8 +393,8 @@ s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3f*
     sp20 = this->actor.child;
     if ((sp20 != NULL) && (arg1 == 0x13)) {
         Matrix_MultVec3f(&sp34, &sp28);
-        sp28.x -= 10.0f * Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM));
-        sp28.z -= 10.0f * Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM));
+        sp28.x -= 10.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)));
+        sp28.z -= 10.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)));
         sp20->world.pos = sp28;
     }
     return 0;

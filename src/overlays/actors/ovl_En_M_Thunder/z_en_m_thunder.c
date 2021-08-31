@@ -65,7 +65,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMThunder* this = (EnMThunder*)thisx;
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     Collider_InitCylinder(globalCtx, &this->unk14C);
     Collider_SetCylinder(globalCtx, &this->unk14C, &this->actor, &D_80AA0420);
     this->unk1C7 = (this->actor.params & 0xFF) - 1;
@@ -133,7 +133,7 @@ void func_80A9F314(GlobalContext* globalCtx, f32 arg1) {
 void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if (player->stateFlags2 & 0x20000) {
         if (player->swordAnimation >= 0x18) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
@@ -153,7 +153,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player;
     Actor* child;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     child = this->actor.child;
     this->unk1B8 = player->unk_858;
     this->actor.world.pos = player->bodyPartsPos[0];
@@ -267,7 +267,7 @@ void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
 void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if (Math_StepToF(&this->unk1AC, 0.0f, 1 / 16.0f)) {
         Actor_Kill(&this->actor);
     } else {
@@ -313,7 +313,7 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     EnMThunder* this = (EnMThunder*)thisx;
     s32 var_t1;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 0x34C);
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);

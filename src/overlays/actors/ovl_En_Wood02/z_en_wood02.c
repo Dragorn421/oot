@@ -326,7 +326,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk158.base);
         }
     } else if (this->actor.params < EN_WOOD_02_TYPE_23) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         if ((this->unk14C >= (-1)) &&
             (((((player->rideActor == NULL)) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0)) &&
               (player->linearVelocity != 0.0f)) ||

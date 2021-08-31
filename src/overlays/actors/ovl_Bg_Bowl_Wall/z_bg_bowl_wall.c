@@ -149,7 +149,7 @@ void func_8086F464(BgBowlWall* this, GlobalContext* globalCtx) {
             EffectSsHahen_SpawnBurst(globalCtx, &sp88, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
-        temp_v0 = Quake_Add(ACTIVE_CAM, 1U);
+        temp_v0 = Quake_Add(GET_ACTIVE_CAM(globalCtx), 1U);
         Quake_SetSpeed(temp_v0, 0x7FFF);
         Quake_SetQuakeValues(temp_v0, 0x12C, 0, 0, 0);
         Quake_SetCountdown(temp_v0, 0x1E);

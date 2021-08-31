@@ -265,7 +265,7 @@ void func_80BA15BC(ObjTsubo* this, GlobalContext* globalCtx) {
             }
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            temp_v0 = this->actor.yawTowardsPlayer - PLAYER->actor.world.rot.y;
+            temp_v0 = this->actor.yawTowardsPlayer - GET_PLAYER(globalCtx)->actor.world.rot.y;
             if (ABS(temp_v0) > 0x5555) {
                 func_8002F434(&this->actor, globalCtx, GI_NONE, 30.0f, 30.0f);
             }

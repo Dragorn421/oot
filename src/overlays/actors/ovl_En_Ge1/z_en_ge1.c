@@ -507,7 +507,7 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
     Player* player;
     Actor* temp_v0_2;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
         this->actor.flags &= ~0x10000;
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -601,7 +601,7 @@ void func_80A31F9C(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void func_80A31FE0(EnGe1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     u16 var_a2;
 
     if (!(player->stateFlags1 & 0x800000)) {

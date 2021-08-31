@@ -151,7 +151,7 @@ s32 func_808B0C44(Vec3f* arg0, Vec3f* arg1) {
 }
 
 void func_808B0CE0(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     Vec3f spD4;
     Vec3f spC8;

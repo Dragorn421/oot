@@ -486,7 +486,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     s16 var_v1_real;
     s16 var_a3_real;
 
-    temp_a2 = PLAYER;
+    temp_a2 = GET_PLAYER(globalCtx);
     if (this->actor.xzDistToPlayer < 170.0f) {
         temp_ft1 = (f32)this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y;
         temp_v1 = ABS(temp_ft1);
@@ -657,8 +657,8 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     s16 temp_v0_3;
     s32 temp_v0_4;
 
-    sp2C = PLAYER;
-    sp24 = PLAYER;
+    sp2C = GET_PLAYER(globalCtx);
+    sp24 = GET_PLAYER(globalCtx);
     func_80AAAA24(this);
     if (this->unk1E0.unk_00 == 0) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -707,7 +707,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
 void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
     Player* temp_v0;
 
-    temp_v0 = PLAYER;
+    temp_v0 = GET_PLAYER(globalCtx);
     if (globalCtx->msgCtx.unk_E3EE >= 4) {
         this->unk190 = func_80AAB948;
         globalCtx->msgCtx.unk_E3EE = 4;

@@ -269,8 +269,8 @@ void func_80B26E9C(EnVali* this, GlobalContext* globalCtx) {
     s16 temp_v0;
 
     for (var_s1 = 0; var_s1 < 4; var_s1++) {
-        temp_fs1 = -Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM));
-        temp_fs2 = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM));
+        temp_fs1 = -Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)));
+        temp_fs2 = Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)));
         if (!((this->unk194 + (var_s1 << 1)) % 4)) {
             temp_v0 = (s16)Rand_CenteredFloat(12288.0f) + (var_s1 * 0x4000) + 0x2000;
             sp8C.x = this->actor.world.pos.x + (Math_SinS(temp_v0) * 12.0f * temp_fs1);

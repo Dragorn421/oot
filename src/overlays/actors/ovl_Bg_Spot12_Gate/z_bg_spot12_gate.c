@@ -115,7 +115,7 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
     Math_StepToF(&thisx->velocity.y, 1.6f, 0.03f);
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 200.0f, thisx->velocity.y)) {
         func_808B3274(this);
-        var = Quake_Add(ACTIVE_CAM, 3);
+        var = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
         Quake_SetSpeed(var, -0x3CB0);
         Quake_SetQuakeValues(var, 3, 0, 0, 0);
         Quake_SetCountdown(var, 0xC);

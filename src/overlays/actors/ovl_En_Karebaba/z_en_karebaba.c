@@ -258,7 +258,7 @@ void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
 

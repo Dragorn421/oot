@@ -154,7 +154,7 @@ s32 func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx) {
         return 0;
     }
     if ((this->dyna.actor.xzDistToPlayer <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7])) {
-        func_8002DBD0(&this->dyna.actor, &sp1C, &PLAYER->actor.world.pos);
+        func_8002DBD0(&this->dyna.actor, &sp1C, &GET_PLAYER(globalCtx)->actor.world.pos);
         temp_fv1 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
         if ((temp_fv1 < fabsf(sp1C.x)) || (temp_fv1 < fabsf(sp1C.z))) {
             return 1;
@@ -166,7 +166,7 @@ s32 func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx) {
 s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx) {
     Player* temp_v1;
 
-    temp_v1 = PLAYER;
+    temp_v1 = GET_PLAYER(globalCtx);
     if (func_80BA032C(this, globalCtx) != 0) {
         if (temp_v1->stateFlags2 & 0x01000000) {
             func_8010BD58(globalCtx, 1U);

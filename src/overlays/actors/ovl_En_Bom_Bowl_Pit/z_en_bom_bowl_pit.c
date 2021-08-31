@@ -163,7 +163,7 @@ void func_809C53F0(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void func_809C54A8(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_8002DF54(globalCtx, NULL, 7U);
     this->unk160 = D_809C56E0[this->unk15A];

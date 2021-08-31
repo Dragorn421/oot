@@ -607,7 +607,7 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
 void func_809E738C(EnDekubaba* this, GlobalContext* globalCtx) {
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if (this->unk1C6 != 0) {
         this->unk1C6 -= 1;
     }

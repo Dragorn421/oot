@@ -235,7 +235,7 @@ void MirRay_UpdateLight(MirRay* this, GlobalContext* globalCtx) {
     Vec3f sp44;
     Vec3s pointLightPos;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     temp_s1 = &D_80B8E6F8[this->actor.params];
     if (MirRay_IsInConeFrustum(&this->coneFrustumCenterTop, &this->coneFrustumCenterBase, player->actor.world.pos.x,
                                player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->coneFrustumRadiusTop,
@@ -327,7 +327,7 @@ void MirRay_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player;
     MirRay* this = (MirRay*)thisx;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     D_80B8E670 = false;
     if (this->unk2AE == 0) {
         if (D_80B8E6F8[this->actor.params].unk1F & UNK1F_1) {
@@ -354,7 +354,7 @@ void func_80B8D6F0(MirRay* this, GlobalContext* globalCtx) {
     MtxF* shieldMf;
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->lightReflectionFactor = 0.0f;
     shieldMf = &player->shieldMf;
     if (MirRay_IsInConeFrustum(&this->coneFrustumCenterTop, &this->coneFrustumCenterBase, shieldMf->wx, shieldMf->wy,
@@ -397,7 +397,7 @@ void func_80B8D8A0(MirRay* this, GlobalContext* globalCtx, struct_80B8D8A0* arg2
     UNK_PTR sp6C;              // sp6C
     Vec3f forwards;            // sp60
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     shieldMf = &player->shieldMf;
     forwards.x = -(shieldMf->zx * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
     forwards.y = -(shieldMf->zy * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
@@ -461,7 +461,7 @@ void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, struct_80B8D8A0* arg2
     float new_var2;
     f32 temp_fv0;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     shieldMf = &player->shieldMf;
     forwards.x = -(shieldMf->zx * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
     new_var2 = 100.0f;
@@ -566,7 +566,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
     struct_80B8D8A0 sp7C[6];
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->lightReflectionFactor = 0.0f;
     if (!D_80B8E670 && (this->unk2AE == 0) && Player_HasMirrorShieldSetToDraw(globalCtx)) {
         Matrix_Mult(&player->shieldMf, MTXMODE_NEW);

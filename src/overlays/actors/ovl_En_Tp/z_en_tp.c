@@ -192,7 +192,7 @@ void func_80B2128C(EnTp* this) {
 void func_80B212C0(EnTp* this, GlobalContext* globalCtx) {
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
     Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
                            &D_801333E8);
@@ -310,7 +310,7 @@ void func_80B219A8(EnTp* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->unk16C, 1.0f,
                        this->actor.speedXZ * 0.25f, 0.0f);
@@ -356,7 +356,7 @@ void func_80B21BDC(EnTp* this, GlobalContext* globalCtx) {
     Player* player;
     s16 sp32;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk15C -= 1;
     if (this->actor.xzDistToPlayer < 200.0f) {
         if (this->unk174.base.atFlags & AT_HIT) {
@@ -558,7 +558,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnTp* this = (EnTp*)thisx;
     s16 v;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags1 & 0x04000000) {
         this->unk158 = 0;
