@@ -30,6 +30,4 @@ typedef struct EnGe2 {
     /* 0x308 */ void (*unk308)(struct EnGe2*, GlobalContext*);
 } EnGe2; // size = 0x30C
 
-extern const ActorInit En_Ge2_InitVars;
-
 #endif

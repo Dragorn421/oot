@@ -21,6 +21,4 @@ typedef struct EnGe3 {
     /* 0x310 */ void (*unk310)(struct EnGe3*, GlobalContext*);
 } EnGe3; // size = 0x314
 
-extern const ActorInit En_Ge3_InitVars;
-
 #endif

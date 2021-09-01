@@ -18,6 +18,4 @@ typedef struct BgJyaHaheniron {
     /* 0x1B2 */ char pad1B2[2];
 } BgJyaHaheniron; // size = 0x01B4
 
-extern const ActorInit Bg_Jya_Haheniron_InitVars;
-
 #endif

@@ -15,6 +15,4 @@ typedef struct BgHidanRsekizou {
     /* 0x188 */ ColliderJntSphElement unk188[6];
 } BgHidanRsekizou; // size = 0x0308
 
-extern const ActorInit Bg_Hidan_Rsekizou_InitVars;
-
 #endif

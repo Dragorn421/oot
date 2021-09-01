@@ -12,5 +12,4 @@ typedef struct BgSpot18Futa {
     /* 0x0150 */ u32 unk_150[0x5];
 } BgSpot18Futa; // size = 0x0154
 
-extern const ActorInit Bg_Spot18_Futa_InitVars;
 #endif

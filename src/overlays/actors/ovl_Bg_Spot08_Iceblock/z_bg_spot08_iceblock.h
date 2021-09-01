@@ -20,6 +20,4 @@ typedef struct BgSpot08Iceblock {
     /* 0x198 */ f32 unk198;
 } BgSpot08Iceblock; // size = 0x19C
 
-extern const ActorInit Bg_Spot08_Iceblock_InitVars;
-
 #endif

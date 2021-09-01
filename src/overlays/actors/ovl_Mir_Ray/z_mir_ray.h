@@ -27,6 +27,4 @@ typedef struct MirRay {
     /* 0x2AF */ char pad2AF[1];
 } MirRay; // size = 0x02B0
 
-extern const ActorInit Mir_Ray_InitVars;
-
 #endif

@@ -24,6 +24,4 @@ typedef struct EnChanger {
     /* 0x16A */ char pad16A[2];
 } EnChanger; // size = 0x016C
 
-extern const ActorInit En_Changer_InitVars;
-
 #endif

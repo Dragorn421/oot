@@ -28,6 +28,4 @@ typedef struct EnMd {
     /* 0x2BE */ Vec3s unk2BE[17];
 } EnMd; // size = 0x0324
 
-extern const ActorInit En_Md_InitVars;
-
 #endif

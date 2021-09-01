@@ -22,6 +22,4 @@ typedef struct EnVali {
     /* 0x3FC */ ColliderCylinder unk3FC;
 } EnVali; // size = 0x448
 
-extern const ActorInit En_Vali_InitVars;
-
 #endif

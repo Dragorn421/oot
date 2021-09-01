@@ -45,6 +45,4 @@ typedef struct EnWood02 {
     /* 0x158 */ ColliderCylinder unk158;
 } EnWood02; // size = 0x1A4
 
-extern const ActorInit En_Wood02_InitVars;
-
 #endif

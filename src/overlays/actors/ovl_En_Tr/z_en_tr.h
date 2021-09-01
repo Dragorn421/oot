@@ -23,6 +23,4 @@ typedef struct EnTr {
     /* 0x2E4 */ AnimationHeader* unk2E4;
 } EnTr; // size = 0x2E8
 
-extern const ActorInit En_Tr_InitVars;
-
 #endif

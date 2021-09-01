@@ -18,6 +18,4 @@ typedef struct BgBowlWall {
     /* 0x184 */ struct EnBomBowlMan* unk184;
 } BgBowlWall; // size = 0x188
 
-extern const ActorInit Bg_Bowl_Wall_InitVars;
-
 #endif

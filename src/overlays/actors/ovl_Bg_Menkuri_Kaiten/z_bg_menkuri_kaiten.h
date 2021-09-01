@@ -12,6 +12,4 @@ typedef struct BgMenkuriKaiten {
     /* 0x0150 */ char unk_150[0x14];
 } BgMenkuriKaiten; // size = 0x0164
 
-extern const ActorInit Bg_Menkuri_Kaiten_InitVars;
-
 #endif

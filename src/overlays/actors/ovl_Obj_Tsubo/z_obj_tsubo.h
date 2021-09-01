@@ -16,6 +16,4 @@ typedef struct ObjTsubo {
     /* 0x19D */ char pad19D[3];
 } ObjTsubo; // size = 0x1A0
 
-extern const ActorInit Obj_Tsubo_InitVars;
-
 #endif

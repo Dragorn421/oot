@@ -12,6 +12,4 @@ typedef struct BgUmaJump {
     /* 0x0150 */ char unk_150[0x14];
 } BgUmaJump; // size = 0x0164
 
-extern const ActorInit Bg_Uma_Jump_InitVars;
-
 #endif

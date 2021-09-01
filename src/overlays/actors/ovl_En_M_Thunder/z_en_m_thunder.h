@@ -29,6 +29,4 @@ typedef struct EnMThunder {
     /* 0x1CB */ char pad1CB[1];
 } EnMThunder; // size = 0x1CC
 
-extern const ActorInit En_M_Thunder_InitVars;
-
 #endif

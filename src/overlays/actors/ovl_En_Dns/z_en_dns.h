@@ -36,6 +36,4 @@ typedef struct EnDns {
     /* 0x2C4 */ f32 unk2C4;
 } EnDns; // size = 0x02C8
 
-extern const ActorInit En_Dns_InitVars;
-
 #endif

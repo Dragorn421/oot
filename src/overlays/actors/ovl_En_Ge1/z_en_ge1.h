@@ -26,6 +26,4 @@ typedef struct EnGe1 {
     /* 0x2B8 */ void (*unk2B8)(struct EnGe1*);
 } EnGe1; // size = 0x2BC
 
-extern const ActorInit En_Ge1_InitVars;
-
 #endif

@@ -40,6 +40,4 @@ typedef enum {
     /* 0x06 */ NB_TYPE_CRAWLSPACE
 } EnNbType;
 
-extern const ActorInit En_Nb_InitVars;
-
 #endif

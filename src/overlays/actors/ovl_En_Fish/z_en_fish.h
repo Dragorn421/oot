@@ -21,6 +21,4 @@ typedef struct EnFish {
     /* 0x250 */ s32 unk250;
 } EnFish; // size = 0x254
 
-extern const ActorInit En_Fish_InitVars;
-
 #endif

@@ -17,6 +17,4 @@ typedef struct EnKusa {
     /* 0x19F */ char pad19F[1];
 } EnKusa; // size = 0x1A0
 
-extern const ActorInit En_Kusa_InitVars;
-
 #endif

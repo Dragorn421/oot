@@ -25,6 +25,4 @@ typedef struct EnJj {
     /* 0x312 */ char pad312[2];
 } EnJj; // size = 0x314
 
-extern const ActorInit En_Jj_InitVars;
-
 #endif

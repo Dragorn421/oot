@@ -18,6 +18,4 @@ typedef struct EnBili {
     /* 0x1D4 */ ColliderCylinder unk1D4;
 } EnBili; // size = 0x220
 
-extern const ActorInit En_Bili_InitVars;
-
 #endif

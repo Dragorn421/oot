@@ -32,6 +32,4 @@ typedef struct EnFirefly {
     /* 0x334 */ ColliderJntSphElement colliderElements[1];
 } EnFirefly; // size = 0x0374
 
-extern const ActorInit En_Firefly_InitVars;
-
 #endif

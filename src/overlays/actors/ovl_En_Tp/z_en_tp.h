@@ -28,6 +28,4 @@ typedef struct EnTp {
     /* 0x1D4 */ struct EnTp* unk1D4;
 } EnTp; // size = 0x1D8
 
-extern const ActorInit En_Tp_InitVars;
-
 #endif

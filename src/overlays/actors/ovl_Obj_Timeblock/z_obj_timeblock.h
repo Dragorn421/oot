@@ -25,6 +25,4 @@ typedef struct ObjTimeblock {
     /* 0x179 */ char pad179[3]; /* maybe part of unk178[4]? */
 } ObjTimeblock;                 // size = 0x017C
 
-extern const ActorInit Obj_Timeblock_InitVars;
-
 #endif
