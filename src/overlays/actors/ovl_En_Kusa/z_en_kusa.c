@@ -413,7 +413,7 @@ void func_80A9C00C(EnKusa* this) {
 }
 
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
-    s32 temp_v1 = 1;
+    s32 temp_v1 = true;
 
     temp_v1 &= Math_StepToF(&this->actor.scale.y, 0.4f, 0.014f);
     temp_v1 &= Math_StepToF(&this->actor.scale.x, 0.4f, 0.011f);

@@ -572,7 +572,7 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
         }
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x222);
         sp4A = this->unk17C.curFrame * 10.0f;
-        sp4C = 1;
+        sp4C = true;
         sp4C &= Math_ScaledStepToS(&this->unk1CA_arr[0], -0xE38, sp4A + 0x38E);
         sp4C &= Math_ScaledStepToS(&this->unk1CA_arr[1], -0xE38, sp4A + 0x71C);
         sp4C &= Math_ScaledStepToS(&this->unk1CA_arr[2], -0xE38, sp4A + 0xE38);
@@ -721,7 +721,7 @@ void func_809E78DC(EnDekubaba* this, GlobalContext* globalCtx) {
     s32 temp_s0;
 
     SkelAnime_Update(&this->unk17C);
-    temp_s0 = 1;
+    temp_s0 = true;
     temp_s0 &= Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38);
     temp_s0 &= Math_ScaledStepToS(&this->unk1CA_arr[0], -0x4000, 0xE38);
     temp_s0 &= Math_ScaledStepToS(&this->unk1CA_arr[1], -0x4000, 0xE38);
