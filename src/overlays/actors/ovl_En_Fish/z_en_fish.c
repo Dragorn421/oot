@@ -626,7 +626,7 @@ void func_80A16A64(EnFish* this, GlobalContext* globalCtx) {
     sp34.x = sp4C->endPos.x;
     sp34.y = sp4C->endPos.y;
     sp34.z = sp4C->endPos.z;
-    temp_fv0 = func_8006F93C(sp4C->endFrame, sp4C->startFrame, globalCtx->csCtx.frames);
+    temp_fv0 = Environment_LerpWeight(sp4C->endFrame, sp4C->startFrame, globalCtx->csCtx.frames);
     this->actor.world.pos.x = ((sp34.x - sp40.x) * temp_fv0) + sp40.x;
     this->actor.world.pos.y = ((sp34.y - sp40.y) * temp_fv0) + sp40.y + D_80A17014;
     this->actor.world.pos.z = ((sp34.z - sp40.z) * temp_fv0) + sp40.z;

@@ -425,7 +425,7 @@ f32 func_80B23FDC(GlobalContext* arg0, s32 arg1) {
     f32 var_fv1;
 
     temp_v0 = arg0->csCtx.npcActions[arg1];
-    temp_fv0 = func_8006F93C(temp_v0->endFrame, temp_v0->startFrame, arg0->csCtx.frames);
+    temp_fv0 = Environment_LerpWeight(temp_v0->endFrame, temp_v0->startFrame, arg0->csCtx.frames);
     var_fv1 = temp_fv0;
     if (temp_fv0 > 1.0f) {
         var_fv1 = 1.0f;

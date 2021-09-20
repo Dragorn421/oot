@@ -74,14 +74,14 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     SkelAnime_Update(&this->skelAnime);
     this->limbs[3].y = this->limbs[12].y = -0x4000;
-    sp3C.x = globalCtx->envCtx.unk_A8;
-    sp3C.y = globalCtx->envCtx.unk_AA;
-    sp3C.z = globalCtx->envCtx.unk_AC;
-    if (globalCtx->envCtx.unk_B0 > 255.0f) {
-        globalCtx->envCtx.unk_B0 = 255.0f;
+    sp3C.x = globalCtx->envCtx.windDirection.x;
+    sp3C.y = globalCtx->envCtx.windDirection.y;
+    sp3C.z = globalCtx->envCtx.windDirection.z;
+    if (globalCtx->envCtx.windSpeed > 255.0f) {
+        globalCtx->envCtx.windSpeed = 255.0f;
     }
-    if (globalCtx->envCtx.unk_B0 < 0.0f) {
-        globalCtx->envCtx.unk_B0 = 0.0f;
+    if (globalCtx->envCtx.windSpeed < 0.0f) {
+        globalCtx->envCtx.windSpeed = 0.0f;
     }
     if (Rand_ZeroOne() > 0.5f) {
         this->unk_278 += 6000;
@@ -90,12 +90,12 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
     sin = Math_SinS(this->unk_278) * 80.0f;
     pitch = -Math_Vec3f_Pitch(&sp48, &sp3C);
-    pitch = ((s32)((0x3A98 - pitch) * (1.0f - (globalCtx->envCtx.unk_B0 / (255.0f - sin))))) + pitch;
+    pitch = ((s32)((0x3A98 - pitch) * (1.0f - (globalCtx->envCtx.windSpeed / (255.0f - sin))))) + pitch;
     Math_SmoothStepToS(&this->limbs[4].y, pitch, this->invScale, this->maxStep, this->minStep);
     this->limbs[13].y = this->limbs[4].y;
     this->limbs[4].z = -Math_Vec3f_Yaw(&sp48, &sp3C);
     this->limbs[13].z = this->limbs[4].z;
-    this->skelAnime.playSpeed = (Rand_ZeroFloat(1.25f) + 2.75f) * (globalCtx->envCtx.unk_B0 / 255.0f);
+    this->skelAnime.playSpeed = (Rand_ZeroFloat(1.25f) + 2.75f) * (globalCtx->envCtx.windSpeed / 255.0f);
 }
 
 s32 EnHata_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
