@@ -301,7 +301,7 @@ BgBdanObjects* EnRu1_FindSwitch(GlobalContext* globalCtx) {
         }
         actorIt = actorIt->next;
     }
-    // There is no stand
+    // "There is no stand"
     osSyncPrintf(VT_FGCOL(RED) "お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     return NULL;
 }
