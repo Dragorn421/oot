@@ -261,7 +261,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
                 switch (this->actor.textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
-                            if (CUR_UPG_VALUE(UPG_STRENGTH) || (gSaveContext.infTable[14] & 0x800)) {
+                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || (gSaveContext.infTable[14] & 0x800)) {
                                 this->actor.textId = 0x300B;
                             } else {
                                 this->actor.textId = 0x300C;
