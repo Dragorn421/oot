@@ -77,6 +77,8 @@ static Vec3f sHookshotTargetRelPos = { 0.0f, 80.0f, 23.0f };
 #define BGMIZU_SFXFLAG_1 2
 static u8 sActiveSfxFlags;
 
+static BgMizuMovebg* sMode421Parts[6];
+
 s32 BgMizuMovebg_GetWaterLevelIndex_(GlobalContext* globalCtx) {
     s32 result;
 
@@ -100,6 +102,22 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     Vec3f hookshotTargetRelSpawnPos;
 
+    if ((thisx->params & 0xFFF) == 0x421) {
+        s16 partParams[] = {
+            BGMIZUMOVEBG_TYPE_2_PLATFORM_TALLER << 12,
+            BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG << 12,
+            BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG << 12,
+            BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG << 12,
+            BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG << 12,
+            BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG << 12,
+        };
+
+        THIS->mode421 = true;
+        THIS->part = thisx->params >> 12;
+        thisx->params = partParams[THIS->part];
+        sMode421Parts[THIS->part] = THIS;
+    }
+
     Actor_ProcessInitChain(thisx, sInitChain);
     THIS->homeY = thisx->world.pos.y;
     THIS->dlist = sDLists[MOVEBG_TYPE(thisx->params)];
@@ -107,10 +125,15 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(sColHeaders[MOVEBG_TYPE(thisx->params)], &colHeader);
     THIS->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
+    if (globalCtx->colCtx.colHeader->numWaterBoxes >= 3) {
+        y = waterBoxes[2].ySurface + 15.0f;
+    } else {
+        y = THIS->homeY;
+    }
+
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
         case BGMIZUMOVEBG_TYPE_0_PLATFORM_SLANTED:
-            y = waterBoxes[2].ySurface + 15.0f;
             if (y < THIS->homeY - 700.0f) {
                 thisx->world.pos.y = THIS->homeY - 700.0f;
             } else {
@@ -119,7 +142,6 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
             THIS->actionFunc = BgMizuMovebg_Move__;
             break;
         case BGMIZUMOVEBG_TYPE_1_PLATFORM:
-            y = waterBoxes[2].ySurface + 15.0f;
             if (y < THIS->homeY - 710.0f) {
                 thisx->world.pos.y = THIS->homeY - 710.0f;
             } else {
@@ -128,7 +150,6 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
             THIS->actionFunc = BgMizuMovebg_Move__;
             break;
         case BGMIZUMOVEBG_TYPE_2_PLATFORM_TALLER:
-            y = waterBoxes[2].ySurface + 15.0f;
             if (y < THIS->homeY - 700.0f) {
                 thisx->world.pos.y = THIS->homeY - 700.0f;
             } else {
@@ -165,6 +186,9 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     type = MOVEBG_TYPE(thisx->params);
+    if (THIS->mode421 && THIS->part == BGMIZUMOVEBG_421PART_BODY) {
+        type = BGMIZUMOVEBG_TYPE_3_PILLAR_HIGHESTWATERLEVEL;
+    }
     switch (type) {
         case BGMIZUMOVEBG_TYPE_3_PILLAR_HIGHESTWATERLEVEL:
         case BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG:
@@ -260,11 +284,16 @@ void BgMizuMovebg_Move__(BgMizuMovebg* this, GlobalContext* globalCtx) {
 
     BgMizuMovebg_UpdateScrollAlpha___(this, globalCtx);
 
+    if (globalCtx->colCtx.colHeader->numWaterBoxes >= 3) {
+        y = waterBoxes[2].ySurface + 15.0f;
+    } else {
+        y = this->dyna.actor.world.pos.y;
+    }
+
     type = MOVEBG_TYPE(this->dyna.actor.params);
     switch (type) {
         case BGMIZUMOVEBG_TYPE_0_PLATFORM_SLANTED:
         case BGMIZUMOVEBG_TYPE_2_PLATFORM_TALLER:
-            y = waterBoxes[2].ySurface + 15.0f;
             if (y < this->homeY - 700.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 700.0f;
             } else {
@@ -272,7 +301,6 @@ void BgMizuMovebg_Move__(BgMizuMovebg* this, GlobalContext* globalCtx) {
             }
             break;
         case BGMIZUMOVEBG_TYPE_1_PLATFORM:
-            y = waterBoxes[2].ySurface + 15.0f;
             if (y < this->homeY - 710.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 710.0f;
             } else {
@@ -281,7 +309,9 @@ void BgMizuMovebg_Move__(BgMizuMovebg* this, GlobalContext* globalCtx) {
             break;
         case BGMIZUMOVEBG_TYPE_3_PILLAR_HIGHESTWATERLEVEL:
             y = this->homeY + sPillarYoffsetByWaterLevel_[BgMizuMovebg_GetWaterLevelIndex_(globalCtx)];
-            if (!Math_StepToF(&this->dyna.actor.world.pos.y, y, 1.0f)) {
+            if (this->mode421) {
+                //func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+            } else if (!Math_StepToF(&this->dyna.actor.world.pos.y, y, 1.0f)) {
                 if (!(sActiveSfxFlags & BGMIZU_SFXFLAG_1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     sActiveSfxFlags |= BGMIZU_SFXFLAG_1;
                     this->sfxFlags |= BGMIZU_SFXFLAG_1;
@@ -303,7 +333,9 @@ void BgMizuMovebg_Move__(BgMizuMovebg* this, GlobalContext* globalCtx) {
             } else {
                 y = this->homeY;
             }
-            if (!Math_StepToF(&this->dyna.actor.world.pos.y, y, 1.0f)) {
+            if (this->mode421) {
+                //func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+            } else if (!Math_StepToF(&this->dyna.actor.world.pos.y, y, 1.0f)) {
                 if (!(sActiveSfxFlags & BGMIZU_SFXFLAG_1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     sActiveSfxFlags |= BGMIZU_SFXFLAG_1;
                     this->sfxFlags |= BGMIZU_SFXFLAG_1;
@@ -323,13 +355,40 @@ void BgMizuMovebg_Move__(BgMizuMovebg* this, GlobalContext* globalCtx) {
         case BGMIZUMOVEBG_TYPE_6_PILLAR_SWITCHFLAG:
             if (globalCtx->roomCtx.curRoom.num == this->dyna.actor.room) {
                 Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 32768), MTXMODE_NEW);
+                Matrix_RotateX(this->dyna.actor.world.rot.x * (M_PI / 32768), MTXMODE_APPLY);
                 Matrix_MultVec3f(&sHookshotTargetRelPos, &hookshotTargetRelPos);
                 this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + hookshotTargetRelPos.x;
                 this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + hookshotTargetRelPos.y;
                 this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + hookshotTargetRelPos.z;
                 this->dyna.actor.child->flags &= ~1;
+                this->dyna.actor.child->world.rot = this->dyna.actor.child->shape.rot = this->dyna.actor.world.rot;
             }
             break;
+    }
+    if (this->mode421 && this->part == BGMIZUMOVEBG_421PART_BODY) {
+        BgMizuMovebg* head = sMode421Parts[BGMIZUMOVEBG_421PART_HEAD];
+        Vec3f sHookshotTargetRelPos____ = sHookshotTargetRelPos;
+
+        sHookshotTargetRelPos____.z *= -1.1f;
+
+        Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 32768), MTXMODE_NEW);
+        Matrix_RotateX(this->dyna.actor.world.rot.x * (M_PI / 32768), MTXMODE_APPLY);
+        Matrix_MultVec3f(&sHookshotTargetRelPos____, &hookshotTargetRelPos);
+        this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + hookshotTargetRelPos.x;
+        this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + hookshotTargetRelPos.y;
+        this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + hookshotTargetRelPos.z;
+        this->dyna.actor.child->flags &= ~1;
+        this->dyna.actor.child->world.rot = this->dyna.actor.child->shape.rot = this->dyna.actor.world.rot;
+
+        if (head != NULL) {
+            Vec3s rot = head->dyna.actor.shape.rot;
+
+            Math_Vec3f_Sum(&head->dyna.actor.world.pos, &hookshotTargetRelPos, &this->dyna.actor.child->world.pos);
+
+            rot.x *= -1;
+            rot.y += 0x8000;
+            this->dyna.actor.child->world.rot = this->dyna.actor.child->shape.rot = rot;
+        }
     }
 }
 
@@ -369,10 +428,152 @@ void BgMizuMovebg_FollowPath_(BgMizuMovebg* this, GlobalContext* globalCtx) {
     }
 }
 
+void BgMizuMovebg_421Body(BgMizuMovebg* this, GlobalContext* globalCtx) {
+    Vec3f targetPos;
+
+    if (globalCtx->state.input[0].cur.button & BTN_DDOWN) {
+        GET_PLAYER(globalCtx)->actor.world = this->dyna.actor.world;
+        GET_PLAYER(globalCtx)->actor.world.pos.y += 100.0f;
+        GET_PLAYER(globalCtx)->actor.home = GET_PLAYER(globalCtx)->actor.world;
+        GET_PLAYER(globalCtx)->actor.prevPos = GET_PLAYER(globalCtx)->actor.world.pos;
+    }
+
+    Math_SmoothStepToF(&this->dyna.actor.scale.x, 0.25f, 0.1f, 0.01f, 0.001f);
+    this->dyna.actor.scale.z = this->dyna.actor.scale.x;
+
+    targetPos = this->dyna.actor.world.pos;
+    targetPos.y = this->dyna.actor.home.pos.y + 260.0f;
+
+    this->timer--;
+    if (this->timer <= 0) {
+        this->timer = 10 + Rand_ZeroFloat(10);
+        if (Math3D_Vec3fMagnitude(&this->dyna.actor.world.pos) > 1000.0f) {
+            this->targetYrot = Math_Atan2S(this->dyna.actor.world.pos.z, this->dyna.actor.world.pos.x) + 0x8000;
+        } else {
+            this->targetYrot = this->dyna.actor.world.rot.y;
+            this->targetYrot += (2 * Rand_ZeroOne() - 1) * 0x2000;
+        }
+        this->dyna.actor.speedXZ = Rand_ZeroFloat(10) + 40;
+    }
+
+    //this->dyna.actor.world.pos.x += 5.0f;
+    Math_SmoothStepToS(&this->dyna.actor.world.rot.y, this->targetYrot, 2,
+        Math3D_Vec3fMagnitude(&this->dyna.actor.world.pos) > 800.0f ? 0x600 : 0x100,
+        0x100);
+    this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y;
+
+    targetPos.x += this->dyna.actor.speedXZ * Math_CosS(this->dyna.actor.shape.rot.y);
+    targetPos.z -= this->dyna.actor.speedXZ * Math_SinS(this->dyna.actor.shape.rot.y);
+
+    Math_SmoothStepToF(&this->dyna.actor.world.pos.x, targetPos.x, 0.1f, this->dyna.actor.speedXZ, 0.1f);
+    Math_SmoothStepToF(&this->dyna.actor.world.pos.y, targetPos.y, 0.1f, 3.0f, 0.1f);
+    Math_SmoothStepToF(&this->dyna.actor.world.pos.z, targetPos.z, 0.1f, this->dyna.actor.speedXZ, 0.1f);
+
+    func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+}
+
+void BgMizuMovebg_421Head(BgMizuMovebg* this, GlobalContext* globalCtx) {
+    BgMizuMovebg* body = sMode421Parts[BGMIZUMOVEBG_421PART_BODY];
+    Vec3f targetPos;
+
+    this->dyna.actor.shape.rot.x = 0x1000;
+    this->dyna.actor.shape.rot.y = body->dyna.actor.shape.rot.y + 0x4000;
+
+    this->dyna.actor.world.rot = this->dyna.actor.shape.rot;
+
+    targetPos = body->dyna.actor.world.pos;
+    targetPos.x += 80.0f * Math_CosS(body->dyna.actor.shape.rot.y);
+    targetPos.z -= 80.0f * Math_SinS(body->dyna.actor.shape.rot.y);
+    targetPos.y -= 10.0f;
+    Math_SmoothStepToF(&this->dyna.actor.world.pos.x, targetPos.x, 0.1f, 40.0f, 0.1f);
+    Math_SmoothStepToF(&this->dyna.actor.world.pos.y, targetPos.y, 0.1f, 40.0f, 0.1f);
+    Math_SmoothStepToF(&this->dyna.actor.world.pos.z, targetPos.z, 0.1f, 40.0f, 0.1f);
+}
+
+void BgMizuMovebg_421Leg(BgMizuMovebg* this, GlobalContext* globalCtx) {
+    BgMizuMovebg* body = sMode421Parts[BGMIZUMOVEBG_421PART_BODY];
+    Vec3f targetPos;
+
+    this->dyna.actor.shape.rot.x = 0x7000;
+    this->dyna.actor.shape.rot.y = body->dyna.actor.shape.rot.y + 0x10000 + this->part * 0x4000;
+
+    this->dyna.actor.world.rot = this->dyna.actor.shape.rot;
+
+    targetPos = body->dyna.actor.world.pos;
+    targetPos.x += 100.0f * Math_CosS(this->dyna.actor.shape.rot.y - 0x4000);
+    targetPos.z -= 100.0f * Math_SinS(this->dyna.actor.shape.rot.y - 0x4000);
+    targetPos.y -= 80.0f;
+    Math_SmoothStepToF(&this->dyna.actor.world.pos.x, targetPos.x, 0.1f, 40.0f, 0.1f);
+    Math_SmoothStepToF(&this->dyna.actor.world.pos.y, targetPos.y, 0.1f, 40.0f, 0.1f);
+    Math_SmoothStepToF(&this->dyna.actor.world.pos.z, targetPos.z, 0.1f, 40.0f, 0.1f);
+}
+
+BgMizuMovebgActionFunc sMode421actionFuncs[] = {
+    BgMizuMovebg_421Body,
+    BgMizuMovebg_421Head,
+    BgMizuMovebg_421Leg,
+    BgMizuMovebg_421Leg,
+    BgMizuMovebg_421Leg,
+    BgMizuMovebg_421Leg
+};
+
 void BgMizuMovebg_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMizuMovebg* this = THIS;
+    GfxPrint printer;
+    Gfx* gfx = globalCtx->state.gfxCtx->polyOpa.p + 1;
 
-    this->actionFunc(this, globalCtx);
+    gSPDisplayList(globalCtx->state.gfxCtx->overlay.p++, gfx);
+
+    GfxPrint_Init(&printer);
+    GfxPrint_Open(&printer, gfx);
+
+    GfxPrint_SetColor(&printer, 255, 0, 0, 255);
+    GfxPrint_SetPos(&printer, 1, 1);
+    GfxPrint_Printf(&printer, "mode421 = %d", this->mode421);
+
+    if (this->mode421) {
+        GfxPrint_SetPos(&printer, 1, 5 + this->part);
+        GfxPrint_Printf(&printer, "part = %d", this->part);
+    }
+
+    gfx = GfxPrint_Close(&printer);
+    GfxPrint_Destroy(&printer);
+
+    gSPEndDisplayList(gfx++);
+    gSPBranchList(globalCtx->state.gfxCtx->polyOpa.p, gfx);
+    globalCtx->state.gfxCtx->polyOpa.p = gfx;
+
+    if (this->mode421) {
+        s32 allPartsExist = true;
+        s32 i;
+
+        for (i = 0; i < 6; i++) {
+            if (sMode421Parts[i] == NULL) {
+                allPartsExist = false;
+            }
+        }
+
+        this->rotJitter.x += (2 * Rand_ZeroOne() - 1) * 0x30;
+        Math_SmoothStepToS(&this->rotJitter.x, 0, 2, 5, 1);
+
+        this->rotJitter.y += (2 * Rand_ZeroOne() - 1) * 0x30;
+        Math_SmoothStepToS(&this->rotJitter.y, 0, 2, 5, 1);
+
+        this->rotJitter.z += (2 * Rand_ZeroOne() - 1) * 0x30;
+        Math_SmoothStepToS(&this->rotJitter.z, 0, 2, 5, 1);
+
+        if (allPartsExist) {
+            gSaveContext.equips.buttonItems[1] = ITEM_LONGSHOT;
+
+            sMode421actionFuncs[this->part](this, globalCtx);
+        }
+    }
+
+    if (this->mode421 && this->actionFunc == BgMizuMovebg_FollowPath_) {
+
+    } else {
+        this->actionFunc(this, globalCtx);
+    }
 }
 
 void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx2) {
@@ -383,6 +584,10 @@ void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     if (1) {}
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 754);
+
+    if (this->mode421) {
+        Matrix_RotateRPY(this->rotJitter.x, this->rotJitter.y, this->rotJitter.z, MTXMODE_APPLY);
+    }
 
     frames = globalCtx->gameplayFrames;
     func_80093D18(globalCtx->state.gfxCtx);

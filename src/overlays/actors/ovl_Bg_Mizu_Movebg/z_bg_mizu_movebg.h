@@ -15,6 +15,15 @@ typedef enum {
     /* 7 */ BGMIZUMOVEBG_TYPE_7_MOVING_PLATFORM
 } BgMizuMovebgType;
 
+typedef enum {
+    /* 0 */ BGMIZUMOVEBG_421PART_BODY,
+    /* 1 */ BGMIZUMOVEBG_421PART_HEAD,
+    /* 2 */ BGMIZUMOVEBG_421PART_LEG_FL,
+    /* 3 */ BGMIZUMOVEBG_421PART_LEG_FR,
+    /* 4 */ BGMIZUMOVEBG_421PART_LEG_BL,
+    /* 5 */ BGMIZUMOVEBG_421PART_LEG_BR
+} BgMizuMovebg421Part;
+
 struct BgMizuMovebg;
 
 typedef void (*BgMizuMovebgActionFunc)(struct BgMizuMovebg*, GlobalContext*);
@@ -30,6 +39,11 @@ typedef struct BgMizuMovebg {
     /* 0x017C */ u8 sfxFlags;
     /* 0x0180 */ Gfx* dlist;
     /* 0x0184 */ s32 waypointId;
+    s32 mode421;
+    s32 part;
+    Vec3s rotJitter;
+    s32 timer;
+    s32 targetYrot;
 } BgMizuMovebg; // size = 0x0188
 
 #endif
