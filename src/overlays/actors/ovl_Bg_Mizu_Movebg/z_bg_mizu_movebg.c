@@ -23,9 +23,9 @@ void BgMizuMovebg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuMovebg_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx);
-void func_8089E650(BgMizuMovebg* this, GlobalContext* globalCtx);
-s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
+void BgMizuMovebg_Move__(BgMizuMovebg* this, GlobalContext* globalCtx);
+void BgMizuMovebg_FollowPath_(BgMizuMovebg* this, GlobalContext* globalCtx);
+s32 BgMizuMovebg_GetPathPointPos(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
 
 const ActorInit Bg_Mizu_Movebg_InitVars = {
     ACTOR_BG_MIZU_MOVEBG,
@@ -39,33 +39,45 @@ const ActorInit Bg_Mizu_Movebg_InitVars = {
     (ActorFunc)BgMizuMovebg_Draw,
 };
 
-static f32 D_8089EB40[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
+static f32 sPillarYoffsetByWaterLevel_[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
 
-static Gfx* D_8089EB50[] = {
-    gObjectMizuObjectsMovebgDL_000190, gObjectMizuObjectsMovebgDL_000680, gObjectMizuObjectsMovebgDL_000C20,
-    gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_002E10,
-    gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_0011F0,
+static Gfx* sDLists[] = {
+    /* 0 */ gObjectMizuObjectsMovebgPlatformSlantedDL,
+    /* 1 */ gObjectMizuObjectsMovebgPlatformDL,
+    /* 2 */ gObjectMizuObjectsMovebgPlatformTallerDL,
+    /* 3 */ gObjectMizuObjectsMovebgHookshotPillarDL,
+    /* 4 */ gObjectMizuObjectsMovebgHookshotPillarDL,
+    /* 5 */ gObjectMizuObjectsMovebgHookshotPillarDL,
+    /* 6 */ gObjectMizuObjectsMovebgHookshotPillarDL,
+    /* 7 */ gObjectMizuObjectsMovebgPlatformWithHookshotTargetDL,
 };
 
-static CollisionHeader* D_8089EB70[] = {
-    &gObjectMizuObjectsMovebgCol_0003F0, &gObjectMizuObjectsMovebgCol_000998, &gObjectMizuObjectsMovebgCol_000ED0,
-    &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_003590,
-    &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_0015F8,
+static CollisionHeader* sColHeaders[] = {
+    /* 0 */ &gObjectMizuObjectsMovebgCol_0003F0,
+    /* 1 */ &gObjectMizuObjectsMovebgCol_000998,
+    /* 2 */ &gObjectMizuObjectsMovebgCol_000ED0,
+    /* 3 */ &gObjectMizuObjectsMovebgCol_003590,
+    /* 4 */ &gObjectMizuObjectsMovebgCol_003590,
+    /* 5 */ &gObjectMizuObjectsMovebgCol_003590,
+    /* 6 */ &gObjectMizuObjectsMovebgCol_003590,
+    /* 7 */ &gObjectMizuObjectsMovebgCol_0015F8,
 };
 
-static InitChainEntry D_8089EB90[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static Vec3f D_8089EBA0 = { 0.0f, 80.0f, 23.0f };
-static Vec3f D_8089EBAC = { 0.0f, 80.0f, 23.0f };
+static Vec3f sHookshotTargetRelSpawnPos = { 0.0f, 80.0f, 23.0f };
+static Vec3f sHookshotTargetRelPos = { 0.0f, 80.0f, 23.0f };
 
-static u8 D_8089EE40;
+#define BGMIZU_SFXFLAG_0 1
+#define BGMIZU_SFXFLAG_1 2
+static u8 sActiveSfxFlags;
 
-s32 func_8089DC30(GlobalContext* globalCtx) {
+s32 BgMizuMovebg_GetWaterLevelIndex_(GlobalContext* globalCtx) {
     s32 result;
 
     if (Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG)) {
@@ -84,84 +96,88 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 type;
     s32 waypointId;
     WaterBox* waterBoxes = globalCtx->colCtx.colHeader->waterBoxes;
-    f32 temp;
+    f32 y;
     CollisionHeader* colHeader = NULL;
-    Vec3f sp48;
+    Vec3f hookshotTargetRelSpawnPos;
 
-    Actor_ProcessInitChain(thisx, D_8089EB90);
+    Actor_ProcessInitChain(thisx, sInitChain);
     THIS->homeY = thisx->world.pos.y;
-    THIS->dlist = D_8089EB50[MOVEBG_TYPE(thisx->params)];
+    THIS->dlist = sDLists[MOVEBG_TYPE(thisx->params)];
     DynaPolyActor_Init(&THIS->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(D_8089EB70[MOVEBG_TYPE(thisx->params)], &colHeader);
+    CollisionHeader_GetVirtual(sColHeaders[MOVEBG_TYPE(thisx->params)], &colHeader);
     THIS->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
-        case 0:
-            temp = waterBoxes[2].ySurface + 15.0f;
-            if (temp < THIS->homeY - 700.0f) {
+        case BGMIZUMOVEBG_TYPE_0_PLATFORM_SLANTED:
+            y = waterBoxes[2].ySurface + 15.0f;
+            if (y < THIS->homeY - 700.0f) {
                 thisx->world.pos.y = THIS->homeY - 700.0f;
             } else {
-                thisx->world.pos.y = temp;
+                thisx->world.pos.y = y;
             }
-            THIS->actionFunc = func_8089E318;
+            THIS->actionFunc = BgMizuMovebg_Move__;
             break;
-        case 1:
-            temp = waterBoxes[2].ySurface + 15.0f;
-            if (temp < THIS->homeY - 710.0f) {
+        case BGMIZUMOVEBG_TYPE_1_PLATFORM:
+            y = waterBoxes[2].ySurface + 15.0f;
+            if (y < THIS->homeY - 710.0f) {
                 thisx->world.pos.y = THIS->homeY - 710.0f;
             } else {
-                thisx->world.pos.y = temp;
+                thisx->world.pos.y = y;
             }
-            THIS->actionFunc = func_8089E318;
+            THIS->actionFunc = BgMizuMovebg_Move__;
             break;
-        case 2:
-            temp = waterBoxes[2].ySurface + 15.0f;
-            if (temp < THIS->homeY - 700.0f) {
+        case BGMIZUMOVEBG_TYPE_2_PLATFORM_TALLER:
+            y = waterBoxes[2].ySurface + 15.0f;
+            if (y < THIS->homeY - 700.0f) {
                 thisx->world.pos.y = THIS->homeY - 700.0f;
             } else {
-                thisx->world.pos.y = temp;
+                thisx->world.pos.y = y;
             }
-            THIS->actionFunc = func_8089E318;
+            THIS->actionFunc = BgMizuMovebg_Move__;
             break;
-        case 3:
-            thisx->world.pos.y = THIS->homeY + D_8089EB40[func_8089DC30(globalCtx)];
-            THIS->actionFunc = func_8089E318;
+        case BGMIZUMOVEBG_TYPE_3_PILLAR_HIGHESTWATERLEVEL:
+            thisx->world.pos.y =
+                THIS->homeY + sPillarYoffsetByWaterLevel_[BgMizuMovebg_GetWaterLevelIndex_(globalCtx)];
+            THIS->actionFunc = BgMizuMovebg_Move__;
             break;
-        case 4:
-        case 5:
-        case 6:
+        case BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_5_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_6_PILLAR_SWITCHFLAG:
             if (Flags_GetSwitch(globalCtx, MOVEBG_FLAGS(thisx->params))) {
                 thisx->world.pos.y = THIS->homeY + 115.19999999999999;
             } else {
                 thisx->world.pos.y = THIS->homeY;
             }
-            THIS->actionFunc = func_8089E318;
+            THIS->actionFunc = BgMizuMovebg_Move__;
             break;
-        case 7:
+        case BGMIZUMOVEBG_TYPE_7_MOVING_PLATFORM:
             THIS->scrollAlpha1 = 160;
             THIS->scrollAlpha2 = 160;
             THIS->scrollAlpha3 = 160;
             THIS->scrollAlpha4 = 160;
             waypointId = MOVEBG_POINT_ID(thisx->params);
             THIS->waypointId = waypointId;
-            func_8089E108(globalCtx->setupPathList, &thisx->world.pos, MOVEBG_PATH_ID(thisx->params), waypointId);
-            THIS->actionFunc = func_8089E650;
+            BgMizuMovebg_GetPathPointPos(globalCtx->setupPathList, &thisx->world.pos,
+                                         MOVEBG_PATH_ID(thisx->params), waypointId);
+            THIS->actionFunc = BgMizuMovebg_FollowPath_;
             break;
     }
 
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
-        case 3:
-        case 4:
-        case 5:
-        case 6:
+        case BGMIZUMOVEBG_TYPE_3_PILLAR_HIGHESTWATERLEVEL:
+        case BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_5_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_6_PILLAR_SWITCHFLAG:
             Matrix_RotateY(thisx->world.rot.y * (M_PI / 32768), MTXMODE_NEW);
-            Matrix_MultVec3f(&D_8089EBA0, &sp48);
+            Matrix_MultVec3f(&sHookshotTargetRelSpawnPos, &hookshotTargetRelSpawnPos);
 
             if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK,
-                                   thisx->world.pos.x + sp48.x, thisx->world.pos.y + sp48.y,
-                                   thisx->world.pos.z + sp48.z, thisx->world.rot.x, thisx->world.rot.y,
+                                   thisx->world.pos.x + hookshotTargetRelSpawnPos.x,
+                                   thisx->world.pos.y + hookshotTargetRelSpawnPos.y,
+                                   thisx->world.pos.z + hookshotTargetRelSpawnPos.z,
+                                   thisx->world.rot.x, thisx->world.rot.y,
                                    thisx->world.rot.z, 2) == NULL) {
                 Actor_Kill(thisx);
             }
@@ -173,23 +189,23 @@ void BgMizuMovebg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     switch (MOVEBG_TYPE(thisx->params)) {
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-            if (this->sfxFlags & 2) {
-                D_8089EE40 &= ~2;
+        case BGMIZUMOVEBG_TYPE_3_PILLAR_HIGHESTWATERLEVEL:
+        case BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_5_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_6_PILLAR_SWITCHFLAG:
+            if (this->sfxFlags & BGMIZU_SFXFLAG_1) {
+                sActiveSfxFlags &= ~BGMIZU_SFXFLAG_1;
             }
             break;
-        case 7:
-            if (this->sfxFlags & 1) {
-                D_8089EE40 &= ~1;
+        case BGMIZUMOVEBG_TYPE_7_MOVING_PLATFORM:
+            if (this->sfxFlags & BGMIZU_SFXFLAG_0) {
+                sActiveSfxFlags &= ~BGMIZU_SFXFLAG_0;
             }
             break;
     }
 }
 
-s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId) {
+s32 BgMizuMovebg_GetPathPointPos(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId) {
     Path* path = pathList;
     Vec3s* point;
 
@@ -203,7 +219,7 @@ s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId) {
     return 0;
 }
 
-void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx) {
+void BgMizuMovebg_UpdateScrollAlpha___(BgMizuMovebg* this, GlobalContext* globalCtx) {
     f32 waterLevel = globalCtx->colCtx.colHeader->waterBoxes[2].ySurface;
 
     if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
@@ -236,41 +252,41 @@ void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx) {
     this->scrollAlpha4 = this->scrollAlpha3;
 }
 
-void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
+void BgMizuMovebg_Move__(BgMizuMovebg* this, GlobalContext* globalCtx) {
     WaterBox* waterBoxes = globalCtx->colCtx.colHeader->waterBoxes;
-    f32 phi_f0;
+    f32 y;
     s32 type;
-    Vec3f sp28;
+    Vec3f hookshotTargetRelPos;
 
-    func_8089E198(this, globalCtx);
+    BgMizuMovebg_UpdateScrollAlpha___(this, globalCtx);
 
     type = MOVEBG_TYPE(this->dyna.actor.params);
     switch (type) {
-        case 0:
-        case 2:
-            phi_f0 = waterBoxes[2].ySurface + 15.0f;
-            if (phi_f0 < this->homeY - 700.0f) {
+        case BGMIZUMOVEBG_TYPE_0_PLATFORM_SLANTED:
+        case BGMIZUMOVEBG_TYPE_2_PLATFORM_TALLER:
+            y = waterBoxes[2].ySurface + 15.0f;
+            if (y < this->homeY - 700.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 700.0f;
             } else {
-                this->dyna.actor.world.pos.y = phi_f0;
+                this->dyna.actor.world.pos.y = y;
             }
             break;
-        case 1:
-            phi_f0 = waterBoxes[2].ySurface + 15.0f;
-            if (phi_f0 < this->homeY - 710.0f) {
+        case BGMIZUMOVEBG_TYPE_1_PLATFORM:
+            y = waterBoxes[2].ySurface + 15.0f;
+            if (y < this->homeY - 710.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 710.0f;
             } else {
-                this->dyna.actor.world.pos.y = phi_f0;
+                this->dyna.actor.world.pos.y = y;
             }
             break;
-        case 3:
-            phi_f0 = this->homeY + D_8089EB40[func_8089DC30(globalCtx)];
-            if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
-                if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
-                    D_8089EE40 |= 2;
-                    this->sfxFlags |= 2;
+        case BGMIZUMOVEBG_TYPE_3_PILLAR_HIGHESTWATERLEVEL:
+            y = this->homeY + sPillarYoffsetByWaterLevel_[BgMizuMovebg_GetWaterLevelIndex_(globalCtx)];
+            if (!Math_StepToF(&this->dyna.actor.world.pos.y, y, 1.0f)) {
+                if (!(sActiveSfxFlags & BGMIZU_SFXFLAG_1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
+                    sActiveSfxFlags |= BGMIZU_SFXFLAG_1;
+                    this->sfxFlags |= BGMIZU_SFXFLAG_1;
                 }
-                if (this->sfxFlags & 2) {
+                if (this->sfxFlags & BGMIZU_SFXFLAG_1) {
                     if (this->dyna.actor.room == 0) {
                         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                     } else {
@@ -279,20 +295,20 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case 4:
-        case 5:
-        case 6:
+        case BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_5_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_6_PILLAR_SWITCHFLAG:
             if (Flags_GetSwitch(globalCtx, MOVEBG_FLAGS(this->dyna.actor.params))) {
-                phi_f0 = this->homeY + 115.200005f;
+                y = this->homeY + 115.200005f;
             } else {
-                phi_f0 = this->homeY;
+                y = this->homeY;
             }
-            if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
-                if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
-                    D_8089EE40 |= 2;
-                    this->sfxFlags |= 2;
+            if (!Math_StepToF(&this->dyna.actor.world.pos.y, y, 1.0f)) {
+                if (!(sActiveSfxFlags & BGMIZU_SFXFLAG_1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
+                    sActiveSfxFlags |= BGMIZU_SFXFLAG_1;
+                    this->sfxFlags |= BGMIZU_SFXFLAG_1;
                 }
-                if (this->sfxFlags & 2) {
+                if (this->sfxFlags & BGMIZU_SFXFLAG_1) {
                     func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                 }
             }
@@ -301,23 +317,23 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
 
     type = MOVEBG_TYPE(this->dyna.actor.params);
     switch (type) {
-        case 3:
-        case 4:
-        case 5:
-        case 6:
+        case BGMIZUMOVEBG_TYPE_3_PILLAR_HIGHESTWATERLEVEL:
+        case BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_5_PILLAR_SWITCHFLAG:
+        case BGMIZUMOVEBG_TYPE_6_PILLAR_SWITCHFLAG:
             if (globalCtx->roomCtx.curRoom.num == this->dyna.actor.room) {
                 Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 32768), MTXMODE_NEW);
-                Matrix_MultVec3f(&D_8089EBAC, &sp28);
-                this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + sp28.x;
-                this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + sp28.y;
-                this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + sp28.z;
+                Matrix_MultVec3f(&sHookshotTargetRelPos, &hookshotTargetRelPos);
+                this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + hookshotTargetRelPos.x;
+                this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + hookshotTargetRelPos.y;
+                this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + hookshotTargetRelPos.z;
                 this->dyna.actor.child->flags &= ~1;
             }
             break;
     }
 }
 
-void func_8089E650(BgMizuMovebg* this, GlobalContext* globalCtx) {
+void BgMizuMovebg_FollowPath_(BgMizuMovebg* this, GlobalContext* globalCtx) {
     Vec3f waypoint;
     f32 dist;
     f32 dx;
@@ -325,7 +341,8 @@ void func_8089E650(BgMizuMovebg* this, GlobalContext* globalCtx) {
     f32 dz;
 
     this->dyna.actor.speedXZ = MOVEBG_SPEED(this->dyna.actor.params) * 0.1f;
-    func_8089E108(globalCtx->setupPathList, &waypoint, MOVEBG_PATH_ID(this->dyna.actor.params), this->waypointId);
+    BgMizuMovebg_GetPathPointPos(globalCtx->setupPathList, &waypoint, MOVEBG_PATH_ID(this->dyna.actor.params),
+                                 this->waypointId);
     dist = Actor_WorldDistXYZToPoint(&this->dyna.actor, &waypoint);
     if (dist < this->dyna.actor.speedXZ) {
         this->dyna.actor.speedXZ = dist;
@@ -339,15 +356,15 @@ void func_8089E650(BgMizuMovebg* this, GlobalContext* globalCtx) {
         this->waypointId++;
         if (this->waypointId >= globalCtx->setupPathList[MOVEBG_PATH_ID(this->dyna.actor.params)].count) {
             this->waypointId = 0;
-            func_8089E108(globalCtx->setupPathList, &this->dyna.actor.world.pos,
-                          MOVEBG_PATH_ID(this->dyna.actor.params), 0);
+            BgMizuMovebg_GetPathPointPos(globalCtx->setupPathList, &this->dyna.actor.world.pos,
+                                         MOVEBG_PATH_ID(this->dyna.actor.params), 0);
         }
     }
-    if (!(D_8089EE40 & 1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
-        D_8089EE40 |= 1;
-        this->sfxFlags |= 1;
+    if (!(sActiveSfxFlags & BGMIZU_SFXFLAG_0) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
+        sActiveSfxFlags |= BGMIZU_SFXFLAG_0;
+        this->sfxFlags |= BGMIZU_SFXFLAG_0;
     }
-    if (this->sfxFlags & 1) {
+    if (this->sfxFlags & BGMIZU_SFXFLAG_0) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
     }
 }

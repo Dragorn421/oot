@@ -1,14 +1,14 @@
 <Root>
     <File Name="object_mizu_objects" Segment="6">
-        <DList Name="gObjectMizuObjectsMovebgDL_000190" Offset="0x0190"/>
+        <DList Name="gObjectMizuObjectsMovebgPlatformSlantedDL" Offset="0x0190"/>
         <Collision Name="gObjectMizuObjectsMovebgCol_0003F0" Offset="0x03F0"/>
-        <DList Name="gObjectMizuObjectsMovebgDL_000680" Offset="0x0680"/>
+        <DList Name="gObjectMizuObjectsMovebgPlatformDL" Offset="0x0680"/>
         <Collision Name="gObjectMizuObjectsMovebgCol_000998" Offset="0x0998"/>
-        <DList Name="gObjectMizuObjectsMovebgDL_000C20" Offset="0x0C20"/>
+        <DList Name="gObjectMizuObjectsMovebgPlatformTallerDL" Offset="0x0C20"/>
         <Collision Name="gObjectMizuObjectsMovebgCol_000ED0" Offset="0x0ED0"/>
-        <DList Name="gObjectMizuObjectsMovebgDL_0011F0" Offset="0x11F0"/>
+        <DList Name="gObjectMizuObjectsMovebgPlatformWithHookshotTargetDL" Offset="0x11F0"/>
         <Collision Name="gObjectMizuObjectsMovebgCol_0015F8" Offset="0x15F8"/>
-        <DList Name="gObjectMizuObjectsMovebgDL_002E10" Offset="0x2E10"/>
+        <DList Name="gObjectMizuObjectsMovebgHookshotPillarDL" Offset="0x2E10"/>
         <Collision Name="gObjectMizuObjectsMovebgCol_003590" Offset="0x3590"/>
         
         <DList Name="gObjectMizuObjectsBwallDL_001770" Offset="0x1770"/>

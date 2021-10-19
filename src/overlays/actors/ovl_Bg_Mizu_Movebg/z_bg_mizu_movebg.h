@@ -4,6 +4,17 @@
 #include "ultra64.h"
 #include "global.h"
 
+typedef enum {
+    /* 0 */ BGMIZUMOVEBG_TYPE_0_PLATFORM_SLANTED,
+    /* 1 */ BGMIZUMOVEBG_TYPE_1_PLATFORM,
+    /* 2 */ BGMIZUMOVEBG_TYPE_2_PLATFORM_TALLER,
+    /* 3 */ BGMIZUMOVEBG_TYPE_3_PILLAR_HIGHESTWATERLEVEL,
+    /* 4 */ BGMIZUMOVEBG_TYPE_4_PILLAR_SWITCHFLAG,
+    /* 5 */ BGMIZUMOVEBG_TYPE_5_PILLAR_SWITCHFLAG,
+    /* 6 */ BGMIZUMOVEBG_TYPE_6_PILLAR_SWITCHFLAG,
+    /* 7 */ BGMIZUMOVEBG_TYPE_7_MOVING_PLATFORM
+} BgMizuMovebgType;
+
 struct BgMizuMovebg;
 
 typedef void (*BgMizuMovebgActionFunc)(struct BgMizuMovebg*, GlobalContext*);
