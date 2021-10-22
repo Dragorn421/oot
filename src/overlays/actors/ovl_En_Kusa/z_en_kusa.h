@@ -8,6 +8,12 @@ struct EnKusa;
 
 typedef void (*EnKusaActionFunc)(struct EnKusa*, GlobalContext*);
 
+typedef enum {
+    /* 0 */ ENKUSA_TYPE_0,
+    /* 1 */ ENKUSA_TYPE_1,
+    /* 2 */ ENKUSA_TYPE_2
+} EnKusaType;
+
 typedef struct EnKusa {
     /* 0x000 */ Actor actor;
     /* 0x14C */ EnKusaActionFunc actionFunc;
