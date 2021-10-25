@@ -1052,6 +1052,278 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
     }
 }
 
+// 16x16 ci4
+static u8 texPart[16][8];
+
+#define CHAR_TEX_WIDTH 8
+#define CHAR_TEX_HEIGHT 8
+static Vec3f startpos = { -1200.0f, 1600.0f, -1300.0f };
+static Vec3f pos;
+static Vec3f dironechar = { 110.0f, 0.0f, 110.0f };
+static Vec3f dironecharcol;
+static char str[] = "YOU ARE A SUPER MATCHER !!";
+
+#define GET_CI4_BYTE(tex, w, h, x, y) (*(((u8*)(tex)) + ((y) * ((w) / 2)) + ((x) / 2)))
+#define GET_CI4_SHIFT(x) (((x) % 2) == 0 ? 4 : 0)
+#define GET_CI4(tex, w, h, x, y) ((GET_CI4_BYTE(tex, w, h, x, y) >> GET_CI4_SHIFT(x)) & 0xF)
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+
+static void* sRupeeTex[] = {
+    gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
+};
+
+extern Vtx gameplay_keepVtx_042200[];
+
+Gfx gRupeeMaterialDL[] = {
+    gsDPPipeSync(),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsSPTexture(0x07D0, 0x03E8, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, 1, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_OPA_SURF2),
+    gsSPClearGeometryMode(G_FOG),
+    gsSPSetGeometryMode(G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
+    gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
+    gsSPEndDisplayList(),
+};
+
+Vtx gRupeeVtx[] = {
+    VTX(0, -644, 0, 64, 5, 233, 229, 142, 255),   VTX(-312, -378, 0, 35, 29, 233, 229, 142, 255),
+    VTX(0, 0, -153, 64, 64, 233, 229, 142, 255),
+
+    VTX(0, -644, 0, 64, 5, 23, 229, 114, 255),    VTX(312, -378, 0, 93, 29, 23, 229, 114, 255),
+    VTX(0, 0, 153, 64, 64, 23, 229, 114, 255),    VTX(0, -644, 0, 64, 5, 23, 229, 142, 255),
+    VTX(0, 0, -153, 64, 64, 23, 229, 142, 255),   VTX(312, -378, 0, 93, 29, 23, 229, 142, 255),
+    VTX(-312, -378, 0, 35, 29, 203, 0, 149, 255), VTX(-312, 378, 0, 35, 99, 203, 0, 149, 255),
+    VTX(0, 0, -153, 64, 64, 203, 0, 149, 255),    VTX(-312, 378, 0, 35, 99, 233, 27, 142, 255),
+    VTX(0, 644, 0, 64, 123, 233, 27, 142, 255),   VTX(0, 0, -153, 64, 64, 233, 27, 142, 255),
+    VTX(0, 0, -153, 64, 64, 23, 27, 142, 255),    VTX(0, 644, 0, 64, 123, 23, 27, 142, 255),
+    VTX(312, 378, 0, 93, 99, 23, 27, 142, 255),   VTX(312, -378, 0, 93, 29, 53, 0, 107, 255),
+    VTX(312, 378, 0, 93, 99, 53, 0, 107, 255),    VTX(0, 0, 153, 64, 64, 53, 0, 107, 255),
+    VTX(0, 0, 153, 64, 64, 203, 0, 107, 255),     VTX(-312, 378, 0, 35, 99, 203, 0, 107, 255),
+    VTX(-312, -378, 0, 35, 29, 203, 0, 107, 255), VTX(0, 0, 153, 64, 64, 233, 27, 114, 255),
+    VTX(0, 644, 0, 64, 123, 233, 27, 114, 255),   VTX(-312, 378, 0, 35, 99, 233, 27, 114, 255),
+    VTX(0, 0, 153, 64, 64, 23, 27, 114, 255),     VTX(312, 378, 0, 93, 99, 23, 27, 114, 255),
+    VTX(0, 644, 0, 64, 123, 23, 27, 114, 255),    VTX(0, -644, 0, 64, 5, 233, 229, 114, 255),
+    VTX(0, 0, 153, 64, 64, 233, 229, 114, 255),   VTX(-312, -378, 0, 35, 29, 233, 229, 114, 255),
+
+    VTX(0, -644, 0, 64, 5, 23, 229, 114, 255),    VTX(312, -378, 0, 93, 29, 23, 229, 114, 255),
+    VTX(0, 0, 153, 64, 64, 23, 229, 114, 255),
+};
+
+#define N 0
+Gfx gRupeeModelDL[] = {
+    /*
+    gsSPVertex(gameplay_keepVtx_042200, 3, 0),
+    gsSP1Triangle(0, 1, 2, 0), // back
+    */
+    gsSPVertex(&gRupeeVtx[3 + N], 32, 0),
+    // gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // back
+    // gsSP2Triangles(6, 7, 8, 0, 9, 10, 11, 0), // back
+    // gsSP2Triangles(12-N, 13-N, 14-N, 0, 15-N, 16-N, 17-N, 0),
+    gsSP2Triangles(0, 1, 2, 0, 15 - N, 16 - N, 17 - N, 0),
+    gsSP2Triangles(18 - N, 19 - N, 20 - N, 0, 21 - N, 22 - N, 23 - N, 0), // front
+    gsSP2Triangles(24 - N, 25 - N, 26 - N, 0, 27 - N, 28 - N, 29 - N, 0), // front
+    //*
+    // gsSPVertex(&gameplay_keepVtx_042200[33], 3, 0),
+    // gsSP1Triangle(0, 1, 2, 0), // front
+    //*/
+    gsSPEndDisplayList(),
+};
+#undef N
+
+void RupeeText_DrawChar(GlobalContext* globalCtx, char c, s32 showDebug) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Vec3f debugPos;
+
+    OPEN_DISPS(gfxCtx, "RupeeText_DrawChar", __LINE__);
+
+    {
+        s32 x, y;
+        static Vec3f zero = { 0, 0, 0 };
+        s32 prevRupeeTexIndex = -1;
+        u8 texReduced[CHAR_TEX_HEIGHT][CHAR_TEX_WIDTH];
+
+        dironecharcol = dironechar;
+        Math_Vec3f_Scale(&dironecharcol, 1.0f / CHAR_TEX_WIDTH);
+
+        Matrix_Push();
+
+        Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
+
+        Matrix_MultVec3f(&zero, &debugPos);
+
+        for (x = 0; x < CHAR_TEX_WIDTH; x++) {
+            Matrix_Push();
+
+            for (y = 0; y < CHAR_TEX_HEIGHT; y++) {
+                s32 tx = x + ((c & 4) ? CHAR_TEX_WIDTH : 0);
+                s32 ty = y + (c >> 3) * CHAR_TEX_HEIGHT;
+                s32 thisV = GET_CI4(gFontFF, 16, 128, tx, ty) & (1 << (c & 3));
+
+                if (thisV && (x == 0 ? true : (!texReduced[y][x - 1] || (c == 'M')))) {
+                    s32 rupeeTexIndex;
+
+                    rupeeTexIndex = Rand_ZeroOne() * (ARRAY_COUNT(sRupeeTex) - 0.001f);
+
+                    Matrix_Push();
+
+                    Matrix_Scale(0.06f, 0.06f, 0.06f, MTXMODE_APPLY);
+                    Matrix_RotateY(-M_PI / 4, MTXMODE_APPLY);
+
+                    if (rupeeTexIndex != prevRupeeTexIndex) {
+                        gDPPipeSync(POLY_OPA_DISP++);
+                        gDPLoadTextureBlock(POLY_OPA_DISP++, sRupeeTex[rupeeTexIndex], G_IM_FMT_RGBA, G_IM_SIZ_16b, 4,
+                                            4, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 2, 2, 2, 1);
+                        prevRupeeTexIndex = rupeeTexIndex;
+                    }
+                    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "RupeeText_DrawChar", __LINE__),
+                              G_MTX_MODELVIEW | G_MTX_LOAD);
+                    gSPDisplayList(POLY_OPA_DISP++, gRupeeModelDL);
+
+                    Matrix_Pop();
+
+                    texReduced[y][x] = true;
+                } else {
+                    texReduced[y][x] = false;
+                }
+
+                Matrix_Translate(0.0f, -70.0f, 0.0f, MTXMODE_APPLY);
+            }
+
+            Matrix_Pop();
+
+            if (c == 'M') {
+                Matrix_Translate(dironecharcol.x * 1.5, dironecharcol.y, dironecharcol.z * 1.5, MTXMODE_APPLY);
+            } else {
+                Matrix_Translate(dironecharcol.x, dironecharcol.y, dironecharcol.z, MTXMODE_APPLY);
+            }
+        }
+
+        Matrix_Pop();
+
+        Math_Vec3f_Sum(&pos, &dironechar, &pos);
+        if (c == 'M') {
+            Vec3f vec = dironechar;
+            Math_Vec3f_Scale(&vec, 0.5f);
+            Math_Vec3f_Sum(&pos, &vec, &pos);
+        }
+    }
+
+    if (showDebug) {
+        GfxPrint printer;
+        Gfx* gfx = POLY_OPA_DISP + 1;
+        s32 x0, y0, x, y;
+
+        gSPDisplayList(OVERLAY_DISP++, gfx);
+        GfxPrint_Init(&printer);
+        GfxPrint_Open(&printer, gfx);
+
+        GfxPrint_SetColor(&printer, 255, 0, 0, 255);
+
+        x0 = y0 = 2;
+
+        for (x = 0; x < CHAR_TEX_WIDTH; x++) {
+            for (y = 0; y < CHAR_TEX_HEIGHT; y++) {
+                s32 tx = x + ((c & 4) ? CHAR_TEX_WIDTH : 0);
+                s32 ty = y + (c >> 3) * CHAR_TEX_HEIGHT;
+                u8 b = GET_CI4_BYTE(gFontFF, 16, 128, tx, ty);
+                u8 s = GET_CI4_SHIFT(tx);
+                u8 v = GET_CI4(gFontFF, 16, 128, tx, ty);
+
+                texPart[y][x / 2] = b;
+
+                GfxPrint_SetPos(&printer, 2 * x + x0, y + y0);
+                GfxPrint_Printf(&printer, "%02X", b);
+
+                GfxPrint_SetPos(&printer, x + x0, y + y0 + 10);
+                GfxPrint_Printf(&printer, "%X", s);
+
+                GfxPrint_SetPos(&printer, x + x0 + 10, y + y0 + 10);
+                GfxPrint_Printf(&printer, "%X", v & (1 << (c & 3)));
+            }
+        }
+
+        GfxPrint_SetPos(&printer, 4, 24);
+        GfxPrint_Printf(
+            &printer, "%c %i 0x%X", c, (s32)c,
+            (u32)&GET_CI4_BYTE(gFontFF, 16, 128, 0 + (c & 4) ? CHAR_TEX_WIDTH : 0, 0 + (c >> 3) * CHAR_TEX_HEIGHT) -
+                (u32)gFontFF);
+
+        GfxPrint_SetPos(&printer, 4, 26);
+        GfxPrint_Printf(&printer, "%f %f %f", debugPos.x, debugPos.y, debugPos.z);
+
+        gfx = GfxPrint_Close(&printer);
+        GfxPrint_Destroy(&printer);
+
+        gSPEndDisplayList(gfx++);
+        gSPBranchList(POLY_OPA_DISP, gfx);
+        POLY_OPA_DISP = gfx;
+
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetOtherMode(POLY_OPA_DISP++,
+                        G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_IA16 | G_TL_TILE |
+                            G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+                        G_AC_NONE | G_ZS_PRIM | G_RM_XLU_SURF | G_RM_XLU_SURF2);
+        gDPSetCombineMode(POLY_OPA_DISP++, G_CC_DECALRGBA, G_CC_DECALRGBA);
+        gDPLoadTextureBlock_4b(POLY_OPA_DISP++, (s32)gFontFF, G_IM_FMT_CI, 16, 128, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTLUT(POLY_OPA_DISP++, 16, 256, &gLetterTLUT[c & 3]);
+        x = 20;
+        y = 5;
+        gSPTextureRectangle(POLY_OPA_DISP++, x << 2, y << 2, (x + 8) << 2, (y + 8) << 2, G_TX_RENDERTILE,
+                            (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
+        {
+            x = 40;
+            y = 15;
+            gSPTextureRectangle(POLY_OPA_DISP++, x << 2, y << 2, (x + 8) << 2, (y + 8) << 2, G_TX_RENDERTILE,
+                                (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
+            gDPLoadTextureBlock_4b(POLY_OPA_DISP++, (s32)texPart, G_IM_FMT_CI, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                                   G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            // gDPLoadTLUT(POLY_OPA_DISP++, 16, 256, &gLetterTLUT[c & 3]);
+            x = 40;
+            y = 5;
+            gSPTextureRectangle(POLY_OPA_DISP++, x << 2, y << 2, (x + 8) << 2, (y + 8) << 2, G_TX_RENDERTILE, 0, 0,
+                                1 << 10, 1 << 10);
+            x = 50;
+            y = 5;
+            gSPTextureRectangle(POLY_OPA_DISP++, x << 2, y << 2, (x + 8) << 2, (y + 8) << 2, G_TX_RENDERTILE, 0, 0,
+                                1 << 10, (1 << 10) / 2);
+            x = 60;
+            y = 5;
+            gSPTextureRectangle(POLY_OPA_DISP++, x << 2, y << 2, (x + 8) << 2, (y + 8) << 2, G_TX_RENDERTILE, 0, 0,
+                                1 << 10, (1 << 10) / 4);
+        }
+    }
+
+    CLOSE_DISPS(gfxCtx, "RupeeText_DrawChar", __LINE__);
+}
+
+void RupeeText_Draw(GlobalContext* globalCtx) {
+    s32 i;
+
+    pos = startpos;
+
+    gSPDisplayList(globalCtx->state.gfxCtx->polyOpa.p++, gRupeeMaterialDL);
+
+    if (0) {
+        RupeeText_DrawChar(globalCtx, 'A', true);
+        return;
+    }
+
+    for (i = 0; str[i] != '\0'; i++) {
+        // for (i = 0; i < 2; i++) {
+        RupeeText_DrawChar(globalCtx, str[i], false);
+    }
+
+    if (globalCtx->state.input[0].cur.button & BTN_DDOWN) {
+        Player* player = GET_PLAYER(globalCtx);
+
+        VEC_SET(player->actor.world.pos, 0, 500, 5000);
+        player->actor.prevPos = player->actor.world.pos;
+    }
+}
+
 void Gameplay_Draw(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Lights* sp228;
@@ -1207,6 +1479,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         Scene_Draw(globalCtx);
                         Room_Draw(globalCtx, &globalCtx->roomCtx.curRoom, sp80 & 3);
                         Room_Draw(globalCtx, &globalCtx->roomCtx.prevRoom, sp80 & 3);
+
+                        RupeeText_Draw(globalCtx);
                     }
                 }
 

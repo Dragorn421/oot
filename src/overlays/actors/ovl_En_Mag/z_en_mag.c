@@ -567,6 +567,8 @@ void EnMag_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* gfx;
     Gfx* gfxRef;
 
+    return;
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_mag.c", 1151);
 
     gfxRef = POLY_OPA_DISP;
