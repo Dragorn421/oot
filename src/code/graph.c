@@ -341,7 +341,10 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         problem = true;
         osSyncPrintf("%c", 7);
         // "Zelda 0 is dead"
-        osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ0は死んでしまった(graph_alloc is empty)\n" VT_RST);
+        osSyncPrintf(
+            VT_COL(RED, WHITE) "ゼルダ0は死んでしまった(graph_alloc is empty) p0=%X size=%X d0=%X p=%X d=%X overlap=%X\n" VT_RST,
+            gfxCtx->polyOpa.bufp, gfxCtx->polyOpa.size, (u32)gfxCtx->polyOpa.bufp + gfxCtx->polyOpa.size, gfxCtx->polyOpa.p,
+            gfxCtx->polyOpa.d, (u32)gfxCtx->polyOpa.p - (u32)gfxCtx->polyOpa.d);
     }
     if (THGA_IsCrash(&gfxCtx->polyXlu)) {
         problem = true;
