@@ -58,7 +58,7 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
     Vec3f diff;
     Actor* thisx = &this->actor;
 
-    if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FIXED1) {
+    if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_CHU_BOWLING) {
         var_v1 = globalCtx->actorCtx.actorLists[3].head;
         while (var_v1 != NULL) {
             if ((var_v1 == thisx) || (var_v1->id != ACTOR_EN_BOM_CHU)) {
