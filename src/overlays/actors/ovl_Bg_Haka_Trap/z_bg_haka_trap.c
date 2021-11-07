@@ -154,7 +154,7 @@ void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         }
         Collider_DestroyCylinder(globalCtx, &this->unk178);
     }
-    func_800F89E8(&this->unk16C);
+    Audio_StopSfxByPos(&this->unk16C);
 }
 
 void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
