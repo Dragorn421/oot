@@ -453,16 +453,7 @@ static Vec3f D_809C16C0 = { 1.0f, 1.0f, 1.0f };
 static s32 D_809C16CC[9] = {
     0x06000E08, 0x06001708, 0x06002008, 0x06002908, 0x06003208, 0x06003B08, 0x06004408, 0x06004D08, 0,
 };
-static Gfx D_809C16F0[] = {
-    gsDPSetCombineLERP(1, TEXEL0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, TEXEL1, 0,
-                       PRIM_LOD_FRAC, COMBINED),
-    gsSPEndDisplayList(),
-};
-static Gfx D_809C1700[] = {
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, TEXEL1, 0,
-                       PRIM_LOD_FRAC, COMBINED),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_Bili/ovl_En_Bili.c"
 
 void func_809C0980(EnBili* this, GlobalContext* globalCtx) {
     if (this->unk196 != 0) {
