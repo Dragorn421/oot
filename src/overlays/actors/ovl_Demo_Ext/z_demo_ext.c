@@ -207,7 +207,7 @@ void func_80977950(DemoExt* this, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
     Matrix_Push();
     Matrix_Scale(temp_v0->x, temp_v0->y, temp_v0->z, MTXMODE_APPLY);
-    Matrix_RotateRPY(gGameInfo->data[0xA30] + 0x4000, this->unk168, gGameInfo->data[0xA32], MTXMODE_APPLY);
+    Matrix_RotateZYX(gGameInfo->data[0xA30] + 0x4000, this->unk168, gGameInfo->data[0xA32], MTXMODE_APPLY);
     Matrix_Translate(gGameInfo->data[0xA36], gGameInfo->data[0xA37], gGameInfo->data[0xA38], MTXMODE_APPLY);
     Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
     Matrix_Pop();

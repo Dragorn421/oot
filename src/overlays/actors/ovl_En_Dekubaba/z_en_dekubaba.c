@@ -973,7 +973,7 @@ void func_809E858C(EnDekubaba* this, GlobalContext* globalCtx) {
     sp44 = this->unk230 * 0.01f;
     Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y + (-6.0f * this->unk230), this->actor.home.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->unk1CA_arr[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->unk1CA_arr[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_Scale(sp44, sp44, sp44, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2461),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1012,7 +1012,7 @@ void func_809E86B8(EnDekubaba* this, GlobalContext* globalCtx) {
         spB0.mf[3][0] -= temp_fs0_2 * Math_SinS(this->actor.shape.rot.y);
         spB0.mf[3][2] -= temp_fs0_2 * Math_CosS(this->actor.shape.rot.y);
         Matrix_Put(&spB0);
-        Matrix_RotateRPY(this->unk1CA_arr[i__var_s2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->unk1CA_arr[i__var_s2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2533),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, D_809E902C[i__var_s2]);
@@ -1040,7 +1040,7 @@ void func_809E86B8(EnDekubaba* this, GlobalContext* globalCtx) {
 
 void func_809E89E4(EnDekubaba* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2579);
-    Matrix_RotateRPY(this->unk1CA_arr[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->unk1CA_arr[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2586),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_001828);
