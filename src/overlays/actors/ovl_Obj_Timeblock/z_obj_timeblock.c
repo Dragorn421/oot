@@ -169,7 +169,7 @@ s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx) {
     temp_v1 = GET_PLAYER(globalCtx);
     if (func_80BA032C(this, globalCtx) != 0) {
         if (temp_v1->stateFlags2 & 0x01000000) {
-            func_8010BD58(globalCtx, 1U);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->unk168 = func_80BA0480;
         } else {
             temp_v1->stateFlags2 |= 0x800000;
@@ -179,10 +179,10 @@ s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx) {
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         this->unk168 = func_80BA040C;
     }
-    if (globalCtx->msgCtx.unk_E3EC == 0xA) {
+    if (globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_TIME) {
         if (this->unk172 == 0xFE) {
             this->unk16E = 0x6E;
         } else {
@@ -221,7 +221,7 @@ void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx) {
             func_80BA00CC(globalCtx, this->dyna.actor.params & 0x3F);
         }
     }
-    this->unk172 = globalCtx->msgCtx.unk_E3EC;
+    this->unk172 = globalCtx->msgCtx.lastPlayedSong;
     if (this->unk170 > 0) {
         this->unk170 -= 1;
         if (this->unk170 == 0) {
@@ -254,7 +254,7 @@ void func_80BA06AC(ObjTimeblock* this, GlobalContext* globalCtx) {
 
     sp24 = this->dyna.actor.params & 0x3F;
     temp_v0 = this->unk170;
-    this->unk172 = globalCtx->msgCtx.unk_E3EC;
+    this->unk172 = globalCtx->msgCtx.lastPlayedSong;
     if (temp_v0 > 0) {
         this->unk170 = temp_v0 - 1;
         if (this->unk170 == 0) {

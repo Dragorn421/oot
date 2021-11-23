@@ -340,7 +340,7 @@ void func_809EFB84(EnDns* this, GlobalContext* globalCtx) {
 void func_809EFBC8(EnDns* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x7D0, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->unk268 = func_809EFC9C;
     } else {
         if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.isTargeted != 0)) {
@@ -355,31 +355,31 @@ void func_809EFBC8(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809EFC9C(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 switch (this->unk2C0->checkPurchase(this)) {
                     case EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES:
-                        func_8010B720(globalCtx, 0x10A5);
+                        Message_ContinueTextbox(globalCtx, 0x10A5);
                         this->unk268 = func_809F008C;
                         return;
                     case EN_DNS_UNK8RESULT_ALREADY_FULL:
-                        func_8010B720(globalCtx, 0x10A6);
+                        Message_ContinueTextbox(globalCtx, 0x10A6);
                         this->unk268 = func_809F008C;
                         return;
                     case EN_DNS_UNK8RESULT_CANT_BUY_RIGHT_NOW:
-                        func_8010B720(globalCtx, 0x10DE);
+                        Message_ContinueTextbox(globalCtx, 0x10DE);
                         this->unk268 = func_809F008C;
                         return;
                     case EN_DNS_UNK8RESULT_OK_ALT:
                     case EN_DNS_UNK8RESULT_OK:
-                        func_8010B720(globalCtx, 0x10A7);
+                        Message_ContinueTextbox(globalCtx, 0x10A7);
                         this->unk268 = func_809EFEE8;
                         return;
                 }
                 break;
             case 1:
-                func_8010B720(globalCtx, 0x10A4);
+                Message_ContinueTextbox(globalCtx, 0x10A4);
                 this->unk268 = func_809F008C;
                 break;
         }
@@ -405,8 +405,8 @@ void EnDns_OfferItem(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809EFEE8(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         EnDns_OfferItem(this, globalCtx);
         this->unk268 = func_809EFF50;
     }
@@ -425,7 +425,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags1 & 0x400) {
-        if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
             this->unk2C0->concludePurchase(this);
             this->unk2BD = 1;
             this->unk2BB = 0;
@@ -444,7 +444,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->unk2BB = 0;
         this->actor.flags &= ~1;
         func_809EF51C(this, 1);

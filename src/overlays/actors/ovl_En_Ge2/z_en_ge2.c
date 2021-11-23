@@ -384,7 +384,7 @@ void func_80A3381C(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A33930(EnGe2* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         switch (this->actor.params & 0xFF) {
             case 0:
                 func_80A32BD0(this, 1);
@@ -418,8 +418,8 @@ void func_80A33A0C(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A33A6C(EnGe2* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actor.flags &= ~0x10000;
         this->unk308 = func_80A33A0C;
         func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
@@ -427,7 +427,7 @@ void func_80A33A6C(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A33AFC(EnGe2* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->unk308 = func_80A33A6C;
     } else {
         this->actor.textId = 0x6004;
@@ -443,7 +443,7 @@ void func_80A33B7C(EnGe2* this, GlobalContext* globalCtx) {
     func_80A32BD0(this, 4);
     func_8002DF54(globalCtx, &this->actor, 0x5FU);
     func_80078884(NA_SE_SY_FOUND);
-    func_8010B680(globalCtx, 0x6000, &this->actor);
+    Message_StartTextbox(globalCtx, 0x6000, &this->actor);
 }
 
 void func_80A33BE8(EnGe2* this, GlobalContext* globalCtx) {
@@ -473,7 +473,7 @@ void func_80A33D10(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A33BE8(this, globalCtx);
     this->unk308(this, globalCtx);
-    if (func_8002F194(thisx, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(thisx, globalCtx)) {
         if ((thisx->params & 0xFF) == 0) {
             thisx->speedXZ = 0.0f;
             func_80A32BD0(this, 8);

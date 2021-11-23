@@ -169,7 +169,7 @@ void func_80872C58(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void func_80872D20(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, 0x38)) {
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             if (!gSaveContext.magicAcquired && (this->unk2EC != 0)) {
                 Actor_Kill(&this->actor);
@@ -190,7 +190,7 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     s32 var_v1;
 
     func_8002DF54(globalCtx, &this->actor, 1U);
-    osSyncPrintf("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", globalCtx->msgCtx.unk_E3EE);
+    osSyncPrintf("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", globalCtx->msgCtx.ocarinaMode);
     var_v1 = 0;
     if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
         switch (this->unk2EC) {
@@ -353,8 +353,8 @@ void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx) {
                          -10.0f);
     }
     this->actor.textId = 0xDB;
-    this->unk2EE = 5;
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    this->unk2EE = TEXT_STATE_EVENT;
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     func_80872960(this, globalCtx, 0);
     this->actionFunc = func_808736A4;
 }
@@ -366,8 +366,8 @@ void func_808736A4(BgDyYoseizo* this, GlobalContext* globalCtx) {
         this->unk324 = 0.0f;
     }
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk2EE == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk2EE == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         Interface_ChangeAlpha(5U);
         this->actionFunc = func_80873780;
     }
@@ -452,8 +452,8 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
     if (this->unk302 == 1) {
         this->actor.textId = 0xDA;
-        this->unk2EE = 5;
-        func_8010B720(globalCtx, this->actor.textId);
+        this->unk2EE = TEXT_STATE_EVENT;
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->actionFunc = func_80873B3C;
     } else {
         func_80872C58(this, globalCtx);
@@ -466,8 +466,8 @@ void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx) {
         this->unk324 = 0.0f;
     }
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk2EE == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk2EE == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->unk2F6 = 0;
         this->actionFunc = func_80873C14;
         func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);

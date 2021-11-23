@@ -99,7 +99,7 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 this->unk1D4.z = fabsf(this->unk180.z - this->unk1BC.z) * 0.02f;
                 Gameplay_CameraSetAtEye(globalCtx, this->unk152, &this->unk180, &this->unk18C);
                 this->actor.textId = 0xF;
-                func_8010B680(globalCtx, this->actor.textId, NULL);
+                Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 this->unk154 = 5;
                 func_80078884(0x28D3U);
                 func_8002DF54(globalCtx, NULL, 8U);
@@ -122,13 +122,13 @@ void func_809C5184(EnBomBowlPit* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->unk18C.z, this->unk198.z, this->unk1A4.z, this->unk1B0.z);
     }
     Gameplay_CameraSetAtEye(globalCtx, this->unk152, &this->unk180, &this->unk18C);
-    if ((this->unk154 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk154 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
     }
     if ((fabsf(this->unk18C.x - this->unk198.x) < 5.0f) && (fabsf(this->unk18C.y - this->unk198.y) < 5.0f) &&
         (fabsf(this->unk18C.z - this->unk198.z) < 5.0f) && (fabsf(this->unk180.x - this->unk1BC.x) < 5.0f) &&
         (fabsf(this->unk180.y - this->unk1BC.y) < 5.0f) && (fabsf(this->unk180.z - this->unk1BC.z) < 5.0f)) {
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         this->unk158 = 0x1E;
         this->unk14C = func_809C5360;
     }
@@ -186,7 +186,7 @@ void func_809C55B0(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void func_809C5608(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         osSyncPrintf("\x1b[32m☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n\x1b[m");
         if (this->unk160 == GI_HEART_PIECE) {
             gSaveContext.healthAccumulator = 0x140;

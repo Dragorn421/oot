@@ -338,8 +338,9 @@ s16 func_80AAAC78(Actor* thisx, GlobalContext* globalCtx) {
     EnMd* this = (EnMd*)thisx;
     s16 temp_v0;
 
-    temp_v0 = func_8010BDBC(&globalCtx->msgCtx);
-    if (((this->unk209 == 0xA) || (this->unk209 == 5) || (this->unk209 == 2) || (this->unk209 == 1)) &&
+    temp_v0 = Message_GetState(&globalCtx->msgCtx);
+    if (((this->unk209 == TEXT_STATE_AWAITING_NEXT) || (this->unk209 == TEXT_STATE_EVENT) ||
+         (this->unk209 == TEXT_STATE_CLOSING) || (this->unk209 == TEXT_STATE_DONE_HAS_NEXT)) &&
         (this->unk209 != temp_v0)) {
         this->unk208++;
     }
@@ -355,7 +356,7 @@ u16 func_80AAACF8(GlobalContext* globalCtx, EnMd* this) {
         return temp_v0;
     }
     this->unk208 = 0;
-    this->unk209 = 0;
+    this->unk209 = TEXT_STATE_NONE;
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         return 0x1045;
     }
@@ -373,7 +374,7 @@ u16 func_80AAACF8(GlobalContext* globalCtx, EnMd* this) {
 
 u16 func_80AAADE0(GlobalContext* globalCtx, EnMd* this) {
     this->unk208 = 0;
-    this->unk209 = 0;
+    this->unk209 = TEXT_STATE_NONE;
     if (gSaveContext.eventChkInf[4] & 1) {
         return 0x1028;
     }
@@ -382,7 +383,7 @@ u16 func_80AAADE0(GlobalContext* globalCtx, EnMd* this) {
 
 u16 func_80AAAE14(GlobalContext* globalCtx, EnMd* this) {
     this->unk208 = 0;
-    this->unk209 = 0;
+    this->unk209 = TEXT_STATE_NONE;
     if (gSaveContext.eventChkInf[4] & 0x100) {
         if (gSaveContext.infTable[1] & 0x200) {
             return 0x1071;
@@ -415,17 +416,17 @@ u16 func_80AAAE94(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
     switch (func_80AAAC78(thisx, globalCtx)) {
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             return 1;
 
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x1028:
                     gSaveContext.eventChkInf[0] |= 0x8000;
@@ -446,8 +447,8 @@ s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
             }
             return 0;
 
-        case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 return 2;
             }
             break;
@@ -673,7 +674,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     if (this->unk1E0.unk_00 == 2) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
-            globalCtx->msgCtx.msgMode = 0x37;
+            globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         }
         if (globalCtx->sceneNum == SCENE_SPOT04) {
             gSaveContext.eventChkInf[0] |= 0x10;
@@ -695,7 +696,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
             if (sp2C->stateFlags2 & 0x01000000) {
                 sp2C->stateFlags2 |= 0x02000000;
                 sp2C->unk_6A8 = &this->actor;
-                func_8010BD58(globalCtx, 0x22U);
+                func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_SARIA);
                 this->unk190 = func_80AABC10;
             } else if (this->actor.xzDistToPlayer < (30.0f + (f32)this->unk194.dim.radius)) {
                 sp2C->stateFlags2 |= 0x800000;
@@ -708,15 +709,15 @@ void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
     Player* temp_v0;
 
     temp_v0 = GET_PLAYER(globalCtx);
-    if (globalCtx->msgCtx.unk_E3EE >= 4) {
+    if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->unk190 = func_80AAB948;
-        globalCtx->msgCtx.unk_E3EE = 4;
-    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySoundGeneral(0x4802U, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         this->actor.textId = 0x1067;
         func_8002F2CC(&this->actor, globalCtx, (f32)this->unk194.dim.radius + 30.0f);
         this->unk190 = func_80AAB948;
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
         temp_v0->stateFlags2 |= 0x800000;
     }
@@ -729,7 +730,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
         this->actor.shape.rot = this->actor.world.rot;
     } else if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
                (globalCtx->sceneNum == SCENE_SPOT04)) {
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         gSaveContext.eventChkInf[1] |= 0x1000;
         Actor_Kill(&this->actor);
     } else {

@@ -129,7 +129,7 @@ void func_80A3490C(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A34A20(EnGe3* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->unk310 = func_80A34A80;
         this->actor.update = func_80A34D68;
         this->actor.flags &= ~0x10000;
@@ -151,8 +151,8 @@ void func_80A34AA0(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A34B00(EnGe3* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actor.flags &= ~0x10000;
         this->unk310 = func_80A34AA0;
         func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
@@ -160,7 +160,7 @@ void func_80A34B00(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A34B90(EnGe3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->unk310 = func_80A34B00;
     } else {
         if (!(this->unk30C & 4)) {
@@ -201,7 +201,7 @@ void func_80A34D68(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A34C40(this, globalCtx);
     this->unk310(this, globalCtx);
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->unk310 = func_80A34A20;
         this->actor.update = EnGe3_Update;
     } else {

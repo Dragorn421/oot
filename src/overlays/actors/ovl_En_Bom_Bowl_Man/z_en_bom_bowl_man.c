@@ -3,6 +3,7 @@
 #include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "objects/object_bg/object_bg.h"
+#include "z64.h"
 
 #define FLAGS 0x08000039
 
@@ -92,7 +93,7 @@ void func_809C3820(EnBomBowlMan* this, GlobalContext* globalCtx) {
     Animation_Change(&this->unk14C, &object_bg_000710_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_LOOP,
                      -10.0f);
     this->actor.textId = 0xC0;
-    this->unk22E = 5;
+    this->unk22E = TEXT_STATE_EVENT;
     this->actionFunc = func_809C38A8_WaitTalk;
 }
 
@@ -101,7 +102,7 @@ void func_809C38A8_WaitTalk(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 relYawTowardsPlayerAbs;
 
     SkelAnime_Update(&this->unk14C);
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_809C395C;
     } else {
         relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
@@ -114,8 +115,8 @@ void func_809C38A8_WaitTalk(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
 void func_809C395C(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        globalCtx->msgCtx.msgMode = 0x37;
+    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_809C39D0;
     }
 }
@@ -134,14 +135,14 @@ void func_809C3A54(EnBomBowlMan* this, GlobalContext* globalCtx) {
     sp1C = this->unk14C.curFrame;
     SkelAnime_Update(&this->unk14C);
     if (sp1C == 30.0f) {
-        this->unk22E = 5;
+        this->unk22E = TEXT_STATE_EVENT;
         if ((gSaveContext.eventChkInf[2] & 0x20) || (gGameInfo->data[0x962] != 0)) {
             this->actor.textId = 0xBF;
         } else {
             this->actor.textId = 0x7058;
         }
     }
-    func_8010B720(globalCtx, this->actor.textId);
+    Message_ContinueTextbox(globalCtx, this->actor.textId);
     if ((this->unk234 == 0) && (this->unk238 == 2) && (this->unk236 == 0)) {
         this->unk234 = 2;
         this->unk23A += 1;
@@ -153,8 +154,8 @@ void func_809C3A54(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
 void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_0072AC_Anim);
         Animation_Change(&this->unk14C, &object_bg_0072AC_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount,
                          ANIMMODE_LOOP, -10.0f);
@@ -164,8 +165,8 @@ void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->actionFunc = func_809C3C7C;
         } else {
             this->actor.textId = 0x18;
-            this->unk22E = 4;
-            func_8010B720(globalCtx, this->actor.textId);
+            this->unk22E = TEXT_STATE_CHOICE;
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->actionFunc = func_809C4040;
         }
     }
@@ -173,7 +174,7 @@ void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
 void func_809C3C7C(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_809C3CD4;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 120.0f);
@@ -182,8 +183,8 @@ void func_809C3C7C(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
 void func_809C3CD4(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_809C3C7C;
     }
 }
@@ -196,10 +197,10 @@ void func_809C3D40(EnBomBowlMan* this, GlobalContext* globalCtx) {
         } else {
             this->actor.textId = 0x1A;
         }
-        this->unk22E = 4;
+        this->unk22E = TEXT_STATE_CHOICE;
     } else {
         this->actor.textId = 0x19;
-        this->unk22E = 5;
+        this->unk22E = TEXT_STATE_EVENT;
     }
     this->actionFunc = func_809C3DC4;
 }
@@ -231,7 +232,7 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
     if (this->unk244 != 0) {
         this->actor.textId = 0x1A;
-        this->unk22E = 4;
+        this->unk22E = TEXT_STATE_CHOICE;
         this->unk_258 = 0;
         if ((this->unk260 != NULL) && (this->unk260->actor.update != NULL)) {
             this->unk260->killItem = 1;
@@ -239,12 +240,12 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
         }
         globalCtx->bombchuBowlingStatus = 0;
         this->unk23C = 1;
-        func_8010B680(globalCtx, this->actor.textId, NULL);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         if (this->unk244 == 2) {
             func_8002DF54(globalCtx, NULL, 8U);
         }
         this->actionFunc = func_809C4040;
-    } else if (func_8002F194(&this->actor, globalCtx) != 0) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (this->unk_258 == 0) {
             this->actionFunc = func_809C4040;
         } else {
@@ -261,8 +262,8 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
 void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 if (gSaveContext.rupees >= 0x1E) {
@@ -274,13 +275,13 @@ void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
                     Flags_SetSwitch(globalCtx, 0x38);
                     if ((this->unk232 == 0) && (this->unk23C == 0)) {
                         this->actor.textId = 0x19;
-                        func_8010B720(globalCtx, this->actor.textId);
-                        this->unk22E = 5;
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
+                        this->unk22E = TEXT_STATE_EVENT;
                         this->actionFunc = func_809C41FC;
                     } else {
                         this->actor.textId = 0x1B;
-                        func_8010B720(globalCtx, this->actor.textId);
-                        this->unk22E = 5;
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
+                        this->unk22E = TEXT_STATE_EVENT;
                         OnePointCutscene_Init(globalCtx, 8010, -99, NULL, MAIN_CAM);
                         func_8002DF54(globalCtx, NULL, 8U);
                         this->actionFunc = func_809C4318;
@@ -288,16 +289,16 @@ void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
                 } else {
                     this->unk23C = 0;
                     this->actor.textId = 0x85;
-                    func_8010B720(globalCtx, this->actor.textId);
-                    this->unk22E = 5;
+                    Message_ContinueTextbox(globalCtx, this->actor.textId);
+                    this->unk22E = TEXT_STATE_EVENT;
                     this->actionFunc = func_809C41FC;
                 }
                 break;
             case 1:
                 this->unk23C = 0;
                 this->actor.textId = 0x2D;
-                func_8010B720(globalCtx, this->actor.textId);
-                this->unk22E = 5;
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
+                this->unk22E = TEXT_STATE_EVENT;
                 this->actionFunc = func_809C41FC;
                 break;
         }
@@ -306,15 +307,15 @@ void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
 void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         if (((this->actor.textId == 0x2D) || (this->actor.textId == 0x85)) && Flags_GetSwitch(globalCtx, 0x38)) {
             Flags_UnsetSwitch(globalCtx, 0x38);
         }
         if (this->unk_258 == 1) {
             this->actor.textId = 0x1B;
-            func_8010B720(globalCtx, this->actor.textId);
-            this->unk22E = 5;
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
+            this->unk22E = TEXT_STATE_EVENT;
             OnePointCutscene_Init(globalCtx, 8010, -99, NULL, MAIN_CAM);
             func_8002DF54(globalCtx, NULL, 8U);
             this->actionFunc = func_809C4318;
@@ -333,7 +334,7 @@ void func_809C4318(EnBomBowlMan* this, GlobalContext* globalCtx) {
     Vec3f sp2C;
 
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         sp2C.x = 148.0f;
         sp2C.y = 40.0f;
         sp2C.z = 300.0f;
@@ -393,8 +394,8 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->unk25C->unk15C = 1;
         this->unk_258 = 2;
         this->actor.textId = 0x405A;
-        func_8010B720(globalCtx, this->actor.textId);
-        this->unk22E = 5;
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
+        this->unk22E = TEXT_STATE_EVENT;
         this->unk242 += 1;
         if ((s16)this->unk242 >= 5) {
             this->unk242 = 0;
@@ -405,8 +406,8 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
 void func_809C4664(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
         this->unk232 = 1;
         if (gGameInfo->data[0x962] != 0) {
