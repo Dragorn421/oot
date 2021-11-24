@@ -19,20 +19,20 @@
         <Limb Name="object_ge1_0002E8_Limb" LimbType="Standard" Offset="0x2E8"/>
         <Skeleton Name="object_ge1_000330_Skel" Type="Flex" LimbType="Standard" Offset="0x330"/>
         <Texture Name="object_ge1_000348_Tex" Format="rgba16" Width="16" Height="16" Offset="0x348"/>
-        <Texture Name="object_ge1_000548_Tex" Format="ci8" Width="8" Height="8" Offset="0x548"/>
-        <Texture Name="object_ge1_000588_Tex" Format="ci8" Width="16" Height="16" Offset="0x588"/>
-        <Texture Name="object_ge1_000688_Tex" Format="ci8" Width="8" Height="16" Offset="0x688"/>
-        <Texture Name="object_ge1_001F08_Tex" Format="ci8" Width="32" Height="32" Offset="0x1F08"/>
-        <Texture Name="object_ge1_002308_Tex" Format="ci8" Width="8" Height="16" Offset="0x2308"/>
-        <Texture Name="object_ge1_002388_Tex" Format="ci8" Width="16" Height="16" Offset="0x2388"/>
-        <Texture Name="object_ge1_002488_Tex" Format="ci8" Width="16" Height="16" Offset="0x2488"/>
-        <Texture Name="object_ge1_002588_Tex" Format="ci8" Width="16" Height="16" Offset="0x2588"/>
-        <Texture Name="object_ge1_002688_Tex" Format="ci8" Width="8" Height="8" Offset="0x2688"/>
-        <Texture Name="object_ge1_0026C8_Tex" Format="ci8" Width="8" Height="16" Offset="0x26C8"/>
-        <Texture Name="object_ge1_002748_Tex" Format="ci8" Width="8" Height="8" Offset="0x2748"/>
+        <Texture Name="object_ge1_000548_Tex" Format="ci8" Width="8" Height="8" Offset="0x548" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_000588_Tex" Format="ci8" Width="16" Height="16" Offset="0x588" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_000688_Tex" Format="ci8" Width="8" Height="16" Offset="0x688" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_001F08_Tex" Format="ci8" Width="32" Height="32" Offset="0x1F08" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_002308_Tex" Format="ci8" Width="8" Height="16" Offset="0x2308" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_002388_Tex" Format="ci8" Width="16" Height="16" Offset="0x2388" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_002488_Tex" Format="ci8" Width="16" Height="16" Offset="0x2488" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_002588_Tex" Format="ci8" Width="16" Height="16" Offset="0x2588" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_002688_Tex" Format="ci8" Width="8" Height="8" Offset="0x2688" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_0026C8_Tex" Format="ci8" Width="8" Height="16" Offset="0x26C8" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_002748_Tex" Format="ci8" Width="8" Height="8" Offset="0x2748" TlutOffset="0x0348"/>
         <Texture Name="object_ge1_002788_Tex" Format="rgba16" Width="8" Height="8" Offset="0x2788"/>
         <Texture Name="object_ge1_002808_Tex" Format="rgba16" Width="16" Height="16" Offset="0x2808"/>
-        <Texture Name="object_ge1_002A08_Tex" Format="ci8" Width="16" Height="16" Offset="0x2A08"/>
+        <Texture Name="object_ge1_002A08_Tex" Format="ci8" Width="16" Height="16" Offset="0x2A08" TlutOffset="0x2808"/>
         <DList Name="object_ge1_005608_DL" Offset="0x5608"/>
         <DList Name="object_ge1_005C38_DL" Offset="0x5C38"/>
         <DList Name="object_ge1_006040_DL" Offset="0x6040"/>
