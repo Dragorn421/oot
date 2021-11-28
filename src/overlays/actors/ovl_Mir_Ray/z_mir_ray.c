@@ -579,7 +579,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 150,
                             (u8)(s32)(this->lightReflectionFactor * 100.0f));
-            gSPDisplayList(POLY_XLU_DISP++, &object_mir_ray_000C50_DL);
+            gSPDisplayList(POLY_XLU_DISP++, object_mir_ray_000C50_DL);
             func_80B8D8A0(this, globalCtx, sp7C);
             func_80B8DA78(sp7C);
             func_80B8DB7C(this, globalCtx, sp7C);
@@ -603,7 +603,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 150, sp7C[0].unk50);
-                    gSPDisplayList(POLY_XLU_DISP++, &object_mir_ray_0000B0_DL);
+                    gSPDisplayList(POLY_XLU_DISP++, object_mir_ray_0000B0_DL);
                 }
             }
             D_80B8E670 = true;
