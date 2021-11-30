@@ -485,6 +485,7 @@ void func_80AEB7D0(EnRu1* this) {
 
 f32 func_80AEB7E0(CsCmdActorAction* csCmdNPCAction, GlobalContext* globalCtx) {
     s32 csCtxFrames = globalCtx->csCtx.frames;
+
     if ((csCtxFrames < csCmdNPCAction->endFrame) && (csCmdNPCAction->endFrame - csCmdNPCAction->startFrame > 0)) {
         return (Math_CosS(((csCtxFrames - csCmdNPCAction->startFrame) /
                            (f32)(csCmdNPCAction->endFrame - csCmdNPCAction->startFrame)) *
@@ -1533,6 +1534,7 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
     Actor* dyna;
     s32 floorBgId;
+
     if ((this->actor.bgCheckFlags & 1) && (this->actor.floorBgId != BGCHECK_SCENE)) {
         floorBgId = this->actor.floorBgId;
         dyna = DynaPoly_GetActor(&globalCtx->colCtx, floorBgId);

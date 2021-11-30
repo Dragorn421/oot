@@ -63,6 +63,7 @@ void func_808B9F98(BgTokiHikari* this, GlobalContext* globalCtx) {
 
 void BgTokiHikari_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgTokiHikari* this = (BgTokiHikari*)thisx;
+
     this->unk150(this, globalCtx);
 }
 

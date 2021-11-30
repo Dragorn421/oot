@@ -294,7 +294,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     f32 temp_fv1;
     f32 var_fs0;
     s32 var_s0;
-    UNK_TYPE sp64;
+    s32 sp64;
 
     this->dyna.actor.velocity.y *= 1.6f;
     if (this->unk168 != 0) {
