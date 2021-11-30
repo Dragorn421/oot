@@ -945,7 +945,7 @@ void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx) {
                             var_s0->unk2E);
             gDPSetEnvColor(POLY_XLU_DISP++, var_s0->unk2B.r, var_s0->unk2B.g, var_s0->unk2B.b, 0);
             Matrix_Translate(var_s0->unk4.x, var_s0->unk4.y, var_s0->unk4.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(var_s0->unk30, var_s0->unk30, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(var_s0->unk40, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),

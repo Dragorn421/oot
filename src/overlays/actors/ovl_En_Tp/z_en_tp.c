@@ -630,7 +630,7 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(0.0f, 0.0f, 8.0f, 1U);
         } else {
             func_80093D84(globalCtx->state.gfxCtx);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, this->unk160, 0, 255, this->unk15E);
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,

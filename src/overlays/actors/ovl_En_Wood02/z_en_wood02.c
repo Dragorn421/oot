@@ -70,7 +70,8 @@ static f32 sSin;
 s32 EnWood02_IsInUncullZone(EnWood02* this, GlobalContext* globalCtx, Vec3f* pos) {
     f32 invW;
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, pos, &this->actor.projectedPos, &this->actor.projectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, pos, &this->actor.projectedPos,
+                                 &this->actor.projectedW);
     if (this->actor.projectedW == 0.0f) {
         invW = 1000.0f;
     } else {
