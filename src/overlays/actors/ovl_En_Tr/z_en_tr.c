@@ -35,11 +35,26 @@ const ActorInit En_Tr_InitVars = {
     (ActorFunc)EnTr_Update,
     (ActorFunc)EnTr_Draw,
 };
-static AnimationHeader* D_80B24360[2] = { 0x06003FC8, 0x06001CDC };
-static AnimationHeader* D_80B24368[2] = { (AnimationHeader*)0x06002BC4, 0x06000BFC };
-static AnimationHeader* D_80B24370[2] = { 0x060035CC, 0x060013CC };
-static AnimationHeader* D_80B24378[2] = { 0x060049C8, 0x060049C8 };
-static AnimationHeader* D_80B24380[2] = { (AnimationHeader*)0x06012E1C, (AnimationHeader*)0x06012E1C };
+static AnimationHeader* D_80B24360[2] = {
+    &object_tr_Anim_003FC8,
+    &object_tr_Anim_001CDC,
+};
+static AnimationHeader* D_80B24368[2] = {
+    &object_tr_Anim_002BC4,
+    &object_tr_Anim_000BFC,
+};
+static AnimationHeader* D_80B24370[2] = {
+    &object_tr_Anim_0035CC,
+    &object_tr_Anim_0013CC,
+};
+static AnimationHeader* D_80B24378[2] = {
+    &object_tr_Anim_0049C8,
+    &object_tr_Anim_0049C8,
+};
+static AnimationHeader* D_80B24380[2] = {
+    &object_tr_Anim_012E1C,
+    &object_tr_Anim_012E1C,
+};
 static f32 D_80B24388[7] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
 static f32 D_80B243A4[7] = { 0.0f, 30.0f, 0.0f, -30.0f, 30.0f, -30.0f, 0.0f };
 static Color_RGBA8 D_80B243C0[4] = {

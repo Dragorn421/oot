@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_tsubo.h"
+#include "objects/object_tsubo/object_tsubo.h"
 
 #define FLAGS 0x00800010
 
@@ -47,8 +48,8 @@ const ActorInit Obj_Tsubo_InitVars = {
 };
 
 static s16 D_80BA1B80[2] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
-static Gfx* D_80BA1B84[2] = { D_5017870, D_60017C0 };
-static Gfx* D_80BA1B8C[2] = { D_5017A60, D_6001960 };
+static Gfx* D_80BA1B84[2] = { D_5017870, object_tsubo_DL_0017C0 };
+static Gfx* D_80BA1B8C[2] = { D_5017A60, object_tsubo_DL_001960 };
 
 static ColliderCylinderInit D_80BA1B94 = {
     {
