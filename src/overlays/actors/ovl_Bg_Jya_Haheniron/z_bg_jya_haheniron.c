@@ -52,7 +52,11 @@ static InitChainEntry D_80898780[5] = {
 static f32 D_80898794[3] = { 0.13f, 0.1f, 0.1f };
 static Vec3f D_808987A0 = { 0.0f, 14.0f, 0.0f };
 static Vec3f D_808987AC = { 0.0f, 8.0f, 0.0f };
-static Gfx* D_808987B8[6] = { 0x06000880, (Gfx*)0x06000AE0, 0x06000600, NULL, NULL, NULL };
+static Gfx* D_808987B8[] = {
+    gObjectJyaIronDL_000880,
+    gObjectJyaIronDL_000AE0,
+    gObjectJyaIronDL_000600,
+};
 
 void func_808980C0(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -123,8 +127,8 @@ void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
 
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
-    if ((this->actor.bgCheckFlags & 9) ||
-        ((this->unk150.base.atFlags & AT_HIT) && (this->unk150.base.at != NULL) && (this->unk150.base.at->category == 2))) {
+    if ((this->actor.bgCheckFlags & 9) || ((this->unk150.base.atFlags & AT_HIT) && (this->unk150.base.at != NULL) &&
+                                           (this->unk150.base.at->category == 2))) {
         sp2C.x = -Rand_ZeroOne() * this->actor.velocity.x;
         sp2C.y = -Rand_ZeroOne() * this->actor.velocity.y;
         sp2C.z = -Rand_ZeroOne() * this->actor.velocity.z;

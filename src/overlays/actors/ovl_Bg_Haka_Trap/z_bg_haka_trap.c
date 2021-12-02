@@ -362,7 +362,8 @@ void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
     Vec3f sp18;
 
     func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.world.pos);
-    if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) && (GET_PLAYER(globalCtx)->currentBoots != 1)) {
+    if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
+        (GET_PLAYER(globalCtx)->currentBoots != 1)) {
         player->windSpeed = (((500.0f - sp18.z) * 0.06f) + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
         player->windDirection = this->dyna.actor.shape.rot.y;
     }
@@ -435,11 +436,11 @@ void func_80880D68(BgHakaTrap* this) {
 }
 
 Gfx* D_80881028[5] = {
-    (Gfx*)0x06007610, // guillotine
-    (Gfx*)0x06009860, // spiked crusher
-    (Gfx*)0x06007EF0, // spiked wooden wall with holes
-    (Gfx*)0x06008A20, // spiked wooden wall with less holes
-    (Gfx*)0x060072C0, // propeller
+    object_haka_objects_DL_007610, // guillotine
+    object_haka_objects_DL_009860, // spiked crusher
+    object_haka_objects_DL_007EF0, // spiked wooden wall with holes
+    object_haka_objects_DL_008A20, // spiked wooden wall with less holes
+    object_haka_objects_DL_0072C0, // propeller
 };
 Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
 
