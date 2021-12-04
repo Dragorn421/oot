@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnGe2*)thisx)
-
 void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx);

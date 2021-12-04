@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000039
 
-#define THIS ((EnGo2*)thisx)
-
 /*
 FLAGS
 
@@ -1472,7 +1470,7 @@ void EnGo2_BiggoronAnimation(EnGo2* this) {
 }
 
 void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
@@ -1928,7 +1926,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
 
     func_80A45360(this, &this->alpha);
     EnGo2_SitDownAnimation(this);
@@ -1980,7 +1978,7 @@ s32 EnGo2_DrawRolling(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     Vec3s vec1;
     f32 float1;
 
@@ -2010,7 +2008,7 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
 }
 
 void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     Vec3f D_80A4856C = { 600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 17) {
@@ -2019,7 +2017,7 @@ void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     void* eyeTextures[] = { gGoronCsEyeClosed2Tex, gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     void* mouthTextures[] = { gGoronCsMouthNeutralTex, gGoronCsMouthSmileTex };
 

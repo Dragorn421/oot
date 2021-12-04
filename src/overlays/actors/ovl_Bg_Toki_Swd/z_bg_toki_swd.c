@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgTokiSwd*)thisx)
-
 void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +63,7 @@ void BgTokiSwd_SetupAction(BgTokiSwd* this, BgTokiSwdActionFunc actionFunc) {
 }
 
 void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -87,7 +85,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -152,7 +150,7 @@ void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
 }
 
 void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
 
     this->actionFunc(this, globalCtx);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -160,7 +158,7 @@ void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
     s32 pad[3];
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 727);

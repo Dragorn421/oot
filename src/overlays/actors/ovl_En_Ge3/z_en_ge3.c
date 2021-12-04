@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000019
 
-#define THIS ((EnGe3*)thisx)
-
 void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx);

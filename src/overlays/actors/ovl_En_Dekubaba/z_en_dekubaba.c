@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000005
 
-#define THIS ((EnDekubaba*)thisx)
-
 void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx);

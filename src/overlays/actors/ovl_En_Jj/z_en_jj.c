@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((EnJj*)thisx)
-
 void EnJj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnJj_Update(Actor* thisx, GlobalContext* globalCtx);

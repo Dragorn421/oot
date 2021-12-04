@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgJyaGoroiwa*)thisx)
-
 void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -97,7 +95,7 @@ void BgJyaGoroiwa_UpdateRotation(BgJyaGoroiwa* this) {
 }
 
 void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaGoroiwa* this = THIS;
+    BgJyaGoroiwa* this = (BgJyaGoroiwa*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     BgJyaGoroiwa_InitCollider(this, globalCtx);
@@ -109,7 +107,7 @@ void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaGoroiwa* this = THIS;
+    BgJyaGoroiwa* this = (BgJyaGoroiwa*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -198,7 +196,7 @@ void BgJyaGoroiwa_Wait(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
 void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
-    BgJyaGoroiwa* this = THIS;
+    BgJyaGoroiwa* this = (BgJyaGoroiwa*)thisx;
     UNK_PTR sp38;
     Vec3f pos;
 

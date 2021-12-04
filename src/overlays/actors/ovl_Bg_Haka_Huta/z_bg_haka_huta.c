@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgHakaHuta*)thisx)
-
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx);

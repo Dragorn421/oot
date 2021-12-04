@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgUmaJump*)thisx)
-
 void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgUmaJump* this = THIS;
+    BgUmaJump* this = (BgUmaJump*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -52,7 +50,7 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgUmaJump* this = THIS;
+    BgUmaJump* this = (BgUmaJump*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgHidanFslift*)thisx)
-
 void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFslift* this = THIS;
+    BgHidanFslift* this = (BgHidanFslift*)thisx;
     s32 pad1;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -70,7 +68,7 @@ void func_80886F24(BgHidanFslift* this) {
 }
 
 void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFslift* this = THIS;
+    BgHidanFslift* this = (BgHidanFslift*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -132,7 +130,7 @@ void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFslift* this = THIS;
+    BgHidanFslift* this = (BgHidanFslift*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (func_8004356C(thisx)) {

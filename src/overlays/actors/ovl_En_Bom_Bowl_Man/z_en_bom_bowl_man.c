@@ -7,8 +7,6 @@
 
 #define FLAGS 0x08000039
 
-#define THIS ((EnBomBowlMan*)thisx)
-
 void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx);

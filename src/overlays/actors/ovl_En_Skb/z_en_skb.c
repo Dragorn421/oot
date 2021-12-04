@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnSkb*)thisx)
-
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx);

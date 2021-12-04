@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00800010
 
-#define THIS ((EnKusa*)thisx)
-
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx);

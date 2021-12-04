@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnMThunder*)thisx)
-
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx);

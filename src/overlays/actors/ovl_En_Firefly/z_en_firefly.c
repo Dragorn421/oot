@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00005005
 
-#define THIS ((EnFirefly*)thisx)
-
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx);

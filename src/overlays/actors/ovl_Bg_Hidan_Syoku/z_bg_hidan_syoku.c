@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgHidanSyoku*)thisx)
-
 void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +35,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSyoku* this = THIS;
+    BgHidanSyoku* this = (BgHidanSyoku*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -50,7 +48,7 @@ void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSyoku* this = THIS;
+    BgHidanSyoku* this = (BgHidanSyoku*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -107,7 +105,7 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSyoku* this = THIS;
+    BgHidanSyoku* this = (BgHidanSyoku*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (func_8004356C(&this->dyna.actor)) {

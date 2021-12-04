@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgGndFiremeiro*)thisx)
-
 void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -130,7 +128,7 @@ void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, GlobalContext* globalCtx
 }
 
 void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGndFiremeiro* this = THIS;
+    BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

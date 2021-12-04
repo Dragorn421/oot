@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00800010
 
-#define THIS ((ObjTsubo*)thisx)
-
 void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx);

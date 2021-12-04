@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgZg*)thisx)
-
 void BgZg_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgZg_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -50,7 +48,7 @@ const ActorInit Bg_Zg_InitVars = {
 };
 
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgZg* this = THIS;
+    BgZg* this = (BgZg*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -90,7 +88,7 @@ void func_808C0D08(BgZg* this, GlobalContext* globalCtx) {
 }
 
 void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgZg* this = THIS;
+    BgZg* this = (BgZg*)thisx;
     s32 action = this->action;
 
     if (((action < 0) || (1 < action)) || (sActionFuncs[action] == NULL)) {
@@ -102,7 +100,7 @@ void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgZg* this = THIS;
+    BgZg* this = (BgZg*)thisx;
     s32 pad[2];
     CollisionHeader* colHeader;
 
@@ -138,7 +136,7 @@ void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
 }
 
 void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgZg* this = THIS;
+    BgZg* this = (BgZg*)thisx;
     s32 drawConfig = this->drawConfig;
 
     if (((drawConfig < 0) || (drawConfig > 0)) || sDrawFuncs[drawConfig] == NULL) {

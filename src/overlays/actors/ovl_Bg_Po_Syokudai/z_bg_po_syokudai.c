@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgPoSyokudai*)thisx)
-
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);

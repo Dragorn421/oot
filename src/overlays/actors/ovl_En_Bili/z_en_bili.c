@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00005005
 
-#define THIS ((EnBili*)thisx)
-
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Update(Actor* thisx, GlobalContext* globalCtx);

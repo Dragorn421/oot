@@ -13,8 +13,6 @@
 
 #define FLAGS 0x02000030
 
-#define THIS ((BgDyYoseizo*)thisx)
-
 void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDyYoseizo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx);

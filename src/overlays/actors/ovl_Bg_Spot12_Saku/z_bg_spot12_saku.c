@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot12Saku*)thisx)
-
 void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -57,7 +55,7 @@ void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, CollisionHeader
 }
 
 void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot12Saku* this = THIS;
+    BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
     func_808B3420(this, globalCtx, &gGerudoFortressGTGShutterCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -69,7 +67,7 @@ void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot12Saku* this = THIS;
+    BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -128,7 +126,7 @@ void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot12Saku* this = THIS;
+    BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
     if (this->unk_168 > 0) {
         this->unk_168 -= 1;

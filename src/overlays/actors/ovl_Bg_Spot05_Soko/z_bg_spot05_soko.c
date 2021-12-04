@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot05Soko*)thisx)
-
 void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ static Gfx* sDLists[] = {
 };
 
 void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot05Soko* this = THIS;
+    BgSpot05Soko* this = (BgSpot05Soko*)thisx;
     u32 pad1;
     CollisionHeader* colHeader;
     u32 pad2;
@@ -71,7 +69,7 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot05Soko* this = THIS;
+    BgSpot05Soko* this = (BgSpot05Soko*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -101,7 +99,7 @@ void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot05Soko* this = THIS;
+    BgSpot05Soko* this = (BgSpot05Soko*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((DoorToki*)thisx)
-
 void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,7 +30,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DoorToki* this = THIS;
+    DoorToki* this = (DoorToki*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -43,13 +41,13 @@ void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DoorToki* this = THIS;
+    DoorToki* this = (DoorToki*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DoorToki* this = THIS;
+    DoorToki* this = (DoorToki*)thisx;
 
     if (gSaveContext.eventChkInf[4] & 0x800) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->bgId);

@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00001015
 
-#define THIS ((EnVali*)thisx)
-
 void EnVali_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVali_Update(Actor* thisx, GlobalContext* globalCtx);

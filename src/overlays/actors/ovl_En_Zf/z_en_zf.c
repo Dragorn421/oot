@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnZf*)thisx)
-
 void EnZf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx);

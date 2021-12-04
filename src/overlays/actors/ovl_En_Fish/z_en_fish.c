@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnFish*)thisx)
-
 void EnFish_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Update(Actor* thisx, GlobalContext* globalCtx);

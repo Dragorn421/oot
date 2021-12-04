@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgIceTurara*)thisx)
-
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx);

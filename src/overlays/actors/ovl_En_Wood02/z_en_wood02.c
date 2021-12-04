@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnWood02*)thisx)
-
 void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx);

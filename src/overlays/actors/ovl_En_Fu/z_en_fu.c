@@ -10,8 +10,6 @@
 
 #define FLAGS 0x02000019
 
-#define THIS ((EnFu*)thisx)
-
 #define FU_RESET_LOOK_ANGLE (1 << 0)
 #define FU_WAIT (1 << 1)
 
@@ -74,7 +72,7 @@ typedef enum {
 } EnFuFace;
 
 void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -98,7 +96,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -234,7 +232,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
 }
 
 void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -258,7 +256,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
     s32 pad;
 
     if (limbIndex == FU_LIMB_UNK) {
@@ -285,7 +283,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     if (limbIndex == FU_LIMB_HEAD) {
         Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
@@ -296,7 +294,7 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyesSegments[] = { gWindmillManEyeClosedTex, gWindmillManEyeAngryTex };
     static void* sMouthSegments[] = { gWindmillManMouthOpenTex, gWindmillManMouthAngryTex };
     s32 pad;
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 773);
 

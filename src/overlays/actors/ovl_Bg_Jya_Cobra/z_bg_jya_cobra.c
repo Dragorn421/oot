@@ -6,8 +6,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgJyaCobra*)thisx)
-
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -394,7 +392,7 @@ void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
 }
 
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaCobra* this = THIS;
+    BgJyaCobra* this = (BgJyaCobra*)thisx;
 
     BgJyaCobra_InitDynapoly(this, globalCtx, &gCobraCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -422,7 +420,7 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaCobra* this = THIS;
+    BgJyaCobra* this = (BgJyaCobra*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -511,7 +509,7 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
 
 void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgJyaCobra* this = THIS;
+    BgJyaCobra* this = (BgJyaCobra*)thisx;
 
     this->actionFunc(this, globalCtx);
 
@@ -599,7 +597,7 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaCobra* this = THIS;
+    BgJyaCobra* this = (BgJyaCobra*)thisx;
 
     func_80896CB4(globalCtx);
     Gfx_DrawDListOpa(globalCtx, gCobra1DL);

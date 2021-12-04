@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnAni*)thisx)
-
 void EnAni_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAni_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAni_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -72,7 +70,7 @@ void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
 }
 
 void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnAni* this = THIS;
+    EnAni* this = (EnAni*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -95,7 +93,7 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnAni_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnAni* this = THIS;
+    EnAni* this = (EnAni*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -237,7 +235,7 @@ void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
 }
 
 void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnAni* this = THIS;
+    EnAni* this = (EnAni*)thisx;
     s32 pad[2];
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -295,7 +293,7 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnAni* this = THIS;
+    EnAni* this = (EnAni*)thisx;
 
     if (limbIndex == 15) {
         rot->x += this->unk_29C.y;
@@ -305,7 +303,7 @@ s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnAni* this = THIS;
+    EnAni* this = (EnAni*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
@@ -318,7 +316,7 @@ void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gRoofManEyeHalfTex,
         gRoofManEyeClosedTex,
     };
-    EnAni* this = THIS;
+    EnAni* this = (EnAni*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ani.c", 719);

@@ -10,8 +10,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((MirRay*)thisx)
-
 void MirRay_Init(Actor* thisx, GlobalContext* globalCtx);
 void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MirRay_Update(Actor* thisx, GlobalContext* globalCtx);

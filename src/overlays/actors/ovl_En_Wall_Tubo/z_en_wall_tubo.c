@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnWallTubo*)thisx)
-
 void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx);

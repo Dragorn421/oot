@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000415
 
-#define THIS ((EnDh*)thisx)
-
 typedef enum { DH_WAIT, DH_RETREAT, DH_BURROW, DH_WALK, DH_ATTACK, DH_DEATH, DH_DAMAGE } EnDhAction;
 
 void EnDh_Init(Actor* this, GlobalContext* globalCtx);
@@ -131,7 +129,7 @@ void EnDh_SetupAction(EnDh* this, EnDhActionFunc actionFunc) {
 }
 
 void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
@@ -152,7 +150,7 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
 
     func_800F5B58();
     Collider_DestroyCylinder(globalCtx, &this->collider1);
@@ -494,7 +492,7 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad40;
 
@@ -525,7 +523,7 @@ void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Vec3f headOffset = { 2000.0f, 1000.0f, 0.0f };
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
 
     if (limbIndex == 13) {
         Matrix_MultVec3f(&headOffset, &this->headPos);
@@ -538,7 +536,7 @@ void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dh.c", 1099);
     if (this->alpha == 255) {

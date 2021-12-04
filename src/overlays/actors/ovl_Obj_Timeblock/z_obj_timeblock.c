@@ -9,8 +9,6 @@
 
 #define FLAGS 0x0A000011
 
-#define THIS ((ObjTimeblock*)thisx)
-
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);

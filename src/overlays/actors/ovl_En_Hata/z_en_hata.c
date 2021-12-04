@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((EnHata*)thisx)
-
 void EnHata_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHata_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ static UNK_TYPE sUnusedData[] = {
 static Vec3f sVec = { 0, 0, 0 };
 
 void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHata* this = THIS;
+    EnHata* this = (EnHata*)thisx;
     s32 pad;
     CollisionHeader* colHeader;
     f32 frameCount;
@@ -59,14 +57,14 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHata* this = THIS;
+    EnHata* this = (EnHata*)thisx;
     SkelAnime_Free(&this->skelAnime, globalCtx);
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnHata_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnHata* this = THIS;
+    EnHata* this = (EnHata*)thisx;
     s32 pitch;
     Vec3f sp48 = sVec;
     Vec3f sp3C;
@@ -99,7 +97,7 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 s32 EnHata_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnHata* this = THIS;
+    EnHata* this = (EnHata*)thisx;
     Vec3s* limbs;
 
     if (limbIndex == 12 || limbIndex == 3 || limbIndex == 13 || limbIndex == 4) {
@@ -115,7 +113,7 @@ void EnHata_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 }
 
 void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHata* this = THIS;
+    EnHata* this = (EnHata*)thisx;
     func_800943C8(globalCtx->state.gfxCtx);
     Matrix_Scale(1.0f, 1.1f, 1.0f, MTXMODE_APPLY);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHata_OverrideLimbDraw,

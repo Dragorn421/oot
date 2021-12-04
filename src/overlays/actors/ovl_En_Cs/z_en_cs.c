@@ -4,8 +4,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnCs*)thisx)
-
 void EnCs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -116,7 +114,7 @@ void EnCs_SetAnimFromIndex(EnCs* this, s32 animIndex, s32* currentAnimIndex) {
 }
 
 void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnCs* this = THIS;
+    EnCs* this = (EnCs*)thisx;
     s32 pad;
 
     if (!IS_DAY) {
@@ -152,7 +150,7 @@ void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnCs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnCs* this = THIS;
+    EnCs* this = (EnCs*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -411,7 +409,7 @@ void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
 
 void EnCs_Update(Actor* thisx, GlobalContext* globalCtx) {
     static s32 eyeBlinkFrames[] = { 70, 1, 1 };
-    EnCs* this = THIS;
+    EnCs* this = (EnCs*)thisx;
     s32 pad;
 
     if (this->currentAnimIndex == 0) {
@@ -452,7 +450,7 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gGraveyardKidEyesHalfTex,
         gGraveyardKidEyesClosedTex,
     };
-    EnCs* this = THIS;
+    EnCs* this = (EnCs*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_cs.c", 968);
@@ -483,7 +481,7 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
-    EnCs* this = THIS;
+    EnCs* this = (EnCs*)thisx;
 
     if (this->flag & 1) {
         switch (limbIndex) {
@@ -503,7 +501,7 @@ s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_809E2970 = { 500.0f, 800.0f, 0.0f };
-    EnCs* this = THIS;
+    EnCs* this = (EnCs*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_809E2970, &this->actor.focus.pos);

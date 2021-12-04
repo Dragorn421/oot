@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgDdanJd*)thisx)
-
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanJd_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -53,7 +51,7 @@ typedef enum {
 #define SHORTCUT_Y_SPEED 5
 
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanJd* this = THIS;
+    BgDdanJd* this = (BgDdanJd*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -76,7 +74,7 @@ void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanJd* this = THIS;
+    BgDdanJd* this = (BgDdanJd*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -171,7 +169,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
 }
 
 void BgDdanJd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanJd* this = THIS;
+    BgDdanJd* this = (BgDdanJd*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

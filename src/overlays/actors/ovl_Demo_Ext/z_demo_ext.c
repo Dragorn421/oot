@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((DemoExt*)thisx)
-
 void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx);

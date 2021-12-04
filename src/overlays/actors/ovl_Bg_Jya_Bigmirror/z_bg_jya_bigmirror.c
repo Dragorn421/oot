@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgJyaBigmirror*)thisx)
-
 void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx);

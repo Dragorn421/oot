@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnTr*)thisx)
-
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Update(Actor* thisx, GlobalContext* globalCtx);

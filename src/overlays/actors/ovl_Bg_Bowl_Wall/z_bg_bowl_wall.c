@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00000030
 
-#define THIS ((BgBowlWall*)thisx)
-
 void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBowlWall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx);

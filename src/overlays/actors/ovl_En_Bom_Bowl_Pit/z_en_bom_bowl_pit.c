@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnBomBowlPit*)thisx)
-
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlPit_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlPit_Update(Actor* thisx, GlobalContext* globalCtx);

@@ -8,8 +8,6 @@
 
 #define FLAGS 0x00000015
 
-#define THIS ((EnWf*)thisx)
-
 void EnWf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Update(Actor* thisx, GlobalContext* globalCtx);

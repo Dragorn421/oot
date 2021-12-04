@@ -9,8 +9,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((BgJyaHaheniron*)thisx)
-
 void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx);

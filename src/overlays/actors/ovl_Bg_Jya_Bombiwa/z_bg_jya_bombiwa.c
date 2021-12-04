@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgJyaBombiwa*)thisx)
-
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -103,7 +101,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombiwa* this = THIS;
+    BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -154,7 +152,7 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombiwa* this = THIS;
+    BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
     if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, globalCtx);
@@ -167,7 +165,7 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombiwa* this = THIS;
+    BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, gBombiwaDL);
     Collider_UpdateSpheres(0, &this->collider);

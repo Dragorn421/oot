@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((EnSt*)thisx)
-
 void EnSt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSt_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -760,7 +758,7 @@ void EnSt_Sway(EnSt* this) {
 }
 
 void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 14.0f);
@@ -786,7 +784,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
     s32 i;
 
     Effect_Delete(globalCtx, this->blureIdx);
@@ -988,7 +986,7 @@ void EnSt_StartOnCeilingOrGround(EnSt* this, GlobalContext* globalCtx) {
 }
 
 void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
     s32 pad;
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
@@ -1034,7 +1032,7 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_st.c", 2260);
     switch (limbIndex) {
@@ -1058,13 +1056,13 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
 }
 
 void EnSt_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3s* rot, void* thisx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
 
     Collider_UpdateSpheres(limbIndex, &this->colSph);
 }
 
 void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
 
     EnSt_CheckBodyStickHit(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);

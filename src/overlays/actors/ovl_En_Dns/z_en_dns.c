@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000009
 
-#define THIS ((EnDns*)thisx)
-
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDns_Update(Actor* thisx, GlobalContext* globalCtx);

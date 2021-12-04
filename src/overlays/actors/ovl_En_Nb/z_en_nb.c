@@ -5,8 +5,6 @@
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnNb*)thisx)
-
 typedef enum {
     /* 0x00 */ NB_CHAMBER_INIT,
     /* 0x01 */ NB_CHAMBER_UNDERGROUND,
@@ -152,7 +150,7 @@ void EnNb_UpdatePath(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetupCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -167,7 +165,7 @@ void EnNb_UpdateCollider(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -992,7 +990,7 @@ void func_80AB2E70(EnNb* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AB2FC0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     if (limbIndex == 15) {
         *dList = object_nb_013158_DL;
@@ -1434,7 +1432,7 @@ static EnNbActionFunc sActionFuncs[] = {
 };
 
 void EnNb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     if (this->action < 0 || this->action > 30 || sActionFuncs[this->action] == NULL) {
         // "Main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -1447,7 +1445,7 @@ void EnNb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnNb_SetupCollider(thisx, globalCtx);
@@ -1477,7 +1475,7 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
     struct_80034A14_arg1* unk_300 = &this->unk_300;
     s32 ret = false;
 
@@ -1497,7 +1495,7 @@ s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnNb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     if (limbIndex == 15) {
         Vec3f vec1 = { 0.0f, 10.0f, 0.0f };
@@ -1541,7 +1539,7 @@ static EnNbDrawFunc sDrawFuncs[] = {
 };
 
 void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"

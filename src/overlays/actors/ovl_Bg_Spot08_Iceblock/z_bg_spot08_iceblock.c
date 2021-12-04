@@ -3,8 +3,6 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgSpot08Iceblock*)thisx)
-
 void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Iceblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx);

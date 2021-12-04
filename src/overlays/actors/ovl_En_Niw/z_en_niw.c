@@ -11,8 +11,6 @@
 
 #define FLAGS 0x00800010
 
-#define THIS ((EnNiw*)thisx)
-
 void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -121,7 +119,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     s32 pad;
     s32 i;
 
@@ -242,7 +240,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -875,7 +873,7 @@ void func_80AB747C(EnNiw* this, GlobalContext* globalCtx) {
 
 void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s16 i;
     s16 featherCount;
@@ -1109,7 +1107,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
@@ -1133,7 +1131,7 @@ s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     Vec3f scale = { 0.15f, 0.15f, 0.15f };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
