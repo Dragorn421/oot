@@ -1,7 +1,7 @@
 #include "z_en_changer.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnChanger_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -142,7 +142,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     sRightChestPositions[globalCtx->roomCtx.curRoom.num].z, 0, 0, 0,
                     ((this->unk15E_r & 0x1F) << 8) + (sp66_rightChestThing & 0xFF));
     }
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk14C = func_809D2CCC;
 }
 

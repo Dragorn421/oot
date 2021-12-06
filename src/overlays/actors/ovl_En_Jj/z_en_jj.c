@@ -7,7 +7,7 @@
 #include "z_en_jj.h"
 #include "objects/object_jj/object_jj.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnJj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx);

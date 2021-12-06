@@ -3,7 +3,7 @@
 #include "z64collision_check.h"
 #include "objects/object_shopnuts/object_shopnuts.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -342,9 +342,9 @@ void func_809EFBC8(EnDns* this, GlobalContext* globalCtx) {
         this->unk268 = func_809EFC9C;
     } else {
         if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.isTargeted != 0)) {
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
         } else {
-            this->actor.flags &= ~0x10000;
+            this->actor.flags &= ~ACTOR_FLAG_16;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
             func_8002F2F4(&this->actor, globalCtx);
@@ -427,7 +427,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
             this->unk2C0->concludePurchase(this);
             this->unk2BD = 1;
             this->unk2BB = 0;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             func_809EF51C(this, 1);
             this->unk268 = func_809F0100;
         }
@@ -435,7 +435,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
         this->unk2C0->concludePurchase(this);
         this->unk2BD = 1;
         this->unk2BB = 0;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         func_809EF51C(this, 1);
         this->unk268 = func_809F0100;
     }
@@ -444,7 +444,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
 void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->unk2BB = 0;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         func_809EF51C(this, 1);
         this->unk268 = func_809F0100;
     }

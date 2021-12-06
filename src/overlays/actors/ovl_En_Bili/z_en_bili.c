@@ -1,7 +1,7 @@
 #include "z_en_bili.h"
 #include "objects/object_bl/object_bl.h"
 
-#define FLAGS 0x00005005
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -179,7 +179,7 @@ void func_809BFC48(EnBili* this) {
     this->unk196 = 0x14;
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk1D4.base.acFlags &= ~AC_ON;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->actor.speedXZ = 0.0f;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0x2000, 0x14);
     this->unk190 = func_809C06E0;
@@ -187,7 +187,7 @@ void func_809BFC48(EnBili* this) {
 
 void func_809BFCE8(EnBili* this) {
     this->unk196 = 0x12;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk190 = func_809C0754;
     this->actor.speedXZ = 0.0f;
 }
@@ -207,7 +207,7 @@ void func_809BFD94(EnBili* this, GlobalContext* globalCtx) {
     s32 var_s0;
     Vec3f sp80;
 
-    if (!(this->actor.flags & 0x8000)) {
+    if (!(this->actor.flags & ACTOR_FLAG_15)) {
         this->actor.gravity = -1.0f;
     }
     this->actor.velocity.y = 0.0f;
@@ -394,7 +394,7 @@ void func_809C067C(EnBili* this, GlobalContext* globalCtx) {
 
 void func_809C06E0(EnBili* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
-    if (this->actor.flags & 0x8000) {
+    if (this->actor.flags & ACTOR_FLAG_15) {
         this->actor.colorFilterTimer = 0x14;
     } else {
         if (this->unk196 != 0) {
@@ -414,7 +414,7 @@ void func_809C0754(EnBili* this, GlobalContext* globalCtx) {
     s32 var_s1;
 
     if (this->actor.draw != NULL) {
-        if (!(this->actor.flags & 0x8000)) {
+        if (!(this->actor.flags & ACTOR_FLAG_15)) {
             this->actor.draw = NULL;
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
         } else {
@@ -469,7 +469,7 @@ void func_809C09E0(EnBili* this, GlobalContext* globalCtx) {
     if (this->unk196 != 0) {
         this->unk196--;
     }
-    if (!(this->actor.flags & 0x8000)) {
+    if (!(this->actor.flags & ACTOR_FLAG_15)) {
         this->actor.gravity = -1.0f;
     }
     if ((this->actor.bgCheckFlags & 1) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
@@ -488,7 +488,7 @@ void func_809C0A70(EnBili* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_DEAD);
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
             if (this->actor.colChkInfo.damageEffect == 1) {
                 if (this->unk190 != func_809C0980) {
@@ -515,7 +515,7 @@ void func_809C0A70(EnBili* this, GlobalContext* globalCtx) {
                 func_809BFC48(this);
             }
             if (this->unk1D4.info.acHitInfo->toucher.dmgFlags & 0x1F820) {
-                this->actor.flags |= 0x10;
+                this->actor.flags |= ACTOR_FLAG_4;
             }
         }
     }

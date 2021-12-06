@@ -2,7 +2,7 @@
 #include "macros.h"
 #include "objects/object_gla/object_gla.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -260,7 +260,7 @@ void func_80A3334C(EnGe2* this, GlobalContext* globalCtx) {
     s32 temp_v0;
     Vec3f sp38;
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     if (this->unk2F4 & 2) {
         temp_v0 = globalCtx->state.frames * 0x2800;
         sp38.x = this->actor.focus.pos.x + (Math_CosS(temp_v0) * 5.0f);
@@ -397,7 +397,7 @@ void func_80A33930(EnGe2* this, GlobalContext* globalCtx) {
                 break;
         }
         this->actor.update = func_80A33D10;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
     func_80A33704(this, globalCtx);
 }
@@ -418,7 +418,7 @@ void func_80A33A0C(EnGe2* this, GlobalContext* globalCtx) {
 void func_80A33A6C(EnGe2* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->unk308 = func_80A33A0C;
         func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
@@ -429,7 +429,7 @@ void func_80A33AFC(EnGe2* this, GlobalContext* globalCtx) {
         this->unk308 = func_80A33A6C;
     } else {
         this->actor.textId = 0x6004;
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F1C4(&this->actor, globalCtx, 300.0f, 300.0f, 0U);
     }
     func_80A3381C(this, globalCtx);

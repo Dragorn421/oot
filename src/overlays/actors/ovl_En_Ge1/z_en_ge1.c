@@ -2,7 +2,7 @@
 #include "objects/object_ge1/object_ge1.h"
 #include "z64.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -463,7 +463,7 @@ void func_80A31A5C(EnGe1* this, GlobalContext* globalCtx) {
     s32 var_a2;
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->unk2B4 = func_80A3196C;
     }
     if (this->unk2AC & 2) {
@@ -485,7 +485,7 @@ void func_80A31A5C(EnGe1* this, GlobalContext* globalCtx) {
 void func_80A31B20(EnGe1* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->unk2B4 = func_80A31A5C;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 200.0f);
     }
@@ -508,7 +508,7 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
 
     player = GET_PLAYER(globalCtx);
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 if (gSaveContext.rupees < 20) {
@@ -567,7 +567,7 @@ void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx) {
     if (1) {}
     LogUtils_LogThreadId("../z_en_ge1.c", 0x457);
     osSyncPrintf("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.highScores[0]);
-    this->actor.flags |= 0x10000;
+    this->actor.flags |= ACTOR_FLAG_16;
     if (gSaveContext.highScores[0] < gSaveContext.minigameScore) {
         gSaveContext.highScores[0] = gSaveContext.minigameScore;
     }

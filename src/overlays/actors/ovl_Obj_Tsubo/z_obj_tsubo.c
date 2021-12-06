@@ -7,7 +7,7 @@
 #include "z_obj_tsubo.h"
 #include "objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS 0x00800010
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -229,7 +229,7 @@ void func_80BA153C(ObjTsubo* this, GlobalContext* globalCtx) {
         this->actor.draw = func_80BA1B0C;
         this->actor.objBankIndex = this->unk19C;
         func_80BA15AC(this);
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
@@ -276,7 +276,7 @@ void func_80BA17C4(ObjTsubo* this) {
     this->actionFunc = func_80BA180C;
     this->actor.room = -1;
     func_8002F7DC(&this->actor, NA_SE_PL_PULL_UP_POT);
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void func_80BA180C(ObjTsubo* this, GlobalContext* globalCtx) {

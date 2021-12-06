@@ -6,7 +6,7 @@
 
 #include "z_en_wf.h"
 
-#define FLAGS 0x00000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnWf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -348,7 +348,7 @@ void func_80B34380(EnWf* this) {
     this->unk2E8 = 0x14;
     this->unk300 = 0;
     this->unk2D4 = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.scale.y = 0.0f;
     this->actor.gravity = 0.0f;
     func_80B33CB0(this, func_80B34428);
@@ -360,7 +360,7 @@ void func_80B34428(EnWf* this, GlobalContext* globalCtx) {
         this->actor.world.pos.y = this->actor.home.pos.y - 5.0f;
         if (this->actor.xzDistToPlayer < 240.0f) {
             this->unk2E8 = 5;
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             if ((this->actor.params != 0) && (this->unk2FC != 0xFF)) {
                 func_800F5ACC(0x38U);
             }
@@ -1116,7 +1116,7 @@ void func_80B36C8C(EnWf* this) {
         this->unk300 = 1;
     }
     this->unk2D4 = 2;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk2E8 = this->unk188.animLength;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_DEAD);
     func_80B33CB0(this, func_80B36D3C);

@@ -2,7 +2,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_dekubaba/object_dekubaba.h"
 
-#define FLAGS 0x00000005
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -314,7 +314,7 @@ void func_809E6170(EnDekubaba* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->actor.speedXZ = this->unk230 * 3.0f;
     this->unk238.base.acFlags &= ~AC_ON;
-    this->actor.flags |= 0x30;
+    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->unk1C0 = func_809E7BB0;
 }
 
@@ -364,7 +364,7 @@ void func_809E645C(EnDekubaba* this, GlobalContext* arg1) {
     this->actor.velocity.y = 0.0f;
     this->actor.shape.shadowScale = 3.0f;
     Actor_ChangeCategory(arg1, &arg1->actorCtx, &this->actor, ACTORCAT_MISC);
-    this->actor.flags &= ~0x20;
+    this->actor.flags &= ~ACTOR_FLAG_5;
     this->unk1C6 = 0xC8;
     this->unk1C0 = func_809E80D8;
 }
@@ -798,7 +798,7 @@ void func_809E7BB0(EnDekubaba* this, GlobalContext* globalCtx) {
             ((((this->actor.bgCheckFlags & 2) != 0)) || (this->actor.bgCheckFlags & 8))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
-            this->actor.flags &= ~5;
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
                                      this->unk230 * 5.0f, 15, -1, 10, NULL);
         }
@@ -954,7 +954,7 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->unk1C0 == func_809E7104) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk238.base);
-        this->actor.flags |= 0x01000000;
+        this->actor.flags |= ACTOR_FLAG_24;
     }
     if (this->unk238.base.acFlags & 1) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk238.base);

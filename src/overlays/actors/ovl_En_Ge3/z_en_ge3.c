@@ -6,7 +6,7 @@
 
 #include "z_en_ge3.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -130,7 +130,7 @@ void func_80A34A20(EnGe3* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->unk310 = func_80A34A80;
         this->actor.update = func_80A34D68;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
     func_80A347F4(this, globalCtx);
 }
@@ -151,7 +151,7 @@ void func_80A34AA0(EnGe3* this, GlobalContext* globalCtx) {
 void func_80A34B00(EnGe3* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->unk310 = func_80A34AA0;
         func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
@@ -166,7 +166,7 @@ void func_80A34B90(EnGe3* this, GlobalContext* globalCtx) {
             this->unk30C |= 4;
         }
         this->actor.textId = 0x6004;
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F1C4(&this->actor, globalCtx, 300.0f, 300.0f, 0U);
     }
     func_80A3490C(this, globalCtx);

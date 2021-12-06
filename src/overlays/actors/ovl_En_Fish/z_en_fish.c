@@ -1,7 +1,7 @@
 #include "z_en_fish.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnFish_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -135,7 +135,7 @@ void func_80A153AC(EnFish* this2) {
         this->actor.shape.yOffset = 600.0f;
         D_80A17014 = 10.0f;
         D_80A17018 = 0.0f;
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
         func_80A15310(this);
     }
 }
@@ -159,7 +159,7 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk24C = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
     this->unk24E = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
     if (sp3A == 0) {
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
         func_80A15F24(this);
     } else if (sp3A == 1) {
@@ -455,7 +455,7 @@ void func_80A16200(EnFish* this, GlobalContext* globalCtx) {
 
 void func_80A163DC(EnFish* this) {
     this->actor.home.pos = this->actor.world.pos;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->unk248 = 0xC8;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;

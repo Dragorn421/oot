@@ -7,7 +7,7 @@
 #include "z_en_wood02.h"
 #include "objects/object_wood02/object_wood02.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -237,7 +237,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.world.pos.x += sSin * sSpawnDistances[5];
             this->actor.world.pos.z += sCos * sSpawnDistances[5];
         } else {
-            this->actor.flags |= 0x10;
+            this->actor.flags |= ACTOR_FLAG_4;
         }
         this->actor.world.pos.y += 200.0f;
         floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &floorBgId, &this->actor,
@@ -275,7 +275,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
     u8 var_v0;
 
     if ((this->unk153 == 1) && (this->actor.parent != NULL)) {
-        if (!(this->actor.flags & 0x40)) {
+        if (!(this->actor.flags & ACTOR_FLAG_6)) {
             v = this->unk14E[0];
             var_v0 = 0;
             if (this->unk14C < 0) {

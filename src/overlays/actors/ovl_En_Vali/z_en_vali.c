@@ -7,7 +7,7 @@
 #include "z_en_vali.h"
 #include "objects/object_vali/object_vali.h"
 
-#define FLAGS 0x00001015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
 
 void EnVali_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -112,7 +112,7 @@ void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->unk3FC, &this->actor, &D_80B288F0);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80B28924, &D_80B2891C);
     func_80B26878(this);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp34,
                                                           &this->actor, &this->actor.world.pos);
     this->actor.params = 0;
@@ -137,7 +137,7 @@ void func_80B26878(EnVali* this) {
 
 void func_80B268C8(EnVali* this) {
     this->actor.draw = EnVali_Draw;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->unk190 = func_80B270D8;
     this->actor.velocity.y = 1.0f;
 }
@@ -180,7 +180,7 @@ void func_80B268FC(EnVali* this) {
     this->unk2FC.dim.quad[1].y = temp_fv0;
     this->unk37C.dim.quad[0].y = temp_fv0;
     this->unk37C.dim.quad[1].y = temp_fv0;
-    this->actor.flags &= ~0x10;
+    this->actor.flags &= ~ACTOR_FLAG_4;
     this->unk3FC.base.acFlags |= AC_ON;
     this->unk195 = 0;
     this->unk190 = func_80B2716C;
@@ -189,7 +189,7 @@ void func_80B268FC(EnVali* this) {
 
 void func_80B26B18(EnVali* this) {
     this->unk194 = 0x14;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk3FC.base.acFlags &= ~AC_ON;
     this->unk190 = func_80B27318;
 }
@@ -228,7 +228,7 @@ void func_80B26C50(EnVali* this, GlobalContext* globalCtx) {
     this->unk196 = Rand_S16Offset(0xA, 0xA);
     this->unk3FC.base.acFlags &= ~AC_ON;
     Audio_PlaySoundAtPosition(globalCtx, &temp_s1->pos, 40, NA_SE_EN_BARI_SPLIT);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.draw = NULL;
     this->unk190 = func_80B274A0;
 }
@@ -254,8 +254,8 @@ void func_80B26DE0(EnVali* this) {
 
 void func_80B26E40(EnVali* this) {
     Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_0014AC, 10.0f);
-    this->actor.flags |= 0x10;
-    this->actor.flags &= ~1;
+    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk190 = func_80B278A0;
 }
 
@@ -329,7 +329,7 @@ void func_80B27318(EnVali* this, GlobalContext* globalCtx) {
     }
     func_80B26E9C(this, globalCtx);
     if (this->unk194 == 0) {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->unk3FC.base.acFlags |= AC_ON;
         if (this->actor.params == 1) {
             func_80B26B4C(this);
@@ -473,7 +473,7 @@ void func_80B2790C(EnVali* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             } else {
                 if ((this->actor.colChkInfo.damageEffect != 1) && (this->actor.colChkInfo.damageEffect != 0xE)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DAMAGE);

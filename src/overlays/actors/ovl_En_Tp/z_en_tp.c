@@ -7,7 +7,7 @@
 #include "z_en_tp.h"
 #include "objects/object_tp/object_tp.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -110,7 +110,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->unk174.elements->dim.modelSphere.radius = this->unk174.elements->dim.worldSphere.radius;
         func_80B21B90(this);
         this->actor.focus.pos = this->actor.world.pos;
-        this->actor.flags |= 0x15;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
         Actor_SetScale(&this->actor, 1.5f);
         for (var_s1 = 0; var_s1 < 7; var_s1++) {
             if (((0 * var_s1) != 0) && ((0 * var_s1) != 0)) {}
@@ -123,7 +123,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 temp_v0_2->unk1D4 = this;
                 Actor_SetScale(&temp_v0_2->actor, 0.3f);
                 if (var_s1 == 2) {
-                    temp_v0_2->actor.flags |= 0x15;
+                    temp_v0_2->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
                     temp_v0_2->unk150 = 1;
                 }
                 temp_v0_2->unk15C = var_s1 * -5;
@@ -161,12 +161,12 @@ void func_80B210B0(EnTp* this, GlobalContext* globalCtx) {
         }
     } else {
         if (this->unk150 != 0) {
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
         }
         if (this->unk1D4->unk150 != 0) {
             this->actor.speedXZ = this->unk160 = this->actor.velocity.y = this->unk168 = 0.0f;
             if (this->actor.world.pos.y < this->unk1D4->actor.home.pos.y) {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
             this->actor.world.pos = this->actor.parent->prevPos;
         } else {
@@ -285,7 +285,7 @@ void func_80B217FC(EnTp* this) {
     this->actor.velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     func_80B20DE0(this, func_80B21900);
 }
 
@@ -496,7 +496,7 @@ void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
                 Actor_ApplyDamage(&this->actor);
             }
             if (this->actor.colChkInfo.health == 0) {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 new_var = this->unk1D4;
                 if (new_var->actor.params < 0) {
                     func_80B21454(new_var);
