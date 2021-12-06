@@ -41,9 +41,9 @@ It builds the following ROM:
 
 ### Windows
 
-For Windows 10, install WSL and a distribution by following this
-[Windows Subsystem for Linux Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
-We recommend using Debian or Ubuntu 18.04 Linux distributions.
+For Windows 10 or 11, install WSL and a distribution by following this
+[WSL Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install).
+We recommend using Debian or Ubuntu 20.04 Linux distributions.
 
 For older versions of Windows, install a Linux VM or refer to either [Cygwin](#Cygwin) or [Docker](#Docker) instructions.
 
@@ -67,7 +67,7 @@ brew install coreutils make python3 md5sha1sum libpng
 You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
 
 Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
-The `make` that comes with MacOS behaves differently than GNU make and is incompatible with this project.
+The `make` that comes with macOS behaves differently than GNU make and is incompatible with this project.
 
 You should now be able to continue from [step 2](#2-clone-the-repository) of the Linux instructions.
 
@@ -170,7 +170,7 @@ To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and
 
 You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](#2-clone-the-repository) and [3](#3-prepare-a-base-rom) of the Linux instructions).
 
-#### 2. Create the docker image
+#### 2. Create the Docker image
 
 From inside your local project, run the following command:
 
@@ -180,7 +180,7 @@ docker build . -t oot
 
 #### 3. Start the container
 
-To start the container, you can mount your local filesystem into the docker container and run an interactive bash session.
+To start the container, you can mount your local filesystem into the Docker container and run an interactive bash session.
 
 ```bash
 docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/bash
