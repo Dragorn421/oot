@@ -255,19 +255,31 @@ void ModActor_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         i = passedEdgesMask >> 8 & 0xFF;
         if (!this->rotating && this->curFace->neighbours[i] != -1) {
+            f32 cosRotAngleTarget;
+
             // start rotation around edge i
             this->rotating = true;
             this->rotatingTo = &faces[this->curFace->neighbours[i]];
+            this->rotatingAngle = 0.0f;
             Math3D_Vec3f_Cross(&this->rotatingTo->norm, &this->curFace->norm, &this->rotatingAxis);
             if (IS_ZERO(Math3D_Vec3fMagnitude(&this->rotatingAxis))) {
-                // fixme pick better, not that it matters
-                // or set rotatingAngleTarget to 0 here idk
-                this->rotatingAxis = this->curFace->norm;
+                ModActor_VecSub(&this->curFace->verts[(i + 1) % 3], &this->curFace->verts[i], &this->rotatingAxis);
+                if (IS_ZERO(Math3D_Vec3fMagnitude(&this->rotatingAxis))) {
+                    // last resort
+                    this->rotatingAxis = this->curFace->norm;
+                } else {
+                    ModActor_VecNormalize(&this->rotatingAxis, &this->rotatingAxis);
+                }
             } else {
                 ModActor_VecNormalize(&this->rotatingAxis, &this->rotatingAxis);
             }
-            this->rotatingAngle = 0.0f;
-            this->rotatingAngleTarget = Math_FAcosF(Math3D_Cos(&this->rotatingTo->norm, &this->curFace->norm));
+
+            cosRotAngleTarget = Math3D_Cos(&this->rotatingTo->norm, &this->curFace->norm);
+            if (IS_ZERO(cosRotAngleTarget - 1.0f)) {
+                this->rotatingAngleTarget = 0.0f;
+            } else {
+                this->rotatingAngleTarget = Math_FAcosF(cosRotAngleTarget);
+            }
         }
         // todo discardedDelta should only be the delta discarded due to the i edge
         // but other edges could also discard part of deltaModel (if in tri corner)
