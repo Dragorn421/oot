@@ -6,10 +6,9 @@
 
 #include "z_en_hs2.h"
 #include "vt.h"
+#include "objects/object_hs/object_hs.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnHs2*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHs2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -49,16 +48,14 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
-extern FlexSkeletonHeader D_06006260;
-extern AnimationHeader D_060005C0;
-
 void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs2* this = THIS;
+    EnHs2* this = (EnHs2*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTable, this->morphTable, 16);
-    Animation_PlayLoop(&this->skelAnime, &D_060005C0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_hs_Skel_006260, &object_hs_Anim_0005C0, this->jointTable,
+                       this->morphTable, 16);
+    Animation_PlayLoop(&this->skelAnime, &object_hs_Anim_0005C0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -70,13 +67,13 @@ void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHs2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs2* this = THIS;
+    EnHs2* this = (EnHs2*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 s32 func_80A6F0B4(EnHs2* this, GlobalContext* globalCtx, u16 textId, EnHs2ActionFunc actionFunc) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return 1;
     }
@@ -91,7 +88,7 @@ s32 func_80A6F0B4(EnHs2* this, GlobalContext* globalCtx, u16 textId, EnHs2Action
 }
 
 void func_80A6F164(EnHs2* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = func_80A6F1A4;
     }
     this->unk_2A8 |= 0x1;
@@ -109,7 +106,7 @@ void func_80A6F1A4(EnHs2* this, GlobalContext* globalCtx) {
 }
 
 void EnHs2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs2* this = THIS;
+    EnHs2* this = (EnHs2*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -132,7 +129,7 @@ void EnHs2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnHs2* this = THIS;
+    EnHs2* this = (EnHs2*)thisx;
 
     switch (limbIndex) {
         case 12:
@@ -155,7 +152,7 @@ s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnHs2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A6F4CC = { 300.0f, 1000.0f, 0.0f };
-    EnHs2* this = THIS;
+    EnHs2* this = (EnHs2*)thisx;
 
     if (limbIndex == 9) {
         Matrix_MultVec3f(&D_80A6F4CC, &this->actor.focus.pos);
@@ -163,7 +160,7 @@ void EnHs2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnHs2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHs2* this = THIS;
+    EnHs2* this = (EnHs2*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

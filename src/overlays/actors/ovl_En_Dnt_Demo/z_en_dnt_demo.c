@@ -10,9 +10,7 @@
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnDntDemo*)thisx)
+#define FLAGS 0
 
 typedef enum {
     /* 0 */ DNT_LIKE,
@@ -72,12 +70,12 @@ void EnDntDemo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnDntDemo* this = THIS;
+    EnDntDemo* this = (EnDntDemo*)thisx;
     s32 i;
     s32 pad;
 
     osSyncPrintf("\n\n");
-    // Deku Scrub mask show start
+    // "Deku Scrub mask show start"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n" VT_RST);
     for (i = 0; i < 9; i++) {
         this->scrubPos[i] = sScrubPos[i];
@@ -85,7 +83,7 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
                                                           ACTOR_EN_DNT_NOMAL, this->scrubPos[i].x, this->scrubPos[i].y,
                                                           this->scrubPos[i].z, 0, 0, 0, i + ENDNTNOMAL_STAGE);
         if (this->scrubs[i] != NULL) {
-            // zako zako [small fries]
+            // "zako zako" [small fries]
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n" VT_RST, this->scrubs[i]);
         }
     }
@@ -96,11 +94,11 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->leader = (EnDntJiji*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DNT_JIJI,
                                                   this->leaderPos.x, this->leaderPos.y, this->leaderPos.z, 0, 0, 0, 0);
     if (this->leader != NULL) {
-        // jiji jiji jiji jiji jiji [onomatopoeia for the scrub sound?]
+        // "jiji jiji jiji jiji jiji" [onomatopoeia for the scrub sound?]
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
     }
     this->subCamera = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnDntDemo_Judge;
 }
 
@@ -146,7 +144,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
             }
         }
         if (this->judgeTimer > 40) {
-            // gera gera [onomatopoeia for loud giggling]
+            // "gera gera" [onomatopoeia for loud giggling]
             osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ げらげら ☆☆☆☆☆ \n" VT_RST);
             func_800F436C(&this->actor.projectedPos, NA_SE_EV_CROWD - SFX_FLAG, 2.0f);
         }
@@ -161,7 +159,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                     if (!(gSaveContext.itemGetInf[1] & 0x4000)) {
                         reaction = DNT_SIGNAL_CELEBRATE;
                         this->prize = DNT_PRIZE_STICK;
-                        Audio_SetBGM(0x3E);
+                        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_SARIA_THEME);
                         break;
                     }
                 case PLAYER_MASK_TRUTH:
@@ -191,11 +189,11 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         ignore = true;
                         delay = 8;
                         reaction = DNT_SIGNAL_HIDE;
-                        // Special!
+                        // "Special!"
                         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n" VT_RST);
                     } else {
                         if (maskIdx >= PLAYER_MASK_MAX - 1) {
-                            // This is dangerous!
+                            // "This is dangerous!"
                             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
@@ -208,30 +206,30 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         this->action = sResultValues[resultIdx][1];
                         switch (this->action) {
                             case DNT_ACTION_LOW_RUPEES:
-                                Audio_SetBGM(0x2D);
+                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_COURTYARD);
                                 break;
                             case DNT_ACTION_ATTACK:
                                 if (this->subCamera != SUBCAM_FREE) {
                                     this->subCamera = SUBCAM_FREE;
                                     OnePointCutscene_Init(globalCtx, 2350, -99, &this->scrubs[3]->actor, MAIN_CAM);
                                 }
-                                Audio_SetBGM(0x81A);
+                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
                                 break;
                             case DNT_ACTION_DANCE:
-                                Audio_SetBGM(0x55);
+                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_SHOP);
                                 break;
                         }
                         osSyncPrintf("\n\n");
-                        // Each index 1
+                        // "Each index 1"
                         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n" VT_RST, rand9);
-                        // Each index 2
+                        // "Each index 2"
                         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス２ ☆☆☆☆☆ %d\n" VT_RST, maskIdx);
-                        // Each index 3
+                        // "Each index 3"
                         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス３ ☆☆☆☆☆ %d\n" VT_RST, resultIdx);
                         osSyncPrintf("\n");
-                        // What kind of evaluation?
+                        // "What kind of evaluation?"
                         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n" VT_RST, reaction);
-                        // What kind of action?
+                        // "What kind of action?"
                         osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n" VT_RST, this->action);
                         osSyncPrintf("\n\n");
                         break;
@@ -315,7 +313,7 @@ void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx) {
 
 void EnDntDemo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntDemo* this = THIS;
+    EnDntDemo* this = (EnDntDemo*)thisx;
 
     if (this->unkTimer2 != 0) {
         this->unkTimer2--;

@@ -5,11 +5,11 @@
  */
 
 #include "z_en_guest.h"
+#include "objects/object_os_anime/object_os_anime.h"
+#include "objects/object_boj/object_boj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnGuest*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -49,18 +49,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
-static UNK_PTR D_80A50BA4[] = {
-    0x060005FC,
-    0x060006FC,
-    0x060007FC,
-};
-
-extern FlexSkeletonHeader D_060000F0;
-extern AnimationHeader D_060042AC;
-extern Gfx D_060059B0[];
+extern FlexSkeletonHeader object_boj_Skel_0000F0;
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
 
     if (gSaveContext.infTable[7] & 0x40) {
         Actor_Kill(&this->actor);
@@ -68,7 +60,7 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->osAnimeBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
         if (this->osAnimeBankIndex < 0) {
             osSyncPrintf(VT_COL(RED, WHITE));
-            // No such bank!!
+            // "No such bank!!"
             osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
             osSyncPrintf(VT_RST);
             ASSERT(0, "0", "../z_en_guest.c", 132);
@@ -77,23 +69,24 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable,
+                           this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
-        Animation_Change(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060042AC), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gObjOsAnim_42AC, 1.0f, 0.0f, Animation_GetLastFrame(&gObjOsAnim_42AC),
+                         ANIMMODE_LOOP, 0.0f);
 
         this->actor.draw = EnGuest_Draw;
         this->actor.update = func_80A505CC;
@@ -135,7 +128,7 @@ void func_80A5046C(EnGuest* this) {
 }
 
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80A5057C;
     } else if (this->actor.xzDistToPlayer < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -143,19 +136,17 @@ void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
-        if (func_80106BC8(globalCtx) != 0) {
-            this->actionFunc = func_80A50518;
-        }
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
+        this->actionFunc = func_80A50518;
     }
 }
 
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     s32 pad;
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk_2C8++;
 
     func_80A5046C(this);
@@ -192,13 +183,13 @@ Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    EnGuest* this = THIS;
+    EnGuest* this = (EnGuest*)thisx;
     Vec3s sp3C;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
 
     if (limbIndex == 15) {
-        *dList = D_060059B0;
+        *dList = object_boj_DL_0059B0;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp3C = this->unk_2A0.unk_08;
         Matrix_RotateX((sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
@@ -223,7 +214,12 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGuest* this = THIS;
+    static void* D_80A50BA4[] = {
+        0x060005FC,
+        0x060006FC,
+        0x060007FC,
+    };
+    EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 404);

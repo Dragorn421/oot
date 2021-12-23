@@ -5,10 +5,9 @@
  */
 
 #include "z_en_daiku_kakariko.h"
+#include "objects/object_daiku/object_daiku.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnDaikuKakariko*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 typedef enum {
     /* 0x0 */ CARPENTER_ICHIRO,  // Red and purple pants, normal hair
@@ -24,8 +23,6 @@ void EnDaikuKakariko_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDaikuKakariko_Wait(EnDaikuKakariko* this, GlobalContext* globalCtx);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_06007958;
 
 const ActorInit En_Daiku_Kakariko_InitVars = {
     ACTOR_EN_DAIKU_KAKARIKO,
@@ -61,11 +58,45 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static DamageTable sDamageTable = { 0 };
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(0, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(0, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(0, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0x0),
+    /* Master sword  */ DMG_ENTRY(0, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(0, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
+    /* Light arrow   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(0, 0x0),
+    /* Giant spin    */ DMG_ENTRY(0, 0x0),
+    /* Master spin   */ DMG_ENTRY(0, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(0, 0x0),
+    /* Giant jump    */ DMG_ENTRY(0, 0x0),
+    /* Master jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+};
 
 static struct_D_80AA1678 sAnimations[] = {
-    { 0x06001AB0, 1.0f, 2, -7.0f }, { 0x06007DE0, 1.0f, 0, -7.0f }, { 0x0600885C, 1.0f, 0, -7.0f },
-    { 0x06000C44, 1.0f, 0, -7.0f }, { 0x06000600, 1.0f, 0, -7.0f }, { 0x06008164, 1.0f, 0, -7.0f },
+    { &object_daiku_Anim_001AB0, 1.0f, 2, -7.0f }, { &object_daiku_Anim_007DE0, 1.0f, 0, -7.0f },
+    { &object_daiku_Anim_00885C, 1.0f, 0, -7.0f }, { &object_daiku_Anim_000C44, 1.0f, 0, -7.0f },
+    { &object_daiku_Anim_000600, 1.0f, 0, -7.0f }, { &object_daiku_Anim_008164, 1.0f, 0, -7.0f },
 };
 
 void EnDaikuKakariko_SetAnimFromIndex(EnDaikuKakariko* this, s32 animIndex, s32* currentAnimIndex) {
@@ -86,19 +117,19 @@ void EnDaikuKakariko_SetAnimFromIndex(EnDaikuKakariko* this, s32 animIndex, s32*
 
 void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u16 initFlags[] = { 0x0080, 0x00B0, 0x0070, 0x0470 }; // List of inital values for this->flags
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     s32 pad;
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         switch (globalCtx->sceneNum) {
             case SCENE_SPOT01:
-                if (gSaveContext.nightFlag == 0) {
+                if (IS_DAY) {
                     this->flags |= 1;
                     this->flags |= initFlags[this->actor.params & 3];
                 }
                 break;
             case SCENE_KAKARIKO:
-                if (gSaveContext.nightFlag == 1) {
+                if (IS_NIGHT) {
                     this->flags |= 2;
                 }
                 break;
@@ -112,13 +143,14 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
 
-    if (gSaveContext.nightFlag == 1) {
+    if (IS_NIGHT) {
         this->flags |= 8;
     }
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_daiku_Skel_007958, NULL, this->jointTable, this->morphTable,
+                       17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
@@ -163,7 +195,7 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDaikuKakariko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -171,7 +203,7 @@ void EnDaikuKakariko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, GlobalContext* globalCtx) {
     s32 talkState = 2;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         switch (this->actor.textId) {
             case 0x6061:
                 gSaveContext.infTable[23] |= 0x40;
@@ -192,10 +224,10 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, GlobalContext* globalC
 
     if (this->talkState == 2) {
         this->talkState = EnDaikuKakariko_GetTalkState(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->talkState = 2;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
             (func_8002F2CC(&this->actor, globalCtx, 100.0f) == 1)) {
@@ -411,9 +443,9 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
 }
 
 void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
 
     if (this->currentAnimIndex == 3) {
@@ -453,7 +485,7 @@ void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                      void* thisx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     Vec3s angle;
 
     switch (limbIndex) {
@@ -483,9 +515,10 @@ s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
 }
 
 void EnDaikuKakariko_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Gfx* carpenterHeadDLists[] = { 0x06005BD0, 0x06005AC0, 0x06005990, 0x06005880 };
+    static Gfx* carpenterHeadDLists[] = { object_daiku_DL_005BD0, object_daiku_DL_005AC0, object_daiku_DL_005990,
+                                          object_daiku_DL_005880 };
     static Vec3f unkVec = { 700.0f, 1100.0f, 0.0f };
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku_kakariko.c", 1104);
 
@@ -498,7 +531,7 @@ void EnDaikuKakariko_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 }
 
 void EnDaikuKakariko_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDaikuKakariko* this = THIS;
+    EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku_kakariko.c", 1124);
 

@@ -1,8 +1,7 @@
 #include "z_en_eiyer.h"
+#include "objects/object_ei/object_ei.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnEiyer*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,13 +34,6 @@ void EnEiyer_Hurt(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Die(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Dead(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Stunned(EnEiyer* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000288;
-extern AnimationHeader D_060004C4;
-extern AnimationHeader D_06000704;
-extern AnimationHeader D_06000FC0;
-extern AnimationHeader D_060012AC;
-extern SkeletonHeader D_06003410;
 
 const ActorInit En_Eiyer_InitVars = {
     ACTOR_EN_EIYER,
@@ -113,7 +105,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 25, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x19, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
 };
@@ -124,12 +116,13 @@ static InitChainEntry sInitChain[] = {
  * params   10: Normal Eiyer, wander around spawn point
  */
 void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 600.0f, ActorShadow_DrawCircle, 65.0f);
-    SkelAnime_Init(globalCtx, &this->skelanime, &D_06003410, &D_060012AC, this->jointTable, this->morphTable, 19);
+    SkelAnime_Init(globalCtx, &this->skelanime, &gStingerSkel, &gStingerIdleAnim, this->jointTable, this->morphTable,
+                   19);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -175,7 +168,7 @@ void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnEiyer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -187,7 +180,7 @@ void EnEiyer_RotateAroundHome(EnEiyer* this) {
 
 void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
     this->collider.info.bumper.dmgFlags = 0x19;
-    Animation_PlayLoop(&this->skelanime, &D_060012AC);
+    Animation_PlayLoop(&this->skelanime, &gStingerIdleAnim);
 
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.y = this->actor.home.pos.y - 40.0f;
@@ -208,7 +201,7 @@ void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
 
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags &= ~0x1001;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_12);
     this->actor.shape.shadowScale = 0.0f;
     this->actor.shape.yOffset = 0.0f;
     this->actionFunc = EnEiyer_AppearFromGround;
@@ -223,23 +216,23 @@ void EnEiyer_SetupUnderground(EnEiyer* this) {
     }
 
     this->collider.base.acFlags |= AC_ON;
-    this->actor.flags &= ~0x10;
-    this->actor.flags |= 1;
+    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_0;
 }
 
 void EnEiyer_SetupInactive(EnEiyer* this) {
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actionFunc = EnEiyer_Inactive;
 }
 
 void EnEiyer_SetupAmbush(EnEiyer* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
-    Animation_PlayOnce(&this->skelanime, &D_06000704);
+    Animation_PlayOnce(&this->skelanime, &gStingerBackflipAnim);
     this->collider.info.bumper.dmgFlags = ~0x00300000;
     this->basePos = this->actor.world.pos;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.flags |= 0x1000;
+    this->actor.flags |= ACTOR_FLAG_12;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.shape.shadowScale = 65.0f;
     this->actor.shape.yOffset = 600.0f;
@@ -251,7 +244,7 @@ void EnEiyer_SetupAmbush(EnEiyer* this, GlobalContext* globalCtx) {
 void EnEiyer_SetupGlide(EnEiyer* this) {
     this->targetYaw = this->actor.shape.rot.y;
     this->basePos.y = (cosf(-M_PI / 8) * 5.0f) + this->actor.world.pos.y;
-    Animation_MorphToLoop(&this->skelanime, &D_06000FC0, -5.0f);
+    Animation_MorphToLoop(&this->skelanime, &gStingerHitAnim, -5.0f);
     this->timer = 60;
     this->actionFunc = EnEiyer_Glide;
 }
@@ -261,7 +254,7 @@ void EnEiyer_SetupStartAttack(EnEiyer* this) {
 }
 
 void EnEiyer_SetupDiveAttack(EnEiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actor.velocity.y = 0.0f;
     this->basePos.y = player->actor.world.pos.y + 15.0f;
@@ -271,9 +264,9 @@ void EnEiyer_SetupDiveAttack(EnEiyer* this, GlobalContext* globalCtx) {
 }
 
 void EnEiyer_SetupLand(EnEiyer* this) {
-    Animation_MorphToPlayOnce(&this->skelanime, &D_060004C4, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelanime, &gStingerDiveAnim, -3.0f);
     this->collider.base.atFlags &= ~AT_ON;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 
     // Update BgCheck info, play sound, and spawn effect on the first frame of the land action
     this->timer = -1;
@@ -284,7 +277,7 @@ void EnEiyer_SetupLand(EnEiyer* this) {
 
 void EnEiyer_SetupHurt(EnEiyer* this) {
     this->basePos.y = this->actor.world.pos.y;
-    Animation_Change(&this->skelanime, &D_06000FC0, 2.0f, 0.0f, 0.0f, 0, -3.0f);
+    Animation_Change(&this->skelanime, &gStingerHitAnim, 2.0f, 0.0f, 0.0f, 0, -3.0f);
     this->timer = 40;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -300,7 +293,7 @@ void EnEiyer_SetupDie(EnEiyer* this) {
 
     if (this->collider.info.bumper.dmgFlags != 0x19) {
         this->actor.speedXZ = 6.0f;
-        Animation_MorphToLoop(&this->skelanime, &D_06000FC0, -3.0f);
+        Animation_MorphToLoop(&this->skelanime, &gStingerHitAnim, -3.0f);
     } else {
         this->actor.speedXZ -= 6.0f;
     }
@@ -319,7 +312,7 @@ void EnEiyer_SetupDead(EnEiyer* this) {
 }
 
 void EnEiyer_SetupStunned(EnEiyer* this) {
-    Animation_Change(&this->skelanime, &D_06000288, 2.0f, 0.0f, 0.0f, 0, -8.0f);
+    Animation_Change(&this->skelanime, &gStingerPopOutAnim, 2.0f, 0.0f, 0.0f, 0, -8.0f);
     this->timer = 80;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -364,8 +357,8 @@ void EnEiyer_WanderUnderground(EnEiyer* this, GlobalContext* globalCtx) {
     if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) > 100.0f) {
         this->targetYaw = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos) + 0x8000;
     } else if (this->targetYaw == this->actor.world.rot.y && Rand_ZeroOne() > 0.99f) {
-        this->targetYaw = this->actor.world.rot.y +
-                         (Rand_ZeroOne() < 0.5f ? -1 : 1) * (Rand_ZeroOne() * 0x2000 + 0x2000);
+        this->targetYaw =
+            this->actor.world.rot.y + (Rand_ZeroOne() < 0.5f ? -1 : 1) * (Rand_ZeroOne() * 0x2000 + 0x2000);
     }
 
     Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0xB6);
@@ -457,7 +450,7 @@ void EnEiyer_Glide(EnEiyer* this, GlobalContext* globalCtx) {
 }
 
 void EnEiyer_StartAttack(EnEiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f focus;
 
     SkelAnime_Update(&this->skelanime);
@@ -616,7 +609,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_DEAD);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
 
             // If underground, one hit kill
@@ -642,7 +635,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, GlobalContext* globalCtx) {
 }
 
 void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
     s32 pad;
 
     EnEiyer_UpdateDamage(this, globalCtx);
@@ -679,7 +672,7 @@ void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->actor.flags & 1) {
+    if (this->actor.flags & ACTOR_FLAG_0) {
         this->actor.focus.pos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.y = this->actor.world.pos.y;
@@ -688,7 +681,7 @@ void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnEiyer_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                              Gfx** gfx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
 
     if (limbIndex == 1) {
         pos->z += 2500.0f;
@@ -701,7 +694,7 @@ s32 EnEiyer_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnEiyer_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnEiyer* this = THIS;
+    EnEiyer* this = (EnEiyer*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_eiyer.c", 1494);
     if (this->actionFunc != EnEiyer_Dead) {

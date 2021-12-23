@@ -7,9 +7,7 @@
 #include "z_en_horse_ganon.h"
 #include "objects/object_horse_ganon/object_horse_ganon.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnHorseGanon*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef struct {
     /* 0x0 */ Vec3s unk_0;
@@ -140,7 +138,7 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
-    if (Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor) <= 300.0f) {
+    if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor) <= 300.0f) {
         if (this->actor.speedXZ < 12.0f) {
             this->actor.speedXZ += 1.0f;
         } else {
@@ -167,7 +165,7 @@ void func_80A68870(EnHorseGanon* this) {
 }
 
 void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.0115f);
@@ -193,7 +191,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
 
     func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->colliderBody);
@@ -286,7 +284,7 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
 }
 
 void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
     s32 pad;
 
     sActionFuncs[this->action](this, globalCtx);
@@ -301,7 +299,7 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
     s32 index;
 
     for (index = 0; index < this->colliderHead.count; index++) {
@@ -318,11 +316,13 @@ void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         this->colliderHead.elements[index].dim.worldSphere.radius =
             this->colliderHead.elements[index].dim.modelSphere.radius * this->colliderHead.elements[index].dim.scale;
     }
+
+    //! @bug see relevant comment in `EnHorse_SkinCallback1`
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderHead.base);
 }
 
 void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseGanon* this = THIS;
+    EnHorseGanon* this = (EnHorseGanon*)thisx;
 
     func_80A68E14(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);

@@ -4,9 +4,7 @@
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_G_Switch/z_en_g_switch.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnSyatekiItm*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     SYATEKI_ROUND_GREEN_APPEAR,
@@ -71,13 +69,13 @@ static Vec3f sRupeePos[] = {
 
 void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnSyatekiItm* this = THIS;
+    EnSyatekiItm* this = (EnSyatekiItm*)thisx;
     s32 i;
 
     this->man = (EnSyatekiMan*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_SYATEKI_MAN,
                                                   140.0f, 0.0f, 255.0f, 0, -0x4000, 0, 0);
     if (this->man == NULL) {
-        // Spawn error
+        // "Spawn error"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ エラー原 ☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
         return;
@@ -87,7 +85,7 @@ void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx2) {
             (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
                                            sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
         if (this->markers[i] == NULL) {
-            // Second spawn error
+            // "Second spawn error"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ エラー原セカンド ☆☆☆☆ \n" VT_RST);
             Actor_Kill(&this->actor);
             return;
@@ -102,7 +100,7 @@ void EnSyatekiItm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnSyatekiItm_Idle(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->signal == ENSYATEKI_START) {
         player->actor.world.pos.x = -12.0f;
@@ -126,7 +124,7 @@ void EnSyatekiItm_Idle(EnSyatekiItm* this, GlobalContext* globalCtx) {
 void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
     s32 j;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unkTimer == 0) {
         if (LINK_IS_ADULT) {
@@ -166,7 +164,7 @@ void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 i;
     s32 roundIdx;
@@ -239,7 +237,7 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_G_SWITCH, this->targetHome[i].x,
                 this->targetHome[i].y, this->targetHome[i].z, 0, 0, 0, (ENGSWITCH_TARGET_RUPEE << 0xC) | 0x3F);
             if (this->targets[i] == NULL) {
-                // Rupee spawn error
+                // "Rupee spawn error"
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n" VT_RST);
                 Actor_Kill(&this->actor);
                 return;
@@ -274,7 +272,7 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     s16 j;
 
@@ -309,7 +307,7 @@ void EnSyatekiItm_CleanupGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->actor.freezeTimer = 10;
     if (this->signal == ENSYATEKI_RESULTS) {
@@ -317,7 +315,7 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
         this->actionFunc = EnSyatekiItm_Idle;
     }
     if (this->signal == ENSYATEKI_START) {
-        // 1 frame attack and defense!
+        // "1 frame attack and defense!"
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
@@ -335,7 +333,7 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
 
 void EnSyatekiItm_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSyatekiItm* this = THIS;
+    EnSyatekiItm* this = (EnSyatekiItm*)thisx;
 
     this->actionFunc(this, globalCtx);
 

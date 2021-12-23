@@ -4,25 +4,25 @@
         <Skeleton Name="gStalchildSkel" Type="Normal" LimbType="Standard" Offset="0x41F8"/>
 
         <!-- Stalchild Limbs -->
-        <Limb Name="gStalchildRootLimb" Type="Standard" Offset="0x40C8"/>
-        <Limb Name="gStalchildWaistLimb" Type="Standard" Offset="0x40D4"/>
-        <Limb Name="gStalchildRoot2Limb" Type="Standard" Offset="0x40E0"/>
-        <Limb Name="gStalchildRightFemurLimb" Type="Standard" Offset="0x40EC"/>
-        <Limb Name="gStalchildRightShinLimb" Type="Standard" Offset="0x40F8"/>
-        <Limb Name="gStalchildRightFootLimb" Type="Standard" Offset="0x4104"/>
-        <Limb Name="gStalchildLeftFemurLimb" Type="Standard" Offset="0x4110"/>
-        <Limb Name="gStalchildLeftShinLimb" Type="Standard" Offset="0x411C"/>
-        <Limb Name="gStalchildLeftFootLimb" Type="Standard" Offset="0x4128"/>
-        <Limb Name="gStalchildRibCageLimb" Type="Standard" Offset="0x4134"/>
-        <Limb Name="gStalchildHeadLimb" Type="Standard" Offset="0x4140"/>
-        <Limb Name="gStalchildJawLimb" Type="Standard" Offset="0x414C"/>
-        <Limb Name="gStalchildRightHumerusLimb" Type="Standard" Offset="0x4158"/>
-        <Limb Name="gStalchildRightForearmLimb" Type="Standard" Offset="0x4164"/>
-        <Limb Name="gStalchildRightHandLimb" Type="Standard" Offset="0x4170"/>
-        <Limb Name="gStalchildLeftHumerusLimb" Type="Standard" Offset="0x417C"/>
-        <Limb Name="gStalchildLeftForearmLimb" Type="Standard" Offset="0x4188"/>
-        <Limb Name="gStalchildLeftHandLimb" Type="Standard" Offset="0x4194"/>
-        <Limb Name="gStalchildSpineLimb" Type="Standard" Offset="0x41A0"/>
+        <Limb Name="gStalchildRootLimb" LimbType="Standard" Offset="0x40C8"/>
+        <Limb Name="gStalchildWaistLimb" LimbType="Standard" Offset="0x40D4"/>
+        <Limb Name="gStalchildRoot2Limb" LimbType="Standard" Offset="0x40E0"/>
+        <Limb Name="gStalchildRightFemurLimb" LimbType="Standard" Offset="0x40EC"/>
+        <Limb Name="gStalchildRightShinLimb" LimbType="Standard" Offset="0x40F8"/>
+        <Limb Name="gStalchildRightFootLimb" LimbType="Standard" Offset="0x4104"/>
+        <Limb Name="gStalchildLeftFemurLimb" LimbType="Standard" Offset="0x4110"/>
+        <Limb Name="gStalchildLeftShinLimb" LimbType="Standard" Offset="0x411C"/>
+        <Limb Name="gStalchildLeftFootLimb" LimbType="Standard" Offset="0x4128"/>
+        <Limb Name="gStalchildRibCageLimb" LimbType="Standard" Offset="0x4134"/>
+        <Limb Name="gStalchildHeadLimb" LimbType="Standard" Offset="0x4140"/>
+        <Limb Name="gStalchildJawLimb" LimbType="Standard" Offset="0x414C"/>
+        <Limb Name="gStalchildRightHumerusLimb" LimbType="Standard" Offset="0x4158"/>
+        <Limb Name="gStalchildRightForearmLimb" LimbType="Standard" Offset="0x4164"/>
+        <Limb Name="gStalchildRightHandLimb" LimbType="Standard" Offset="0x4170"/>
+        <Limb Name="gStalchildLeftHumerusLimb" LimbType="Standard" Offset="0x417C"/>
+        <Limb Name="gStalchildLeftForearmLimb" LimbType="Standard" Offset="0x4188"/>
+        <Limb Name="gStalchildLeftHandLimb" LimbType="Standard" Offset="0x4194"/>
+        <Limb Name="gStalchildSpineLimb" LimbType="Standard" Offset="0x41A0"/>
 
         <!-- Stalchild DisplayLists -->
         <DList Name="gStalchildHeadDL" Offset="0x3230"/>
@@ -44,15 +44,15 @@
         <DList Name="gStalchildRightFootDL" Offset="0x4028"/>
 
         <!-- Stalchild Textures -->
-        <Texture Name="gStalchildWaistTex" OutName="stalchild_waist" Format="rgb5a1" Width="16" Height="16" Offset="0x18A0"/>
-        <Texture Name="gStalchildRibCageTex" OutName="stalchild_rib_cage" Format="rgb5a1" Width="8" Height="16" Offset="0x1AA0"/>
-        <Texture Name="gStalchildHeadTex" OutName="stalchild_head" Format="rgb5a1" Width="8" Height="8" Offset="0x1BA0"/>
-        <Texture Name="gStalchildBoneTex" OutName="stalchild_bone" Format="rgb5a1" Width="8" Height="8" Offset="0x1CA0"/>
-        <Texture Name="gStalchildNostrilTex" OutName="stalchild_nostril" Format="rgb5a1" Width="8" Height="8" Offset="0x1C20"/>
-        <Texture Name="gStalchildHandAndFeetTex" OutName="stalchild_hand_and_feet" Format="rgb5a1" Width="8" Height="16" Offset="0x1D20"/>
-        <Texture Name="gStalchildTeethTex" OutName="stalchild_teeth" Format="rgb5a1" Width="16" Height="8" Offset="0x1E20"/>
-        <Texture Name="gStalchildEyeSocketTex" OutName="stalchild_eye_socket" Format="rgb5a1" Width="16" Height="16" Offset="0x1F20"/>
-        <Texture Name="gStalchildEyeTex" OutName="stalchild_eye" Format="rgb5a1" Width="8" Height="8" Offset="0x2120"/>
+        <Texture Name="gStalchildWaistTex" OutName="stalchild_waist" Format="rgba16" Width="16" Height="16" Offset="0x18A0"/>
+        <Texture Name="gStalchildRibCageTex" OutName="stalchild_rib_cage" Format="rgba16" Width="8" Height="16" Offset="0x1AA0"/>
+        <Texture Name="gStalchildHeadTex" OutName="stalchild_head" Format="rgba16" Width="8" Height="8" Offset="0x1BA0"/>
+        <Texture Name="gStalchildBoneTex" OutName="stalchild_bone" Format="rgba16" Width="8" Height="8" Offset="0x1CA0"/>
+        <Texture Name="gStalchildNostrilTex" OutName="stalchild_nostril" Format="rgba16" Width="8" Height="8" Offset="0x1C20"/>
+        <Texture Name="gStalchildHandAndFeetTex" OutName="stalchild_hand_and_feet" Format="rgba16" Width="8" Height="16" Offset="0x1D20"/>
+        <Texture Name="gStalchildTeethTex" OutName="stalchild_teeth" Format="rgba16" Width="16" Height="8" Offset="0x1E20"/>
+        <Texture Name="gStalchildEyeSocketTex" OutName="stalchild_eye_socket" Format="rgba16" Width="16" Height="16" Offset="0x1F20"/>
+        <Texture Name="gStalchildEyeTex" OutName="stalchild_eye" Format="rgba16" Width="8" Height="8" Offset="0x2120"/>
 
         <!-- Stalchild animations -->
         <Animation Name="gStalchildUncurlingAnim" Offset="0x1854"/>

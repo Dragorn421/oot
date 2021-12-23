@@ -7,9 +7,7 @@
 #include "z_bg_jya_kanaami.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgJyaKanaami*)thisx)
+#define FLAGS 0
 
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,8 +39,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                               DynaPolyMoveFlag flag) {
+void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -57,7 +54,7 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, Col
 }
 
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaKanaami* this = THIS;
+    BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     BgJyaKanaami_InitDynaPoly(this, globalCtx, &gKanaamiCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -70,7 +67,7 @@ void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaKanaami* this = THIS;
+    BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -105,7 +102,7 @@ void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     if (Math_ScaledStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
-        quakeId = Quake_Add(ACTIVE_CAM, 3);
+        quakeId = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
         Quake_SetSpeed(quakeId, 25000);
         Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
         Quake_SetCountdown(quakeId, 16);
@@ -118,7 +115,7 @@ void func_80899A08(BgJyaKanaami* this) {
 }
 
 void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaKanaami* this = THIS;
+    BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);

@@ -5,10 +5,9 @@
  */
 
 #include "z_bg_haka.h"
+#include "objects/object_haka/object_haka.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHaka*)thisx)
+#define FLAGS 0
 
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -38,24 +37,20 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06000428;
-extern Gfx D_060001B0[];
-extern Gfx D_060002A8[];
-
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHaka* this = THIS;
+    BgHaka* this = (BgHaka*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06000428, &colHeader);
+    CollisionHeader_GetVirtual(&gGravestoneCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8087B7E8;
 }
 
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHaka* this = THIS;
+    BgHaka* this = (BgHaka*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -70,19 +65,19 @@ void func_8087B758(BgHaka* this, Player* player) {
 }
 
 void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
-        if (globalCtx->sceneNum == SCENE_SPOT02 && LINK_IS_CHILD && !gSaveContext.nightFlag) {
+        if (globalCtx->sceneNum == SCENE_SPOT02 && !LINK_IS_ADULT && !gSaveContext.nightFlag) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~0x10;
             if (!Gameplay_InCsMode(globalCtx)) {
-                func_8010B680(globalCtx, 0x5073, NULL);
+                Message_StartTextbox(globalCtx, 0x5073, NULL);
                 this->dyna.actor.params = 100;
                 this->actionFunc = func_8087BAE4;
             }
         } else if (0.0f < this->dyna.unk_150 ||
-                   (globalCtx->sceneNum == SCENE_SPOT06 && LINK_IS_CHILD && !Flags_GetSwitch(globalCtx, 0x23))) {
+                   (globalCtx->sceneNum == SCENE_SPOT06 && !LINK_IS_ADULT && !Flags_GetSwitch(globalCtx, 0x23))) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~0x10;
         } else {
@@ -94,7 +89,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
 }
 
 void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 sp38;
 
     this->dyna.actor.speedXZ += 0.05f;
@@ -109,7 +104,7 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-        } else if (gSaveContext.nightFlag && globalCtx->sceneNum == SCENE_SPOT02) {
+        } else if (!IS_DAY && globalCtx->sceneNum == SCENE_SPOT02) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.home.pos.x,
                         this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0,
                         1);
@@ -120,7 +115,7 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
 }
 
 void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         this->dyna.unk_150 = 0.0f;
@@ -129,7 +124,7 @@ void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx) {
 }
 
 void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     if (this->dyna.actor.params != 0) {
@@ -146,7 +141,7 @@ void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx) {
 }
 
 void BgHaka_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHaka* this = THIS;
+    BgHaka* this = (BgHaka*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -159,11 +154,11 @@ void BgHaka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 406),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_060001B0);
+    gSPDisplayList(POLY_OPA_DISP++, gGravestoneStoneDL);
     Matrix_Translate(0.0f, 0.0f, thisx->minVelocityY * 10.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 416),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_060002A8);
+    gSPDisplayList(POLY_XLU_DISP++, gGravestoneEarthDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka.c", 421);
 }

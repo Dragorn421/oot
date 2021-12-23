@@ -5,12 +5,10 @@
  */
 
 #include "z_bg_spot01_idohashira.h"
-
+#include "objects/object_spot01_objects/object_spot01_objects.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgSpot01Idohashira*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -49,9 +47,6 @@ const ActorInit Bg_Spot01_Idohashira_InitVars = {
     (ActorFunc)BgSpot01Idohashira_Update,
     (ActorFunc)BgSpot01Idohashira_Draw,
 };
-
-extern Gfx D_06000420[];
-extern CollisionHeader D_0600075C;
 
 void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
     func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_BOX_BREAK);
@@ -144,7 +139,7 @@ void func_808AAF34(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idohashira* this = THIS;
+    BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -202,7 +197,7 @@ s32 func_808AB29C(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 
     npcAction = BgSpot01Idohashira_GetNpcAction(globalCtx, 2);
     if (npcAction != NULL) {
-        temp_f0 = func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
+        temp_f0 = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
         initPos = this->dyna.actor.home.pos;
         endX = npcAction->endPos.x;
         tempY = ((kREG(10) + 1100.0f) / 10.0f) + npcAction->endPos.y;
@@ -286,7 +281,7 @@ void func_808AB570(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idohashira_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idohashira* this = THIS;
+    BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     if (this->action < 0 || this->action >= 4 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -297,13 +292,13 @@ void BgSpot01Idohashira_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad[2];
-    BgSpot01Idohashira* this = THIS;
+    BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
     CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     colHeader = NULL;
-    CollisionHeader_GetVirtual(&D_0600075C, &colHeader);
+    CollisionHeader_GetVirtual(&gKakarikoWellArchCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (gSaveContext.sceneSetupIndex < 4) {
@@ -332,13 +327,13 @@ void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_808AAF34(this, globalCtx);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000420);
+    gSPDisplayList(POLY_OPA_DISP++, gKakarikoWellArchDL);
 
     CLOSE_DISPS(localGfxCtx, "../z_bg_spot01_idohashira.c", 708);
 }
 
 void BgSpot01Idohashira_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idohashira* this = THIS;
+    BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig > 0 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

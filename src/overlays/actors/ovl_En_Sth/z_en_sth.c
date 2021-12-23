@@ -6,10 +6,10 @@
 
 #include "vt.h"
 #include "z_en_sth.h"
+#include "objects/object_ahg/object_ahg.h"
+#include "objects/object_boj/object_boj.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnSth*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnSth_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +34,7 @@ const ActorInit En_Sth_InitVars = {
     NULL,
 };
 
-#include "z_en_sth_gfx.c"
+#include "overlays/ovl_En_Sth/ovl_En_Sth.c"
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -61,11 +61,16 @@ static s16 sObjectIds[6] = {
 };
 
 static FlexSkeletonHeader* sSkeletons[6] = {
-    0x060000F0, 0x060000F0, 0x060000F0, 0x060000F0, 0x060000F0, 0x060000F0,
+    /* object_ahg_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    /* object_boj_Skel_0000F0 */ 0x060000F0,
 };
 
 static AnimationHeader* sAnimations[6] = {
-    &gParentDanceAnim, &gChildDanceAnim, &gChildDanceAnim, &gChildDanceAnim, &gChildDanceAnim, &gChildDanceAnim,
+    &sParentDanceAnim, &sChildDanceAnim, &sChildDanceAnim, &sChildDanceAnim, &sChildDanceAnim, &sChildDanceAnim,
 };
 
 static EnSthActionFunc sRewardObtainedWaitActions[6] = {
@@ -92,24 +97,23 @@ void EnSth_SetupAction(EnSth* this, EnSthActionFunc actionFunc) {
 }
 
 void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     s16 objectId;
     s32 params = this->actor.params;
     s32 objectBankIdx;
 
-    // Translation: Gold Skulltula Shop
-    osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params);
+    osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
     if (this->actor.params == 0) {
         if (gSaveContext.inventory.gsTokens < 100) {
             Actor_Kill(&this->actor);
-            // Translation: Gold Skulltula Shop I still can't be a human
+            // "Gold Skulltula Shop I still can't be a human"
             osSyncPrintf("金スタル屋 まだ 人間に戻れない \n");
             return;
         }
     } else if (gSaveContext.inventory.gsTokens < (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
-        // Translation: Gold Skulltula Shop I still can't be a human
+        // "Gold Skulltula Shop I still can't be a human"
         osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
         return;
     }
@@ -165,7 +169,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -210,7 +214,7 @@ void EnSth_LookAtPlayer(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         if (this->actor.params == 0) {
             EnSth_SetupAction(this, EnSth_ParentRewardObtainedWait);
         } else {
@@ -221,7 +225,7 @@ void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         this->actor.textId = 0x23;
@@ -265,8 +269,8 @@ void EnSth_GiveReward(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         EnSth_SetupAction(this, EnSth_GiveReward);
         EnSth_GivePlayerItem(this, globalCtx);
     }
@@ -274,7 +278,7 @@ void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
@@ -290,7 +294,7 @@ void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.inventory.gsTokens < 50) {
@@ -306,13 +310,13 @@ void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -324,6 +328,7 @@ void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
 
+    // Likely an unused blink timer and eye index
     if (DECR(this->unk_2B6) == 0) {
         this->unk_2B6 = Rand_S16Offset(0x3C, 0x3C);
     }
@@ -334,7 +339,7 @@ void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnSth_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     s32 temp_v1;
 
@@ -358,11 +363,11 @@ s32 EnSth_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnSth_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80B0B49C, &this->actor.focus.pos);
-        if (this->actor.params != 0) {
+        if (this->actor.params != 0) { // Children
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sth.c", 2079);
 
             gSPDisplayList(POLY_OPA_DISP++, D_80B0A3C0);
@@ -383,7 +388,7 @@ Gfx* EnSth_AllocColorDList(GraphicsContext* globalCtx, u8 envR, u8 envG, u8 envB
 }
 
 void EnSth_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSth* this = THIS;
+    EnSth* this = (EnSth*)thisx;
     Color_RGB8* envColor1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sth.c", 2133);

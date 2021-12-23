@@ -5,10 +5,9 @@
  */
 
 #include "z_bg_toki_swd.h"
+#include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgTokiSwd*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -18,8 +17,6 @@ void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx);
 void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx);
 void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx);
-
-extern Gfx D_06001BD0[];
 
 extern CutsceneData D_808BB2F0[];
 extern CutsceneData D_808BB7A0[];
@@ -69,7 +66,7 @@ void BgTokiSwd_SetupAction(BgTokiSwd* this, BgTokiSwdActionFunc actionFunc) {
 
 void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.shape.yOffset = 800.0f;
@@ -80,7 +77,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.sceneSetupIndex == 5) {
-        globalCtx->unk_11D30[0] = 0xFF;
+        globalCtx->roomCtx.unk_74[0] = 0xFF;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -90,7 +87,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -102,16 +99,16 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
         globalCtx->csCtx.segment = D_808BBD90;
         gSaveContext.cutsceneTrigger = 1;
     }
-    if (LINK_IS_CHILD || ((gSaveContext.eventChkInf[5] & 0x20))) {
+    if (!LINK_IS_ADULT || ((gSaveContext.eventChkInf[5] & 0x20))) {
         if (Actor_HasParent(&this->actor, globalCtx)) {
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Item_Give(globalCtx, ITEM_SWORD_MASTER);
                 globalCtx->csCtx.segment = D_808BB2F0;
             } else {
                 globalCtx->csCtx.segment = D_808BB7A0;
             }
-            Audio_SetBGM(NA_BGM_STOP);
-            Audio_SetBGM(0x53);
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
+            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_MASTER_SWORD);
             gSaveContext.cutsceneTrigger = 1;
             this->actor.parent = NULL;
             BgTokiSwd_SetupAction(this, func_808BB0AC);
@@ -122,10 +119,10 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
         }
     }
     if (gSaveContext.sceneSetupIndex == 5) {
-        if (globalCtx->unk_11D30[0] > 0) {
-            globalCtx->unk_11D30[0]--;
+        if (globalCtx->roomCtx.unk_74[0] > 0) {
+            globalCtx->roomCtx.unk_74[0]--;
         } else {
-            globalCtx->unk_11D30[0] = 0;
+            globalCtx->roomCtx.unk_74[0] = 0;
         }
     }
 }
@@ -135,7 +132,7 @@ void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
 
     // if sword has a parent it has been pulled/placed from the pedestal
     if (Actor_HasParent(&this->actor, globalCtx)) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_PUTAWAY_STN);
             this->actor.draw = NULL; // sword has been pulled, dont draw sword
         } else {
@@ -143,40 +140,40 @@ void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
         }
         BgTokiSwd_SetupAction(this, func_808BB128);
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         player->interactRangeActor = &this->actor;
     }
 }
 
 void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
-    if (Flags_GetEnv(globalCtx, 1) && (globalCtx->unk_11D30[0] < 0xFF)) {
-        globalCtx->unk_11D30[0] += 5;
+    if (Flags_GetEnv(globalCtx, 1) && (globalCtx->roomCtx.unk_74[0] < 0xFF)) {
+        globalCtx->roomCtx.unk_74[0] += 5;
     }
 }
 
 void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgTokiSwd* this = THIS;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
 
     this->actionFunc(this, globalCtx);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
-    BgTokiSwd* this = THIS;
+void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    BgTokiSwd* this = (BgTokiSwd*)thisx;
     s32 pad[3];
 
-    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_toki_swd.c", 727);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 727);
 
-    func_80093D18(globalCtx2->state.gfxCtx);
+    func_80093D18(globalCtx->state.gfxCtx);
 
-    func_8002EBCC(&this->actor, globalCtx2, 0);
+    func_8002EBCC(&this->actor, globalCtx, 0);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TexScroll(globalCtx2->state.gfxCtx, 0, -(globalCtx2->gameplayFrames % 0x80), 32, 32));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_toki_swd.c", 742),
+               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, -(globalCtx->gameplayFrames % 0x80), 32, 32));
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 742),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06001BD0);
+    gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_001BD0);
 
-    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_toki_swd.c", 776);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 776);
 }

@@ -1,8 +1,6 @@
 #include "z_en_holl.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnHoll*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 // Horizontal Plane parameters
 
@@ -73,21 +71,6 @@ static f32 sHorizTriggerDists[2][4] = {
     { 100.0f, 75.0f, 50.0f, 25.0f },
 };
 
-static Vtx sVertices[] = {
-    VTX(0x55F0, 0x4E20, 0x0000, 0x0800, 0x0800, 255, 255, 255, 255),
-    VTX(0xAA10, 0x4E20, 0x0000, 0x0000, 0x0800, 255, 255, 255, 255),
-    VTX(0xAA10, 0xB1E0, 0x0000, 0x0000, 0x0000, 255, 255, 255, 255),
-    VTX(0x55F0, 0xB1E0, 0x0000, 0x0800, 0x0000, 255, 255, 255, 255),
-};
-
-static Gfx sPlaneDlist[] = {
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PASS2),
-    gsSPVertex(sVertices, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
-
 void EnHoll_SetupAction(EnHoll* this, EnHollActionFunc func) {
     this->actionFunc = func;
 }
@@ -109,7 +92,7 @@ void EnHoll_ChooseAction(EnHoll* this) {
 }
 
 void EnHoll_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this = THIS;
+    EnHoll* this = (EnHoll*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnHoll_ChooseAction(this);
@@ -118,7 +101,7 @@ void EnHoll_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHoll_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 transitionActorIdx = (u16)thisx->params >> 0xA;
-    TransitionActorEntry* transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
+    TransitionActorEntry* transitionEntry = &globalCtx->transiActorCtx.list[transitionActorIdx];
 
     transitionEntry->id = -transitionEntry->id;
 }
@@ -135,7 +118,7 @@ void EnHoll_SwapRooms(GlobalContext* globalCtx) {
 
 // Horizontal Planes
 void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 phi_t0 = ((globalCtx->sceneNum == SCENE_JYASINZOU) ? 1 : 0) & 0xFFFFFFFF;
     Vec3f vec;
     f32 absZ;
@@ -149,12 +132,12 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
         if (absZ > sHorizTriggerDists[phi_t0][1]) {
             if (globalCtx->roomCtx.prevRoom.num >= 0 && globalCtx->roomCtx.status == 0) {
-                this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[this->side].room;
+                this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[this->side].room;
                 EnHoll_SwapRooms(globalCtx);
                 func_80097534(globalCtx, &globalCtx->roomCtx);
             }
         } else {
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[this->side ^ 1].room;
+            this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[this->side ^ 1].room;
             if (globalCtx->roomCtx.prevRoom.num < 0) {
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room);
             } else {
@@ -170,45 +153,39 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
 }
 
 // Horizontal Planes
-#ifdef NON_MATCHING
-// a/v regalloc near the end. Also ugly float thing in the conditional that seems needed to match.
 void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
-    s32 pad;
-    s32 pad1;
-    Vec3f vec;
-    TransitionActorEntry* transitionEntry;
-    f32 planeHalfWidth;
-    s32 pad2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 useViewEye = gDbgCamEnabled || globalCtx->csCtx.state != CS_STATE_IDLE;
-    s32 transitionActorIdx;
+    Vec3f vec;
+    s32 temp;
+    f32 planeHalfWidth;
     f32 absZ;
-    s32 side;
-    s8 test;
 
     func_8002DBD0(&this->actor, &vec, (useViewEye) ? &globalCtx->view.eye : &player->actor.world.pos);
     planeHalfWidth = (((this->actor.params >> 6) & 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
 
-    if (EnHoll_IsKokiriSetup8() || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
-                                    (absZ = fabsf(vec.z), 100.0f > absZ && absZ > 50.0f))) {
-        transitionActorIdx = (u16)this->actor.params >> 0xA;
-        side = (vec.z < 0.0f) ? 0 : 1;
-        transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
-        test = transitionEntry->sides[side].room;
-        this->actor.room = test;
-        if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
-            func_8009728C(globalCtx, &globalCtx->roomCtx, (u32)this->actor.room)) {
-            EnHoll_SetupAction(this, EnHoll_NextAction);
+    temp = EnHoll_IsKokiriSetup8();
+    if (temp || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
+                 (absZ = fabsf(vec.z), 100.0f > absZ && absZ > 50.0f))) {
+        s32 transitionActorIdx = (u16)this->actor.params >> 0xA;
+        s32 side = (vec.z < 0.0f) ? 0 : 1;
+        TransitionActorEntry* transitionEntry = &globalCtx->transiActorCtx.list[transitionActorIdx];
+        s32 room = transitionEntry->sides[side].room;
+
+        this->actor.room = room;
+        if (temp) {}
+        if (this->actor.room != globalCtx->roomCtx.curRoom.num) {
+            if (room) {}
+            if (func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room)) {
+                EnHoll_SetupAction(this, EnHoll_NextAction);
+            }
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A59014.s")
-#endif
 
 // Vertical Planes
 void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 absY = fabsf(this->actor.yDistToPlayer);
     s32 transitionActorIdx;
 
@@ -222,7 +199,7 @@ void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
             globalCtx->unk_11E18 = (s16)(605.0f - absY) * 0.5f;
         }
         if (absY < 95.0f) {
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[1].room;
+            this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[1].room;
             Math_SmoothStepToF(&player->actor.world.pos.x, this->actor.world.pos.x, 1.0f, 50.0f, 10.0f);
             Math_SmoothStepToF(&player->actor.world.pos.z, this->actor.world.pos.z, 1.0f, 50.0f, 10.0f);
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
@@ -253,7 +230,7 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
         if (absY > 50.0f) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
+            this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[side].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 EnHoll_SetupAction(this, EnHoll_NextAction);
@@ -277,7 +254,7 @@ void func_80A59520(EnHoll* this, GlobalContext* globalCtx) {
         if (absY < 200.0f && absY > 50.0f) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
+            this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[side].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 EnHoll_SetupAction(this, EnHoll_NextAction);
@@ -288,7 +265,7 @@ void func_80A59520(EnHoll* this, GlobalContext* globalCtx) {
 
 // Horizontal Planes
 void func_80A59618(EnHoll* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f vec;
     f32 absZ;
     s32 side;
@@ -313,7 +290,7 @@ void func_80A59618(EnHoll* this, GlobalContext* globalCtx) {
             }
             if (absZ < 50.0f) {
                 side = (vec.z < 0.0f) ? 0 : 1;
-                this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
+                this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[side].room;
                 if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                     func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                     EnHoll_SetupAction(this, EnHoll_NextAction);
@@ -337,26 +314,30 @@ void EnHoll_NextAction(EnHoll* this, GlobalContext* globalCtx) {
 }
 
 void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this = THIS;
+    EnHoll* this = (EnHoll*)thisx;
+
     this->actionFunc(this, globalCtx);
 }
 
+#include "overlays/ovl_En_Holl/ovl_En_Holl.c"
+
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this = THIS;
+    EnHoll* this = (EnHoll*)thisx;
     Gfx* gfxP;
-    u32 setupDLIdx;
+    u32 setupDlIdx;
 
     // Only draw the plane if not invisible
     if (this->planeAlpha != 0) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_holl.c", 805);
+
         if (this->planeAlpha == 255) {
             gfxP = POLY_OPA_DISP;
-            setupDLIdx = 37;
+            setupDlIdx = 37;
         } else {
             gfxP = POLY_XLU_DISP;
-            setupDLIdx = 0;
+            setupDlIdx = 0;
         }
-        gfxP = Gfx_CallSetupDL(gfxP, setupDLIdx);
+        gfxP = Gfx_CallSetupDL(gfxP, setupDlIdx);
         if (this->side == 0) {
             Matrix_RotateY(M_PI, MTXMODE_APPLY);
         }
@@ -364,13 +345,14 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(gfxP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_holl.c", 824),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(gfxP++, 0, 0, 0, 0, 0, (u8)this->planeAlpha);
-        gSPDisplayList(gfxP++, sPlaneDlist);
+        gSPDisplayList(gfxP++, sPlaneDL);
 
         if (this->planeAlpha == 255) {
             POLY_OPA_DISP = gfxP;
         } else {
             POLY_XLU_DISP = gfxP;
         }
+
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_holl.c", 831);
     }
 }

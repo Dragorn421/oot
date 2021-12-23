@@ -5,10 +5,9 @@
  */
 
 #include "z_bg_spot03_taki.h"
+#include "objects/object_spot03_object/object_spot03_object.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgSpot03Taki*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -33,19 +32,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06000C98;
-
-// These are identical vertex data for the waterfall.
-extern Vtx* D_06000800[]; // Vertex buffer 0
-extern Vtx* D_06000990[]; // Vertex buffer 1
-
-extern Gfx* D_06000B20[];
-extern Gfx* D_06000BC0[];
-extern Gfx* D_06001580[];
-
 void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
     s32 i;
-    Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(D_06000800) : SEGMENTED_TO_VIRTUAL(D_06000990);
+    Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000800)
+                                  : SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000990);
 
     for (i = 0; i < 5; i++) {
         vtx[i + 10].v.cn[3] = this->openingAlpha;
@@ -53,13 +43,13 @@ void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
 }
 
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot03Taki* this = THIS;
+    BgSpot03Taki* this = (BgSpot03Taki*)thisx;
     s16 pad;
     CollisionHeader* colHeader = NULL;
 
     this->switchFlag = (this->dyna.actor.params & 0x3F);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06000C98, &colHeader);
+    CollisionHeader_GetVirtual(&object_spot03_object_Col_000C98, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->bufferIndex = 0;
@@ -70,7 +60,7 @@ void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot03Taki* this = THIS;
+    BgSpot03Taki* this = (BgSpot03Taki*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -118,13 +108,13 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot03Taki* this = THIS;
+    BgSpot03Taki* this = (BgSpot03Taki*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot03Taki* this = THIS;
+    BgSpot03Taki* this = (BgSpot03Taki*)thisx;
     s32 pad;
     u32 gameplayFrames;
 
@@ -141,29 +131,29 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
         POLY_XLU_DISP++, 0x08,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, gameplayFrames * 5, 64, 64));
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06000B20);
+    gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_000B20);
 
     if (this->bufferIndex == 0) {
-        gSPVertex(POLY_XLU_DISP++, D_06000800, 25, 0);
+        gSPVertex(POLY_XLU_DISP++, object_spot03_object_Vtx_000800, 25, 0);
     } else {
-        gSPVertex(POLY_XLU_DISP++, D_06000990, 25, 0);
+        gSPVertex(POLY_XLU_DISP++, object_spot03_object_Vtx_000990, 25, 0);
     }
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06000BC0);
+    gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_000BC0);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 1, gameplayFrames * 3, 64, 64, 1,
                                 -gameplayFrames, gameplayFrames * 3, 64, 64));
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06001580);
+    gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_001580);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 
     this->bufferIndex = this->bufferIndex == 0;
 
-    if (this->state > WATERFALL_CLOSED && this->state < WATERFALL_CLOSING) {
-        func_800F46E0(&this->dyna.actor.projectedPos, 0.5f);
+    if (this->state >= WATERFALL_OPENING_IDLE && this->state <= WATERFALL_OPENED) {
+        Audio_PlaySoundWaterfall(&this->dyna.actor.projectedPos, 0.5f);
     } else {
-        func_800F46E0(&this->dyna.actor.projectedPos, 1.0f);
+        Audio_PlaySoundWaterfall(&this->dyna.actor.projectedPos, 1.0f);
     }
 }

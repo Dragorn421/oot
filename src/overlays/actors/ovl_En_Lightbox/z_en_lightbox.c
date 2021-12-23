@@ -5,10 +5,9 @@
  */
 
 #include "z_en_lightbox.h"
+#include "objects/object_lightbox/object_lightbox.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnLightbox*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -27,12 +26,9 @@ const ActorInit En_Lightbox_InitVars = {
     (ActorFunc)EnLightbox_Draw,
 };
 
-extern Gfx D_06000B70[];
-extern CollisionHeader D_06001F10;
-
 void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
-    EnLightbox* this = THIS;
+    EnLightbox* this = (EnLightbox*)thisx;
     s32 pad[4];
 
     switch (thisx->params) {
@@ -59,18 +55,18 @@ void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_15C = 0;
     thisx->targetMode = 0;
     thisx->gravity = -2.0f;
-    CollisionHeader_GetVirtual(&D_06001F10, &colHeader);
+    CollisionHeader_GetVirtual(&object_lightbox_Col_001F10, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnLightbox* this = THIS;
+    EnLightbox* this = (EnLightbox*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnLightbox* this = THIS;
+    EnLightbox* this = (EnLightbox*)thisx;
 
     if (this->dyna.unk_162 != 0) {
         if (Actor_HasNoParent(thisx, globalCtx)) {
@@ -112,5 +108,5 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnLightbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06000B70);
+    Gfx_DrawDListOpa(globalCtx, object_lightbox_DL_000B70);
 }

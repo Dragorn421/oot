@@ -5,10 +5,9 @@
  */
 
 #include "z_obj_hsblock.h"
+#include "objects/object_d_hsblock/object_d_hsblock.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((ObjHsblock*)thisx)
+#define FLAGS 0
 
 void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -43,17 +42,17 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
 };
 
-CollisionHeader* D_80B940DC[] = { 0x06000730, 0x06000730, 0x06000578 };
+static CollisionHeader* sCollisionHeaders[] = { &gHookshotTargetCol, &gHookshotTargetCol, &gHookshotPostCol };
 
 static Color_RGB8 sFireTempleColor = { 165, 125, 55 };
 
-static Gfx* sDLists[] = { 0x06000210, 0x06000210, 0x06000470 };
+static Gfx* sDLists[] = { gHookshotPostDL, gHookshotPostDL, gHookshotTargetDL };
 
 void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void func_80B93B68(ObjHsblock* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag moveFlags) {
+void func_80B93B68(ObjHsblock* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2[2];
@@ -76,9 +75,9 @@ void func_80B93BF0(ObjHsblock* this, GlobalContext* globalCtx) {
 }
 
 void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHsblock* this = THIS;
+    ObjHsblock* this = (ObjHsblock*)thisx;
 
-    func_80B93B68(this, globalCtx, D_80B940DC[thisx->params & 3], DPM_UNK);
+    func_80B93B68(this, globalCtx, sCollisionHeaders[thisx->params & 3], DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80B93BF0(this, globalCtx);
 
@@ -101,7 +100,7 @@ void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHsblock* this = THIS;
+    ObjHsblock* this = (ObjHsblock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -111,7 +110,7 @@ void func_80B93D90(ObjHsblock* this) {
 }
 
 void func_80B93DB0(ObjHsblock* this) {
-    this->dyna.actor.flags |= 0x10;
+    this->dyna.actor.flags |= ACTOR_FLAG_4;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 105.0f;
     ObjHsblock_SetupAction(this, func_80B93DF4);
 }
@@ -132,12 +131,12 @@ void func_80B93E5C(ObjHsblock* this, GlobalContext* globalCtx) {
                                  this->dyna.actor.velocity.y, 0.3f)) < 0.001f) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         func_80B93D90(this);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
 void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHsblock* this = THIS;
+    ObjHsblock* this = (ObjHsblock*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);

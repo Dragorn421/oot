@@ -59,7 +59,7 @@ u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     return 1;
 }
 
-void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment) {
+void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, void* segment) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 radius;
     s32 pad;
@@ -75,7 +75,7 @@ void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PT
 
     radius = this->rRadius * 0.0025f;
 
-    if ((this->rWaterBoxNum != -1) && (this->rWaterBoxNum < globalCtx->colCtx.colHeader->nbWaterBoxes)) {
+    if ((this->rWaterBoxNum != -1) && (this->rWaterBoxNum < globalCtx->colCtx.colHeader->numWaterBoxes)) {
         yPos = (this->rWaterBoxNum + globalCtx->colCtx.colHeader->waterBoxes)->ySurface;
     } else {
         yPos = this->pos.y;

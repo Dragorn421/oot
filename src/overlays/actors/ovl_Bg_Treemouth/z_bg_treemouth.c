@@ -5,11 +5,10 @@
  */
 
 #include "z_bg_treemouth.h"
+#include "objects/object_spot04_objects/object_spot04_objects.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgTreemouth*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -25,7 +24,10 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx);
 void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx);
 void func_808BCAF0(BgTreemouth* this, GlobalContext* globalCtx);
 
-#include "z_bg_treemouth_cutscene_data.c" EARLY
+extern CutsceneData D_808BCE20[];
+extern CutsceneData D_808BD2A0[];
+extern CutsceneData D_808BD520[];
+extern CutsceneData D_808BD790[];
 
 const ActorInit Bg_Treemouth_InitVars = {
     ACTOR_BG_TREEMOUTH,
@@ -52,26 +54,23 @@ static f32 D_808BD9C4[] = {
     -2746.0f, 545.0f, 4694.0f, -2654.0f, 146.0f, 4534.0f,
 };
 
-extern Gfx D_060009D0[];
-extern CollisionHeader D_06000E94;
-
 void BgTreemouth_SetupAction(BgTreemouth* this, BgTreemouthActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06000E94, &colHeader);
+    CollisionHeader_GetVirtual(&gDekuTreeMouthCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Actor_SetFocus(thisx, 50.0f);
 
-    if ((gSaveContext.sceneSetupIndex < 4) && LINK_IS_CHILD) {
+    if ((gSaveContext.sceneSetupIndex < 4) && !LINK_IS_ADULT) {
         BgTreemouth_SetupAction(this, func_808BC8B8);
     } else if (LINK_IS_ADULT || (gSaveContext.sceneSetupIndex == 7)) {
         this->unk_168 = 0.0f;
@@ -85,7 +84,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -140,12 +139,12 @@ void func_808BC864(BgTreemouth* this, GlobalContext* globalCtx) {
 
 void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
     if ((!(Flags_GetEventChkInf(5))) || LINK_IS_ADULT) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(0xC)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
-                    this->dyna.actor.flags |= 1;
+                    this->dyna.actor.flags |= ACTOR_FLAG_0;
                     if (this->dyna.actor.isTargeted) {
-                        this->dyna.actor.flags &= ~1;
+                        this->dyna.actor.flags &= ~ACTOR_FLAG_0;
                         globalCtx->csCtx.segment = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
                         BgTreemouth_SetupAction(this, func_808BC9EC);
@@ -164,7 +163,7 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
 }
 
 void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->csCtx.state == CS_STATE_UNSKIPPABLE_INIT) {
         if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 350.0f, 0x7530)) {
@@ -214,7 +213,7 @@ void BgTreemouth_DoNothing(BgTreemouth* this, GlobalContext* globalCtx) {
 }
 
 void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
     f32 unk_168;
 
     this->actionFunc(this, globalCtx);
@@ -240,13 +239,13 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.sceneSetupIndex == 6) {
-        alpha = (globalCtx->unk_11D30[0] + 0x1F4);
+        alpha = (globalCtx->roomCtx.unk_74[0] + 0x1F4);
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, alpha * 0.1f);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_060009D0);
+    gSPDisplayList(POLY_OPA_DISP++, gDekuTreeMouthDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 937);
 }

@@ -8,9 +8,7 @@
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS 0x04000010
-
-#define THIS ((ObjKibako*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
 void ObjKibako_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -83,7 +81,7 @@ void ObjKibako_ApplyGravity(ObjKibako* this) {
 }
 
 void ObjKibako_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    ObjKibako* this = THIS;
+    ObjKibako* this = (ObjKibako*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -92,7 +90,7 @@ void ObjKibako_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjKibako_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjKibako* this = THIS;
+    ObjKibako* this = (ObjKibako*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.gravity = -1.2f;
@@ -100,13 +98,13 @@ void ObjKibako_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjKibako_InitCollider(&this->actor, globalCtx);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sCCInfoInit);
     ObjKibako_SetupIdle(this);
-    // wooden box
+    // "wooden box"
     osSyncPrintf("(dungeon keep 木箱)(arg_data 0x%04x)\n", this->actor.params);
 }
 
 void ObjKibako_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjKibako* this = THIS;
+    ObjKibako* this = (ObjKibako*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -276,14 +274,14 @@ void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
 
 void ObjKibako_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjKibako* this = THIS;
+    ObjKibako* this = (ObjKibako*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void ObjKibako_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjKibako* this = THIS;
+    ObjKibako* this = (ObjKibako*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, gSmallWoodenBoxDL);
 }

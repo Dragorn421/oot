@@ -5,10 +5,9 @@
  */
 
 #include "z_en_toryo.h"
+#include "objects/object_toryo/object_toryo.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnToryo*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnToryo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -95,14 +94,12 @@ typedef struct {
     f32 transitionRate;
 } EnToryoAnimation;
 
-static EnToryoAnimation sEnToryoAnimation = { 0x06000E50, 1.0f, 0, 0 };
+static EnToryoAnimation sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
 
 static Vec3f sMultVec = { 800.0f, 1000.0f, 0.0f };
 
-extern FlexSkeletonHeader D_06007150;
-
 void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
     s32 pad;
 
     switch (globalCtx->sceneNum) {
@@ -112,12 +109,12 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case SCENE_SPOT01:
-            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && (gSaveContext.nightFlag == 0)) {
+            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && IS_DAY) {
                 this->stateFlags |= 2;
             }
             break;
         case SCENE_KAKARIKO:
-            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && (gSaveContext.nightFlag == 1)) {
+            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && IS_NIGHT) {
                 this->stateFlags |= 4;
             }
             break;
@@ -128,7 +125,8 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 42.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007150, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_toryo_Skel_007150, NULL, this->jointTable, this->morphTable,
+                       17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -142,31 +140,31 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnToryo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 5:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_EVENT:
             ret = 1;
             break;
-        case 4:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
-                    func_80106CCC(globalCtx);
+                    Message_CloseTextbox(globalCtx);
                     this->actor.parent = NULL;
                     player->exchangeItemId = EXCH_ITEM_NONE;
-                    globalCtx->msgCtx.msgMode = 0x37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     this->actor.textId = 0x601B;
                     ret = 3;
                 } else {
@@ -175,31 +173,31 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case 6:
+        case TEXT_STATE_DONE:
             switch (this->actor.textId) {
                 case 0x5028:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         gSaveContext.infTable[23] |= 4;
                         ret = 0;
                     }
                     break;
                 case 0x601B:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         ret = 4;
                     }
                     break;
                 case 0x606F:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         gSaveContext.infTable[23] |= 2;
                         ret = 0;
                     }
                     break;
                 case 0x606A:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         gSaveContext.infTable[23] |= 1;
                         ret = 0;
                     }
@@ -210,7 +208,7 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 case 0x606E:
                 default:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx)) {
                         ret = 0;
                     }
                     break;
@@ -222,20 +220,20 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
 
 s32 func_80B205CC(EnToryo* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 ret = 5;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CLOSING:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
             ret = 5;
             break;
-        case 6:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 ret = 0;
             }
             break;
@@ -292,13 +290,13 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
 }
 
 void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 sp32;
     s16 sp30;
 
     if (this->unk_1E4 == 3) {
-        func_8002F194(&this->actor, globalCtx);
-        func_8010B720(globalCtx, this->actor.textId);
+        Actor_ProcessTalkRequest(&this->actor, globalCtx);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E4 = 1;
     }
 
@@ -312,7 +310,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1E4 == 2) {
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E4 = 1;
     }
 
@@ -327,7 +325,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1E4 == 0) {
-        if (func_8002F194(&this->actor, globalCtx) != 0) {
+        if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
             this->unk_1E0 = func_8002F368(globalCtx);
             if (this->unk_1E0 != 0) {
                 player->actor.textId = func_80B20634(this, globalCtx);
@@ -337,7 +335,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
             return;
         }
 
-        func_8002F374(globalCtx, &this->actor, &sp32, &sp30);
+        Actor_GetScreenPos(globalCtx, &this->actor, &sp32, &sp30);
         if ((sp32 >= 0) && (sp32 < 0x141) && (sp30 >= 0) && (sp30 < 0xF1)) {
             this->actor.textId = func_80B206A0(this, globalCtx);
             func_8002F298(&this->actor, globalCtx, 100.0f, 10);
@@ -356,9 +354,9 @@ void func_80B20914(EnToryo* this, GlobalContext* globalCtx) {
 }
 
 void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
     ColliderCylinder* collider = &this->collider;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 rot;
 
     Collider_UpdateCylinder(thisx, collider);
@@ -386,7 +384,7 @@ void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnToryo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
@@ -395,7 +393,7 @@ void EnToryo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
 
     if ((this->stateFlags & 8)) {
         switch (limbIndex) {
@@ -413,7 +411,7 @@ s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnToryo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
 
     switch (limbIndex) {
         case 15:

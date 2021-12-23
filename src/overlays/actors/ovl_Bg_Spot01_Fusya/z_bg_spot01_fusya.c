@@ -5,10 +5,9 @@
  */
 
 #include "z_bg_spot01_fusya.h"
+#include "objects/object_spot01_objects/object_spot01_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgSpot01Fusya*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Fusya_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -36,14 +35,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1300, ICHAIN_STOP),
 };
 
-extern Gfx D_06000100[];
-
 void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, BgSpot01FusyaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Fusya* this = THIS;
+    BgSpot01Fusya* this = (BgSpot01Fusya*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->unk_154 = 100.0f;
@@ -72,7 +69,7 @@ void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Fusya* this = THIS;
+    BgSpot01Fusya* this = (BgSpot01Fusya*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -84,7 +81,7 @@ void BgSpot01Fusya_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000100);
+    gSPDisplayList(POLY_OPA_DISP++, gKakarikoWindmillSailsDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 219);
 }

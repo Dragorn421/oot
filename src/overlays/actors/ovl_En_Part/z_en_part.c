@@ -5,10 +5,10 @@
  */
 
 #include "z_en_part.h"
+#include "objects/object_tite/object_tite.h"
+#include "objects/object_ik/object_ik.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnPart*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnPart_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -26,15 +26,6 @@ const ActorInit En_Part_InitVars = {
     (ActorFunc)EnPart_Update,
     (ActorFunc)EnPart_Draw,
 };
-
-extern UNK_TYPE D_06001300[];
-extern UNK_TYPE D_06001700[];
-extern UNK_TYPE D_06001900[];
-extern UNK_TYPE D_06001B00[];
-extern UNK_TYPE D_06001F00[];
-extern UNK_TYPE D_06002100[];
-extern Gfx D_06002FF0[];
-extern Gfx D_06015380[];
 
 void EnPart_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -92,7 +83,7 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
         case 7:
         case 8:
             this->actor.world.rot.y = this->actor.parent->shape.rot.y;
-            if (this->displayList == D_06015380) {
+            if (this->displayList == object_ik_DL_015380) {
                 sign = -1.0f;
             }
             this->actor.velocity.y = 0.0f;
@@ -179,7 +170,7 @@ void func_80ACE5B8(EnPart* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->timer--;
     if (this->timer == 0) {
@@ -190,6 +181,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
 
         if (sqrt(this->actor.xyzDistToPlayerSq) <= 40.0f) {
             u8 prevInvincibilityTimer = player->invincibilityTimer;
+
             if (player->invincibilityTimer <= 0) {
                 if (player->invincibilityTimer <= -40) {
                     player->invincibilityTimer = 0;
@@ -224,6 +216,7 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         f32 diffsSum = Math_SmoothStepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f, 5.0f, 0.0f);
+
         diffsSum += Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->rotZ, 0.0f, 1.0f, 0.25f, 0.0f);
@@ -246,7 +239,7 @@ void EnPart_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80ACDDE8, func_80ACE13C, func_80ACE5B8, func_80ACE5C8, func_80ACE7E8,
     };
 
-    EnPart* this = THIS;
+    EnPart* this = (EnPart*)thisx;
 
     Actor_MoveForward(&this->actor);
 
@@ -280,7 +273,7 @@ Gfx* func_80ACEAC0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
 }
 
 void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnPart* this = THIS;
+    EnPart* this = (EnPart*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_part.c", 647);
 
@@ -303,14 +296,14 @@ void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80ACEAC0(globalCtx->state.gfxCtx, 255, 255, 255, 180, 180, 180));
         gSPSegment(POLY_OPA_DISP++, 0x09, func_80ACEAC0(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, func_80ACEAC0(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
-    } else if ((thisx->params == 9) && (this->displayList == D_06002FF0)) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_06001300));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_06001700));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_06001900));
-    } else if ((thisx->params == 10) && (this->displayList == D_06002FF0)) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_06001B00));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_06001F00));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_06002100));
+    } else if ((thisx->params == 9) && (this->displayList == object_tite_DL_002FF0)) {
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001300));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001700));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001900));
+    } else if ((thisx->params == 10) && (this->displayList == object_tite_DL_002FF0)) {
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001B00));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001F00));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(object_tite_Tex_002100));
     }
 
     if (this->displayList != NULL) {

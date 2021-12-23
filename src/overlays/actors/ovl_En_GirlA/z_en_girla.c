@@ -7,9 +7,7 @@
 #include "z_en_girla.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnGirlA*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -82,56 +80,56 @@ const ActorInit En_GirlA_InitVars = {
 };
 
 static char* sShopItemDescriptions[] = {
-    "デクの実×5   ",  // Deku nut x5
-    "矢×30        ",  // Arrow x30
-    "矢×50        ",  // Arrow x50
-    "爆弾×5       ",  // bomb
-    "デクの実×10  ",  // Deku nut x10
-    "デクの棒      ", // Deku stick
-    "爆弾×10      ",  // Bomb x10
-    "さかな        ", // Fish
-    "赤クスリ      ", // Red medicine
-    "緑クスリ      ", // Green medicine
-    "青クスリ      ", // Blue medicine
-    "巨人のナイフ  ", // Giant knife
-    "ハイリアの盾  ", // Hyria Shield
-    "デクの盾      ", // Deku Shield
-    "ゴロンの服    ", // Goron's clothes
-    "ゾ─ラの服    ",  // Zora's clothes
-    "回復のハート  ", // Heart of recovery
-    "ロンロン牛乳  ", // Ron Ron milk
-    "鶏の卵        ", // Chicken egg
-    "インゴー牛乳  ", // Ingo milk
-    "インゴー卵    ", // Ingo egg
-    "もだえ石      ", // Modae stone
-    "大人の財布    ", // Adult wallet
-    "ハートの欠片  ", // Heart fragment
-    "ボムチュウ    ", // Bombchu
-    "ボムチュウ    ", // Bombchu
-    "ボムチュウ    ", // Bombchu
-    "ボムチュウ    ", // Bombchu
-    "ボムチュウ    ", // Bombchu
-    "デクのタネ    ", // Deku seeds
-    "キータンのお面", // Ketan's mask
-    "こわそなお面  ", // Scary face
-    "ドクロのお面  ", // Skull mask
-    "ウサギずきん  ", // Rabbit hood
-    "まことの仮面  ", // True mask
-    "ゾーラのお面  ", // Zora's mask
-    "ゴロンのお面  ", // Goron's mask
-    "ゲルドのお面  ", // Gerd's mask
-    "ＳＯＬＤＯＵＴ", //
-    "炎            ", // Flame
-    "虫            ", // Bugs
-    "チョウチョ    ", // Butterfly
-    "ポウ          ", // Poe
-    "妖精の魂      ", // Fairy soul
-    "矢×10        ",  // Arrow
-    "爆弾×20      ",  // Bomb x20
-    "爆弾×30      ",  // Bomb x30
-    "爆弾×5       ",  // Bomb x5
-    "赤クスリ      ", // Red medicine
-    "赤クスリ      "  // Red medicine
+    "デクの実×5   ",  // "Deku nut x5"
+    "矢×30        ",  // "Arrow x30"
+    "矢×50        ",  // "Arrow x50"
+    "爆弾×5       ",  // "bomb"
+    "デクの実×10  ",  // "Deku nut x10"
+    "デクの棒      ", // "Deku stick"
+    "爆弾×10      ",  // "Bomb x10"
+    "さかな        ", // "Fish"
+    "赤クスリ      ", // "Red medicine"
+    "緑クスリ      ", // "Green medicine"
+    "青クスリ      ", // "Blue medicine"
+    "巨人のナイフ  ", // "Giant knife"
+    "ハイリアの盾  ", // "Hyria Shield"
+    "デクの盾      ", // "Deku Shield"
+    "ゴロンの服    ", // "Goron's clothes"
+    "ゾ─ラの服    ",  // "Zora's clothes"
+    "回復のハート  ", // "Heart of recovery"
+    "ロンロン牛乳  ", // "Ron Ron milk"
+    "鶏の卵        ", // "Chicken egg"
+    "インゴー牛乳  ", // "Ingo milk"
+    "インゴー卵    ", // "Ingo egg"
+    "もだえ石      ", // "Modae stone"
+    "大人の財布    ", // "Adult wallet"
+    "ハートの欠片  ", // "Heart fragment"
+    "ボムチュウ    ", // "Bombchu"
+    "ボムチュウ    ", // "Bombchu"
+    "ボムチュウ    ", // "Bombchu"
+    "ボムチュウ    ", // "Bombchu"
+    "ボムチュウ    ", // "Bombchu"
+    "デクのタネ    ", // "Deku seeds"
+    "キータンのお面", // "Ketan's mask"
+    "こわそなお面  ", // "Scary face"
+    "ドクロのお面  ", // "Skull mask"
+    "ウサギずきん  ", // "Rabbit hood"
+    "まことの仮面  ", // "True mask"
+    "ゾーラのお面  ", // "Zora's mask"
+    "ゴロンのお面  ", // "Goron's mask"
+    "ゲルドのお面  ", // "Gerd's mask"
+    "ＳＯＬＤＯＵＴ",
+    "炎            ", // "Flame"
+    "虫            ", // "Bugs"
+    "チョウチョ    ", // "Butterfly"
+    "ポウ          ", // "Poe"
+    "妖精の魂      ", // "Fairy soul"
+    "矢×10        ",  // "Arrow"
+    "爆弾×20      ",  // "Bomb x20"
+    "爆弾×30      ",  // "Bomb x30"
+    "爆弾×5       ",  // "Bomb x5"
+    "赤クスリ      ", // "Red medicine"
+    "赤クスリ      "  // "Red medicine"
 };
 
 static s16 sMaskShopItems[8] = {
@@ -405,7 +403,7 @@ void EnGirlA_InitItem(EnGirlA* this, GlobalContext* globalCtx) {
 }
 
 void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGirlA* this = THIS;
+    EnGirlA* this = (EnGirlA*)thisx;
 
     EnGirlA_TryChangeShopItem(this);
     EnGirlA_InitItem(this, globalCtx);
@@ -413,7 +411,7 @@ void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGirlA* this = THIS;
+    EnGirlA* this = (EnGirlA*)thisx;
 
     if (this->isInitialized) {
         SkelAnime_Free(&this->skelAnime, globalCtx);
@@ -982,7 +980,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
     ShopItemEntry* itemEntry = &shopItemEntries[params];
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->objBankIndex;
         switch (this->actor.params) {
             case SI_KEATON_MASK:
@@ -1058,7 +1056,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
         this->hiliteFunc = itemEntry->hiliteFunc;
         this->giDrawId = itemEntry->giDrawId;
         osSyncPrintf("%s(%2d)\n", sShopItemDescriptions[params], params);
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         Actor_SetScale(&this->actor, 0.25f);
         this->actor.shape.yOffset = 24.0f;
         this->actor.shape.shadowScale = 4.0f;
@@ -1091,7 +1089,7 @@ void EnGirlA_Update2(EnGirlA* this, GlobalContext* globalCtx) {
 }
 
 void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGirlA* this = THIS;
+    EnGirlA* this = (EnGirlA*)thisx;
 
     this->actionFunc2(this, globalCtx);
 }
@@ -1102,7 +1100,7 @@ void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags) {
 }
 
 void EnGirlA_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGirlA* this = THIS;
+    EnGirlA* this = (EnGirlA*)thisx;
 
     Matrix_RotateY(((this->yRotation * 360.0f) / 65536.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
     if (this->hiliteFunc != NULL) {

@@ -5,11 +5,10 @@
  */
 
 #include "z_obj_warp2block.h"
+#include "objects/object_timeblock/object_timeblock.h"
 #include "vt.h"
 
-#define FLAGS 0x0A000011
-
-#define THIS ((ObjWarp2block*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
 void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjWarp2block_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -28,9 +27,6 @@ void func_80BA24E8(ObjWarp2block* this);
 void func_80BA24F8(ObjWarp2block* this, GlobalContext* globalCtx);
 void func_80BA2600(ObjWarp2block* this);
 void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000980[];
-extern CollisionHeader D_06000B30;
 
 const ActorInit Obj_Warp2block_InitVars = {
     ACTOR_OBJ_WARP2BLOCK,
@@ -90,7 +86,7 @@ s32 func_80BA1ECC(ObjWarp2block* this, GlobalContext* globalCtx) {
     }
 
     temp_a3 = this->dyna.actor.child;
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
         (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
 
@@ -159,11 +155,11 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block* this, GlobalContext* globalCtx) 
 }
 
 s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (func_80BA1ECC(this, globalCtx)) {
         if (player->stateFlags2 & 0x1000000) {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->func_168 = func_80BA228C;
         } else {
             player->stateFlags2 |= 0x800000;
@@ -174,11 +170,11 @@ s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx) {
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         this->func_168 = func_80BA2218;
     }
 
-    if (globalCtx->msgCtx.unk_E3EC == 0xA) {
+    if (globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_TIME) {
         if (this->unk_172 == 0xFE) {
             this->unk_16E = 0x6E;
         } else {
@@ -193,14 +189,15 @@ s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx) {
 
 s32 func_80BA2304(ObjWarp2block* this, GlobalContext* globalCtx) {
     s32 ret = this->func_168(this, globalCtx);
-    this->unk_172 = globalCtx->msgCtx.unk_E3EC;
+
+    this->unk_172 = globalCtx->msgCtx.lastPlayedSong;
 
     return ret;
 }
 
 void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjWarp2block* this = THIS;
+    ObjWarp2block* this = (ObjWarp2block*)thisx;
     CollisionHeader* collisionHeader;
 
     collisionHeader = NULL;
@@ -217,7 +214,7 @@ void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->dyna.actor.draw = NULL;
         }
         DynaPolyActor_Init(&this->dyna, 0);
-        CollisionHeader_GetVirtual(&D_06000B30, &collisionHeader);
+        CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &collisionHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, collisionHeader);
     } else {
         ObjWarp2block_SetInactive(this);
@@ -228,7 +225,7 @@ void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void ObjWarp2block_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjWarp2block* this = THIS;
+    ObjWarp2block* this = (ObjWarp2block*)thisx;
     if ((this->dyna.actor.params >> 0xF) & 1) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
@@ -297,7 +294,7 @@ void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx) {
 }
 
 void ObjWarp2block_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjWarp2block* this = THIS;
+    ObjWarp2block* this = (ObjWarp2block*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->unk_16C > 0) {
@@ -316,7 +313,7 @@ void ObjWarp2block_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 588),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sp44->r, sp44->g, sp44->b, 255);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000980);
+    gSPDisplayList(POLY_OPA_DISP++, gSongOfTimeBlockDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 594);
 }

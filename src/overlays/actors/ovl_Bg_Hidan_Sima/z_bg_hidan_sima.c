@@ -7,9 +7,7 @@
 #include "z_bg_hidan_sima.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHidanSima*)thisx)
+#define FLAGS 0
 
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -77,13 +75,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static u64* sFireballsTexs[] = {
+static void* sFireballsTexs[] = {
     gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
     gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
 };
 
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 i;
@@ -109,19 +107,19 @@ void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void func_8088E518(BgHidanSima* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
     if (func_8004356C(&this->dyna) && !(player->stateFlags1 & 0x6000)) {
         this->timer = 20;
-        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4000;
+        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4000;
         if (this->dyna.actor.home.pos.y <= this->dyna.actor.world.pos.y) {
             this->actionFunc = func_8088E5D0;
         } else {
@@ -208,12 +206,13 @@ void func_8088E90C(BgHidanSima* this) {
 }
 
 void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
     s32 pad;
 
     this->actionFunc(this, globalCtx);
     if (this->dyna.actor.params != 0) {
         s32 temp = (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) ? this->timer : (this->timer + 80);
+
         if (this->actionFunc == func_8088E7A8) {
             temp += 20;
         }
@@ -244,16 +243,16 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
     v0 = 3 - (this->timer >> 1);
     v0 = CLAMP_MIN(v0, 0);
 
-    mtxF.wx = this->dyna.actor.world.pos.x + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * sin;
-    mtxF.wz = this->dyna.actor.world.pos.z + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * cos;
-    mtxF.wy = this->dyna.actor.world.pos.y + 40.0f;
+    mtxF.xw = this->dyna.actor.world.pos.x + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * sin;
+    mtxF.zw = this->dyna.actor.world.pos.z + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * cos;
+    mtxF.yw = this->dyna.actor.world.pos.y + 40.0f;
     mtxF.zz = v0 * 0.4f + 1.0f;
     mtxF.yy = v0 * 0.4f + 1.0f;
     mtxF.xx = v0 * 0.4f + 1.0f;
 
     for (s3 = v0; s3 < phi_s5; s3++) {
-        mtxF.wx += 25.0f * sin;
-        mtxF.wz += 25.0f * cos;
+        mtxF.xw += 25.0f * sin;
+        mtxF.zw += 25.0f * cos;
         mtxF.xx += 0.4f;
         mtxF.yy += 0.4f;
         mtxF.zz += 0.4f;
@@ -265,8 +264,8 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfx++, gFireTempleFireballDL);
     }
-    mtxF.wx = this->dyna.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
-    mtxF.wz = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
+    mtxF.xw = this->dyna.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
+    mtxF.zw = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
     gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[(this->timer + s3) % 7]));
     gSPMatrix(gfx++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
@@ -277,7 +276,7 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
 }
 
 void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
     func_80093D18(globalCtx->state.gfxCtx);

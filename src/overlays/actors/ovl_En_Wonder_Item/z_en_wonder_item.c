@@ -7,9 +7,7 @@
 #include "z_en_wonder_item.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnWonderItem*)thisx)
+#define FLAGS 0
 
 void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ static Vec3f sTagPointsOrdered[9];
 
 void EnWonderItem_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnWonderItem* this = THIS;
+    EnWonderItem* this = (EnWonderItem*)thisx;
 
     if ((this->collider.dim.radius != 0) || (this->collider.dim.height != 0)) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -110,14 +108,14 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     };
     s32 pad;
     s16 colTypeIndex;
-    EnWonderItem* this = THIS;
+    EnWonderItem* this = (EnWonderItem*)thisx;
     s16 rotZover10;
     s16 tagIndex;
 
     osSyncPrintf("\n\n");
-    // Mysterious mystery, very mysterious
+    // "Mysterious mystery, very mysterious"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 
     this->wonderMode = (this->actor.params >> 0xB) & 0x1F;
     this->itemDrop = (this->actor.params >> 6) & 0x1F;
@@ -202,7 +200,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
@@ -239,7 +237,7 @@ void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_ProximityDrop(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.xzDistToPlayer < 50.0f) && (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {
         EnWonderItem_DropCollectible(this, globalCtx, true);
@@ -254,7 +252,7 @@ void EnWonderItem_InteractSwitch(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.xzDistToPlayer < 50.0f) && (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {
         if (this->switchFlag >= 0) {
@@ -265,7 +263,7 @@ void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx) 
 }
 
 void EnWonderItem_MultitagOrdered(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
@@ -311,7 +309,7 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx) {
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HEISHI2, this->actor.world.pos.x,
                         this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0,
                         9) != NULL) {
-            // Careless soldier spawned
+            // "Careless soldier spawned"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" VT_RST);
         }
         if (this->switchFlag >= 0) {
@@ -322,7 +320,7 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_RollDrop(EnWonderItem* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.xzDistToPlayer < 50.0f) && (player->invincibilityTimer < 0) &&
         (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {
@@ -336,7 +334,7 @@ void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx) {
         128, 128, 128, 0,   128, 0,   128, 0,   128, 0,   128, 0, 0, 0,   128, 0, 0, 0,   128,
     }; // These seem to be mistyped. Logically they should be s16[13][3] and be indexed as [colorIndex][i]
     s32 pad;
-    EnWonderItem* this = THIS;
+    EnWonderItem* this = (EnWonderItem*)thisx;
     s32 colorIndex;
 
     if (this->timer != 0) {

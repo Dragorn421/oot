@@ -547,7 +547,7 @@ f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
 
     if (waterY < chkPos->y) {
         // the water's y position is below the check position
-        // the aka the position is NOT in the water.
+        // meaning the position is NOT in the water.
         return BGCHECK_Y_MIN;
     }
 
@@ -1690,9 +1690,9 @@ s32 Camera_Normal2(Camera* camera) {
             anim->unk_20 = BGCAM_ROT(bgData).x;
             anim->unk_22 = BGCAM_ROT(bgData).y;
             anim->unk_24 = playerPosRot->pos.y;
-            anim->unk_1C = BGCAM_FOV(bgData) == -1
-                               ? norm2->unk_14
-                               : BGCAM_FOV(bgData) >= 0x169 ? PCT(BGCAM_FOV(bgData)) : BGCAM_FOV(bgData);
+            anim->unk_1C = BGCAM_FOV(bgData) == -1      ? norm2->unk_14
+                           : BGCAM_FOV(bgData) >= 0x169 ? PCT(BGCAM_FOV(bgData))
+                                                        : BGCAM_FOV(bgData);
 
             anim->unk_28 = BGCAM_JFIFID(bgData) == -1 ? 0 : BGCAM_JFIFID(bgData);
 
@@ -1778,7 +1778,7 @@ s32 Camera_Normal2(Camera* camera) {
 
     if (camera->status == CAM_STAT_ACTIVE) {
         bgChk.pos = *eyeNext;
-        if ((camera->globalCtx->envCtx.skyDisabled == 0) || norm2->interfaceFlags & 0x10) {
+        if (!camera->globalCtx->envCtx.skyboxDisabled || norm2->interfaceFlags & 0x10) {
             Camera_BGCheckInfo(camera, at, &bgChk);
             *eye = bgChk.pos;
         } else {
@@ -1871,7 +1871,7 @@ s32 Camera_Normal3(Camera* camera) {
                                                     camera->yawUpdateRateInv, sp98, 0.1f);
         camera->pitchUpdateRateInv = Camera_LERPCeilF((f32)OREG(7) + (anim->swing.swingUpdateRateTimer * 2),
                                                       camera->pitchUpdateRateInv, sp94, 0.1f);
-        if (!sp98) {}
+        if (1) {}
         anim->swing.swingUpdateRateTimer--;
     } else {
         camera->yawUpdateRateInv = Camera_LERPCeilF(norm3->yawUpdateSpeed, camera->yawUpdateRateInv, sp98, 0.1f);
@@ -1973,6 +1973,7 @@ s32 Camera_Parallel1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
+
         para1->unk_00 = NEXTPCT * playerHeight * yNormal;
         ;
         para1->distTarget = NEXTPCT * playerHeight * yNormal;
@@ -2110,7 +2111,7 @@ s32 Camera_Parallel1(Camera* camera) {
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spA8);
     if (camera->status == CAM_STAT_ACTIVE) {
         sp6C.pos = *eyeNext;
-        if (camera->globalCtx->envCtx.skyDisabled == 0 || para1->interfaceFlags & 0x10) {
+        if (!camera->globalCtx->envCtx.skyboxDisabled || para1->interfaceFlags & 0x10) {
             Camera_BGCheckInfo(camera, at, &sp6C);
             *eye = sp6C.pos;
         } else {
@@ -2125,6 +2126,7 @@ s32 Camera_Parallel1(Camera* camera) {
     camera->fov = Camera_LERPCeilF(para1->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp6A ? para1->unk_1C : para1->unk_14);
+    //! @bug No return
 }
 
 s32 Camera_Parallel2(Camera* camera) {
@@ -2143,7 +2145,7 @@ s32 Camera_Parallel3(Camera* camera) {
     if (val & 2) {
         camera->unk_14C |= 0x10;
     }
-    // @bug doesn't return
+    //! @bug doesn't return
 }
 
 s32 Camera_Parallel4(Camera* camera) {
@@ -2180,6 +2182,7 @@ s32 Camera_Jump1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(R_CAM_YOFFSET_NORM)) - (PCT(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
+
         jump1->atYOffset = PCT(NEXTSETTING) * playerHeight * yNormal;
         jump1->distMin = PCT(NEXTSETTING) * playerHeight * yNormal;
         jump1->distMax = PCT(NEXTSETTING) * playerHeight * yNormal;
@@ -2720,6 +2723,7 @@ s32 Camera_Battle1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
+
         batt1->yOffset = NEXTPCT * playerHeight * yNormal;
         batt1->distance = NEXTSETTING;
         batt1->swingYawInitial = NEXTSETTING;
@@ -2902,7 +2906,7 @@ s32 Camera_Battle1(Camera* camera) {
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spB4);
         spBC.pos = *eyeNext;
         if (camera->status == CAM_STAT_ACTIVE) {
-            if (camera->globalCtx->envCtx.skyDisabled == 0 || batt1->flags & 1) {
+            if (!camera->globalCtx->envCtx.skyboxDisabled || batt1->flags & 1) {
                 Camera_BGCheckInfo(camera, at, &spBC);
             } else if (batt1->flags & 2) {
                 func_80043F94(camera, at, &spBC);
@@ -2919,7 +2923,9 @@ s32 Camera_Battle1(Camera* camera) {
     }
     anim->roll += (((OREG(36) * camera->speedRatio) * (1.0f - distRatio)) - anim->roll) * PCT(OREG(37));
     camera->roll = DEGF_TO_BINANG(anim->roll);
-    camera->fov = Camera_LERPCeilF((player->swordState != 0 ? 0.8f : gSaveContext.health <= 0x10 ? 0.8f : 1.0f) *
+    camera->fov = Camera_LERPCeilF((player->swordState != 0       ? 0.8f
+                                    : gSaveContext.health <= 0x10 ? 0.8f
+                                                                  : 1.0f) *
                                        (fov - ((fov * 0.05f) * distRatio)),
                                    camera->fov, camera->fovUpdateRate, 1.0f);
 }
@@ -2929,7 +2935,7 @@ s32 Camera_Battle2(Camera* camera) {
 }
 
 s32 Camera_Battle3(Camera* camera) {
-    Camera_Noop(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -2953,6 +2959,7 @@ s32 Camera_Battle4(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(R_CAM_YOFFSET_NORM)) - (PCT(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
+
         batt4->yOffset = NEXTPCT * playerHeight * yNormal;
         batt4->rTarget = NEXTPCT * playerHeight * yNormal;
         batt4->pitchTarget = DEGF_TO_BINANG(NEXTSETTING);
@@ -3061,6 +3068,7 @@ s32 Camera_KeepOn1(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
+
         keep1->unk_00 = NEXTPCT * playerHeight * yNormal;
         keep1->unk_04 = NEXTSETTING;
         keep1->unk_08 = NEXTSETTING;
@@ -3224,7 +3232,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spD8);
         sp8C.pos = *eyeNext;
         if (camera->status == CAM_STAT_ACTIVE) {
-            if ((camera->globalCtx->envCtx.skyDisabled == 0) || keep1->interfaceFlags & 1) {
+            if (!camera->globalCtx->envCtx.skyboxDisabled || keep1->interfaceFlags & 1) {
                 Camera_BGCheckInfo(camera, at, &sp8C);
             } else if (keep1->interfaceFlags & 2) {
                 func_80043F94(camera, at, &sp8C);
@@ -3301,6 +3309,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
+
         keep3->yOffset = NEXTPCT * playerHeight * yNormal;
         keep3->minDist = NEXTSETTING;
         keep3->maxDist = NEXTSETTING;
@@ -3371,7 +3380,6 @@ s32 Camera_KeepOn3(Camera* camera) {
         sp82 = atToEyeAdj.pitch;
         playerHeadPos = camPlayerPosRot->pos;
         playerHeadPos.y += playerHeight;
-        if (!temp_f0) {}
         Camera_Vec3fVecSphGeoAdd(&anim->atTarget, &playerHeadPos, &targetToPlayerDir);
         angleCnt = ARRAY_COUNT(D_8011D3B0);
         i = 0;
@@ -3464,11 +3472,9 @@ s32 Camera_KeepOn4(Camera* camera) {
     KeepOn4_Unk20* unk20 = &keep4->unk_20;
     s32 pad;
     f32 playerHeight;
-    Player* player;
+    Player* player = GET_PLAYER(camera->globalCtx);
     s16 angleCnt;
     s32 i;
-
-    player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
 
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
         if (camera->globalCtx->view.unk_124 == 0) {
@@ -3496,6 +3502,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + t) - ((68.0f / playerHeight) * t);
+
         keep4->unk_00 = NEXTPCT * playerHeight * yNormal;
         keep4->unk_04 = NEXTPCT * playerHeight * yNormal;
         keep4->unk_08 = NEXTSETTING;
@@ -4207,7 +4214,7 @@ s32 Camera_Subj3(Camera* camera) {
         *eye = *eyeNext;
         anim->animTimer--;
 
-        if (camera->globalCtx->envCtx.skyDisabled == 0) {
+        if (!camera->globalCtx->envCtx.skyboxDisabled) {
             Camera_BGCheck(camera, at, eye);
         } else {
             func_80044340(camera, at, eye);
@@ -4654,6 +4661,7 @@ s32 Camera_Unique3(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(R_CAM_YOFFSET_NORM)) - (PCT(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
+
         params->yOffset = NEXTPCT * playerHeight * yNormal;
         params->fov = NEXTSETTING;
         params->interfaceFlags = NEXTSETTING;
@@ -4704,7 +4712,7 @@ s32 Camera_Unique3(Camera* camera) {
             if (params->interfaceFlags & 2) {
                 camera->unk_14C |= 4;
                 camera->unk_14C &= ~8;
-                Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE3, 2);
+                Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_IN_FRONT, 2);
                 break;
             }
             uniq3->doorParams.timer3 = 5;
@@ -4867,6 +4875,9 @@ s32 Camera_Unique4(Camera* camera) {
     return Camera_Noop(camera);
 }
 
+/**
+ * Was setup to be used by the camera setting "FOREST_UNUSED"
+ */
 s32 Camera_Unique5(Camera* camera) {
     return Camera_Noop(camera);
 }
@@ -5531,7 +5542,7 @@ s32 Camera_Demo1(Camera* camera) {
             anim->keyframe = 0;
             anim->curFrame = 0.0f;
             camera->animState++;
-            // absolute / relative
+            // "absolute" : "relative"
             osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: spline demo: start %s \n",
                          camera->globalCtx->state.frames, *relativeToPlayer == 0 ? "絶対" : "相対");
 
@@ -5826,7 +5837,7 @@ s32 Camera_Demo5(Camera* camera) {
     Actor_GetFocus(&camera->targetPosRot, camera->target);
     OLib_Vec3fDiffToVecSphGeo(&playerTargetGeo, &camera->targetPosRot.pos, &camera->playerPosRot.pos);
     D_8011D3AC = camera->target->category;
-    func_8002F374(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
+    Actor_GetScreenPos(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
     eyeTargetDist = OLib_Vec3fDist(&camera->targetPosRot.pos, &camera->eye);
     OLib_Vec3fDiffToVecSphGeo(&eyePlayerGeo, &playerhead.pos, &camera->eyeNext);
     sp4A = eyePlayerGeo.yaw - playerTargetGeo.yaw;
@@ -6016,7 +6027,7 @@ s32 Camera_Demo5(Camera* camera) {
     }
 
     sDemo5PrevAction12Frame = camera->globalCtx->state.frames;
-    Camera_ChangeSettingFlags(camera, CAM_SET_DEMOC, (4 | 1));
+    Camera_ChangeSettingFlags(camera, CAM_SET_CS_C, (4 | 1));
     Camera_Unique9(camera);
     return true;
 }
@@ -6107,7 +6118,7 @@ s32 Camera_Demo7(Camera* camera) {
         camera->unk_14C |= 0x1000;
         camera->animState++;
     }
-    // @bug doesn't return
+    //! @bug doesn't return
 }
 
 s32 Camera_Demo8(Camera* camera) {
@@ -6651,8 +6662,8 @@ s32 Camera_Special9(Camera* camera) {
     sCameraInterfaceFlags = params->interfaceFlags;
 
     switch (camera->animState) {
-        do {
-        } while (0);
+        if (1) {}
+
         case 0:
             camera->unk_14C &= ~(0x4 | 0x2);
             camera->animState++;
@@ -6669,6 +6680,7 @@ s32 Camera_Special9(Camera* camera) {
                     spAC = *eye = *eyeNext;
                 } else {
                     s16 yaw;
+
                     // 0xE38 ~ 20 degrees
                     eyeAdjustment.pitch = 0xE38;
                     // 0xAAA ~ 15 degrees.
@@ -6734,7 +6746,7 @@ s32 Camera_Special9(Camera* camera) {
             }
             break;
     }
-    if (!camera->globalCtx->state.frames) {}
+    if (1) {}
     spAC = playerPosRot->pos;
     spAC.y += playerYOffset;
     camera->dist = OLib_Vec3fDist(&spAC, eye);
@@ -6781,12 +6793,12 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
             PREG(i) = sPREGInit[i];
         }
 
-        DbgCamera_FirstInit(camera, &D_8015BD80);
+        DbCamera_Reset(camera, &D_8015BD80);
         sInitRegs = false;
         PREG(88) = -1;
     }
     camera->globalCtx = D_8015BD7C = globalCtx;
-    DbgCamera_Init(&D_8015BD80, camera);
+    DbCamera_Init(&D_8015BD80, camera);
     curUID = sNextUID;
     sNextUID++;
     while (curUID != 0) {
@@ -7023,10 +7035,19 @@ void Camera_PrintSettings(Camera* camera) {
         if (camera->camDataIdx < 0) {
             sp50[i++] = '-';
         }
-        if (camera->camDataIdx / 0xA != 0) {
-            sp50[i++] = i / 0xA + '0';
+
+        //! @bug: this code was clearly meaning to print `abs(camera->camDataIdx)` as a
+        //! one-or-two-digit number, instead of `i`.
+        // "sp50[i++] = ..." matches here, but is undefined behavior due to conflicting
+        // reads/writes between sequence points, triggering warnings. Work around by
+        // putting i++ afterwards while on the same line.
+        // clang-format off
+        if (camera->camDataIdx / 10 != 0) {
+            sp50[i] = i / 10 + '0'; i++;
         }
-        sp50[i++] = i % 10 + '0';
+        sp50[i] = i % 10 + '0'; i++;
+        // clang-format on
+
         sp50[i++] = ' ';
         sp50[i++] = ' ';
         sp50[i++] = ' ';
@@ -7040,7 +7061,7 @@ void Camera_PrintSettings(Camera* camera) {
 s32 Camera_CheckWater(Camera* camera) {
     f32 waterY;
     s16 newQuakeId;
-    s32 waterBoxProp;
+    s32 waterLightsIndex;
     s32* waterPrevCamSetting = &camera->waterPrevCamSetting;
     s16 waterCamIdx;
     s16* quakeId = (s16*)&camera->waterQuakeId;
@@ -7053,7 +7074,7 @@ s32 Camera_CheckWater(Camera* camera) {
 
     if (camera->unk_14C & 0x200) {
         if (player->stateFlags2 & 0x800) {
-            Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE5, 6);
+            Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_WATER_SURFACE, 6);
             camera->unk_14C |= (s16)0x8000;
         } else if (camera->unk_14C & (s16)0x8000) {
             Camera_ChangeSettingFlags(camera, *waterPrevCamSetting, 6);
@@ -7108,16 +7129,16 @@ s32 Camera_CheckWater(Camera* camera) {
         }
     }
 
-    if (waterY = Camera_GetWaterSurface(camera, &camera->eye, &waterBoxProp), waterY != BGCHECK_Y_MIN) {
+    if (waterY = Camera_GetWaterSurface(camera, &camera->eye, &waterLightsIndex), waterY != BGCHECK_Y_MIN) {
         camera->waterYPos = waterY;
         if (!(camera->unk_14C & 0x100)) {
             camera->unk_14C |= 0x100;
             osSyncPrintf("kankyo changed water, sound on\n");
-            func_80070600(camera->globalCtx, waterBoxProp);
+            Environment_EnableUnderwaterLights(camera->globalCtx, waterLightsIndex);
             camera->unk_150 = 0x50;
         }
 
-        func_800F6828(0x20);
+        Audio_SetExtraFilter(0x20);
 
         if (PREG(81)) {
             Quake_RemoveFromIdx(*quakeId);
@@ -7145,16 +7166,16 @@ s32 Camera_CheckWater(Camera* camera) {
         if (camera->unk_14C & 0x100) {
             camera->unk_14C &= ~0x100;
             osSyncPrintf("kankyo changed water off, sound off\n");
-            func_800706A0(camera->globalCtx);
+            Environment_DisableUnderwaterLights(camera->globalCtx);
             if (*quakeId != 0) {
                 Quake_RemoveFromIdx(*quakeId);
             }
             camera->unk_150 = 0;
             camera->unk_152 = 0;
         }
-        func_800F6828(0);
+        Audio_SetExtraFilter(0);
     }
-    // @BUG: doesn't always return a value, but sometimes does.
+    //! @bug: doesn't always return a value, but sometimes does.
 }
 
 /**
@@ -7437,12 +7458,12 @@ Vec3s Camera_Update(Camera* camera) {
     // Debug cam update
     if (gDbgCamEnabled) {
         camera->globalCtx->view.fovy = D_8015BD80.fov;
-        DbgCamera_Update(&D_8015BD80, camera);
-        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.up);
+        DbCamera_Update(&D_8015BD80, camera);
+        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");
         }
-        return D_8015BD80.unk_10C6;
+        return D_8015BD80.sub.unk_104A;
     }
 
     OREG(0) &= ~8;
@@ -7453,7 +7474,7 @@ Vec3s Camera_Update(Camera* camera) {
 
     // setting bgCheckId to the ret of Quake_Calc, and checking that
     // is required, it doesn't make too much sense though.
-    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_ITEM2)) {
+    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
         viewAt.x = camera->at.x + quake.atOffset.x;
         viewAt.y = camera->at.y + quake.atOffset.y;
         viewAt.z = camera->at.z + quake.atOffset.z;
@@ -7525,11 +7546,11 @@ Vec3s Camera_Update(Camera* camera) {
 }
 
 /**
- * When the camera's timer is 0, change the camera to it's parent
+ * When the camera's timer is 0, change the camera to its parent
  */
 void Camera_Finish(Camera* camera) {
     Camera* mainCam = camera->globalCtx->cameraPtrs[MAIN_CAM];
-    Player* player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
+    Player* player = GET_PLAYER(camera->globalCtx);
 
     if (camera->timer == 0) {
         Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamIdx, CAM_STAT_ACTIVE);
@@ -7560,7 +7581,7 @@ void Camera_Finish(Camera* camera) {
 
         camera->childCamIdx = camera->parentCamIdx = SUBCAM_FREE;
         camera->timer = -1;
-        camera->globalCtx->envCtx.unk_E1 = 0;
+        camera->globalCtx->envCtx.fillScreen = false;
 
         Gameplay_ClearCamera(camera->globalCtx, camera->thisIdx);
     }
@@ -7724,7 +7745,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
             return -2;
         }
     }
-    if (((setting == CAM_SET_SPOT05A) || (setting == CAM_SET_SPOT05B)) && (LINK_IS_ADULT) &&
+    if (((setting == CAM_SET_MEADOW_BIRDS_EYE) || (setting == CAM_SET_MEADOW_UNUSED)) && LINK_IS_ADULT &&
         (camera->globalCtx->sceneNum == SCENE_SPOT05)) {
         camera->unk_14A |= 0x10;
         return -5;
@@ -7800,7 +7821,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
             camera->unk_14A |= 4;
             Camera_CopyModeValuesToPREG(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
-            // @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
+            //! @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
             // camDataIdx would make more sense.
             osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, camDataIdx,
                          camera->thisIdx, 0x32, newCameraSetting);
@@ -7811,7 +7832,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
 
 Vec3s* Camera_GetInputDir(Vec3s* dst, Camera* camera) {
     if (gDbgCamEnabled) {
-        *dst = D_8015BD80.unk_10C6;
+        *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
         *dst = camera->inputDir;
@@ -7835,7 +7856,7 @@ s16 Camera_GetInputDirYaw(Camera* camera) {
 
 Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera) {
     if (gDbgCamEnabled) {
-        *dst = D_8015BD80.unk_10C6;
+        *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
         *dst = camera->camDir;
@@ -7884,7 +7905,7 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
                 camera->targetPosRot.pos = *(Vec3f*)value;
                 break;
             case 8:
-                if (camera->setting == CAM_SET_DEMOC || camera->setting == CAM_SET_DEMO4) {
+                if (camera->setting == CAM_SET_CS_C || camera->setting == CAM_SET_CS_ATTENTION) {
                     break;
                 }
                 camera->target = (Actor*)value;
@@ -7962,7 +7983,7 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
                          s16 timer3) {
     DoorParams* doorParams = (DoorParams*)camera->paramData;
 
-    if ((camera->setting == CAM_SET_DEMO4) || (camera->setting == CAM_SET_DOORC)) {
+    if ((camera->setting == CAM_SET_CS_ATTENTION) || (camera->setting == CAM_SET_DOORC)) {
         return 0;
     }
 
@@ -7982,6 +8003,7 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
         osSyncPrintf(".... change default door camera (set %d)\n", CAM_SET_DOORC);
     } else {
         s32 setting = Camera_GetCamDataSetting(camera, camDataIdx);
+
         camera->unk_14A |= 0x40;
 
         if (Camera_ChangeSetting(camera, setting) >= 0) {
@@ -8099,7 +8121,7 @@ s16 func_8005B1A4(Camera* camera) {
     camera->unk_14C |= 0x8;
 
     if ((camera->thisIdx == MAIN_CAM) && (camera->globalCtx->activeCamera != MAIN_CAM)) {
-        camera->globalCtx->cameraPtrs[camera->globalCtx->activeCamera]->unk_14C |= 0x8;
+        GET_ACTIVE_CAM(camera->globalCtx)->unk_14C |= 0x8;
         return camera->globalCtx->activeCamera;
     }
 

@@ -5,10 +5,9 @@
  */
 
 #include "z_en_dog.h"
+#include "objects/object_dog/object_dog.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnDog*)thisx)
+#define FLAGS 0
 
 void EnDog_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -57,14 +56,14 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 50 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x06001368, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06001368, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
-    { 0x06000D78, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
-    { 0x06000278, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
-    { 0x06001150, 1.0f, 0.0f, 4.0f, ANIMMODE_ONCE, -6.0f },
-    { 0x06001150, 1.0f, 5.0f, 25.0f, ANIMMODE_LOOP_PARTIAL, -6.0f },
-    { 0x06000928, 1.0f, 0.0f, 6.0f, ANIMMODE_ONCE, -6.0f },
-    { 0x06000C28, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { &object_dog_Anim_001368, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &object_dog_Anim_001368, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { &object_dog_Anim_000D78, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { &object_dog_Anim_000278, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { &object_dog_Anim_001150, 1.0f, 0.0f, 4.0f, ANIMMODE_ONCE, -6.0f },
+    { &object_dog_Anim_001150, 1.0f, 5.0f, 25.0f, ANIMMODE_LOOP_PARTIAL, -6.0f },
+    { &object_dog_Anim_000928, 1.0f, 0.0f, 6.0f, ANIMMODE_ONCE, -6.0f },
+    { &object_dog_Anim_000C28, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
 };
 
 typedef enum {
@@ -77,13 +76,9 @@ typedef enum {
     /* 0x06 */ DOG_BOW_2
 } DogBehavior;
 
-extern FlexSkeletonHeader D_06007290;
-extern AnimationHeader D_06001368;
-extern AnimationHeader D_06000D78;
-extern AnimationHeader D_06000278;
-
 void EnDog_PlayWalkSFX(EnDog* this) {
-    AnimationHeader* walk = &D_06001368;
+    AnimationHeader* walk = &object_dog_Anim_001368;
+
     if (this->skelAnime.animation == walk) {
         if ((this->skelAnime.curFrame == 1.0f) || (this->skelAnime.curFrame == 7.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
@@ -92,7 +87,8 @@ void EnDog_PlayWalkSFX(EnDog* this) {
 }
 
 void EnDog_PlayRunSFX(EnDog* this) {
-    AnimationHeader* run = &D_06000D78;
+    AnimationHeader* run = &object_dog_Anim_000D78;
+
     if (this->skelAnime.animation == run) {
         if ((this->skelAnime.curFrame == 2.0f) || (this->skelAnime.curFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
@@ -101,7 +97,8 @@ void EnDog_PlayRunSFX(EnDog* this) {
 }
 
 void EnDog_PlayBarkSFX(EnDog* this) {
-    AnimationHeader* bark = &D_06000278;
+    AnimationHeader* bark = &object_dog_Anim_000278;
+
     if (this->skelAnime.animation == bark) {
         if ((this->skelAnime.curFrame == 13.0f) || (this->skelAnime.curFrame == 19.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
@@ -233,12 +230,13 @@ s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
 }
 
 void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDog* this = THIS;
+    EnDog* this = (EnDog*)thisx;
     s16 followingDog;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007290, NULL, this->jointTable, this->morphTable, 13);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_dog_Skel_007290, NULL, this->jointTable, this->morphTable,
+                       13);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
@@ -290,7 +288,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDog* this = THIS;
+    EnDog* this = (EnDog*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -441,7 +439,7 @@ void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
 }
 
 void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDog* this = THIS;
+    EnDog* this = (EnDog*)thisx;
     s32 pad;
 
     EnDog_PlayAnimAndSFX(this);
@@ -462,7 +460,7 @@ void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDog* this = THIS;
+    EnDog* this = (EnDog*)thisx;
     Color_RGBA8 colors[] = { { 255, 255, 200, 0 }, { 150, 100, 50, 0 } };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 972);

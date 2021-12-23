@@ -7,9 +7,7 @@
 #include "z_bg_mizu_water.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgMizuWater*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuWater_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -91,7 +89,7 @@ void BgMizuWater_SetWaterBoxesHeight(WaterBox* waterBoxes, s16 height) {
 }
 
 void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMizuWater* this = THIS;
+    BgMizuWater* this = (BgMizuWater*)thisx;
     f32 initialActorY;
     WaterBox* waterBoxes;
     s32 waterLevelActionIndex;
@@ -237,9 +235,9 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
             }
 
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 5.0f)) {
-                globalCtx->unk_11D30[0] = 0;
+                globalCtx->roomCtx.unk_74[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
             }
             BgMizuWater_SetWaterBoxesHeight(globalCtx->colCtx.colHeader->waterBoxes, this->actor.world.pos.y);
             break;
@@ -252,7 +250,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
                 this->targetY = this->baseY;
             }
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 1.0f)) {
-                globalCtx->unk_11D30[0] = 0;
+                globalCtx->roomCtx.unk_74[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[6].ySurface = this->actor.world.pos.y;
@@ -264,7 +262,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
                 this->targetY = this->baseY;
             }
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 1.0f)) {
-                globalCtx->unk_11D30[0] = 0;
+                globalCtx->roomCtx.unk_74[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[8].ySurface = this->actor.world.pos.y;
@@ -276,7 +274,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
                 this->targetY = this->baseY;
             }
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 1.0f)) {
-                globalCtx->unk_11D30[0] = 0;
+                globalCtx->roomCtx.unk_74[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[16].ySurface = this->actor.world.pos.y;
@@ -293,7 +291,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
 }
 
 void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMizuWater* this = THIS;
+    BgMizuWater* this = (BgMizuWater*)thisx;
     s32 posY;
     s32 unk0;
     s32 unk1;
@@ -320,14 +318,14 @@ void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
             unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) *
                                (255 - 160));
         }
-        globalCtx->unk_11D30[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
+        globalCtx->roomCtx.unk_74[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
     }
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMizuWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgMizuWater* this = THIS;
+    BgMizuWater* this = (BgMizuWater*)thisx;
     s32 gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_water.c", 738);

@@ -7,9 +7,7 @@
 #include "z_en_boom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnBoom*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -60,38 +58,38 @@ void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
 }
 
 void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBoom* this = THIS;
-    EffectBlureInit1 trail;
+    EnBoom* this = (EnBoom*)thisx;
+    EffectBlureInit1 blure;
 
     this->actor.room = -1;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    trail.p1StartColor[0] = 255;
-    trail.p1StartColor[1] = 255;
-    trail.p1StartColor[2] = 100;
-    trail.p1StartColor[3] = 255;
+    blure.p1StartColor[0] = 255;
+    blure.p1StartColor[1] = 255;
+    blure.p1StartColor[2] = 100;
+    blure.p1StartColor[3] = 255;
 
-    trail.p2StartColor[0] = 255;
-    trail.p2StartColor[1] = 255;
-    trail.p2StartColor[2] = 100;
-    trail.p2StartColor[3] = 64;
+    blure.p2StartColor[0] = 255;
+    blure.p2StartColor[1] = 255;
+    blure.p2StartColor[2] = 100;
+    blure.p2StartColor[3] = 64;
 
-    trail.p1EndColor[0] = 255;
-    trail.p1EndColor[1] = 255;
-    trail.p1EndColor[2] = 100;
-    trail.p1EndColor[3] = 0;
+    blure.p1EndColor[0] = 255;
+    blure.p1EndColor[1] = 255;
+    blure.p1EndColor[2] = 100;
+    blure.p1EndColor[3] = 0;
 
-    trail.p2EndColor[0] = 255;
-    trail.p2EndColor[1] = 255;
-    trail.p2EndColor[2] = 100;
-    trail.p2EndColor[3] = 0;
+    blure.p2EndColor[0] = 255;
+    blure.p2EndColor[1] = 255;
+    blure.p2EndColor[2] = 100;
+    blure.p2EndColor[3] = 0;
 
-    trail.elemDuration = 8;
-    trail.unkFlag = 0;
-    trail.calcMode = 0;
+    blure.elemDuration = 8;
+    blure.unkFlag = 0;
+    blure.calcMode = 0;
 
-    Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &trail);
+    Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &blure);
 
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sQuadInit);
@@ -100,7 +98,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBoom* this = THIS;
+    EnBoom* this = (EnBoom*)thisx;
 
     Effect_Delete(globalCtx, this->effectIndex);
     Collider_DestroyQuad(globalCtx, &this->collider);
@@ -122,7 +120,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     Vec3f hitPoint;
     s32 pad2;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     target = this->moveTo;
 
     // If the boomerang is moving toward a targeted actor, handle setting the proper x and y angle to fly toward it.
@@ -161,12 +159,12 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
         if (((this->collider.base.at->id == ACTOR_EN_ITEM00) || (this->collider.base.at->id == ACTOR_EN_SI))) {
             this->grabbed = this->collider.base.at;
             if (this->collider.base.at->id == ACTOR_EN_SI) {
-                this->collider.base.at->flags |= 0x2000;
+                this->collider.base.at->flags |= ACTOR_FLAG_13;
             }
         }
     }
 
-    // Decrement the return timer and check if its 0. If it is, check if Link can catch it and handle accordingly.
+    // Decrement the return timer and check if it's 0. If it is, check if Link can catch it and handle accordingly.
     // Otherwise handle grabbing and colliding.
     if (DECR(this->returnTimer) == 0) {
         distFromLink = Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.focus.pos);
@@ -179,12 +177,12 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 Math_Vec3f_Copy(&target->world.pos, &player->actor.world.pos);
 
                 // If the grabbed actor is EnItem00 (HP/Key etc) set gravity and flags so it falls in front of Link.
-                // Otherwise if its a Skulltula Token, just set flags so he collides with it to collect it.
+                // Otherwise if it's a Skulltula Token, just set flags so he collides with it to collect it.
                 if (target->id == ACTOR_EN_ITEM00) {
                     target->gravity = -0.9f;
                     target->bgCheckFlags &= ~0x03;
                 } else {
-                    target->flags &= ~0x2000;
+                    target->flags &= ~ACTOR_FLAG_13;
                 }
             }
             // Set player flags and kill the boomerang beacause Link caught it.
@@ -202,7 +200,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                                                &hitPoint, &this->actor.wallPoly, true, true, true, true, &hitDynaID);
 
             if (collided) {
-                // If the boomerang collides with something and its is a Jabu Object actor with params equal to 0, then
+                // If the boomerang collides with something and it's is a Jabu Object actor with params equal to 0, then
                 // set collided to 0 so that the boomerang will go through the wall.
                 // Otherwise play a clank sound and keep collided set to bounce back.
                 if (func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
@@ -239,8 +237,8 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
 }
 
 void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBoom* this = THIS;
-    Player* player = PLAYER;
+    EnBoom* this = (EnBoom*)thisx;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x20000000)) {
         this->actionFunc(this, globalCtx);
@@ -252,7 +250,7 @@ void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f sMultVec1 = { -960.0f, 0.0f, 0.0f };
     static Vec3f sMultVec2 = { 960.0f, 0.0f, 0.0f };
-    EnBoom* this = THIS;
+    EnBoom* this = (EnBoom*)thisx;
     Vec3f vec1;
     Vec3f vec2;
 

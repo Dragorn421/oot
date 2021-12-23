@@ -7,11 +7,10 @@
 #include "z_boss_fd2.h"
 #include "objects/object_fd2/object_fd2.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((BossFd2*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ DEATH_START,
@@ -69,7 +68,7 @@ static Vec3f sHoleLocations[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x21, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -171,7 +170,7 @@ void BossFd2_SpawnDust(BossFdEffect* effect, Vec3f* position, Vec3f* velocity, V
 
 void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.0069999993f);
@@ -189,7 +188,7 @@ void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -227,7 +226,7 @@ void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
     s8 health;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
     s16 holeTime;
 
@@ -402,7 +401,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     s16 angleY;
     s16 breathOpacity = 0;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 tempX;
     f32 tempY;
 
@@ -524,7 +523,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
     s16 i;
 
     this->disableAT = true;
-    this->actor.flags |= 0x400;
+    this->actor.flags |= ACTOR_FLAG_10;
     SkelAnime_Update(&this->skelAnime);
     switch (this->work[FD2_ACTION_STATE]) {
         case 0:
@@ -612,7 +611,7 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gHoleVolvagiaDamagedAnim, 1.0f, 0.0f, this->fwork[FD2_END_FRAME],
                      ANIMMODE_ONCE_INTERP, -3.0f);
     this->actionFunc = BossFd2_Death;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->deathState = DEATH_START;
 }
 
@@ -687,7 +686,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             if ((this->work[FD2_HOLE_COUNTER] == 1) || (this->work[FD2_HOLE_COUNTER] == 40)) {
                 this->work[FD2_SCREAM_TIMER] = 20;
                 if (this->work[FD2_HOLE_COUNTER] == 40) {
-                    func_800F8D04(NA_SE_EN_VALVAISA_DEAD);
+                    Audio_StopSfxById(NA_SE_EN_VALVAISA_DEAD);
                 }
 
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
@@ -783,7 +782,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,
-                                   0, 0, 0, -1);
+                                   0, 0, 0, WARP_DUNGEON_ADULT);
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
             break;
@@ -810,7 +809,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
             if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
@@ -884,7 +883,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 BossFd2_SetupDeath(this, globalCtx);
                 this->work[FD2_DAMAGE_FLASH_TIMER] = 10;
                 this->work[FD2_INVINC_TIMER] = 30000;
-                Audio_SetBGM(0x100100FF);
+                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DEAD);
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
             } else if (damage) {
@@ -951,18 +950,18 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
     }
 }
 
-void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
-    BossFd2* this = THIS;
+void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    BossFd2* this = (BossFd2*)thisx;
     s16 i;
 
     osSyncPrintf("FD2 move start \n");
     this->disableAT = false;
-    this->actor.flags &= ~0x400;
+    this->actor.flags &= ~ACTOR_FLAG_10;
     this->work[FD2_VAR_TIMER]++;
     this->work[FD2_UNK_TIMER]++;
 
-    this->actionFunc(this, globalCtx2);
+    this->actionFunc(this, globalCtx);
 
     for (i = 0; i < ARRAY_COUNT(this->timers); i++) {
         if (this->timers[i] != 0) {
@@ -978,30 +977,30 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->deathState == DEATH_START) {
         if (this->work[FD2_INVINC_TIMER] == 0) {
-            BossFd2_CollisionCheck(this, globalCtx2);
+            BossFd2_CollisionCheck(this, globalCtx);
         }
-        CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
-        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if (!this->disableAT) {
-            CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 
-    BossFd2_UpdateFace(this, globalCtx2);
+    BossFd2_UpdateFace(this, globalCtx);
     this->fwork[FD2_TEX1_SCROLL_X] += 4.0f;
     this->fwork[FD2_TEX1_SCROLL_Y] = 120.0f;
     this->fwork[FD2_TEX2_SCROLL_X] += 3.0f;
     this->fwork[FD2_TEX2_SCROLL_Y] -= 2.0f;
     if (this->actor.focus.pos.y < 90.0f) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
 }
 
 s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (limbIndex == 31) {
@@ -1044,7 +1043,7 @@ void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     static Vec3f centerManeMod = { 4000.0f, -2900.0, 2000.0f };
     static Vec3f rightManeMod = { 4000.0f, -1600.0, 0.0f };
     static Vec3f leftManeMod = { 4000.0f, -1600.0, -2000.0f };
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
 
     if (limbIndex == 35) {
         Matrix_MultVec3f(&targetMod, &this->actor.focus.pos);
@@ -1149,7 +1148,7 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2498),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeVtxDL);
+        gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeModelDL);
     }
     Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2503);
@@ -1170,7 +1169,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeSetupDL);
+    gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeMaterialDL);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, bossFd->fwork[BFD_MANE_COLOR_CENTER], 0, 255);
     BossFd2_UpdateMane(this, globalCtx, &this->centerMane.head, this->centerMane.pos, this->centerMane.rot,
@@ -1188,9 +1187,9 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeClosedTex };
+    static void* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeClosedTex };
     s32 pad;
-    BossFd2* this = THIS;
+    BossFd2* this = (BossFd2*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2617);
     osSyncPrintf("FD2 draw start \n");
@@ -1212,7 +1211,7 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, globalCtx);
-        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2688);
 }

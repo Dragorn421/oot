@@ -4,12 +4,11 @@
  * Description: Death Mountain Trail Gate
  */
 
-#include "vt.h"
 #include "z_bg_gate_shutter.h"
+#include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
+#include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgGateShutter*)thisx)
+#define FLAGS 0
 
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -33,16 +32,13 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
     (ActorFunc)BgGateShutter_Draw,
 };
 
-extern Gfx D_06001CD0[];
-extern CollisionHeader D_06001DA8;
-
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgGateShutter* this = THIS;
+    BgGateShutter* this = (BgGateShutter*)thisx;
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06001DA8, &colHeader);
+    CollisionHeader_GetVirtual(&gKakarikoGuardGateCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
@@ -61,7 +57,7 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgGateShutter* this = THIS;
+    BgGateShutter* this = (BgGateShutter*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -118,7 +114,7 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
 }
 
 void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGateShutter* this = THIS;
+    BgGateShutter* this = (BgGateShutter*)thisx;
 
     if (this->unk_178 != 0) {
         this->unk_178 -= 1;
@@ -133,7 +129,7 @@ void BgGateShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06001CD0);
+    gSPDisplayList(POLY_OPA_DISP++, gKakarikoGuardGateDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
 }

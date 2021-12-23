@@ -1,8 +1,7 @@
 #include "z_efc_erupc.h"
+#include "objects/object_efc_erupc/object_efc_erupc.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EfcErupc*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EfcErupc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EfcErupc_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -14,11 +13,6 @@ void EfcErupc_DrawParticles(EfcErupcParticles* particles, GlobalContext* globalC
 void EfcErupc_UpdateParticles(EfcErupc* this, GlobalContext* globalCtx);
 void EfcErupc_AddParticle(EfcErupcParticles* particles, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor);
 void EfcErupc_InitParticles(EfcErupcParticles* particles);
-
-extern Gfx D_06001720[];
-extern Gfx D_06002570[];
-extern Gfx D_06002760[];
-extern Gfx D_060027D8[];
 
 const ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
@@ -37,7 +31,7 @@ void EfcErupc_SetupAction(EfcErupc* this, EfcErupcActionFunc actionFunc) {
 }
 
 void EfcErupc_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EfcErupc* this = THIS;
+    EfcErupc* this = (EfcErupc*)thisx;
 
     EfcErupc_SetupAction(this, EfcErupc_UpdateAction);
     Actor_SetScale(&this->actor, 1.0f);
@@ -110,14 +104,14 @@ void EfcErupc_UpdateAction(EfcErupc* this, GlobalContext* globalCtx) {
 }
 
 void EfcErupc_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EfcErupc* this = THIS;
+    EfcErupc* this = (EfcErupc*)thisx;
 
     this->actionFunc(this, globalCtx);
     EfcErupc_UpdateParticles(this, globalCtx);
 }
 
 void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EfcErupc* this = THIS;
+    EfcErupc* this = (EfcErupc*)thisx;
     u16 csAction;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_efc_erupc.c", 282);
@@ -143,7 +137,7 @@ void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         if ((globalCtx->csCtx.npcActions[1] != 0) && (globalCtx->csCtx.npcActions[1]->action == 2)) {
-            gSPDisplayList(POLY_XLU_DISP++, D_06002570);
+            gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002570);
         }
     }
     Matrix_Pop();
@@ -157,7 +151,7 @@ void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if ((csAction == 2) || (csAction == 3)) {
                 gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, 255);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 0, 0, 255);
-                gSPDisplayList(POLY_XLU_DISP++, D_06001720);
+                gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_001720);
             }
         }
     }
@@ -174,17 +168,17 @@ void EfcErupc_DrawParticles(EfcErupcParticles* particles, GlobalContext* globalC
     for (i = 0; i < EFC_ERUPC_NUM_PARTICLES; i++, particles++) {
         if (particles->isActive) {
             func_80093D84(globalCtx->state.gfxCtx);
-            gSPDisplayList(POLY_XLU_DISP++, D_06002760);
+            gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002760);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, particles->color.r, particles->color.g, particles->color.b,
                             particles->alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 0, 0);
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(particles->pos.x, particles->pos.y, particles->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(particles->scale, particles->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_efc_erupc.c", 393),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_060027D8);
+            gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_0027D8);
         }
     }
     CLOSE_DISPS(gfxCtx, "../z_efc_erupc.c", 399);

@@ -7,9 +7,7 @@
 #include "z_bg_jya_1flift.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgJya1flift*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -68,8 +66,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                              DynaPolyMoveFlag moveFlag) {
+void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -79,14 +76,14 @@ void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, Colli
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // Warning : move BG login failed
+        // "Warning : move BG login failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 179,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
 void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
-    BgJya1flift* this = THIS;
+    BgJya1flift* this = (BgJya1flift*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -94,8 +91,8 @@ void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJya1flift* this = THIS;
-    // 1 F lift
+    BgJya1flift* this = (BgJya1flift*)thisx;
+    // "1 F lift"
     osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", sIsSpawned, globalCtx->roomCtx.curRoom.num);
     this->hasInitialized = false;
     if (sIsSpawned) {
@@ -116,7 +113,7 @@ void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJya1flift* this = THIS;
+    BgJya1flift* this = (BgJya1flift*)thisx;
 
     if (this->hasInitialized) {
         sIsSpawned = false;
@@ -181,19 +178,18 @@ void BgJya1flift_DelayMove(BgJya1flift* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJya1flift* this = THIS;
-    s32 pad;
+void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    BgJya1flift* this = (BgJya1flift*)thisx;
+    GlobalContext* globalCtx = globalCtx2;
     s32 tempIsRiding;
 
     // Room 0 is the first room and 6 is the room that the lift starts on
     if (globalCtx->roomCtx.curRoom.num == 6 || globalCtx->roomCtx.curRoom.num == 0) {
         this->actionFunc(this, globalCtx);
-        if (globalCtx) {}
         tempIsRiding = func_8004356C(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
-                Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_HIDAN1);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_FIRE_PLATFORM);
             } else if (!tempIsRiding && this->isLinkRiding) {
                 Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
             }

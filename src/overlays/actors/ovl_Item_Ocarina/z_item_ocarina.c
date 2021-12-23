@@ -5,10 +5,9 @@
  */
 
 #include "z_item_ocarina.h"
+#include "scenes/overworld/spot00/spot00_scene.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ItemOcarina*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemOcarina_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,14 +34,12 @@ const ActorInit Item_Ocarina_InitVars = {
     (ActorFunc)ItemOcarina_Draw,
 };
 
-extern CutsceneData D_0200F870[]; // song of time cutscene
-
 void ItemOcarina_SetupAction(ItemOcarina* this, ItemOcarinaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ItemOcarina* this = THIS;
+    ItemOcarina* this = (ItemOcarina*)thisx;
     s32 params = thisx->params;
 
     ActorShape_Init(&this->actor.shape, 0, 0, 0);
@@ -170,8 +167,8 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx) {
 }
 
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_0200F870);
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gHyruleFieldZeldaSongOfTimeCs);
         gSaveContext.cutsceneTrigger = 1;
     }
 }
@@ -192,13 +189,13 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
 }
 
 void ItemOcarina_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ItemOcarina* this = THIS;
+    ItemOcarina* this = (ItemOcarina*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void ItemOcarina_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ItemOcarina* this = THIS;
+    ItemOcarina* this = (ItemOcarina*)thisx;
 
     func_8002EBCC(thisx, globalCtx, 0);
     func_8002ED80(thisx, globalCtx, 0);

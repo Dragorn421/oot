@@ -8,9 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnBom*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -90,7 +88,7 @@ void EnBom_SetupAction(EnBom* this, EnBomActionFunc actionFunc) {
 }
 
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 700.0f, ActorShadow_DrawCircle, 16.0f);
@@ -114,7 +112,7 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->explosionCollider);
     Collider_DestroyCylinder(globalCtx, &this->bombCollider);
@@ -171,7 +169,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
-        this->actor.flags |= 0x20;
+        this->actor.flags |= ACTOR_FLAG_5;
         func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
     }
 
@@ -181,32 +179,32 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
     }
 
-    if (globalCtx->envCtx.unk_8C[1][0] != 0) {
-        globalCtx->envCtx.unk_8C[1][0] -= 0x19;
+    if (globalCtx->envCtx.adjLight1Color[0] != 0) {
+        globalCtx->envCtx.adjLight1Color[0] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[1][1] != 0) {
-        globalCtx->envCtx.unk_8C[1][1] -= 0x19;
+    if (globalCtx->envCtx.adjLight1Color[1] != 0) {
+        globalCtx->envCtx.adjLight1Color[1] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[1][2] != 0) {
-        globalCtx->envCtx.unk_8C[1][2] -= 0x19;
+    if (globalCtx->envCtx.adjLight1Color[2] != 0) {
+        globalCtx->envCtx.adjLight1Color[2] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][0] != 0) {
-        globalCtx->envCtx.unk_8C[0][0] -= 0x19;
+    if (globalCtx->envCtx.adjAmbientColor[0] != 0) {
+        globalCtx->envCtx.adjAmbientColor[0] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][1] != 0) {
-        globalCtx->envCtx.unk_8C[0][1] -= 0x19;
+    if (globalCtx->envCtx.adjAmbientColor[1] != 0) {
+        globalCtx->envCtx.adjAmbientColor[1] -= 25;
     }
 
-    if (globalCtx->envCtx.unk_8C[0][2] != 0) {
-        globalCtx->envCtx.unk_8C[0][2] -= 0x19;
+    if (globalCtx->envCtx.adjAmbientColor[2] != 0) {
+        globalCtx->envCtx.adjAmbientColor[2] -= 25;
     }
 
     if (this->timer == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
 
         if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
@@ -219,15 +217,16 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Vec3f effVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f bomb2Accel = { 0.0f, 0.1f, 0.0f };
     Vec3f effAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
     Color_RGBA8 dustColor = { 255, 255, 255, 255 };
-    s32 pad[2];
-    EnBom* this = THIS;
+    s32 pad;
+    GlobalContext* globalCtx = globalCtx2;
+    EnBom* this = (EnBom*)thisx;
 
     thisx->gravity = -1.2f;
 
@@ -314,13 +313,17 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
-            if (globalCtx) {};
-            globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = 0xFA;
-            globalCtx->envCtx.unk_8C[0][0] = globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = 0xFA;
+
+            globalCtx->envCtx.adjLight1Color[0] = globalCtx->envCtx.adjLight1Color[1] =
+                globalCtx->envCtx.adjLight1Color[2] = 250;
+
+            globalCtx->envCtx.adjAmbientColor[0] = globalCtx->envCtx.adjAmbientColor[1] =
+                globalCtx->envCtx.adjAmbientColor[2] = 250;
+
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;
-            thisx->flags |= 0x20;
+            thisx->flags |= ACTOR_FLAG_5;
             EnBom_SetupAction(this, EnBom_Explode);
         }
     }
@@ -354,7 +357,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     if (1) {}
 
@@ -362,13 +365,13 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == BOMB_BODY) {
         func_80093D18(globalCtx->state.gfxCtx);
-        func_800D1FD4(&globalCtx->mf_11DA0);
+        func_800D1FD4(&globalCtx->billboardMtxF);
         func_8002EBCC(thisx, globalCtx, 0);
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gBombCapDL);
-        Matrix_RotateRPY(0x4000, 0, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(0x4000, 0, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_OPA_DISP++);

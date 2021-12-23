@@ -7,9 +7,7 @@
 #include "z_bg_bombwall.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00400000
-
-#define THIS ((BgBombwall*)thisx)
+#define FLAGS ACTOR_FLAG_22
 
 void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBombwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -93,7 +91,7 @@ void BgBombwall_InitDynapoly(BgBombwall* this, GlobalContext* globalCtx) {
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // Warning : move BG login failed
+        // "Warning : move BG login failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
                      this->dyna.actor.params);
     }
@@ -117,7 +115,7 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vecs[3];
     Vec3f sp80;
     s32 pad;
-    BgBombwall* this = THIS;
+    BgBombwall* this = (BgBombwall*)thisx;
     f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
     f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
@@ -168,7 +166,7 @@ void BgBombwall_DestroyCollision(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void BgBombwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgBombwall* this = THIS;
+    BgBombwall* this = (BgBombwall*)thisx;
 
     BgBombwall_DestroyCollision(this, globalCtx);
 }
@@ -247,7 +245,7 @@ void func_8086EE94(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void BgBombwall_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgBombwall* this = THIS;
+    BgBombwall* this = (BgBombwall*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
@@ -255,7 +253,7 @@ void BgBombwall_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgBombwall_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgBombwall* this = THIS;
+    BgBombwall* this = (BgBombwall*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, this->dList);
 }

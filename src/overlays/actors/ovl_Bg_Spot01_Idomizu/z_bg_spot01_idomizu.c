@@ -5,10 +5,9 @@
  */
 
 #include "z_bg_spot01_idomizu.h"
+#include "objects/object_spot01_objects/object_spot01_objects.h"
 
-#define FLAGS 0x00000020
-
-#define THIS ((BgSpot01Idomizu*)thisx)
+#define FLAGS ACTOR_FLAG_5
 
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -33,10 +32,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern Gfx D_060007D0[];
-
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idomizu* this = THIS;
+    BgSpot01Idomizu* this = (BgSpot01Idomizu*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (gSaveContext.eventChkInf[6] & 0x80 || LINK_AGE_IN_YEARS == YEARS_ADULT) {
@@ -64,7 +61,7 @@ void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idomizu* this = THIS;
+    BgSpot01Idomizu* this = (BgSpot01Idomizu*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -84,7 +81,7 @@ void BgSpot01Idomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - frames % 128, frames & 0x7F, 32, 32, 1, frames % 128,
                                 frames & 0x7F, 32, 32));
 
-    gSPDisplayList(POLY_XLU_DISP++, D_060007D0);
+    gSPDisplayList(POLY_XLU_DISP++, gKakarikoWellWaterDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_idomizu.c", 244);
 }

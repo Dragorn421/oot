@@ -7,9 +7,7 @@
 #include "z_bg_hidan_curtain.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgHidanCurtain*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -69,14 +67,14 @@ const ActorInit Bg_Hidan_Curtain_InitVars = {
 
 void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
     BgHidanCurtainParams* hcParams;
 
     osSyncPrintf("Curtain (arg_data 0x%04x)\n", this->actor.params);
     Actor_SetFocus(&this->actor, 20.0f);
     this->type = (thisx->params >> 0xC) & 0xF;
     if (this->type > 6) {
-        // Type is not set
+        // "Type is not set"
         osSyncPrintf("Error : object のタイプが設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_hidan_curtain.c",
                      352, this->actor.params);
         Actor_Kill(&this->actor);
@@ -89,7 +87,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0x3F;
 
     if ((this->actor.params < 0) || (this->actor.params > 0x3F)) {
-        // Save bit is not set
+        // "Save bit is not set"
         osSyncPrintf("Warning : object のセーブビットが設定されていない(%s %d)(arg_data 0x%04x)\n",
                      "../z_bg_hidan_curtain.c", 373, this->actor.params);
     }
@@ -120,7 +118,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -203,12 +201,12 @@ void BgHidanCurtain_WaitForTimer(BgHidanCurtain* this, GlobalContext* globalCtx)
 
 void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
     BgHidanCurtainParams* hcParams = &sHCParams[this->size];
     f32 riseProgress;
 
-    if ((globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_ITEM0) ||
-        (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_ITEM2)) {
+    if ((globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_SLOW_CHEST_CS) ||
+        (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_TURN_AROUND)) {
         this->collider.base.atFlags &= ~AT_HIT;
     } else {
         if (this->collider.base.atFlags & AT_HIT) {
@@ -241,7 +239,7 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void BgHidanCurtain_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_curtain.c", 685);
     func_80093D84(globalCtx->state.gfxCtx);

@@ -5,10 +5,9 @@
  */
 
 #include "z_bg_spot00_break.h"
+#include "objects/object_spot00_break/object_spot00_break.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgSpot00Break*)thisx)
+#define FLAGS 0
 
 void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -34,13 +33,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06000AF0;
-extern CollisionHeader D_06000908;
-extern Gfx D_06000980[];
-extern Gfx D_06000440[];
-
 void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Break* this = THIS;
+    BgSpot00Break* this = (BgSpot00Break*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -48,20 +42,20 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
     if (this->dyna.actor.params == 1) {
-        CollisionHeader_GetVirtual(&D_06000AF0, &colHeader);
+        CollisionHeader_GetVirtual(&gBarbedWireFenceCol, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&D_06000908, &colHeader);
+        CollisionHeader_GetVirtual(&gBrokenDrawbridgeCol, &colHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         Actor_Kill(&this->dyna.actor);
     }
 }
 
 void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Break* this = THIS;
+    BgSpot00Break* this = (BgSpot00Break*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -70,11 +64,11 @@ void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Break* this = THIS;
+    BgSpot00Break* this = (BgSpot00Break*)thisx;
 
     if (this->dyna.actor.params == 1) {
-        Gfx_DrawDListOpa(globalCtx, D_06000980);
+        Gfx_DrawDListOpa(globalCtx, gBarbedWireFenceDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_06000440);
+        Gfx_DrawDListOpa(globalCtx, gBrokenDrawbridgeDL);
     }
 }

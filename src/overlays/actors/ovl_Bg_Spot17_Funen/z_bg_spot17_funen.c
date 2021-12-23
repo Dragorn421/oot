@@ -7,9 +7,7 @@
 #include "z_bg_spot17_funen.h"
 #include "objects/object_spot17_obj/object_spot17_obj.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgSpot17Funen*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot17Funen_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -34,7 +32,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot17Funen* this = THIS;
+    BgSpot17Funen* this = (BgSpot17Funen*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     osSyncPrintf("spot17 obj. 噴煙 (arg_data 0x%04x)\n", this->actor.params);
@@ -44,7 +42,7 @@ void BgSpot17Funen_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot17Funen_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot17Funen* this = THIS;
+    BgSpot17Funen* this = (BgSpot17Funen*)thisx;
 
     this->actor.draw = func_808B7478;
     this->actor.update = func_808B746C;
@@ -59,7 +57,8 @@ void func_808B7478(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot17_funen.c", 153);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) - thisx->shape.rot.y + 0x8000) * 9.58738019108e-05f,
+    Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - thisx->shape.rot.y + 0x8000) *
+                       9.58738019108e-05f,
                    MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_funen.c", 161),

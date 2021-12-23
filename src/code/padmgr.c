@@ -72,10 +72,10 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック ぶるぶるぶるぶる");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetRumble(&padMgr->pfs[i], temp) != 0) {
+                            if (__osMotorAccess(&padMgr->pfs[i], temp) != 0) {
                                 padMgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
-                                // "A communication error has occurred with the vibraton pack"
+                                // "A communication error has occurred with the vibration pack"
                                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックで通信エラーが発生しました");
                                 osSyncPrintf(VT_RST);
                             } else {
@@ -94,7 +94,7 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetRumble(&padMgr->pfs[i], 0) != 0) {
+                            if (osMotorStop(&padMgr->pfs[i]) != 0) {
                                 padMgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
                                 // "A communication error has occurred with the vibration pack"
@@ -133,12 +133,12 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
         i = frame % 4;
 
         if (padMgr->ctrlrIsConnected[i] && (padMgr->padStatus[i].status & 1) && (padMgr->pakType[i] != 1)) {
-            var4 = osProbeRumblePak(ctrlrQ, &padMgr->pfs[i], i);
+            var4 = osMotorInit(ctrlrQ, &padMgr->pfs[i], i);
 
             if (var4 == 0) {
                 padMgr->pakType[i] = 1;
-                osSetRumble(&padMgr->pfs[i], 1);
-                osSetRumble(&padMgr->pfs[i], 0);
+                osMotorStart(&padMgr->pfs[i]);
+                osMotorStop(&padMgr->pfs[i]);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // "Recognized vibration pack"
                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックを認識しました");
@@ -164,14 +164,15 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
     OSMesgQueue* ctrlrQ = PadMgr_LockSerialMesgQueue(padMgr);
 
     for (i = 0; i < 4; i++) {
-        if (osProbeRumblePak(ctrlrQ, &padMgr->pfs[i], i) == 0) {
+        if (osMotorInit(ctrlrQ, &padMgr->pfs[i], i) == 0) {
             if ((gFaultStruct.msgId == 0) && (padMgr->rumbleOnFrames != 0)) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止"); // "Stop vibration pack"
+                // "Stop vibration pack"
+                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
                 osSyncPrintf(VT_RST);
             }
 
-            osSetRumble(&padMgr->pfs[i], 0);
+            osMotorStop(&padMgr->pfs[i]);
         }
     }
 
@@ -227,7 +228,8 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
                 input->cur = input->prev;
                 LOG_NUM("this->Key_switch[i]", padMgr->ctrlrIsConnected[i], "../padmgr.c", 380);
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "オーバーランエラーが発生"); // "Overrun error occurred"
+                // "Overrun error occurred"
+                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "オーバーランエラーが発生");
                 osSyncPrintf(VT_RST);
                 break;
             case 8:
@@ -240,7 +242,8 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
                     padMgr->pakType[i] = 0;
                     padMgr->rumbleCounter[i] = 0xFF;
                     osSyncPrintf(VT_FGCOL(YELLOW));
-                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "応答しません"); // "Do not respond"?
+                    // "Do not respond"?
+                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "応答しません");
                     osSyncPrintf(VT_RST);
                 }
                 break;
@@ -283,7 +286,7 @@ void PadMgr_HandleRetraceMsg(PadMgr* padMgr) {
     mask = 0;
     for (i = 0; i < 4; i++) {
         if (padMgr->padStatus[i].errno == 0) {
-            if (padMgr->padStatus[i].type == 5) {
+            if (padMgr->padStatus[i].type == CONT_TYPE_NORMAL) {
                 mask |= 1 << i;
             } else {
                 LOG_HEX("this->pad_status[i].type", padMgr->padStatus[i].type, "../padmgr.c", 458);
@@ -351,8 +354,7 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
     s16* mesg = NULL;
     s32 exit;
 
-    // "Controller thread execution start"
-    osSyncPrintf("コントローラスレッド実行開始\n");
+    osSyncPrintf("コントローラスレッド実行開始\n"); // "Controller thread execution start"
 
     exit = false;
     while (!exit) {
@@ -388,13 +390,11 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
 
     IrqMgr_RemoveClient(padMgr->irqMgr, &padMgr->irqClient);
 
-    // "Controller thread execution end"
-    osSyncPrintf("コントローラスレッド実行終了\n");
+    osSyncPrintf("コントローラスレッド実行終了\n"); // "Controller thread execution end"
 }
 
 void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* siIntMsgQ, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack) {
-    // "Pad Manager creation"
-    osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n");
+    osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n"); // "Pad Manager creation"
 
     bzero(padMgr, sizeof(PadMgr));
     padMgr->irqMgr = irqMgr;

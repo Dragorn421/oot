@@ -4,13 +4,12 @@
  * Description: Cucco
  */
 
-#include <vt.h>
 #include "z_en_niw.h"
+#include "objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.h"
+#include "vt.h"
 
-#define FLAGS 0x00800010
-
-#define THIS ((EnNiw*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -119,13 +118,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
-extern FlexSkeletonHeader D_06002530;
-extern AnimationHeader D_060000E8;
-extern Gfx D_060023B0[];
-extern Gfx D_06002428[];
-
 void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     s32 pad;
     s32 i;
 
@@ -156,9 +150,9 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 
     if (globalCtx->sceneNum == SCENE_SPOT01) {
         for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {
@@ -188,7 +182,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 2:
-            if (gSaveContext.nightFlag == 0) {
+            if (IS_DAY) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -216,7 +210,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.gravity = 0.0f;
         case 0xE:
             this->actor.colChkInfo.mass = 0;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             break;
         case 4:
             this->actor.gravity = 0.0f;
@@ -246,7 +240,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -409,7 +403,7 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+    Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
 
     switch (this->actor.params) {
@@ -451,7 +445,7 @@ void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->actor.xzDistToPlayer < 30.0f && fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 5.0f) {
         this->timer6 = 100;
@@ -463,7 +457,7 @@ void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
         this->sfxTimer1 = 30;
         this->path = 0;
         this->timer4 = 30;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actor.speedXZ = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
@@ -485,7 +479,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->sfxTimer1 = 30;
             this->path = 0;
             this->timer4 = 30;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actor.speedXZ = 0.0f;
             this->actionFunc = func_80AB6BF8;
             return;
@@ -646,7 +640,7 @@ void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.z = 0;
         this->actor.shape.rot.y = this->actor.shape.rot.z;
         this->actor.shape.rot.x = this->actor.shape.rot.z;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actionFunc = func_80AB6D08;
     }
     func_80AB5BF8(this, globalCtx, 2);
@@ -694,7 +688,7 @@ void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx) {
         this->sfxTimer1 = 30;
         this->path = 0;
         this->timer4 = 30;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actor.speedXZ = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
@@ -801,7 +795,7 @@ void func_80AB714C(EnNiw* this, GlobalContext* globalCtx) {
     if (this->timer5 == 0) {
         this->timer7 = 10;
         this->unk_2E4 = this->actor.yawTowardsPlayer;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         this->actionFunc = func_80AB7204;
     }
 
@@ -823,7 +817,7 @@ void func_80AB7204(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+    Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
     this->unk_2A0 = Rand_ZeroFloat(1.99f);
     this->actor.speedXZ = 4.0f;
@@ -831,7 +825,7 @@ void func_80AB7290(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer6 == 0) {
         this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
@@ -878,8 +872,8 @@ void func_80AB747C(EnNiw* this, GlobalContext* globalCtx) {
 
 void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
-    EnNiw* this = THIS;
-    Player* player = PLAYER;
+    EnNiw* this = (EnNiw*)thisx;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
     s16 featherCount;
     Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
@@ -1112,7 +1106,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
@@ -1136,7 +1130,7 @@ s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnNiw* this = THIS;
+    EnNiw* this = (EnNiw*)thisx;
     Vec3f scale = { 0.15f, 0.15f, 0.15f };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
@@ -1215,17 +1209,17 @@ void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
         if (feather->type == 1) {
             if (!flag) {
-                gSPDisplayList(POLY_XLU_DISP++, D_060023B0);
+                gSPDisplayList(POLY_XLU_DISP++, gCuccoParticleAppearDL);
                 flag++;
             }
             Matrix_Translate(feather->pos.x, feather->pos.y, feather->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(feather->scale, feather->scale, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(feather->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_niw.c", 1913),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_06002428);
+            gSPDisplayList(POLY_XLU_DISP++, gCuccoParticleAliveDL);
         }
     }
 

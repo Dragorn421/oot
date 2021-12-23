@@ -11,9 +11,7 @@
 #include "objects/object_zl2/object_zl2.h"
 #include "objects/object_zl2_anime1/object_zl2_anime1.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnZl2*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -62,11 +60,11 @@ void func_80B523BC(EnZl2* this, GlobalContext* globalCtx);
 void func_80B523C8(EnZl2* this, GlobalContext* globalCtx);
 void func_80B525D4(EnZl2* this, GlobalContext* globalCtx);
 
-static u64* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex,
-                               gZelda2Eye03Tex,   gZelda2Eye04Tex,   gZelda2Eye05Tex,
-                               gZelda2Eye06Tex,   gZelda2Eye07Tex,   gZelda2Eye08Tex };
+static void* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex,
+                                gZelda2Eye03Tex,   gZelda2Eye04Tex,   gZelda2Eye05Tex,
+                                gZelda2Eye06Tex,   gZelda2Eye07Tex,   gZelda2Eye08Tex };
 
-static u64* sMouthTextures[] = { gZelda2MouthSeriousTex, gZelda2MouthHappyTex, gZelda2MouthOpenTex };
+static void* sMouthTextures[] = { gZelda2MouthSeriousTex, gZelda2MouthHappyTex, gZelda2MouthOpenTex };
 
 static EnZl2ActionFunc sActionFuncs[] = {
     func_80B521A0, func_80B50BBC, func_80B50BEC, func_80B50C40, func_80B50CA8, func_80B50CFC,
@@ -100,7 +98,7 @@ const ActorInit En_Zl2_InitVars = {
 };
 
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -208,7 +206,7 @@ void func_80B4ED2C(EnZl2* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
-s32 EnZl2_FrameUpdateMatrix(EnZl2* this) {
+s32 EnZl2_UpdateSkelAnime(EnZl2* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -437,7 +435,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
 s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx) {
     s32 pad;
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
     Mtx* sp74;
     MtxF sp34;
     Vec3s sp2C;
@@ -450,81 +448,81 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
-        Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
+        Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 0);
             func_80B4F230(this, sp2C.x, 1);
             func_80B4EF64(this, sp2C.z, 2);
         }
-        Matrix_RotateRPY(unk_1DC[0] + kREG(31), unk_1DC[1] + kREG(32), unk_1DC[2] + kREG(33), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[0] + kREG(31), unk_1DC[1] + kREG(32), unk_1DC[2] + kREG(33), MTXMODE_APPLY);
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[0], "../z_en_zl2.c", 1056);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 3);
             func_80B4F230(this, sp2C.x, 4);
         }
-        Matrix_RotateRPY(unk_1DC[3] + kREG(34), unk_1DC[4] + kREG(35), unk_1DC[5] + kREG(36), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[3] + kREG(34), unk_1DC[4] + kREG(35), unk_1DC[5] + kREG(36), MTXMODE_APPLY);
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[1], "../z_en_zl2.c", 1100);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 6);
             func_80B4F230(this, sp2C.x, 7);
         }
-        Matrix_RotateRPY(unk_1DC[6] + kREG(37), unk_1DC[7] + kREG(38), unk_1DC[8] + kREG(39), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[6] + kREG(37), unk_1DC[7] + kREG(38), unk_1DC[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[2], "../z_en_zl2.c", 1120);
         Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 9);
             func_80B4F230(this, sp2C.x, 10);
             func_80B4EF64(this, sp2C.z, 11);
         }
-        Matrix_RotateRPY(unk_1DC[9] + kREG(40), unk_1DC[10] + kREG(41), unk_1DC[11] + kREG(42), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[9] + kREG(40), unk_1DC[10] + kREG(41), unk_1DC[11] + kREG(42), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[3], "../z_en_zl2.c", 1145);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 12);
             func_80B4F230(this, sp2C.x, 13);
             func_80B4EF64(this, sp2C.z, 14);
         }
-        Matrix_RotateRPY(unk_1DC[12] + kREG(43), unk_1DC[13] + kREG(44), unk_1DC[14] + kREG(45), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[12] + kREG(43), unk_1DC[13] + kREG(44), unk_1DC[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[4], "../z_en_zl2.c", 1164);
         Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 15);
             func_80B4F230(this, sp2C.x, 16);
             func_80B4EF64(this, sp2C.z, 17);
         }
-        Matrix_RotateRPY(unk_1DC[15] + kREG(46), unk_1DC[16] + kREG(47), unk_1DC[17] + kREG(48), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[15] + kREG(46), unk_1DC[16] + kREG(47), unk_1DC[17] + kREG(48), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[5], "../z_en_zl2.c", 1189);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 18);
             func_80B4F230(this, sp2C.x, 19);
             func_80B4EF64(this, sp2C.z, 20);
         }
-        Matrix_RotateRPY(unk_1DC[18] + kREG(49), unk_1DC[19] + kREG(50), unk_1DC[20] + kREG(51), MTXMODE_APPLY);
+        Matrix_RotateZYX(unk_1DC[18] + kREG(49), unk_1DC[19] + kREG(50), unk_1DC[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[6], "../z_en_zl2.c", 1208);
         Matrix_Pop();
@@ -535,25 +533,25 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
     s32 pad[2];
 
     if (limbIndex == 10) {
         if ((this->unk_254 != 0) && (globalCtx->csCtx.frames >= 900)) {
-            gSPDisplayList((*gfx)++, &gZelda2OcarinaDL);
+            gSPDisplayList((*gfx)++, gZelda2OcarinaDL);
         }
 
         {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
             Matrix_Push();
             if (player->rightHandType == 0xFF) {
                 Matrix_Put(&player->shieldMf);
                 Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
-                Matrix_RotateRPY(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
+                Matrix_RotateZYX(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
                 Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
                 gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1253),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList((*gfx)++, &gZelda2OcarinaDL);
+                gSPDisplayList((*gfx)++, gZelda2OcarinaDL);
             }
             Matrix_Pop();
         }
@@ -629,7 +627,7 @@ void EnZl2_GiveLightArrows(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_244 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y + 80.0f;
         posZ = player->actor.world.pos.z;
@@ -649,7 +647,7 @@ void func_80B4FF84(EnZl2* this, GlobalContext* globalCtx) {
         posY = this->actor.world.pos.y;
         posZ = this->actor.world.pos.z;
 
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 4);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_YELLOW);
         this->unk_250 = 1;
     }
 }
@@ -665,7 +663,7 @@ void func_80B4FFF0(EnZl2* this, GlobalContext* globalCtx) {
         posZ = this->actor.world.pos.z;
 
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
-                           0, 3);
+                           0, WARP_PURPLE_CRYSTAL);
         this->unk_248 = 1;
     }
 }
@@ -692,7 +690,8 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
     f32 someFloat;
 
     if (npcAction != NULL) {
-        someFloat = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 8);
+        someFloat =
+            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 8);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;
@@ -707,7 +706,7 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B501C4(EnZl2* this, s32 alpha) {
     if (this->actor.child != NULL) {
-        ((DoorWarp1*)this->actor.child)->alpha = alpha;
+        ((DoorWarp1*)this->actor.child)->crystalAlpha = alpha;
     }
 }
 
@@ -716,7 +715,8 @@ void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
 
     if (npcAction != NULL) {
         this->actor.shape.shadowAlpha = this->alpha =
-            (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
+            (1.0f - Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) *
+            255.0f;
         func_80B501C4(this, this->alpha);
     }
 }
@@ -985,7 +985,7 @@ void func_80B50BEC(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -994,7 +994,7 @@ void func_80B50C40(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FDD4(this);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B500E0(this, globalCtx);
     func_80B503DC(this, globalCtx);
 }
@@ -1003,7 +1003,7 @@ void func_80B50CA8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1011,13 +1011,13 @@ void func_80B50CFC(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4EA40(this);
-    func_80B50488(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B50488(this, EnZl2_UpdateSkelAnime(this));
 }
 
 void func_80B50D50(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1025,14 +1025,14 @@ void func_80B50D94(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4EAF4(this);
-    func_80B5053C(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B5053C(this, EnZl2_UpdateSkelAnime(this));
 }
 
 void func_80B50DE8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1040,14 +1040,14 @@ void func_80B50E3C(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    func_80B505D4(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B505D4(this, EnZl2_UpdateSkelAnime(this));
 }
 
 void func_80B50E90(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1055,7 +1055,7 @@ void func_80B50EE4(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1063,7 +1063,7 @@ void func_80B50F38(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1072,7 +1072,7 @@ void func_80B50F8C(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1080,14 +1080,14 @@ void func_80B50FE8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
-    func_80B5073C(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B5073C(this, EnZl2_UpdateSkelAnime(this));
 }
 
 void func_80B51034(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1095,14 +1095,14 @@ void func_80B51080(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
-    func_80B507E8(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B507E8(this, EnZl2_UpdateSkelAnime(this));
 }
 
 void func_80B510CC(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1110,14 +1110,14 @@ void func_80B51118(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
-    func_80B50880(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B50880(this, EnZl2_UpdateSkelAnime(this));
 }
 
 void func_80B51164(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B50A04(this, globalCtx);
 }
 
@@ -1125,13 +1125,13 @@ void func_80B511B0(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
-    func_80B50928(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B50928(this, EnZl2_UpdateSkelAnime(this));
 }
 
 void func_80B511FC(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B5008C(this);
     func_80B50A04(this, globalCtx);
 }
@@ -1140,7 +1140,7 @@ void func_80B51250(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE48(this);
     func_80B4ED2C(this, globalCtx);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B500E0(this, globalCtx);
     func_80B5008C(this);
     func_80B50A04(this, globalCtx);
@@ -1149,7 +1149,7 @@ void func_80B51250(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B512B8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B501E8(this, globalCtx);
     func_80B509A0(this, globalCtx);
 }
@@ -1179,11 +1179,11 @@ void func_80B513A8(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_250 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y;
         posZ = player->actor.world.pos.z;
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 7);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_UNK_7);
         this->unk_250 = 1;
     }
 }
@@ -1375,7 +1375,7 @@ void func_80B51A8C(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B51418(this, globalCtx);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B51948(this, globalCtx);
 }
 
@@ -1383,7 +1383,7 @@ void func_80B51AE4(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    func_80B51644(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B51644(this, EnZl2_UpdateSkelAnime(this));
     func_80B51948(this, globalCtx);
 }
 
@@ -1391,7 +1391,7 @@ void func_80B51B44(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B5149C(this, globalCtx);
-    func_80B516D0(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B516D0(this, EnZl2_UpdateSkelAnime(this));
     func_80B51948(this, globalCtx);
 }
 
@@ -1399,7 +1399,7 @@ void func_80B51BA8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B514F8(this, globalCtx);
-    func_80B5175C(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B5175C(this, EnZl2_UpdateSkelAnime(this));
     func_80B51948(this, globalCtx);
 }
 
@@ -1407,13 +1407,13 @@ void func_80B51C0C(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B5146C(this, globalCtx);
-    func_80B517E0(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B517E0(this, EnZl2_UpdateSkelAnime(this));
 }
 
 void func_80B51C64(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B51948(this, globalCtx);
 }
 
@@ -1421,7 +1421,7 @@ void func_80B51CA8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B5154C(this, globalCtx);
-    func_80B5187C(this, EnZl2_FrameUpdateMatrix(this));
+    func_80B5187C(this, EnZl2_UpdateSkelAnime(this));
     func_80B51948(this, globalCtx);
 }
 
@@ -1436,7 +1436,7 @@ void func_80B51D24(EnZl2* this, GlobalContext* globalCtx) {
     u32 sfxId;
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((Animation_OnFrame(skelAnime, 6.0f)) || (Animation_OnFrame(skelAnime, 0.0f))) {
+    if (Animation_OnFrame(skelAnime, 6.0f) || Animation_OnFrame(skelAnime, 0.0f)) {
         if (this->actor.bgCheckFlags & 1) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
@@ -1457,7 +1457,8 @@ void func_80B51DA4(EnZl2* this, GlobalContext* globalCtx) {
     f32 someFloat;
 
     if (npcAction != NULL) {
-        someFloat = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 8);
+        someFloat =
+            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 8);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;
@@ -1539,7 +1540,7 @@ void func_80B52098(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_UpdateEyes(this);
-    EnZl2_FrameUpdateMatrix(this);
+    EnZl2_UpdateSkelAnime(this);
     func_80B51D24(this, globalCtx);
     func_80B51F38(this, globalCtx);
     func_80B51DA4(this, globalCtx);
@@ -1585,7 +1586,7 @@ void func_80B521A0(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
 
     if (this->action < 0 || this->action >= 0x24 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -1595,7 +1596,7 @@ void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
     ActorShape* shape = &thisx->shape;
     s32 pad;
 
@@ -1605,7 +1606,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (thisx->params) {
         case 1:
-            func_800F7260(0x6F);
+            Audio_SetSoundBanksMute(0x6F);
             break;
         case 4:
             gSaveContext.timer2State = 0;
@@ -1615,7 +1616,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                            Gfx** gfx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
 
     if (this->overrideLimbDrawConfig < 0 || this->overrideLimbDrawConfig > 0 ||
         sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig] == NULL) {
@@ -1632,11 +1633,11 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad[3];
     s16 eyeTexIndex = this->eyeTexIndex;
     s16 eyeTexIndex2 = this->eyeTexIndex2;
-    u64* eyeTex = sEyeTextures[eyeTexIndex];
-    u64* eyeTex2 = sEyeTextures[eyeTexIndex2];
+    void* eyeTex = sEyeTextures[eyeTexIndex];
+    void* eyeTex2 = sEyeTextures[eyeTexIndex2];
     SkelAnime* skelAnime = &this->skelAnime;
     s16 mouthTexIndex = this->mouthTexIndex;
-    u64* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouthTexIndex];
     s32 pad1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1623);
@@ -1658,10 +1659,10 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTex = sEyeTextures[eyeTexIndex];
+    void* eyeTex = sEyeTextures[eyeTexIndex];
     s16 mouthTexIndex = this->mouthTexIndex;
     SkelAnime* skelAnime = &this->skelAnime;
-    u64* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouthTexIndex];
     s32 pad1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1663);
@@ -1681,7 +1682,7 @@ void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
+    EnZl2* this = (EnZl2*)thisx;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (sDrawFuncs[this->drawConfig] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

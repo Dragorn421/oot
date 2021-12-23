@@ -36,9 +36,9 @@ u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->accel = initParams->accel;
 
     if (KREG(2) != 0) {
-        this->gfx = SEGMENTED_TO_VIRTUAL(&gEffBubble2Tex);
+        this->gfx = SEGMENTED_TO_VIRTUAL(gEffBubble2Tex);
     } else {
-        this->gfx = SEGMENTED_TO_VIRTUAL(&gEffBubble1Tex);
+        this->gfx = SEGMENTED_TO_VIRTUAL(gEffBubble1Tex);
     }
 
     this->life = ((s16)((Rand_ZeroOne() * (500.0f + KREG(64))) * 0.01f)) + KREG(65) + 10;
@@ -82,7 +82,7 @@ void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     s32 pad[3];
     f32 xzVelScale;
     s16 yaw;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->pos.y <= player->actor.floorHeight) {
         this->life = 0;

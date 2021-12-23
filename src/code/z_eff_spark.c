@@ -11,8 +11,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
 
     if ((this != NULL) && (initParams != NULL)) {
         if ((initParams->uDiv == 0) || (initParams->vDiv == 0)) {
-            // Translates to: "u_div,v_div 0 is not good."
-            osSyncPrintf("spark():u_div,v_div 0では困る。\n");
+            osSyncPrintf("spark():u_div,v_div 0では困る。\n"); // "u_div,v_div 0 is not good."
             return;
         }
 
@@ -153,8 +152,6 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     u8 sp1C4;
     f32 ratio;
 
-    if (1) {}
-
     OPEN_DISPS(gfxCtx, "../z_eff_spark.c", 293);
 
     if (this != NULL) {
@@ -176,7 +173,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
         vertices = Graph_Alloc(gfxCtx, this->numElements * sizeof(Vtx[4]));
         if (vertices == NULL) {
-            // Translates to: "Memory Allocation Failure graph_malloc"
+            // "Memory Allocation Failure graph_malloc"
             osSyncPrintf("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n");
             goto end;
         }
@@ -213,7 +210,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             SkinMatrix_SetTranslate(&spEC, elem->position.x, elem->position.y, elem->position.z);
             temp = ((Rand_ZeroOne() * 2.5f) + 1.5f) / 64.0f;
             SkinMatrix_SetScale(&spAC, temp, temp, 1.0f);
-            SkinMatrix_MtxFMtxFMult(&spEC, &globalCtx->mf_11DA0, &sp6C);
+            SkinMatrix_MtxFMtxFMult(&spEC, &globalCtx->billboardMtxF, &sp6C);
             SkinMatrix_MtxFMtxFMult(&sp6C, &spAC, &sp12C);
 
             vertices[j].v.ob[0] = -32;

@@ -5,11 +5,10 @@
  */
 
 #include "z_en_syateki_niw.h"
+#include "objects/object_niw/object_niw.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnSyatekiNiw*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -26,11 +25,6 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B128D8(EnSyatekiNiw* this, GlobalContext* globalCtx);
 
 void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4);
-
-extern AnimationHeader D_060000E8;
-extern Gfx D_060023B0[];
-extern Gfx D_06002428[];
-extern FlexSkeletonHeader D_06002530;
 
 const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
@@ -71,12 +65,12 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 
     this->unk_29E = this->actor.params;
     if (this->unk_29E < 0) {
@@ -87,12 +81,12 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     if (this->unk_29E == 0) {
         osSyncPrintf("\n\n");
-        // Archery range chicken
+        // "Archery range chicken"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
         Actor_SetScale(&this->actor, 0.01f);
     } else {
         osSyncPrintf("\n\n");
-        // Bomb chicken
+        // "Bomb chicken"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" VT_RST);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         Actor_SetScale(&this->actor, 0.01f);
@@ -104,7 +98,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -213,7 +207,7 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
 }
 
 void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+    Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
     if (this->unk_29E != 0) {
         Actor_SetScale(&this->actor, this->unk_2F4);
@@ -353,7 +347,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+    Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
     this->unk_27C = 6000.0f;
     this->unk_288 = -10000.0f;
@@ -370,7 +364,7 @@ void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 phi_f16 = 0.0f;
 
     player->actor.freezeTimer = 10;
@@ -506,7 +500,7 @@ void func_80B128F8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s16 sp24;
 
     Actor_SetFocus(&this->actor, this->unk_2D4);
-    func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+    Actor_GetScreenPos(globalCtx, &this->actor, &sp26, &sp24);
     if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (sp26 > 0) &&
         (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
         this->actor.speedXZ = 5.0f;
@@ -526,7 +520,7 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     f32 tmpf2;
 
     Actor_SetFocus(&this->actor, this->unk_2D4);
-    func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
+    Actor_GetScreenPos(globalCtx, &this->actor, &sp2E, &sp2C);
     if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E > SCREEN_WIDTH) ||
         (sp2C < 0) || (sp2C > SCREEN_HEIGHT)) {
         Actor_Kill(&this->actor);
@@ -578,7 +572,7 @@ void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
     s32 pad;
     s16 i;
     Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
@@ -677,7 +671,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
@@ -700,7 +694,7 @@ s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSyatekiNiw* this = THIS;
+    EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
     Color_RGBA8 sp30 = { 0, 0, 0, 255 };
 
     if (this->actionFunc != func_80B128F8) {
@@ -778,19 +772,19 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     for (i = 0; i < 5; i++, ptr++) {
         if (ptr->unk_00 == 1) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, D_060023B0);
+                gSPDisplayList(POLY_XLU_DISP++, gCuccoParticleAppearDL);
                 flag++;
             }
 
             Matrix_Translate(ptr->unk_04.x, ptr->unk_04.y, ptr->unk_04.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(ptr->unk_2C, ptr->unk_2C, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_06002428);
+            gSPDisplayList(POLY_XLU_DISP++, gCuccoParticleAliveDL);
         }
     }
 

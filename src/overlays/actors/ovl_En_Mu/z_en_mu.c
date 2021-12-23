@@ -5,10 +5,9 @@
  */
 
 #include "z_en_mu.h"
+#include "objects/object_mu/object_mu.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnMu*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnMu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -17,9 +16,6 @@ void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnMu_Pose(EnMu* this, GlobalContext* globalCtx);
 s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx);
-
-extern AnimationHeader D_060003F4;
-extern FlexSkeletonHeader D_06004F70;
 
 static ColliderCylinderInit D_80AB0BD0 = {
     {
@@ -41,7 +37,7 @@ static ColliderCylinderInit D_80AB0BD0 = {
     { 100, 70, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
+static CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 const ActorInit En_Mu_InitVars = {
     ACTOR_EN_MU,
@@ -99,7 +95,7 @@ void EnMu_Interact(EnMu* this, GlobalContext* globalCtx) {
 }
 
 u16 EnMu_GetFaceReaction(GlobalContext* globalCtx, Actor* thisx) {
-    EnMu* this = THIS;
+    EnMu* this = (EnMu*)thisx;
     u16 faceReaction = Text_GetFaceReaction(globalCtx, this->actor.params + 0x3A);
 
     if (faceReaction != 0) {
@@ -109,20 +105,20 @@ u16 EnMu_GetFaceReaction(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx) {
-    EnMu* this = THIS;
+    EnMu* this = (EnMu*)thisx;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             return 1;
-        case 2:
+        case TEXT_STATE_CLOSING:
             EnMu_Interact(this, globalCtx);
             return 0;
         default:
@@ -131,11 +127,11 @@ s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 void EnMu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMu* this = THIS;
+    EnMu* this = (EnMu*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 160.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004F70, &D_060003F4, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_mu_Skel_004F70, &object_mu_Anim_0003F4, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AB0BD0);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AB0BFC);
@@ -146,7 +142,7 @@ void EnMu_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMu* this = THIS;
+    EnMu* this = (EnMu*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -156,7 +152,7 @@ void EnMu_Pose(EnMu* this, GlobalContext* globalCtx) {
 }
 
 void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMu* this = THIS;
+    EnMu* this = (EnMu*)thisx;
     s32 pad;
     f32 talkDist;
     Vec3s pos;
@@ -180,7 +176,7 @@ void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMu* this = THIS;
+    EnMu* this = (EnMu*)thisx;
 
     if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7) || (limbIndex == 11) || (limbIndex == 12) ||
         (limbIndex == 13) || (limbIndex == 14)) {
@@ -203,7 +199,7 @@ Gfx* EnMu_DisplayListSetColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 }
 
 void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnMu* this = THIS;
+    EnMu* this = (EnMu*)thisx;
     Color_RGBA8 colors[2][5] = {
         { { 100, 130, 235, 0 }, { 160, 250, 60, 0 }, { 90, 60, 20, 0 }, { 30, 240, 200, 0 }, { 140, 70, 20, 0 } },
         { { 140, 70, 20, 0 }, { 30, 240, 200, 0 }, { 90, 60, 20, 0 }, { 160, 250, 60, 0 }, { 100, 130, 235, 0 } }

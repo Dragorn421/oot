@@ -5,10 +5,9 @@
  */
 
 #include "z_en_yukabyun.h"
+#include "objects/object_yukabyun/object_yukabyun.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnYukabyun*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnYukabyun_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -56,13 +55,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 16, ICHAIN_STOP),
 };
 
-static UNK_PTR D_80B43F64[] = { 0x06000AF0, 0x06000000 };
-
-extern Gfx D_06000A60[];
-extern Gfx D_06000970[];
+static void* D_80B43F64[] = { gFloorTileEnemyTopTex, gFloorTileEnemyBottomTex };
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnYukabyun* this = THIS;
+    EnYukabyun* this = (EnYukabyun*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.4f);
@@ -75,7 +71,7 @@ void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnYukabyun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnYukabyun* this = THIS;
+    EnYukabyun* this = (EnYukabyun*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -84,7 +80,7 @@ void func_80B43A94(EnYukabyun* this, GlobalContext* globalCtx) {
         this->unk_150--;
     }
     if (this->unk_150 == 0) {
-        this->actor.flags |= 0x1005;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12;
         this->actionfunc = func_80B43AD4;
     }
 }
@@ -112,12 +108,12 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
 
 void EnYukabyun_Break(EnYukabyun* this, GlobalContext* globalCtx) {
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 8.0f, 0, 1300, 300, 15, OBJECT_YUKABYUN, 10,
-                             D_06000A60);
+                             gFloorTileEnemyFragmentDL);
     Actor_Kill(&this->actor);
 }
 
 void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnYukabyun* this = THIS;
+    EnYukabyun* this = (EnYukabyun*)thisx;
     s32 pad;
 
     if (((this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
@@ -126,7 +122,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.base.atFlags &= ~AT_HIT;
         this->collider.base.acFlags &= ~AC_HIT;
         this->collider.base.ocFlags1 &= ~OC1_HIT;
-        this->actor.flags &= ~0x5;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
         this->actionfunc = EnYukabyun_Break;
     }
@@ -138,7 +134,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f, 5);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
-        this->actor.flags |= 0x1000000;
+        this->actor.flags |= ACTOR_FLAG_24;
 
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -148,7 +144,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnYukabyun_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnYukabyun* this = THIS;
+    EnYukabyun* this = (EnYukabyun*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 366);
 
@@ -156,7 +152,7 @@ void EnYukabyun_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[this->unk_152]));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 373),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000970);
+    gSPDisplayList(POLY_OPA_DISP++, gFloorTileEnemyDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 378);
 }

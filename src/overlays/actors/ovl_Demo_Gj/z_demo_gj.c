@@ -8,9 +8,7 @@
 #include "objects/object_gj/object_gj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((DemoGj*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -132,7 +130,7 @@ void DemoGj_DestroyCylinder(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGj* this = THIS;
+    DemoGj* this = (DemoGj*)thisx;
 
     DemoGj_DestroyCylinder(this, globalCtx);
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -221,14 +219,14 @@ s32 DemoGj_FindGanon(DemoGj* this, GlobalContext* globalCtx) {
             if (actor->id == ACTOR_BOSS_GANON2) {
                 this->ganon = (BossGanon2*)actor;
 
-                // Demo_Gj_Search_Boss_Ganon %d: Discover Ganon !!!!
+                // "Demo_Gj_Search_Boss_Ganon %d: Discover Ganon !!!!"
                 osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
                 return true;
             }
             actor = actor->next;
         }
 
-        // Demo_Gj_Search_Boss_Ganon %d: I couldn't find Ganon
+        // "Demo_Gj_Search_Boss_Ganon %d: I couldn't find Ganon"
         osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
         return false;
     }
@@ -298,7 +296,7 @@ void DemoGj_DrawRotated(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList
     OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1187);
 
     Matrix_Push();
-    Matrix_RotateRPY(x, y, z, MTXMODE_APPLY);
+    Matrix_RotateZYX(x, y, z, MTXMODE_APPLY);
     Matrix_ToMtx(matrix, "../z_demo_gj.c", 1193);
     Matrix_Pop();
 
@@ -386,7 +384,7 @@ void DemoGj_SetupRotation(DemoGj* this, GlobalContext* globalCtx) {
             break;
 
         default:
-            // Demo_Gj_common_Reflect : This arg_data is not supported = %d
+            // "Demo_Gj_common_Reflect : This arg_data is not supported = %d"
             osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" VT_RST,
                          this->dyna.actor.params);
             return;
@@ -540,14 +538,14 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 break;
 
             default:
-                // Demo_Gj_Setup_Move_common : This arg_data is not supported = %d
+                // "Demo_Gj_Setup_Move_common : This arg_data is not supported = %d"
                 osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" VT_RST,
                              actor->params);
                 break;
         }
 
         if (xDistance == 0.0f && zDistance == 0.0f) {
-            player = PLAYER;
+            player = GET_PLAYER(globalCtx);
             xDistance = player->actor.world.pos.x - pos->x;
             zDistance = player->actor.world.pos.z - pos->z;
 
@@ -1343,11 +1341,11 @@ static DemoGjUpdateFunc sUpdateFuncs[] = {
 };
 
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGj* this = THIS;
+    DemoGj* this = (DemoGj*)thisx;
 
     if (this->updateMode < 0 || this->updateMode >= ARRAY_COUNT(sUpdateFuncs) ||
         sUpdateFuncs[this->updateMode] == NULL) {
-        // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -1356,7 +1354,7 @@ void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGj* this = THIS;
+    DemoGj* this = (DemoGj*)thisx;
 
     switch (DemoGj_GetType(this)) {
         case DEMOGJ_TYPE_AROUNDARENA:
@@ -1404,7 +1402,7 @@ void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         default:
-            // Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!
+            // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
             osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, globalCtx,
                          this);
             Actor_Kill(&this->dyna.actor);
@@ -1437,10 +1435,10 @@ static DemoGjDrawFunc sDrawFuncs[] = {
 };
 
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoGj* this = THIS;
+    DemoGj* this = (DemoGj*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
-        // The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

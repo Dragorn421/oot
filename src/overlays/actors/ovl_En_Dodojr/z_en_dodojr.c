@@ -6,10 +6,9 @@
 
 #include "z_en_dodojr.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "objects/object_dodojr/object_dodojr.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnDodojr*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -31,13 +30,6 @@ void func_809F7A00(EnDodojr* this, GlobalContext* globalCtx);
 void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx);
 void func_809F7C48(EnDodojr* this, GlobalContext* globalCtx);
 void func_809F768C(EnDodojr* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_060004A0;
-extern AnimationHeader D_060005F0;
-extern AnimationHeader D_06000724;
-extern AnimationHeader D_06000860;
-extern AnimationHeader D_060009D4;
-extern SkeletonHeader D_060020E0;
 
 const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
@@ -74,16 +66,17 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, 0xFF };
 
 void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 18.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020E0, &D_060009D4, this->jointTable, this->morphTable, 15);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &object_dodojr_Skel_0020E0, &object_dodojr_Anim_0009D4,
+                   this->jointTable, this->morphTable, 15);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);
 
     this->actor.naviEnemyId = 0xE;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 
     Actor_SetScale(&this->actor, 0.02f);
 
@@ -91,7 +84,7 @@ void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -168,18 +161,18 @@ s32 func_809F68B0(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F6994(EnDodojr* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06000860);
+    f32 lastFrame = Animation_GetLastFrame(&object_dodojr_Anim_000860);
 
-    Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -10.0f);
+    Animation_Change(&this->skelAnime, &object_dodojr_Anim_000860, 1.8f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -10.0f);
     this->actor.velocity.y = 0.0f;
     this->actor.speedXZ = 2.6f;
     this->actor.gravity = -0.8f;
 }
 
 void func_809F6A20(EnDodojr* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_060004A0);
+    f32 lastFrame = Animation_GetLastFrame(&object_dodojr_Anim_0004A0);
 
-    Animation_Change(&this->skelAnime, &D_060004A0, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -10.0f);
+    Animation_Change(&this->skelAnime, &object_dodojr_Anim_0004A0, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -10.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.z = 0.0f;
@@ -192,17 +185,17 @@ void func_809F6A20(EnDodojr* this) {
 }
 
 void func_809F6AC4(EnDodojr* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_060005F0);
+    f32 lastFrame = Animation_GetLastFrame(&object_dodojr_Anim_0005F0);
 
-    Animation_Change(&this->skelAnime, &D_060005F0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &object_dodojr_Anim_0005F0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -0.8f;
 }
 
 void func_809F6B38(EnDodojr* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06000724);
+    f32 lastFrame = Animation_GetLastFrame(&object_dodojr_Anim_000724);
 
-    Animation_Change(&this->skelAnime, &D_06000724, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &object_dodojr_Anim_000724, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.gravity = -0.8f;
     this->unk_1FC = 3;
     this->actor.velocity.y = 10.0f;
@@ -210,7 +203,7 @@ void func_809F6B38(EnDodojr* this) {
 
 void func_809F6BBC(EnDodojr* this) {
     this->actor.shape.shadowDraw = NULL;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.home.pos = this->actor.world.pos;
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = -0.8f;
@@ -219,7 +212,7 @@ void func_809F6BBC(EnDodojr* this) {
 }
 
 void func_809F6C24(EnDodojr* this) {
-    Animation_Change(&this->skelAnime, &D_06000724, 1.0f, 8.0f, 12.0f, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &object_dodojr_Anim_000724, 1.0f, 8.0f, 12.0f, ANIMMODE_ONCE, 0.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_EAT);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.x = 0.0f;
@@ -284,7 +277,7 @@ s32 func_809F6DD0(EnDodojr* this) {
 void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
     f32 angles[] = { 0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f };
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f pos;
     s16 angleIndex;
 
@@ -322,7 +315,7 @@ s32 func_809F706C(EnDodojr* this) {
 
 void func_809F709C(EnDodojr* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_DEAD);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     func_809F6A20(this);
     this->actionFunc = func_809F7AB8;
 }
@@ -395,18 +388,19 @@ void func_809F72A4(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F73AC(EnDodojr* this, GlobalContext* globalCtx) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06000860);
-    Player* player = PLAYER;
+    f32 lastFrame = Animation_GetLastFrame(&object_dodojr_Anim_000860);
+    Player* player = GET_PLAYER(globalCtx);
     f32 dist;
 
     if (!(this->actor.xzDistToPlayer >= 320.0f)) {
         dist = this->actor.world.pos.y - player->actor.world.pos.y;
 
         if (!(dist >= 40.0f)) {
-            Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -10.0f);
+            Animation_Change(&this->skelAnime, &object_dodojr_Anim_000860, 1.8f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP,
+                             -10.0f);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_UP);
             this->actor.world.pos.y -= 60.0f;
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             this->actor.world.rot.x -= 0x4000;
             this->actor.shape.rot.x = this->actor.world.rot.x;
             this->dustPos = this->actor.world.pos;
@@ -482,7 +476,7 @@ void func_809F768C(EnDodojr* this, GlobalContext* globalCtx) {
 void func_809F773C(EnDodojr* this, GlobalContext* globalCtx) {
     if (DECR(this->timer3) == 0) {
         func_809F64D0(this);
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         func_809F6A20(this);
         this->actionFunc = func_809F77AC;
     }
@@ -538,7 +532,7 @@ void func_809F78EC(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F799C(EnDodojr* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     func_8002D868(&this->actor);
 
     if (func_809F68B0(this, globalCtx) != 0) {
@@ -610,7 +604,7 @@ void func_809F7C48(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
 
     SkelAnime_Update(&this->skelAnime);
     Actor_MoveForward(&this->actor);
@@ -626,11 +620,12 @@ void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_809F7D50(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
     Vec3f D_809F7F64 = { 480.0f, 620.0f, 0.0f };
 
     if (limbIndex == 1) {
-        Matrix_Scale((this->rootScale * 0.5f) + 1.0f, this->rootScale + 1.0f, (this->rootScale * 0.5f) + 1.0f, 1);
+        Matrix_Scale((this->rootScale * 0.5f) + 1.0f, this->rootScale + 1.0f, (this->rootScale * 0.5f) + 1.0f,
+                     MTXMODE_APPLY);
     }
 
     if (limbIndex == 4) {
@@ -644,7 +639,7 @@ void func_809F7DFC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 }
 
 void EnDodojr_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDodojr* this = THIS;
+    EnDodojr* this = (EnDodojr*)thisx;
 
     if ((this->actionFunc != func_809F73AC) && (this->actionFunc != func_809F7BE4)) {
         func_80093D18(globalCtx->state.gfxCtx);

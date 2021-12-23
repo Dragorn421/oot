@@ -7,9 +7,7 @@
 #include "z_bg_gnd_iceblock.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgGndIceblock*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ GNDICE_IDLE,
@@ -48,7 +46,7 @@ static u8 sBlockPositions[2];
 
 void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndIceblock* this = THIS;
+    BgGndIceblock* this = (BgGndIceblock*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -71,7 +69,7 @@ void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgGndIceblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndIceblock* this = THIS;
+    BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -234,7 +232,7 @@ void BgGndIceblock_SetNextPosition(BgGndIceblock* this) {
 }
 
 void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~0x10;
@@ -250,7 +248,7 @@ void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx) {
 }
 
 void BgGndIceblock_Reset(BgGndIceblock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* thisx = &this->dyna.actor;
 
     if (this->dyna.unk_150 != 0.0f) {
@@ -347,14 +345,14 @@ void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx) {
 
 void BgGndIceblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndIceblock* this = THIS;
+    BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgGndIceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndIceblock* this = THIS;
+    BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, gWaterTrialIceBlockDL);
 }

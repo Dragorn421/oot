@@ -54,12 +54,12 @@ void EffectSsStick_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         Matrix_Scale(0.01f, 0.0025f, 0.01f, MTXMODE_APPLY);
-        Matrix_RotateRPY(0, this->rYaw, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, this->rYaw, 0, MTXMODE_APPLY);
     } else {
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-        Matrix_RotateRPY(0, this->rYaw, globalCtx->state.frames * 10000, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, this->rYaw, globalCtx->state.frames * 10000, MTXMODE_APPLY);
     }
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stick.c", 176),

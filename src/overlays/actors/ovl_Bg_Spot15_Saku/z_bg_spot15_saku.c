@@ -5,10 +5,9 @@
  */
 
 #include "z_bg_spot15_saku.h"
+#include "objects/object_spot15_obj/object_spot15_obj.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgSpot15Saku*)thisx)
+#define FLAGS 0
 
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -31,17 +30,14 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
     (ActorFunc)BgSpot15Saku_Draw,
 };
 
-extern Gfx D_060003C0[];
-extern CollisionHeader D_060004D0;
-
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSpot15Saku* this = THIS;
+    BgSpot15Saku* this = (BgSpot15Saku*)thisx;
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_060004D0, &colHeader);
+    CollisionHeader_GetVirtual(&gLonLonCorralFenceCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.scale.x = 0.1f;
     this->dyna.actor.scale.y = 0.1f;
@@ -56,7 +52,7 @@ void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot15Saku* this = THIS;
+    BgSpot15Saku* this = (BgSpot15Saku*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -88,7 +84,7 @@ void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot15Saku* this = THIS;
+    BgSpot15Saku* this = (BgSpot15Saku*)thisx;
 
     if (this->timer != 0) {
         this->timer--;
@@ -104,7 +100,7 @@ void BgSpot15Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_060003C0);
+    gSPDisplayList(POLY_XLU_DISP++, gLonLonCorralFenceDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
 }

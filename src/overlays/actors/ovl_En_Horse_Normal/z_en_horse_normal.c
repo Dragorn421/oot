@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_horse_normal/object_horse_normal.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnHorseNormal*)thisx)
+#define FLAGS 0
 
 typedef struct {
     Vec3s pos;
@@ -184,7 +182,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -208,7 +206,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         }
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(0x14)) {
                 if (this->actor.world.rot.z != 3) {
                     Actor_Kill(&this->actor);
@@ -238,7 +236,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
     } else if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
-        if (gSaveContext.nightFlag == 0) {
+        if (IS_DAY) {
             Actor_Kill(&this->actor);
             return;
         } else {
@@ -269,7 +267,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
 
     func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
@@ -278,7 +276,7 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->action = HORSE_FOLLOW_PATH;
     this->animationIdx = 6;
     this->waypoint = 0;
@@ -512,7 +510,7 @@ void func_80A6C6B0(EnHorseNormal* this) {
     this->animationIdx = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
-    this->actor.flags |= 0x30;
+    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->actor.speedXZ = 0.0f;
     this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
@@ -567,7 +565,7 @@ static EnHorseNormalActionFunc sActionFuncs[] = {
 };
 
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     s32 pad;
 
     sActionFuncs[this->action](this, globalCtx);
@@ -592,7 +590,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
@@ -607,6 +605,7 @@ void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
             this->headCollider.elements[i].dim.modelSphere.radius * this->headCollider.elements[i].dim.scale;
     }
 
+    //! @bug see relevant comment in `EnHorse_SkinCallback1`
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
 }
 
@@ -614,7 +613,7 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
     f32 curFrame = this->skin.skelAnime.curFrame;
     f32 wDest;
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, arg2, &this->unk_1E8, &wDest);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, arg2, &this->unk_1E8, &wDest);
     this->unk_1F4 = this->unk_1E8;
     this->unk_1F4.y += 120.0f;
 
@@ -634,7 +633,7 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
 }
 
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHorseNormal* this = THIS;
+    EnHorseNormal* this = (EnHorseNormal*)thisx;
     Mtx* mtx2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);
@@ -683,7 +682,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         func_80A6CC88(globalCtx, this, &clonePos);
-        SkinMatrix_SetScaleRotateYRPTranslate(&skinMtx, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
+        SkinMatrix_SetTranslateRotateYXZScale(&skinMtx, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
                                               this->actor.shape.rot.x, cloneRotY, this->actor.shape.rot.z, clonePos.x,
                                               (this->actor.shape.yOffset * this->actor.scale.y) + clonePos.y,
                                               clonePos.z);

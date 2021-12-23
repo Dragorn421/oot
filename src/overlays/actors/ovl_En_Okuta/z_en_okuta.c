@@ -1,9 +1,7 @@
 #include "z_en_okuta.h"
 #include "objects/object_okuta/object_okuta.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnOkuta*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -111,16 +109,16 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 66, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x42, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 6500, ICHAIN_STOP),
 };
 
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     s32 pad;
     WaterBox* outWaterBox;
     f32 ySurface;
-    UNK_TYPE sp30;
+    s32 sp30;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->numShots = (thisx->params >> 8) & 0xFF;
@@ -147,8 +145,8 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnOkuta_SetupWaitToAppear(this);
     } else {
         ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawCircle, 18.0f);
-        thisx->flags &= ~1;
-        thisx->flags |= 0x10;
+        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags |= ACTOR_FLAG_4;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sProjectileColliderInit);
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
@@ -160,7 +158,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -199,7 +197,7 @@ void EnOkuta_SpawnRipple(EnOkuta* this, GlobalContext* globalCtx) {
 
 void EnOkuta_SetupWaitToAppear(EnOkuta* this) {
     this->actor.draw = NULL;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnOkuta_WaitToAppear;
     this->actor.world.pos.y = this->actor.home.pos.y;
 }
@@ -207,7 +205,7 @@ void EnOkuta_SetupWaitToAppear(EnOkuta* this) {
 void EnOkuta_SetupAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.draw = EnOkuta_Draw;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     Animation_PlayOnce(&this->skelAnime, &gOctorokAppearAnim);
     EnOkuta_SpawnBubbles(this, globalCtx);
     this->actionFunc = EnOkuta_Appear;
@@ -470,7 +468,7 @@ void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx) {
 
 void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3s sp40;
 
     this->timer--;
@@ -493,7 +491,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
             this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->collider.base.atFlags |= AT_TYPE_PLAYER;
             this->collider.info.toucher.dmgFlags = 2;
-            func_800D20CC(&player->shieldMf, &sp40, 0);
+            Matrix_MtxFToYXZRotS(&player->shieldMf, &sp40, 0);
             this->actor.world.rot.y = sp40.y + 0x8000;
             this->timer = 30;
         } else {
@@ -561,7 +559,7 @@ void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             Enemy_StartFinishingBlow(globalCtx, &this->actor);
             this->actor.colChkInfo.health = 0;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             if (this->actor.colChkInfo.damageEffect == 3) {
                 EnOkuta_SetupFreeze(this);
             } else {
@@ -571,10 +569,10 @@ void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
-    Player* player = PLAYER;
-    GlobalContext* globalCtx2 = globalCtx;
+void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    EnOkuta* this = (EnOkuta*)thisx;
+    GlobalContext* globalCtx = globalCtx2;
+    Player* player = GET_PLAYER(globalCtx);
     WaterBox* outWaterBox;
     f32 ySurface;
     Vec3f sp38;
@@ -582,8 +580,8 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(player->stateFlags1 & 0x300000C0)) {
         if (this->actor.params == 0) {
-            EnOkuta_ColliderCheck(this, globalCtx2);
-            if (!WaterBox_GetSurfaceImpl(globalCtx2, &globalCtx2->colCtx, this->actor.world.pos.x,
+            EnOkuta_ColliderCheck(this, globalCtx);
+            if (!WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.world.pos.x,
                                          this->actor.world.pos.z, &ySurface, &outWaterBox) ||
                 (ySurface < this->actor.floorHeight)) {
                 if (this->actor.colChkInfo.health != 0) {
@@ -594,7 +592,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->actor.home.pos.y = ySurface;
             }
         }
-        this->actionFunc(this, globalCtx2);
+        this->actionFunc(this, globalCtx);
         if (this->actor.params == 0) {
             EnOkuta_UpdateHeadScale(this);
             this->collider.dim.height =
@@ -604,14 +602,14 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             sp34 = false;
             Actor_MoveForward(&this->actor);
             Math_Vec3f_Copy(&sp38, &this->actor.world.pos);
-            Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 15.0f, 30.0f, 5);
             if ((this->actor.bgCheckFlags & 8) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~8;
             }
             if ((this->actor.bgCheckFlags & 1) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly, this->actor.floorBgId)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~1;
             }
@@ -625,19 +623,19 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.dim.radius = sOctorockColliderInit.dim.radius * this->actor.scale.x * 100.0f;
         }
         if (this->actor.params == 0x10) {
-            this->actor.flags |= 0x1000000;
-            CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+            this->actor.flags |= ACTOR_FLAG_24;
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnOkuta_WaitToAppear) {
             if ((this->actionFunc != EnOkuta_Die) && (this->actionFunc != EnOkuta_WaitToDie) &&
                 (this->actionFunc != EnOkuta_Freeze)) {
-                CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
-            CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         Actor_SetFocus(&this->actor, 15.0f);
         if ((this->actor.params == 0) && (this->actor.draw != NULL)) {
-            EnOkuta_SpawnRipple(this, globalCtx2);
+            EnOkuta_SpawnRipple(this, globalCtx);
         }
     }
 }
@@ -680,7 +678,7 @@ s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 curFrame, Vec3f* scale) {
 
 s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     f32 curFrame = this->skelAnime.curFrame;
     Vec3f scale;
     s32 doScale = false;
@@ -703,7 +701,7 @@ s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnOkuta* this = THIS;
+    EnOkuta* this = (EnOkuta*)thisx;
     s32 pad;
 
     func_80093D18(globalCtx->state.gfxCtx);
@@ -714,7 +712,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1653);
 
-        Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+        Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
         Matrix_RotateZ(this->actor.home.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1657),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

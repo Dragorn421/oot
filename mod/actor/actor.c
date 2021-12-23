@@ -76,7 +76,7 @@ void ModActor_Init(Actor* thisx, GlobalContext* globalCtx) {
     Math3D_Vec3f_Cross(&this->curFace->norm, &up, &axis);
     if (!IS_ZERO(Math3D_Vec3fMagnitude(&axis))) {
         ModActor_VecNormalize(&axis, &axis);
-        func_800D23FC(Math_FAcosF(Math3D_Cos(&up, &this->curFace->norm)), &axis, MTXMODE_APPLY);
+        Matrix_RotateAxis(Math_FAcosF(Math3D_Cos(&up, &this->curFace->norm)), &axis, MTXMODE_APPLY);
     } else if (this->curFace->norm.y < 0.0f) {
         // normal is -y
         Matrix_RotateX(M_PI, MTXMODE_APPLY);
@@ -87,7 +87,7 @@ void ModActor_Init(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Get(&this->transform);
     Matrix_CheckFloats(&this->transform, __FILE__, __LINE__);
     Matrix_Pop();
-    VEC_SET(PLAYER->actor.world.pos, 0.0f, 0.0f, 0.0f);
+    VEC_SET(GET_PLAYER(globalCtx)->actor.world.pos, 0.0f, 0.0f, 0.0f);
 }
 
 void ModActor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -149,15 +149,15 @@ s32 ModActor_GetPassedEdges(LinkedFace* face, Vec3f* pos) {
     ]
     */
     system.xx = vec0to1.x;
-    system.xy = vec0to1.y;
-    system.xz = vec0to1.z;
-    system.yx = vec0to2.x;
+    system.yx = vec0to1.y;
+    system.zx = vec0to1.z;
+    system.xy = vec0to2.x;
     system.yy = vec0to2.y;
-    system.yz = vec0to2.z;
-    system.zx = face->norm.x;
-    system.zy = face->norm.y;
+    system.zy = vec0to2.z;
+    system.xz = face->norm.x;
+    system.yz = face->norm.y;
     system.zz = face->norm.z;
-    system.xw = system.yw = system.zw = system.wx = system.wy = system.wz = 0.0f;
+    system.wx = system.wy = system.wz = system.xw = system.yw = system.zw = 0.0f;
     system.ww = 1.0f;
     if (SkinMatrix_Invert(&system, &systemInv)) {
         osSyncPrintf("Couldn't invert system\n");
@@ -195,7 +195,7 @@ s32 ModActor_GetPassedEdges(LinkedFace* face, Vec3f* pos) {
 
 void ModActor_Update(Actor* thisx, GlobalContext* globalCtx) {
     ModActor* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     LinkedFace* face;
     Vec3f playerWorld = player->actor.world.pos;
@@ -274,7 +274,7 @@ void ModActor_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->curFace = this->rotatingTo;
                 Matrix_Push();
                 Matrix_Put(&this->transform);
-                func_800D23FC(this->rotatingAngleTarget, &this->rotatingAxis, MTXMODE_APPLY);
+                Matrix_RotateAxis(this->rotatingAngleTarget, &this->rotatingAxis, MTXMODE_APPLY);
                 Matrix_Get(&this->transform);
                 Matrix_Pop();
                 this->rotating = false;
@@ -299,7 +299,7 @@ void ModActor_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Push();
     Matrix_Put(&this->transform);
     if (this->rotating) {
-        func_800D23FC(this->rotatingAngle, &this->rotatingAxis, MTXMODE_APPLY);
+        Matrix_RotateAxis(this->rotatingAngle, &this->rotatingAxis, MTXMODE_APPLY);
     }
     Matrix_MultVec3f(&this->positionModel, &positionWorld);
     Matrix_Pop();
@@ -307,7 +307,7 @@ void ModActor_Draw(Actor* thisx, GlobalContext* globalCtx) {
     // rotations
     Matrix_Mult(&this->transform, MTXMODE_APPLY);
     if (this->rotating) {
-        func_800D23FC(this->rotatingAngle, &this->rotatingAxis, MTXMODE_APPLY);
+        Matrix_RotateAxis(this->rotatingAngle, &this->rotatingAxis, MTXMODE_APPLY);
     }
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, __FILE__, __LINE__), G_MTX_MODELVIEW | G_MTX_LOAD);
@@ -364,17 +364,17 @@ void ModActor_Draw(Actor* thisx, GlobalContext* globalCtx) {
                             this->rotatingTo->norm.z);
         } else {
             GfxPrint_SetPos(&printer, 1, y + 12);
-            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.xx, this->transform.yx,
-                            this->transform.zx, this->transform.wx);
+            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.xx, this->transform.xy,
+                            this->transform.xz, this->transform.xw);
             GfxPrint_SetPos(&printer, 1, y + 13);
-            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.xy, this->transform.yy,
-                            this->transform.zy, this->transform.wy);
+            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.yx, this->transform.yy,
+                            this->transform.yz, this->transform.yw);
             GfxPrint_SetPos(&printer, 1, y + 14);
-            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.xz, this->transform.yz,
-                            this->transform.zz, this->transform.wz);
+            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.zx, this->transform.zy,
+                            this->transform.zz, this->transform.zw);
             GfxPrint_SetPos(&printer, 1, y + 15);
-            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.xw, this->transform.yw,
-                            this->transform.zw, this->transform.ww);
+            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.wx, this->transform.wy,
+                            this->transform.wz, this->transform.ww);
         }
 
         gfx = GfxPrint_Close(&printer);

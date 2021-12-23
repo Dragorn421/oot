@@ -5,10 +5,9 @@
  */
 
 #include "z_bg_ice_turara.h"
+#include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgIceTurara*)thisx)
+#define FLAGS 0
 
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,9 +40,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 13, 120, 0, { 0, 0, 0 } },
 };
 
-extern Gfx D_060023D0[];
-extern CollisionHeader D_06002594;
-
 const ActorInit Bg_Ice_Turara_InitVars = {
     ACTOR_BG_ICE_TURARA,
     ACTORCAT_PROP,
@@ -64,13 +60,13 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceTurara* this = THIS;
+    BgIceTurara* this = (BgIceTurara*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06002594, &colHeader);
+    CollisionHeader_GetVirtual(&object_ice_objects_Col_002594, &colHeader);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
     Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
@@ -85,7 +81,7 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceTurara* this = THIS;
+    BgIceTurara* this = (BgIceTurara*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -195,11 +191,11 @@ void BgIceTurara_Regrow(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceTurara* this = THIS;
+    BgIceTurara* this = (BgIceTurara*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgIceTurara_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_060023D0);
+    Gfx_DrawDListOpa(globalCtx, object_ice_objects_DL_0023D0);
 }

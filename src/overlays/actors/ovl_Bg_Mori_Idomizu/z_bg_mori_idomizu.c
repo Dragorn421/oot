@@ -7,9 +7,7 @@
 #include "z_bg_mori_idomizu.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgMoriIdomizu*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -49,7 +47,7 @@ void BgMoriIdomizu_SetWaterLevel(GlobalContext* globalCtx, s16 waterLevel) {
 
 void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriIdomizu* this = THIS;
+    BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
 
     if (sIsSpawned) {
         Actor_Kill(&this->actor);
@@ -71,7 +69,7 @@ void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
         Actor_Kill(&this->actor);
-        // Bank danger!
+        // "Bank danger!"
         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_bg_mori_idomizu.c",
                      202);
         return;
@@ -80,13 +78,13 @@ void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     sIsSpawned = true;
     this->isLoaded = true;
     this->actor.room = -1;
-    // Forest Temple well water
+    // "Forest Temple well water"
     osSyncPrintf("(森の神殿 井戸水)(arg_data 0x%04x)\n", this->actor.params);
 }
 
 void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriIdomizu* this = THIS;
+    BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
 
     if (this->isLoaded) {
         sIsSpawned = false;
@@ -152,7 +150,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx) {
 
 void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriIdomizu* this = THIS;
+    BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
@@ -161,7 +159,7 @@ void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriIdomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriIdomizu* this = THIS;
+    BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
     u32 gameplayFrames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_idomizu.c", 356);

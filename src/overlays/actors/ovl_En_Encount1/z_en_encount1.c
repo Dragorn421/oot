@@ -2,9 +2,7 @@
 #include "vt.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
-#define FLAGS 0x08000010
-
-#define THIS ((EnEncount1*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -30,12 +28,12 @@ const ActorInit En_Encount1_InitVars = {
 
 void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnEncount1* this = THIS;
+    EnEncount1* this = (EnEncount1*)thisx;
     f32 spawnRange;
 
     if (this->actor.params <= 0) {
         osSyncPrintf("\n\n");
-        // Input error death!
+        // "Input error death!"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
@@ -54,19 +52,19 @@ void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->spawnRange = spawnRange;
 
     osSyncPrintf("\n\n");
-    // It's an enemy spawner!
+    // "It's an enemy spawner!"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    // Type
+    // "Type"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類\t\t   ☆☆☆☆☆ %d\n" VT_RST, this->spawnType);
-    // Maximum number of simultaneous spawns
+    // "Maximum number of simultaneous spawns"
     osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大同時発生数     ☆☆☆☆☆ %d\n" VT_RST, this->maxCurSpawns);
-    // Maximum number of spawns
+    // "Maximum number of spawns"
     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 最大発生数  \t   ☆☆☆☆☆ %d\n" VT_RST, this->maxTotalSpawns);
-    // Spawn check range
+    // "Spawn check range"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生チェック範囲   ☆☆☆☆☆ %f\n" VT_RST, this->spawnRange);
     osSyncPrintf("\n\n");
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     switch (this->spawnType) {
         case SPAWNER_LEEVER:
             this->timer = 30;
@@ -92,7 +90,7 @@ void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 floorType;
     f32 spawnDist;
     s32 spawnParams;
@@ -165,7 +163,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                         this->maxCurSpawns = (s16)Rand_ZeroFloat(2.99f) + 1;
                     }
                 } else {
-                    // Cannot spawn!
+                    // "Cannot spawn!"
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
@@ -177,7 +175,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 bgId;
     CollisionPoly* floorPoly;
     Vec3f spawnPos;
@@ -204,7 +202,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
                     this->curNumSpawn++;
                     this->totalNumSpawn++;
                 } else {
-                    // Cannot spawn!
+                    // "Cannot spawn!"
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
@@ -215,7 +213,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 spawnDist;
     s16 spawnAngle;
     s16 spawnId;
@@ -233,7 +231,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
             this->outOfRangeTimer++;
             return;
         }
-    } else if (!gSaveContext.nightFlag || (Player_GetMask(globalCtx) == PLAYER_MASK_BUNNY)) {
+    } else if (IS_DAY || (Player_GetMask(globalCtx) == PLAYER_MASK_BUNNY)) {
         this->killCount = 0;
         return;
     }
@@ -304,7 +302,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                     this->totalNumSpawn++;
                 }
             } else {
-                // Cannot spawn!
+                // "Cannot spawn!"
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
@@ -316,7 +314,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
 
 void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnEncount1* this = THIS;
+    EnEncount1* this = (EnEncount1*)thisx;
 
     if (this->timer != 0) {
         this->timer--;

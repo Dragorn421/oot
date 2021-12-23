@@ -56,7 +56,7 @@ u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     return 1;
 }
 
-static UNK_PTR sTextures[] = {
+static void* sTextures[] = {
     gEffEnemyDeathFlame1Tex, gEffEnemyDeathFlame2Tex,  gEffEnemyDeathFlame3Tex, gEffEnemyDeathFlame4Tex,
     gEffEnemyDeathFlame5Tex, gEffEnemyDeathFlame6Tex,  gEffEnemyDeathFlame7Tex, gEffEnemyDeathFlame8Tex,
     gEffEnemyDeathFlame9Tex, gEffEnemyDeathFlame10Tex,
@@ -131,7 +131,7 @@ void EffectSsDeadDb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     }
 
     if (this->rPlaySound && (this->rTextIdx == 1)) {
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->pos, &this->vec, &w);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &this->pos, &this->vec, &w);
         Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->vec, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 }

@@ -2,9 +2,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgJyaMegami*)thisx)
+#define FLAGS 0
 
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaMegami_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -106,8 +104,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                              DynaPolyMoveFlag flag) {
+void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -154,7 +151,7 @@ void BgJyaMegami_SetupSpawnEffect(BgJyaMegami* this, GlobalContext* globalCtx, f
 }
 
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     BgJyaMegami_InitDynaPoly(this, globalCtx, &GMegamiCol, DPM_UNK);
     BgJyaMegami_InitCollider(this, globalCtx);
@@ -168,7 +165,7 @@ void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -283,19 +280,19 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
-static u64* sRightSideCrumbles[] = {
-    gMeagmiRightCrumble1Tex, gMeagmiRightCrumble2Tex, gMeagmiRightCrumble3Tex,
-    gMeagmiRightCrumble4Tex, gMeagmiRightCrumble5Tex,
+static void* sRightSideCrumbles[] = {
+    gMegamiRightCrumble1Tex, gMegamiRightCrumble2Tex, gMegamiRightCrumble3Tex,
+    gMegamiRightCrumble4Tex, gMegamiRightCrumble5Tex,
 };
 
-static u64* sLeftSideCrumbles[] = {
-    gMeagmiLeftCrumble1Tex, gMeagmiLeftCrumble2Tex, gMeagmiLeftCrumble3Tex,
-    gMeagmiLeftCrumble4Tex, gMeagmiLeftCrumble5Tex,
+static void* sLeftSideCrumbles[] = {
+    gMegamiLeftCrumble1Tex, gMegamiLeftCrumble2Tex, gMegamiLeftCrumble3Tex,
+    gMegamiLeftCrumble4Tex, gMegamiLeftCrumble5Tex,
 };
 
 void BgJyaMegami_DrawFace(BgJyaMegami* this, GlobalContext* globalCtx) {
@@ -345,7 +342,7 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     Collider_UpdateSpheres(0, &this->collider);
     if (this->actionFunc == BgJyaMegami_Explode) {

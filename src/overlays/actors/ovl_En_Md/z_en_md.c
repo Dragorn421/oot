@@ -5,11 +5,10 @@
  */
 
 #include "z_en_md.h"
+#include "objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
-#define FLAGS 0x02000019
-
-#define THIS ((EnMd*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnMd_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -57,17 +56,21 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x0600917C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06009E68, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { 0x06009B1C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06008E84, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { 0x060097F0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x060092B0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { 0x0600A138, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x06008FC0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { 0x06008510, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { 0x060095BC, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06008738, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gMidoRaiseHand1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoHaltAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoPutHandDownAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoAnnoyedPointedHeadIdle1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnnoyedPointedHeadIdle2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnim_92B0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoWalkingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoHandsOnHipsTransitionAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gMidoSlamAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoRaiseHand2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoAngryHeadTurnAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
-
-extern AnimationHeader D_060002C8;
-extern FlexSkeletonHeader D_06007FB8;
 
 void func_80AAA250(EnMd* this) {
     f32 startFrame;
@@ -319,7 +322,7 @@ void func_80AAAA24(EnMd* this) {
                 }
                 break;
         }
-    } else if (this->skelAnime.animation != &D_060002C8) {
+    } else if (this->skelAnime.animation != &gMidoHandsOnHipsIdleAnim) {
         func_80034EC0(&this->skelAnime, sAnimations, 10);
         func_80AAA92C(this, 0);
     }
@@ -328,9 +331,10 @@ void func_80AAAA24(EnMd* this) {
 }
 
 s16 func_80AAAC78(EnMd* this, GlobalContext* globalCtx) {
-    s16 dialogState = func_8010BDBC(&globalCtx->msgCtx);
+    s16 dialogState = Message_GetState(&globalCtx->msgCtx);
 
-    if ((this->unk_209 == 10) || (this->unk_209 == 5) || (this->unk_209 == 2) || (this->unk_209 == 1)) {
+    if ((this->unk_209 == TEXT_STATE_AWAITING_NEXT) || (this->unk_209 == TEXT_STATE_EVENT) ||
+        (this->unk_209 == TEXT_STATE_CLOSING) || (this->unk_209 == TEXT_STATE_DONE_HAS_NEXT)) {
         if (this->unk_209 != dialogState) {
             this->unk_208++;
         }
@@ -348,7 +352,7 @@ u16 EnMd_GetTextKokiriForest(GlobalContext* globalCtx, EnMd* this) {
     }
 
     this->unk_208 = 0;
-    this->unk_209 = 0;
+    this->unk_209 = TEXT_STATE_NONE;
 
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         return 0x1045;
@@ -371,7 +375,7 @@ u16 EnMd_GetTextKokiriForest(GlobalContext* globalCtx, EnMd* this) {
 
 u16 EnMd_GetTextKokiriHome(GlobalContext* globalCtx, EnMd* this) {
     this->unk_208 = 0;
-    this->unk_209 = 0;
+    this->unk_209 = TEXT_STATE_NONE;
 
     if (gSaveContext.eventChkInf[4] & 1) {
         return 0x1028;
@@ -382,7 +386,7 @@ u16 EnMd_GetTextKokiriHome(GlobalContext* globalCtx, EnMd* this) {
 
 u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
     this->unk_208 = 0;
-    this->unk_209 = 0;
+    this->unk_209 = TEXT_STATE_NONE;
 
     if (gSaveContext.eventChkInf[4] & 0x100) {
         if (gSaveContext.infTable[1] & 0x200) {
@@ -403,7 +407,7 @@ u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
 }
 
 u16 EnMd_GetText(GlobalContext* globalCtx, Actor* thisx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
 
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT04:
@@ -418,18 +422,18 @@ u16 EnMd_GetText(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     switch (func_80AAAC78(this, globalCtx)) {
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             return 1;
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1028:
                     gSaveContext.eventChkInf[0] |= 0x8000;
@@ -449,8 +453,8 @@ s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
                     return 2;
             }
             return 0;
-        case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 return 2;
             }
         default:
@@ -467,7 +471,7 @@ u8 EnMd_ShouldSpawn(EnMd* this, GlobalContext* globalCtx) {
 
     if (globalCtx->sceneNum == SCENE_KOKIRI_HOME4) {
         if (((gSaveContext.eventChkInf[1] & 0x1000) != 0) || ((gSaveContext.eventChkInf[4] & 1) != 0)) {
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 return 1;
             }
         }
@@ -491,7 +495,7 @@ void EnMd_UpdateEyes(EnMd* this) {
 }
 
 void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 absYawDiff;
     s16 temp;
     s16 temp2;
@@ -604,11 +608,11 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007FB8, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gMidoSkel, NULL, this->jointTable, this->morphTable, 17);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -642,12 +646,12 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animation == &D_060002C8) {
+    if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
@@ -657,16 +661,16 @@ void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animation == &D_060002C8) {
+    if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
     func_80AAA93C(this);
 }
 
 void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp;
-    Actor* actorToBlock = &PLAYER->actor;
+    Actor* actorToBlock = &GET_PLAYER(globalCtx)->actor;
     s16 yaw;
 
     func_80AAAA24(this);
@@ -690,7 +694,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
-            globalCtx->msgCtx.msgMode = 0x37;
+            globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         }
 
         if (globalCtx->sceneNum == SCENE_SPOT04) {
@@ -709,7 +713,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->skelAnime.animation == &D_060002C8) {
+    if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
 
@@ -717,7 +721,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         if (player->stateFlags2 & 0x1000000) {
             player->stateFlags2 |= 0x2000000;
             player->unk_6A8 = &this->actor;
-            func_8010BD58(globalCtx, 0x22);
+            func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_SARIA);
             this->actionFunc = func_80AABC10;
             return;
         }
@@ -729,18 +733,18 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE >= 4) {
+    if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->actionFunc = func_80AAB948;
-        globalCtx->msgCtx.unk_E3EE = 4;
-    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->actor.textId = 0x1067;
         func_8002F2CC(&this->actor, globalCtx, this->collider.dim.radius + 30.0f);
 
         this->actionFunc = func_80AAB948;
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
         player->stateFlags2 |= 0x800000;
     }
@@ -757,7 +761,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
 
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
         (globalCtx->sceneNum == SCENE_SPOT04)) {
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         gSaveContext.eventChkInf[1] |= 0x1000;
         Actor_Kill(&this->actor);
         return;
@@ -772,7 +776,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -788,7 +792,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     Vec3s vec;
 
     if (limbIndex == 16) {
@@ -813,7 +817,7 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
     Vec3f vec = { 400.0f, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
@@ -822,20 +826,20 @@ void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR sEyesSegments[] = {
-        0x06004FF0,
-        0x06005930,
-        0x06005D30,
+    static void* sEyeTextures[] = {
+        gMidoEyeOpenTex,
+        gMidoEyeHalfTex,
+        gMidoEyeClosedTex,
     };
-    EnMd* this = THIS;
+    EnMd* this = (EnMd*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_md.c", 1280);
 
     if (this->alpha == 255) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIdx]));
         func_80034BA0(globalCtx, &this->skelAnime, EnMd_OverrideLimbDraw, EnMd_PostLimbDraw, &this->actor, this->alpha);
     } else if (this->alpha != 0) {
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeIdx]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIdx]));
         func_80034CC4(globalCtx, &this->skelAnime, EnMd_OverrideLimbDraw, EnMd_PostLimbDraw, &this->actor, this->alpha);
     }
 

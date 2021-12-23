@@ -262,7 +262,7 @@ void Player_SetBootData(GlobalContext* globalCtx, Player* this) {
 
     currentBoots = this->currentBoots;
     if (currentBoots == PLAYER_BOOTS_NORMAL) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             currentBoots = PLAYER_BOOTS_NORMAL_CHILD;
         }
     } else if (currentBoots == PLAYER_BOOTS_IRON) {
@@ -304,7 +304,7 @@ s32 Player_InBlockingCsMode(GlobalContext* globalCtx, Player* this) {
 }
 
 s32 Player_InCsMode(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return Player_InBlockingCsMode(globalCtx, this) || (this->unk_6AD == 4);
 }
@@ -314,7 +314,7 @@ s32 func_8008E9C4(Player* this) {
 }
 
 s32 Player_IsChildWithHylianShield(Player* this) {
-    return LINK_IS_CHILD && (this->currentShield == PLAYER_SHIELD_HYLIAN);
+    return gSaveContext.linkAge != 0 && (this->currentShield == PLAYER_SHIELD_HYLIAN);
 }
 
 s32 Player_ActionToModelGroup(Player* this, s32 actionParam) {
@@ -419,7 +419,7 @@ void func_8008EE08(Player* this) {
 }
 
 void func_8008EEAC(GlobalContext* globalCtx, Actor* actor) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     func_8008EE08(this);
     this->unk_664 = actor;
@@ -430,7 +430,7 @@ void func_8008EEAC(GlobalContext* globalCtx, Actor* actor) {
 }
 
 s32 func_8008EF30(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->stateFlags1 & 0x800000);
 }
@@ -441,7 +441,7 @@ s32 func_8008EF44(GlobalContext* globalCtx, s32 ammo) {
 }
 
 s32 Player_IsBurningStickInRange(GlobalContext* globalCtx, Vec3f* pos, f32 xzRange, f32 yRange) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
     Vec3f diff;
     s32 pad;
 
@@ -466,13 +466,13 @@ s32 Player_GetStrength(void) {
 }
 
 u8 Player_GetMask(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return this->currentMask;
 }
 
 Player* Player_UnsetMask(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     this->currentMask = PLAYER_MASK_NONE;
 
@@ -480,13 +480,13 @@ Player* Player_UnsetMask(GlobalContext* globalCtx) {
 }
 
 s32 Player_HasMirrorShieldEquipped(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
 
 s32 Player_HasMirrorShieldSetToDraw(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->rightHandType == 10) && (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
@@ -580,7 +580,7 @@ return_neg:
 }
 
 s32 func_8008F2F8(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
     TextTriggerEntry* triggerEntry;
     s32 var;
 
@@ -605,7 +605,7 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
             (((var == 0) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
              (((var == 1) || (var == 3)) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
               (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
-            func_8010B680(globalCtx, triggerEntry->textId, NULL);
+            Message_StartTextbox(globalCtx, triggerEntry->textId, NULL);
             gSaveContext.textTriggerFlags |= triggerEntry->flag;
         }
     }
@@ -683,10 +683,10 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
-            if (strengthUpgrade >= PLAYER_STR_SILVER_G) {
+            if (strengthUpgrade >= 2) { // silver or gold gauntlets
                 gDPPipeSync(POLY_OPA_DISP++);
 
-                color = &sGauntletColors[strengthUpgrade - PLAYER_STR_SILVER_G];
+                color = &sGauntletColors[strengthUpgrade - 2];
                 gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
 
                 gSPDisplayList(POLY_OPA_DISP++, D_06025218);
@@ -697,6 +697,7 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
 
             if (boots != 0) {
                 Gfx** bootDLists = sBootDListGroups[boots - 1];
+
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[0]);
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[1]);
             }
@@ -757,9 +758,9 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
         sp74 = D_80126068[(void)0, gSaveContext.linkAge] - this->unk_6C4;
 
         Matrix_Push();
-        Matrix_JointPosition(pos, rot);
+        Matrix_TranslateRotateZYX(pos, rot);
         Matrix_MultVec3f(&D_8012602C, &spA4);
-        Matrix_JointPosition(&D_80126038[(void)0, gSaveContext.linkAge], &skelAnime->jointTable[shinLimbIndex]);
+        Matrix_TranslateRotateZYX(&D_80126038[(void)0, gSaveContext.linkAge], &skelAnime->jointTable[shinLimbIndex]);
         Matrix_Translate(D_80126050[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_8012602C, &sp98);
         Matrix_MultVec3f(&D_80126070, &footprintPos);
@@ -825,7 +826,7 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         D_80160018 = this->rightHandType;
         D_80160000 = &this->swordInfo[2].base;
 
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 1)) {
                 pos->x *= 0.64f;
                 pos->z *= 0.64f;
@@ -841,7 +842,7 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (this->unk_6C2 != 0) {
             Matrix_Translate(pos->x, ((Math_CosS(this->unk_6C2) - 1.0f) * 200.0f) + pos->y, pos->z, MTXMODE_APPLY);
             Matrix_RotateX(this->unk_6C2 * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
+            Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
             pos->x = pos->y = pos->z = 0.0f;
             rot->x = rot->y = rot->z = 0;
         }
@@ -917,11 +918,11 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
             if ((this->sheathType == 18) || (this->sheathType == 19)) {
                 dLists += this->currentShield * 4;
-                if ((LINK_IS_CHILD) && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
+                if (!LINK_IS_ADULT && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
                     (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                     dLists += 16;
                 }
-            } else if ((LINK_IS_CHILD) && ((this->sheathType == 16) || (this->sheathType == 17)) &&
+            } else if (!LINK_IS_ADULT && ((this->sheathType == 16) || (this->sheathType == 17)) &&
                        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                 dLists = D_80125D68;
             }
@@ -1061,7 +1062,7 @@ void Player_DrawGetItemImpl(GlobalContext* globalCtx, Player* this, Vec3f* refPo
 
     Matrix_Translate(refPos->x + (3.3f * Math_SinS(this->actor.shape.rot.y)), refPos->y + height,
                      refPos->z + ((3.3f + (IREG(90) / 10.0f)) * Math_CosS(this->actor.shape.rot.y)), MTXMODE_NEW);
-    Matrix_RotateRPY(0, globalCtx->gameplayFrames * 1000, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(0, globalCtx->gameplayFrames * 1000, 0, MTXMODE_APPLY);
     Matrix_Scale(0.2f, 0.2f, 0.2f, MTXMODE_APPLY);
 
     GetItem_Draw(globalCtx, drawIdPlusOne - 1);
@@ -1115,7 +1116,7 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
 
         OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x07);
 
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp74, &sp68, &sp64);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &sp74, &sp68, &sp64);
 
         sp60 = (sp64 < 200.0f) ? 0.08f : (sp64 / 200.0f) * 0.08f;
 
@@ -1206,7 +1207,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             }
 
             Matrix_Translate(-428.26f, 267.2f, -33.82f, MTXMODE_APPLY);
-            Matrix_RotateRPY(-0x8000, 0, 0x4000, MTXMODE_APPLY);
+            Matrix_RotateZYX(-0x8000, 0, 0x4000, MTXMODE_APPLY);
             Matrix_Scale(1.0f, this->unk_85C, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2653),
@@ -1242,17 +1243,17 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & 0x200) {
                     Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
-                    Matrix_RotateRPY(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
+                    Matrix_RotateZYX(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&sp14C);
-                    func_800D20CC(&sp14C, &hookedActor->world.rot, 0);
+                    Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
                 } else if (this->stateFlags1 & 0x800) {
                     Vec3s spB8;
 
                     Matrix_Get(&sp14C);
-                    func_800D20CC(&sp14C, &spB8, 0);
+                    Matrix_MtxFToYXZRotS(&sp14C, &spB8, 0);
 
-                    if (hookedActor->flags & 0x20000) {
+                    if (hookedActor->flags & ACTOR_FLAG_17) {
                         hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
                     } else {
                         hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
@@ -1260,7 +1261,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 }
             } else {
                 Matrix_Get(&this->mf_9E0);
-                func_800D20CC(&this->mf_9E0, &this->unk_3BC, 0);
+                Matrix_MtxFToYXZRotS(&this->mf_9E0, &this->unk_3BC, 0);
             }
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
@@ -1298,7 +1299,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
             Matrix_Scale(1.0f, this->unk_858, 1.0f, MTXMODE_APPLY);
 
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Matrix_RotateZ(this->unk_858 * -0.2f, MTXMODE_APPLY);
             }
 
@@ -1324,9 +1325,9 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     s32 pad;
 
                     Matrix_MultVec3f(&D_80126190, &heldActor->world.pos);
-                    Matrix_RotateRPY(0, -0x4000, -0x4000, MTXMODE_APPLY);
+                    Matrix_RotateZYX(0, -0x4000, -0x4000, MTXMODE_APPLY);
                     Matrix_Get(&sp44);
-                    func_800D20CC(&sp44, &heldActor->world.rot, 0);
+                    Matrix_MtxFToYXZRotS(&sp44, &heldActor->world.rot, 0);
                     heldActor->shape.rot = heldActor->world.rot;
 
                     if (func_8002DD78(this) != 0) {
@@ -1358,7 +1359,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     func_80090604(globalCtx, this, &this->shieldQuad, D_8012619C);
                 }
 
-                Matrix_JointPosition(&D_801261CC, &D_801261D8);
+                Matrix_TranslateRotateZYX(&D_801261CC, &D_801261D8);
                 Matrix_Get(&this->shieldMf);
             }
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
@@ -1404,7 +1405,7 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     s32 dListOffset = 0;
     Gfx** dLists;
 
-    if ((modelGroup == 2) && LINK_IS_CHILD && (ptr[1] == 2)) {
+    if ((modelGroup == 2) && !LINK_IS_ADULT && (ptr[1] == 2)) {
         modelGroup = 1;
     }
 
@@ -1551,7 +1552,7 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, 
     gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + 0x3800);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(segment + 0x8800);
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         if (shield == PLAYER_SHIELD_DEKU) {
             srcTable = D_040020D0;
         } else {

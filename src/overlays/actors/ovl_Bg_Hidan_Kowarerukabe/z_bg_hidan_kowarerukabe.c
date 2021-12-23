@@ -9,9 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHidanKowarerukabe*)thisx)
+#define FLAGS 0
 
 typedef enum {
     /* 0 */ CRACKED_STONE_FLOOR,
@@ -113,14 +111,13 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKowarerukabe* this = THIS;
+    BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
 
     BgHidanKowarerukabe_InitDynaPoly(this, globalCtx);
 
     if (((this->dyna.actor.params & 0xFF) < CRACKED_STONE_FLOOR) ||
         ((this->dyna.actor.params & 0xFF) > LARGE_BOMBABLE_WALL)) {
-        // Translation: Error: Fire Temple Breakable Walls. arg_data I can't determine the (%s %d)(arg_data
-        // 0x%04x)
+        // "Error: Fire Temple Breakable Walls. arg_data I can't determine the (%s %d)(arg_data 0x%04x)"
         osSyncPrintf("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
                      "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
@@ -136,12 +133,12 @@ void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->dyna.actor, 0.1f);
     BgHidanKowarerukabe_InitColliderSphere(this, globalCtx);
     BgHidanKowarerukabe_OffsetActorYPos(this);
-    // Translation: (fire walls, floors, destroyed by bombs)(arg_data 0x%04x)
+    // "(fire walls, floors, destroyed by bombs)(arg_data 0x%04x)"
     osSyncPrintf("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgHidanKowarerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKowarerukabe* this = THIS;
+    BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -302,7 +299,7 @@ void BgHidanKowarerukabe_Break(BgHidanKowarerukabe* this, GlobalContext* globalC
 }
 
 void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKowarerukabe* this = THIS;
+    BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
     s32 pad;
 
     if (Actor_GetCollidedExplosive(globalCtx, &this->collider.base) != NULL) {
@@ -324,7 +321,7 @@ void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanKowarerukabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKowarerukabe* this = THIS;
+    BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_kowarerukabe.c", 565);
 

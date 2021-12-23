@@ -12,9 +12,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnHeishi2*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -86,7 +84,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
 
     Actor_SetScale(&this->actor, 0.01f);
     this->type = this->actor.params & 0xFF;
@@ -94,7 +92,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->type == 6) || (this->type == 9)) {
         this->actor.draw = EnHeishi2_DrawKingGuard;
-        this->actor.flags &= -2;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
         if (this->type == 6) {
             this->actionFunc = EnHeishi2_DoNothing1;
@@ -114,7 +112,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(globalCtx, &this->collider);
             func_8002DF54(globalCtx, 0, 8);
-            this->actor.flags |= 0x11;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
             this->actionFunc = func_80A544AC;
         }
     } else {
@@ -126,8 +124,8 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, collider);
         Collider_SetCylinder(globalCtx, collider, &this->actor, &sCylinderInit);
         this->collider.dim.yShift = 0;
-        this->collider.dim.radius = 0xF;
-        this->collider.dim.height = 0x46;
+        this->collider.dim.radius = 15;
+        this->collider.dim.height = 70;
         this->actor.targetMode = 6;
 
         switch (this->type) {
@@ -145,7 +143,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                 // "Peep hole soldier!"
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
                 Collider_DestroyCylinder(globalCtx, collider);
-                this->actor.flags &= -0xA;
+                this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
                 this->actionFunc = EnHeishi_DoNothing2;
                 break;
         }
@@ -162,7 +160,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
 
     if ((this->collider.dim.radius != 0) || (this->collider.dim.height != 0)) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -188,88 +186,85 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
     if (Text_GetFaceReaction(globalCtx, 5) != 0) {
         this->actor.textId = Text_GetFaceReaction(globalCtx, 5);
         this->unk_30B = 1;
-        this->unk_300 = 6;
+        this->unk_300 = TEXT_STATE_DONE;
         this->actionFunc = func_80A5475C;
     } else if ((gSaveContext.eventChkInf[0] & 0x200) && (gSaveContext.eventChkInf[2] & 0x20) &&
                (gSaveContext.eventChkInf[3] & 0x80)) {
         // "Get all spiritual stones!"
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" VT_RST);
-        this->unk_300 = 6;
-        this->actor.textId = 0x7006; // "There's a lot going on in the castle right now. I can't allow even..."
+        this->unk_300 = TEXT_STATE_DONE;
+        this->actor.textId = 0x7006;
         this->actionFunc = func_80A5475C;
-    } else if (gSaveContext.nightFlag != 0) {
+    } else if (!IS_DAY) {
         // "Sleep early for children!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
-        this->unk_300 = 6;
-        this->actor.textId = 0x7002; // "Welcome to Hyrule Castle Town. It's a peaceful, prosperous town."
+        this->unk_300 = TEXT_STATE_DONE;
+        this->actor.textId = 0x7002;
         this->actionFunc = func_80A5475C;
 
     } else if (this->unk_30C != 0) {
         // "Anything passes"
         osSyncPrintf(VT_FGCOL(BLUE) " ☆☆☆☆☆ なんでも通るよ ☆☆☆☆☆ \n" VT_RST);
-        this->unk_300 = 6;
-        this->actor.textId = 0x7099; // "KEEP IT A SECRET FROM EVERYONE"
+        this->unk_300 = TEXT_STATE_DONE;
+        this->actor.textId = 0x7099;
         this->actionFunc = func_80A5475C;
     } else if (gSaveContext.eventChkInf[1] & 4) {
         if (this->unk_30E == 0) {
             // "Start under the first sleeve!"
             osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
-            this->actor.textId = 0x7071; // "Do you really want to go through this gate that much?..."
+            this->actor.textId = 0x7071;
             this->unk_30E = 1;
         } else {
             // "Start under the second sleeve!"
             osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ ２回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
-            this->actor.textId = 0x7072; //  "Give me 10 Rupees...Yes...No"
+            this->actor.textId = 0x7072;
         }
-        this->unk_300 = 4;
+        this->unk_300 = TEXT_STATE_CHOICE;
         this->actionFunc = func_80A5475C;
 
     } else {
         // "That's okay"
         osSyncPrintf(VT_FGCOL(CYAN) " ☆☆☆☆☆ それはとおらんよぉ ☆☆☆☆☆ \n" VT_RST);
-        this->unk_300 = 6;
-        this->actor.textId = 0x7029; // "So you say you want to see Princess Zelda, eh?..."
+        this->unk_300 = TEXT_STATE_DONE;
+        this->actor.textId = 0x7029;
         this->actionFunc = func_80A5475C;
     }
 }
 
 void func_80A5344C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-        this->unk_300 = 5;
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+        this->unk_300 = TEXT_STATE_EVENT;
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 if (gSaveContext.rupees >= 10) {
                     Rupees_ChangeBy(-10);
-                    this->actor.textId = 0x7098; // "OK, I'll let you pass, quickly!"
+                    this->actor.textId = 0x7098;
                     this->actionFunc = func_80A53538;
                     break;
                 } else {
-                    this->actor.textId = 0x7097; // "Well, maybe that's too much for a kid to pay."
+                    this->actor.textId = 0x7097;
                     this->actionFunc = func_80A54954;
                     break;
                 }
             case 1:
-                this->actor.textId = 0x7096; // "Tsk tsk."
+                this->actor.textId = 0x7096;
                 this->actionFunc = func_80A54954;
                 break;
 
             default:
                 break;
         }
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
     }
 }
 
 void func_80A53538(EnHeishi2* this, GlobalContext* globalCtx) {
-
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
-            func_8002DF54(globalCtx, NULL, 8);
-            globalCtx->msgCtx.msgMode = 0x37;
-            this->actionFunc = func_80A535BC;
-        }
+    if (this->unk_300 == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+        func_8002DF54(globalCtx, NULL, 8);
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
+        this->actionFunc = func_80A535BC;
     }
 }
 
@@ -337,7 +332,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
     if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         this->unk_30C = 1;
         func_8002DF54(globalCtx, NULL, 7);
         this->actionFunc = func_80A531E4;
@@ -360,29 +355,28 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
         if (!(gSaveContext.infTable[7] & 0x80)) {
             if (Player_GetMask(globalCtx) == PLAYER_MASK_KEATON) {
                 if (this->unk_309 == 0) {
-                    this->actor.textId = 0x200A; // "Wha-ha-ha-hah! Do you think you're in disguise, Mr. Hero?"
+                    this->actor.textId = 0x200A;
                 } else {
-                    this->actor.textId = 0x200B; // "Will you sell it to me? Yes/No way"
+                    this->actor.textId = 0x200B;
                 }
-                this->unk_300 = 4;
+                this->unk_300 = TEXT_STATE_CHOICE;
                 this->unk_30B = 1;
                 var = 1;
             } else {
                 this->actor.textId = 0x2016;
-                // "I wish I could go to the mask shop in town to buy a present for my kid..sigh.."
-                this->unk_300 = 6;
+                this->unk_300 = TEXT_STATE_DONE;
                 var = 1;
             }
         } else {
-            this->actor.textId = 0x2020; // "My boy will be very happy with this!"
-            this->unk_300 = 5;
+            this->actor.textId = 0x2020;
+            this->unk_300 = TEXT_STATE_EVENT;
             this->unk_30E = 0;
         }
         if (Text_GetFaceReaction(globalCtx, 5) != 0) {
             if (var == 0) {
                 this->actor.textId = Text_GetFaceReaction(globalCtx, 5);
                 this->unk_30B = 1;
-                this->unk_300 = 6;
+                this->unk_300 = TEXT_STATE_DONE;
                 this->unk_30E = 0;
             }
         }
@@ -395,7 +389,7 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 exchangeItemId;
     s16 yawDiffTemp;
     s16 yawDiff;
@@ -404,18 +398,18 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     if (Text_GetFaceReaction(globalCtx, 5) != 0) {
         this->actor.textId = Text_GetFaceReaction(globalCtx, 5);
     } else {
-        this->actor.textId = 0x200E; // "The road is closed beyond this point! Can't you read..."
+        this->actor.textId = 0x200E;
     }
-    this->unk_300 = 6;
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    this->unk_300 = TEXT_STATE_DONE;
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         exchangeItemId = func_8002F368(globalCtx);
         if (exchangeItemId == EXCH_ITEM_LETTER_ZELDA) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-            player->actor.textId = 0x2010; // "Oh, this is...this is surely Princess Zelda's handwriting!"
-            this->unk_300 = 5;
+            player->actor.textId = 0x2010;
+            this->unk_300 = TEXT_STATE_EVENT;
             this->actionFunc = func_80A53C0C;
         } else if (exchangeItemId != EXCH_ITEM_NONE) {
-            player->actor.textId = 0x200F; // "I don't want that!"
+            player->actor.textId = 0x200F;
         }
     } else {
         yawDiffTemp = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
@@ -428,12 +422,10 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void func_80A53C0C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
-            func_8002DF54(globalCtx, 0, 8);
-            globalCtx->msgCtx.msgMode = 0x37;
-            this->actionFunc = func_80A53C90;
-        }
+    if ((this->unk_300 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        func_8002DF54(globalCtx, 0, 8);
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
+        this->actionFunc = func_80A53C90;
     }
 }
 
@@ -510,19 +502,19 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
         Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
         if ((this->unk_30A != 2)) {
             if (this->unk_30A == 0) {
-                this->actor.textId = 0x2015; // "By the way Mr. Hero..If you're going to climb Death Mountain..."
-                func_8010B720(globalCtx, this->actor.textId);
+                this->actor.textId = 0x2015;
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 this->actionFunc = func_80A54038;
             } else {
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 func_8002DF54(globalCtx, NULL, 7);
                 this->actionFunc = func_80A53908;
             }
         } else {
             this->unk_30E = 0;
-            this->actor.textId = 0x2021; // "You sold the 10-Rupee mask for 15 Rupees. You earned a little profit."
+            this->actor.textId = 0x2021;
             Rupees_ChangeBy(15);
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->actionFunc = func_80A5427C;
         }
     }
@@ -530,23 +522,21 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
-        if (func_80106BC8(globalCtx) != 0) {
-            gSaveContext.infTable[7] |= 0x40;
-            func_80106CCC(globalCtx);
-            func_8002DF54(globalCtx, 0, 7);
-            this->actionFunc = func_80A53908;
-        }
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        gSaveContext.infTable[7] |= 0x40;
+        Message_CloseTextbox(globalCtx);
+        func_8002DF54(globalCtx, 0, 7);
+        this->actionFunc = func_80A53908;
     }
 }
 
 void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
-                this->actor.textId = 0x2020; // "My boy will be very happy with this!.."
-                func_8010B720(globalCtx, this->actor.textId);
+                this->actor.textId = 0x2020;
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
                 Player_UnsetMask(globalCtx);
                 gSaveContext.infTable[7] |= 0x80;
                 gSaveContext.itemGetInf[3] |= 0x100;
@@ -562,9 +552,9 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
                 break;
             case 1:
                 this->unk_30E = 1;
-                this->actor.textId = 0x200C; // "I won't give up! I have plenty of patience.."
-                func_8010B720(globalCtx, this->actor.textId);
-                this->unk_300 = 5;
+                this->actor.textId = 0x200C;
+                Message_ContinueTextbox(globalCtx, this->actor.textId);
+                this->unk_300 = TEXT_STATE_EVENT;
                 if (this->unk_30A == 0) {
                     this->actionFunc = func_80A5427C;
                 } else {
@@ -576,25 +566,24 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        this->actor.textId = 0x2021; // "You sold the 10-Rupee mask for 15 Rupees. You earned a little profit. Let's
-                                     // go to the Mask Shop..."
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        this->actor.textId = 0x2021;
         Rupees_ChangeBy(15);
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->actionFunc = func_80A5427C;
     }
 }
 
 void func_80A5427C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         if (this->unk_30E == 0) {
             this->unk_30E = 0;
             this->unk_30A = this->unk_30E;
-            func_80106CCC(globalCtx);
+            Message_CloseTextbox(globalCtx);
             this->actionFunc = func_80A53908;
         } else {
-            globalCtx->msgCtx.msgMode = 0x37;
+            globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
             this->actionFunc = func_80A54320;
         }
     }
@@ -647,8 +636,8 @@ void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
     this->actor.world.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
-        func_8010B680(globalCtx, 0x708F, NULL);
-        this->actor.flags |= 0x10000;
+        Message_StartTextbox(globalCtx, 0x708F, NULL);
+        this->actor.flags |= ACTOR_FLAG_16;
         this->actionFunc = func_80A5455C;
         this->unk_2E4 = 0.0f;
     }
@@ -660,9 +649,9 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 rotY;
     EnBom* bomb;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         func_8002DF54(globalCtx, NULL, 7);
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
 
         pos.x = Rand_CenteredFloat(20.0f) + this->unk_274.x;
         pos.y = Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
@@ -674,7 +663,7 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
             bomb->actor.velocity.y = Rand_CenteredFloat(5.0f) + 10.0f;
         }
 
-        // This is down!
+        // "This is down!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" VT_RST);
         this->actionFunc = func_80A546DC;
     }
@@ -716,7 +705,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (this->type == 2) {
             if (this->unk_30E == 1) {
                 this->actionFunc = func_80A5344C;
@@ -726,15 +715,15 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
                 return;
             }
         } else if (this->type == 5) {
-            if (this->unk_300 == 6) {
+            if (this->unk_300 == TEXT_STATE_DONE) {
                 this->actionFunc = func_80A5399C;
             }
 
-            if (this->unk_300 == 5) {
+            if (this->unk_300 == TEXT_STATE_EVENT) {
                 this->actionFunc = func_80A54954;
             }
 
-            if (this->unk_300 == 4) {
+            if (this->unk_300 == TEXT_STATE_CHOICE) {
                 this->unk_309 = 1;
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 this->actionFunc = func_80A540C0;
@@ -760,22 +749,20 @@ void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
-            func_80106CCC(globalCtx);
-            if (this->type == 2) {
-                this->actionFunc = func_80A531E4;
-            }
-            if (this->type == 5) {
-                this->actionFunc = func_80A53908;
-            }
+    if (this->unk_300 == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
+        if (this->type == 2) {
+            this->actionFunc = func_80A531E4;
+        }
+        if (this->type == 5) {
+            this->actionFunc = func_80A53908;
         }
     }
 }
 
 void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
     s32 i;
 
     Actor_SetFocus(&this->actor, this->unk_2E0);
@@ -809,7 +796,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
 
     switch (this->type) {
         case 1:
@@ -830,7 +817,7 @@ s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
 
     if (limbIndex == 16) {
         Matrix_Get(&this->mtxf_330);
@@ -842,13 +829,13 @@ void EnHeishi2_DrawKingGuard(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &gHeishiKingGuardDL);
+    gSPDisplayList(POLY_OPA_DISP++, gHeishiKingGuardDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
 
 void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi2* this = THIS;
+    EnHeishi2* this = (EnHeishi2*)thisx;
     Mtx* mtx;
     s32 linkObjBankIndex;
 

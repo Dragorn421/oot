@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnFish*)thisx)
+#define FLAGS 0
 
 void EnFish_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -118,7 +116,7 @@ void EnFish_SetCutsceneData(EnFish* this) {
         thisx->shape.yOffset = 600.0f;
         D_80A17014 = 10.0f;
         D_80A17018 = 0.0f;
-        thisx->flags |= 0x10;
+        thisx->flags |= ACTOR_FLAG_4;
         EnFish_SetOutOfWaterAnimation(this);
     }
 }
@@ -130,7 +128,7 @@ void EnFish_ClearCutsceneData(EnFish* this) {
 }
 
 void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFish* this = THIS;
+    EnFish* this = (EnFish*)thisx;
     s16 params = this->actor.params;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -143,7 +141,7 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->fastPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);
 
     if (params == FISH_DROPPED) {
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
         EnFish_Dropped_SetupFall(this);
     } else if (params == FISH_SWIMMING_UNIQUE) {
@@ -155,7 +153,7 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnFish* this = THIS;
+    EnFish* this = (EnFish*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -167,7 +165,7 @@ void EnFish_SetYOffset(EnFish* this) {
 
 s32 EnFish_InBottleRange(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp1C;
 
     if (this->actor.xzDistToPlayer < 32.0f) {
@@ -321,7 +319,7 @@ void EnFish_Respawning_SetupApproachPlayer(EnFish* this) {
 
 void EnFish_Respawning_ApproachPlayer(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
     Vec3f sp38;
     s16 yaw;
@@ -387,7 +385,7 @@ void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
     } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) &&
                (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // BG missing? Running Actor_delete
+        // "BG missing? Running Actor_delete"
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
         osSyncPrintf(VT_RST);
         Actor_Kill(&this->actor);
@@ -475,7 +473,7 @@ void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx) {
 
 void EnFish_Dropped_SetupSwimAway(EnFish* this) {
     this->actor.home.pos = this->actor.world.pos;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->timer = 200;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
@@ -628,7 +626,7 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
     s32 bgId;
 
     if (csAction == NULL) {
-        // Warning : DEMO ended without dousa (action) 3 termination being called
+        // "Warning : DEMO ended without dousa (action) 3 termination being called"
         osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
                      1169, this->actor.params);
         EnFish_ClearCutsceneData(this);
@@ -647,13 +645,13 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
             EnFish_Cutscene_WiggleFlyingThroughAir(this, globalCtx);
             break;
         case 3:
-            // DEMO fish termination
+            // "DEMO fish termination"
             osSyncPrintf("デモ魚消滅\n");
             EnFish_ClearCutsceneData(this);
             Actor_Kill(&this->actor);
             return;
         default:
-            // Improper DEMO action
+            // "Improper DEMO action"
             osSyncPrintf("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200, this->actor.params);
             break;
     }
@@ -665,7 +663,7 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
     endPos.y = csAction->endPos.y;
     endPos.z = csAction->endPos.z;
 
-    progress = func_8006F93C(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
+    progress = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
 
     this->actor.world.pos.x = (endPos.x - startPos.x) * progress + startPos.x;
     this->actor.world.pos.y = (endPos.y - startPos.y) * progress + startPos.y + D_80A17014;
@@ -742,7 +740,7 @@ void EnFish_RespawningUpdate(EnFish* this, GlobalContext* globalCtx) {
 }
 
 void EnFish_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFish* this = THIS;
+    EnFish* this = (EnFish*)thisx;
 
     if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (globalCtx->csCtx.state != 0) &&
         (globalCtx->csCtx.npcActions[1] != NULL)) {
@@ -760,7 +758,7 @@ void EnFish_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnFish* this = THIS;
+    EnFish* this = (EnFish*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

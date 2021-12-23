@@ -4,6 +4,11 @@
 #include "textures/do_action_static/do_action_static.h"
 #include "textures/icon_item_static/icon_item_static.h"
 
+// TODO extract this information from the texture definitions themselves
+#define DO_ACTION_TEX_WIDTH 48
+#define DO_ACTION_TEX_HEIGHT 16
+#define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
+
 typedef struct {
     /* 0x00 */ u8 scene;
     /* 0x01 */ u8 flags1;
@@ -598,7 +603,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
 
 void func_80083108(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 i;
     s16 sp28 = 0;
@@ -700,7 +705,7 @@ void func_80083108(GlobalContext* globalCtx) {
                     gSaveContext.buttonStatus[3] = BTN_DISABLED;
                 Interface_ChangeAlpha(50);
             }
-        } else if (msgCtx->msgMode == 0) {
+        } else if (msgCtx->msgMode == MSGMODE_NONE) {
             if ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     sp28 = 1;
@@ -1068,7 +1073,7 @@ void Interface_SetSceneRestrictions(GlobalContext* globalCtx) {
 
     i = 0;
 
-    // Translates to: "Data settings related to button display scene_data_ID=%d\n"
+    // "Data settings related to button display scene_data_ID=%d\n"
     osSyncPrintf("ボタン表示関係データ設定 scene_data_ID=%d\n", globalCtx->sceneNum);
 
     do {
@@ -1319,8 +1324,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
-        // Translates to: "Seals = %x"
-        osSyncPrintf("封印 = %x\n", gSaveContext.inventory.questItems);
+        osSyncPrintf("封印 = %x\n", gSaveContext.inventory.questItems); // "Seals = %x"
         osSyncPrintf(VT_RST);
 
         if (item == ITEM_MEDALLION_WATER) {
@@ -1332,9 +1336,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
-        // Translates to: "Musical scores = %x"
-        osSyncPrintf("楽譜 = %x\n", gSaveContext.inventory.questItems);
-        // Translates to: "Musical scores = %x (%x) (%x)"
+        osSyncPrintf("楽譜 = %x\n", gSaveContext.inventory.questItems); // "Musical scores = %x"
+        // "Musical scores = %x (%x) (%x)"
         osSyncPrintf("楽譜 = %x (%x) (%x)\n", gSaveContext.inventory.questItems,
                      gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET], gBitFlags[item - ITEM_SONG_MINUET]);
         osSyncPrintf(VT_RST);
@@ -1344,8 +1347,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
-        // Translates to: "Spiritual Stones = %x"
-        osSyncPrintf("精霊石 = %x\n", gSaveContext.inventory.questItems);
+        osSyncPrintf("精霊石 = %x\n", gSaveContext.inventory.questItems); // "Spiritual Stones = %x"
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
@@ -1353,8 +1355,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
-        // Translates to: "Items = %x"
-        osSyncPrintf("アイテム = %x\n", gSaveContext.inventory.questItems);
+        osSyncPrintf("アイテム = %x\n", gSaveContext.inventory.questItems); // "Items = %x"
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
@@ -1363,7 +1364,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.inventory.gsTokens++;
 
         osSyncPrintf(VT_FGCOL(YELLOW));
-        // Translates to: "N Coins = %x(%d)"
+        // "N Coins = %x(%d)"
         osSyncPrintf("Ｎコイン = %x(%d)\n", gSaveContext.inventory.questItems, gSaveContext.inventory.gsTokens);
         osSyncPrintf(VT_RST);
 
@@ -1550,7 +1551,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
             Inventory_ChangeUpgrade(UPG_NUTS, 1);
             AMMO(ITEM_NUT) += sAmmoRefillCounts[item - ITEM_NUTS_5];
-            // Translates to: "Deku Nuts %d(%d)=%d BS_count=%d"
+            // "Deku Nuts %d(%d)=%d BS_count=%d"
             osSyncPrintf("デクの実 %d(%d)=%d  BS_count=%d\n", item, ITEM_NUTS_5, item - ITEM_NUTS_5,
                          sAmmoRefillCounts[item - ITEM_NUTS_5]);
         } else {
@@ -1561,7 +1562,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         }
         item = ITEM_NUT;
     } else if (item == ITEM_BOMB) {
-        // Translates to: "Bomb  Bomb  Bomb  Bomb Bomb   Bomb Bomb"
+        // "Bomb  Bomb  Bomb  Bomb Bomb   Bomb Bomb"
         osSyncPrintf(" 爆弾  爆弾  爆弾  爆弾 爆弾   爆弾 爆弾 \n");
         if ((AMMO(ITEM_BOMB) += 1) > CUR_CAPACITY(UPG_BOMB_BAG)) {
             AMMO(ITEM_BOMB) = CUR_CAPACITY(UPG_BOMB_BAG);
@@ -1667,8 +1668,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.health += 0x10;
         return ITEM_NONE;
     } else if (item == ITEM_HEART) {
-        // Translates to: "Recovery Heart"
-        osSyncPrintf("回復ハート回復ハート回復ハート\n");
+        osSyncPrintf("回復ハート回復ハート回復ハート\n"); // "Recovery Heart"
         Health_ChangeBy(globalCtx, 0x10);
         return item;
     } else if (item == ITEM_MAGIC_SMALL) {
@@ -1720,7 +1720,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
             for (i = 0; i < 4; i++) {
                 if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE) {
-                    // Translates to: "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
+                    // "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
                     osSyncPrintf("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
                                  gSaveContext.equips.cButtonSlots[0], gSaveContext.equips.cButtonSlots[1],
                                  gSaveContext.equips.cButtonSlots[2], temp + i, item);
@@ -1872,7 +1872,7 @@ u8 Item_CheckObtainability(u8 item) {
     } else if (item == ITEM_HEART) {
         return ITEM_HEART;
     } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
-        // Translates to: "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
+        // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
         osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", gSaveContext.infTable[25] & 0x100);
         if (!(gSaveContext.infTable[25] & 0x100)) {
             return ITEM_NONE;
@@ -1936,8 +1936,7 @@ s32 Inventory_ReplaceItem(GlobalContext* globalCtx, u16 oldItem, u16 newItem) {
     for (i = 0; i < ARRAY_COUNT(gSaveContext.inventory.items); i++) {
         if (gSaveContext.inventory.items[i] == oldItem) {
             gSaveContext.inventory.items[i] = newItem;
-            // Translates to: "Item Purge (%d)"
-            osSyncPrintf("アイテム消去(%d)\n", i);
+            osSyncPrintf("アイテム消去(%d)\n", i); // "Item Purge (%d)"
             for (i = 1; i < 4; i++) {
                 if (gSaveContext.equips.buttonItems[i] == oldItem) {
                     gSaveContext.equips.buttonItems[i] = newItem;
@@ -2020,8 +2019,7 @@ s32 Inventory_ConsumeFairy(GlobalContext* globalCtx) {
                     break;
                 }
             }
-            // Translates to: "Fairy Usage＝%d"
-            osSyncPrintf("妖精使用＝%d\n", bottleSlot);
+            osSyncPrintf("妖精使用＝%d\n", bottleSlot); // "Fairy Usage＝%d"
             gSaveContext.inventory.items[bottleSlot + i] = ITEM_BOTTLE;
             return 1;
         }
@@ -2038,30 +2036,32 @@ void func_80086D5C(s32* buf, u16 size) {
     }
 }
 
-void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 arg2) {
+void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 loadOffset) {
     static void* sDoActionTextures[] = { gAttackDoActionENGTex, gCheckDoActionENGTex };
 
-    if (action >= 0x1D) {
-        action = 0x0A;
+    if (action >= DO_ACTION_MAX) {
+        action = DO_ACTION_NONE;
     }
 
-    if (gSaveContext.language != 0) {
-        action += 0x1D;
+    if (gSaveContext.language != LANGUAGE_ENG) {
+        action += DO_ACTION_MAX;
     }
 
-    if (gSaveContext.language == 2) {
-        action += 0x1D;
+    if (gSaveContext.language == LANGUAGE_FRA) {
+        action += DO_ACTION_MAX;
     }
 
-    if ((action != 0x0A) && (action != 0x27) && (action != 0x44)) {
+    if ((action != DO_ACTION_NONE) && (action != DO_ACTION_MAX + DO_ACTION_NONE) &&
+        (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE)) {
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, OS_MESG_BLOCK);
-        DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + (arg2 * 0x180),
-                            (u32)_do_action_staticSegmentRomStart + (action * 0x180), 0x180, 0,
-                            &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
+        DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160,
+                            interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),
+                            (u32)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE), DO_ACTION_TEX_SIZE,
+                            0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
         osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
     } else {
         gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->doActionSegment);
-        func_80086D5C(SEGMENTED_TO_VIRTUAL(sDoActionTextures[arg2]), 0x180 / 4);
+        func_80086D5C(SEGMENTED_TO_VIRTUAL(sDoActionTextures[loadOffset]), DO_ACTION_TEX_SIZE / 4);
     }
 }
 
@@ -2105,20 +2105,20 @@ void Interface_SetNaviCall(GlobalContext* globalCtx, u16 naviCallState) {
 void Interface_LoadActionLabelB(GlobalContext* globalCtx, u16 action) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
-    if (gSaveContext.language != 0) {
-        action += 0x1D;
+    if (gSaveContext.language != LANGUAGE_ENG) {
+        action += DO_ACTION_MAX;
     }
 
-    if (gSaveContext.language == 2) {
-        action += 0x1D;
+    if (gSaveContext.language == LANGUAGE_FRA) {
+        action += DO_ACTION_MAX;
     }
 
     interfaceCtx->unk_1FC = action;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, OS_MESG_BLOCK);
-    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + 0x180,
-                        (u32)_do_action_staticSegmentRomStart + (action * 0x180), 0x180, 0, &interfaceCtx->loadQueue,
-                        NULL, "../z_parameter.c", 2228);
+    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE,
+                        (u32)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE), DO_ACTION_TEX_SIZE, 0,
+                        &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2228);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 
     interfaceCtx->unk_1FA = 1;
@@ -2128,7 +2128,7 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
     u16 heartCount;
     u16 healthLevel;
 
-    // Translates to: "＊＊＊＊＊ Fluctuation=%d (now=%d, max=%d) ＊＊＊"
+    // "＊＊＊＊＊ Fluctuation=%d (now=%d, max=%d) ＊＊＊"
     osSyncPrintf("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", healthChange, gSaveContext.health,
                  gSaveContext.healthCapacity);
 
@@ -2137,8 +2137,7 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
                                                    &D_801333E0, &D_801333E0, &D_801333E8);
     } else if ((gSaveContext.doubleDefense != 0) && (healthChange < 0)) {
         healthChange >>= 1;
-        // Translates to: "Heart decrease halved!!＝%d"
-        osSyncPrintf("ハート減少半分！！＝%d\n", healthChange);
+        osSyncPrintf("ハート減少半分！！＝%d\n", healthChange); // "Heart decrease halved!!＝%d"
     }
     // clang-format on
 
@@ -2161,7 +2160,7 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
         }
     }
 
-    // Translates to: "Life=%d ＊＊＊  %d ＊＊＊＊＊＊"
+    // "Life=%d ＊＊＊  %d ＊＊＊＊＊＊"
     osSyncPrintf("  ライフ=%d  ＊＊＊  %d  ＊＊＊＊＊＊\n", gSaveContext.health, healthLevel);
 
     if (gSaveContext.health <= 0) {
@@ -2181,7 +2180,7 @@ void Rupees_ChangeBy(s16 rupeeChange) {
 }
 
 void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
-    // Translates to: "Item = (%d)    Amount = (%d + %d)"
+    // "Item = (%d)    Amount = (%d + %d)"
     osSyncPrintf("アイテム = (%d)    数 = (%d + %d)  ", item, AMMO(item), ammoChange);
 
     if (item == ITEM_STICK) {
@@ -2236,8 +2235,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
         AMMO(ITEM_BEAN) += ammoChange;
     }
 
-    // Translates to: "Total = (%d)"
-    osSyncPrintf("合計 = (%d)\n", AMMO(item));
+    osSyncPrintf("合計 = (%d)\n", AMMO(item)); // "Total = (%d)"
 }
 
 void Magic_Fill(GlobalContext* globalCtx) {
@@ -2385,7 +2383,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                                        &D_801333E8);
             }
 
-            // Translates to: "Storage  MAGIC_NOW=%d (%d)"
+            // "Storage  MAGIC_NOW=%d (%d)"
             osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.unk_13F6);
             if (gSaveContext.magic >= gSaveContext.unk_13F6) {
                 gSaveContext.magic = gSaveContext.unk_13F6;
@@ -2454,9 +2452,9 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             break;
 
         case 7:
-            if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) && (msgCtx->msgMode == 0) &&
-                (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (globalCtx->sceneLoadFlag == 0) &&
-                (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {
+            if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
+                (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
+                (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
@@ -2642,8 +2640,9 @@ void func_80088B34(s16 arg0) {
 void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
     OPEN_DISPS(gfxCtx, "../z_parameter.c", 2820);
 
-    gDPLoadTextureBlock_4b(OVERLAY_DISP++, texture, G_IM_FMT_IA, 48, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(OVERLAY_DISP++, texture, G_IM_FMT_IA, DO_ACTION_TEX_WIDTH, DO_ACTION_TEX_HEIGHT, 0,
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                           G_TX_NOLOD);
 
     gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);
 
@@ -2654,7 +2653,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     static void* cUpLabelTextures[] = { gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpENGTex };
     static s16 startButtonLeftPos[] = { 132, 130, 130 };
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     s16 temp; // Used as both an alpha value and a button index
     s16 dxdy;
@@ -2709,13 +2708,13 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-            gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->doActionSegment + 0x300, G_IM_FMT_IA, 48, 16, 0,
-                                   G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                   G_TX_NOLOD, G_TX_NOLOD);
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE * 2, G_IM_FMT_IA,
+                                   DO_ACTION_TEX_WIDTH, DO_ACTION_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                                   G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
             dxdy = (1 << 10) / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
-            width = 48.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
-            height = 16.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            width = DO_ACTION_TEX_WIDTH / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            height = DO_ACTION_TEX_HEIGHT / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             gSPTextureRectangle(
                 OVERLAY_DISP++, R_START_LABEL_X(gSaveContext.language) << 2,
                 R_START_LABEL_Y(gSaveContext.language) << 2, (R_START_LABEL_X(gSaveContext.language) + width) << 2,
@@ -2869,8 +2868,6 @@ void Interface_DrawActionButton(GlobalContext* globalCtx) {
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
     Matrix_RotateX(interfaceCtx->unk_1F4 / 10000.0f, MTXMODE_APPLY);
 
-    if (1) {} // Necessary to match
-
     gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_parameter.c", 3177),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPVertex(OVERLAY_DISP++, &interfaceCtx->actionVtx[0], 4, 0);
@@ -2995,8 +2992,6 @@ void func_8008A994(InterfaceContext* interfaceCtx) {
     func_800AB2C4(&interfaceCtx->view);
 }
 
-#ifdef NON_MATCHING
-// mostly regalloc and minor ordering differences
 void Interface_Draw(GlobalContext* globalCtx) {
     static s16 magicArrowEffectsR[] = { 255, 100, 255 };
     static s16 magicArrowEffectsG[] = { 0, 100, 255 };
@@ -3020,7 +3015,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     MessageContext* msgCtx = &globalCtx->msgCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 svar1;
     s16 svar2;
     s16 svar3;
@@ -3134,9 +3129,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
         }
 
         svar2 = rupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
-        svar4 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
+        svar5 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
-        for (svar1 = 0, svar3 = 42; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
+        for (svar1 = 0, svar3 = 42; svar1 < svar5; svar1++, svar2++, svar3 += 8) {
             OVERLAY_DISP =
                 Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar2])), 8,
                               16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
@@ -3177,15 +3172,16 @@ void Interface_Draw(GlobalContext* globalCtx) {
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
 
-            gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->doActionSegment + 0x180, G_IM_FMT_IA, 48, 16, 0,
-                                   G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                   G_TX_NOLOD, G_TX_NOLOD);
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE, G_IM_FMT_IA,
+                                   DO_ACTION_TEX_WIDTH, DO_ACTION_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                                   G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
             R_B_LABEL_DD = (1 << 10) / (WREG(37 + gSaveContext.language) / 100.0f);
             gSPTextureRectangle(OVERLAY_DISP++, R_B_LABEL_X(gSaveContext.language) << 2,
-                                R_B_LABEL_Y(gSaveContext.language) << 2, (R_B_LABEL_X(gSaveContext.language) + 48) << 2,
-                                (R_B_LABEL_Y(gSaveContext.language) + 16) << 2, G_TX_RENDERTILE, 0, 0, R_B_LABEL_DD,
-                                R_B_LABEL_DD);
+                                R_B_LABEL_Y(gSaveContext.language) << 2,
+                                (R_B_LABEL_X(gSaveContext.language) + DO_ACTION_TEX_WIDTH) << 2,
+                                (R_B_LABEL_Y(gSaveContext.language) + DO_ACTION_TEX_HEIGHT) << 2, G_TX_RENDERTILE, 0, 0,
+                                R_B_LABEL_DD, R_B_LABEL_DD);
         }
 
         gDPPipeSync(OVERLAY_DISP++);
@@ -3252,12 +3248,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if ((interfaceCtx->unk_1EC < 2) || (interfaceCtx->unk_1EC == 3)) {
             Interface_DrawActionLabel(globalCtx->state.gfxCtx, interfaceCtx->doActionSegment);
         } else {
-            Interface_DrawActionLabel(globalCtx->state.gfxCtx, interfaceCtx->doActionSegment + 0x180);
+            Interface_DrawActionLabel(globalCtx->state.gfxCtx, interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE);
         }
 
         gDPPipeSync(OVERLAY_DISP++);
 
         func_8008A994(interfaceCtx);
+        svar3 = 16;
 
         if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 3)) {
             // Inventory Equip Effects
@@ -3266,12 +3263,12 @@ void Interface_Draw(GlobalContext* globalCtx) {
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
             gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
 
-            pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] = pauseCtx->equipAnimX / 10;
-            pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] =
-                pauseCtx->cursorVtx[16].v.ob[0] + WREG(90) / 10;
-            pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] = pauseCtx->equipAnimY / 10;
-            pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] =
-                pauseCtx->cursorVtx[16].v.ob[1] - WREG(90) / 10;
+            pauseCtx->cursorVtx[svar3].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] = svar2 = pauseCtx->equipAnimX / 10;
+            pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] = svar2 =
+                pauseCtx->cursorVtx[svar3].v.ob[0] + WREG(90) / 10;
+            pauseCtx->cursorVtx[svar3].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] = svar2 = pauseCtx->equipAnimY / 10;
+            pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] = svar2 =
+                pauseCtx->cursorVtx[svar3].v.ob[1] - WREG(90) / 10;
 
             if (pauseCtx->equipTargetItem < 0xBF) {
                 // Normal Equip (icon goes from the inventory slot to the C button when equipping it)
@@ -3289,13 +3286,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                 if ((pauseCtx->equipAnimAlpha > 0) && (pauseCtx->equipAnimAlpha < 255)) {
                     svar1 = (pauseCtx->equipAnimAlpha / 8) / 2;
-                    pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] =
+                    pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] = svar2 =
                         pauseCtx->cursorVtx[16].v.ob[0] - svar1;
-                    pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] =
+                    pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] = svar2 =
                         pauseCtx->cursorVtx[16].v.ob[0] + svar1 * 2 + 32;
-                    pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] =
+                    pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] = svar2 =
                         pauseCtx->cursorVtx[16].v.ob[1] + svar1;
-                    pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] =
+                    pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] = svar2 =
                         pauseCtx->cursorVtx[16].v.ob[1] - svar1 * 2 - 32;
                 }
 
@@ -3342,7 +3339,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                     G_TX_NOLOD, G_TX_NOLOD);
 
-                gSPTextureRectangle(OVERLAY_DISP++, (WREG(32) + 28) << 2, ZREG(15) << 2, (WREG(32) + 52) << 2,
+                gSPTextureRectangle(OVERLAY_DISP++, (svar5 + 28) << 2, ZREG(15) << 2, (svar5 + 52) << 2,
                                     (ZREG(15) + 16) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
                 // Score Counter
@@ -3367,7 +3364,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             }
         }
 
-        if ((gSaveContext.timer2State == 5) && (func_8010BDBC(&globalCtx->msgCtx) == 5)) {
+        if ((gSaveContext.timer2State == 5) && (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT)) {
             // Trade quest timer reached 0
             D_8015FFE6 = 40;
             gSaveContext.cutsceneIndex = 0;
@@ -3405,7 +3402,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         }
 
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
-            (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == 0) &&
+            (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_NONE) &&
             !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
@@ -3449,13 +3446,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     break;
                 case 3:
                 case 7:
-                    svar1 = (((void)0, gSaveContext.timerX[0]) - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] = ((void)0, gSaveContext.timerX[0]) - svar1;
+                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
+                    gSaveContext.timerX[0] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        svar1 = (((void)0, gSaveContext.timerY[0]) - 54) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
                     } else {
-                        svar1 = (((void)0, gSaveContext.timerY[0]) - 46) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
                     }
                     gSaveContext.timerY[0] -= svar1;
 
@@ -3486,7 +3483,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         }
                     }
 
-                    if ((gSaveContext.timer1State >= 3) && (msgCtx->unk_E300 == 0)) {
+                    if ((gSaveContext.timer1State >= 3) && (msgCtx->msgLength == 0)) {
                         D_8015FFE0--;
                         if (D_8015FFE0 == 0) {
                             if (gSaveContext.timer1Value != 0) {
@@ -3520,15 +3517,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     }
                     break;
                 case 13:
-                    svar1 = (((void)0, gSaveContext.timerX[0]) - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] = ((void)0, gSaveContext.timerX[0]) - svar1;
+                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
+                    gSaveContext.timerX[0] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
                         svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
                     } else {
                         svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
                     }
-                    gSaveContext.timerY[0] = ((void)0, gSaveContext.timerY[0]) - svar1;
+                    gSaveContext.timerY[0] -= svar1;
 
                     D_8015FFE2--;
                     if (D_8015FFE2 == 0) {
@@ -3574,7 +3571,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         gSaveContext.timerX[1] = 140;
                         gSaveContext.timerY[1] = 80;
 
-                        if (gSaveContext.timer2State <= 7) {
+                        if (gSaveContext.timer2State < 7) {
                             gSaveContext.timer2State = 2;
                         } else {
                             gSaveContext.timer2State = 8;
@@ -3594,7 +3591,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             D_8015FFE6 = 20;
                             D_8015FFE4 = 20;
                             gSaveContext.timerX[1] = 140;
-                            gSaveContext.timerX[1] = 80;
+                            gSaveContext.timerY[1] = 80;
                             if (gSaveContext.timer2State == 1) {
                                 gSaveContext.timer2State = 2;
                             } else {
@@ -3615,18 +3612,17 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             break;
                         case 3:
                         case 9:
-                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n", gSaveContext.timerX[1],
-                                         gSaveContext.timerY[1], gSaveContext.timer2Value);
-
-                            svar1 = (((void)0, gSaveContext.timerX[1]) - 26) / D_8015FFE6;
-                            gSaveContext.timerX[1] = ((void)0, gSaveContext.timerX[1]) - svar1;
-
+                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n",
+                                         svar5 = gSaveContext.timerX[1], svar2 = gSaveContext.timerY[1],
+                                         gSaveContext.timer2Value);
+                            svar1 = (gSaveContext.timerX[1] - 26) / D_8015FFE6;
+                            gSaveContext.timerX[1] -= svar1;
                             if (gSaveContext.healthCapacity > 0xA0) {
-                                svar1 = (((void)0, gSaveContext.timerY[1]) - 54) / D_8015FFE6;
+                                svar1 = (gSaveContext.timerY[1] - 54) / D_8015FFE6;
                             } else {
-                                svar1 = (((void)0, gSaveContext.timerY[1]) - 46) / D_8015FFE6;
+                                svar1 = (gSaveContext.timerY[1] - 46) / D_8015FFE6;
                             }
-                            gSaveContext.timerY[1] = ((void)0, gSaveContext.timerY[1]) - svar1;
+                            gSaveContext.timerY[1] -= svar1;
 
                             D_8015FFE6--;
                             if (D_8015FFE6 == 0) {
@@ -3672,11 +3668,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                                 D_8015FFE6 = 40;
                                                 gSaveContext.timer2State = 5;
                                                 gSaveContext.cutsceneIndex = 0;
-                                                func_8010B680(globalCtx, 0x71B0, NULL);
+                                                Message_StartTextbox(globalCtx, 0x71B0, NULL);
                                                 func_8002DF54(globalCtx, NULL, 8);
                                             } else {
                                                 D_8015FFE6 = 40;
-                                                gSaveContext.timer2State = 7;
+                                                gSaveContext.timer2State = 6;
                                             }
                                         } else if (gSaveContext.timer2Value > 60) {
                                             if (timerDigits[4] == 1) {
@@ -3696,7 +3692,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                         gSaveContext.timer2Value++;
                                         if (gSaveContext.eventInf[1] & 1) {
                                             if (gSaveContext.timer2Value == 240) {
-                                                func_8010B680(globalCtx, 0x6083, NULL);
+                                                Message_StartTextbox(globalCtx, 0x6083, NULL);
                                                 gSaveContext.eventInf[1] &= ~1;
                                                 gSaveContext.timer2State = 0;
                                             }
@@ -3722,7 +3718,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
             if (((gSaveContext.timer1State != 0) && (gSaveContext.timer1State != 10)) ||
                 (gSaveContext.timer2State != 0)) {
-                timerDigits[0] = timerDigits[1] = timerDigits[3] = 0;
+                timerDigits[0] = timerDigits[1] = svar2 = timerDigits[3] = 0;
                 timerDigits[2] = 10; // digit 10 is used as ':' (colon)
 
                 if (gSaveContext.timer1State != 0) {
@@ -3749,13 +3745,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                 gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
+                svar5 = gSaveContext.timerX[svar6];
+                svar2 = gSaveContext.timerY[svar6];
                 OVERLAY_DISP =
-                    Gfx_TextureIA8(OVERLAY_DISP, gClockIconTex, 16, 16, ((void)0, gSaveContext.timerX[svar6]),
-                                   ((void)0, gSaveContext.timerY[svar6]) + 2, 16, 16, 1 << 10, 1 << 10);
+                    Gfx_TextureIA8(OVERLAY_DISP, gClockIconTex, 16, 16, svar5, svar2 + 2, 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
                 gDPPipeSync(OVERLAY_DISP++);
-                gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+                gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
+                                  TEXEL0, 0, PRIMITIVE, 0);
 
                 if (gSaveContext.timer1State != 0) {
                     if ((gSaveContext.timer1Value < 10) && (gSaveContext.timer1State < 11)) {
@@ -3772,11 +3770,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 }
 
                 for (svar1 = 0; svar1 < 5; svar1++) {
-                    OVERLAY_DISP =
+                    // clang-format off
+                    svar5 = gSaveContext.timerX[svar6]; OVERLAY_DISP =
                         Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
-                                      ((void)0, gSaveContext.timerX[svar6]) + timerDigitLeftPos[svar1],
-                                      ((void)0, gSaveContext.timerY[svar6]), digitWidth[svar1], VREG(42), VREG(43) << 1,
+                                      svar5 + timerDigitLeftPos[svar1],
+                                      svar2 = gSaveContext.timerY[svar6], digitWidth[svar1], VREG(42), VREG(43) << 1,
                                       VREG(43) << 1);
+                    // clang-format on
                 }
             }
         }
@@ -3795,55 +3795,34 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 4269);
 }
-#else
-static s16 magicArrowEffectsR[] = { 255, 100, 255 };
-static s16 magicArrowEffectsG[] = { 0, 100, 255 };
-static s16 magicArrowEffectsB[] = { 0, 255, 100 };
-static s16 timerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
-static s16 digitWidth[] = { 9, 9, 8, 9, 9 };
-// unused, most likely colors
-static s16 D_80125B1C[][3] = {
-    { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
-};
-static s16 rupeeDigitsFirst[] = { 1, 0, 0 };
-static s16 rupeeDigitsCount[] = { 2, 3, 3 };
-static s16 spoilingItemEntrances[] = { 0x01AD, 0x0153, 0x0153 };
-static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
-static s16 D_80125B5C[] = { 91, 91 };         // unused
-static s16 D_8015FFE0;
-static s16 D_8015FFE2;
-static s16 D_8015FFE4;
-static s16 D_8015FFE6;
-static s16 timerDigits[5];
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_Draw.s")
-#endif
 
 void Interface_Update(GlobalContext* globalCtx) {
     static u8 D_80125B60 = 0;
-    static s16 D_80125B64 = 0;
+    static s16 sPrevTimeIncrement = 0;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 alpha;
     s16 alpha1;
     u16 action;
-    Input* input = &globalCtx->state.input[2];
+    Input* debugInput = &globalCtx->state.input[2];
 
-    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT)) {
-        gSaveContext.language = 0;
+    if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
+        gSaveContext.language = LANGUAGE_ENG;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_BTN_ALL(input->press.button, BTN_DUP)) {
-        gSaveContext.language = 1;
+    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DUP)) {
+        gSaveContext.language = LANGUAGE_GER;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_BTN_ALL(input->press.button, BTN_DRIGHT)) {
-        gSaveContext.language = 2;
+    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DRIGHT)) {
+        gSaveContext.language = LANGUAGE_FRA;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     }
 
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0)) {
         if ((gSaveContext.minigameState == 1) || (gSaveContext.sceneSetupIndex < 4) ||
             ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.sceneSetupIndex == 4))) {
-            if ((msgCtx->msgMode == 0) || ((msgCtx->msgMode != 0) && (globalCtx->sceneNum == SCENE_BOWLING))) {
+            if ((msgCtx->msgMode == MSGMODE_NONE) ||
+                ((msgCtx->msgMode != MSGMODE_NONE) && (globalCtx->sceneNum == SCENE_BOWLING))) {
                 if (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) {
                     func_80083108(globalCtx);
                 }
@@ -3983,7 +3962,7 @@ void Interface_Update(GlobalContext* globalCtx) {
     HealthMeter_Update(globalCtx);
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
-        (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
+        (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
         (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
@@ -3993,7 +3972,7 @@ void Interface_Update(GlobalContext* globalCtx) {
                 gSaveContext.rupees++;
                 Audio_PlaySoundGeneral(NA_SE_SY_RUPY_COUNT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
-                // Translates to: "Rupee Amount MAX = %d"
+                // "Rupee Amount MAX = %d"
                 osSyncPrintf("ルピー数ＭＡＸ = %d\n", CUR_CAPACITY(UPG_WALLET));
                 gSaveContext.rupees = CUR_CAPACITY(UPG_WALLET);
                 gSaveContext.rupeeAccumulator = 0;
@@ -4033,8 +4012,8 @@ void Interface_Update(GlobalContext* globalCtx) {
                 interfaceCtx->unk_1EC = 0;
                 interfaceCtx->unk_1EE = interfaceCtx->unk_1F0;
                 action = interfaceCtx->unk_1EE;
-                if ((action == 0x1D) || (action == 0x1E)) {
-                    action = 0xA;
+                if ((action == DO_ACTION_MAX) || (action == DO_ACTION_MAX + 1)) {
+                    action = DO_ACTION_NONE;
                 }
                 Interface_LoadActionLabel(interfaceCtx, action, 0);
             }
@@ -4053,8 +4032,8 @@ void Interface_Update(GlobalContext* globalCtx) {
                 interfaceCtx->unk_1EC = 0;
                 interfaceCtx->unk_1EE = interfaceCtx->unk_1F0;
                 action = interfaceCtx->unk_1EE;
-                if ((action == 0x1D) || (action == 0x1E)) {
-                    action = 0xA;
+                if ((action == DO_ACTION_MAX) || (action == DO_ACTION_MAX + 1)) {
+                    action = DO_ACTION_NONE;
                 }
                 Interface_LoadActionLabel(interfaceCtx, action, 0);
             }
@@ -4063,16 +4042,15 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     WREG(7) = interfaceCtx->unk_1F4;
 
-    if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) && (msgCtx->msgMode == 0) &&
-        (globalCtx->sceneLoadFlag == 0) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
-        (globalCtx->transitionMode == 0) &&
+    if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
+        (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->sceneLoadFlag == 0) &&
+        (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (globalCtx->transitionMode == 0) &&
         ((globalCtx->csCtx.state == CS_STATE_IDLE) || !Player_InCsMode(globalCtx))) {
         if ((gSaveContext.magicAcquired != 0) && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.doubleMagic + 1;
             gSaveContext.unk_13F0 = 8;
             osSyncPrintf(VT_FGCOL(YELLOW));
-            // Translates to: "Magic Start!!!!!!!!!"
-            osSyncPrintf("魔法スター─────ト！！！！！！！！！\n");
+            osSyncPrintf("魔法スター─────ト！！！！！！！！！\n"); // "Magic Start!!!!!!!!!"
             osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.magicLevel);
             osSyncPrintf("MAGIC_NOW=%d\n", gSaveContext.magic);
             osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.unk_13F6);
@@ -4130,31 +4108,34 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    if (gSaveContext.unk_1422 != 0) {
-        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.unk_1422 == 1)) {
-            globalCtx->msgCtx.unk_E3EE = 4;
+    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
+        // exit out of ocarina mode after suns song finishes playing
+        if ((msgCtx->ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE) &&
+            (gSaveContext.sunsSongState == SUNSSONG_START)) {
+            globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         }
 
-        if (globalCtx->envCtx.unk_02 != 0) {
-            if (gSaveContext.unk_1422 != 2) {
+        // handle suns song in areas where time moves
+        if (globalCtx->envCtx.timeIncrement != 0) {
+            if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
                 D_80125B60 = 0;
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
                     D_80125B60 = 1;
                 }
 
-                gSaveContext.unk_1422 = 2;
-                D_80125B64 = D_8011FB40;
-                D_8011FB40 = 400;
+                gSaveContext.sunsSongState = SUNSSONG_SPEED_TIME;
+                sPrevTimeIncrement = gTimeIncrement;
+                gTimeIncrement = 400;
             } else if (D_80125B60 == 0) {
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
-                    gSaveContext.unk_1422 = 0;
-                    D_8011FB40 = D_80125B64;
-                    globalCtx->msgCtx.unk_E3EE = 4;
+                    gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+                    gTimeIncrement = sPrevTimeIncrement;
+                    globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 }
             } else if (gSaveContext.dayTime > 0xC001) {
-                gSaveContext.unk_1422 = 0;
-                D_8011FB40 = D_80125B64;
-                globalCtx->msgCtx.unk_E3EE = 4;
+                gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+                gTimeIncrement = sPrevTimeIncrement;
+                globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
             if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xC001)) {
@@ -4177,12 +4158,12 @@ void Interface_Update(GlobalContext* globalCtx) {
             gSaveContext.respawnFlag = -2;
             globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
             globalCtx->sceneLoadFlag = 0x14;
-            gSaveContext.unk_1422 = 0;
+            gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
             func_800F6964(30);
-            gSaveContext.seqIndex = 0xFF;
-            gSaveContext.nightSeqIndex = 0xFF;
+            gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+            gSaveContext.natureAmbienceId = 0xFF;
         } else {
-            gSaveContext.unk_1422 = 3;
+            gSaveContext.sunsSongState = SUNSSONG_SPECIAL;
         }
     }
 }

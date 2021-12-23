@@ -6,10 +6,9 @@
 
 #include "z_bg_po_syokudai.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_syokudai/object_syokudai.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgPoSyokudai*)thisx)
+#define FLAGS 0
 
 typedef enum {
     POE_FLAME_PURPLE, // Meg
@@ -75,10 +74,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-extern Gfx D_060003A0[];
-
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -123,7 +120,7 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -134,7 +131,7 @@ void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     s32 pad;
 
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -146,7 +143,7 @@ void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     f32 lightBrightness;
     u8 red;
     u8 green;
@@ -157,7 +154,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_060003A0);
+    gSPDisplayList(POLY_OPA_DISP++, gGoldenTorchDL);
 
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Color_RGBA8* primColor = &sPrimColors[this->flameColor];
@@ -180,7 +177,8 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, envColor->r, envColor->g, envColor->b, 255);
 
         Matrix_Translate(0.0f, 52.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) * (M_PI / 0x8000),
+        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000) *
+                           (M_PI / 0x8000),
                        MTXMODE_APPLY);
         Matrix_Scale(0.0027f, 0.0027f, 0.0027f, MTXMODE_APPLY);
 

@@ -1,11 +1,10 @@
 #include "z_demo_du.h"
 #include "objects/object_du/object_du.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((DemoDu*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef void (*DemoDuActionFunc)(DemoDu*, GlobalContext*);
 typedef void (*DemoDuDrawFunc)(Actor*, GlobalContext*);
@@ -19,9 +18,9 @@ static s32 sUnused = 0;
 
 #include "z_demo_du_cutscene_data.c" EARLY
 
-static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
-static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
-                                 gDaruniaMouthHappyTex };
+static void* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
+static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
+                                  gDaruniaMouthHappyTex };
 
 /**
  * Cs => Cutscene
@@ -40,7 +39,7 @@ static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningT
 #define CS_CREDITS_SUBSCENE(x) (24 + (x))           // DEMO_DU_CS_CREDITS
 
 void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -171,12 +170,13 @@ void DemoDu_CsFireMedallion_SpawnDoorWarp(DemoDu* this, GlobalContext* globalCtx
     f32 posY = this->actor.world.pos.y;
     f32 posZ = this->actor.world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 // Gives the Fire Medallion to Link.
 void func_80969F38(DemoDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 80.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -195,7 +195,7 @@ void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, GlobalContext* globalCtx) 
     s32 pad[2];
 
     if ((gSaveContext.chamberCutsceneNum == 1) && (gSaveContext.sceneSetupIndex < 4)) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(1);
         globalCtx->csCtx.segment = D_8096C1A4;
@@ -316,7 +316,7 @@ void DemoDu_CsPlaySfx_DaruniaFalling(GlobalContext* globalCtx) {
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
 void DemoDu_CsPlaySfx_DaruniaHitsLink(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
@@ -333,7 +333,7 @@ void DemoDu_CsPlaySfx_HitBreast(DemoDu* this) {
 // Sfx played when Link is escaping from the gorons at the end of the scene.
 void DemoDu_CsPlaySfx_LinkEscapeFromGorons(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 1400) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -344,7 +344,7 @@ void DemoDu_CsPlaySfx_LinkEscapeFromGorons(GlobalContext* globalCtx) {
 // Sfx played when Link is surprised by Darunia falling from the sky.
 void DemoDu_CsPlaySfx_LinkSurprised(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 174) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -394,7 +394,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
     if (Animation_OnFrame(&this->skelAnime, 31.0f) || Animation_OnFrame(&this->skelAnime, 41.0f)) {
         s32 pad[2];
         s32 i;
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         Vec3f* headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
         Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         Vec3f accel = { 0.0f, 0.3f, 0.0f };
@@ -444,7 +444,7 @@ void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, GlobalContext* globalCtx) 
         Vec3f* pos = &this->actor.world.pos;
 
         if (npcAction != NULL) {
-            f32 traveledPercent = func_8006F93C(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
+            f32 traveledPercent = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
 
             startPos.x = npcAction->startPos.x;
             startPos.y = npcAction->startPos.y;
@@ -504,8 +504,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo04(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo05(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(5);
     }
 }
@@ -524,8 +524,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo06(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo07(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(7);
     }
 }
@@ -552,8 +552,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo09(DemoDu* this, s32 animFinished) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo10(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(10);
     }
 }
@@ -584,7 +584,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo13(DemoDu* this, GlobalContext* globalCtx) {
 
         if ((npcAction != NULL) && (npcAction->action != 6)) {
             Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
-                             0, 0.0f);
+                             ANIMMODE_LOOP, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(13);
         }
     }
@@ -703,7 +703,7 @@ void DemoDu_InitCs_AfterGanon(DemoDu* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&gDaruniaSageFormationAnim);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDaruniaSkel, NULL, NULL, NULL, 0);
-    Animation_Change(&this->skelAnime, &gDaruniaSageFormationAnim, 1.0f, 0.0f, lastFrame, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gDaruniaSageFormationAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
     this->actor.shape.shadowAlpha = 0;
 }
@@ -796,12 +796,12 @@ void DemoDu_UpdateCs_AG_02(DemoDu* this, GlobalContext* globalCtx) {
 // Similar to DemoDu_Draw_01, but this uses POLY_XLU_DISP. Also uses this->shadowAlpha for setting the env color.
 void DemoDu_Draw_02(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTexture = sEyeTextures[eyeTexIndex];
+    void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    u64* mouthTexture = sMouthTextures[mouthTexIndex];
+    void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du_inKenjyanomaDemo02.c", 275);
@@ -810,7 +810,7 @@ void DemoDu_Draw_02(Actor* thisx, GlobalContext* globalCtx2) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTexture));
-    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&gDaruniaNoseSeriousTex));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(gDaruniaNoseSeriousTex));
 
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->shadowAlpha);
 
@@ -898,7 +898,7 @@ void DemoDu_CsCredits_HandleSubscenesByNpcAction(DemoDu* this, GlobalContext* gl
                     DemoDu_CsCredits_AdvanceTo04(this);
                     break;
                 default:
-                    // Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!
+                    // "Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!"
                     osSyncPrintf("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -952,10 +952,10 @@ static DemoDuActionFunc sUpdateFuncs[] = {
 };
 
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
-        // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -963,7 +963,7 @@ void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     switch (this->actor.params) {
@@ -991,12 +991,12 @@ void DemoDu_Draw_NoDraw(Actor* thisx, GlobalContext* globalCtx2) {
 // Similar to DemoDu_Draw_02, but this uses POLY_OPA_DISP. Sets the env color to 255.
 void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTexture = sEyeTextures[eyeTexIndex];
+    void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    u64* mouthTexture = sMouthTextures[mouthTexIndex];
+    void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 615);
@@ -1005,7 +1005,7 @@ void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTexture));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&gDaruniaNoseSeriousTex));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(gDaruniaNoseSeriousTex));
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
@@ -1024,10 +1024,10 @@ static DemoDuDrawFunc sDrawFuncs[] = {
 };
 
 void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     if (this->drawIndex < 0 || this->drawIndex >= 3 || sDrawFuncs[this->drawIndex] == NULL) {
-        // The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
+        // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

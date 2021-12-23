@@ -1,3 +1,4 @@
+
 /*
  * File: z_bg_spot18_obj.c
  * Overlay: ovl_Bg_Spot18_Obj
@@ -5,10 +6,9 @@
  */
 
 #include "z_bg_spot18_obj.h"
+#include "objects/object_spot18_obj/object_spot18_obj.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgSpot18Obj*)thisx)
+#define FLAGS 0
 
 void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -49,12 +49,9 @@ static f32 D_808B90F4[] = {
     0.1f,
 };
 
-extern CollisionHeader D_06002FE4;
-extern CollisionHeader D_0600261C;
-
 static CollisionHeader* D_808B90FC[] = {
-    &D_06002FE4,
-    &D_0600261C,
+    &gGoronCityStatueCol,
+    &gGoronCityStatueSpearCol,
 };
 
 static u32 D_808B9104[] = {
@@ -70,7 +67,7 @@ static BgSpot18ObjInitFunc D_808B910C[] = {
 };
 
 static InitChainEntry sInitChain1[] = {
-    ICHAIN_F32(minVelocityY, 65526, ICHAIN_CONTINUE),     ICHAIN_F32(gravity, 65532, ICHAIN_CONTINUE),
+    ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),       ICHAIN_F32(gravity, -4, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
 };
@@ -86,12 +83,9 @@ static BgSpot18ObjInitFunc D_808B913C[] = {
     func_808B8C90,
 };
 
-extern Gfx D_06002BC0[];
-extern Gfx D_06002370[];
-
 static Gfx(*sDlists[]) = {
-    D_06002BC0,
-    D_06002370,
+    gGoronCityStatueDL,
+    gGoronCityStatueSpearDL,
 };
 
 s32 func_808B8910(BgSpot18Obj* this, GlobalContext* globalCtx) {
@@ -186,7 +180,7 @@ s32 func_808B8CC8(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Obj* this = THIS;
+    BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     osSyncPrintf("Spot18 Object [arg_data : 0x%04x]\n", this->dyna.actor.params);
     if (!func_808B8B38(this, globalCtx)) {
@@ -197,7 +191,7 @@ void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Obj* this = THIS;
+    BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -214,7 +208,7 @@ void func_808B8DDC(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void func_808B8E20(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
@@ -249,7 +243,7 @@ void func_808B8EE0(BgSpot18Obj* this) {
 
 void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_StepToF(&this->dyna.actor.speedXZ, 1.2f, 0.1f);
     Actor_MoveForward(&this->dyna.actor);
@@ -279,7 +273,7 @@ void func_808B9040(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Obj* this = THIS;
+    BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     if (this->unk_168 > 0) {
         this->unk_168 -= 1;

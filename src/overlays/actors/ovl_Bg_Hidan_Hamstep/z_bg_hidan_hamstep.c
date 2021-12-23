@@ -7,9 +7,7 @@
 #include "z_bg_hidan_hamstep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHidanHamstep*)thisx)
+#define FLAGS 0
 
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -95,14 +93,14 @@ void BgHidanHamstep_SetupAction(BgHidanHamstep* this, s32 action) {
     this->actionFunc = sActionFuncs[action];
 }
 
-s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx) {
+s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx2) {
     BgHidanHamstep* step = this;
     s32 i;
     Vec3f pos;
     f32 sin;
     f32 cos;
     s16 params;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
     pos = pos; // Required to match
     pos.y = this->dyna.actor.home.pos.y - 100.0f;
@@ -113,11 +111,11 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx)
         pos.x = (((i * 160.0f) + 60.0f) * sin) + this->dyna.actor.home.pos.x;
         pos.z = (((i * 160.0f) + 60.0f) * cos) + this->dyna.actor.home.pos.z;
 
-        params = ((i + 1) & 0xFF);
+        params = (i + 1) & 0xFF;
         params |= (this->dyna.actor.params & 0xFF00);
 
         step = (BgHidanHamstep*)Actor_SpawnAsChild(
-            &globalCtx2->actorCtx, &step->dyna.actor, globalCtx2, ACTOR_BG_HIDAN_HAMSTEP, pos.x, pos.y, pos.z,
+            &globalCtx->actorCtx, &step->dyna.actor, globalCtx, ACTOR_BG_HIDAN_HAMSTEP, pos.x, pos.y, pos.z,
             this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, params);
 
         if (step == NULL) {
@@ -128,7 +126,7 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx)
 }
 
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanHamstep* this = THIS;
+    BgHidanHamstep* this = (BgHidanHamstep*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
     Vec3f sp48[3];
@@ -180,12 +178,12 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.minVelocityY = -12.0f;
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
-        // Translation: Fire Temple Object [Hammer Step] appears
+        // "Fire Temple Object [Hammer Step] appears"
         osSyncPrintf("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n");
         if (BgHidanHamstep_SpawnChildren(this, globalCtx) == 0) {
             step = this;
 
-            // Translation: [Hammer Step] I can't create a step!
+            // "[Hammer Step] I can't create a step!"
             osSyncPrintf("【ハンマーステップ】 足場産れない！！\n");
             osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 425);
 
@@ -198,7 +196,7 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanHamstep* this = THIS;
+    BgHidanHamstep* this = (BgHidanHamstep*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
@@ -310,7 +308,7 @@ void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx) {
             if (1) {}
 
             if (this->unk_244 == 1) {
-                quakeIndex = Quake_Add(ACTIVE_CAM, 3);
+                quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
                 Quake_SetSpeed(quakeIndex, -15536);
                 Quake_SetQuakeValues(quakeIndex, 0, 0, 500, 0);
                 Quake_SetCountdown(quakeIndex, 20);
@@ -349,7 +347,7 @@ void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx) {
     func_80888694(this, (BgHidanHamstep*)this->dyna.actor.parent);
 
     if (((this->dyna.actor.params & 0xFF) <= 0) || ((this->dyna.actor.params & 0xFF) >= 6)) {
-        // Translation: [Hammer Step] arg_data strange (arg_data = %d)
+        // "[Hammer Step] arg_data strange (arg_data = %d)"
         osSyncPrintf("【ハンマーステップ】 arg_data おかしい (arg_data = %d)", this->dyna.actor.params);
         osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 696);
     }
@@ -369,7 +367,7 @@ void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx) {
             if (1) {}
 
             if (this->unk_244 == 1) {
-                quakeIndex = Quake_Add(ACTIVE_CAM, 3);
+                quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
                 Quake_SetSpeed(quakeIndex, -15536);
                 Quake_SetQuakeValues(quakeIndex, 20, 1, 0, 0);
                 Quake_SetCountdown(quakeIndex, 7);
@@ -392,7 +390,7 @@ void BgHidanHamstep_DoNothing(BgHidanHamstep* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanHamstep_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanHamstep* this = THIS;
+    BgHidanHamstep* this = (BgHidanHamstep*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

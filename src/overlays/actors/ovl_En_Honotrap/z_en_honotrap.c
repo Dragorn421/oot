@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnHonotrap*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 #define HONOTRAP_AT_ACTIVE (1 << 0)
 #define HONOTRAP_AC_ACTIVE (1 << 1)
@@ -156,7 +154,7 @@ void EnHonotrap_GetNormal(Vec3f* normal, Vec3f* vec) {
 
 void EnHonotrap_InitEye(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
     s32 i;
     s32 j;
     Vec3f* vtx;
@@ -187,7 +185,7 @@ void EnHonotrap_InitEye(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHonotrap_InitFlame(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     Actor_SetScale(&this->actor, 0.0001f);
     Collider_InitCylinder(globalCtx, &this->collider.cyl);
@@ -197,7 +195,7 @@ void EnHonotrap_InitFlame(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->actor.shape.shadowAlpha = 128;
-    this->targetPos = PLAYER->actor.world.pos;
+    this->targetPos = GET_PLAYER(globalCtx)->actor.world.pos;
     this->targetPos.y += 10.0f;
     this->flameScroll = Rand_ZeroOne() * 511.0f;
     EnHonotrap_SetupFlame(this);
@@ -221,7 +219,7 @@ void EnHonotrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     if (this->actor.params == HONOTRAP_EYE) {
         Collider_DestroyTris(globalCtx, &this->collider.tris);
@@ -364,19 +362,20 @@ void EnHonotrap_FlameMove(EnHonotrap* this, GlobalContext* globalCtx) {
     speed.x = fabsf(this->speedMod * this->actor.velocity.x);
     speed.y = fabsf(this->speedMod * this->actor.velocity.y);
     speed.z = fabsf(this->speedMod * this->actor.velocity.z);
-    ready = Math_StepToF(&this->actor.world.pos.x, this->targetPos.x, speed.x) & 1;
+    ready = true;
+    ready &= Math_StepToF(&this->actor.world.pos.x, this->targetPos.x, speed.x);
     ready &= Math_StepToF(&this->actor.world.pos.y, this->targetPos.y, speed.y);
     ready &= Math_StepToF(&this->actor.world.pos.z, this->targetPos.z, speed.z);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
 
     if (this->collider.tris.base.atFlags & AT_BOUNCED) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         Vec3f shieldNorm;
         Vec3f tempVel;
         Vec3f shieldVec;
 
-        shieldVec.x = -player->shieldMf.zx;
-        shieldVec.y = -player->shieldMf.zy;
+        shieldVec.x = -player->shieldMf.xz;
+        shieldVec.y = -player->shieldMf.yz;
         shieldVec.z = -player->shieldMf.zz;
         EnHonotrap_GetNormal(&shieldNorm, &shieldVec);
 
@@ -421,10 +420,10 @@ void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx) {
     func_8002D7EC(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
     if (this->collider.cyl.base.atFlags & AT_BOUNCED) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         Vec3s shieldRot;
 
-        func_800D20CC(&player->shieldMf, &shieldRot, false);
+        Matrix_MtxFToYXZRotS(&player->shieldMf, &shieldRot, false);
         this->actor.world.rot.y = ((shieldRot.y * 2) - this->actor.world.rot.y) + 0x8000;
         EnHonotrap_SetupFlameVanish(this);
     } else if (this->collider.cyl.base.atFlags & AT_HIT) {
@@ -458,7 +457,7 @@ void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     static Vec3f accel = { 0.0f, 0.1f, 0.0f };
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     if (this->timer > 0) {
         this->timer--;
@@ -493,7 +492,7 @@ void EnHonotrap_DrawEye(Actor* thisx, GlobalContext* globalCtx) {
         gEyeSwitchSilverClosedTex,
         gEyeSwitchSilverClosedTex,
     };
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 982);
 
@@ -508,7 +507,7 @@ void EnHonotrap_DrawEye(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHonotrap_DrawFlame(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHonotrap* this = THIS;
+    EnHonotrap* this = (EnHonotrap*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 1000);
 
@@ -519,7 +518,8 @@ void EnHonotrap_DrawFlame(Actor* thisx, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, this->flameScroll, 0x20, 0x80));
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 200, 0, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
-    Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) * (M_PI / 0x8000),
+    Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000) *
+                       (M_PI / 0x8000),
                    MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 1024),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

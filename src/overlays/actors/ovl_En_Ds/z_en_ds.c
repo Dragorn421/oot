@@ -5,10 +5,9 @@
  */
 
 #include "z_en_ds.h"
+#include "objects/object_ds/object_ds.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnDs*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -29,15 +28,13 @@ const ActorInit En_Ds_InitVars = {
     (ActorFunc)EnDs_Draw,
 };
 
-extern FlexSkeletonHeader D_06004768;
-extern AnimationHeader D_0600039C;
-
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, this->jointTable, this->morphTable, 6);
-    Animation_PlayOnce(&this->skelAnime, &D_0600039C);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gPotionShopLadySkel, &gPotionShopLadyAnim, this->jointTable,
+                       this->morphTable, 6);
+    Animation_PlayOnce(&this->skelAnime, &gPotionShopLadyAnim);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
@@ -46,7 +43,7 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = EnDs_Wait;
     this->actor.targetMode = 1;
     this->unk_1E8 = 0;
-    this->actor.flags &= ~0x1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_1E4 = 0.0f;
 }
 
@@ -54,35 +51,35 @@ void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnDs_Wait;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
     this->unk_1E8 |= 1;
 }
 
 void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnDs_Wait;
     }
     this->unk_1E8 |= 1;
 }
 
 void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnDs_Talk;
     } else {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
 }
 
 void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
-        this->actor.flags &= ~0x100;
+        this->actor.flags &= ~ACTOR_FLAG_8;
         gSaveContext.itemGetInf[3] |= 1;
     }
 }
@@ -98,8 +95,8 @@ void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnDs_GiveOddPotion;
         func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
     }
@@ -110,11 +107,11 @@ void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx) {
         this->brewTimer -= 1;
     } else {
         this->actionFunc = EnDs_TalkAfterBrewOddPotion;
-        func_8010B720(globalCtx, 0x504D);
+        Message_ContinueTextbox(globalCtx, 0x504D);
     }
 
     Math_StepToF(&this->unk_1E4, 0, 0.03f);
-    func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
+    Environment_AdjustLights(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
 void EnDs_BrewOddPotion2(EnDs* this, GlobalContext* globalCtx) {
@@ -136,23 +133,23 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
     }
 
     Math_StepToF(&this->unk_1E4, 1.0f, 0.01f);
-    func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
+    Environment_AdjustLights(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
 void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 this->actionFunc = EnDs_BrewOddPotion1;
                 this->brewTimer = 60;
                 Flags_SetSwitch(globalCtx, 0x3F);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 player->exchangeItemId = EXCH_ITEM_NONE;
                 break;
             case 1: // no
-                func_8010B720(globalCtx, 0x504C);
+                Message_ContinueTextbox(globalCtx, 0x504C);
                 this->actionFunc = EnDs_Talk;
         }
     }
@@ -178,37 +175,37 @@ void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 switch (EnDs_CheckRupeesAndBottle()) {
                     case 0: // have less than 100 rupees
-                        func_8010B720(globalCtx, 0x500E);
+                        Message_ContinueTextbox(globalCtx, 0x500E);
                         break;
                     case 1: // have 100 rupees but no empty bottle
-                        func_8010B720(globalCtx, 0x96);
+                        Message_ContinueTextbox(globalCtx, 0x96);
                         this->actionFunc = EnDs_TalkNoEmptyBottle;
                         return;
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
-                        this->actor.flags &= ~0x10000;
+                        this->actor.flags &= ~ACTOR_FLAG_16;
                         func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
                 }
                 break;
             case 1: // no
-                func_8010B720(globalCtx, 0x500D);
+                Message_ContinueTextbox(globalCtx, 0x500D);
         }
         this->actionFunc = EnDs_Talk;
     }
 }
 
 void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (func_8002F368(globalCtx) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             player->actor.textId = 0x504A;
@@ -236,7 +233,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         this->skelAnime.curFrame = 0.0f;
@@ -255,7 +252,7 @@ void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     if (limbIndex == 5) {
         rot->x += this->unk_1D8.y;
@@ -266,7 +263,7 @@ s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f sMultVec = { 1100.0f, 500.0f, 0.0f };
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     if (limbIndex == 5) {
         Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
@@ -274,7 +271,7 @@ void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

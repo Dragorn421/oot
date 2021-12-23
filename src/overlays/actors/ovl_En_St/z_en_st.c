@@ -5,10 +5,9 @@
  */
 
 #include "z_en_st.h"
+#include "objects/object_st/object_st.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((EnSt*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnSt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -22,25 +21,7 @@ void EnSt_Die(EnSt* this, GlobalContext* globalCtx);
 void EnSt_BounceAround(EnSt* this, GlobalContext* globalCtx);
 void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx);
 
-static Vtx sUnusedVertices[] = {
-    VTX(-1, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1, 100, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-1, 100, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-};
-
-static Gfx sUnusedDList[] = {
-    gsDPPipeSync(),
-    gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
-    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
-    gsSPVertex(sUnusedVertices, 4, 0),
-    gsSP1Triangle(0, 1, 2, 0),
-    gsSP1Triangle(0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_St/ovl_En_St.c"
 
 const ActorInit En_St_InitVars = {
     ACTOR_EN_ST,
@@ -123,21 +104,15 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-extern SkeletonHeader D_06005298;
-extern AnimationHeader D_06000304;
-extern AnimationHeader D_06005B98;
-extern AnimationHeader D_060055A8;
-extern AnimationHeader D_060055A8;
-
 static struct_80034EC0_Entry sAnimations[] = {
-    { &D_06000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, 0.0f },
-    { &D_06005B98, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
-    { &D_06000304, 4.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
-    { &D_06000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
-    { &D_060055A8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
-    { &D_06000304, 8.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
-    { &D_06000304, 6.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
-    { &D_06005B98, 2.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &object_st_Anim_000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, 0.0f },
+    { &object_st_Anim_005B98, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &object_st_Anim_000304, 4.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &object_st_Anim_000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &object_st_Anim_0055A8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &object_st_Anim_000304, 8.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &object_st_Anim_000304, 6.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &object_st_Anim_005B98, 2.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
 };
 
 void EnSt_SetupAction(EnSt* this, EnStActionFunc actionFunc) {
@@ -314,7 +289,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
 
 void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
     ColliderInfo* body = &this->colCylinder[0].info;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->unk_860 != 0) {
         body->bumper.dmgFlags |= 2;
@@ -389,7 +364,7 @@ void EnSt_UpdateCylinders(EnSt* this, GlobalContext* globalCtx) {
 }
 
 s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 hit;
     s32 i;
 
@@ -473,7 +448,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
         return false;
     }
     Enemy_StartFinishingBlow(globalCtx, &this->actor);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->groundBounces = 3;
     this->deathTimer = 20;
     this->actor.gravity = -1.0f;
@@ -571,7 +546,7 @@ s32 EnSt_DecrStunTimer(EnSt* this) {
     if (this->stunTimer == 0) {
         return 0;
     }
-    this->stunTimer--; // @bug ? no return but v0 ends up being stunTimer before decrement
+    this->stunTimer--; //! @bug  no return but v0 ends up being stunTimer before decrement
 }
 
 /**
@@ -697,7 +672,7 @@ void EnSt_Bob(EnSt* this, GlobalContext* globalCtx) {
 }
 
 s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 yDist;
 
     if (this->takeDamageSpinTimer != 0) {
@@ -789,25 +764,25 @@ void EnSt_Sway(EnSt* this) {
 }
 
 void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 14.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->jointTable, this->morphTable, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &object_st_Skel_005298, NULL, this->jointTable, this->morphTable, 30);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
     this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);
     if (thisx->params == 2) {
-        this->actor.flags |= 0x80;
+        this->actor.flags |= ACTOR_FLAG_7;
     }
     if (this->actor.params == 1) {
-        this->actor.naviEnemyId = 5;
+        this->actor.naviEnemyId = 0x05;
     } else {
-        this->actor.naviEnemyId = 4;
+        this->actor.naviEnemyId = 0x04;
     }
     EnSt_CheckCeilingPos(this, globalCtx);
-    this->actor.flags |= 0x4000;
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_14;
+    this->actor.flags |= ACTOR_FLAG_24;
     EnSt_SetColliderScale(this);
     this->actor.gravity = 0.0f;
     this->initalYaw = this->actor.world.rot.y;
@@ -815,7 +790,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
     s32 i;
 
     Effect_Delete(globalCtx, this->blureIdx);
@@ -972,7 +947,7 @@ void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx) {
     if (DECR(this->deathTimer) == 0) {
         this->actor.velocity = zeroVec;
         this->finishDeathTimer = 8;
-        EnSt_SetupAction(this, &EnSt_Die);
+        EnSt_SetupAction(this, EnSt_Die);
         return;
     }
 
@@ -1017,11 +992,11 @@ void EnSt_StartOnCeilingOrGround(EnSt* this, GlobalContext* globalCtx) {
 }
 
 void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
     s32 pad;
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
-    if (this->actor.flags & 0x8000) {
+    if (this->actor.flags & ACTOR_FLAG_15) {
         SkelAnime_Update(&this->skelAnime);
     } else if (!EnSt_CheckColliders(this, globalCtx)) {
         // no collision has been detected.
@@ -1063,7 +1038,7 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_st.c", 2260);
     switch (limbIndex) {
@@ -1087,13 +1062,13 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
 }
 
 void EnSt_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3s* rot, void* thisx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
 
     Collider_UpdateSpheres(limbIndex, &this->colSph);
 }
 
 void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSt* this = THIS;
+    EnSt* this = (EnSt*)thisx;
 
     EnSt_CheckBodyStickHit(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);

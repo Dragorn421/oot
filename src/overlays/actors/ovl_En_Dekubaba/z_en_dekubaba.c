@@ -3,9 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnDekubaba*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -223,7 +221,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
     s32 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -244,7 +242,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
         // This and its counterpart below mean that a Deku Stick jumpslash will not trigger the Deku Stick drop route.
         // (Of course they reckoned without each age being able to use the other's items, so Stick and Master Sword
         // jumpslash can give the Stick drop as adult, and neither will as child.)
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             sBigDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE); // DMG_JUMP_MASTER
         }
 
@@ -259,7 +257,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
         }
 
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             sDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE); // DMG_JUMP_MASTER
         }
 
@@ -275,7 +273,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -404,7 +402,7 @@ void EnDekubaba_SetupPrunedSomersault(EnDekubaba* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.speedXZ = this->size * 3.0f;
-    this->actor.flags |= 0x30;
+    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->actionFunc = EnDekubaba_PrunedSomersault;
 }
 
@@ -457,7 +455,7 @@ void EnDekubaba_SetupDeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = 0.0f;
     this->actor.shape.shadowScale = 3.0f;
     Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_MISC);
-    this->actor.flags &= ~0x20;
+    this->actor.flags &= ~ACTOR_FLAG_5;
     this->timer = 200;
     this->actionFunc = EnDekubaba_DeadStickDrop;
 }
@@ -480,7 +478,7 @@ void EnDekubaba_Wait(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 headDistHorizontal;
     f32 headDistVertical;
     f32 headShiftX;
@@ -620,7 +618,7 @@ void EnDekubaba_UpdateHeadPosition(EnDekubaba* this) {
 }
 
 void EnDekubaba_DecideLunge(EnDekubaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
@@ -686,7 +684,9 @@ void EnDekubaba_Lunge(EnDekubaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x222);
 
         curFrame10 = this->skelAnime.curFrame * 10.0f;
-        allStepsDone = Math_ScaledStepToS(&this->stemSectionAngle[0], -0xE38, curFrame10 + 0x38E) & 1;
+
+        allStepsDone = true;
+        allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[0], -0xE38, curFrame10 + 0x38E);
         allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[1], -0xE38, curFrame10 + 0x71C);
         allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[2], -0xE38, curFrame10 + 0xE38);
 
@@ -723,7 +723,7 @@ void EnDekubaba_Lunge(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_PrepareLunge(EnDekubaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer != 0) {
         this->timer--;
@@ -862,7 +862,8 @@ void EnDekubaba_Hit(EnDekubaba* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    allStepsDone = Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38) & 1;
+    allStepsDone = true;
+    allStepsDone &= Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38);
     allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[0], -0x4000, 0xE38);
     allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4000, 0xE38);
     allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0xE38);
@@ -953,7 +954,7 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
         if ((this->actor.scale.x > 0.005f) && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
-            this->actor.flags &= -6;
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
                                      this->size * 5.0f, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         }
@@ -1108,7 +1109,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, GlobalContext* globalCtx) {
 
 void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
@@ -1129,7 +1130,7 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->actionFunc == EnDekubaba_Lunge) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        this->actor.flags |= 0x1000000;
+        this->actor.flags |= ACTOR_FLAG_24;
     }
 
     if (this->collider.base.acFlags & AC_ON) {
@@ -1152,7 +1153,7 @@ void EnDekubaba_DrawStemRetracted(EnDekubaba* this, GlobalContext* globalCtx) {
 
     Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y + (-6.0f * this->size), this->actor.home.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->stemSectionAngle[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->stemSectionAngle[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_Scale(horizontalScale, horizontalScale, horizontalScale, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2461),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1192,13 +1193,13 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
     }
 
     for (i = 0; i < stemSections; i++) {
-        mtx.wy += 20.0f * Math_SinS(this->stemSectionAngle[i]) * this->size;
+        mtx.yw += 20.0f * Math_SinS(this->stemSectionAngle[i]) * this->size;
         horizontalStepSize = 20.0f * Math_CosS(this->stemSectionAngle[i]) * this->size;
-        mtx.wx -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
-        mtx.wz -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
+        mtx.xw -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
+        mtx.zw -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
 
         Matrix_Put(&mtx);
-        Matrix_RotateRPY(this->stemSectionAngle[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(this->stemSectionAngle[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2533),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -1209,9 +1210,9 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
 
         if (i == 0) {
             if (this->actionFunc != EnDekubaba_Sway) {
-                this->actor.focus.pos.x = mtx.wx;
-                this->actor.focus.pos.y = mtx.wy;
-                this->actor.focus.pos.z = mtx.wz;
+                this->actor.focus.pos.x = mtx.xw;
+                this->actor.focus.pos.y = mtx.yw;
+                this->actor.focus.pos.z = mtx.zw;
             } else {
                 this->actor.focus.pos.x = this->actor.home.pos.x;
                 this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->size);
@@ -1221,9 +1222,9 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
 
         if ((i < 2) && (this->actor.colorFilterTimer != 0)) {
             // checking colorFilterTimer ensures that spA4 has been initialized earlier, so not a bug
-            this->bodyPartsPos[i].x = mtx.wx;
-            this->bodyPartsPos[i].y = mtx.wy - spA4;
-            this->bodyPartsPos[i].z = mtx.wz;
+            this->bodyPartsPos[i].x = mtx.xw;
+            this->bodyPartsPos[i].y = mtx.yw - spA4;
+            this->bodyPartsPos[i].z = mtx.zw;
         }
     }
 
@@ -1233,7 +1234,7 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
 void EnDekubaba_DrawStemBasePruned(EnDekubaba* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2579);
 
-    Matrix_RotateRPY(this->stemSectionAngle[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->stemSectionAngle[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2586),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBaseDL);
@@ -1264,7 +1265,7 @@ void EnDekubaba_DrawBaseShadow(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
 
     if (limbIndex == 1) {
         Collider_UpdateSpheres(limbIndex, &this->collider);
@@ -1272,7 +1273,7 @@ void EnDekubaba_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekubaba* this = THIS;
+    EnDekubaba* this = (EnDekubaba*)thisx;
     f32 scale;
 
     if (1) {}

@@ -10,10 +10,9 @@
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((BossGanondrof*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ NOT_DEAD,
@@ -182,26 +181,26 @@ static u8 sDecayMaskTotal[16 * 16] = {
 // clang-format on
 
 // These are Phantom Ganon's body textures, but I don't know which is which.
-static u64* sLimbTex_rgb5a1_8x8[] = {
+static void* sLimbTex_rgba16_8x8[] = {
     gPhantomGanonLimbTex_00A800, gPhantomGanonLimbTex_00AE80, gPhantomGanonLimbTex_00AF00,
     gPhantomGanonLimbTex_00C180, gPhantomGanonLimbTex_00C400,
 };
-static u64* sLimbTex_rgb5a1_16x8[] = {
+static void* sLimbTex_rgba16_16x8[] = {
     gPhantomGanonLimbTex_00B980, gPhantomGanonLimbTex_00C480, gPhantomGanonLimbTex_00BC80,
     gPhantomGanonLimbTex_00BD80, gPhantomGanonLimbTex_00C080,
 };
-static u64* sLimbTex_rgb5a1_16x16[] = {
+static void* sLimbTex_rgba16_16x16[] = {
     gPhantomGanonLimbTex_00C200, gPhantomGanonLimbTex_00A000, gPhantomGanonLimbTex_00A200,
     gPhantomGanonLimbTex_00A400, gPhantomGanonLimbTex_00A600, gPhantomGanonLimbTex_00A880,
     gPhantomGanonLimbTex_00B780, gPhantomGanonLimbTex_00BA80, gPhantomGanonLimbTex_00BE80,
 };
-static u64* sLimbTex_rgb5a1_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
+static void* sLimbTex_rgba16_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
 
-static u64* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
+static void* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 43, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x2B, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -249,16 +248,16 @@ void BossGanondrof_ClearPixels(u8* mask, s16 index) {
 
     for (i = 0; i < 5; i++) {
         // ARRAY_COUNT can't be used here because the arrays aren't guaranteed to be the same size.
-        BossGanondrof_ClearPixels8x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_8x8[i]), mask, index);
-        BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x8[i]), mask, index);
+        BossGanondrof_ClearPixels8x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgba16_8x8[i]), mask, index);
+        BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgba16_16x8[i]), mask, index);
     }
 
-    for (i = 0; i < ARRAY_COUNT(sLimbTex_rgb5a1_16x16); i++) {
-        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x16[i]), mask, index);
+    for (i = 0; i < ARRAY_COUNT(sLimbTex_rgba16_16x16); i++) {
+        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(sLimbTex_rgba16_16x16[i]), mask, index);
     }
 
-    for (i = 0; i < ARRAY_COUNT(sLimbTex_rgb5a1_16x32); i++) {
-        BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x32[i]), mask, index);
+    for (i = 0; i < ARRAY_COUNT(sLimbTex_rgba16_16x32); i++) {
+        BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(sLimbTex_rgba16_16x32[i]), mask, index);
     }
 
     BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(gPhantomGanonLimbTex_00B380), mask, index);
@@ -276,7 +275,7 @@ void BossGanondrof_SetColliderPos(Vec3f* pos, ColliderCylinder* collider) {
 
 void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -297,11 +296,11 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->colliderSpear);
     Collider_SetCylinder(globalCtx, &this->colliderBody, &this->actor, &sCylinderInitBody);
     Collider_SetCylinder(globalCtx, &this->colliderSpear, &this->actor, &sCylinderInitSpear);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, GND_BOSSROOM_CENTER_X, GND_BOSSROOM_CENTER_Y,
-                    GND_BOSSROOM_CENTER_Z, 0, 0, 0, -1);
+                    GND_BOSSROOM_CENTER_Z, 0, 0, 0, WARP_DUNGEON_ADULT);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 200.0f + GND_BOSSROOM_CENTER_X,
                     GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, 0);
     } else {
@@ -312,7 +311,7 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     osSyncPrintf("DT1\n");
     SkelAnime_Free(&this->skelAnime, globalCtx);
@@ -439,7 +438,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
         EnfHG* horseTemp;
 
         Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonRideSpearRaiseAnim, -2.0f);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         horseTemp = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
                            this->spearTip.y, this->spearTip.z, 30, FHGFIRE_LIGHT_GREEN, 0, FHGFIRE_SPEAR_LIGHT);
@@ -450,7 +449,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
         Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonRideSpearResetAnim, -2.0f);
     } else if (horse->bossGndSignal == FHG_RIDE) {
         Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonRideAnim, -2.0f);
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     }
 
     osSyncPrintf("RUN 3\n");
@@ -477,7 +476,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
 void BossGanondrof_SetupNeutral(BossGanondrof* this, f32 arg1) {
     Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonNeutralAnim, arg1);
     this->actionFunc = BossGanondrof_Neutral;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->fwork[GND_FLOAT_SPEED] = 0.0f;
     this->timers[0] = (s16)(Rand_ZeroOne() * 64.0f) + 30;
 }
@@ -486,7 +485,7 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 targetX;
     f32 targetY;
     f32 targetZ;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* playerx = &player->actor;
     Actor* thisx = &this->actor;
     f32 rand01;
@@ -749,7 +748,7 @@ void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DAMAGE2);
         }
 
-        this->actor.flags |= 0x400;
+        this->actor.flags |= ACTOR_FLAG_10;
     }
 
     osSyncPrintf("TIME0 %d ********************************************\n", this->timers[0]);
@@ -797,7 +796,7 @@ void BossGanondrof_SetupCharge(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* playerx = &player->actor;
     Actor* thisx = &this->actor;
     f32 dxCenter = thisx->world.pos.x - GND_BOSSROOM_CENTER_X;
@@ -929,10 +928,10 @@ void BossGanondrof_SetupDeath(BossGanondrof* this, GlobalContext* globalCtx) {
     Animation_PlayOnce(&this->skelAnime, &gPhantomGanonDeathBlowAnim);
     this->fwork[GND_END_FRAME] = Animation_GetLastFrame(&gPhantomGanonDeathBlowAnim);
     this->actionFunc = BossGanondrof_Death;
-    Audio_SetBGM(0x100100FF);
+    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DEAD);
     this->deathState = DEATH_START;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->work[GND_VARIANCE_TIMER] = 0;
     this->shockTimer = 50;
 }
@@ -943,7 +942,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 camX;
     f32 camZ;
     f32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
 
     osSyncPrintf("PYP %f\n", player->actor.floorHeight);
@@ -1034,7 +1033,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                                    GND_BOSSROOM_CENTER_X, GND_BOSSROOM_CENTER_Y + 3.0f, GND_BOSSROOM_CENTER_Z, 0x4000,
                                    0, 0, FHGFIRE_WARP_DEATH);
                 this->actor.child = &horseTemp->actor;
-                func_8010B680(globalCtx, 0x108E, NULL);
+                Message_StartTextbox(globalCtx, 0x108E, NULL);
             }
 
             this->actor.shape.rot.y -= 0xC8;
@@ -1100,9 +1099,9 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             holdCamera = true;
             bodyDecayLevel = 10;
             if (this->timers[0] == 150) {
-                Audio_SetBGM(0x21);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, GND_BOSSROOM_CENTER_X,
-                            GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, -1);
+                            GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, WARP_DUNGEON_ADULT);
             }
 
             Math_ApproachZeroF(&this->cameraEye.y, 0.05f, 1.0f); // GND_BOSSROOM_CENTER_Y + 33.0f
@@ -1292,11 +1291,11 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad2;
     s16 i;
     s32 pad;
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
     EnfHG* horse;
 
     osSyncPrintf("MOVE START %d\n", this->actor.params);
-    this->actor.flags &= ~0x400;
+    this->actor.flags &= ~ACTOR_FLAG_10;
     this->colliderBody.base.colType = COLTYPE_HIT3;
     if (this->killActor) {
         Actor_Kill(&this->actor);
@@ -1377,7 +1376,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BossGanondrof_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                    void* thisx) {
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     switch (limbIndex) {
         case 15:
@@ -1449,7 +1448,7 @@ void BossGanondrof_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Vec3f spearVec = { 0.0f, 0.0f, 6000.0f };
 
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     if (limbIndex == 14) {
         Matrix_MultVec3f(&zeroVec, &this->targetPos);
@@ -1484,7 +1483,7 @@ Gfx* BossGanondrof_GetNullDList(GraphicsContext* gfxCtx) {
 
 void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossGanondrof* this = THIS;
+    BossGanondrof* this = (BossGanondrof*)thisx;
     EnfHG* horse;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganondrof.c", 3716);
@@ -1492,7 +1491,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("STOP TIMER = %d ==============\n", this->actor.freezeTimer);
     horse = (EnfHG*)this->actor.child;
     if (this->flyMode == GND_FLY_PAINTING) {
-        Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, 1);
+        Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, MTXMODE_APPLY);
     }
 
     osSyncPrintf("YP %f\n", this->actor.world.pos.y);
@@ -1518,7 +1517,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, BossGanondrof_OverrideLimbDraw,
                       BossGanondrof_PostLimbDraw, this);
     osSyncPrintf("DRAW 22\n");
-    POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+    POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganondrof.c", 3814);
     osSyncPrintf("DRAW END %d\n", this->actor.params);
 }

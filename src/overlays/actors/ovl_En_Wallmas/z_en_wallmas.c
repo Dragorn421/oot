@@ -8,9 +8,7 @@
 #include "objects/object_wallmaster/object_wallmaster.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnWallmas*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 #define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
 #define DEGREE_60_RAD (60.0f * M_PI / 180.0f)
@@ -113,12 +111,12 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x30, 1),
-    ICHAIN_F32(targetArrowOffset, 0x157C, 1),
+    ICHAIN_F32(targetArrowOffset, 5500, 1),
     ICHAIN_F32_DIV1000(gravity, -1500, 0),
 };
 
 void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0, NULL, 0.5f);
@@ -146,16 +144,16 @@ void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
-    this->actor.flags &= ~1;
-    this->actor.flags |= 0x20;
+    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_5;
     this->timer = 0x82;
     this->actor.velocity.y = 0.0f;
     this->actor.world.pos.y = player->actor.world.pos.y;
@@ -165,7 +163,7 @@ void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     AnimationHeader* objSegChangee = &gWallmasterLungeAnim;
 
     Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_GetLastFrame(&gWallmasterLungeAnim),
@@ -175,8 +173,8 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.world.pos.y = player->actor.world.pos.y + 300.0f;
     this->actor.world.rot.y = player->actor.shape.rot.y + 0x8000;
     this->actor.floorHeight = player->actor.floorHeight;
-    this->actor.flags |= 1;
-    this->actor.flags &= ~0x20;
+    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_5;
     this->actionFunc = EnWallmas_Drop;
 }
 
@@ -187,7 +185,7 @@ void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_GetLastFrame(objSegFrameCount),
                      ANIMMODE_ONCE, -3.0f);
 
-    Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
+    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
     this->actionFunc = EnWallmas_Land;
 }
@@ -257,7 +255,7 @@ void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterHoverAnim, -5.0f);
-    this->timer = -0x1e;
+    this->timer = -0x1E;
     this->actionFunc = EnWallmas_TakePlayer;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -270,7 +268,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {
     this->timer = 0;
     this->actor.draw = NULL;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     if (this->actor.params == WMT_PROXIMITY) {
         this->actionFunc = EnWallmas_WaitForProximity;
     } else {
@@ -294,7 +292,7 @@ void EnWallmas_SetupStun(EnWallmas* this) {
 }
 
 void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f* playerPos = &player->actor.world.pos;
 
     this->actor.world.pos = *playerPos;
@@ -307,7 +305,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 
     if ((player->stateFlags1 & 0x100000) || (player->stateFlags1 & 0x8000000) || !(player->actor.bgCheckFlags & 1) ||
         ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.home.pos, playerPos)))) {
-        func_800F8D04(NA_SE_EN_FALL_AIM);
+        Audio_StopSfxById(NA_SE_EN_FALL_AIM);
         this->timer = 0x82;
     }
 
@@ -321,7 +319,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!Player_InCsMode(globalCtx) && !(player->stateFlags2 & 0x10) && (player->invincibilityTimer >= 0) &&
         (this->actor.xzDistToPlayer < 30.0f) && (this->actor.yDistToPlayer < -5.0f) &&
@@ -351,8 +349,8 @@ void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
 
     Math_ScaledStepToS(&this->actor.world.rot.y, (s16)((s32)this->actor.yawTowardsPlayer + 0x8000), 0xB6);
 
-    if ((Animation_OnFrame(&this->skelAnime, 0.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 12.0f) != 0) ||
-        (Animation_OnFrame(&this->skelAnime, 24.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 36.0f) != 0)) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f) ||
+        Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 }
@@ -364,7 +362,7 @@ void EnWallmas_JumpToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
     if (this->skelAnime.curFrame > 20.0f) {
         this->timer += 9;
@@ -422,10 +420,10 @@ void EnWallmas_Die(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (Animation_OnFrame(&this->skelAnime, 1.0f) != 0) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
         } else {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S);
@@ -443,14 +441,14 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
             this->actor.world.pos.y = this->actor.world.pos.y + 10.0f;
         }
 
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             player->actor.world.pos.y = this->actor.world.pos.y - 30.0f;
         } else {
             player->actor.world.pos.y = this->actor.world.pos.y - 50.0f;
         }
 
         if (this->timer == -0x1E) {
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 func_8002F7DC(&this->actor, NA_SE_VO_LI_TAKEN_AWAY_KID);
             } else {
                 func_8002F7DC(&this->actor, NA_SE_VO_LI_TAKEN_AWAY);
@@ -462,7 +460,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
         this->timer = this->timer + 2;
     } else {
-        Math_StepToF(&this->actor.world.pos.y, player->actor.world.pos.y + (LINK_IS_CHILD ? 30.0f : 50.0f), 5.0f);
+        Math_StepToF(&this->actor.world.pos.y, player->actor.world.pos.y + (!LINK_IS_ADULT ? 30.0f : 50.0f), 5.0f);
     }
 
     Math_StepToF(&this->actor.world.pos.x, player->actor.world.pos.x, 3.0f);
@@ -475,7 +473,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_WaitForProximity(EnWallmas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 200.0f) {
         EnWallmas_TimerInit(this, globalCtx);
     }
@@ -511,7 +509,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DEAD);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             } else {
                 if (this->actor.colChkInfo.damage != 0) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DAMAGE);
@@ -535,7 +533,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
     char pad[4];
 
     EnWallmas_ColUpdate(this, globalCtx);
@@ -604,14 +602,14 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
 
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &gCircleShadowDL);
+    gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }
 
 s32 EnWallMas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
 
     if (limbIndex == 1) {
         if (this->actionFunc != EnWallmas_TakePlayer) {
@@ -643,7 +641,7 @@ void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnWallmas* this = THIS;
+    EnWallmas* this = (EnWallmas*)thisx;
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);

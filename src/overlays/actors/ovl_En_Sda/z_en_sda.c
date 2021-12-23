@@ -6,9 +6,7 @@
 
 #include "z_en_sda.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnSda*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnSda_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSda_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -86,31 +84,7 @@ static Vec3f D_80AFA288[] = {
 
 static u32 D_80AFA390[] = { 0, 0 };
 
-static Vtx D_80AFA398[] = {
-    VTX(-100, 0, -100, 0, 2048, 255, 255, 255, 255),
-    VTX(100, 0, -100, 2048, 2048, 255, 255, 255, 255),
-    VTX(100, 0, 100, 2048, 0, 255, 255, 255, 255),
-    VTX(-100, 0, 100, 0, 0, 255, 255, 255, 255),
-};
-
-static Gfx D_80AFA3D8[] = {
-    gsDPPipeSync(),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsSPEndDisplayList(),
-};
-
-static Gfx D_80AFA3F8[] = {
-    gsDPSetCombineLERP(PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
-                       COMBINED),
-    gsDPSetRenderMode(AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_DEC | FORCE_BL |
-                          GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1),
-                      G_RM_AA_ZB_XLU_DECAL2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPVertex(&D_80AFA398, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
+#include "overlays/ovl_En_Sda/ovl_En_Sda.c"
 
 static Vec3f D_80AFA660[16];
 
@@ -122,7 +96,7 @@ void EnSda_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSda* this = THIS;
+    EnSda* this = (EnSda*)thisx;
     Player* player;
 
     osSyncPrintf("SDA MOVE\n");
@@ -130,7 +104,7 @@ void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         player = (Player*)this->actor.parent;
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
     }
 
     this->actor.world.pos = player->actor.world.pos;
@@ -139,7 +113,7 @@ void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSda_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSda* this = THIS;
+    EnSda* this = (EnSda*)thisx;
     Player* player;
     u8* shadowTexture = Graph_Alloc(globalCtx->state.gfxCtx, 0x1000);
 
@@ -148,7 +122,7 @@ void EnSda_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         player = (Player*)this->actor.parent;
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
     }
 
     player->actor.shape.shadowAlpha = 0;
@@ -175,7 +149,6 @@ void func_80AF8F60(Player* player, u8* shadowTexture, f32 arg2) {
     Vec3f sp7C;
 
     for (i = 0; i < 16; i++) {
-        //! @bug j is not initialized if arg2 == 0.0f, causing undefined behavior.
         if ((arg2 == 0.0f) || ((j = D_80AFA13C[i]) >= 0)) {
             if (arg2 > 0.0f) {
                 lerp.x = D_80AFA660[i].x + (D_80AFA660[j].x - D_80AFA660[i].x) * arg2;
@@ -292,7 +265,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
             *shadowTextureTemp32 = 0;
         }
     }
-    Matrix_RotateX((BREG(50) + 70) / 100.0f, 0);
+    Matrix_RotateX((BREG(50) + 70) / 100.0f, MTXMODE_NEW);
     for (i = 0; i < 18; i++) {
         if (D_80AFA16C[i] >= 0) {
             D_80AFA660[D_80AFA16C[i]] = player->bodyPartsPos[i];
@@ -308,7 +281,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
     }
     osSyncPrintf("SDA CONT 3\n");
     if (this->actor.params != 1) {
-        func_800D20CC(&player->shieldMf, &sp178, false);
+        Matrix_MtxFToYXZRotS(&player->shieldMf, &sp178, false);
         sp178.y += (KREG(87) << 0xF) + 0x8000;
         sp178.x *= (KREG(88) - 1);
         Matrix_Mult(&player->shieldMf, MTXMODE_NEW);
@@ -322,7 +295,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
             sp64[i].y = (((KREG(82) / 100.0f) + 4.0f) * sp188.y) + sp16C.y;
             sp64[i].z = (((KREG(82) / 100.0f) + 4.0f) * sp188.z) + sp16C.z;
         }
-        Matrix_RotateX((BREG(50) + 70) / 100.0f, 0);
+        Matrix_RotateX((BREG(50) + 70) / 100.0f, MTXMODE_NEW);
         for (i = 0; i < 22; i++) {
             sp194.x = sp64[i].x - player->actor.world.pos.x;
             sp194.y = sp64[i].y - player->actor.world.pos.y + KREG(80) + 16.0f;
@@ -367,8 +340,6 @@ void func_80AF9C70(u8* shadowTexture, Player* player, GlobalContext* globalCtx) 
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_en_sda.c", 826);
-
-    if (1) {}
 
     osSyncPrintf("SDA D 1\n");
     func_80094044(globalCtx->state.gfxCtx);

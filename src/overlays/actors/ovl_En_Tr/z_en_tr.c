@@ -5,10 +5,9 @@
  */
 
 #include "z_en_tr.h"
+#include "objects/object_tr/object_tr.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnTr*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -39,28 +38,28 @@ const ActorInit En_Tr_InitVars = {
 // The first elements of these animation arrays are for Koume, the second for Kotake
 
 static AnimationHeader* unused[] = {
-    0x06003FC8,
-    0x06001CDC,
+    &object_tr_Anim_003FC8,
+    &object_tr_Anim_001CDC,
 };
 
 static AnimationHeader* D_80B24368[] = {
-    0x06002BC4, // Turn to look over right shoulder
-    0x06000BFC, // Turn to look over right shoulder
+    &object_tr_Anim_002BC4,
+    &object_tr_Anim_000BFC,
 };
 
 static AnimationHeader* D_80B24370[] = {
-    0x060035CC, // Looking over left shoulder
-    0x060013CC, // Looking over right shoulder
+    &object_tr_Anim_0035CC,
+    &object_tr_Anim_0013CC,
 };
 
 static AnimationHeader* D_80B24378[] = {
-    0x060049C8, // Floating on broom
-    0x060049C8, // Floating on broom
+    &object_tr_Anim_0049C8,
+    &object_tr_Anim_0049C8,
 };
 
 static AnimationHeader* D_80B24380[] = {
-    0x06012E1C, // Casting magic
-    0x06012E1C, // Casting magic
+    &object_tr_Anim_012E1C,
+    &object_tr_Anim_012E1C,
 };
 
 static f32 D_80B24388[] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
@@ -75,26 +74,18 @@ static Color_RGBA8 D_80B243C0[4] = {
     { 0, 0, 255, 255 },
 };
 
-static u64* sEyeTextures[] = {
-    0x060086D8, // Open
-    0x060094D8, // Half
-    0x060098D8, // Closed
+static void* sEyeTextures[] = {
+    object_tr_Tex_0086D8,
+    object_tr_Tex_0094D8,
+    object_tr_Tex_0098D8,
 };
-
-extern AnimationHeader D_060013CC; // Looking over right shoulder
-extern AnimationHeader D_06001CDC; // Standing, broom in left hand
-extern AnimationHeader D_060035CC; // Looking over left shoulder
-extern AnimationHeader D_06003FC8; // Standing, broom over right shoulder
-extern AnimationHeader D_060049C8; // Floating on broom
-extern FlexSkeletonHeader D_0600C530;
-extern FlexSkeletonHeader D_06011688;
 
 void EnTr_SetupAction(EnTr* this, EnTrActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnTr_SetupAction(this, EnTr_DoNothing);
@@ -104,18 +95,18 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case TR_KOUME:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011688, &D_06003FC8, this->jointTable,
-                               this->morphTable, 27);
-            Animation_PlayOnce(&this->skelAnime, &D_06003FC8);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tr_Skel_011688, &object_tr_Anim_003FC8,
+                               this->jointTable, this->morphTable, 27);
+            Animation_PlayOnce(&this->skelAnime, &object_tr_Anim_003FC8);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
             this->actionIndex = 3;
             break;
 
         case TR_KOTAKE:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C530, &D_06001CDC, this->jointTable,
-                               this->morphTable, 27);
-            Animation_PlayOnce(&this->skelAnime, &D_06001CDC);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tr_Skel_00C530, &object_tr_Anim_001CDC,
+                               this->jointTable, this->morphTable, 27);
+            Animation_PlayOnce(&this->skelAnime, &object_tr_Anim_001CDC);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
             this->actionIndex = 2;
@@ -222,7 +213,7 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     Vec3f sp58;
     Color_RGBA8* primColor;
     Color_RGBA8* envColor;
-    Vec3f cameraEye = ACTIVE_CAM->eye;
+    Vec3f cameraEye = GET_ACTIVE_CAM(globalCtx)->eye;
     s16 yaw = Math_Vec3f_Yaw(&cameraEye, &this->actor.world.pos);
     s16 reversePitch = -Math_Vec3f_Pitch(&cameraEye, &this->actor.world.pos);
     f32 sp3C;
@@ -310,7 +301,7 @@ void EnTr_WaitToReappear(EnTr* this, GlobalContext* globalCtx) {
             this->timer = 34;
             EnTr_SetStartPosRot(this, globalCtx, this->actionIndex);
             EnTr_SetupAction(this, EnTr_Reappear);
-            Animation_PlayLoop(&this->skelAnime, &D_060049C8);
+            Animation_PlayLoop(&this->skelAnime, &object_tr_Anim_0049C8);
             this->animation = NULL;
             Actor_SetScale(&this->actor, 0.003f);
         }
@@ -359,7 +350,7 @@ void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx) {
                 case 3:
                     EnTr_SetStartPosRot(this, globalCtx, this->actionIndex);
                     EnTr_SetupAction(this, EnTr_ChooseAction2);
-                    Animation_PlayLoop(&this->skelAnime, &D_060049C8);
+                    Animation_PlayLoop(&this->skelAnime, &object_tr_Anim_0049C8);
                     this->animation = NULL;
                     break;
 
@@ -370,7 +361,7 @@ void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx) {
 
                 case 7:
                     EnTr_SetupAction(this, EnTr_FlyKidnapCutscene);
-                    Animation_PlayLoop(&this->skelAnime, &D_060049C8);
+                    Animation_PlayLoop(&this->skelAnime, &object_tr_Anim_0049C8);
                     this->animation = NULL;
                     this->timer =
                         ((this->actor.params != TR_KOUME) ? ((u8)frames * 0x400) + 0x8000 : (u8)frames * 0x400);
@@ -382,24 +373,24 @@ void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx) {
 
 void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
     this->actionFunc(this, globalCtx);
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->animation != NULL) {
-            if ((this->animation == &D_060035CC) || (this->animation == &D_060013CC)) {
+            if ((this->animation == &object_tr_Anim_0035CC) || (this->animation == &object_tr_Anim_0013CC)) {
                 if (this->actor.params != TR_KOUME) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
                 } else {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
                 }
                 Animation_PlayLoop(&this->skelAnime, this->animation);
-            } else if (this->animation == &D_060049C8) {
+            } else if (this->animation == &object_tr_Anim_0049C8) {
                 EnTr_SetupAction(this, EnTr_ChooseAction2);
-                Animation_Change(&this->skelAnime, &D_060049C8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060049C8),
-                                 ANIMMODE_LOOP, -5.0f);
+                Animation_Change(&this->skelAnime, &object_tr_Anim_0049C8, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&object_tr_Anim_0049C8), ANIMMODE_LOOP, -5.0f);
             } else {
                 Animation_PlayLoop(&this->skelAnime, this->animation);
             }
@@ -422,13 +413,13 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     Vec3f src = { 2300.0f, 0.0f, -600.0f };
     Vec3f dest = { 0.0f, 0.0f, 0.0f };
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
     Actor* child = this->actor.child;
 
     if ((child != NULL) && (limbIndex == 19)) {
         Matrix_MultVec3f(&src, &dest);
-        dest.x -= (10.0f * Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM)));
-        dest.z -= (10.0f * Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM)));
+        dest.x -= (10.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx))));
+        dest.z -= (10.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx))));
         child->world.pos = dest;
     }
     return 0;
@@ -436,7 +427,7 @@ s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnTr* this = THIS;
+    EnTr* this = (EnTr*)thisx;
 
     if (1) {}
 
@@ -456,8 +447,8 @@ void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 f32 func_80B23FDC(GlobalContext* globalCtx, s32 actionIndex) {
-    f32 phi_f2 = func_8006F93C(globalCtx->csCtx.npcActions[actionIndex]->endFrame,
-                               globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
+    f32 phi_f2 = Environment_LerpWeight(globalCtx->csCtx.npcActions[actionIndex]->endFrame,
+                                        globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
     phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
     return phi_f2;
 }

@@ -5,10 +5,9 @@
  */
 
 #include "z_bg_haka_trap.h"
+#include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHakaTrap*)thisx)
+#define FLAGS 0
 
 void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -106,13 +105,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_060081D0;
-extern CollisionHeader D_06008D10;
-extern CollisionHeader D_06009CD0;
-
 void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     static UNK_TYPE D_80881014 = 0;
-    BgHakaTrap* this = THIS;
+    BgHakaTrap* this = (BgHakaTrap*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -136,10 +131,10 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_80880484;
         } else {
             DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-            thisx->flags |= 0x10;
+            thisx->flags |= ACTOR_FLAG_4;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
-                CollisionHeader_GetVirtual(&D_06009CD0, &colHeader);
+                CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &colHeader);
                 this->timer = 30;
 
                 if (D_80881014 != 0) {
@@ -158,11 +153,11 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->colliderCylinder.dim.height = 40;
             } else {
                 if (thisx->params == HAKA_TRAP_SPIKED_WALL) {
-                    CollisionHeader_GetVirtual(&D_060081D0, &colHeader);
+                    CollisionHeader_GetVirtual(&object_haka_objects_Col_0081D0, &colHeader);
                     thisx->home.pos.x -= 200.0f;
                 } else {
                     thisx->home.pos.x += 200.0f;
-                    CollisionHeader_GetVirtual(&D_06008D10, &colHeader);
+                    CollisionHeader_GetVirtual(&object_haka_objects_Col_008D10, &colHeader);
                 }
 
                 Collider_InitTris(globalCtx, &this->colliderSpikes);
@@ -189,7 +184,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTrap* this = THIS;
+    BgHakaTrap* this = (BgHakaTrap*)thisx;
 
     if (this->dyna.actor.params != HAKA_TRAP_PROPELLER) {
         if (this->dyna.actor.params != HAKA_TRAP_GUILLOTINE_SLOW) {
@@ -203,7 +198,7 @@ void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
     }
 
-    func_800F89E8(&this->unk_16C);
+    Audio_StopSfxByPos(&this->unk_16C);
 }
 
 void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
@@ -211,7 +206,7 @@ void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
     Vec3f sp28;
     f32 sine;
     f32 zNonNegative;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_8002DBD0(&this->dyna.actor, &sp28, &player->actor.world.pos);
 
@@ -233,7 +228,7 @@ void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
 
 void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
     static UNK_TYPE D_80881018 = 0;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((D_80880F30 == 0) && (!Player_InCsMode(globalCtx))) {
         if (!Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x, 0.5f)) {
@@ -358,7 +353,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     f32 tempf20;
     f32 temp;
     s32 i;
-    UNK_TYPE sp64;
+    s32 sp64;
 
     this->dyna.actor.velocity.y *= 1.6f;
 
@@ -434,13 +429,13 @@ void func_808809B0(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp18;
 
     func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.world.pos);
 
     if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
-        (PLAYER->currentBoots != PLAYER_BOOTS_IRON)) {
+        (GET_PLAYER(globalCtx)->currentBoots != PLAYER_BOOTS_IRON)) {
         player->windSpeed = ((500.0f - sp18.z) * 0.06f + 5.0f) * arg2 * (1.0f / 0x3A00) * (2.0f / 3.0f);
         player->windDirection = this->dyna.actor.shape.rot.y;
     }
@@ -484,7 +479,7 @@ void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTrap* this = THIS;
+    BgHakaTrap* this = (BgHakaTrap*)thisx;
     Vec3f* actorPos = &this->dyna.actor.world.pos;
 
     this->actionFunc(this, globalCtx);
@@ -521,10 +516,11 @@ void func_80880D68(BgHakaTrap* this) {
 
 void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* sDLists[5] = {
-        0x06007610, 0x06009860, 0x06007EF0, 0x06008A20, 0x060072C0,
+        object_haka_objects_DL_007610, object_haka_objects_DL_009860, object_haka_objects_DL_007EF0,
+        object_haka_objects_DL_008A20, object_haka_objects_DL_0072C0,
     };
     static Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
-    BgHakaTrap* this = THIS;
+    BgHakaTrap* this = (BgHakaTrap*)thisx;
     s32 pad;
     Vec3f sp2C;
 
@@ -547,7 +543,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sp2C.z = this->dyna.actor.world.pos.z;
         sp2C.y = this->dyna.actor.world.pos.y + 110.0f;
 
-        SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &sp2C, &this->unk_16C);
+        SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &sp2C, &this->unk_16C);
         func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }

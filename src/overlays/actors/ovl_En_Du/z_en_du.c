@@ -2,9 +2,7 @@
 #include "objects/object_du/object_du.h"
 #include "scenes/overworld/spot18/spot18_scene.h"
 
-#define FLAGS 0x02000009
-
-#define THIS ((EnDu*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
 
 void EnDu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -88,7 +86,7 @@ u16 func_809FDC38(GlobalContext* globalCtx, Actor* actor) {
     if (reaction != 0) {
         return reaction;
     }
-    if (CUR_UPG_VALUE(UPG_STRENGTH)) {
+    if (CUR_UPG_VALUE(UPG_STRENGTH) != 0) {
         if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
             return 0x301E;
         } else {
@@ -103,11 +101,11 @@ u16 func_809FDC38(GlobalContext* globalCtx, Actor* actor) {
 }
 
 s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
             break;
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (actor->textId) {
                 case 0x301A:
                     gSaveContext.infTable[0x11] |= 8;
@@ -120,25 +118,25 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
                     break;
             }
             return 0;
-        case 3:
-        case 4:
-        case 5:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
             break;
-        case 6:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 return 3;
             }
             break;
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
     return 1;
 }
 
 s32 func_809FDDB4(EnDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_SPOT18 && gSaveContext.linkAge == 1) {
+    if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD) {
         return 1;
     } else if (globalCtx->sceneNum == SCENE_HIDAN && !(gSaveContext.infTable[0x11] & 0x400) && LINK_IS_ADULT) {
         return 1;
@@ -147,7 +145,7 @@ s32 func_809FDDB4(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FDE24(EnDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3 = 0;
 
     if (this->unk_1F4.unk_00 == 0) {
@@ -254,7 +252,7 @@ void func_809FE104(EnDu* this) {
 }
 
 void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -277,7 +275,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE890);
     } else if (globalCtx->sceneNum == 4) {
         EnDu_SetupAction(this, func_809FE638);
-    } else if (LINK_IS_CHILD) {
+    } else if (!LINK_IS_ADULT) {
         EnDu_SetupAction(this, func_809FE3C0);
     } else {
         EnDu_SetupAction(this, func_809FE3B4);
@@ -285,7 +283,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -295,10 +293,10 @@ void func_809FE3B4(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & 0x1000000) {
-        func_8010BD88(globalCtx, 0x22);
+        func_8010BD88(globalCtx, OCARINA_ACTION_CHECK_SARIA);
         player->stateFlags2 |= 0x2000000;
         player->unk_6A8 = &this->actor;
         EnDu_SetupAction(this, func_809FE4A4);
@@ -314,36 +312,36 @@ void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE4A4(EnDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
-        globalCtx->msgCtx.unk_E3EE = 0;
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
         EnDu_SetupAction(this, func_809FE3C0);
-    } else if (globalCtx->msgCtx.unk_E3EE >= 6) {
+    } else if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_06) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaWrongCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 1;
         EnDu_SetupAction(this, func_809FE890);
-        globalCtx->msgCtx.unk_E3EE = 4;
-    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 0;
         EnDu_SetupAction(this, func_809FE890);
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
         player->stateFlags2 |= 0x800000;
     }
 }
 
 void func_809FE638(EnDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x20000000)) {
         OnePointCutscene_Init(globalCtx, 3330, -99, &this->actor, MAIN_CAM);
         player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.world.rot.y + 0x7FFF;
-        func_800F5C64(0x51);
+        Audio_PlayFanfare(NA_BGM_APPEAR);
         EnDu_SetupAction(this, func_809FE6CC);
         this->unk_1E2 = 0x32;
     }
@@ -360,7 +358,7 @@ void func_809FE6CC(EnDu* this, GlobalContext* globalCtx) {
     }
     if (phi_v1 == 0) {
         this->actor.textId = 0x3039;
-        func_8010B680(globalCtx, this->actor.textId, NULL);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->unk_1F4.unk_00 = 1;
         EnDu_SetupAction(this, func_809FE740);
     }
@@ -368,7 +366,7 @@ void func_809FE6CC(EnDu* this, GlobalContext* globalCtx) {
 
 void func_809FE740(EnDu* this, GlobalContext* globalCtx) {
     if (this->unk_1F4.unk_00 == 0) {
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         this->unk_1E2 = 0x5A;
         EnDu_SetupAction(this, func_809FE798);
     }
@@ -494,7 +492,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x301F;
         EnDu_SetupAction(this, func_809FE3C0);
     }
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     func_80034EC0(&this->skelAnime, sAnimations, 14);
     this->unk_1F4.unk_00 = 1;
 }
@@ -525,7 +523,7 @@ void func_809FECE4(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -559,7 +557,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
     Vec3s sp1C;
 
     if (limbIndex == 16) {
@@ -578,7 +576,7 @@ s32 EnDu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnDu* this = THIS;
+    EnDu* this = (EnDu*)thisx;
     Vec3f D_809FF40C = { 0.0f, -1000.0f, 0.0f };
 
     if (limbIndex == 16) {
@@ -587,19 +585,29 @@ void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex,
-                                   gDaruniaEyeClosingTex };
-    static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
-                                     gDaruniaMouthHappyTex };
-    static u64* sNoseTextures[] = { gDaruniaNoseSeriousTex, gDaruniaNoseHappyTex };
-
-    EnDu* this = THIS;
+    static void* eyeTextures[] = {
+        gDaruniaEyeOpenTex,
+        gDaruniaEyeOpeningTex,
+        gDaruniaEyeShutTex,
+        gDaruniaEyeClosingTex,
+    };
+    static void* mouthTextures[] = {
+        gDaruniaMouthSeriousTex,
+        gDaruniaMouthGrinningTex,
+        gDaruniaMouthOpenTex,
+        gDaruniaMouthHappyTex,
+    };
+    static void* noseTextures[] = {
+        gDaruniaNoseSeriousTex,
+        gDaruniaNoseHappyTex,
+    };
+    EnDu* this = (EnDu*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_du.c", 1470);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthTexIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sNoseTextures[this->noseTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(noseTextures[this->noseTexIndex]));
 
     func_80034BA0(globalCtx, &this->skelAnime, EnDu_OverrideLimbDraw, EnDu_PostLimbDraw, &this->actor, 255);
 

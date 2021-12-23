@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_g_magma2.h"
+#include "objects/object_kingdodongo/object_kingdodongo.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -24,16 +25,17 @@ void EffectSsGMagma2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsGMagma2_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 static void* sTextures[] = {
-    0x0602E4E0, 0x0602E8E0, 0x0602ECE0, 0x0602F0E0, 0x0602F4E0, 0x0602F8E0, 0x0602FCE0,
-    0x060300E0, 0x060304E0, 0x060308E0, 0x060308E0, 0x060308E0, 0x060308E0,
+    object_kingdodongo_Tex_02E4E0, object_kingdodongo_Tex_02E8E0, object_kingdodongo_Tex_02ECE0,
+    object_kingdodongo_Tex_02F0E0, object_kingdodongo_Tex_02F4E0, object_kingdodongo_Tex_02F8E0,
+    object_kingdodongo_Tex_02FCE0, object_kingdodongo_Tex_0300E0, object_kingdodongo_Tex_0304E0,
+    object_kingdodongo_Tex_0308E0, object_kingdodongo_Tex_0308E0, object_kingdodongo_Tex_0308E0,
+    object_kingdodongo_Tex_0308E0,
 };
 
 EffectSsInit Effect_Ss_G_Magma2_InitVars = {
     EFFECT_SS_G_MAGMA2,
     EffectSsGMagma2_Init,
 };
-
-extern Gfx D_06025A90[];
 
 u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_KINGDODONGO);
@@ -51,7 +53,7 @@ u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
         this->life = 100;
         this->draw = EffectSsGMagma2_Draw;
         this->update = EffectSsGMagma2_Update;
-        this->gfx = SEGMENTED_TO_VIRTUAL(D_06025A90);
+        this->gfx = SEGMENTED_TO_VIRTUAL(object_kingdodongo_DL_025A90);
         this->rTexIdx = 0;
         this->rDrawMode = initParams->drawMode;
         this->rUpdateRate = initParams->updateRate;
@@ -88,9 +90,9 @@ void EffectSsGMagma2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->rDrawMode == 0) {
-        POLY_XLU_DISP = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x3D);
+        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x3D);
     } else {
-        POLY_XLU_DISP = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0);
+        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
     }
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, 0, this->rPrimColorA);

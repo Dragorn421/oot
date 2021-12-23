@@ -7,10 +7,9 @@
 #include "z_en_nb.h"
 #include "vt.h"
 #include "objects/object_nb/object_nb.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnNb*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* 0x00 */ NB_CHAMBER_INIT,
@@ -78,7 +77,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gNabooruEyeOpenTex,
     gNabooruEyeHalfTex,
     gNabooruEyeClosedTex,
@@ -129,7 +128,7 @@ void EnNb_UpdatePath(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetupCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -144,13 +143,13 @@ void EnNb_UpdateCollider(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_300.unk_18 = player->actor.world.pos;
     this->unk_300.unk_14 = kREG(16) + 9.0f;
@@ -158,7 +157,7 @@ void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB1040(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_300.unk_18 = player->actor.world.pos;
     this->unk_300.unk_14 = kREG(16) + 9.0f;
@@ -225,7 +224,7 @@ void func_80AB1284(EnNb* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
 }
 
-s32 EnNb_FrameUpdateMatrix(EnNb* this) {
+s32 EnNb_UpdateSkelAnime(EnNb* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -312,11 +311,12 @@ void EnNb_SpawnBlueWarp(EnNb* this, GlobalContext* globalCtx) {
     f32 posY = this->actor.world.pos.y;
     f32 posZ = this->actor.world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0,
+                       WARP_SAGES);
 }
 
 void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 50.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -335,7 +335,7 @@ void EnNb_SetupChamberCsImpl(EnNb* this, GlobalContext* globalCtx) {
     Player* player;
 
     if ((gSaveContext.chamberCutsceneNum == 3) && (gSaveContext.sceneSetupIndex < 4)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         this->action = NB_CHAMBER_UNDERGROUND;
         globalCtx->csCtx.segment = &D_80AB431C;
         gSaveContext.cutsceneTrigger = 2;
@@ -412,14 +412,14 @@ void EnNb_SetupChamberWarp(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_ComeUp(EnNb* this, GlobalContext* globalCtx) {
     EnNb_ComeUpImpl(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupDefaultChamberIdle(this);
 }
 
 void func_80AB193C(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupArmRaise(this, globalCtx);
 }
@@ -428,21 +428,21 @@ void EnNb_RaiseArm(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     func_80AB1284(this, globalCtx);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupRaisedArmTransition(this, animFinished);
 }
 
 void func_80AB19BC(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupMedallion(this, globalCtx);
 }
 
 void func_80AB19FC(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
 }
 
@@ -526,7 +526,7 @@ void EnNb_Hide(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_Fade(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckToFade(this, globalCtx);
     func_80AB1210(this, globalCtx);
@@ -534,7 +534,7 @@ void EnNb_Fade(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_CreateLightOrb(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupLightOrb(this, globalCtx);
     func_80AB1210(this, globalCtx);
@@ -543,14 +543,14 @@ void EnNb_CreateLightOrb(EnNb* this, GlobalContext* globalCtx) {
 void EnNb_DrawTransparency(EnNb* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeSegIdx = this->eyeIdx;
-    UNK_PTR addr = sEyeTextures[eyeSegIdx];
+    void* eyeTex = sEyeTextures[eyeSegIdx];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_nb_inKenjyanomaDemo02.c", 263);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
     POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
@@ -587,7 +587,8 @@ void EnNb_SetPosInPortal(EnNb* this, GlobalContext* globalCtx) {
     Vec3f endPos;
 
     if (csCmdNPCAction != NULL) {
-        f0 = func_8006F9BC(csCmdNPCAction->endFrame, csCmdNPCAction->startFrame, globalCtx->csCtx.frames, 4, 4);
+        f0 = Environment_LerpWeightAccelDecel(csCmdNPCAction->endFrame, csCmdNPCAction->startFrame,
+                                              globalCtx->csCtx.frames, 4, 4);
         startPos.x = csCmdNPCAction->startPos.x;
         startPos.y = csCmdNPCAction->startPos.y;
         startPos.z = csCmdNPCAction->startPos.z;
@@ -673,7 +674,7 @@ void EnNb_MovingInPortal(EnNb* this, GlobalContext* globalCtx) {
     EnNb_PlayCrySFX(this, globalCtx);
     EnNb_PlayAgonySFX(this, globalCtx);
     EnNb_UpdateEyes(this);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_CheckKidnapCsMode(this, globalCtx);
 }
 
@@ -681,7 +682,7 @@ void EnNb_SuckedInByPortal(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_SetRaisedArmCaptureAnim(this, animFinished);
     EnNb_SetPosInPortal(this, globalCtx);
     EnNb_CheckKidnapCsMode(this, globalCtx);
@@ -873,7 +874,7 @@ void EnNb_CheckConfrontationCsMode(EnNb* this, GlobalContext* globalCtx) {
                     EnNb_SetupConfrontationDestroy(this);
                     break;
                 default:
-                    // "En_Nb_Confrontion_Check_DemoMode: OPERATION DOESN'T EXIST!!!!!!!!"
+                    // "En_Nb_Confrontion_Check_DemoMode: Operation doesn't exist!!!!!!!!"
                     osSyncPrintf("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -897,7 +898,7 @@ void EnNb_Kneel(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_CheckIfKneeling(this, animFinished);
     EnNb_PlayKneelingOnGroundSFX(this);
     func_80AB2688(this, globalCtx);
@@ -909,7 +910,7 @@ void EnNb_LookRight(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_CheckIfLookingRight(this, animFinished);
     EnNb_PlayLookRightSFX(this);
     func_80AB2688(this, globalCtx);
@@ -921,7 +922,7 @@ void EnNb_LookLeft(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_CheckIfLookLeft(this, animFinished);
     func_80AB2688(this, globalCtx);
     func_80AB1284(this, globalCtx);
@@ -933,7 +934,7 @@ void EnNb_Run(EnNb* this, GlobalContext* globalCtx) {
 
     EnNb_PlayKnuckleDefeatSFX(this, globalCtx);
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_PlayLookLeftSFX(this);
     func_80AB2688(this, globalCtx);
     func_80AB1284(this, globalCtx);
@@ -956,8 +957,8 @@ void func_80AB2E70(EnNb* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_nb_inConfrontion.c", 572);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&gNabooruEyeWideTex));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&gNabooruEyeWideTex));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gNabooruEyeWideTex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gNabooruEyeWideTex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL,
@@ -967,7 +968,7 @@ void func_80AB2E70(EnNb* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AB2FC0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     if (limbIndex == NB_LIMB_HEAD) {
         *dList = gNabooruHeadMouthOpenDL;
@@ -1060,7 +1061,7 @@ void EnNb_CheckCreditsCsModeImpl(EnNb* this, GlobalContext* globalCtx) {
                     EnNb_SetupCreditsHeadTurn(this);
                     break;
                 default:
-                    // "En_Nb_inEnding_Check_DemoMode: OPERATION DOESN'T EXIST!!!!!!!!"
+                    // "En_Nb_inEnding_Check_DemoMode: Operation doesn't exist!!!!!!!!"
                     osSyncPrintf("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -1075,7 +1076,7 @@ void EnNb_CheckCreditsCsMode(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_CreditsFade(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetAlphaInCredits(this);
     EnNb_SetupCreditsSit(this);
@@ -1083,7 +1084,7 @@ void EnNb_CreditsFade(EnNb* this, GlobalContext* globalCtx) {
 
 void func_80AB3428(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckCreditsCsModeImpl(this, globalCtx);
 }
@@ -1092,13 +1093,13 @@ void EnNb_LookUp(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     func_80AB1284(this, globalCtx);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckIfLookingUp(this, animFinished);
 }
 
 void EnNb_CrawlspaceSpawnCheck(EnNb* this, GlobalContext* globalCtx) {
-    if (!(gSaveContext.eventChkInf[9] & 0x20) && (gSaveContext.linkAge == 1)) {
+    if (!(gSaveContext.eventChkInf[9] & 0x20) && LINK_IS_CHILD) {
         EnNb_UpdatePath(this, globalCtx);
 
         // looking into crawlspace
@@ -1109,7 +1110,7 @@ void EnNb_CrawlspaceSpawnCheck(EnNb* this, GlobalContext* globalCtx) {
         } else {
             EnNb_SetCurrentAnim(this, &gNabooruStandingHandsOnHipsAnim, 0, 0.0f, 0);
             this->headTurnFlag = 1;
-            this->actor.flags |= 9;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
             this->actor.world.pos = this->finalPos;
             this->action = NB_IDLE_AFTER_TALK;
             this->drawMode = NB_DRAW_DEFAULT;
@@ -1133,7 +1134,7 @@ void func_80AB359C(EnNb* this) {
     temp_t1 += 25;
 
     if (temp_t1 >= this->movementTimer) {
-        f0 = func_8006F9BC(temp_t1, 0, this->movementTimer, 3, 3);
+        f0 = Environment_LerpWeightAccelDecel(temp_t1, 0, this->movementTimer, 3, 3);
         world->pos.x = initialPos->x + (f0 * (finalPos->x - initialPos->x));
         world->pos.y = initialPos->y + (f0 * (finalPos->y - initialPos->y));
         world->pos.z = initialPos->z + (f0 * (finalPos->z - initialPos->z));
@@ -1145,7 +1146,7 @@ void EnNb_SetNoticeSFX(EnNb* this) {
 }
 
 s32 EnNb_GetNoticedStatus(EnNb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerX = player->actor.world.pos.x;
     f32 playerZ = player->actor.world.pos.z;
     f32 thisX = this->actor.world.pos.x;
@@ -1163,11 +1164,13 @@ void func_80AB36DC(EnNb* this, GlobalContext* globalCtx) {
 
     if ((((u16)((u16)(kREG(17) + 25) - 4))) > moveTime) {
         s16 invScale = 4 - moveTime;
+
         if (invScale > 0) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->pathYaw, invScale, 6200, 100);
         }
     } else {
         s16 invScale = (u16)(kREG(17) + 25) - moveTime;
+
         if (invScale > 0) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, invScale, 6200, 100);
         }
@@ -1186,16 +1189,16 @@ void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
     if (animFinished) {
         EnNb_SetCurrentAnim(this, &gNabooruStandingHandsOnHipsAnim, 0, -8.0f, 0);
         this->headTurnFlag = 1;
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->action = NB_IDLE_CRAWLSPACE;
     }
 }
 
 void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = NB_IN_DIALOG;
     } else {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 
         if (!(gSaveContext.infTable[22] & 0x1000)) {
             this->actor.textId = 0x601D;
@@ -1211,7 +1214,7 @@ void EnNb_SetupPathMovement(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetCurrentAnim(this, &gNabooruStandingToWalkingTransitionAnim, 2, -8.0f, 0);
     gSaveContext.eventChkInf[9] |= 0x10;
     this->action = NB_IN_PATH;
-    this->actor.flags &= ~9;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
 }
 
 void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
@@ -1222,7 +1225,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
 
     textId = this->actor.textId;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (textId == 0x6025) {
             EnNb_SetupPathMovement(this, globalCtx);
         } else {
@@ -1231,8 +1234,8 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             }
             this->action = NB_IDLE_CRAWLSPACE;
         }
-        this->actor.flags &= ~9;
-    } else if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+    } else if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
         choiceIndex = globalCtx->msgCtx.choiceIndex;
 
         if (textId == 0x601D) {
@@ -1266,7 +1269,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             }
         }
 
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
     }
 }
 
@@ -1284,10 +1287,10 @@ void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, s32 animFinished) {
 }
 
 void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->action = NB_ACTION_30;
     } else {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->actor.textId = Text_GetFaceReaction(globalCtx, 0x23);
 
         if ((this->actor.textId) == 0) {
@@ -1299,16 +1302,16 @@ void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB3B7C(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->action = NB_IDLE_AFTER_TALK;
-        this->actor.flags &= ~9;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
     }
 }
 
 void EnNb_WaitForNotice(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckNoticed(this, globalCtx);
 }
@@ -1318,7 +1321,7 @@ void EnNb_StandUpAfterNotice(EnNb* this, GlobalContext* globalCtx) {
 
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupIdleCrawlspace(this, animFinished);
 }
@@ -1327,7 +1330,7 @@ void EnNb_BlockCrawlspace(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB0FBC(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     func_80AB3838(this, globalCtx);
 }
@@ -1336,7 +1339,7 @@ void EnNb_InitCrawlspaceDialogue(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB0FBC(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetTextIdAsChild(this, globalCtx);
 }
@@ -1349,7 +1352,7 @@ void EnNb_FollowPath(EnNb* this, GlobalContext* globalCtx) {
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB36DC(this, globalCtx);
     func_80AB10C4(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     func_80AB3A7C(this, globalCtx, animFinished);
 }
@@ -1358,7 +1361,7 @@ void func_80AB3DB0(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB0FBC(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     func_80AB3B04(this, globalCtx);
 }
@@ -1367,7 +1370,7 @@ void func_80AB3E10(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB1040(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     func_80AB3B7C(this, globalCtx);
 }
@@ -1407,7 +1410,7 @@ static EnNbActionFunc sActionFuncs[] = {
 };
 
 void EnNb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     if (this->action < 0 || this->action > 30 || sActionFuncs[this->action] == NULL) {
         // "Main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -1420,7 +1423,7 @@ void EnNb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnNb_SetupCollider(thisx, globalCtx);
@@ -1450,7 +1453,7 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
     struct_80034A14_arg1* unk_300 = &this->unk_300;
     s32 ret = false;
 
@@ -1470,7 +1473,7 @@ s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnNb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     if (limbIndex == NB_LIMB_HEAD) {
         Vec3f vec1 = { 0.0f, 10.0f, 0.0f };
@@ -1514,7 +1517,7 @@ static EnNbDrawFunc sDrawFuncs[] = {
 };
 
 void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnNb* this = THIS;
+    EnNb* this = (EnNb*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"

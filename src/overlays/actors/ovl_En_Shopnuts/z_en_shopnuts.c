@@ -1,8 +1,7 @@
 #include "z_en_shopnuts.h"
+#include "objects/object_shopnuts/object_shopnuts.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnShopnuts*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnShopnuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -16,15 +15,6 @@ void EnShopnuts_Stand(EnShopnuts* this, GlobalContext* globalCtx);
 void EnShopnuts_ThrowNut(EnShopnuts* this, GlobalContext* globalCtx);
 void EnShopnuts_Burrow(EnShopnuts* this, GlobalContext* globalCtx);
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_060001EC;
-extern AnimationHeader D_0600039C;
-extern AnimationHeader D_06000764;
-extern AnimationHeader D_06000BA0;
-extern AnimationHeader D_0600139C;
-extern Gfx D_06003B68[];
-extern FlexSkeletonHeader D_060041A8;
-extern AnimationHeader D_06004574;
 
 const ActorInit En_Shopnuts_InitVars = {
     ACTOR_EN_SHOPNUTS,
@@ -67,11 +57,12 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_06004574, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubAnim_4574, this->jointTable,
+                       this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -87,13 +78,13 @@ void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnShopnuts_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnShopnuts_SetupWait(EnShopnuts* this) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &D_0600139C, 0.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gBusinessScrubAnim_139C, 0.0f);
     this->animFlagAndTimer = Rand_S16Offset(100, 50);
     this->collider.dim.height = 5;
     this->collider.base.acFlags &= ~AC_ON;
@@ -101,18 +92,18 @@ void EnShopnuts_SetupWait(EnShopnuts* this) {
 }
 
 void EnShopnuts_SetupLookAround(EnShopnuts* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06000BA0);
+    Animation_PlayLoop(&this->skelAnime, &gBusinessScrubLookAroundAnim);
     this->animFlagAndTimer = 2;
     this->actionFunc = EnShopnuts_LookAround;
 }
 
 void EnShopnuts_SetupThrowNut(EnShopnuts* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_060001EC);
+    Animation_PlayOnce(&this->skelAnime, &gBusinessScrubAnim_1EC);
     this->actionFunc = EnShopnuts_ThrowNut;
 }
 
 void EnShopnuts_SetupStand(EnShopnuts* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06004574, -3.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gBusinessScrubAnim_4574, -3.0f);
     if (this->actionFunc == EnShopnuts_ThrowNut) {
         this->animFlagAndTimer = 2 | 0x1000; // sets timer and flag
     } else {
@@ -122,13 +113,13 @@ void EnShopnuts_SetupStand(EnShopnuts* this) {
 }
 
 void EnShopnuts_SetupBurrow(EnShopnuts* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_0600039C, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gBusinessScrubAnim_39C, -5.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnShopnuts_Burrow;
 }
 
 void EnShopnuts_SetupSpawnSalesman(EnShopnuts* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000764, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gBusinessScrubRotateAnim, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnShopnuts_SpawnSalesman;
@@ -245,7 +236,7 @@ void EnShopnuts_ColliderCheck(EnShopnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     EnShopnuts_ColliderCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -258,7 +249,7 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
     } else if (this->actionFunc == EnShopnuts_Burrow) {
         Actor_SetFocus(&this->actor,
-                       20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_0600039C)));
+                       20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&gBusinessScrubAnim_39C)));
     } else {
         Actor_SetFocus(&this->actor, 20.0f);
     }
@@ -266,7 +257,7 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnShopnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     if ((limbIndex == 9) && (this->actionFunc == EnShopnuts_ThrowNut)) {
         *dList = NULL;
@@ -275,7 +266,7 @@ s32 EnShopnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnShopnuts_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     f32 curFrame;
     f32 x;
@@ -303,13 +294,13 @@ void EnShopnuts_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         if (1) {}
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_shopnuts.c", 714),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06003B68);
+        gSPDisplayList(POLY_OPA_DISP++, gBusinessScrubNoseDL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_shopnuts.c", 717);
     }
 }
 
 void EnShopnuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnShopnuts* this = THIS;
+    EnShopnuts* this = (EnShopnuts*)thisx;
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnShopnuts_OverrideLimbDraw, EnShopnuts_PostLimbDraw, this);

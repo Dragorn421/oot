@@ -7,9 +7,7 @@
 #include "z_bg_hidan_rsekizou.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHidanRsekizou*)thisx)
+#define FLAGS 0
 
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -116,13 +114,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
 
-static u64* sFireballsTexs[] = {
+static void* sFireballsTexs[] = {
     gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
     gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
 };
 
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRsekizou* this = THIS;
+    BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
     s32 pad;
     CollisionHeader* colHeader;
@@ -142,14 +140,14 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRsekizou* this = THIS;
+    BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRsekizou* this = THIS;
+    BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
     ColliderJntSphElement* sphere;
     s32 pad;
@@ -211,9 +209,9 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f;
     tmpf7 = (((((0.7f * fVar6) + 0.5f) * 10.0f) * fVar6) + 20.0f);
 
-    mf->wx = (tmpf7 * sins) + this->dyna.actor.world.pos.x;
-    mf->wy = (this->dyna.actor.world.pos.y + 30.0f) + ((7.0f / 10.0f) * fVar6);
-    mf->wz = (tmpf7 * coss) + this->dyna.actor.world.pos.z;
+    mf->xw = (tmpf7 * sins) + this->dyna.actor.world.pos.x;
+    mf->yw = (this->dyna.actor.world.pos.y + 30.0f) + ((7.0f / 10.0f) * fVar6);
+    mf->zw = (tmpf7 * coss) + this->dyna.actor.world.pos.z;
 
     gSPMatrix(displayList++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),
@@ -225,7 +223,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
 }
 
 void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanRsekizou* this = THIS;
+    BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
     s32 pad;
     MtxF mf;
@@ -241,7 +239,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
 
-    if ((s16)((Camera_GetCamDirYaw(ACTIVE_CAM) - this->dyna.actor.shape.rot.y) - 0x2E6C) >= 0) {
+    if ((s16)((Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->dyna.actor.shape.rot.y) - 0x2E6C) >= 0) {
         for (i = 3; i >= 0; i--) {
             POLY_XLU_DISP = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, POLY_XLU_DISP);
         }

@@ -3,9 +3,7 @@
 #include "../ovl_En_Diving_Game/z_en_diving_game.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnExRuppy*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnExRuppy_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ const ActorInit En_Ex_Ruppy_InitVars = {
 };
 
 void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnExRuppy* this = THIS;
+    EnExRuppy* this = (EnExRuppy*)thisx;
     EnDivingGame* divingGame;
     f32 temp1;
     f32 temp2;
@@ -107,7 +105,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_15A = this->actor.world.rot.z;
             this->actor.world.rot.z = 0;
             this->timer = 30;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actionFunc = EnExRuppy_DropIntoWater;
             break;
 
@@ -125,7 +123,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
 
@@ -147,13 +145,13 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
 
         case 4: // Progress markers in the shooting gallery
             this->actor.gravity = -3.0f;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             Actor_SetScale(&this->actor, 0.01f);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = -700.0f;
@@ -331,8 +329,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
             // "That idiot! error"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
-        // "Stupid!"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n" VT_RST);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n" VT_RST); // "Stupid!"
         explosionScale = 100;
         explosionScaleStep = 30;
         if (this->type == 2) {
@@ -366,7 +363,7 @@ void EnExRuppy_GalleryTarget(EnExRuppy* this, GlobalContext* globalCtx) {
 }
 
 void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnExRuppy* this = THIS;
+    EnExRuppy* this = (EnExRuppy*)thisx;
 
     this->actor.shape.rot.y += 1960;
     this->actionFunc(this, globalCtx);
@@ -377,13 +374,12 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
 }
 
-UNK_PTR D_80A0B3B8[] = {
-    gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
-};
-
 void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* rupeeTextures[] = {
+        gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
+    };
     s32 pad;
-    EnExRuppy* this = THIS;
+    EnExRuppy* this = (EnExRuppy*)thisx;
 
     if (!this->invisible) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 774);
@@ -392,7 +388,7 @@ void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_8002EBCC(thisx, globalCtx, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A0B3B8[this->colorIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(rupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 784);
