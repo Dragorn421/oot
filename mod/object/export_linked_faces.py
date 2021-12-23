@@ -60,14 +60,14 @@ global_mat = mathutils.Matrix(((1,0,0),(0,0,1),(0,-1,0))).to_4x4()
 
 for face in geometry.values():
     verts_co = [global_mat @ v.co for v in face['verts']]
-    verts = ', '.join(f'{{{co.x}f, {co.y}f, {co.z}f}}' for co in verts_co)
+    verts = ',\n            '.join(f'{{{co.x}f, {co.y}f, {co.z}f}}' for co in verts_co)
     norm_co = global_mat @ face['normal']
     normal = f"{{{norm_co.x}f, {norm_co.y}f, {norm_co.z}f}}"
     neighbours = ', '.join(('-1' if nf is None else str(geometry[nf]['index'])) for nf in face['neighbours'])
-    items[face['index']] = '{{' + verts + '}, ' + normal + ', {' + neighbours + '}}'
+    items[face['index']] = '{{' + verts + '},\n           ' + normal + ',\n           {' + neighbours + '}}'
 
 with open(out_file_name, 'w', newline='\n') as f:
-    f.write(',\n'.join(items))
+    f.write(',\n'.join(f"/* {i:03} */ {item}" for i, item in enumerate(items)))
     f.write('\n')
 
 bm.free()

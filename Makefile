@@ -1,7 +1,15 @@
 MAKEFLAGS += --no-builtin-rules
 
-Z64CONVERT := mod_gitignore/z64convert
-BLENDER := '/mnt/c/Program Files/Blender Foundation/Blender 2.93/blender2.93.exe'
+MY_WSL ?= 0
+
+ifeq ($(MY_WSL),1)
+	Z64CONVERT := mod_gitignore/z64convert
+	BLENDER := '/mnt/c/Program Files/Blender Foundation/Blender 2.93/blender2.93.exe'
+else
+	Z64CONVERT := ~/Documents/z64convert/bin/release/z64convert-linux
+	BLENDER := blender
+endif
+
 BLENDER_ARGS := --background --python-exit-code 1
 BLENDER_EXPORT_OBJEX_SCRIPT := mod/tools/export_objex.py
 
@@ -16,7 +24,7 @@ CUSTOM_ASSETS_O := $(CUSTOM_ASSETS_BLEND:.blend=.o)
 # If COMPARE is 1, check the output md5sum after building
 COMPARE ?= 0
 # If NON_MATCHING is 1, define the NON_MATCHING C flag when building
-NON_MATCHING ?= 0
+NON_MATCHING ?= 1
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
 
@@ -72,9 +80,14 @@ LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 
-EMULATOR := "/mnt/e/Programmes/Project64 v2.4.0/Project64.exe"
-EMULATOR_DIR := "/mnt/e/Programmes/Project64 v2.4.0/"
-EMU_FLAGS :=
+ifeq ($(MY_WSL),1)
+	EMULATOR := "/mnt/e/Programmes/Project64 v2.4.0/Project64.exe"
+	EMULATOR_DIR := "/mnt/e/Programmes/Project64 v2.4.0/"
+	EMU_FLAGS :=
+else
+	EMULATOR := m64p
+	EMU_FLAGS :=
+endif
 
 INC        := -Iinclude -Isrc -Iassets -Ibuild -I.
 
@@ -219,8 +232,13 @@ setup:
 	python3 extract_assets.py
 
 resources: $(ASSET_FILES_OUT)
+
 test: $(ROM)
-	cp $< $(EMULATOR_DIR)/ ; cd $(EMULATOR_DIR) ; $(EMULATOR) $(EMU_FLAGS) $< ; exit 0
+ifeq ($(MY_WSL),1)
+		cp $< $(EMULATOR_DIR)/ ; cd $(EMULATOR_DIR) ; $(EMULATOR) $(EMU_FLAGS) $< ; exit 0
+else
+		$(EMULATOR) $(EMU_FLAGS) $<
+endif
 
 .PHONY: all clean setup test distclean assetclean
 
@@ -306,7 +324,7 @@ mod/%.zobj mod/%.h: mod/%.objex
 mod/%.objex: mod/%.blend
 	$(BLENDER) $(BLENDER_ARGS) $< --python $(BLENDER_EXPORT_OBJEX_SCRIPT) -- $@
 
-mod/object/cube_linked_faces.c: mod/object/cube.blend
+mod/object/cube_linked_faces.c: mod/object/cube.blend mod/object/export_linked_faces.py
 	$(BLENDER) $(BLENDER_ARGS) $< --python mod/object/export_linked_faces.py -- Cube $@
 
 build/mod/actor/actor.o: mod/object/cube.h mod/object/cube_linked_faces.c
