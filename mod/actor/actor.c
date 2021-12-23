@@ -36,6 +36,9 @@ s32 DEBUGON = 1;
 Vec3f SOL;
 char* SOLSTR;
 u32 passedEdgesMaskLast;
+MtxF systemLast;
+MtxF systemInvLast;
+Vec3f vec0toPosLast;
 
 LinkedFace faces[] = {
 #include "../object/cube_linked_faces.c"
@@ -190,6 +193,9 @@ s32 ModActor_GetPassedEdges(LinkedFace* face, Vec3f* pos) {
     }
 
     passedEdgesMaskLast = passedEdgesMask;
+    systemLast = system;
+    systemInvLast = systemInv;
+    vec0toPosLast = vec0toPos;
     return passedEdgesMask;
 }
 
@@ -363,18 +369,20 @@ void ModActor_Draw(Actor* thisx, GlobalContext* globalCtx) {
             GfxPrint_Printf(&printer, "rottonorm %f %f %f", this->rotatingTo->norm.x, this->rotatingTo->norm.y,
                             this->rotatingTo->norm.z);
         } else {
+            // MtxF mtxF = this->transform;
+            // MtxF mtxF = systemLast;
+            MtxF mtxF = systemInvLast;
+
             GfxPrint_SetPos(&printer, 1, y + 12);
-            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.xx, this->transform.xy,
-                            this->transform.xz, this->transform.xw);
+            GfxPrint_Printf(&printer, "% 4.2f % 4.2f % 4.2f % 4.2f", mtxF.xx, mtxF.xy, mtxF.xz, mtxF.xw);
             GfxPrint_SetPos(&printer, 1, y + 13);
-            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.yx, this->transform.yy,
-                            this->transform.yz, this->transform.yw);
+            GfxPrint_Printf(&printer, "% 4.2f % 4.2f % 4.2f % 4.2f", mtxF.yx, mtxF.yy, mtxF.yz, mtxF.yw);
             GfxPrint_SetPos(&printer, 1, y + 14);
-            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.zx, this->transform.zy,
-                            this->transform.zz, this->transform.zw);
+            GfxPrint_Printf(&printer, "% 4.2f % 4.2f % 4.2f % 4.2f", mtxF.zx, mtxF.zy, mtxF.zz, mtxF.zw);
             GfxPrint_SetPos(&printer, 1, y + 15);
-            GfxPrint_Printf(&printer, "%0.2f %0.2f %0.2f %0.2f", this->transform.wx, this->transform.wy,
-                            this->transform.wz, this->transform.ww);
+            GfxPrint_Printf(&printer, "% 4.2f % 4.2f % 4.2f % 4.2f", mtxF.wx, mtxF.wy, mtxF.wz, mtxF.ww);
+            GfxPrint_SetPos(&printer, 1, y + 16);
+            GfxPrint_Printf(&printer, "vec0toPosLast = %f %f %f", vec0toPosLast.x, vec0toPosLast.y, vec0toPosLast.z);
         }
 
         gfx = GfxPrint_Close(&printer);
