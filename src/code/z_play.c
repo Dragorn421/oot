@@ -14,6 +14,8 @@ FaultClient D_801614B8;
 s16 sTransitionFillTimer;
 u64 D_801614D0[0xA00];
 
+static s32 isMyCustomActorSpawned;
+
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
 // This macro prints the number "1" with a file and line number if R_ENABLE_PLAY_LOGS is enabled.
@@ -441,6 +443,8 @@ void Play_Init(GameState* thisx) {
         osSyncPrintf("\nkawauso_data=[%x]", D_8012D1F0);
         DmaMgr_DmaRomToRam(0x03FEB000, D_8012D1F0, sizeof(D_801614D0));
     }
+
+    isMyCustomActorSpawned = false;
 }
 
 void Play_Update(PlayState* this) {
@@ -449,6 +453,11 @@ void Play_Update(PlayState* this) {
     Input* input;
     u32 i;
     s32 pad2;
+
+    if (!isMyCustomActorSpawned) {
+        Actor_Spawn(&this->actorCtx, this, ACTOR_MYCUSTOM, 0.0f, 0.0f, 0.0f, 0, 0, 0, 0x0000);
+        isMyCustomActorSpawned = true;
+    }
 
     input = this->state.input;
 
