@@ -546,7 +546,7 @@ void func_80B45174(EnZf* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
         this->actor.flags |= ACTOR_FLAG_0;
         if (this->actor.params == 0) {
-            func_800F5ACC(0x38U);
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
     }
     if (this->unk3F0 != 0) {

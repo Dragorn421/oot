@@ -362,7 +362,7 @@ void func_80B34428(EnWf* this, GlobalContext* globalCtx) {
             this->unk2E8 = 5;
             this->actor.flags |= ACTOR_FLAG_0;
             if ((this->actor.params != 0) && (this->unk2FC != 0xFF)) {
-                func_800F5ACC(0x38U);
+                func_800F5ACC(NA_BGM_MINI_BOSS);
             }
         }
     } else if (this->unk2E8 != 0) {
