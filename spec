@@ -8484,14 +8484,14 @@ endseg
 beginseg
     name "spot00_scene"
     romalign 0x1000
-    include "build/assets/scenes/overworld/spot00/spot00_scene.o"
+    include "build/assets/scenes/overworld/spot00/spot00_scene.zscene.o"
     number 2
 endseg
 
 beginseg
     name "spot00_room_0"
     romalign 0x1000
-    include "build/assets/scenes/overworld/spot00/spot00_room_0.o"
+    include "build/assets/scenes/overworld/spot00/spot00_room_0.zmap.o"
     number 3
 endseg
 

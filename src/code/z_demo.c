@@ -3,7 +3,7 @@
 #include "z64camera.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
-#include "assets/scenes/overworld/spot00/spot00_scene.h"
+#include "assets/scenes/overworld/spot00/spot00.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
 #include "assets/scenes/overworld/spot04/spot04_scene.h"

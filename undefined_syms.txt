@@ -9,3 +9,13 @@ D_0F000000 = 0x0F000000;
 
 // z_bg_mjin
 D_06000000 = 0x06000000;
+
+// spot00, from assets/xml/scenes/overworld/spot00.xml
+gHyruleFieldIntroCs = 0x02013AA0;
+gHyruleFieldSouthEponaJumpCs = 0x0200F9E0;
+gHyruleFieldEastEponaJumpCs = 0x0200FF00;
+gHyruleFieldWestEponaJumpCs = 0x02010550;
+gHyruleFieldGateEponaJumpCs = 0x02010B30;
+gHyruleFieldGetOoTCs = 0x0200BB80;
+gHyruleFieldZeldaSongOfTimeCs = 0x0200F870;
+spot00_room_0DL_012B20 = 0x03012B20;

@@ -5,7 +5,7 @@
  */
 
 #include "z_item_ocarina.h"
-#include "assets/scenes/overworld/spot00/spot00_scene.h"
+#include "assets/scenes/overworld/spot00/spot00.h"
 
 #define FLAGS ACTOR_FLAG_4
 

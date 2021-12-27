@@ -9,7 +9,7 @@ SHELL = /bin/bash
 # If COMPARE is 1, check the output md5sum after building
 COMPARE ?= 1
 # If NON_MATCHING is 1, define the NON_MATCHING C flag when building
-NON_MATCHING ?= 0
+NON_MATCHING ?= 1
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
@@ -272,6 +272,13 @@ setup:
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py -j$(N_THREADS)
+	rm -f assets/scenes/overworld/spot00/*.c
+	rm -f assets/scenes/overworld/spot00/spot00_scene.h
+	rm -f assets/scenes/overworld/spot00/spot00_room_0.h
+	rm -f assets/scenes/overworld/spot00/*.png
+	rm -f assets/scenes/overworld/spot00/*.inc
+	cp baserom/spot00_scene assets/scenes/overworld/spot00/spot00_scene.zscene
+	cp baserom/spot00_room_0 assets/scenes/overworld/spot00/spot00_room_0.zmap
 
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<

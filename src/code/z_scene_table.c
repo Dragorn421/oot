@@ -1,8 +1,7 @@
 #include "global.h"
 #include "quake.h"
 
-#include "assets/scenes/overworld/spot00/spot00_scene.h"
-#include "assets/scenes/overworld/spot00/spot00_room_0.h"
+#include "assets/scenes/overworld/spot00/spot00.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
 #include "assets/scenes/overworld/spot07/spot07_scene.h"
 #include "assets/scenes/overworld/spot12/spot12_scene.h"
