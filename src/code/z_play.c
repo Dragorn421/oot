@@ -68,6 +68,8 @@ UNK_TYPE D_8012D1F4 = 0; // unused
 
 Input* D_8012D1F8 = NULL;
 
+static s32 isMyCustomActorSpawned;
+
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
 // This macro prints the number "1" with a file and line number if R_ENABLE_PLAY_LOGS is enabled.
@@ -544,12 +546,19 @@ void Play_Init(GameState* thisx) {
         DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutsceneScript, sizeof(sDebugCutsceneScriptBuf));
     }
 #endif
+
+    isMyCustomActorSpawned = false;
 }
 
 void Play_Update(PlayState* this) {
     Input* input = this->state.input;
     s32 isPaused;
     s32 pad1;
+
+    if (!isMyCustomActorSpawned) {
+        Actor_Spawn(&this->actorCtx, this, ACTOR_MYCUSTOM, 0.0f, 0.0f, 0.0f, 0, 0, 0, 0x0000);
+        isMyCustomActorSpawned = true;
+    }
 
 #if DEBUG_FEATURES
     if ((SREG(1) < 0) || (DREG(0) != 0)) {
