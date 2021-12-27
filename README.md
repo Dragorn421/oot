@@ -1,3 +1,89 @@
+# Build from binary assets
+
+In decomp, assets are built from C. Currently the only tool for exporting to C is [Fast64](https://github.com/Fast-64/fast64), but there are plenty other tools that can export to binary instead.
+
+This branch adds the ability to use binary files to add scenes to decomp (historically with file extensions .zscene for scenes and .zmap for rooms).
+
+For example in [my `example_binary_assets` branch](https://github.com/Dragorn421/oot/tree/example_binary_assets), the Hyrule Field scene and room use the binary files instead of being compiled from C.
+
+## Instructions to add binary scenes/rooms,
+
+### General modding prerequisites
+
+Have run `make setup` already.
+
+Change `NON_MATCHING` to 1 in the `Makefile`.
+
+### Merge this branch
+
+This branch has changes compared to master that allow this binary assets feature to work.
+
+You need to carry the changes to your own repo.
+
+For example with git, to merge this branch into your current branch:
+
+```
+git remote add dragorn421 git@github.com:Dragorn421/oot.git
+git fetch dragorn421 build_from_binary_assets
+git merge dragorn421/build_from_binary_assets
+```
+
+### Copy files to the repo
+
+Pick a folder for the scene in `assets/scenes/`. I recommend replacing an existing scene so you don't have to also edit the scene table, entrance table and map select to actually load the scene in game.
+
+Delete all files inside if any (.c, .h, .png, .inc, ...).
+
+Put your .zscene file and .zmap file(s) inside the empty folder.
+
+### Edit the spec
+
+Open the `spec` file.
+
+You need one `beginseg`/`endseg` block per zscene/zmap file, make sure you remove or edit the ones from the scene you are replacing.
+
+For each file,
+
+- For rooms, the room name (for example `sasatest_room_0` in `name "sasatest_room_0"`) must end with the room id/number.
+
+- The `include` line must refer to the `.o` equivalent under `build/` of the zscene/zmap. For example if a .zmap file is at `assets/scenes/test_levels/sasatest/MyMap_room_0.zmap`, the `include` must refer to `build/assets/scenes/test_levels/sasatest/MyMap_room_0.zmap.o` (`build/` in front and `.o` at the end)
+
+- `number 2` is for scene files and `number 3` for room files
+
+For example if I have `MyMap_scene.zscene`, `MyMap_room_0.zmap` and `MyMap_room_1.zmap` in `assets/scenes/test_levels/sasatest/` to replace the "sasatest" scene, I would replace/edit the `sasatest_scene` and `sasatest_room_0` blocks with:
+
+```
+beginseg
+    name "sasatest_scene"
+    romalign 0x1000
+    include "build/assets/scenes/test_levels/sasatest/MyMap_scene.zscene.o"
+    number 2
+endseg
+
+beginseg
+    name "sasatest_room_0"
+    romalign 0x1000
+    include "build/assets/scenes/test_levels/sasatest/MyMap_room_0.zmap.o"
+    number 3
+endseg
+
+beginseg
+    name "sasatest_room_1"
+    romalign 0x1000
+    include "build/assets/scenes/test_levels/sasatest/MyMap_room_1.zmap.o"
+    number 3
+endseg
+```
+
+### The end
+
+Then after `make` the rom should be built and the scene should work.
+
+If something doesn't work, try `make clean` then rebuild. Make sure you use `NON_MATCHING=1`
+
+If it still doesn't work feel free to contact me
+
+
 # The Legend of Zelda: Ocarina of Time
 
 [![Build Status][jenkins-badge]][jenkins] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
