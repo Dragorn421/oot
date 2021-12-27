@@ -161,8 +161,14 @@ endif
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/text")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
+ASSET_FILES_ZSCENE := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.zscene))
+ASSET_FILES_ZMAP := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.zmap))
+ASSET_FILES_ZSCENE_O := $(foreach f,$(ASSET_FILES_ZSCENE:.zscene=.zscene.o),build/$f)
+ASSET_FILES_ZMAP_O := $(foreach f,$(ASSET_FILES_ZMAP:.zmap=.zmap.o),build/$f)
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f) \
+				   $(ASSET_FILES_ZSCENE_O) \
+				   $(ASSET_FILES_ZMAP_O) \
 				   $(foreach f,$(wildcard assets/text/*.c),build/$(f:.c=.o))
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
@@ -277,6 +283,7 @@ test: $(ROM)
 
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
+	python3 tools/fixroompointers.py --verbose $(SPEC) build/dmadata_table_spec.h $@ --zscenes $(ASSET_FILES_ZSCENE) --zsceneso $(ASSET_FILES_ZSCENE_O) --zmaps $(ASSET_FILES_ZMAP) --zmapso $(ASSET_FILES_ZMAP_O)
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
@@ -355,6 +362,12 @@ build/%.inc.c: %.png
 
 build/assets/%.bin.inc.c: assets/%.bin
 	$(ZAPD) bblb -eh -i $< -o $@
+
+build/assets/%.zscene.o: assets/%.zscene
+	$(OBJCOPY) -I binary -O elf32-big $< $@
+
+build/assets/%.zmap.o: assets/%.zmap
+	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 build/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
