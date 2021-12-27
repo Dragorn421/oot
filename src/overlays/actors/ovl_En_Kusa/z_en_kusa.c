@@ -233,7 +233,7 @@ void EnKusa_SetupWaitObject(EnKusa* this) {
 
 void EnKusa_WaitObject(EnKusa* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->unk19E)) {
-        if (this->actor.flags & ACTOR_FLAG_11) {
+        if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
             EnKusa_SetupCut(this);
         } else {
             EnKusa_SetupMain(this);
@@ -268,7 +268,7 @@ void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
             return;
         }
         EnKusa_SetupCut(this);
-        this->actor.flags |= ACTOR_FLAG_11;
+        this->actor.flags |= ACTOR_FLAG_ENKUSA_CUT;
     } else {
         if (!(this->unk150.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
             this->unk150.base.ocFlags1 |= OC1_TYPE_PLAYER;
@@ -405,7 +405,7 @@ void EnKusa_SetupRegrow(EnKusa* this) {
     func_80A9AFA0(this, EnKusa_Regrow);
     EnKusa_SetScaleSmall(this);
     this->actor.shape.rot = this->actor.home.rot;
-    this->actor.flags &= ~ACTOR_FLAG_11;
+    this->actor.flags &= ~ACTOR_FLAG_ENKUSA_CUT;
 }
 
 void EnKusa_Regrow(EnKusa* this, GlobalContext* globalCtx) {
@@ -425,7 +425,7 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = (EnKusa*)thisx;
     this->unk19C += 1;
     this->actionFunc(this, globalCtx);
-    if (this->actor.flags & ACTOR_FLAG_11) {
+    if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
         this->actor.shape.yOffset = -6.25f;
     } else {
         this->actor.shape.yOffset = 0.0f;
@@ -433,7 +433,7 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A9C164(Actor* thisx, GlobalContext* globalCtx) {
-    if (thisx->flags & ACTOR_FLAG_11) {
+    if (thisx->flags & ACTOR_FLAG_ENKUSA_CUT) {
         Gfx_DrawDListOpa(globalCtx, object_kusa_DL_0002E0);
     } else {
         Gfx_DrawDListOpa(globalCtx, D_80A9C294[thisx->params & 3]);
