@@ -409,10 +409,12 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
                 case ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL:
                     break;
                 default:
+                    //*
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_DEMO_TRE_LGT,
                                        this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
                                        this->dyna.actor.world.pos.z, this->dyna.actor.shape.rot.x,
                                        this->dyna.actor.shape.rot.y, this->dyna.actor.shape.rot.z, 0xFFFF);
+                    //*/
                     Audio_PlayFanfare(NA_BGM_OPEN_TRE_BOX | 0x900);
             }
         }
@@ -436,6 +438,27 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
  */
 void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
     u16 sfxId;
+    u8 getItemId = this->dyna.actor.params >> 5 & 0x7F;
+    Player* player = GET_PLAYER(globalCtx);
+
+    if (getItemId == GI_MAGIC_LADDER && player->getItemId == GI_NONE && this->skelanime.curFrame >= 100.0f &&
+        this->magicLadderKnockbackCount < 2) {
+        if (this->magicLadder == NULL) {
+            Vec3f pos = this->dyna.actor.world.pos;
+            Vec3s rot = this->dyna.actor.shape.rot;
+
+            pos.y -= 100.0f;
+            rot.y += 0x8000;
+
+            this->magicLadder = (BgYdanMaruta*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_YDAN_MARUTA, pos.x,
+                                                           pos.y, pos.z, rot.x, rot.y, rot.z, 1 << 8);
+        }
+        func_8002F6D4(globalCtx, &this->dyna.actor, 5.0f, 0x8000, 10.0f, 0);
+        this->magicLadderKnockbackCount++;
+    }
+    if (this->magicLadder != NULL) {
+        this->magicLadder->dyna.actor.world.pos.y += 2.0f;
+    }
 
     this->dyna.actor.flags &= ~ACTOR_FLAG_7;
 

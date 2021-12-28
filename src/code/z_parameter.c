@@ -1311,6 +1311,11 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     s16 slot;
     s16 temp;
 
+    if (item >= ARRAY_COUNT(gItemSlots) || item < 0) {
+        osSyncPrintf("Item_Give(item = %X) item out of range", item);
+        return ITEM_NONE;
+    }
+
     slot = SLOT(item);
     if (item >= ITEM_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);

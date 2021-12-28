@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "global.h"
 
+#include "src/overlays/actors/ovl_Bg_Ydan_Maruta/z_bg_ydan_maruta.h"
+
 #define ENBOX_TREASURE_FLAG_UNK_MIN 20
 #define ENBOX_TREASURE_FLAG_UNK_MAX 32
 
@@ -45,6 +47,8 @@ typedef struct EnBox {
     /* 0x01F9 */ u8 type;
     /* 0x01FA */ u8 iceSmokeTimer;
     /* 0x01FB */ u8 unk_1FB;
+    u8 magicLadderKnockbackCount;
+    BgYdanMaruta* magicLadder;
 } EnBox; // size = 0x01FC
 
 #endif

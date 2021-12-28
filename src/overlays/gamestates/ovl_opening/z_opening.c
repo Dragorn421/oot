@@ -7,12 +7,14 @@
 #include "global.h"
 
 void Opening_SetupTitleScreen(OpeningContext* this) {
-    gSaveContext.gameMode = 1;
+    gSaveContext.gameMode = 0;
     this->state.running = false;
-    gSaveContext.linkAge = 0;
+    gSaveContext.linkAge = 1;
     Sram_InitDebugSave();
-    gSaveContext.cutsceneIndex = 0xFFF3;
-    gSaveContext.sceneSetupIndex = 7;
+    gSaveContext.dayTime = 0x5000;
+    gSaveContext.entranceIndex = 0x27E;
+    gSaveContext.respawnFlag = 0;
+    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }
 

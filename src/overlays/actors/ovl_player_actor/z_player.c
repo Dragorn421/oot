@@ -620,6 +620,7 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_BULLET_BAG_50, OBJECT_GI_DEKUPOUCH, GID_BULLET_BAG_50, 0x6C, 0x80, CHEST_ANIM_LONG),
     GET_ITEM_NONE,
     GET_ITEM_NONE,
+    /* GI_MAGIC_LADDER */ GET_ITEM(ITEM_RUPEE_GREEN, OBJECT_GI_RUPY, GID_RUPEE_GREEN, 0xF4, 0x00, CHEST_ANIM_LONG),
 };
 
 static LinkAnimationHeader* D_80853914[] = {
@@ -1566,7 +1567,11 @@ s32 func_808332E4(Player* this) {
 void func_808332F4(Player* this, GlobalContext* globalCtx) {
     GetItemEntry* giEntry = &sGetItemTable[this->getItemId - 1];
 
-    this->unk_862 = ABS(giEntry->gi);
+    if (ABS(this->getItemId) == GI_MAGIC_LADDER) {
+        this->unk_862 = 0;
+    } else {
+        this->unk_862 = ABS(giEntry->gi);
+    }
 }
 
 static LinkAnimationHeader* func_80833338(Player* this) {
@@ -5937,8 +5942,9 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                 this->currentYaw = this->actor.shape.rot.y = chest->dyna.actor.shape.rot.y;
                 func_80832224(this);
 
-                if ((giEntry->itemId != ITEM_NONE) && (giEntry->gi >= 0) &&
-                    (Item_CheckObtainability(giEntry->itemId) == ITEM_NONE)) {
+                if ((ABS(this->getItemId) == GI_MAGIC_LADDER) ||
+                    ((giEntry->itemId != ITEM_NONE) && (giEntry->gi >= 0) &&
+                     (Item_CheckObtainability(giEntry->itemId) == ITEM_NONE))) {
                     func_808322D0(globalCtx, this, this->ageProperties->unk_98);
                     func_80832F54(globalCtx, this, 0x28F);
                     chest->unk_1F4 = 1;
@@ -11793,8 +11799,13 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
         giEntry = &sGetItemTable[this->getItemId - 1];
         this->unk_84F = 1;
 
-        Message_StartTextbox(globalCtx, giEntry->textId, &this->actor);
-        Item_Give(globalCtx, giEntry->itemId);
+        if (ABS(this->getItemId) == GI_MAGIC_LADDER) {
+            // Message_StartTextbox(globalCtx, 0x3F, &this->actor);
+            this->getItemId = GI_NONE;
+        } else {
+            Message_StartTextbox(globalCtx, giEntry->textId, &this->actor);
+            Item_Give(globalCtx, giEntry->itemId);
+        }
 
         if (((this->getItemId >= GI_RUPEE_GREEN) && (this->getItemId <= GI_RUPEE_RED)) ||
             ((this->getItemId >= GI_RUPEE_PURPLE) && (this->getItemId <= GI_RUPEE_GOLD)) ||
@@ -11830,6 +11841,8 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
 
 void func_8084E1EC(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= 0x20;
+
+    osSyncPrintf("func_8084E1EC\n");
 
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         if (!(this->stateFlags1 & 0x400) || func_8084DFF4(globalCtx, this)) {
@@ -11950,10 +11963,17 @@ static struct_80832924 D_808549E0[] = {
 void func_8084E6D4(Player* this, GlobalContext* globalCtx) {
     s32 cond;
 
+    osSyncPrintf("func_8084E6D4 curFrame=%.01f unk_850=%d\n", this->skelAnime.curFrame, (s32)this->unk_850);
+
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
+        osSyncPrintf("LinkAnimation_Update -> true\n");
         if (this->unk_850 != 0) {
             if (this->unk_850 >= 2) {
                 this->unk_850--;
+            }
+
+            if (this->getItemId == GI_MAGIC_LADDER) {
+                func_8002F6D4(globalCtx, &this->actor, 2.0f, 0x8000, 0.0f, 0);
             }
 
             if (func_8084DFF4(globalCtx, this) && (this->unk_850 == 1)) {
@@ -11999,6 +12019,25 @@ void func_8084E6D4(Player* this, GlobalContext* globalCtx) {
             func_80835EA4(globalCtx, 9);
         }
     } else {
+        osSyncPrintf("LinkAnimation_Update -> false\n");
+
+        if (this->getItemId == GI_MAGIC_LADDER && LinkAnimation_OnFrame(&this->skelAnime, 100.0f)) {
+            osSyncPrintf("LADDER BOO\n");
+            this->unk_850 = 1;
+            this->skelAnime.curFrame = 300;
+            this->interactRangeActor = NULL;
+            Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_NORMAL0);
+            /*
+            this->stateFlags1 &= ~0xC00;
+            this->getItemId = GI_NONE; // crash
+            */
+            // func_8084DFAC(globalCtx, this);
+            // func_8084DF6C(globalCtx, this); // crash
+            // func_80837C0C(globalCtx, this, 3, 0.0f, 0.0f, 0, 20);
+            func_8002F6D4(globalCtx, &this->actor, 2.0f, 0x8000, 0.0f, 0);
+            return;
+        }
+
         if (this->unk_850 == 0) {
             if (!LINK_IS_ADULT) {
                 func_80832924(this, D_808549E0);
