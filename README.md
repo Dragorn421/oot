@@ -1,3 +1,17 @@
+# MOD: Magic ladder chest
+
+https://cdn.discordapp.com/attachments/448118684792389632/925342987477733386/2021-12-28_11-56-40.webm
+
+adds and partially implements get item id GI_MAGIC_LADDER
+
+objects: OBJECT_BOX, OBJECT_YDAN_OBJECTS
+
+entry for chest in hyrule field in front of market `{ ACTOR_EN_BOX, { 0, 0, 1415 }, { 0, 0, 0 }, 126 << 5 },`
+
+may only work with big chests idk
+
+a bunch of the code is useless, not sure which parts
+
 # The Legend of Zelda: Ocarina of Time
 
 [![Build Status][jenkins-badge]][jenkins] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
