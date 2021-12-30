@@ -1225,7 +1225,7 @@ void Fault_ThreadEntry(void* arg) {
         } else {
             // Draw error bar signifying the crash screen is available
             Fault_DrawCornerRec(GPACK_RGBA5551(255, 0, 0, 1));
-            Fault_WaitForButtonCombo();
+            // Fault_WaitForButtonCombo();
         }
 
         // Set auto-scrolling and default colors
