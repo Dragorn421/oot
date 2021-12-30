@@ -40,7 +40,7 @@ MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 # Emulator w/ flags
 N64_EMULATOR ?=
 # Set to override game region in the ROM header. Options: JP, US, EU
-# REGION ?= US
+REGION ?= US
 
 CFLAGS ?=
 CPPFLAGS ?=
