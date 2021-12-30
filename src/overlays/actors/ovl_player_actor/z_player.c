@@ -20,6 +20,12 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_link_child/object_link_child.h"
 
+#include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+
+EnGanonMant* sLinkCape;
+Vec3f sLinkNeckWorldPos;
+
 typedef struct {
     /* 0x00 */ u8 itemId;
     /* 0x01 */ u8 field; // various bit-packed data
@@ -9157,6 +9163,40 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     Map_SavePlayerInitialInfo(globalCtx);
     MREG(64) = 0;
+
+    sLinkCape = (EnGanonMant*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GANON_MANT, 0.0f, 0.0f, 0.0f, 0, 0,
+                                          0, EN_GANON_MANT_LINK);
+}
+
+// copypaste from EnViewer_UpdateGanondorfCape
+void Player_UpdateCape(GlobalContext* globalCtx, Player* this) {
+    static s16 yOscillationPhase = 0;
+    Vec3f forearmModelOffset;
+    Vec3f forearmWorldOffset;
+
+    sLinkCape->backPush = BREG(54) / 10.0f;
+    sLinkCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
+    sLinkCape->sideSwayMagnitude = (BREG(55) - 45) / 10.0f;
+    sLinkCape->minY = -10000.0f;
+    sLinkCape->minDist = 0.0f;
+    sLinkCape->gravity = (BREG(67) - 10) / 10.0f;
+    forearmModelOffset.x = KREG(16) - 13.0f;
+    forearmModelOffset.y = KREG(17) + 15.0f + Math_SinS(yOscillationPhase) * KREG(20);
+    forearmModelOffset.z = KREG(18) + 5.0f;
+    yOscillationPhase += KREG(19) * 0x1000 + 0x2000;
+
+    sLinkNeckWorldPos = this->bodyPartsPos[0];
+
+    Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+    Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+    sLinkCape->rightForearmPos.x = sLinkNeckWorldPos.x + forearmWorldOffset.x;
+    sLinkCape->rightForearmPos.y = sLinkNeckWorldPos.y + forearmWorldOffset.y;
+    sLinkCape->rightForearmPos.z = sLinkNeckWorldPos.z + forearmWorldOffset.z;
+    forearmModelOffset.x = -(KREG(16) - 13.0f);
+    Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+    sLinkCape->leftForearmPos.x = sLinkNeckWorldPos.x + forearmWorldOffset.x;
+    sLinkCape->leftForearmPos.y = sLinkNeckWorldPos.y + forearmWorldOffset.y;
+    sLinkCape->leftForearmPos.z = sLinkNeckWorldPos.z + forearmWorldOffset.z;
 }
 
 void func_808471F4(s16* pValue) {
@@ -10298,6 +10338,8 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         Player_UpdateCommon(this, globalCtx, &sp44);
+
+        Player_UpdateCape(globalCtx, this);
     }
 
     MREG(52) = this->actor.world.pos.x;
@@ -10480,6 +10522,15 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
         if (this->unk_862 > 0) {
             Player_DrawGetItem(globalCtx, this);
+        }
+
+        {
+            Vec3f v = this->bodyPartsPos[0];
+            f32 scale = 1.0f / 4;
+
+            Matrix_Translate(v.x, v.y, v.z, MTXMODE_NEW);
+            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+            Gfx_DrawDListOpa(globalCtx, gFieldBushDL);
         }
     }
 

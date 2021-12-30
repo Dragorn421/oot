@@ -103,6 +103,9 @@ void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGanonMant* this = (EnGanonMant*)thisx;
 
     this->actor.flags &= ~ACTOR_FLAG_0;
+
+    this->isPlayerCape = this->actor.params == EN_GANON_MANT_LINK;
+    this->actor.params = EN_GANON_MANT_BOSS; // ?
 }
 
 void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -170,7 +173,7 @@ void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f
     Vec3f sideSwayOffset;
 
     delta.y = 0;
-    if (this->actor.params == 0x23) {
+    if (this->actor.params == EN_GANON_MANT_CUTSCENE) {
         // Pushes all the strands away from the actor
         delta.x = 0.0f;
         delta.z = -30.0f;
@@ -184,6 +187,9 @@ void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f
         jointLength = 6.5f;
     } else {
         jointLength = 9.5f;
+    }
+    if (this->isPlayerCape) {
+        jointLength = 4.0f;
     }
 
     for (i = 0; i < GANON_MANT_NUM_JOINTS; i++, pos++, vel++, rot++, nextPos++) {
@@ -261,7 +267,7 @@ void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f
             vel->y = (pos->y - y) * 80.0f / 100.0f;
             vel->z = (pos->z - z) * 80.0f / 100.0f;
 
-            if (this->actor.params != 0x23) {
+            if (this->actor.params != EN_GANON_MANT_CUTSCENE) {
                 // Clamp elements of vel into [-5.0, 5.0]
                 if (vel->x > 5.0f) {
                     vel->x = 5.0f;
@@ -331,7 +337,13 @@ void EnGanonMant_UpdateVertices(EnGanonMant* this) {
 
 void EnGanonMant_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGanonMant* this = (EnGanonMant*)thisx;
-    BossGanon* ganon = (BossGanon*)this->actor.parent;
+    Actor* attachedTo;
+
+    if (this->isPlayerCape) {
+        attachedTo = &GET_PLAYER(globalCtx)->actor;
+    } else {
+        attachedTo = &((BossGanon*)this->actor.parent)->actor;
+    }
 
     this->updateHasRun = true;
     this->frameTimer++;
@@ -347,7 +359,7 @@ void EnGanonMant_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->attachShouldersTimer -= 1.0f;
     }
 
-    this->actor.shape.rot.y = ganon->actor.shape.rot.y;
+    this->actor.shape.rot.y = attachedTo->shape.rot.y;
 
     if (this->tearTimer != 0) {
         this->tearTimer--;

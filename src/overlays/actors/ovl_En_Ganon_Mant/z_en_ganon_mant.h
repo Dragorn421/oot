@@ -4,6 +4,10 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define EN_GANON_MANT_BOSS 1
+#define EN_GANON_MANT_CUTSCENE 0x23
+#define EN_GANON_MANT_LINK 0x421
+
 struct EnGanonMant;
 
 #define GANON_MANT_NUM_JOINTS 12
@@ -37,6 +41,7 @@ typedef struct EnGanonMant {
     /* 0x1704 */ u8 tearTimer; // tear the cloak for x many frames
     /* 0x1705 */ u8 updateHasRun;
     /* 0x1706 */ u8 frameTimer;
+    s32 isPlayerCape;
 } EnGanonMant; // size = 0x1708
 
 #endif

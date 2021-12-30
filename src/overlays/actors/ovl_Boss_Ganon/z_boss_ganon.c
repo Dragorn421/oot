@@ -377,7 +377,7 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         sCape = (EnGanonMant*)Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_GANON_MANT, 0.0f,
-                                                 0.0f, 0.0f, 0, 0, 0, 1);
+                                                 0.0f, 0.0f, 0, 0, 0, EN_GANON_MANT_BOSS);
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BOSS);
     } else {
         thisx->flags &= ~ACTOR_FLAG_0;
