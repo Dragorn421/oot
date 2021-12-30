@@ -5,7 +5,7 @@ MAKEFLAGS += --no-builtin-rules
 # If COMPARE is 1, check the output md5sum after building
 COMPARE ?= 1
 # If NON_MATCHING is 1, define the NON_MATCHING C flag when building
-NON_MATCHING ?= 0
+NON_MATCHING ?= 1
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
 
@@ -64,8 +64,8 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR = mupen64plus
-EMU_FLAGS = --noosd
+EMULATOR = m64p
+EMU_FLAGS =
 
 INC        := -Iinclude -Isrc -Iassets -Ibuild -I.
 
@@ -245,6 +245,10 @@ build/dmadata_table_spec.h: build/$(SPEC)
 
 build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
+
+build/src/code/z_actor_dlftbls.o: include/tables/actor_table.h
+build/src/code/z_scene.o: include/tables/object_table.h
+build/src/code/z_effect_soft_sprite_dlftbls.o: include/tables/effect_ss_table.h
 
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
