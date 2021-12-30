@@ -16,7 +16,7 @@ SHELL = /usr/bin/env bash
 # If COMPARE is 1, check the output md5sum after building. Set to 0 when modding.
 COMPARE ?= 1
 # If NON_MATCHING is 1, define the NON_MATCHING C flag when building. Set to 1 when modding.
-NON_MATCHING ?= 0
+NON_MATCHING ?= 1
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler.
 ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
@@ -58,7 +58,7 @@ UCODE_ASM_DEBUG ?= 0
 # Note that by enabling debug features on non-debug ROM versions, some debug ROM specific assets will not be included.
 # This means the debug test scenes and some debug graphics in the elf_msg actors will not work as expected.
 # This may also be used to disable debug features on debug ROMs by setting DEBUG_FEATURES to 0
-# DEBUG_FEATURES ?= 1
+DEBUG_FEATURES ?= 1
 
 # Version-specific settings
 REGIONAL_CHECKSUM := 0
