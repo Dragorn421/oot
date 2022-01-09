@@ -1,0 +1,6 @@
+extern Vtx gMagicWindowOutsideDL_outside_mesh_layer_Opaque_vtx_cull[8];
+extern Vtx gMagicWindowOutsideDL_outside_mesh_layer_Opaque_vtx_0[8];
+extern Gfx gMagicWindowOutsideDL_outside_mesh_layer_Opaque_tri_0[];
+extern Gfx mat_gMagicWindowOutsideDL_inside_layerOpaque[];
+extern Gfx mat_revert_gMagicWindowOutsideDL_inside_layerOpaque[];
+extern Gfx gMagicWindowOutsideDL[];

@@ -860,6 +860,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         Actor_UpdateAll(globalCtx, &globalCtx->actorCtx);
                     }
 
+                    if (globalCtx->state.input[0].press.button & BTN_DUP) {
+                        Vec3f pos = GET_PLAYER(globalCtx)->actor.world.pos;
+
+                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MAGIC_WINDOW, pos.x, pos.y, pos.z, 0, 0, 0, 0);
+                    }
+
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3643);
                     }

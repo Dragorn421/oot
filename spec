@@ -3367,6 +3367,12 @@ beginseg
 endseg
 
 beginseg
+    name "ovl_MagicWindow"
+    include "build/src/overlays/actors/ovl_MagicWindow/magicwindow.o"
+    include "build/src/overlays/actors/ovl_MagicWindow/ovl_MagicWindow_reloc.o"
+endseg
+
+beginseg
     name "gameplay_keep"
     romalign 0x1000
     include "build/assets/objects/gameplay_keep/gameplay_keep.o"
