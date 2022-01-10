@@ -200,7 +200,7 @@ void func_80893C68(BgJyaBigmirror* this, GlobalContext* globalCtx) {
     if (temp_v0 != NULL) {
         this->unk170 = temp_v0->world.pos.y;
     }
-    func_800D1694(this->actor.world.pos.x, this->actor.world.pos.y + 40.0f, this->actor.world.pos.z,
+    Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 40.0f, this->actor.world.pos.z,
                   &this->actor.shape.rot);
     Matrix_Scale(0.1f, (this->unk170 * -0.00078125f) + 1.3901563f, 0.1f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
@@ -208,7 +208,7 @@ void func_80893C68(BgJyaBigmirror* this, GlobalContext* globalCtx) {
     if (1) {}
     gSPDisplayList(POLY_XLU_DISP++, gBigMirror1DL);
     if (temp_v0 != NULL) {
-        func_800D1694(temp_v0->world.pos.x, temp_v0->world.pos.y, temp_v0->world.pos.z, &D_80893F4C);
+        Matrix_SetTranslateRotateYXZ(temp_v0->world.pos.x, temp_v0->world.pos.y, temp_v0->world.pos.z, &D_80893F4C);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
