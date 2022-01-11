@@ -4467,7 +4467,10 @@ s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
     Vec3f sp68;
     f32 temp1;
 
+    osSyncPrintf("func_8083A6AC (player)\n");
+
     if ((this->actor.yDistToWater < -80.0f) && (ABS(this->unk_898) < 2730) && (ABS(this->unk_89A) < 2730)) {
+        osSyncPrintf("func_8083A6AC if (...)\n");
         sp74.x = this->actor.prevPos.x - this->actor.world.pos.x;
         sp74.z = this->actor.prevPos.z - this->actor.world.pos.z;
 
@@ -4483,24 +4486,30 @@ s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
         sp74.z = this->actor.prevPos.z + (sp74.z * temp1);
 
         if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &sp74, &sp68, &sp84, true, false, false,
-                                    true, &sp80) &&
-            (ABS(sp84->normal.y) < 600)) {
+                                    true, &sp80) 
+                                    /*&&
+            (ABS(sp84->normal.y) < 600)*/
+            ) {
             f32 nx = COLPOLY_GET_NORMAL(sp84->normal.x);
             f32 ny = COLPOLY_GET_NORMAL(sp84->normal.y);
             f32 nz = COLPOLY_GET_NORMAL(sp84->normal.z);
             f32 sp54;
             s32 sp50;
 
+            osSyncPrintf("func_8083A6AC if (BgCheck_EntityLineTest1(...))\n");
+
             sp54 = Math3D_UDistPlaneToPos(nx, ny, nz, sp84->dist, &this->actor.world.pos);
 
             sp50 = D_80853604 == 6;
             if (!sp50 && (func_80041DB8(&globalCtx->colCtx, sp84, sp80) & 8)) {
+                osSyncPrintf("func_8083A6AC !sp50 && (func_80041DB8(...) & 8)\n");
                 sp50 = 1;
             }
 
             func_8083A5C4(globalCtx, this, sp84, sp54, sp50 ? &gPlayerAnim_002D88 : &gPlayerAnim_002F10);
 
             if (sp50) {
+                osSyncPrintf("func_8083A6AC if (sp50)\n");
                 func_80836898(globalCtx, this, func_8083A3B0);
 
                 this->currentYaw += 0x8000;
@@ -4512,6 +4521,7 @@ s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
                 this->unk_850 = -1;
                 this->unk_84F = sp50;
             } else {
+                osSyncPrintf("func_8083A6AC else\n");
                 this->stateFlags1 |= 0x2000;
                 this->stateFlags1 &= ~0x20000;
             }
@@ -6214,8 +6224,12 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
     sp60.z = this->actor.world.pos.z + (arg3 * yawCos);
     sp60.y = sp6C.y = this->actor.world.pos.y + arg1;
 
+    osSyncPrintf("func_8083F360 (player)\n");
+
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, true, false, false,
                                 true, &sp78)) {
+        osSyncPrintf("func_8083F360 if (BgCheck_EntityLineTest1(...))\n");
+
         wallPoly = this->actor.wallPoly;
 
         this->actor.bgCheckFlags |= 0x200;
@@ -9475,6 +9489,8 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         s16 sp9A;
         s32 pad;
 
+        osSyncPrintf("func_80847BA0 player bgCheckFlags & 8\n");
+
         D_80854798.y = 18.0f;
         D_80854798.z = this->ageProperties->unk_38 + 10.0f;
 
@@ -9511,7 +9527,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         if ((this->actor.bgCheckFlags & 0x200) && (D_80853608 < 0x3000)) {
             CollisionPoly* wallPoly = this->actor.wallPoly;
 
-            if (ABS(wallPoly->normal.y) < 600) {
+            if (true) { // ABS(wallPoly->normal.y) < 600) {
                 f32 sp8C = COLPOLY_GET_NORMAL(wallPoly->normal.x);
                 f32 sp88 = COLPOLY_GET_NORMAL(wallPoly->normal.y);
                 f32 sp84 = COLPOLY_GET_NORMAL(wallPoly->normal.z);

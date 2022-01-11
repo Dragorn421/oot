@@ -24,11 +24,6 @@
 #define COLPOLY_IGNORE_ENTITY (1 << 1)
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
-// func_80041DB8, SurfaceType wall properties
-s32 D_80119D90[32] = {
-    0, 1, 3, 5, 8, 16, 32, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-};
-
 // SurfaceType_GetSfx
 u16 D_80119E10[14] = {
     NA_SE_PL_WALK_GROUND - SFX_FLAG, NA_SE_PL_WALK_SAND - SFX_FLAG,   NA_SE_PL_WALK_CONCRETE - SFX_FLAG,
@@ -3983,11 +3978,26 @@ u32 func_80041D94(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return SurfaceType_GetData(colCtx, poly, bgId, 0) >> 21 & 0x1F;
 }
 
+// func_80041DB8, SurfaceType wall properties
+s32 D_80119D90[32] = {
+    /* None */ 0,
+    /* Cannot Grab Ledge */ 1,
+    /* Ladder, Cannot Grab Ledge */ 3,
+    /* Ladder Top, Cannot Grab ledge */ 5,
+    /* Vines */ 8,
+    /* Crawl Space */ 16,
+    /* Crawl Space */ 32,
+    /* Pushblock */ 64,
+
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
 /**
  * SurfaceType Get Wall Flags
  */
 s32 func_80041DB8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return D_80119D90[func_80041D94(colCtx, poly, bgId)];
+    osSyncPrintf("func_80041DB8 (bgcheck)\n");
+    return (1 << 3) | D_80119D90[func_80041D94(colCtx, poly, bgId)];
 }
 
 /**
