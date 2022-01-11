@@ -227,7 +227,7 @@ void func_80B26C50(EnVali* this, GlobalContext* globalCtx) {
     Item_DropCollectibleRandom(globalCtx, &this->actor, &temp_s1->pos, 0x50);
     this->unk196 = Rand_S16Offset(0xA, 0xA);
     this->unk3FC.base.acFlags &= ~AC_ON;
-    Audio_PlaySoundAtPosition(globalCtx, &temp_s1->pos, 40, NA_SE_EN_BARI_SPLIT);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &temp_s1->pos, 40, NA_SE_EN_BARI_SPLIT);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.draw = NULL;
     this->unk190 = func_80B274A0;

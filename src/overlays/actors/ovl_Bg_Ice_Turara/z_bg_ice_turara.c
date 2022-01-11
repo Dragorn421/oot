@@ -82,7 +82,7 @@ void func_80892040(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
     s32 var_s0;
     s32 sp88;
 
-    Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
     sp88 = 0;
     do {
         for (var_s0 = 0; var_s0 < 10; var_s0++) {

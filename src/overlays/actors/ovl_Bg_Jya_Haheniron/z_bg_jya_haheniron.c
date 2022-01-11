@@ -163,7 +163,7 @@ void func_8089861C(BgJyaHaheniron* this) {
 void func_8089862C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     if (this->unk1B0 >= 0x11) {
         func_80898114(globalCtx, &this->actor.world.pos, &D_808987AC);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
         Actor_Kill(&this->actor);
     }
 }

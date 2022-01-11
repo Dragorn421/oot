@@ -254,12 +254,12 @@ void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         func_80A9BA98(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
     } else if (this->unk150.base.acFlags & AC_HIT) {
         this->unk150.base.acFlags &= ~AC_HIT;
         func_80A9B21C(this, globalCtx);
         func_80A9B07C(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         if ((this->actor.params >> 4) & 1) {
             func_80A9B574(this, globalCtx);
         }
@@ -322,7 +322,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 0xB) {
         if (!(this->actor.bgCheckFlags & 0x20)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         func_80A9B21C(this, globalCtx);
         func_80A9B07C(this, globalCtx);
@@ -351,7 +351,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
         rotSpeedY = (s16)((s16)rotSpeedY >> 1);
         rotSpeedYtarget = (s16)((s16)rotSpeedYtarget >> 1);
         this->actor.bgCheckFlags &= ~0x40;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
     }
     EnKusa_UpdateVelY(this);
     Math_StepToS(&rotSpeedX, rotSpeedXtarget, 0x1F4);

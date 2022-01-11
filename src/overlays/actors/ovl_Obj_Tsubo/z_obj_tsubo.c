@@ -246,13 +246,13 @@ void func_80BA15BC(ObjTsubo* this, GlobalContext* globalCtx) {
         func_80BA17C4(this);
     } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
         func_80BA1294(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         func_80BA0D60(this, globalCtx);
         Actor_Kill(&this->actor);
     } else if ((this->unk150.base.acFlags & AC_HIT) && (this->unk150.info.acHitInfo->toucher.dmgFlags & 0x4FC1FFFC)) {
         func_80BA100C(this, globalCtx);
         func_80BA0D60(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         if (this->actor.xzDistToPlayer < 600.0f) {
@@ -306,12 +306,12 @@ void func_80BA1958(ObjTsubo* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 0xB) || (this->unk150.base.atFlags & AT_HIT)) {
         func_80BA100C(this, globalCtx);
         func_80BA0D60(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else if (this->actor.bgCheckFlags & 0x40) {
         func_80BA1294(this, globalCtx);
         func_80BA0D60(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         func_80BA0DC0(this);

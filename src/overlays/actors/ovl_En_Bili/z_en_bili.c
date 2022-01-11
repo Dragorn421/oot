@@ -443,7 +443,7 @@ void func_809C0754(EnBili* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
     if (this->unk196 == 0xE) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 0x28, NA_SE_EN_BIRI_BUBLE);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 0x28, NA_SE_EN_BIRI_BUBLE);
     }
 }
 
