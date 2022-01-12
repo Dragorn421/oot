@@ -39,21 +39,39 @@ ColliderCylinderInit D_80AAC310 = {
     { 0x24, 0x2E, 0, { 0, 0, 0 } },
 };
 CollisionCheckInfoInit2 D_80AAC33C = { 0, 0, 0, 0, 0xFF };
-struct_80034EC0_Entry D_80AAC348[] = {
-    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, 0, 0.0f },
-    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, 0, -10.0f },
-    { &gMidoRaiseHand1Anim, 1.0f, 0.0f, -1.0f, 2, -1.0f },
-    { &gMidoHaltAnim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
-    { &gMidoPutHandDownAnim, 1.0f, 0.0f, -1.0f, 2, -1.0f },
-    { &gMidoAnnoyedPointedHeadIdle1Anim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
-    { &gMidoAnnoyedPointedHeadIdle2Anim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
-    { &gMidoAnim_92B0, 1.0f, 0.0f, -1.0f, 2, -1.0f },
-    { &gMidoWalkingAnim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
-    { &gMidoHandsOnHipsTransitionAnim, 1.0f, 0.0f, -1.0f, 2, -1.0f },
-    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, 0, -8.0f },
-    { &gMidoSlamAnim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
-    { &gMidoRaiseHand2Anim, 1.0f, 0.0f, -1.0f, 2, -1.0f },
-    { &gMidoAngryHeadTurnAnim, 1.0f, 0.0f, -1.0f, 0, -1.0f },
+
+typedef enum {
+    /*  0 */ ENMD_ANIM_0,
+    /*  1 */ ENMD_ANIM_1,
+    /*  2 */ ENMD_ANIM_2,
+    /*  3 */ ENMD_ANIM_3,
+    /*  4 */ ENMD_ANIM_4,
+    /*  5 */ ENMD_ANIM_5,
+    /*  6 */ ENMD_ANIM_6,
+    /*  7 */ ENMD_ANIM_7,
+    /*  8 */ ENMD_ANIM_8,
+    /*  9 */ ENMD_ANIM_9,
+    /* 10 */ ENMD_ANIM_10,
+    /* 11 */ ENMD_ANIM_11,
+    /* 12 */ ENMD_ANIM_12,
+    /* 13 */ ENMD_ANIM_13,
+} EnMdAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gMidoRaiseHand1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoHaltAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoPutHandDownAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoAnnoyedPointedHeadIdle1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnnoyedPointedHeadIdle2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnim_92B0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoWalkingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoHandsOnHipsTransitionAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gMidoSlamAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoRaiseHand2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoAngryHeadTurnAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
 Vec3f D_80AAC498 = { 400.0f, 0.0f, 0.0f };
 void* D_80AAC4A4[3] = {
@@ -77,11 +95,11 @@ void func_80AAA250(EnMd* this) {
 void func_80AAA274(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 2);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_2);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 3);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_3);
                 this->unk20A++;
             }
             break;
@@ -91,11 +109,11 @@ void func_80AAA274(EnMd* this) {
 void func_80AAA308(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 4);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_4);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 5);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_5);
                 this->unk20A++;
             }
             break;
@@ -105,19 +123,19 @@ void func_80AAA308(EnMd* this) {
 void func_80AAA39C(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 2);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_2);
             func_80AAA250(this);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 7);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_7);
                 this->unk20A++;
             } else {
                 break;
             }
         case 2:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 8);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_8);
                 this->unk20A++;
             }
     }
@@ -126,11 +144,11 @@ void func_80AAA39C(EnMd* this) {
 void func_80AAA474(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 7);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_7);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_10);
                 this->unk20A++;
             }
             break;
@@ -140,12 +158,12 @@ void func_80AAA474(EnMd* this) {
 void func_80AAA508(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 2);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_2);
             func_80AAA250(this);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_10);
                 this->unk20A++;
             }
             break;
@@ -155,11 +173,11 @@ void func_80AAA508(EnMd* this) {
 void func_80AAA5A4(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 9);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_9);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 6);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_6);
                 this->unk20A++;
             }
             break;
@@ -169,12 +187,12 @@ void func_80AAA5A4(EnMd* this) {
 void func_80AAA638(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 9);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_9);
             func_80AAA250(this);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_10);
                 this->unk20A++;
             }
             break;
@@ -184,11 +202,11 @@ void func_80AAA638(EnMd* this) {
 void func_80AAA6D4(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 0xB);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_11);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 6);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_6);
                 this->unk20A++;
             }
             break;
@@ -198,11 +216,11 @@ void func_80AAA6D4(EnMd* this) {
 void func_80AAA768(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 0xC);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_12);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 3);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_3);
                 this->unk20A++;
             }
             break;
@@ -212,11 +230,11 @@ void func_80AAA768(EnMd* this) {
 void func_80AAA7FC(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 0xD);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_13);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 6);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_6);
                 this->unk20A++;
             }
             break;
@@ -226,12 +244,12 @@ void func_80AAA7FC(EnMd* this) {
 void func_80AAA890(EnMd* this) {
     switch (this->unk20A) {
         case 0:
-            func_80034EC0(&this->unk14C, D_80AAC348, 7);
+            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_7);
             func_80AAA250(this);
             this->unk20A++;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
+                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_10);
                 this->unk20A++;
             }
             break;
@@ -328,7 +346,7 @@ void func_80AAAA24(EnMd* this) {
                 break;
         }
     } else if (this->unk14C.animation != &gMidoHandsOnHipsIdleAnim) {
-        func_80034EC0(&this->unk14C, D_80AAC348, 0xA);
+        Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_10);
         func_80AAA92C(this, 0);
     }
     func_80AAA93C(this);
@@ -609,7 +627,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_80034EC0(&this->unk14C, D_80AAC348, 0);
+    Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_0);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
     this->unk210 = 255;

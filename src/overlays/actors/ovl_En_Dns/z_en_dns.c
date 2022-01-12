@@ -51,11 +51,11 @@ typedef struct EnDnsPurchaseInfo {
     /* 0x0C */ void (*concludePurchase)(struct EnDns*);
 } EnDnsPurchaseInfo;
 
-typedef struct _struct_D_809F0538_0xC {
+typedef struct _struct_sAnimationInfo_0xC {
     /* 0x0 */ AnimationHeader* unk0;
     /* 0x4 */ u8 unk4;
     /* 0x8 */ f32 unk8;
-} _struct_D_809F0538_0xC;
+} _struct_sAnimationInfo_0xC;
 
 const ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
@@ -150,10 +150,17 @@ static InitChainEntry D_809F052C[3] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
-static struct _struct_D_809F0538_0xC D_809F0538[3] = {
-    { &gBusinessScrubNervousIdleAnim, 0, 0.0f },
-    { &gBusinessScrubAnim_4404, 2, 0.0f },
-    { &gBusinessScrubNervousTransitionAnim, 2, 0.0f },
+
+typedef enum {
+    /* 0 */ ENDNS_ANIM_0,
+    /* 1 */ ENDNS_ANIM_1,
+    /* 2 */ ENDNS_ANIM_2
+} EnDnsAnimation;
+
+static AnimationMinimalInfo sAnimationInfo[] = {
+    { &gBusinessScrubNervousIdleAnim, ANIMMODE_LOOP, 0.0f },
+    { &gBusinessScrubAnim_4404, ANIMMODE_ONCE, 0.0f },
+    { &gBusinessScrubNervousTransitionAnim, ANIMMODE_ONCE, 0.0f },
 };
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -193,13 +200,13 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->unk26C);
 }
 
-void func_809EF51C(EnDns* this, u8 arg1) {
+void EnDns_ChangeAnim(EnDns* this, u8 arg1) {
     s16 temp_ft0;
 
-    temp_ft0 = Animation_GetLastFrame(D_809F0538[arg1].unk0);
+    temp_ft0 = Animation_GetLastFrame(sAnimationInfo[arg1].animation);
     this->unk2BA = arg1;
-    Animation_Change(&this->unk14C, D_809F0538[arg1].unk0, 1.0f, 0.0f, temp_ft0, D_809F0538[arg1].unk4,
-                     D_809F0538[arg1].unk8);
+    Animation_Change(&this->unk14C, sAnimationInfo[arg1].animation, 1.0f, 0.0f, temp_ft0, sAnimationInfo[arg1].mode,
+                     sAnimationInfo[arg1].morphFrames);
 }
 
 u32 EnDns_CheckPurchase_DekuNuts(EnDns* this) {
@@ -331,7 +338,7 @@ void EnDns_ConcludePurchase_DekuNutsCapacity(EnDns* this) {
 void func_809EFB84(EnDns* this, GlobalContext* globalCtx) {
     if (this->unk14C.curFrame == this->unk14C.endFrame) {
         this->unk268 = func_809EFBC8;
-        func_809EF51C(this, 0);
+        EnDns_ChangeAnim(this, ENDNS_ANIM_0);
     }
 }
 
@@ -428,7 +435,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
             this->unk2BD = 1;
             this->unk2BB = 0;
             this->actor.flags &= ~ACTOR_FLAG_0;
-            func_809EF51C(this, 1);
+            EnDns_ChangeAnim(this, ENDNS_ANIM_1);
             this->unk268 = func_809F0100;
         }
     } else {
@@ -436,7 +443,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
         this->unk2BD = 1;
         this->unk2BB = 0;
         this->actor.flags &= ~ACTOR_FLAG_0;
-        func_809EF51C(this, 1);
+        EnDns_ChangeAnim(this, ENDNS_ANIM_1);
         this->unk268 = func_809F0100;
     }
 }
@@ -445,7 +452,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->unk2BB = 0;
         this->actor.flags &= ~ACTOR_FLAG_0;
-        func_809EF51C(this, 1);
+        EnDns_ChangeAnim(this, ENDNS_ANIM_1);
         this->unk268 = func_809F0100;
     }
 }
