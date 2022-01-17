@@ -329,6 +329,18 @@ build/dmadata_table_spec.h: build/$(SPEC)
 build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 
+build/src/code/z_actor_dlftbls.o: include/tables/actor_table.h
+build/src/code/z_actor.o: include/tables/actor_table.h
+build/src/code/z_scene.o: include/tables/object_table.h
+build/src/code/z_effect_soft_sprite_dlftbls.o: include/tables/effect_ss_table.h
+build/src/code/z_scene_table.o: include/tables/scene_table.h
+build/src/code/z_scene_table.o: include/tables/entrance_table.h
+
+build/src/code/z_kanfont.o: assets/text/message_data.h
+build/src/code/z_kanfont.o: assets/text/message_data_staff.h
+build/src/code/z_message_PAL.o: assets/text/message_data.h
+build/src/code/z_message_PAL.o: assets/text/message_data_staff.h
+
 build/src/%.o: src/%.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
