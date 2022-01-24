@@ -638,7 +638,7 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
 s32 EnFirefly_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx, Gfx** gfx) {
     EnFirefly* this = thisx;
-    if ((this->actor.draw == EnFirefly_DrawXlu) && (globalCtx->actorCtx.unk_03 == 0)) {
+    if ((this->actor.draw == EnFirefly_DrawXlu) && (globalCtx->actorCtx.lensActive == 0)) {
         *dList = NULL;
     } else if (limbIndex == 1) {
         pos->y += 2300.0f;
