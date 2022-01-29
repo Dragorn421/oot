@@ -369,6 +369,73 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         if (this->actor.xzDistToPlayer < 600.0f) {
+            if (0) {
+                static Actor* main;
+                if (main == NULL || main == &this->actor) {
+                    GfxPrint printer;
+                    Gfx* gfx;
+                    static ColliderInfo prevAcHitInfo;
+
+                    main = &this->actor;
+
+                    OPEN_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
+
+                    gfx = POLY_OPA_DISP + 1;
+                    gSPDisplayList(OVERLAY_DISP++, gfx);
+
+                    GfxPrint_Init(&printer);
+                    GfxPrint_Open(&printer, gfx);
+
+                    GfxPrint_SetColor(&printer, 255, 0, 255, 255);
+                    GfxPrint_SetPos(&printer, 0, 10);
+
+                    GfxPrint_Printf(&printer, " acFlags = 0x%hX\n", this->collider.base.acFlags);
+                    GfxPrint_Printf(&printer, " acHit = 0x%p\n", this->collider.info.acHit);
+                    GfxPrint_Printf(&printer, " acHitInfo = 0x%p\n", this->collider.info.acHitInfo);
+
+                    if (this->collider.info.acHitInfo != NULL) {
+                        prevAcHitInfo = *this->collider.info.acHitInfo;
+                    }
+                    GfxPrint_Printf(&printer, " acHitInfo->toucher.dmgFlags = 0x%hX\n", prevAcHitInfo.toucher.dmgFlags);
+
+                    if (this->collider.info.acHit != NULL) {
+                        GfxPrint_Printf(&printer, " acHit->actor->id = 0x%X %s\n", this->collider.info.acHit->actor->id,
+                                        gActorOverlayTable[this->collider.info.acHit->actor->id].name);
+                    }
+
+                    gfx = GfxPrint_Close(&printer);
+                    GfxPrint_Destroy(&printer);
+
+                    gSPEndDisplayList(gfx++);
+                    gSPBranchList(POLY_OPA_DISP, gfx);
+                    POLY_OPA_DISP = gfx;
+
+                    CLOSE_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
+                }
+            }
+
+            if (this->collider.base.acFlags & AC_BOUNCED) {
+                if (this->collider.info.acHitInfo != NULL && this->collider.info.acHitInfo->toucher.dmgFlags & 0x40) {
+                    MtxF mf;
+                    Player* player = GET_PLAYER(globalCtx);
+                    s16 dirRotY = player->actor.shape.rot.y;
+                    Vec3f axis;
+
+                    axis.x = Math_CosS(dirRotY);
+                    axis.y = 0.0f;
+                    axis.z = -Math_SinS(dirRotY);
+
+                    Matrix_Push();
+                    Matrix_SetTranslateRotateYXZ(0, 0, 0, &this->actor.shape.rot);
+                    Matrix_RotateAxis(M_PI / 6, &axis, MTXMODE_APPLY);
+                    Matrix_Get(&mf);
+                    Matrix_MtxFToYXZRotS(&mf, &this->actor.shape.rot, 0);
+                    Matrix_Pop();
+
+                    this->actor.world.rot = this->actor.shape.rot;
+                }
+            }
+
             Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
