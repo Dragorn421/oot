@@ -3365,6 +3365,12 @@ beginseg
 endseg
 
 beginseg
+    name "ovl_HammerTree1"
+    include "build/src/overlays/actors/ovl_HammerTree1/hammertree1.o"
+    include "build/src/overlays/actors/ovl_HammerTree1/ovl_HammerTree1_reloc.o"
+endseg
+
+beginseg
     name "gameplay_keep"
     romalign 0x1000
     include "build/assets/objects/gameplay_keep/gameplay_keep.o"
@@ -6034,6 +6040,13 @@ beginseg
     name "object_zl4"
     romalign 0x1000
     include "build/assets/objects/object_zl4/object_zl4.o"
+    number 6
+endseg
+
+beginseg
+    name "object_hammertree1"
+    romalign 0x1000
+    include "build/mods/hammertree1.zobj.o"
     number 6
 endseg
 
