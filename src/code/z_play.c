@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "src/overlays/actors/ovl_En_Test/z_en_test.h"
 
 void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
@@ -12,6 +13,8 @@ Color_RGBA8_u32 D_801614B0;
 FaultClient D_801614B8;
 s16 D_801614C8;
 u64 D_801614D0[0xA00];
+
+s32 myTimer;
 
 void func_800BC450(GlobalContext* globalCtx) {
     Camera_ChangeDataIdx(GET_ACTIVE_CAM(globalCtx), globalCtx->unk_1242B - 1);
@@ -193,6 +196,8 @@ void Gameplay_Init(GameState* thisx) {
     s32 i;
     u8 tempSetupIndex;
     s32 pad[2];
+
+    myTimer = 0;
 
     if (gSaveContext.entranceIndex == -1) {
         gSaveContext.entranceIndex = 0;
@@ -412,6 +417,15 @@ void Gameplay_Update(GlobalContext* globalCtx) {
     Input* input;
     u32 i;
     s32 pad2;
+
+    myTimer++;
+
+    if (myTimer == 10) {
+        Player* player = GET_PLAYER(globalCtx);
+        Vec3f* p = &player->actor.world.pos;
+
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TEST, p->x, p->y, p->z, 0, 0, 0, STALFOS_TYPE_1);
+    }
 
     input = globalCtx->state.input;
 
