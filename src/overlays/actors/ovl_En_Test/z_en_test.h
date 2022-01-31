@@ -100,7 +100,20 @@ typedef struct EnTest {
     /* 0x810 */ ColliderCylinder bodyCollider;
     /* 0x85C */ ColliderQuad swordCollider;
     /* 0x8DC */ ColliderCylinder shieldCollider;
+    s32 isInChargePhase;
+    s32 lostLimbsState;
+    struct {
+        Mtx mtx;
+        Gfx* dl;
+    } lostLimbs[2];
+    s32 chargeTimer;
 } EnTest; // size = 0x928
+
+typedef enum {
+    LOSTLIMBS_NOT_LOST = 0,
+    LOSTLIMBS_LOST_INIT,
+    LOSTLIMBS_LOST
+} LostLimbs;
 
 typedef enum {
     /* 0 */ STALFOS_TYPE_INVISIBLE,

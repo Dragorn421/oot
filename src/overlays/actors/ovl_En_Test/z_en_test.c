@@ -9,6 +9,8 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
+#define IS_STALFOS_CHARGE true // TODO some kind of check to enable this logic
+
 void EnTest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -52,12 +54,16 @@ void func_808621D4(EnTest* this, GlobalContext* globalCtx);
 void func_80862418(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Stunned(EnTest* this, GlobalContext* globalCtx);
 void func_808628C8(EnTest* this, GlobalContext* globalCtx);
-void func_80862E6C(EnTest* this, GlobalContext* globalCtx);
-void func_80863044(EnTest* this, GlobalContext* globalCtx);
-void func_8086318C(EnTest* this, GlobalContext* globalCtx);
+void EnTest_DeadType4Type5_(EnTest* this, GlobalContext* globalCtx);
+void EnTest_Die_(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Recoil(EnTest* this, GlobalContext* globalCtx);
-void func_808633E8(EnTest* this, GlobalContext* globalCtx);
-void func_80862FA8(EnTest* this, GlobalContext* globalCtx);
+void EnTest_DeadTypes0123_(EnTest* this, GlobalContext* globalCtx);
+void EnTest_SetupDieBackwards_(EnTest* this, GlobalContext* globalCtx);
+
+void EnTest_SetupJebaited(EnTest* this, GlobalContext* globalCtx);
+void EnTest_Jebaited(EnTest* this, GlobalContext* globalCtx);
+void EnTest_SetupCharge(EnTest* this, GlobalContext* globalCtx);
+void EnTest_Charge(EnTest* this, GlobalContext* globalCtx);
 
 s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this);
 
@@ -280,7 +286,7 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetQuad(globalCtx, &this->swordCollider, &this->actor, &sSwordColliderInit);
 
     this->actor.colChkInfo.mass = MASS_HEAVY;
-    this->actor.colChkInfo.health = 10;
+    this->actor.colChkInfo.health = 1; // down from 10 for testing
 
     slashBlure.p1StartColor[0] = slashBlure.p1StartColor[1] = slashBlure.p1StartColor[2] = slashBlure.p1StartColor[3] =
         slashBlure.p2StartColor[0] = slashBlure.p2StartColor[1] = slashBlure.p2StartColor[2] =
@@ -1316,7 +1322,7 @@ void EnTest_Stunned(EnTest* this, GlobalContext* globalCtx) {
 
     if (this->actor.colorFilterTimer == 0) {
         if (this->actor.colChkInfo.health == 0) {
-            func_80862FA8(this, globalCtx);
+            EnTest_SetupDieBackwards_(this, globalCtx);
         } else if (player->swordState != 0) {
             if ((this->actor.bgCheckFlags & 8) &&
                 ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
@@ -1473,7 +1479,7 @@ void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80862DBC(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_SetupDeadType4Type5_(EnTest* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 2;
     BodyBreak_Alloc(&this->bodyBreak, 60, globalCtx);
@@ -1490,10 +1496,10 @@ void func_80862DBC(EnTest* this, GlobalContext* globalCtx) {
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
     }
 
-    EnTest_SetupAction(this, func_80862E6C);
+    EnTest_SetupAction(this, EnTest_DeadType4Type5_);
 }
 
-void func_80862E6C(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_DeadType4Type5_(EnTest* this, GlobalContext* globalCtx) {
     if (this->actor.child == NULL) {
         if (this->actor.home.rot.x == 0) {
             this->actor.home.rot.x = this->bodyBreak.count;
@@ -1528,7 +1534,7 @@ void func_80862E6C(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80862FA8(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_SetupDieBackwards_(EnTest* this, GlobalContext* globalCtx) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFallOverBackwardsAnim);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7DE = 0;
@@ -1538,26 +1544,13 @@ void func_80862FA8(EnTest* this, GlobalContext* globalCtx) {
 
     if (this->actor.params <= STALFOS_TYPE_CEILING) {
         this->unk_7C8 = 5;
-        EnTest_SetupAction(this, func_80863044);
+        EnTest_SetupAction(this, EnTest_Die_);
     } else {
-        func_80862DBC(this, globalCtx);
+        EnTest_SetupDeadType4Type5_(this, globalCtx);
     }
 }
 
-void func_80863044(EnTest* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime)) {
-        this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
-        this->unk_7C8 = 7;
-        EnTest_SetupAction(this, func_808633E8);
-        BodyBreak_Alloc(&this->bodyBreak, 60, globalCtx);
-    }
-
-    if ((s32)this->skelAnime.curFrame == 15) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
-    }
-}
-
-void func_808630F0(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_SetupDieForwards_(EnTest* this, GlobalContext* globalCtx) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFallOverForwardsAnim);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7C8 = 6;
@@ -1567,22 +1560,77 @@ void func_808630F0(EnTest* this, GlobalContext* globalCtx) {
 
     if (this->actor.params <= STALFOS_TYPE_CEILING) {
         this->actor.flags &= ~ACTOR_FLAG_0;
-        EnTest_SetupAction(this, func_8086318C);
+        EnTest_SetupAction(this, EnTest_Die_);
     } else {
-        func_80862DBC(this, globalCtx);
+        EnTest_SetupDeadType4Type5_(this, globalCtx);
     }
 }
 
-void func_8086318C(EnTest* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime)) {
-        this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
-        this->unk_7C8 = 7;
-        EnTest_SetupAction(this, func_808633E8);
-        BodyBreak_Alloc(&this->bodyBreak, 60, globalCtx);
+void EnTest_Die_(EnTest* this, GlobalContext* globalCtx) {
+    if (IS_STALFOS_CHARGE) {
+        func_800F5B58();
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
     }
 
-    if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
+    if (SkelAnime_Update(&this->skelAnime)) {
+        if (IS_STALFOS_CHARGE) {
+            EnTest_SetupJebaited(this, globalCtx);
+        } else {
+            this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
+            this->unk_7C8 = 7;
+            EnTest_SetupAction(this, EnTest_DeadTypes0123_);
+            BodyBreak_Alloc(&this->bodyBreak, 60, globalCtx);
+        }
+    }
+
+    if (this->skelAnime.animation == &gStalfosFallOverBackwardsAnim) {
+        if ((s32)this->skelAnime.curFrame == 15) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
+        }
+    } else { // forwards
+        if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
+        }
+    }
+}
+
+void EnTest_SetupJebaited(EnTest* this, GlobalContext* globalCtx) {
+    Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
+    this->isInChargePhase = true;
+    this->lostLimbsState = LOSTLIMBS_LOST_INIT;
+
+    Animation_Change(&this->skelAnime, this->skelAnime.animation, -1.0f,
+                     Animation_GetLastFrame(this->skelAnime.animation), 0.0f, ANIMMODE_ONCE, 0.0f);
+
+    EnTest_SetupAction(this, EnTest_Jebaited);
+}
+
+void EnTest_Jebaited(EnTest* this, GlobalContext* globalCtx) {
+    if (SkelAnime_Update(&this->skelAnime)) {
+        EnTest_SetupCharge(this, globalCtx);
+    }
+}
+
+void EnTest_SetupCharge(EnTest* this, GlobalContext* globalCtx) {
+    Animation_PlayLoopSetSpeed(&this->skelAnime, &gStalfosFastAdvanceAnim, 3.0f);
+
+    this->chargeTimer = 0;
+
+    EnTest_SetupAction(this, EnTest_Charge);
+}
+
+void EnTest_Charge(EnTest* this, GlobalContext* globalCtx) {
+    SkelAnime_Update(&this->skelAnime);
+
+    this->chargeTimer++;
+    this->chargeTimer %= 50;
+
+    if (this->chargeTimer < 20) {
+        this->actor.speedXZ = 0.0f;
+        this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+        this->actor.shape.rot.y = this->actor.world.rot.y;
+    } else {
+        this->actor.speedXZ = 15.0f;
     }
 }
 
@@ -1621,7 +1669,7 @@ void EnTest_Rise(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_808633E8(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_DeadTypes0123_(EnTest* this, GlobalContext* globalCtx) {
     this->actor.params = STALFOS_TYPE_1;
 
     if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, this->actor.params)) {
@@ -1680,12 +1728,12 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
                 if (Actor_IsFacingPlayer(&this->actor, 0x4000)) {
                     if (Actor_ApplyDamage(&this->actor) == 0) {
                         Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                        func_80862FA8(this, globalCtx);
+                        EnTest_SetupDieBackwards_(this, globalCtx);
                     } else {
                         func_80862154(this);
                     }
                 } else if (Actor_ApplyDamage(&this->actor) == 0) {
-                    func_808630F0(this, globalCtx);
+                    EnTest_SetupDieForwards_(this, globalCtx);
                     Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 } else {
                     func_80862398(this);
@@ -1780,7 +1828,8 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 45.0f;
 
-    if ((this->actor.colChkInfo.health > 0) || (this->actor.colorFilterTimer != 0)) {
+    if ((this->actor.colChkInfo.health > 0 || (IS_STALFOS_CHARGE && this->isInChargePhase)) ||
+        (this->actor.colorFilterTimer != 0)) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
 
         if ((this->unk_7C8 >= 0xA) &&
@@ -1788,7 +1837,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
         }
 
-        if (this->unk_7DE != 0) {
+        if (this->unk_7DE != 0 && !(IS_STALFOS_CHARGE && this->isInChargePhase)) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->shieldCollider.base);
         }
     }
@@ -1835,6 +1884,12 @@ s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         *dList = NULL;
     }
 
+    if (this->lostLimbsState == LOSTLIMBS_LOST) {
+        if (limbIndex == STALFOS_LIMB_SWORD || limbIndex == STALFOS_LIMB_SHIELD) {
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -1853,12 +1908,31 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     static Vec3f unused5 = { -3000.0f, -1100.0f, 800.0f };
     static Vec3f unused6 = { 1900.0f, -1100.0f, 800.0f };
     static Vec3f unused7 = { 1900.0f, 1900.0f, 800.0f };
+    static Vec3f zero = { 0, 0, 0 };
     s32 bodyPart = -1;
     Vec3f sp70;
     Vec3f sp64;
     EnTest* this = (EnTest*)thisx;
     s32 pad;
     Vec3f sp50;
+
+    if (this->lostLimbsState == LOSTLIMBS_LOST_INIT) {
+        s32 i = -1;
+
+        switch (limbIndex) {
+            case STALFOS_LIMB_SWORD:
+                i = 0;
+                break;
+            case STALFOS_LIMB_SHIELD:
+                i = 1;
+                break;
+        }
+
+        if (i >= 0) {
+            Matrix_ToMtx(&this->lostLimbs[i].mtx, __FILE__, __LINE__);
+            this->lostLimbs[i].dl = *dList;
+        }
+    }
 
     BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_DEFAULT);
 
@@ -1945,6 +2019,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 
 void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnTest* this = (EnTest*)thisx;
+    s32 i;
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 1);
@@ -1952,6 +2027,43 @@ void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((thisx->params <= STALFOS_TYPE_CEILING) || (thisx->child == NULL)) {
         SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnTest_OverrideLimbDraw,
                           EnTest_PostLimbDraw, this);
+
+        if (this->lostLimbsState == LOSTLIMBS_LOST_INIT) {
+            this->lostLimbsState = LOSTLIMBS_LOST;
+        }
+
+        OPEN_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
+
+        if (0) {
+            GfxPrint printer;
+            Gfx* gfx;
+
+            gfx = POLY_OPA_DISP + 1;
+            gSPDisplayList(OVERLAY_DISP++, gfx);
+
+            GfxPrint_Init(&printer);
+            GfxPrint_Open(&printer, gfx);
+
+            GfxPrint_SetColor(&printer, 255, 0, 255, 255);
+            GfxPrint_SetPos(&printer, 0, 10);
+            GfxPrint_Printf(&printer, " lostLimbsState = %d\n", this->lostLimbsState);
+
+            gfx = GfxPrint_Close(&printer);
+            GfxPrint_Destroy(&printer);
+
+            gSPEndDisplayList(gfx++);
+            gSPBranchList(POLY_OPA_DISP, gfx);
+            POLY_OPA_DISP = gfx;
+        }
+
+        if (this->lostLimbsState == LOSTLIMBS_LOST) {
+            for (i = 0; i < ARRAY_COUNT(this->lostLimbs); i++) {
+                gSPMatrix(POLY_OPA_DISP++, &this->lostLimbs[i].mtx, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+                gSPDisplayList(POLY_OPA_DISP++, this->lostLimbs[i].dl);
+            }
+        }
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
     }
 
     if (this->iceTimer != 0) {
