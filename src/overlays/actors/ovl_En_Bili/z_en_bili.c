@@ -278,7 +278,7 @@ void func_809C008C(EnBili* this) {
     }
     Math_StepToF(&this->actor.home.pos.y, var_fa0 + var_fa1, 1.0f);
     this->actor.world.pos.y = (sinf(this->unk196 * 0.19634955f) * 3.0f) + this->actor.home.pos.y;
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->actor.world.rot.y = this->actor.wallYaw;
     }
 }
@@ -457,7 +457,7 @@ void func_809C0980(EnBili* this, GlobalContext* globalCtx) {
     if (this->unk196 != 0) {
         this->unk196--;
     }
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
     if (this->unk196 == 0) {
@@ -472,7 +472,7 @@ void func_809C09E0(EnBili* this, GlobalContext* globalCtx) {
     if (!(this->actor.flags & ACTOR_FLAG_15)) {
         this->actor.gravity = -1.0f;
     }
-    if ((this->actor.bgCheckFlags & 1) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
         this->actor.colorFilterTimer = 0;
         func_809BFCE8(this);
     } else {

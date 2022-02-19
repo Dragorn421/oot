@@ -251,9 +251,10 @@ void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (((this->unk_314 & 4) && this->unk_31C <= 0) ||
-        ((sp2E == 2 || sp2E == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & 1) && D_80A7DEB8 >= 4)) {
+        ((sp2E == 2 || sp2E == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+         D_80A7DEB8 >= 4)) {
         func_80A7CBC8(this);
-    } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
+    } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         func_80A7CE60(this);
     } else if (this->actor.xzDistToPlayer < 40.0f) {
         func_80A7C818(this);
@@ -293,9 +294,10 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (((this->unk_314 & 4) && this->unk_31C <= 0) ||
-        ((sp34 == 2 || sp34 == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & 1) && D_80A7DEB8 >= 4)) {
+        ((sp34 == 2 || sp34 == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+         D_80A7DEB8 >= 4)) {
         func_80A7CBC8(this);
-    } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
+    } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         func_80A7CE60(this);
     } else if (this->actor.xzDistToPlayer < 40.0f) {
         func_80A7C818(this);
@@ -344,7 +346,7 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
 
     if (this->unk_31A <= 0 || !sp38) {
         func_80A7C3A0(this);
-    } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
+    } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         func_80A7CE60(this);
     }
 }
@@ -501,7 +503,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
     if (this->unk_31A <= 0 || ((this->unk_314 & 4) && this->unk_31C <= 0) ||
         ((sp4E == 2 || sp4E == 3) && (this->unk_314 & 1) && D_80A7DEB8 >= 4)) {
         func_80A7D1F4(this);
-    } else if (!(this->actor.bgCheckFlags & 0x40)) {
+    } else if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         if (this->unk_314 & 0x10) {
             func_80A7D39C(this);
         } else {
@@ -625,7 +627,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, CLAMP_MAX(thisTemp->actor.scale.x + 0.0008f, 0.01f));
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_SmoothStepToF(&this->actor.speedXZ, this->unk_324, 0.1f, 0.5f, 0.0f);
         Math_ScaledStepToS(&this->actor.world.rot.y, this->unk_328, 2000);
         sp50 = Math_ScaledStepToS(&this->actor.world.rot.x, 0, 2000);
@@ -653,7 +655,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    if (!(this->unk_314 & 0x40) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & 1)) {
+    if (!(this->unk_314 & 0x40) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
         this->unk_314 |= 0x40;
     }
@@ -672,13 +674,13 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
+    if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         func_80A7CE60(this);
     } else if (this->unk_314 & 0x10) {
         if (sp40 < 9.0f) {
             func_80A7CBC8(this);
         } else if (this->unk_31A <= 0 || this->unk_31C <= 0 ||
-                   ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 1) && D_80A7DEB8 >= 4 &&
+                   ((this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && D_80A7DEB8 >= 4 &&
                     (sp3A == 2 || sp3A == 3))) {
             func_80A7CBC8(this);
         } else {
@@ -727,7 +729,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
         if (this->unk_314 & 0x100) {
             if (this->unk_314 & 1) {
-                if (this->actor.bgCheckFlags & 1) {
+                if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     func_80A7C058(this);
                 }
             } else {

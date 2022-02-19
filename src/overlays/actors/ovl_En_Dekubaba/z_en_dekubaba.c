@@ -795,14 +795,14 @@ void func_809E7BB0(EnDekubaba* this, GlobalContext* globalCtx) {
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
                                  this->unk230 * 5.0f, 1, -1, 10, NULL);
         if ((this->actor.scale.x > 0.005f) &&
-            ((((this->actor.bgCheckFlags & 2) != 0)) || (this->actor.bgCheckFlags & 8))) {
+            ((((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) != 0)) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
                                      this->unk230 * 5.0f, 15, -1, 10, NULL);
         }
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
             this->unk1C6 = 1;
         }

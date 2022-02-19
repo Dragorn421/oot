@@ -866,7 +866,7 @@ void func_80AEC780(EnRu1* this, GlobalContext* globalCtx) {
 
     if ((func_80AEC5FC(this, globalCtx)) && (!Gameplay_InCsMode(globalCtx)) &&
         (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
-        (player->actor.bgCheckFlags & 1)) {
+        (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
         globalCtx->csCtx.segment = &D_80AF0880;
         gSaveContext.cutsceneTrigger = 1;
@@ -922,7 +922,7 @@ void func_80AEC9C4(EnRu1* this) {
 
 void func_80AECA18(EnRu1* this) {
     Actor* thisx = &this->actor;
-    if (!(thisx->bgCheckFlags & 1)) {
+    if (!(thisx->bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->action = 13;
         this->unk_26C = 0.0f;
         thisx->velocity.y = 0.0f;
@@ -1332,7 +1332,7 @@ void func_80AEDAE0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* dyna = DynaPoly_GetActor(&globalCtx->colCtx, thisx->floorBgId);
 
     if (dyna == NULL || dyna->id == ACTOR_EN_BOX) {
-        thisx->bgCheckFlags &= ~0x19;
+        thisx->bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL | BGCHECKFLAG_CEILING);
     }
 }
 
@@ -1347,7 +1347,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
     s32 temp_a0;
     s32 phi_v1;
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         velocityY = &this->actor.velocity.y;
         temp_dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorBgId);
         if (*velocityY <= 0.0f) {
@@ -1383,7 +1383,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
             func_80AED4FC(this);
         }
     }
-    if (this->actor.bgCheckFlags & 0x10) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
         speedXZ = &this->actor.speedXZ;
         velocityY = &this->actor.velocity.y;
         if (*speedXZ >= (kREG(27) * 0.01f) + 3.0f) {
@@ -1396,7 +1396,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
             func_80AED4FC(this);
         }
     }
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         speedXZ = &this->actor.speedXZ;
         if (*speedXZ != 0.0f) {
             rotY = this->actor.world.rot.y;
@@ -1534,7 +1534,7 @@ void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
     Actor* dyna;
     s32 floorBgId;
 
-    if ((this->actor.bgCheckFlags & 1) && (this->actor.floorBgId != BGCHECK_SCENE)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.floorBgId != BGCHECK_SCENE)) {
         floorBgId = this->actor.floorBgId;
         dyna = DynaPoly_GetActor(&globalCtx->colCtx, floorBgId);
         if ((dyna != NULL) && (dyna->id == ACTOR_BG_BDAN_SWITCH)) {
@@ -1553,7 +1553,7 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaActor;
     s32 floorBgId;
 
-    if ((this->actor.bgCheckFlags & 1) && this->actor.floorBgId != BGCHECK_SCENE) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.floorBgId != BGCHECK_SCENE) {
         colCtx = &globalCtx->colCtx;
         floorBgId = this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
         dynaActor = DynaPoly_GetActor(colCtx, floorBgId);
@@ -1581,7 +1581,7 @@ void func_80AEE488(EnRu1* this, GlobalContext* globalCtx) {
         this->roomNum3 = curRoomNum;
         this->action = 31;
         func_80AED520(this, globalCtx);
-    } else if ((!func_80AEE394(this, globalCtx)) && (!(thisx->bgCheckFlags & 1))) {
+    } else if ((!func_80AEE394(this, globalCtx)) && (!(thisx->bgCheckFlags & BGCHECKFLAG_GROUND))) {
         thisx->minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
         thisx->gravity = -((kREG(23) * 0.01f) + 1.3f);
         this->action = 28;
@@ -1592,7 +1592,7 @@ void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     if (!func_80AEE394(this, globalCtx)) {
-        if ((thisx->bgCheckFlags & 1) && (thisx->speedXZ == 0.0f) && (thisx->minVelocityY == 0.0f)) {
+        if ((thisx->bgCheckFlags & BGCHECKFLAG_GROUND) && (thisx->speedXZ == 0.0f) && (thisx->minVelocityY == 0.0f)) {
             func_80AEE02C(this);
             func_8002F580(this, globalCtx);
             this->action = 27;
@@ -1693,7 +1693,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEEAC8(EnRu1* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         func_80AEE02C(this);
         func_8002F580(this, globalCtx);
         this->action = 27;

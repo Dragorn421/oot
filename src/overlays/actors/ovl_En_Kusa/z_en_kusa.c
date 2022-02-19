@@ -320,8 +320,8 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f sp30;
 
-    if (this->actor.bgCheckFlags & 0xB) {
-        if (!(this->actor.bgCheckFlags & 0x20)) {
+    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) {
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
             SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         func_80A9B21C(this, globalCtx);
@@ -337,7 +337,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
         }
         return;
     }
-    if (this->actor.bgCheckFlags & 0x40) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         sp30.x = this->actor.world.pos.x;
         sp30.y = this->actor.world.pos.y + this->actor.yDistToWater;
         sp30.z = this->actor.world.pos.z;
@@ -350,7 +350,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
         rotSpeedXtarget = (s16)((s16)rotSpeedXtarget >> 1);
         rotSpeedY = (s16)((s16)rotSpeedY >> 1);
         rotSpeedYtarget = (s16)((s16)rotSpeedYtarget >> 1);
-        this->actor.bgCheckFlags &= ~0x40;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
     }
     EnKusa_UpdateVelY(this);

@@ -570,7 +570,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk14C != 9) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 15.0f, 10.0f, 5);
         }
-        if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
+        if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             v = this->actor.wallYaw - this->actor.world.rot.y;
             if (ABS(v) > 0x4000) {
                 if (v >= 0) {

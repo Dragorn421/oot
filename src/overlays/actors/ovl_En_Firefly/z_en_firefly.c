@@ -338,15 +338,15 @@ void func_80A13A08_Action(EnFirefly* this, GlobalContext* globalCtx) {
                 this->unk1BC_targetRotX = 0x2154;
             }
         } else {
-            if (this->actor.bgCheckFlags & 1) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->unk1BC_targetRotX = 0x954;
-            } else if ((this->actor.bgCheckFlags & 0x10) || (this->unk310_homeY < this->actor.world.pos.y)) {
+            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->unk310_homeY < this->actor.world.pos.y)) {
                 this->unk1BC_targetRotX = 0x2154;
             }
         }
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
     }
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
     }
     if ((this->unk1BA_timer == 0) && (this->actor.xzDistToPlayer < 200.0f) && (Player_GetMask(globalCtx) != 2)) {
@@ -369,7 +369,7 @@ void func_80A13C98_Action(EnFirefly* this, GlobalContext* globalCtx) {
         if (this->unk1BA_timer != 0) {
             this->unk1BA_timer--;
         }
-        if ((this->actor.bgCheckFlags & 1) || (this->unk1BA_timer == 0)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->unk1BA_timer == 0)) {
             func_80A13444_Setup(this);
         }
     }
@@ -397,7 +397,7 @@ void func_80A13DE4_Action(EnFirefly* this, GlobalContext* globalCtx) {
         this->unk1BA_timer--;
     }
     Math_StepToF(&this->actor.speedXZ, 4.0f, 0.5f);
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x2800) != 0) {
@@ -416,10 +416,10 @@ void func_80A13DE4_Action(EnFirefly* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistToPlayer > 80.0f) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0xC00, 0x300);
         }
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->unk1BC_targetRotX = 0x954;
         }
-        if ((this->actor.bgCheckFlags & 0x10) || (this->unk310_homeY < this->actor.world.pos.y)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->unk310_homeY < this->actor.world.pos.y)) {
             this->unk1BC_targetRotX = 0x2154;
         } else {
             this->unk1BC_targetRotX = 0x954;
@@ -456,14 +456,14 @@ void func_80A14088_Action(EnFirefly* this, GlobalContext* globalCtx) {
         func_80A132F4_Setup(this);
     } else {
         Math_StepToF(&this->actor.speedXZ, 3.0f, 0.3f);
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->unk1BC_targetRotX = 0x954;
-        } else if ((this->actor.bgCheckFlags & 0x10) || (this->unk310_homeY < this->actor.world.pos.y)) {
+        } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->unk310_homeY < this->actor.world.pos.y)) {
             this->unk1BC_targetRotX = 0x2154;
         } else {
             this->unk1BC_targetRotX = 0x954;
         }
-        if (this->actor.bgCheckFlags & 8) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
         } else {
             Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
@@ -491,7 +491,7 @@ void func_80A141F0_Action(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void func_80A14294_Action(EnFirefly* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 1) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
         this->actor.colorFilterTimer = 0;
         func_80A13444_Setup(this);
     } else {

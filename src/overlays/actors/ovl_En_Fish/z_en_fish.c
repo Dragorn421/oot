@@ -374,10 +374,10 @@ void func_80A15F84(EnFish* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
     this->actor.shape.rot.z = this->actor.world.rot.z;
     SkelAnime_Update(&this->unk1AC);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->unk248 = 0x190;
         func_80A160BC(this);
-    } else if (this->actor.bgCheckFlags & 0x20) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
         func_80A163DC(this);
     } else if ((this->unk248 <= 0) && (this->actor.params == 0) &&
                (this->actor.floorHeight < (BGCHECK_Y_MIN + 10.0f))) {
@@ -446,9 +446,9 @@ void func_80A16200(EnFish* this, GlobalContext* globalCtx) {
         } else {
             this->actor.draw = NULL;
         }
-    } else if (this->actor.bgCheckFlags & 0x20) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
         func_80A163DC(this);
-    } else if (this->actor.bgCheckFlags & 1) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         func_80A160BC(this);
     }
 }
@@ -469,7 +469,7 @@ void func_80A16450(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Math_SmoothStepToF(&this->actor.speedXZ, 2.8f, 0.1f, 0.4f, 0.0f);
-    if ((this->actor.bgCheckFlags & 8) || !(this->actor.bgCheckFlags & 0x20)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
         this->actor.home.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         this->actor.speedXZ *= 0.5f;
     }
@@ -477,7 +477,7 @@ void func_80A16450(EnFish* this, GlobalContext* globalCtx) {
     Math_StepToAngleS(&this->actor.world.rot.y, this->actor.home.rot.y, 0xBB8);
     Math_StepToAngleS(&this->actor.world.rot.z, 0, 0x3E8);
     this->actor.shape.rot = this->actor.world.rot;
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - 4.0f, 2.0f);
     } else {
         Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - 10.0f, 2.0f);

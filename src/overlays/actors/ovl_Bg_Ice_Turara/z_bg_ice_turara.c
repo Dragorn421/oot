@@ -151,9 +151,9 @@ void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
-    if ((this->unk16C.base.atFlags & AT_HIT) || (this->dyna.actor.bgCheckFlags & 1)) {
+    if ((this->unk16C.base.atFlags & AT_HIT) || (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->unk16C.base.atFlags &= ~AT_HIT;
-        this->dyna.actor.bgCheckFlags &= ~1;
+        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         if (this->dyna.actor.world.pos.y < this->dyna.actor.floorHeight) {
             this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         }

@@ -177,7 +177,7 @@ s32 func_80B44058(EnZf* this, GlobalContext* globalCtx, f32 arg2) {
     this->actor.world.pos.z += temp_ft2;
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
     this->actor.world.pos = sp30;
-    temp_v1 = !(this->actor.bgCheckFlags & 1);
+    temp_v1 = !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
     this->actor.bgCheckFlags = sp44;
     return temp_v1;
 }
@@ -200,7 +200,7 @@ s16 func_80B441C4(EnZf* this, GlobalContext* globalCtx, f32 arg2) {
     this->actor.world.pos.z += temp_fv0_2;
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
     this->actor.world.pos = sp30;
-    temp_v0 = !(this->actor.bgCheckFlags & 1);
+    temp_v0 = !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
     this->actor.bgCheckFlags = sp44;
     return temp_v0;
 }
@@ -499,7 +499,8 @@ s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this) {
     var_t0_sp2E = ABS(var_t0_sp2E);
     if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x5DC0, 0x2AA8, this->actor.shape.rot.y) != 0) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        if ((this->actor.bgCheckFlags & 8) && (ABS(var_t0_sp2E) < 0x2EE0) && (this->actor.xzDistToPlayer < 80.0f)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(var_t0_sp2E) < 0x2EE0) &&
+            (this->actor.xzDistToPlayer < 80.0f)) {
             func_80B48210(this);
         } else if ((this->actor.xzDistToPlayer < 90.0f) && ((globalCtx->gameplayFrames % 2) != 0)) {
             func_80B48210(this);
@@ -511,7 +512,8 @@ s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this) {
     temp_v0_2_sp28 = Actor_FindNearby(globalCtx, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
     if (temp_v0_2_sp28 != NULL) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        if (((this->actor.bgCheckFlags & 8) && (var_t0_sp2E < 0x2EE0)) || (temp_v0_2_sp28->id == ACTOR_EN_BOM_CHU)) {
+        if (((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (var_t0_sp2E < 0x2EE0)) ||
+            (temp_v0_2_sp28->id == ACTOR_EN_BOM_CHU)) {
             if ((temp_v0_2_sp28->id == ACTOR_EN_BOM_CHU) &&
                 (Actor_WorldDistXYZToActor(&this->actor, temp_v0_2_sp28) < 80.0f) &&
                 ((s16)(this->actor.shape.rot.y - temp_v0_2_sp28->world.rot.y + 0x8000) < 0x3E80)) {
@@ -535,7 +537,7 @@ void func_80B450AC(EnZf* this) {
     this->unk3F0 = 0xA;
     this->unk3E4 = 1;
     this->unk3DC = 0;
-    this->actor.bgCheckFlags &= 0xFFFD;
+    this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     func_80B44050(this, func_80B45174);
@@ -563,11 +565,11 @@ void func_80B45174(EnZf* this, GlobalContext* globalCtx) {
             this->unk404 += 0x33;
         }
     }
-    if ((this->actor.bgCheckFlags & 3) && (this->unk3E4 != 0)) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) && (this->unk3E4 != 0)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_ONGND);
         Animation_Change(&this->unk14C, &object_zf_Anim_008C6C, 1.0f, 0.0f, 17.0f, ANIMMODE_ONCE, 0.0f);
         this->unk3E4 = 0;
-        this->actor.bgCheckFlags &= ~2;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         this->actor.world.pos.y = this->actor.floorHeight;
         this->actor.velocity.y = 0.0f;
         Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->unk4F0, 3.0f, 2, 2.0f, 0, 0, false);
@@ -698,11 +700,11 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
                     var_v1 *= -1;
                 }
                 if ((this->unk3F8 && (this->actor.speedXZ > 0.0f)) ||
-                    ((this->actor.bgCheckFlags & 8) && (var_v1 >= 0x5C19))) {
+                    ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (var_v1 >= 0x5C19))) {
                     if ((Actor_WorldDistXZToPoint(&this->actor, &D_80B4A090[this->unk402]) < sp44) &&
                         !func_80B44058(this, globalCtx, 191.9956f)) {
                         func_80B45E30(this);
-                        if (this->actor.bgCheckFlags & 8) {
+                        if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                             this->actor.velocity.y = 20.0f;
                         }
                         return;
@@ -828,7 +830,7 @@ void func_80B45EF0(EnZf* this, GlobalContext* globalCtx) {
     if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
     }
-    if ((this->actor.params == -2) && (this->actor.bgCheckFlags & 3)) {
+    if ((this->actor.params == -2) && (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
         if (func_80B44CF0(globalCtx, this)) {
             func_80B46A24(this);
         } else {
@@ -942,10 +944,10 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = -this->actor.speedXZ;
             }
         } else {
-            if ((this->actor.bgCheckFlags & 8) ||
+            if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
                 !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ,
                                             this->actor.shape.rot.y + 0x3FFF)) {
-                if (this->actor.bgCheckFlags & 8) {
+                if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                     if (this->actor.speedXZ >= 0.0f) {
                         var_v0_3_real = (this->actor.shape.rot.y + 0x3FFF);
                     } else {
@@ -1132,7 +1134,8 @@ void func_80B46F2C(EnZf* this, GlobalContext* globalCtx) {
 }
 
 void func_80B47050(EnZf* this) {
-    if ((this->actor.bgCheckFlags & 1) && (((this->actor.velocity.y == 0.0f)) || (this->actor.velocity.y == -4.0f))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+        (((this->actor.velocity.y == 0.0f)) || (this->actor.velocity.y == -4.0f))) {
         this->actor.speedXZ = 0.0f;
         this->unk3E4 = 0;
     } else {
@@ -1151,16 +1154,16 @@ void func_80B47050(EnZf* this) {
 void func_80B47120(EnZf* this, GlobalContext* globalCtx) {
     s16 var_v0;
 
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speedXZ = 0.0f;
     }
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         if (this->actor.speedXZ < 0.0f) {
             this->actor.speedXZ += 0.05f;
         }
         this->unk3E4 = 0;
     }
-    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & 1)) {
+    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->actor.colChkInfo.health == 0) {
             func_80B48CEC(this);
         } else if ((this->actor.params != -2) || !func_80B44E8C(globalCtx, this)) {
@@ -1169,8 +1172,8 @@ void func_80B47120(EnZf* this, GlobalContext* globalCtx) {
             } else {
                 var_v0 = this->actor.wallYaw - this->actor.shape.rot.y;
                 var_v0 = ABS(var_v0);
-                if ((this->actor.params == -2) && (this->actor.bgCheckFlags & 8) && (ABS(var_v0) < 0x2EE0) &&
-                    (this->actor.xzDistToPlayer < 90.0f)) {
+                if ((this->actor.params == -2) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
+                    (ABS(var_v0) < 0x2EE0) && (this->actor.xzDistToPlayer < 90.0f)) {
                     this->actor.world.rot.y = this->actor.shape.rot.y;
                     func_80B48210(this);
                 } else if (!func_80B49C2C(globalCtx, this)) {
@@ -1328,7 +1331,7 @@ void func_80B4781C(EnZf* this, GlobalContext* globalCtx) {
                 case 1:
                 case 3:
                     this->actor.velocity.y = 12.0f;
-                    if (this->actor.bgCheckFlags & 8) {
+                    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                         this->actor.velocity.y += 8.0f;
                     }
                     this->actor.speedXZ = 8.0f;
@@ -1361,7 +1364,8 @@ void func_80B4781C(EnZf* this, GlobalContext* globalCtx) {
             break;
 
         case 1:
-            if ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 1)) {
+            if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) ||
+                (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_ONGND);
                 this->actor.velocity.y = 0.0f;
                 this->actor.world.pos.y = this->actor.floorHeight;
@@ -1428,7 +1432,8 @@ void func_80B47CF8(EnZf* this, GlobalContext* globalCtx) {
 void func_80B47DA8(EnZf* this) {
     Animation_Change(&this->unk14C, &object_zf_Anim_0157F8, 1.5f, 0.0f, Animation_GetLastFrame(&object_zf_Anim_0157F8),
                      ANIMMODE_ONCE, -4.0f);
-    if ((this->actor.bgCheckFlags & 1) && (((this->actor.velocity.y == 0.0f)) || (this->actor.velocity.y == -4.0f))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+        (((this->actor.velocity.y == 0.0f)) || (this->actor.velocity.y == -4.0f))) {
         this->actor.speedXZ = -4.0f;
         this->unk3E4 = 0;
     } else {
@@ -1448,10 +1453,10 @@ void func_80B47DA8(EnZf* this) {
 void func_80B47EB4(EnZf* this, GlobalContext* globalCtx) {
     s16 var_v0;
 
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speedXZ = 0.0f;
     }
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         if (this->actor.speedXZ < 0.0f) {
             this->actor.speedXZ += 0.05f;
         }
@@ -1459,7 +1464,7 @@ void func_80B47EB4(EnZf* this, GlobalContext* globalCtx) {
     }
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x1194, 0);
     if (((this->actor.params != -2) || !func_80B44E8C(globalCtx, this)) && SkelAnime_Update(&this->unk14C) &&
-        (this->actor.bgCheckFlags & 1)) {
+        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (D_80B4A1B4 != -1) {
             if (this->unk410 == 0xD) {
                 D_80B4A1B0 += 1;
@@ -1476,7 +1481,7 @@ void func_80B47EB4(EnZf* this, GlobalContext* globalCtx) {
         } else {
             var_v0 = this->actor.wallYaw - this->actor.shape.rot.y;
             var_v0 = ABS(var_v0);
-            if ((this->actor.params == -2) && (this->actor.bgCheckFlags & 8) && (ABS(var_v0) < 0x2EE0) &&
+            if ((this->actor.params == -2) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(var_v0) < 0x2EE0) &&
                 (this->actor.xzDistToPlayer < 90.0f)) {
                 func_80B48210(this);
             } else if (!func_80B49C2C(globalCtx, this)) {
@@ -1522,7 +1527,7 @@ void func_80B482B8(EnZf* this, GlobalContext* globalCtx) {
         if (this->unk3F0 == 0) {
             Animation_Change(&this->unk14C, &object_zf_Anim_00A3D4, 3.0f, 0.0f, 13.0f, ANIMMODE_ONCE, -4.0f);
             this->unk3F0 = 0xA;
-        } else if (this->actor.bgCheckFlags & 3) {
+        } else if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) {
             this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
             this->actor.velocity.y = 0.0f;
             this->actor.speedXZ = 0.0f;
@@ -1581,9 +1586,10 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = -this->actor.speedXZ;
         }
     } else {
-        if ((this->actor.bgCheckFlags & 8) || !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ,
-                                                                          this->actor.shape.rot.y + 0x3FFF)) {
-            if (this->actor.bgCheckFlags & 8) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
+            !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ,
+                                        this->actor.shape.rot.y + 0x3FFF)) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 if (this->actor.speedXZ >= 0.0f) {
                     var_v0 = this->actor.shape.rot.y + 0x3FFF;
                 } else {
@@ -1699,7 +1705,8 @@ void func_80B48CEC(EnZf* this) {
 
     Animation_Change(&this->unk14C, &object_zf_Anim_014E60, 1.5f, 0.0f, Animation_GetLastFrame(&object_zf_Anim_014E60),
                      ANIMMODE_ONCE, -4.0f);
-    if ((this->actor.bgCheckFlags & 1) && ((this->actor.velocity.y == 0.0f) || (this->actor.velocity.y == -4.0f))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+        ((this->actor.velocity.y == 0.0f) || (this->actor.velocity.y == -4.0f))) {
         this->actor.speedXZ = 0.0f;
         this->unk3E4 = 0;
     } else {
@@ -1731,10 +1738,10 @@ void func_80B48CEC(EnZf* this) {
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx) {
     s32 temp_ft1;
 
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speedXZ = 0.0f;
     }
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.15f, 0.0f);
         this->unk3E4 = 0;
     }
@@ -1836,7 +1843,7 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_MoveForward(&this->actor);
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 25.0f, 30.0f, 60.0f, 0x1D);
-        if (!(this->actor.bgCheckFlags & 1)) {
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->unk3E4 = 1;
         }
         this->unk3E8(this, globalCtx);
@@ -1858,7 +1865,7 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->unk3DC >= 0xF) {
         Math_SmoothStepToS(&this->unk3EC, 0, 1, 0x7D0, 0);
-        if ((this->unk3DC < 0x15) && (this->unk3F4 == 1) && (this->actor.bgCheckFlags & 1)) {
+        if ((this->unk3DC < 0x15) && (this->unk3F4 == 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             if (this->actor.colChkInfo.health > 0) {
                 func_80B47C64(this, globalCtx);
             }
