@@ -371,8 +371,16 @@ s16 func_80B44870(Vec3f* arg0, s16 arg1, s16 arg2, GlobalContext* globalCtx) {
         var_s0 -= 1;
     }
     temp_s0 = &D_80B4A090[var_s5];
+
+    //! @bug `var_s4` can be -1 in certain conditions and cause an out of bounds access.
+    //! Under normal conditions, this doesn't cause problems because the data before `D_80B4A090`
+    //! is section padding between .text and .data, so 0 gets read as a float.
+    // These two function calls do nothing. Their return values aren't used and they have no side effects.
+#ifndef AVOID_UB
     Math_Vec3f_DistXYZ(&player->actor.world.pos, temp_s0);
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &D_80B4A090[var_s4]);
+#endif
+
     if (var_s4 > 0) {
         temp_s0_2 = Math_Vec3f_Yaw(arg0, temp_s0);
         temp_v1 = temp_s0_2 - Math_Vec3f_Yaw(arg0, &player->actor.world.pos);
