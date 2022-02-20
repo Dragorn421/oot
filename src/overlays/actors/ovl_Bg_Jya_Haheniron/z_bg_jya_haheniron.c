@@ -124,7 +124,8 @@ void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     Vec3f sp2C;
 
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
         ((this->unk150.base.atFlags & AT_HIT) && (this->unk150.base.at != NULL) &&
          (this->unk150.base.at->category == 2))) {

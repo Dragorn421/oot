@@ -361,7 +361,7 @@ void func_80A15F24(EnFish* this) {
     this->actor.minVelocityY = -10.0f;
     this->actor.shape.yOffset = 0.0f;
     func_80A15310(this);
-    this->unk250 = 5;
+    this->unk250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
     this->unk244 = func_80A15F84;
     this->unk248 = 0x12C;
 }
@@ -413,7 +413,7 @@ void func_80A160BC(EnFish* this) {
     this->actor.shape.yOffset = 300.0f;
     func_80A15310(this);
     this->unk244 = func_80A16200;
-    this->unk250 = 5;
+    this->unk250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
     if ((var_v0 != 0) && (this->actor.draw != NULL)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
     }
@@ -462,7 +462,7 @@ void func_80A163DC(EnFish* this) {
     this->actor.shape.yOffset = 0.0f;
     func_80A152AC(this);
     this->unk244 = func_80A16450;
-    this->unk250 = 5;
+    this->unk250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
 }
 
 void func_80A16450(EnFish* this, GlobalContext* globalCtx) {

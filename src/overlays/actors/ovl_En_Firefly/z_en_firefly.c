@@ -340,7 +340,8 @@ void func_80A13A08_Action(EnFirefly* this, GlobalContext* globalCtx) {
         } else {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->unk1BC_targetRotX = 0x954;
-            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->unk310_homeY < this->actor.world.pos.y)) {
+            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) ||
+                       (this->unk310_homeY < this->actor.world.pos.y)) {
                 this->unk1BC_targetRotX = 0x2154;
             }
         }
@@ -613,7 +614,8 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
             func_8002D97C(&this->actor);
         }
     }
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 15.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 15.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     this->collider.elements->dim.worldSphere.center.x = this->actor.world.pos.x;
     this->collider.elements->dim.worldSphere.center.y = this->actor.world.pos.y + 10.0f;
     this->collider.elements->dim.worldSphere.center.z = this->actor.world.pos.z;

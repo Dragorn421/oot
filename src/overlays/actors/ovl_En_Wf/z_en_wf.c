@@ -1216,7 +1216,9 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80B37038(this, globalCtx);
     if (this->actor.colChkInfo.damageEffect != 6) {
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 32.0f, 30.0f, 60.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 32.0f, 30.0f, 60.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
         this->unk2DC(this, globalCtx);
         func_80B36F40(this, globalCtx);
     }

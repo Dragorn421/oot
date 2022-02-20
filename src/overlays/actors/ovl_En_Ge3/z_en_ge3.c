@@ -177,7 +177,8 @@ void func_80A34C40(EnGe3* this, GlobalContext* globalCtx) {
 
     Collider_UpdateCylinder(&this->actor, &this->unk14C);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk14C.base);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (!(this->unk30C & 2) && SkelAnime_Update(&this->unk198)) {
         this->unk30C |= 2;
     }

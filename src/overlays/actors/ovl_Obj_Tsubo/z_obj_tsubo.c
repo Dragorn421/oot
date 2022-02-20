@@ -285,7 +285,8 @@ void func_80BA180C(ObjTsubo* this, GlobalContext* globalCtx) {
         func_80BA188C(this);
         func_80BA0DC0(this);
         func_8002D7EC(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x85);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     }
 }
 
@@ -321,7 +322,8 @@ void func_80BA1958(ObjTsubo* this, GlobalContext* globalCtx) {
         Math_StepToS(&D_80BA1B5C, D_80BA1B58, 0x64);
         this->actor.shape.rot.x += D_80BA1B54;
         this->actor.shape.rot.y += D_80BA1B5C;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x85);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
         Collider_UpdateCylinder(&this->actor, &this->unk150);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);

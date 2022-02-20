@@ -658,7 +658,8 @@ void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->unk14C);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk14C.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->unk2B8(this);
     this->unk2B4(this, globalCtx);
     if (this->unk2AC & 1) {

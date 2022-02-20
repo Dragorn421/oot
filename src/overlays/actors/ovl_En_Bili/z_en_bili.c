@@ -548,7 +548,8 @@ void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
         } else {
             Actor_MoveForward(&this->actor);
         }
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->unk1D4.dim.radius, this->unk1D4.dim.height, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->unk1D4.dim.radius, this->unk1D4.dim.height,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->unk1D4);
         if (this->unk1D4.base.atFlags & 1) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk1D4.base);

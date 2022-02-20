@@ -65,7 +65,9 @@ void BgPushbox_UpdateImpl(BgPushbox* this, GlobalContext* globalCtx) {
     Math_StepToF(&thisx->speedXZ, 0.0f, 0.2f);
     thisx->world.rot.y = this->dyna.unk_158;
     Actor_MoveForward(thisx);
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 40.0f, 40.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 40.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 }
 
 void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx) {

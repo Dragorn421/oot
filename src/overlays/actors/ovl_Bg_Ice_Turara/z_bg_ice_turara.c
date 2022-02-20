@@ -168,7 +168,7 @@ void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
     } else {
         Actor_MoveForward(&this->dyna.actor);
         this->dyna.actor.world.pos.y += 40.0f;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->dyna.actor.world.pos.y -= 40.0f;
         Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk16C.base);

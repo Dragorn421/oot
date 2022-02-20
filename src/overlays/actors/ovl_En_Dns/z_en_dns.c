@@ -506,7 +506,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     this->unk268(this, globalCtx);
     if (this->unk2BC != 0) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
     }
     if (this->unk2BB != 0) {
         Collider_UpdateCylinder(&this->actor, &this->unk26C);

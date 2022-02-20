@@ -449,7 +449,8 @@ void func_80A33BE8(EnGe2* this, GlobalContext* globalCtx) {
 
     Collider_UpdateCylinder(&this->actor, &this->unk14C);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk14C.base);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (!(this->unk2F4 & 2) && SkelAnime_Update(&this->unk198)) {
         this->unk2F4 |= 2;
     }
@@ -542,7 +543,8 @@ void func_80A3402C(Actor* thisx, GlobalContext* globalCtx2) {
 
     Collider_UpdateCylinder(&this->actor, &this->unk14C);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk14C.base);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if ((this->unk14C.base.acFlags & 2) &&
         (((this->unk14C.info.acHitInfo == NULL)) || !(this->unk14C.info.acHitInfo->toucher.dmgFlags & 0x80))) {
         this->actor.colorFilterTimer = 0;

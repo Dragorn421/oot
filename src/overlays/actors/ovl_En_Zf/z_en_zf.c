@@ -175,7 +175,8 @@ s32 func_80B44058(EnZf* this, GlobalContext* globalCtx, f32 arg2) {
     temp_ft2 = Math_CosS(this->actor.world.rot.y) * arg2;
     this->actor.world.pos.x += sp40;
     this->actor.world.pos.z += temp_ft2;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     this->actor.world.pos = sp30;
     temp_v1 = !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
     this->actor.bgCheckFlags = sp44;
@@ -198,7 +199,8 @@ s16 func_80B441C4(EnZf* this, GlobalContext* globalCtx, f32 arg2) {
     temp_fv0_2 = Math_CosS(this->actor.shape.rot.y) * arg2;
     this->actor.world.pos.x += sp40;
     this->actor.world.pos.z += temp_fv0_2;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     this->actor.world.pos = sp30;
     temp_v0 = !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
     this->actor.bgCheckFlags = sp44;
@@ -234,7 +236,9 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
     sp4C.unkFlag = 0;
     sp4C.calcMode = 2;
     Effect_Add(globalCtx, &this->unk414, EFFECT_BLURE1, 0U, 0U, &sp4C);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 45.0f, 45.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 45.0f, 45.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     this->unk404 = 0xFF;
     this->actor.colChkInfo.cylRadius = 40;
     this->actor.colChkInfo.cylHeight = 100;
@@ -1850,7 +1854,9 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (!this->unk3F8) {
             Actor_MoveForward(&this->actor);
         }
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 25.0f, 30.0f, 60.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 25.0f, 30.0f, 60.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->unk3E4 = 1;
         }

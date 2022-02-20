@@ -794,8 +794,8 @@ void func_809E7BB0(EnDekubaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->unk1CA_arr[1], 0x4800, 0x71C);
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
                                  this->unk230 * 5.0f, 1, -1, 10, NULL);
-        if ((this->actor.scale.x > 0.005f) &&
-            ((((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) != 0)) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
+        if ((this->actor.scale.x > 0.005f) && ((((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) != 0)) ||
+                                               (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
@@ -943,10 +943,11 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk1C0(this, globalCtx);
     if (this->unk1C0 == func_809E7BB0) {
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->unk230 * 15.0f, 10.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->unk230 * 15.0f, 10.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     } else {
         if (this->unk1C0 != func_809E80D8) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
             if (this->unk234 == NULL) {
                 this->unk234 = this->actor.floorPoly;
             }
