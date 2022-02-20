@@ -272,7 +272,7 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
     }
 
     if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x2EE0, this->actor.shape.rot.y) != 0) {
-        if (player->swordAnimation == 0x11) {
+        if (player->meleeWeaponAnimation == 0x11) {
             func_80B36288(this);
             return 1;
         }
@@ -290,7 +290,7 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
                 return 1;
             }
         }
-        if (player->swordAnimation == 0x11) {
+        if (player->meleeWeaponAnimation == 0x11) {
             func_80B36288(this);
             return 1;
         }
@@ -424,7 +424,7 @@ void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
         if (var_v1_sp26 < 0) {
             var_v1_sp26 *= -1;
         }
-        if ((this->actor.xzDistToPlayer < 80.0f) && (player->swordState != 0) && (var_v1_sp26 >= 0x1F40)) {
+        if ((this->actor.xzDistToPlayer < 80.0f) && (player->meleeWeaponState != 0) && (var_v1_sp26 >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             func_80B34F28(this);
         } else {
@@ -487,7 +487,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
         if (var_v0_real < 0) {
             var_v0_real *= -1;
         }
-        if ((this->actor.xzDistToPlayer < (150.0f + sp50_real)) && (sp48_real->swordState != 0) &&
+        if ((this->actor.xzDistToPlayer < (150.0f + sp50_real)) && (sp48_real->meleeWeaponState != 0) &&
             (var_v0_real >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             if (Rand_ZeroOne() > 0.7f) {
@@ -968,7 +968,7 @@ void func_80B36328(EnWf* this, GlobalContext* globalCtx) {
         if ((ABS(temp_v0_2) <= 0x4000) && (this->actor.xzDistToPlayer < 60.0f) &&
             (ABS(this->actor.yDistToPlayer) < 50.0f)) {
             if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) != 0) {
-                if (player->swordAnimation == 0x11) {
+                if (player->meleeWeaponAnimation == 0x11) {
                     func_80B36288(this);
                 } else if (globalCtx->gameplayFrames & 1) {
                     func_80B36288(this);
@@ -989,7 +989,7 @@ void func_80B36328(EnWf* this, GlobalContext* globalCtx) {
         }
     } else if ((this->unk2E8 == 0) &&
                ((func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) != 0))) {
-        if (player->swordAnimation == 0x11) {
+        if (player->meleeWeaponAnimation == 0x11) {
             func_80B36288(this);
         } else if (globalCtx->gameplayFrames & 1) {
             func_80B36288(this);

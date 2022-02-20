@@ -633,7 +633,7 @@ void func_80B4543C(EnZf* this, GlobalContext* globalCtx) {
         }
         var_v1_2 = player->actor.shape.rot.y - this->actor.shape.rot.y;
         var_v1_2 = ABS(var_v1_2);
-        if ((this->actor.xzDistToPlayer < 100.0f) && (player->swordState != 0) && (var_v1_2 >= 0x1F40)) {
+        if ((this->actor.xzDistToPlayer < 100.0f) && (player->meleeWeaponState != 0) && (var_v1_2 >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             if (var_v1_2) {}
             func_80B483E4(this, globalCtx);
@@ -742,7 +742,7 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
         if (var_v1 < 0) {
             var_v1 *= -1;
         }
-        if ((sp48 == this->unk3FE) && (this->actor.xzDistToPlayer < 150.0f) && (player->swordState != 0) &&
+        if ((sp48 == this->unk3FE) && (this->actor.xzDistToPlayer < 150.0f) && (player->meleeWeaponState != 0) &&
             (var_v1 >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             if (Rand_ZeroOne() > 0.7f) {

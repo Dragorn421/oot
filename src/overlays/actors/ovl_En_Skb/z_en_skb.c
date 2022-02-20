@@ -436,8 +436,8 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                     if ((this->unk283 == 0) &&
                         (((this->actor.colChkInfo.damageEffect == 0xD)) ||
                          ((this->actor.colChkInfo.damageEffect == 0xE) &&
-                          (((((player->swordAnimation >= 4))) && (player->swordAnimation < 0xC)) ||
-                           (player->swordAnimation == 0x14) || (player->swordAnimation == 0x15))))) {
+                          (((((player->meleeWeaponAnimation >= 4))) && (player->meleeWeaponAnimation < 0xC)) ||
+                           (player->meleeWeaponAnimation == 0x14) || (player->meleeWeaponAnimation == 0x15))))) {
                         BodyBreak_Alloc(&this->bodyBreak, 2, globalCtx);
                         this->unk283 = 1;
                     }
