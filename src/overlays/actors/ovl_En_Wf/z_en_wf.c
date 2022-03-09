@@ -272,7 +272,7 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
     }
 
     if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x2EE0, this->actor.shape.rot.y) != 0) {
-        if (player->meleeWeaponAnimation == 0x11) {
+        if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             func_80B36288(this);
             return 1;
         }
@@ -290,7 +290,7 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
                 return 1;
             }
         }
-        if (player->meleeWeaponAnimation == 0x11) {
+        if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             func_80B36288(this);
             return 1;
         }
@@ -968,7 +968,7 @@ void func_80B36328(EnWf* this, GlobalContext* globalCtx) {
         if ((ABS(temp_v0_2) <= 0x4000) && (this->actor.xzDistToPlayer < 60.0f) &&
             (ABS(this->actor.yDistToPlayer) < 50.0f)) {
             if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) != 0) {
-                if (player->meleeWeaponAnimation == 0x11) {
+                if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
                     func_80B36288(this);
                 } else if (globalCtx->gameplayFrames & 1) {
                     func_80B36288(this);
@@ -989,7 +989,7 @@ void func_80B36328(EnWf* this, GlobalContext* globalCtx) {
         }
     } else if ((this->unk2E8 == 0) &&
                ((func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) != 0))) {
-        if (player->meleeWeaponAnimation == 0x11) {
+        if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             func_80B36288(this);
         } else if (globalCtx->gameplayFrames & 1) {
             func_80B36288(this);

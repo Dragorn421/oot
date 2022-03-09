@@ -433,11 +433,12 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                     func_80AFD7B4(this, globalCtx);
                 } else {
                     player = GET_PLAYER(globalCtx);
-                    if ((this->unk283 == 0) &&
-                        (((this->actor.colChkInfo.damageEffect == 0xD)) ||
-                         ((this->actor.colChkInfo.damageEffect == 0xE) &&
-                          (((((player->meleeWeaponAnimation >= 4))) && (player->meleeWeaponAnimation < 0xC)) ||
-                           (player->meleeWeaponAnimation == 0x14) || (player->meleeWeaponAnimation == 0x15))))) {
+                    if ((this->unk283 == 0) && (((this->actor.colChkInfo.damageEffect == 0xD)) ||
+                                                ((this->actor.colChkInfo.damageEffect == 0xE) &&
+                                                 (((((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H))) &&
+                                                   (player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H)) ||
+                                                  (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT) ||
+                                                  (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT))))) {
                         BodyBreak_Alloc(&this->bodyBreak, 2, globalCtx);
                         this->unk283 = 1;
                     }
