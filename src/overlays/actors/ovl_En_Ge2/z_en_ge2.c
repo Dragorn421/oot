@@ -192,7 +192,7 @@ s32 func_80A32F74(GlobalContext* globalCtx, EnGe2* this, Vec3f* arg2, s16 arg3, 
     if (ABS(temp_v0) > 0x2000) {
         return 0;
     }
-    if (BgCheck_AnyLineTest1(&globalCtx->colCtx, arg2, &player->bodyPartsPos[(0x95C - 0x908) / 0xC], &sp38, &sp34, 0)) {
+    if (BgCheck_AnyLineTest1(&globalCtx->colCtx, arg2, &player->bodyPartsPos[PLAYER_BODYPART_HEAD], &sp38, &sp34, 0)) {
         return 0;
     }
     return 1;

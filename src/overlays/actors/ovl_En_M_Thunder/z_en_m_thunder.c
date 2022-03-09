@@ -75,7 +75,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk14C.dim.yShift = -20;
     this->unk1C4 = 8;
     this->unk1B4 = 0.0f;
-    this->actor.world.pos = player->bodyPartsPos[0];
+    this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->unk1AC = 0.0f;
     this->unk1BC = 0.0f;
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
@@ -154,7 +154,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     player = GET_PLAYER(globalCtx);
     child = this->actor.child;
     this->unk1B8 = player->unk_858;
-    this->actor.world.pos = player->bodyPartsPos[0];
+    this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
     if ((this->unk1CA == 0) && (player->unk_858 >= 0.10f)) {
         if ((gSaveContext.unk_13F0 != 0) || ((((this->actor.params & 0xFF00) >> 8) != 0) &&
@@ -276,8 +276,8 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk14C.base);
     }
     if (this->unk1C4 > 0) {
-        this->actor.world.pos.x = player->bodyPartsPos[0].x;
-        this->actor.world.pos.z = player->bodyPartsPos[0].z;
+        this->actor.world.pos.x = player->bodyPartsPos[PLAYER_BODYPART_WAIST].x;
+        this->actor.world.pos.z = player->bodyPartsPos[PLAYER_BODYPART_WAIST].z;
         this->unk1C4 = this->unk1C4 - 1;
     }
     if (this->unk1AC > 0.6f) {
