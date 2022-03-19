@@ -677,15 +677,15 @@ void func_80B456B4(EnZf* this, GlobalContext* globalCtx) {
 }
 
 void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
-    s32 sp54;
-    s32 sp50;
+    s32 prevFrame;
+    s32 beforeCurFrame;
     s32 pad1;
     s16 var_v1;
     s16 sp48;
     f32 sp44;
     f32 sp40;
     Player* player;
-    f32 sp30;
+    f32 absPlaySpeed;
 
     sp48 = -1;
     sp44 = 350.0f;
@@ -750,10 +750,10 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
                 return;
             }
         }
-        sp54 = (s32)this->unk14C.curFrame;
+        prevFrame = (s32)this->unk14C.curFrame;
         SkelAnime_Update(&this->unk14C);
-        sp50 = (s32)(this->unk14C.curFrame - ABS(this->unk14C.playSpeed));
-        sp30 = ((void)0, ABS(this->unk14C.playSpeed)); //! FAKE
+        beforeCurFrame = (s32)(this->unk14C.curFrame - ABS(this->unk14C.playSpeed));
+        absPlaySpeed = ((void)0, ABS(this->unk14C.playSpeed)); //! FAKE
         if (sp48 == this->unk3FE) {
             if (Actor_IsFacingPlayer(&this->actor, 0x11C7) == 0) {
                 if (Rand_ZeroOne() > 0.5f) {
@@ -797,8 +797,9 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
         }
-        if ((sp54 != (s32)this->unk14C.curFrame) &&
-            (((sp50 < 2) && (((s32)sp30 + sp54) >= 4)) || ((sp50 < 0x20) && (((s32)sp30 + sp54) >= 0x22)))) {
+        if ((prevFrame != (s32)this->unk14C.curFrame) &&
+            (((beforeCurFrame < 2) && (((s32)absPlaySpeed + prevFrame) >= 4)) ||
+             ((beforeCurFrame < 0x20) && (((s32)absPlaySpeed + prevFrame) >= 0x22)))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
         }
     }
@@ -926,10 +927,10 @@ void func_80B462E4(EnZf* this, GlobalContext* globalCtx) {
 
 void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
     s16 sp56;
-    s32 temp_ft3;
-    s32 temp_ft5_sp4C;
+    s32 beforeCurFrame;
+    s32 prevFrame;
     s32 pad;
-    f32 var_fa0_3_probreal;
+    f32 absPlaySpeed;
     Player* player;
     f32 sp3C;
     s16 var_v0_3_real;
@@ -1001,13 +1002,13 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
         } else {
             this->unk14C.playSpeed = this->unk408 * 0.75f;
         }
-        temp_ft5_sp4C = (s32)this->unk14C.curFrame;
+        prevFrame = (s32)this->unk14C.curFrame;
         SkelAnime_Update(&this->unk14C);
-        temp_ft3 = (s32)(this->unk14C.curFrame - ABS(this->unk14C.playSpeed));
-        var_fa0_3_probreal = ABS(this->unk14C.playSpeed);
-        if ((temp_ft5_sp4C != (s32)this->unk14C.curFrame) &&
-            (((temp_ft3 < 0xE) && (((s32)var_fa0_3_probreal + temp_ft5_sp4C) >= 0x10)) ||
-             ((temp_ft3 < 0x1B) && (((s32)var_fa0_3_probreal + temp_ft5_sp4C) >= 0x1D)))) {
+        beforeCurFrame = (s32)(this->unk14C.curFrame - ABS(this->unk14C.playSpeed));
+        absPlaySpeed = ABS(this->unk14C.playSpeed);
+        if ((prevFrame != (s32)this->unk14C.curFrame) &&
+            (((beforeCurFrame < 0xE) && (((s32)absPlaySpeed + prevFrame) >= 0x10)) ||
+             ((beforeCurFrame < 0x1B) && (((s32)absPlaySpeed + prevFrame) >= 0x1D)))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -1583,11 +1584,11 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
     s16 temp_t0_sp56;
     s16 var_v0;
     Player* player;
-    s32 sp4C;
-    s32 sp48;
+    s32 prevFrame;
+    s32 beforeCurFrame;
     s32 pad;
     f32 sp40;
-    f32 sp34;
+    f32 absPlaySpeed;
 
     player = GET_PLAYER(globalCtx);
     sp40 = 0.0f;
@@ -1651,10 +1652,10 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
             this->unk14C.playSpeed = this->unk408 * 0.75f;
         }
     }
-    sp4C = (s32)this->unk14C.curFrame;
+    prevFrame = (s32)this->unk14C.curFrame;
     SkelAnime_Update(&this->unk14C);
-    sp48 = (s32)(this->unk14C.curFrame - ABS(this->unk14C.playSpeed));
-    sp34 = ((void)0, ABS(this->unk14C.playSpeed)); //! FAKE
+    beforeCurFrame = (s32)(this->unk14C.curFrame - ABS(this->unk14C.playSpeed));
+    absPlaySpeed = ((void)0, ABS(this->unk14C.playSpeed)); //! FAKE
     this->unk3FE = func_80B446A8(&this->actor.world.pos, this->unk3FE);
     if (func_80B446A8(&player->actor.world.pos, -1) != this->unk3FE) {
         this->actor.speedXZ = 0.0f;
@@ -1695,8 +1696,9 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
         } else {
             this->unk3F0 -= 1;
         }
-        if ((sp4C != (s32)this->unk14C.curFrame) &&
-            (((sp48 < 0xE) && (((s32)sp34 + sp4C) >= 0x10)) || ((sp48 < 0x1B) && (((s32)sp34 + sp4C) >= 0x1D)))) {
+        if ((prevFrame != (s32)this->unk14C.curFrame) &&
+            (((beforeCurFrame < 0xE) && (((s32)absPlaySpeed + prevFrame) >= 0x10)) ||
+             ((beforeCurFrame < 0x1B) && (((s32)absPlaySpeed + prevFrame) >= 0x1D)))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {

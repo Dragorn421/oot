@@ -455,8 +455,8 @@ void func_80B347FC(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
-    s32 sp5C_real;
-    s32 sp58_real;
+    s32 prevFrame;
+    s32 beforeCurFrame;
     s32 pad;
     f32 sp50_real;
     s32 pad2;
@@ -464,7 +464,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
     s32 pad3;
     s16 temp_v1_real;
     s16 var_v0_real;
-    f32 sp3C_probreal;
+    f32 absPlaySpeed;
     s32 pad4;
 
     sp50_real = 0.0f;
@@ -495,11 +495,11 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
                 return;
             }
         }
-        sp5C_real = (s32)this->unk188.curFrame;
+        prevFrame = (s32)this->unk188.curFrame;
         SkelAnime_Update(&this->unk188);
-        sp3C_probreal = ABS(this->unk188.playSpeed);
-        sp58_real = (s32)(this->unk188.curFrame - sp3C_probreal);
-        sp3C_probreal = ABS(this->unk188.playSpeed);
+        absPlaySpeed = ABS(this->unk188.playSpeed);
+        beforeCurFrame = (s32)(this->unk188.curFrame - absPlaySpeed);
+        absPlaySpeed = ABS(this->unk188.playSpeed);
         if (Actor_IsFacingPlayer(&this->actor, 0x11C7) == 0) {
             if (Rand_ZeroOne() > 0.5f) {
                 func_80B34F28(this);
@@ -523,8 +523,8 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
             if ((globalCtx->gameplayFrames & 0x5F) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
             }
-            if ((sp5C_real != (s32)this->unk188.curFrame) && (sp58_real <= 0) &&
-                (((s32)sp3C_probreal + sp5C_real) > 0)) {
+            if ((prevFrame != (s32)this->unk188.curFrame) && (beforeCurFrame <= 0) &&
+                (((s32)absPlaySpeed + prevFrame) > 0)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
                 Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, true);
             }
@@ -599,9 +599,9 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
     s16 sp56_real;
     s32 new_var;
     f32 sp4C_real;
-    s32 temp_ft2_sp48_real;
-    s32 v;
-    s32 v2;
+    s32 prevFrame;
+    s32 beforeCurFrame;
+    s32 absPlaySpeed;
     Player* player;
     s16 var_v0_2_real;
 
@@ -642,11 +642,11 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
             this->unk188.playSpeed = this->unk2EC * 0.175f;
         }
         this->unk188.playSpeed = CLAMP(this->unk188.playSpeed, -3.0f, 3.0f);
-        temp_ft2_sp48_real = (s32)this->unk188.curFrame;
+        prevFrame = (s32)this->unk188.curFrame;
         SkelAnime_Update(&this->unk188);
-        v = (s32)(this->unk188.curFrame - ABS(this->unk188.playSpeed));
-        v2 = new_var = (s32)ABS(this->unk188.playSpeed);
-        if ((temp_ft2_sp48_real != (s32)this->unk188.curFrame) && (v <= 0) && ((v2 + temp_ft2_sp48_real) > 0)) {
+        beforeCurFrame = (s32)(this->unk188.curFrame - ABS(this->unk188.playSpeed));
+        absPlaySpeed = new_var = (s32)ABS(this->unk188.playSpeed);
+        if ((prevFrame != (s32)this->unk188.curFrame) && (beforeCurFrame <= 0) && ((absPlaySpeed + prevFrame) > 0)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
             Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, true);
         }
@@ -1028,11 +1028,11 @@ void func_80B365A8(EnWf* this, GlobalContext* globalCtx) {
 void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
     Player* player2;
     Player* player;
-    s32 sp64_real;
-    s32 sp60_real;
+    s32 prevFrame;
+    s32 beforeCurFrame;
     s32 new_var;
     f32 sp58_real;
-    s32 var_fa0_4_sp44_real;
+    s32 absPlaySpeed;
     s16 var_v0_probreal;
     s16 var_v0_2_probreal;
     s16 temp_a2_sp4E;
@@ -1072,10 +1072,10 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
         this->unk188.playSpeed = this->unk2EC * 0.175f;
     }
     this->unk188.playSpeed = CLAMP(this->unk188.playSpeed, -3.0f, 3.0f);
-    sp64_real = (s32)this->unk188.curFrame;
+    prevFrame = (s32)this->unk188.curFrame;
     SkelAnime_Update(&this->unk188);
-    sp60_real = (s32)(this->unk188.curFrame - ABS(this->unk188.playSpeed));
-    var_fa0_4_sp44_real = new_var = ABS(this->unk188.playSpeed);
+    beforeCurFrame = (s32)(this->unk188.curFrame - ABS(this->unk188.playSpeed));
+    absPlaySpeed = new_var = ABS(this->unk188.playSpeed);
     if (func_80B33FB0(globalCtx, this, 0) == 0) {
         this->unk2E8 -= 1;
         if (this->unk2E8 == 0) {
@@ -1098,8 +1098,8 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
                 }
             }
         }
-        if ((sp64_real != (s32)this->unk188.curFrame) && (sp60_real <= 0) &&
-            (((s32)var_fa0_4_sp44_real + sp64_real) > 0)) {
+        if ((prevFrame != (s32)this->unk188.curFrame) && (beforeCurFrame <= 0) &&
+            (((s32)absPlaySpeed + prevFrame) > 0)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
             Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, true);
         }
