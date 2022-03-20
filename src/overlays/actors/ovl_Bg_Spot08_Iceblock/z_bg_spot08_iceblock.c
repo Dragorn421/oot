@@ -216,7 +216,7 @@ void func_808B0CE0(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
         this->unk168 = D_808B16B0;
     }
     Matrix_RotateAxis(Math_FAcosF(Math3D_Cos(&D_808B16B0, &this->unk168)), &this->unk180, MTXMODE_NEW);
-    Matrix_RotateY(this->dyna.actor.shape.rot.y * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_APPLY);
     Matrix_Get(&sp44);
     Matrix_MtxFToYXZRotS(&sp44, &this->dyna.actor.shape.rot, 0);
 }

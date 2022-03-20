@@ -893,8 +893,8 @@ void func_80874EAC(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&var_s0->unk38, temp_fs0, 0.9f, 5000.0f);
                 Math_ApproachF(&var_s0->unk3C, temp_fs1, 0.9f, 5000.0f);
                 Matrix_Push();
-                Matrix_RotateY(BINANG_TO_RAD(var_s0->unk3C), MTXMODE_NEW);
-                Matrix_RotateX(BINANG_TO_RAD(var_s0->unk38), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(var_s0->unk3C), MTXMODE_NEW);
+                Matrix_RotateX(BINANG_TO_RAD_ALT(var_s0->unk38), MTXMODE_APPLY);
                 sp94.z = 3.0f;
                 sp94.y = 3.0f;
                 sp94.x = 3.0f;

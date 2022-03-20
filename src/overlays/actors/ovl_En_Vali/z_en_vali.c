@@ -690,7 +690,7 @@ void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_002610);
     Matrix_Put(&sp80);
-    Matrix_RotateY(-this->actor.shape.rot.y * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(-this->actor.shape.rot.y), MTXMODE_APPLY);
     sp7C = Math_CosS(this->actor.shape.rot.y);
     sp78 = Math_SinS(this->actor.shape.rot.y);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1446),

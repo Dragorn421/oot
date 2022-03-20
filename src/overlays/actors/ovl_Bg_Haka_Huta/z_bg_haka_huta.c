@@ -200,7 +200,7 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (D_8087D958.x > 30.0f) {
         D_8087D958.x = 30.0f;
     }
-    Matrix_RotateY(this->dyna.actor.world.rot.y * 0.0000958738f, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.world.rot.y), MTXMODE_NEW);
     Matrix_RotateAxis(this->unk168 * 0.16001178f, &D_8087D964, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_8087D958, &sp34);
     this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + sp34.x;
