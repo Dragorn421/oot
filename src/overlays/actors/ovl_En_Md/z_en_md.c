@@ -783,14 +783,14 @@ s32 func_80AABEF0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     if (limbIndex == 0x10) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, 1U);
         sp2C = this->unk1E0.unk_08;
-        Matrix_RotateX((sp2C.y / 32768.0f) * 3.1415927f, MTXMODE_APPLY);
-        Matrix_RotateZ((sp2C.x / 32768.0f) * 3.1415927f, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, 1U);
     }
     if (limbIndex == 9) {
         sp2C = this->unk1E0.unk_0E;
-        Matrix_RotateX((sp2C.x / 32768.0f) * 3.1415927f, MTXMODE_APPLY);
-        Matrix_RotateY((sp2C.y / 32768.0f) * 3.1415927f, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
     }
     if ((limbIndex == 9) || (limbIndex == 0xA) || (limbIndex == 0xD)) {
         rot->y += (Math_SinS(this->unk214[limbIndex]) * 200.0f);
