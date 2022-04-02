@@ -329,6 +329,8 @@ build/dmadata_table_spec.h: build/$(SPEC)
 build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 
+build/src/code/z_actor_dlftbls.o: include/tables/actor_table.h
+
 build/src/%.o: src/%.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
