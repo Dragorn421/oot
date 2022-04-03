@@ -364,8 +364,8 @@ void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
     func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.world.pos);
     if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
         (GET_PLAYER(globalCtx)->currentBoots != 1)) {
-        player->windSpeed = (((500.0f - sp18.z) * 0.06f) + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
-        player->windDirection = this->dyna.actor.shape.rot.y;
+        player->pushedSpeed = (((500.0f - sp18.z) * 0.06f) + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
+        player->pushedYaw = this->dyna.actor.shape.rot.y;
     }
 }
 
