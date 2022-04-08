@@ -77,9 +77,9 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 Gameplay_ChangeCameraStatus(globalCtx, this->unk152, CAM_STAT_ACTIVE);
                 this->unk1C8.x = this->unk1C8.y = this->unk1C8.z = 0.1f;
                 this->unk1A4.x = this->unk1A4.y = this->unk1A4.z = 0.1f;
-                this->unk180.x = this->unk168.x = globalCtx->view.lookAt.x;
-                this->unk180.y = this->unk168.y = globalCtx->view.lookAt.y;
-                this->unk180.z = this->unk168.z = globalCtx->view.lookAt.z;
+                this->unk180.x = this->unk168.x = globalCtx->view.at.x;
+                this->unk180.y = this->unk168.y = globalCtx->view.at.y;
+                this->unk180.z = this->unk168.z = globalCtx->view.at.z;
                 this->unk18C.x = this->unk174.x = globalCtx->view.eye.x;
                 this->unk18C.y = this->unk174.y = globalCtx->view.eye.y;
                 this->unk18C.z = this->unk174.z = globalCtx->view.eye.z;
