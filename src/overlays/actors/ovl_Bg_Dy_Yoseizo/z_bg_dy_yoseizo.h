@@ -4,7 +4,9 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct struct_BgDyYoseizo_394 {
+#define BG_DY_YOSEIZO_EFFECT_COUNT 200
+
+typedef struct BgDyYoseizoEffect {
     /* 0x00 */ u8 unk0;
     /* 0x01 */ char pad1[3]; /* maybe part of unk0[4]? */
     /* 0x04 */ Vec3f unk4;
@@ -19,7 +21,7 @@ typedef struct struct_BgDyYoseizo_394 {
     /* 0x38 */ f32 unk38;
     /* 0x3C */ f32 unk3C;
     /* 0x40 */ f32 unk40;
-} struct_BgDyYoseizo_394; // size = 0x44
+} BgDyYoseizoEffect; // size = 0x44
 
 struct BgDyYoseizo;
 
@@ -67,7 +69,7 @@ typedef struct BgDyYoseizo {
     /* 0x0340 */ struct EnDyExtra* unk340;
     /* 0x0344 */ struct EnExItem* unk344;
     /* 0x0348 */ char pad348[0x4C];
-    /* 0x0394 */ struct_BgDyYoseizo_394 unk394[200];
+    /* 0x0394 */ BgDyYoseizoEffect effects[BG_DY_YOSEIZO_EFFECT_COUNT];
 } BgDyYoseizo; // size = 0x38B4
 
 #endif

@@ -34,9 +34,9 @@ void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx);
-void func_80874D9C(BgDyYoseizo* this, Vec3f*, Vec3f*, Vec3f*, Color_RGB8*, Color_RGB8*, f32, s16, s16);
-void func_80874EAC(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f*, Vec3f*, Vec3f*, Color_RGB8*, Color_RGB8*, f32, s16, s16);
+void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx);
 
 static s32 D_80875440[3] = { 0x5D, 0x5E, 0x5C };
 const ActorInit Bg_Dy_Yoseizo_InitVars = {
@@ -149,7 +149,7 @@ void func_80872960(BgDyYoseizo* this, GlobalContext* globalCtx, s16 arg2) {
             spA4.r = D_80875488[var_s1].r;
             spA4.g = D_80875488[var_s1].g;
             spA4.b = D_80875488[var_s1].b;
-            func_80874D9C(this, &spAC, &spC4, &spB8, &spA8, &spA4, var_fs2, var_s2, var_s1);
+            BgDyYoseizo_SpawnEffect(this, &spAC, &spC4, &spB8, &spA8, &spA4, var_fs2, var_s2, var_s1);
         }
     }
 }
@@ -803,7 +803,7 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_SetFocus(&this->actor, this->unk328);
     this->actor.focus.pos.y = this->unk328;
     func_80038290(globalCtx, &this->actor, &this->unk334, &this->unk33A, this->actor.focus.pos);
-    func_80874EAC(this, globalCtx);
+    BgDyYoseizo_UpdateEffects(this, globalCtx);
     Actor_SetScale(&this->actor, this->unk308);
 }
 
@@ -833,119 +833,119 @@ void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                               this->skelAnime.dListCount, func_80874B7C, NULL, this);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1629);
-    func_808751A0(this, globalCtx);
+    BgDyYoseizo_DrawEffects(this, globalCtx);
 }
 
-void func_80874D9C(BgDyYoseizo* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, Color_RGB8* arg4, Color_RGB8* arg5,
-                   f32 arg6, s16 arg7, s16 arg8) {
-    struct_BgDyYoseizo_394* var_v0;
+void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, Color_RGB8* arg4,
+                             Color_RGB8* arg5, f32 arg6, s16 arg7, s16 arg8) {
+    BgDyYoseizoEffect* effect;
     s16 var_v1;
 
-    var_v0 = this->unk394;
-    for (var_v1 = 0; var_v1 < ARRAY_COUNT(this->unk394); var_v1++, var_v0++) {
-        if (var_v0->unk0 == 0) {
-            var_v0->unk0 = 1;
-            var_v0->unk4 = *arg1;
-            var_v0->unk10 = *arg2;
-            var_v0->unk1C = *arg3;
-            var_v0->unk28 = *arg4;
-            var_v0->unk2E = 0;
-            var_v0->unk2B = *arg5;
-            var_v0->unk30 = arg6;
-            var_v0->unk34 = arg7;
-            var_v0->unk36 = arg8;
-            var_v0->unk38 = 0.0f;
-            var_v0->unk3C = Rand_CenteredFloat(30000.0f);
-            var_v0->unk40 = 0.0f;
+    effect = this->effects;
+    for (var_v1 = 0; var_v1 < BG_DY_YOSEIZO_EFFECT_COUNT; var_v1++, effect++) {
+        if (effect->unk0 == 0) {
+            effect->unk0 = 1;
+            effect->unk4 = *arg1;
+            effect->unk10 = *arg2;
+            effect->unk1C = *arg3;
+            effect->unk28 = *arg4;
+            effect->unk2E = 0;
+            effect->unk2B = *arg5;
+            effect->unk30 = arg6;
+            effect->unk34 = arg7;
+            effect->unk36 = arg8;
+            effect->unk38 = 0.0f;
+            effect->unk3C = Rand_CenteredFloat(30000.0f);
+            effect->unk40 = 0.0f;
             break;
         }
     }
 }
 
-void func_80874EAC(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
     s16 var_s5;
     Player* player;
     Vec3f sp94;
     Vec3f sp88;
-    struct_BgDyYoseizo_394* var_s0;
+    BgDyYoseizoEffect* effect;
     f32 temp_fs0;
     f32 temp_fs1;
 
-    var_s0 = this->unk394;
+    effect = this->effects;
     player = GET_PLAYER(globalCtx);
-    for (var_s5 = 0; var_s5 < ARRAY_COUNT(this->unk394); var_s5++, var_s0++) {
-        if (var_s0->unk0 != 0) {
-            var_s0->unk40 += 3000.0f;
-            if (var_s0->unk36 == 0) {
-                var_s0->unk4.x += var_s0->unk10.x;
-                var_s0->unk4.y += var_s0->unk10.y;
-                var_s0->unk4.z += var_s0->unk10.z;
-                var_s0->unk10.x += var_s0->unk1C.x;
-                var_s0->unk10.y += var_s0->unk1C.y;
-                var_s0->unk10.z += var_s0->unk1C.z;
+    for (var_s5 = 0; var_s5 < BG_DY_YOSEIZO_EFFECT_COUNT; var_s5++, effect++) {
+        if (effect->unk0 != 0) {
+            effect->unk40 += 3000.0f;
+            if (effect->unk36 == 0) {
+                effect->unk4.x += effect->unk10.x;
+                effect->unk4.y += effect->unk10.y;
+                effect->unk4.z += effect->unk10.z;
+                effect->unk10.x += effect->unk1C.x;
+                effect->unk10.y += effect->unk1C.y;
+                effect->unk10.z += effect->unk1C.z;
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HEALING - SFX_FLAG);
                 sp94 = player->actor.world.pos;
                 sp94.y = player->actor.world.pos.y - 150.0f;
                 sp94.z = player->actor.world.pos.z - 50.0f;
-                temp_fs0 = Math_Vec3f_Pitch(&var_s0->unk4, &sp94);
-                temp_fs1 = Math_Vec3f_Yaw(&var_s0->unk4, &sp94);
-                Math_ApproachF(&var_s0->unk38, temp_fs0, 0.9f, 5000.0f);
-                Math_ApproachF(&var_s0->unk3C, temp_fs1, 0.9f, 5000.0f);
+                temp_fs0 = Math_Vec3f_Pitch(&effect->unk4, &sp94);
+                temp_fs1 = Math_Vec3f_Yaw(&effect->unk4, &sp94);
+                Math_ApproachF(&effect->unk38, temp_fs0, 0.9f, 5000.0f);
+                Math_ApproachF(&effect->unk3C, temp_fs1, 0.9f, 5000.0f);
                 Matrix_Push();
-                Matrix_RotateY(BINANG_TO_RAD_ALT(var_s0->unk3C), MTXMODE_NEW);
-                Matrix_RotateX(BINANG_TO_RAD_ALT(var_s0->unk38), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(effect->unk3C), MTXMODE_NEW);
+                Matrix_RotateX(BINANG_TO_RAD_ALT(effect->unk38), MTXMODE_APPLY);
                 sp94.z = 3.0f;
                 sp94.y = 3.0f;
                 sp94.x = 3.0f;
                 Matrix_MultVec3f(&sp94, &sp88);
                 Matrix_Pop();
-                var_s0->unk4.x += sp88.x;
-                var_s0->unk4.y += sp88.y;
-                var_s0->unk4.z += sp88.z;
+                effect->unk4.x += sp88.x;
+                effect->unk4.y += sp88.y;
+                effect->unk4.z += sp88.z;
             }
         }
-        if (var_s0->unk34 != 0) {
-            var_s0->unk34 -= 1;
-            var_s0->unk2E += 0x1E;
-            if (var_s0->unk2E >= 0x100) {
-                var_s0->unk2E = 0xFF;
+        if (effect->unk34 != 0) {
+            effect->unk34 -= 1;
+            effect->unk2E += 0x1E;
+            if (effect->unk2E >= 0x100) {
+                effect->unk2E = 0xFF;
             }
         } else {
-            var_s0->unk2E -= 0x1E;
-            if (var_s0->unk2E <= 0) {
-                var_s0->unk0 = 0;
-                var_s0->unk2E = var_s0->unk0;
+            effect->unk2E -= 0x1E;
+            if (effect->unk2E <= 0) {
+                effect->unk0 = 0;
+                effect->unk2E = effect->unk0;
             }
         }
     }
 }
 
-void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     s16 var_s4;
-    struct_BgDyYoseizo_394* var_s0;
+    BgDyYoseizoEffect* effect;
     u8 materialFlag;
 
     gfxCtx = globalCtx->state.gfxCtx;
-    var_s0 = this->unk394;
+    effect = this->effects;
     materialFlag = 0;
     OPEN_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1767);
     func_80093D84(globalCtx->state.gfxCtx);
-    for (var_s4 = 0; var_s4 < ARRAY_COUNT(this->unk394); var_s4++, var_s0++) {
-        if (var_s0->unk0 == 1) {
+    for (var_s4 = 0; var_s4 < BG_DY_YOSEIZO_EFFECT_COUNT; var_s4++, effect++) {
+        if (effect->unk0 == 1) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));
                 gDPPipeSync(POLY_XLU_DISP++);
                 materialFlag++;
             }
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, var_s0->unk28.r, var_s0->unk28.g, var_s0->unk28.b,
-                            var_s0->unk2E);
-            gDPSetEnvColor(POLY_XLU_DISP++, var_s0->unk2B.r, var_s0->unk2B.g, var_s0->unk2B.b, 0);
-            Matrix_Translate(var_s0->unk4.x, var_s0->unk4.y, var_s0->unk4.z, MTXMODE_NEW);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, effect->unk28.r, effect->unk28.g, effect->unk28.b,
+                            effect->unk2E);
+            gDPSetEnvColor(POLY_XLU_DISP++, effect->unk2B.r, effect->unk2B.g, effect->unk2B.b, 0);
+            Matrix_Translate(effect->unk4.x, effect->unk4.y, effect->unk4.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
-            Matrix_Scale(var_s0->unk30, var_s0->unk30, 1.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(var_s0->unk40, MTXMODE_APPLY);
+            Matrix_Scale(effect->unk30, effect->unk30, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(effect->unk40, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleModelDL));
