@@ -63,7 +63,7 @@ void func_80A13070_Unignite_(EnFirefly* this) {
     this->collider.elements->info.toucher.effect = 0;
     this->unk1B8 = 0;
     this->unk1B9 = 0;
-    this->actor.naviEnemyId = 0x12;
+    this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
 }
 
 void func_80A13098_Ignite_(EnFirefly* this) {
@@ -75,7 +75,7 @@ void func_80A13098_Ignite_(EnFirefly* this) {
     this->collider.elements->info.toucher.effect = 1;
     this->unk1B8 = 1;
     this->unk1B9 = 1;
-    this->actor.naviEnemyId = 0x11;
+    this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
 }
 
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -102,7 +102,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk1BA_timer = Rand_S16Offset(20, 60);
         this->actor.shape.rot.x = 0x1554;
         this->unk1B8 = 1;
-        this->actor.naviEnemyId = 0x11;
+        this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
         this->unk310_homeY = this->actor.home.pos.y;
     } else {
         if (this->actor.params == 3) {
@@ -112,10 +112,10 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (this->actor.params == 4) {
             this->collider.elements->info.toucher.effect = 2;
-            this->actor.naviEnemyId = 0x56;
+            this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
             this->collider.elements->info.toucher.effect = 0;
-            this->actor.naviEnemyId = 0x12;
+            this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
         this->unk310_homeY = this->actor.home.pos.y + 100.0f;
         if (this->actor.params == 4) {

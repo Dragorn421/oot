@@ -146,7 +146,7 @@ static EnDnsPurchaseInfo* sEnDnsPurchaseInfos[] = {
     &sEnDnsPurchaseInfoDekuNutsCapacity,   // EN_DNS_TYPE_DEKU_NUTS_CAPACITY
 };
 static InitChainEntry D_809F052C[3] = {
-    ICHAIN_S8(naviEnemyId, 78, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BUSINESS_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };

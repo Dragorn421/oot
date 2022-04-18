@@ -248,12 +248,12 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetQuad(globalCtx, &this->unk464, &this->actor, &D_80B4A204);
     if (this->actor.params == -2) {
         this->actor.colChkInfo.health = 12;
-        this->actor.naviEnemyId = 0x10;
+        this->actor.naviEnemyId = NAVI_ENEMY_DINOLFOS;
         SkelAnime_Init(globalCtx, &this->unk14C, &object_zf_Skel_006690, &object_zf_Anim_00B10C, this->unk190,
                        this->unk2B6, 0x31);
     } else {
         this->actor.colChkInfo.health = 6;
-        this->actor.naviEnemyId = 0xF;
+        this->actor.naviEnemyId = NAVI_ENEMY_LIZALFOS;
         SkelAnime_Init(globalCtx, &this->unk14C, &object_zf_Skel_0104B8, &object_zf_Anim_00B10C, this->unk190,
                        this->unk2B6, 0x31);
     }

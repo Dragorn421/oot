@@ -177,7 +177,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E9000, &D_809E8FD8);
         this->actor.colChkInfo.health = 4;
-        this->actor.naviEnemyId = 8;
+        this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
         this->actor.targetMode = 2;
     } else {
         this->unk230 = 1.0f;
@@ -188,7 +188,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
             D_809E8FE0.table[0x1B] = 4;
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E8FE0, &D_809E8FD8);
-        this->actor.naviEnemyId = 7;
+        this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
         this->actor.targetMode = 1;
     }
     func_809E5ABC(this);

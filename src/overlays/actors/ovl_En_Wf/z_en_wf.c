@@ -209,12 +209,12 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
         SkelAnime_InitFlex(globalCtx, &this->unk188, &D_6009690, &D_600A4AC, this->unk1CC, this->unk250, 22);
         Actor_SetScale(&this->actor, 0.0075f);
-        this->actor.naviEnemyId = 0x4C;
+        this->actor.naviEnemyId = NAVI_ENEMY_WOLFOS;
     } else {
         SkelAnime_InitFlex(globalCtx, &this->unk188, &D_6003BC0, &D_600A4AC, this->unk1CC, this->unk250, 22);
         Actor_SetScale(&this->actor, 0.01f);
         this->unk304.elements[0].info.toucher.damage = this->unk304.elements[1].info.toucher.damage = 8;
-        this->actor.naviEnemyId = 0x57;
+        this->actor.naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }
     func_80B34380(this);
     if ((this->unk2FC != 0xFF) && Flags_GetSwitch(globalCtx, this->unk2FC)) {

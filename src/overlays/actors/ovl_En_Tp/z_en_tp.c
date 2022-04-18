@@ -103,7 +103,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_InitJntSph(globalCtx, &this->unk174);
     Collider_SetJntSph(globalCtx, &this->unk174, &this->actor, &D_80B22AB4, &this->unk194);
     if (this->actor.params < 0) {
-        this->actor.naviEnemyId = 0x06;
+        this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
         this->unk15A = 0;
         this->unk174.base.acFlags |= 4;
         this->unk174.elements->dim.worldSphere.radius = 8;
