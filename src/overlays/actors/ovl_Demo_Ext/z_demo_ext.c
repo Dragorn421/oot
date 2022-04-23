@@ -56,8 +56,8 @@ void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80977450(DemoExt* this) {
     if (this->unk16C <= (gGameInfo->data[0xA43] + 40.0f - 15.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4U, &D_801333E0,
-                               &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4U,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 

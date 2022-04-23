@@ -192,8 +192,8 @@ void func_80B212C0(EnTp* this, GlobalContext* globalCtx) {
 
     player = GET_PLAYER(globalCtx);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
-    Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
-                           &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     if (this->unk174.base.atFlags & AT_HIT) {
         this->unk174.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->unk174.base.at) {
@@ -312,8 +312,8 @@ void func_80B219A8(EnTp* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->unk16C, 1.0f,
                        this->actor.speedXZ * 0.25f, 0.0f);
-    Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
-                           &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     if (this->unk174.base.atFlags & AT_HIT) {
         this->unk174.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->unk174.base.at) {
@@ -392,8 +392,8 @@ void func_80B21BDC(EnTp* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->actor.world.pos.y != this->actor.home.pos.y) {
-        Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -457,8 +457,8 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
             sp44 = 1;
         }
         if (this->actor.world.pos.y != this->actor.home.pos.y) {
-            Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &D_801333E0,
-                                   &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         if ((sp44 != 0) && (globalCtx->gameplayFrames & 1)) {
             sp48 = this->actor.world.pos;
@@ -584,8 +584,8 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         this->actor.shape.rot.z += 0x800;
         if (this->actor.shape.rot.z == 0) {
-            Audio_PlaySoundGeneral(NA_SE_EN_TAIL_CRY, &this->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EN_TAIL_CRY, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         if (this->unk14C >= 2) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk174.base);

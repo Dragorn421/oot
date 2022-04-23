@@ -731,7 +731,8 @@ void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
         this->unk190 = func_80AAB948;
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySoundGeneral(0x4802U, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(0x4802U, &gSfxDefaultPos, 4U, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultReverb);
         this->actor.textId = 0x1067;
         func_8002F2CC(&this->actor, globalCtx, (f32)this->unk194.dim.radius + 30.0f);
         this->unk190 = func_80AAB948;
