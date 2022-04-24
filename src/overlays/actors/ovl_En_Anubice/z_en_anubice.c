@@ -114,8 +114,8 @@ void EnAnubice_SetFireballRot(EnAnubice* this, GlobalContext* globalCtx) {
     z = player->actor.world.pos.z - this->fireballPos.z;
     xzdist = sqrtf(SQ(x) + SQ(z));
 
-    this->fireballRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzdist));
-    this->fireballRot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
+    this->fireballRot.x = -RAD_TO_BINANG(Math_FAtan2F(y, xzdist));
+    this->fireballRot.y = RAD_TO_BINANG(Math_FAtan2F(x, z));
 }
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
