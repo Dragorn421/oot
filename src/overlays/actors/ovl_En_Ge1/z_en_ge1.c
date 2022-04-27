@@ -194,8 +194,8 @@ void func_80A30E08(EnGe1* this, GlobalContext* globalCtx) {
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;
         }
-        globalCtx->fadeTransition = 0x26;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -518,8 +518,8 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
                     Rupees_ChangeBy(-20);
                     globalCtx->nextEntranceIndex = 0x129;
                     gSaveContext.nextCutsceneIndex = 0xFFF0;
-                    globalCtx->fadeTransition = 0x26;
-                    globalCtx->sceneLoadFlag = 0x14;
+                    globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.eventInf[0] |= 0x100;
                     gSaveContext.eventChkInf[6] |= 0x100;
                     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {

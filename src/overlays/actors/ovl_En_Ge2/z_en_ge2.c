@@ -218,8 +218,8 @@ void func_80A330CC(EnGe2* this, GlobalContext* globalCtx) {
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;
         }
-        globalCtx->fadeTransition = 0x26;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -241,8 +241,8 @@ void func_80A331A0(EnGe2* this, GlobalContext* globalCtx) {
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;
         }
-        globalCtx->fadeTransition = 0x26;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
