@@ -63,7 +63,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
     osSyncPrintf("\n\n");
     temp_v1_curRoomIndex = temp_v1_curRoomIndex * 2;
     if (globalCtx->roomCtx.curRoom.num >= 6) {
-        sp6A_finalChestParams = (gSaveContext.itemGetInf[1] & 0x800) ? 0x4EA0 : 0x4EC0;
+        sp6A_finalChestParams = GET_ITEMGETINF(ITEMGETINF_1B) ? 0x4EA0 : 0x4EC0;
         sp6A_finalChestParams = sTreasureFlags[5] | sp6A_finalChestParams;
         this->unk158 = (EnBox*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BOX, 20.0f,
                                                    20.0f, -2500.0f, 0, 0x7FFF, 0, sp6A_finalChestParams);
@@ -204,8 +204,8 @@ void func_809D2D70(EnChanger* this, GlobalContext* globalCtx) {
 
 void func_809D2F74(EnChanger* this, GlobalContext* globalCtx) {
     if (this->unk158->unk_1F4 != 0) {
-        if (!(gSaveContext.itemGetInf[1] & 0x800)) {
-            gSaveContext.itemGetInf[1] |= 0x800;
+        if (!GET_ITEMGETINF(ITEMGETINF_1B)) {
+            SET_ITEMGETINF(ITEMGETINF_1B);
         }
         Actor_Kill(&this->actor);
     }

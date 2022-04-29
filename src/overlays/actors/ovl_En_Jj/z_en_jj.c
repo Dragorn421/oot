@@ -209,7 +209,7 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk30F = 0;
             this->unk310 = 0;
             this->unk311 = 0;
-            if (gSaveContext.eventChkInf[3] & 0x400) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_3A)) {
                 func_80A87800(this, func_80A87BEC);
             } else {
                 func_80A87800(this, func_80A87C30);
@@ -325,7 +325,7 @@ void func_80A87CEC(EnJj* this, GlobalContext* globalCtx) {
     gSaveContext.cutsceneTrigger = 1;
     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, temp_v1->dyna.bgId);
     func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
-    gSaveContext.eventChkInf[3] |= 0x400;
+    SET_EVENTCHKINF(EVENTCHKINF_3A);
     func_80078884(NA_SE_SY_CORRECT_CHIME);
 }
 

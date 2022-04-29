@@ -199,7 +199,10 @@ s32 func_80A32F74(GlobalContext* globalCtx, EnGe2* this, Vec3f* arg2, s16 arg3, 
 }
 
 s32 func_80A330A0(void) {
-    if ((gSaveContext.eventChkInf[9] & 0xFF & 0xF) == 0xF) {
+    if (CHECK_FLAG_ALL(
+            gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] &
+                (EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK | 0xF0),
+            EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         return 1;
     } else {
         return 0;
@@ -213,7 +216,7 @@ void func_80A330CC(EnGe2* this, GlobalContext* globalCtx) {
         func_8006D074(globalCtx);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[0xC] & 0x80) {
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
             globalCtx->nextEntranceIndex = 0x5F8;
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;
@@ -236,7 +239,7 @@ void func_80A331A0(EnGe2* this, GlobalContext* globalCtx) {
         func_8006D074(globalCtx);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[0xC] & 0x80) {
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
             globalCtx->nextEntranceIndex = 0x5F8;
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;

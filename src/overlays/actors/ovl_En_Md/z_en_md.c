@@ -378,13 +378,13 @@ u16 func_80AAACF8(GlobalContext* globalCtx, EnMd* this) {
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         return 0x1045;
     }
-    if (gSaveContext.eventChkInf[0] & 0x10) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_04)) {
         return 0x1034;
     }
     if ((CUR_EQUIP_VALUE(EQUIP_SHIELD) == 1) && (CUR_EQUIP_VALUE(EQUIP_SWORD) == 1)) {
         return 0x1033;
     }
-    if (gSaveContext.infTable[0] & 0x1000) {
+    if (GET_INFTABLE(INFTABLE_0C)) {
         return 0x1030;
     }
     return 0x102F;
@@ -393,7 +393,7 @@ u16 func_80AAACF8(GlobalContext* globalCtx, EnMd* this) {
 u16 func_80AAADE0(GlobalContext* globalCtx, EnMd* this) {
     this->unk208 = 0;
     this->unk209 = TEXT_STATE_NONE;
-    if (gSaveContext.eventChkInf[4] & 1) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
         return 0x1028;
     }
     return 0x1046;
@@ -402,15 +402,15 @@ u16 func_80AAADE0(GlobalContext* globalCtx, EnMd* this) {
 u16 func_80AAAE14(GlobalContext* globalCtx, EnMd* this) {
     this->unk208 = 0;
     this->unk209 = TEXT_STATE_NONE;
-    if (gSaveContext.eventChkInf[4] & 0x100) {
-        if (gSaveContext.infTable[1] & 0x200) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_48)) {
+        if (GET_INFTABLE(INFTABLE_19)) {
             return 0x1071;
         } else {
             return 0x1070;
         }
-    } else if (gSaveContext.eventChkInf[0] & 0x400) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_0A)) {
         return 0x1068;
-    } else if (gSaveContext.infTable[1] & 0x20) {
+    } else if (GET_INFTABLE(INFTABLE_15)) {
         return 0x1061;
     } else {
         return 0x1060;
@@ -447,17 +447,17 @@ s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x1028:
-                    gSaveContext.eventChkInf[0] |= 0x8000;
+                    SET_EVENTCHKINF(EVENTCHKINF_0F);
                     break;
                 case 0x102F:
-                    gSaveContext.eventChkInf[0] |= 4;
-                    gSaveContext.infTable[0] |= 0x1000;
+                    SET_EVENTCHKINF(EVENTCHKINF_02);
+                    SET_INFTABLE(INFTABLE_0C);
                     break;
                 case 0x1060:
-                    gSaveContext.infTable[1] |= 0x20;
+                    SET_INFTABLE(INFTABLE_15);
                     break;
                 case 0x1070:
-                    gSaveContext.infTable[1] |= 0x200;
+                    SET_INFTABLE(INFTABLE_19);
                     break;
                 case 0x1033:
                 case 0x1067:
@@ -475,8 +475,7 @@ s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s32 func_80AAB03C(EnMd* this, GlobalContext* globalCtx) {
-    if ((globalCtx->sceneNum == SCENE_SPOT04) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
-        !(gSaveContext.eventChkInf[4] & 1)) {
+    if ((globalCtx->sceneNum == SCENE_SPOT04) && !GET_EVENTCHKINF(EVENTCHKINF_1C) && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
         return 1;
     } else if ((globalCtx->sceneNum == SCENE_KOKIRI_HOME4) &&
                ((gSaveContext.eventChkInf[1] & 0x1000) || (gSaveContext.eventChkInf[4] & 1)) && !LINK_IS_ADULT) {
@@ -600,7 +599,7 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
     f32 var_fv0;
 
     if (globalCtx->sceneNum != SCENE_KOKIRI_HOME4) {
-        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
+        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
             var_fv0 = 100.0f;
         } else {
@@ -633,10 +632,10 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk210 = 255;
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
-    if (((globalCtx->sceneNum == SCENE_SPOT04) && !(gSaveContext.eventChkInf[0] & 0x10)) ||
-        ((globalCtx->sceneNum == SCENE_SPOT04) && (gSaveContext.eventChkInf[0] & 0x10) &&
+    if (((globalCtx->sceneNum == SCENE_SPOT04) && !GET_EVENTCHKINF(EVENTCHKINF_04)) ||
+        ((globalCtx->sceneNum == SCENE_SPOT04) && GET_EVENTCHKINF(EVENTCHKINF_04) &&
          CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) ||
-        ((globalCtx->sceneNum == SCENE_SPOT10) && !(gSaveContext.eventChkInf[0] & 0x400))) {
+        ((globalCtx->sceneNum == SCENE_SPOT10) && !GET_EVENTCHKINF(EVENTCHKINF_0A))) {
         this->actor.home.pos = this->actor.world.pos;
         this->unk190 = func_80AAB948;
     } else {
@@ -690,15 +689,15 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         this->unk14C.playSpeed = CLAMP(temp_fv1, 1.0f, 3.0f);
     }
     if (this->unk1E0.unk_00 == 2) {
-        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
+        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
             globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         }
         if (globalCtx->sceneNum == SCENE_SPOT04) {
-            gSaveContext.eventChkInf[0] |= 0x10;
+            SET_EVENTCHKINF(EVENTCHKINF_04);
         }
         if (globalCtx->sceneNum == SCENE_SPOT10) {
-            gSaveContext.eventChkInf[0] |= 0x400;
+            SET_EVENTCHKINF(EVENTCHKINF_0A);
         }
         func_80AAA92C(this, 3);
         func_80AAA93C(this);
@@ -747,10 +746,10 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
     func_80AAA93C(this);
     if ((func_80AAB370(this, globalCtx) == 0) || (this->unk212 != 0)) {
         this->actor.shape.rot = this->actor.world.rot;
-    } else if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
+    } else if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
                (globalCtx->sceneNum == SCENE_SPOT04)) {
         Message_CloseTextbox(globalCtx);
-        gSaveContext.eventChkInf[1] |= 0x1000;
+        SET_EVENTCHKINF(EVENTCHKINF_1C);
         Actor_Kill(&this->actor);
     } else {
         func_80AAA92C(this, 0xB);

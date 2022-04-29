@@ -42,7 +42,7 @@ void BgTokiHikari_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk150 = func_808B9F98;
             return;
         case 1:
-            if (!(gSaveContext.eventChkInf[4] & 0x800)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
                 this->unk150 = func_808BA204;
                 this->unk14C = 0.0f;
                 return;

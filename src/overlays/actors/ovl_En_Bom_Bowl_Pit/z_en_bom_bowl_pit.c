@@ -147,10 +147,10 @@ void func_809C53F0(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->unk156 != 0) {
         switch (this->unk15A) {
             case 0:
-                gSaveContext.itemGetInf[1] |= 2;
+                SET_ITEMGETINF(ITEMGETINF_11);
                 break;
             case EXITEM_HEART_PIECE_BOWLING:
-                gSaveContext.itemGetInf[1] |= 4;
+                SET_ITEMGETINF(ITEMGETINF_12);
                 break;
         }
         Gameplay_ClearCamera(globalCtx, this->unk152);

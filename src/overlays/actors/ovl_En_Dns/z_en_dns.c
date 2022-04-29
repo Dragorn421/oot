@@ -313,7 +313,7 @@ void EnDns_ConcludePurchase_DekuNuts(EnDns* this) {
 }
 
 void EnDns_ConcludePurchase_HeartPiece(EnDns* this) {
-    gSaveContext.itemGetInf[0] |= 0x800;
+    SET_ITEMGETINF(ITEMGETINF_0B);
     Rupees_ChangeBy(-this->unk2C0->price);
 }
 
@@ -326,12 +326,12 @@ void EnDns_ConcludePurchase_Arrows(EnDns* this) {
 }
 
 void EnDns_ConcludePurchase_DekuSticksCapacity(EnDns* this) {
-    gSaveContext.infTable[0x19] |= 4;
+    SET_INFTABLE(INFTABLE_192);
     Rupees_ChangeBy(-this->unk2C0->price);
 }
 
 void EnDns_ConcludePurchase_DekuNutsCapacity(EnDns* this) {
-    gSaveContext.infTable[0x19] |= 8;
+    SET_INFTABLE(INFTABLE_193);
     Rupees_ChangeBy(-this->unk2C0->price);
 }
 

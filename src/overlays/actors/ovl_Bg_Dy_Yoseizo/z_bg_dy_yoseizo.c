@@ -61,7 +61,7 @@ static Color_RGB8 D_80875488[9] = {
 static Vec3f D_808754A4 = { 0.0f, 0.0f, 0.0f };
 static s16 D_808754B0[4] = { 2, 0, 1, 0 };
 static s16 D_808754B8[4] = { 0x11, 0x10, 0x12, 0 };
-static s16 D_808754C0[4] = { 0x100, 0x200, 0x400, 0 };
+static s16 D_808754C0[] = { ITEMGETINF_18_MASK, ITEMGETINF_19_MASK, ITEMGETINF_1A_MASK };
 static u8 D_808754C8[4] = { 0xD, 5, 0x13, 0 };
 
 static void* D_808754CC[] = {
@@ -193,19 +193,19 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
         switch (this->unk2EC) {
             case 0:
-                if (!(gSaveContext.itemGetInf[1] & 0x100)) {
+                if (!GET_ITEMGETINF(ITEMGETINF_18)) {
                     var_v1 = 1;
                 }
                 break;
 
             case 1:
-                if (!(gSaveContext.itemGetInf[1] & 0x200)) {
+                if (!GET_ITEMGETINF(ITEMGETINF_19)) {
                     var_v1 = 1;
                 }
                 break;
 
             case 2:
-                if (!(gSaveContext.itemGetInf[1] & 0x400)) {
+                if (!GET_ITEMGETINF(ITEMGETINF_1A)) {
                     var_v1 = 1;
                 }
                 break;
@@ -708,7 +708,7 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
                     this->unk300 = 1;
                     gSaveContext.healthAccumulator = 0x140;
                     Interface_ChangeAlpha(9U);
-                    gSaveContext.itemGetInf[1] |= D_808754C0[var_v1];
+                    gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= D_808754C0[var_v1];
                     Item_Give(globalCtx, D_808754C8[var_v1]);
                 }
             } else {

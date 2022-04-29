@@ -120,7 +120,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.targetMode = 3;
             this->unk2AE = 0;
             osSyncPrintf("\x1b[36mやぶさめ ゲルド EVENT_INF(0) = %x\n\x1b[m", gSaveContext.eventInf[0]);
-            if (gSaveContext.eventInf[0] & 0x100) {
+            if (GET_EVENTINF(EVENTINF_08)) {
                 this->unk2B4 = func_80A31E2C;
             } else if (func_80A30DCC() != 0) {
                 this->unk2B4 = func_80A31FE0;
@@ -173,8 +173,10 @@ void func_80A30D48(EnGe1* this) {
 }
 
 s32 func_80A30DCC(void) {
-    if (!(gSaveContext.eventChkInf[9] & 1) || !(gSaveContext.eventChkInf[9] & 2) ||
-        !(gSaveContext.eventChkInf[9] & 4) || !(gSaveContext.eventChkInf[9] & 8)) {
+    if (!(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] & EVENTCHKINF_90_MASK) ||
+        !(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] & EVENTCHKINF_91_MASK) ||
+        !(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] & EVENTCHKINF_92_MASK) ||
+        !(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] & EVENTCHKINF_93_MASK)) {
         return 0;
     } else {
         return 1;
@@ -189,7 +191,7 @@ void func_80A30E08(EnGe1* this, GlobalContext* globalCtx) {
         func_8006D074(globalCtx);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[0xC] & 0x80) {
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
             globalCtx->nextEntranceIndex = 0x5F8;
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;
@@ -436,10 +438,10 @@ void func_80A3196C(EnGe1* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx) != 0) {
         this->unk2B4 = func_80A31934;
         if (this->unk2AC & 2) {
-            gSaveContext.itemGetInf[0] |= 0x8000;
+            SET_ITEMGETINF(ITEMGETINF_0F);
             return;
         } else {
-            gSaveContext.infTable[0x19] |= 1;
+            SET_INFTABLE(INFTABLE_190);
         }
         return;
     }
@@ -520,8 +522,8 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
                     gSaveContext.nextCutsceneIndex = 0xFFF0;
                     globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                    gSaveContext.eventInf[0] |= 0x100;
-                    gSaveContext.eventChkInf[6] |= 0x100;
+                    SET_EVENTINF(EVENTINF_08);
+                    SET_EVENTCHKINF(EVENTCHKINF_68);
                     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                         func_8002DF54(globalCtx, &this->actor, 1U);
                     } else {
@@ -559,7 +561,7 @@ void func_80A31DE4(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx) {
-    gSaveContext.eventInf[0] &= ~0x100;
+    CLEAR_EVENTINF(EVENTINF_08);
     LogUtils_LogThreadId("../z_en_ge1.c", 0x456);
     osSyncPrintf("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
     if (1) {}
@@ -574,14 +576,14 @@ void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx) {
     if (gSaveContext.minigameScore < 1000) {
         this->actor.textId = 0x6045;
         this->unk2B4 = func_80A31DE4;
-    } else if (!(gSaveContext.infTable[0x19] & 1)) {
+    } else if (!GET_INFTABLE(INFTABLE_190)) {
         this->actor.textId = 0x6046;
         this->unk2B4 = func_80A31B20;
         this->unk2AC &= ~2;
     } else if (gSaveContext.minigameScore < 1500) {
         this->actor.textId = 0x6047;
         this->unk2B4 = func_80A31DE4;
-    } else if (gSaveContext.itemGetInf[0] & 0x8000) {
+    } else if (GET_ITEMGETINF(ITEMGETINF_0F)) {
         this->actor.textId = 0x6047;
         this->unk2B4 = func_80A31DE4;
     } else {
@@ -606,8 +608,8 @@ void func_80A31FE0(EnGe1* this, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
         func_80A30C70(this, globalCtx, 0x603FU, 100.0f, func_80A31F9C);
     } else {
-        if (gSaveContext.eventChkInf[6] & 0x100) {
-            if (gSaveContext.infTable[0x19] & 1) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_68)) {
+            if (GET_INFTABLE(INFTABLE_190)) {
                 var_a2 = 0x6042;
             } else {
                 var_a2 = 0x6043;

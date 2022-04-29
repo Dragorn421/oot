@@ -134,7 +134,7 @@ void func_809C3A54(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
     if (sp1C == 30.0f) {
         this->unk22E = TEXT_STATE_EVENT;
-        if ((gSaveContext.eventChkInf[2] & 0x20) || (gGameInfo->data[0x962] != 0)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_25) || (gGameInfo->data[0x962] != 0)) {
             this->actor.textId = 0xBF;
         } else {
             this->actor.textId = 0x7058;
@@ -159,7 +159,7 @@ void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
                          ANIMMODE_LOOP, -10.0f);
         this->unk238 = 3;
         this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
-        if (!(gSaveContext.eventChkInf[2] & 0x20) && (gGameInfo->data[0x962] == 0)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_25) && (gGameInfo->data[0x962] == 0)) {
             this->actionFunc = func_809C3C7C;
         } else {
             this->actor.textId = 0x18;
@@ -352,7 +352,7 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
         switch (this->unk242) {
             case 0:
                 var_v1 = 0;
-                if (gSaveContext.itemGetInf[1] & 2) {
+                if (GET_ITEMGETINF(ITEMGETINF_11)) {
                     var_v1 = 4;
                 }
                 break;
@@ -364,7 +364,7 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
                 break;
             case 3:
                 var_v1 = 1;
-                if (gSaveContext.itemGetInf[1] & 4) {
+                if (GET_ITEMGETINF(ITEMGETINF_12)) {
                     var_v1 = 4;
                 }
                 break;

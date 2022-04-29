@@ -44,7 +44,7 @@ void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_170 = thisx->world.pos.x;
     this->unk_174 = thisx->world.pos.y;
     this->unk_178 = thisx->world.pos.z;
-    if ((gSaveContext.infTable[7] & 2) != 0) {
+    if (GET_INFTABLE(INFTABLE_71)) {
         thisx->world.pos.z = 2659.0f;
     }
     this->actionFunc = func_808B4930;
@@ -57,7 +57,7 @@ void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
-    if (this->unk_168 && !(gSaveContext.infTable[7] & 2)) {
+    if (this->unk_168 && !GET_INFTABLE(INFTABLE_71)) {
         this->unk_17C = 2;
         this->actionFunc = func_808B4978;
     }
