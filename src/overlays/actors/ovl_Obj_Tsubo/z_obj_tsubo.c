@@ -80,7 +80,7 @@ void func_80BA0D60(ObjTsubo* this, GlobalContext* globalCtx) {
     s16 temp_v0;
 
     temp_v0 = this->actor.params & 0x1F;
-    if ((temp_v0 >= 0) && (temp_v0 < 0x1A)) {
+    if ((temp_v0 >= 0) && (temp_v0 < ITEM00_MAX)) {
         Item_DropCollectible(globalCtx, &this->actor.world.pos,
                              (s16)(temp_v0 | (((this->actor.params >> 9) & 0x3F) << 8)));
     }
