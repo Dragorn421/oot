@@ -259,7 +259,7 @@ u32 EnDns_CheckPurchase_DekuSeeds(EnDns* this) {
 }
 
 u32 EnDns_CheckPurchase_DekuShield(EnDns* this) {
-    if (gBitFlags[4] & gSaveContext.inventory.equipment) {
+    if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, EQUIP_INV_SHIELD_DEKU)) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
     if (gSaveContext.rupees < this->unk2C0->price) {

@@ -381,7 +381,8 @@ u16 func_80AAACF8(GlobalContext* globalCtx, EnMd* this) {
     if (GET_EVENTCHKINF(EVENTCHKINF_04)) {
         return 0x1034;
     }
-    if ((CUR_EQUIP_VALUE(EQUIP_SHIELD) == 1) && (CUR_EQUIP_VALUE(EQUIP_SWORD) == 1)) {
+    if ((CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD) == EQUIP_VALUE_SHIELD_DEKU) &&
+        (CUR_EQUIP_VALUE(EQUIP_TYPE_SWORD) == EQUIP_VALUE_SWORD_KOKIRI)) {
         return 0x1033;
     }
     if (GET_INFTABLE(INFTABLE_0C)) {
