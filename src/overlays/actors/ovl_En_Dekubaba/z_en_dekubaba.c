@@ -863,7 +863,7 @@ void func_809E8140(EnDekubaba* this, GlobalContext* globalCtx) {
 
     if (this->unk238.base.acFlags & AC_HIT) {
         this->unk238.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlagJntSph(&this->actor, &this->unk238, 1);
+        Actor_SetDropFlagJntSph(&this->actor, &this->unk238, true);
         if ((this->unk238.base.colType != COLTYPE_HARD) &&
             (((this->actor.colChkInfo.damageEffect != 0)) || (this->actor.colChkInfo.damage != 0))) {
             var_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;

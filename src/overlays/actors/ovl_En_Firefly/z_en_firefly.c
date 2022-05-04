@@ -549,7 +549,7 @@ void func_80A1448C_SpawnFireEffects(EnFirefly* this, GlobalContext* globalCtx) {
 void func_80A1450C_ReactToAC(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements->info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements->info, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);

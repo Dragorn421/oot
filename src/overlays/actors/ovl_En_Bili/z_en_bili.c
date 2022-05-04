@@ -483,7 +483,7 @@ void func_809C09E0(EnBili* this, GlobalContext* globalCtx) {
 void func_809C0A70(EnBili* this, GlobalContext* globalCtx) {
     if ((this->actor.colChkInfo.health != 0) && (this->unk1D4.base.acFlags & AC_HIT)) {
         this->unk1D4.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->unk1D4.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->unk1D4.info, true);
         if ((((this->actor.colChkInfo.damageEffect != 0)) || (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_DEAD);

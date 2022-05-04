@@ -486,7 +486,7 @@ void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
             var_s2 = 1;
         }
         this->unk174.base.acFlags &= ~2;
-        Actor_SetDropFlagJntSph(&this->actor, &this->unk174, 1);
+        Actor_SetDropFlagJntSph(&this->actor, &this->unk174, true);
         this->unk158 = this->actor.colChkInfo.damageEffect;
         if (this->actor.colChkInfo.damageEffect != 0) {
             if (this->actor.colChkInfo.damageEffect == 1) {

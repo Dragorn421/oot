@@ -468,7 +468,7 @@ void func_80B278A0(EnVali* this, GlobalContext* globalCtx) {
 void func_80B2790C(EnVali* this, GlobalContext* globalCtx) {
     if ((this->unk3FC.base.acFlags & AC_HIT)) {
         this->unk3FC.base.acFlags &= ~AC_HIT;
-        if (((Actor_SetDropFlag(&this->actor, &this->unk3FC.info, 1), (this->actor.colChkInfo.damageEffect != 0)) ||
+        if (((Actor_SetDropFlag(&this->actor, &this->unk3FC.info, true), (this->actor.colChkInfo.damageEffect != 0)) ||
              (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DEAD);

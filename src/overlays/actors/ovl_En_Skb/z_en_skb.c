@@ -407,7 +407,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
         this->unk2A4.base.acFlags &= ~AC_HIT;
         if (((this->actor.colChkInfo.damageEffect != 6))) {
             this->unk282 = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->unk2A4.elements[1].info, 1);
+            Actor_SetDropFlag(&this->actor, &this->unk2A4.elements[1].info, true);
             this->unk281 = 0;
             if (this->actor.colChkInfo.damageEffect == 1) {
                 if (this->unk280 != 6) {
