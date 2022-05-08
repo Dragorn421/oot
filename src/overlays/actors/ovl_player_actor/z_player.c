@@ -15,6 +15,7 @@
 #include "overlays/actors/ovl_En_Door/z_en_door.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_link_child/object_link_child.h"
@@ -12437,7 +12438,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
 static BottleDropInfo D_80854A28[] = {
     { ACTOR_EN_FISH, 0 },
     { ACTOR_EN_ICE_HONO, 0 },
-    { ACTOR_EN_INSECT, 2 },
+    { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
 };
 
 static struct_80832924 D_80854A34[] = {

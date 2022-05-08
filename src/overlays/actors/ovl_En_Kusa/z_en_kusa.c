@@ -1,4 +1,5 @@
 #include "z_en_kusa.h"
+#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "objects/object_kusa/object_kusa.h"
@@ -181,7 +182,7 @@ void func_80A9B574(EnKusa* this, GlobalContext* globalCtx) {
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.world.pos.x,
                         this->actor.world.pos.y, this->actor.world.pos.z, 0, (s16)(s32)(Rand_ZeroOne() * 65535.0f), 0,
-                        1) == NULL) {
+                        INSECT_TYPE_SPAWNED) == NULL) {
             break;
         }
     }
