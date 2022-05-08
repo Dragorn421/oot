@@ -120,7 +120,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.targetMode = 3;
             this->unk2AE = 0;
             osSyncPrintf("\x1b[36mやぶさめ ゲルド EVENT_INF(0) = %x\n\x1b[m", gSaveContext.eventInf[0]);
-            if (GET_EVENTINF(EVENTINF_08)) {
+            if (GET_EVENTINF(EVENTINF_HORSES_08)) {
                 this->unk2B4 = func_80A31E2C;
             } else if (func_80A30DCC() != 0) {
                 this->unk2B4 = func_80A31FE0;
@@ -522,7 +522,7 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
                     gSaveContext.nextCutsceneIndex = 0xFFF0;
                     globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                    SET_EVENTINF(EVENTINF_08);
+                    SET_EVENTINF(EVENTINF_HORSES_08);
                     SET_EVENTCHKINF(EVENTCHKINF_68);
                     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                         func_8002DF54(globalCtx, &this->actor, 1U);
@@ -561,7 +561,7 @@ void func_80A31DE4(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx) {
-    CLEAR_EVENTINF(EVENTINF_08);
+    CLEAR_EVENTINF(EVENTINF_HORSES_08);
     LogUtils_LogThreadId("../z_en_ge1.c", 0x456);
     osSyncPrintf("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
     if (1) {}
