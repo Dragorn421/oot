@@ -280,7 +280,7 @@ void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
                         this->actor.textId = 0x1B;
                         Message_ContinueTextbox(globalCtx, this->actor.textId);
                         this->unk22E = TEXT_STATE_EVENT;
-                        OnePointCutscene_Init(globalCtx, 8010, -99, NULL, MAIN_CAM);
+                        OnePointCutscene_Init(globalCtx, 8010, -99, NULL, CAM_ID_MAIN);
                         func_8002DF54(globalCtx, NULL, 8U);
                         this->actionFunc = func_809C4318;
                     }
@@ -314,7 +314,7 @@ void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x1B;
             Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->unk22E = TEXT_STATE_EVENT;
-            OnePointCutscene_Init(globalCtx, 8010, -99, NULL, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 8010, -99, NULL, CAM_ID_MAIN);
             func_8002DF54(globalCtx, NULL, 8U);
             this->actionFunc = func_809C4318;
         } else {
@@ -406,7 +406,7 @@ void func_809C4664(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
-        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamId]);
         this->unk232 = 1;
         if (gGameInfo->data[0x962] != 0) {
             gGameInfo->data[0x962] = 0;

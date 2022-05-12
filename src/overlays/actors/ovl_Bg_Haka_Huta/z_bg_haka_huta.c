@@ -107,7 +107,7 @@ void func_8087D2F0(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) && !Player_InCsMode(globalCtx)) {
         this->unk168 = 0x19;
         this->actionFunc = func_8087D5B8;
-        OnePointCutscene_Init(globalCtx, 6001, 999, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 6001, 999, &this->dyna.actor, CAM_ID_MAIN);
         if (this->unk16A == 2) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY,
                         this->dyna.actor.world.pos.x + (-25.0f * Math_CosS(this->dyna.actor.shape.rot.y)) +
@@ -189,7 +189,7 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     this->unk168 += 1;
     if (this->unk168 == 6) {
         this->actionFunc = BgHakaHuta_DoNothing;
-        temp_v0 = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 3U);
+        temp_v0 = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamId], 3U);
         Quake_SetSpeed(temp_v0, 0x7530);
         Quake_SetQuakeValues(temp_v0, 4, 0, 0, 0);
         Quake_SetCountdown(temp_v0, 2);

@@ -56,7 +56,7 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
     Vec3f diff;
     Actor* thisx = &this->actor;
 
-    if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_CHU_BOWLING) {
+    if (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_CHU_BOWLING) {
         var_v1 = globalCtx->actorCtx.actorLists[3].head;
         while (var_v1 != NULL) {
             if ((var_v1 == thisx) || (var_v1->id != ACTOR_EN_BOM_CHU)) {
@@ -72,30 +72,30 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 sp24 = (EnBomChu*)var_v1;
                 func_8002DF54(globalCtx, NULL, 8U);
                 sp24->timer = 1;
-                this->unk152 = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, this->unk152, CAM_STAT_ACTIVE);
-                this->unk1C8.x = this->unk1C8.y = this->unk1C8.z = 0.1f;
-                this->unk1A4.x = this->unk1A4.y = this->unk1A4.z = 0.1f;
-                this->unk180.x = this->unk168.x = globalCtx->view.at.x;
-                this->unk180.y = this->unk168.y = globalCtx->view.at.y;
-                this->unk180.z = this->unk168.z = globalCtx->view.at.z;
-                this->unk18C.x = this->unk174.x = globalCtx->view.eye.x;
-                this->unk18C.y = this->unk174.y = globalCtx->view.eye.y;
-                this->unk18C.z = this->unk174.z = globalCtx->view.eye.z;
-                this->unk1BC.x = 20.0f;
-                this->unk1BC.y = 100.0f;
-                this->unk1BC.z = -800.0f;
-                this->unk198.x = 20.0f;
-                this->unk198.y = 50.0f;
-                this->unk198.z = -485.0f;
-                this->unk1B0.x = fabsf(this->unk18C.x - 20.0f) * 0.02f;
-                this->unk1B0.y = fabsf(this->unk18C.y - 50.0f) * 0.02f;
-                this->unk1B0.z = fabsf(this->unk18C.z - -485.0f) * 0.02f;
-                this->unk1D4.x = fabsf(this->unk180.x - this->unk1BC.x) * 0.02f;
-                this->unk1D4.y = fabsf(this->unk180.y - this->unk1BC.y) * 0.02f;
-                this->unk1D4.z = fabsf(this->unk180.z - this->unk1BC.z) * 0.02f;
-                Gameplay_CameraSetAtEye(globalCtx, this->unk152, &this->unk180, &this->unk18C);
+                this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+                this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
+                this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.1f;
+                this->subCamAt.x = this->viewAt.x = globalCtx->view.at.x;
+                this->subCamAt.y = this->viewAt.y = globalCtx->view.at.y;
+                this->subCamAt.z = this->viewAt.z = globalCtx->view.at.z;
+                this->subCamEye.x = this->viewEye.x = globalCtx->view.eye.x;
+                this->subCamEye.y = this->viewEye.y = globalCtx->view.eye.y;
+                this->subCamEye.z = this->viewEye.z = globalCtx->view.eye.z;
+                this->subCamAtNext.x = 20.0f;
+                this->subCamAtNext.y = 100.0f;
+                this->subCamAtNext.z = -800.0f;
+                this->subCamEyeNext.x = 20.0f;
+                this->subCamEyeNext.y = 50.0f;
+                this->subCamEyeNext.z = -485.0f;
+                this->subCamEyeVel.x = fabsf(this->subCamEye.x - 20.0f) * 0.02f;
+                this->subCamEyeVel.y = fabsf(this->subCamEye.y - 50.0f) * 0.02f;
+                this->subCamEyeVel.z = fabsf(this->subCamEye.z - -485.0f) * 0.02f;
+                this->subCamAtVel.x = fabsf(this->subCamAt.x - this->subCamAtNext.x) * 0.02f;
+                this->subCamAtVel.y = fabsf(this->subCamAt.y - this->subCamAtNext.y) * 0.02f;
+                this->subCamAtVel.z = fabsf(this->subCamAt.z - this->subCamAtNext.z) * 0.02f;
+                Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
                 this->actor.textId = 0xF;
                 Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 this->unk154 = 5;
@@ -111,21 +111,24 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void func_809C5184(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if (this->unk152 != SUBCAM_FREE) {
-        Math_ApproachF(&this->unk180.x, this->unk1BC.x, this->unk1C8.x, this->unk1D4.x);
-        Math_ApproachF(&this->unk180.y, this->unk1BC.y, this->unk1C8.y, this->unk1D4.y);
-        Math_ApproachF(&this->unk180.z, this->unk1BC.z, this->unk1C8.z, this->unk1D4.z);
-        Math_ApproachF(&this->unk18C.x, this->unk198.x, this->unk1A4.x, this->unk1B0.x);
-        Math_ApproachF(&this->unk18C.y, this->unk198.y, this->unk1A4.y, this->unk1B0.y);
-        Math_ApproachF(&this->unk18C.z, this->unk198.z, this->unk1A4.z, this->unk1B0.z);
+    if (this->subCamId != SUB_CAM_ID_DONE) {
+        Math_ApproachF(&this->subCamAt.x, this->subCamAtNext.x, this->subCamAtMaxVelFrac.x, this->subCamAtVel.x);
+        Math_ApproachF(&this->subCamAt.y, this->subCamAtNext.y, this->subCamAtMaxVelFrac.y, this->subCamAtVel.y);
+        Math_ApproachF(&this->subCamAt.z, this->subCamAtNext.z, this->subCamAtMaxVelFrac.z, this->subCamAtVel.z);
+        Math_ApproachF(&this->subCamEye.x, this->subCamEyeNext.x, this->subCamEyeMaxVelFrac.x, this->subCamEyeVel.x);
+        Math_ApproachF(&this->subCamEye.y, this->subCamEyeNext.y, this->subCamEyeMaxVelFrac.y, this->subCamEyeVel.y);
+        Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z, this->subCamEyeVel.z);
     }
-    Gameplay_CameraSetAtEye(globalCtx, this->unk152, &this->unk180, &this->unk18C);
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     if ((this->unk154 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
     }
-    if ((fabsf(this->unk18C.x - this->unk198.x) < 5.0f) && (fabsf(this->unk18C.y - this->unk198.y) < 5.0f) &&
-        (fabsf(this->unk18C.z - this->unk198.z) < 5.0f) && (fabsf(this->unk180.x - this->unk1BC.x) < 5.0f) &&
-        (fabsf(this->unk180.y - this->unk1BC.y) < 5.0f) && (fabsf(this->unk180.z - this->unk1BC.z) < 5.0f)) {
+    if ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 5.0f) &&
+        (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 5.0f) &&
+        (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 5.0f) &&
+        (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 5.0f) &&
+        (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 5.0f) &&
+        (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 5.0f)) {
         Message_CloseTextbox(globalCtx);
         this->unk158 = 0x1E;
         this->unk14C = func_809C5360;
@@ -134,9 +137,9 @@ void func_809C5184(EnBomBowlPit* this, GlobalContext* globalCtx) {
 
 void func_809C5360(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->unk158 == 0) {
-        this->unk1E0 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
-                                          this->actor.world.pos.x, this->actor.world.pos.y,
-                                          this->actor.world.pos.z - 70.0f, 0, 0, 0, this->unk15A);
+        this->unk1E0 =
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM, this->actor.world.pos.x,
+                               this->actor.world.pos.y, this->actor.world.pos.z - 70.0f, 0, 0, 0, this->unk15A);
         if (this->unk1E0 != NULL) {
             this->unk14C = func_809C53F0;
         }
@@ -153,8 +156,8 @@ void func_809C53F0(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 SET_ITEMGETINF(ITEMGETINF_12);
                 break;
         }
-        Gameplay_ClearCamera(globalCtx, this->unk152);
-        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
+        Gameplay_ClearCamera(globalCtx, this->subCamId);
+        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         func_8002DF54(globalCtx, NULL, 8U);
         this->unk14C = func_809C54A8;
     }

@@ -279,9 +279,9 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     } else {
         globalCtx->envCtx.unk_BF = 2;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            OnePointCutscene_Init(globalCtx, 8603, -99, NULL, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 8603, -99, NULL, CAM_ID_MAIN);
         } else {
-            OnePointCutscene_Init(globalCtx, 8604, -99, NULL, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 8604, -99, NULL, CAM_ID_MAIN);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
         this->actor.draw = BgDyYoseizo_Draw;
@@ -468,7 +468,7 @@ void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx) {
         Message_CloseTextbox(globalCtx);
         this->unk2F6 = 0;
         this->actionFunc = func_80873C14;
-        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamId]);
     }
     func_80872C58(this, globalCtx);
     func_80872960(this, globalCtx, 0);

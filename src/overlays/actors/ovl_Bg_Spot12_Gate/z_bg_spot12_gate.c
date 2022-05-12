@@ -87,7 +87,7 @@ void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx) {
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         func_808B3134(this);
-        OnePointCutscene_Init(globalCtx, 4160, -99, thisx, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4160, -99, thisx, CAM_ID_MAIN);
     }
 }
 

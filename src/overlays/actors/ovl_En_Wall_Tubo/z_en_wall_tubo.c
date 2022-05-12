@@ -73,7 +73,7 @@ void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
 
     sp4C = D_80B2F340;
     sp40 = D_80B2F34C;
-    if ((this->unk160->unk_258 != 0) && (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_CHU_BOWLING)) {
+    if ((this->unk160->unk_258 != 0) && (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_CHU_BOWLING)) {
         var_v0 = globalCtx->actorCtx.actorLists[3].head;
         while (var_v0 != NULL) {
             if ((var_v0 == thisx) || (var_v0->id != ACTOR_EN_BOM_CHU)) {
@@ -91,7 +91,7 @@ void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 this->unk150 = 0x3C;
                 EffectSsBomb2_SpawnLayered(globalCtx, &this->unk154, &sp40, &sp4C, 200, 40);
-                temp_v0 = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 1U);
+                temp_v0 = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamId], 1U);
                 sp32 = temp_v0;
                 Quake_SetSpeed(temp_v0, 0x7FFF);
                 Quake_SetQuakeValues(sp32, 0x64, 0, 0, 0);
