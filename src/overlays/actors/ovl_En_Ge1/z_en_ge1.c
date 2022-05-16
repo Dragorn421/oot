@@ -568,6 +568,8 @@ void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx) {
     if (1) {}
     if (1) {}
     LogUtils_LogThreadId("../z_en_ge1.c", 0x457);
+    // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
+    // see the other occurrence of this for more details.
     osSyncPrintf("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.highScores[0]);
     this->actor.flags |= ACTOR_FLAG_16;
     if (gSaveContext.highScores[0] < gSaveContext.minigameScore) {
