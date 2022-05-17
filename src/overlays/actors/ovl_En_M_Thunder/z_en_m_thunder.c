@@ -241,7 +241,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     } else if (player->unk_858 > 0.10f) {
         func_800F4254(&player->actor.projectedPos, 0);
     }
-    if (Gameplay_InCsMode(globalCtx)) {
+    if (Play_InCsMode(globalCtx)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -286,7 +286,7 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
         this->unk1B0 = this->unk1AC * (5.0f / 3.0f);
     }
     func_80A9F938(this, globalCtx);
-    if (Gameplay_InCsMode(globalCtx)) {
+    if (Play_InCsMode(globalCtx)) {
         Actor_Kill(&this->actor);
     }
 }
