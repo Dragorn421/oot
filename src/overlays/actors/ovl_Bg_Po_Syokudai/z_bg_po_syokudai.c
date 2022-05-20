@@ -63,13 +63,14 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
         Flags_GetSwitch(globalCtx, 0x1D) && !Flags_GetSwitch(globalCtx, this->actor.params)) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0,
                     this->actor.params);
-        globalCtx->envCtx.unk_BF = 4;
+        globalCtx->envCtx.lightSettingOverride = 4;
     } else if (!Flags_GetSwitch(globalCtx, 0x1C) && !Flags_GetSwitch(globalCtx, 0x1B)) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,
                     this->actor.world.pos.y + 52.0f, this->actor.world.pos.z, 0, 0, 0,
                     (this->unk14C << 8) + this->actor.params + 0x1000);
-    } else if (!Flags_GetSwitch(globalCtx, this->actor.params) && (globalCtx->envCtx.unk_BF == 0xFF)) {
-        globalCtx->envCtx.unk_BF = 4;
+    } else if (!Flags_GetSwitch(globalCtx, this->actor.params) &&
+               (globalCtx->envCtx.lightSettingOverride == LIGHT_SETTING_OVERRIDE_NONE)) {
+        globalCtx->envCtx.lightSettingOverride = 4;
     }
     this->unk14E = Rand_ZeroOne() * 20.0f;
 }
@@ -79,8 +80,8 @@ void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->unk150);
     Collider_DestroyCylinder(globalCtx, &this->unk164);
-    if (globalCtx->envCtx.unk_BF != 0xFF) {
-        globalCtx->envCtx.unk_BF = 0xFF;
+    if (globalCtx->envCtx.lightSettingOverride != LIGHT_SETTING_OVERRIDE_NONE) {
+        globalCtx->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
     }
 }
 

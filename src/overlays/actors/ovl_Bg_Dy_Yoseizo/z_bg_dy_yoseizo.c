@@ -277,7 +277,7 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = func_80873EA4;
     } else {
-        globalCtx->envCtx.unk_BF = 2;
+        globalCtx->envCtx.lightSettingOverride = 2;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             OnePointCutscene_Init(globalCtx, 8603, -99, NULL, CAM_ID_MAIN);
         } else {
@@ -514,7 +514,7 @@ void func_80873E04(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     if (this->unk2E8 == 0) {
         func_8002DF54(globalCtx, &this->actor, 7U);
-        globalCtx->envCtx.unk_BF = 0;
+        globalCtx->envCtx.lightSettingOverride = 0;
         var_a0 = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
         while (var_a0 != NULL) {
             if (var_a0->id != ACTOR_EN_OKARINA_TAG) {
