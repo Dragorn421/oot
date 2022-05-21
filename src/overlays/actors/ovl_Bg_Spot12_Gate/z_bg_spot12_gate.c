@@ -9,19 +9,19 @@
 
 #define FLAGS 0
 
-void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot12Gate_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot12Gate_Init(Actor* thisx, PlayState* play);
+void BgSpot12Gate_Destroy(Actor* thisx, PlayState* play);
+void BgSpot12Gate_Update(Actor* thisx, PlayState* play);
+void BgSpot12Gate_Draw(Actor* thisx, PlayState* play);
 
 void func_808B30C0(BgSpot12Gate* this);
-void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx);
+void func_808B30D8(BgSpot12Gate* this, PlayState* play);
 void func_808B3134(BgSpot12Gate* this);
-void func_808B314C(BgSpot12Gate* this, GlobalContext* globalCtx);
+void func_808B314C(BgSpot12Gate* this, PlayState* play);
 void func_808B317C(BgSpot12Gate* this);
-void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx);
+void func_808B318C(BgSpot12Gate* this, PlayState* play);
 void func_808B3274(BgSpot12Gate* this);
-void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx);
+void func_808B3298(BgSpot12Gate* this, PlayState* play);
 
 const ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
@@ -42,37 +42,37 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
+void func_808B2F90(BgSpot12Gate* this, PlayState* play, CollisionHeader* collision, s32 flags) {
     Actor* thisx = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
     s32 pad[2];
 
     DynaPolyActor_Init(thisx, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
                      thisx->id, thisx->params);
     }
 }
 
-void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
-    func_808B2F90(this, globalCtx, &gGerudoFortressWastelandGateCol, DPM_UNK);
+    func_808B2F90(this, play, &gGerudoFortressWastelandGateCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
 
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
         func_808B3274(this);
     } else {
         func_808B30C0(this);
     }
 }
 
-void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot12Gate_Destroy(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B30C0(BgSpot12Gate* this) {
@@ -82,12 +82,12 @@ void func_808B30C0(BgSpot12Gate* this) {
     thisx->world.pos.y = thisx->home.pos.y;
 }
 
-void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void func_808B30D8(BgSpot12Gate* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
         func_808B3134(this);
-        OnePointCutscene_Init(globalCtx, 4160, -99, thisx, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 4160, -99, thisx, CAM_ID_MAIN);
     }
 }
 
@@ -96,7 +96,7 @@ void func_808B3134(BgSpot12Gate* this) {
     this->unk_168 = 0x28;
 }
 
-void func_808B314C(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void func_808B314C(BgSpot12Gate* this, PlayState* play) {
     if (this->unk_168 <= 0) {
         func_808B317C(this);
     }
@@ -106,14 +106,14 @@ void func_808B317C(BgSpot12Gate* this) {
     this->actionFunc = func_808B318C;
 }
 
-void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void func_808B318C(BgSpot12Gate* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
     s32 var;
 
     Math_StepToF(&thisx->velocity.y, 1.6f, 0.03f);
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 200.0f, thisx->velocity.y)) {
         func_808B3274(this);
-        var = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
+        var = Quake_Add(GET_ACTIVE_CAM(play), 3);
         Quake_SetSpeed(var, -0x3CB0);
         Quake_SetQuakeValues(var, 3, 0, 0, 0);
         Quake_SetCountdown(var, 0xC);
@@ -130,18 +130,18 @@ void func_808B3274(BgSpot12Gate* this) {
     thisx->world.pos.y = thisx->home.pos.y + 200.0f;
 }
 
-void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void func_808B3298(BgSpot12Gate* this, PlayState* play) {
 }
 
-void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot12Gate_Update(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
     if (this->unk_168 > 0) {
         this->unk_168 -= 1;
     }
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void BgSpot12Gate_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gGerudoFortressWastelandGateDL);
+void BgSpot12Gate_Draw(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, gGerudoFortressWastelandGateDL);
 }

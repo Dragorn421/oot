@@ -9,12 +9,12 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgGndFiremeiro_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgGndFiremeiro_Init(Actor* thisx, PlayState* play);
+void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play);
+void BgGndFiremeiro_Update(Actor* thisx, PlayState* play);
+void BgGndFiremeiro_Draw(Actor* thisx, PlayState* play);
 
-void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, GlobalContext* globalCtx);
+void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, PlayState* play);
 
 const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
@@ -28,8 +28,8 @@ const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     (ActorFunc)BgGndFiremeiro_Draw,
 };
 
-void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx = globalCtx2;
+void BgGndFiremeiro_Init(Actor* thisx, PlayState* play2) {
+    PlayState* play = play2;
     BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -39,22 +39,22 @@ void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->dyna.actor.params == 0) {
         DynaPolyActor_Init(&this->dyna, DPM_UNK);
         CollisionHeader_GetVirtual(&gFireTrialPlatformCol, &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
         this->actionFunc = BgGndFiremeiro_RiseWaitAtTop;
     }
 }
 
-void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx = globalCtx2;
+void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play2) {
+    PlayState* play = play2;
     BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
 
     if (this->dyna.actor.params != 0) {
         return;
     }
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgGndFIremeiro_Sink(BgGndFiremeiro* this, GlobalContext* globalCtx) {
+void BgGndFIremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
     f32 sinkTarget = this->homePos.y - 150.0f;
 
     if (func_8004356C(&this->dyna) != 0) {
@@ -75,7 +75,7 @@ void BgGndFIremeiro_Sink(BgGndFiremeiro* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgGndFiremeiro_Shake(BgGndFiremeiro* this, GlobalContext* globalCtx) {
+void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
     s32 pad;
     f32 shakeOffset;
 
@@ -105,8 +105,8 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
     Actor* thisx = &this->dyna.actor;
 
     if ((player->currentBoots != 2) && (func_8004356C(&this->dyna) != 0)) {
@@ -127,19 +127,19 @@ void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, GlobalContext* globalCtx
     }
 }
 
-void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgGndFiremeiro_Update(Actor* thisx, PlayState* play) {
     BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void BgGndFiremeiro_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 280);
+void BgGndFiremeiro_Draw(Actor* thisx, PlayState* play) {
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 280);
 
-    func_800943C8(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 282),
+    func_800943C8(play->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 282),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gFireTrialPlatformDL);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 285);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 285);
 }

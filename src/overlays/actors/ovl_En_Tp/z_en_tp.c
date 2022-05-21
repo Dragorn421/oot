@@ -9,27 +9,27 @@
 
 #define FLAGS 0
 
-void EnTp_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnTp_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnTp_Init(Actor* thisx, PlayState* play);
+void EnTp_Destroy(Actor* thisx, PlayState* play);
+void EnTp_Update(Actor* thisx, PlayState* play);
+void EnTp_Draw(Actor* thisx, PlayState* play);
 
-void func_80B20DE0(EnTp* this, void (*arg1)(EnTp*, GlobalContext*));
+void func_80B20DE0(EnTp* this, void (*arg1)(EnTp*, PlayState*));
 void func_80B21084(EnTp* this);
-void func_80B210B0(EnTp* this, GlobalContext* globalCtx);
+void func_80B210B0(EnTp* this, PlayState* play);
 void func_80B2128C(EnTp* this);
-void func_80B212C0(EnTp* this, GlobalContext* globalCtx);
+void func_80B212C0(EnTp* this, PlayState* play);
 void func_80B21454(EnTp* this);
-void func_80B214CC(EnTp* this, GlobalContext* globalCtx);
+void func_80B214CC(EnTp* this, PlayState* play);
 void func_80B217FC(EnTp* this);
-void func_80B21900(EnTp* this, GlobalContext* globalCtx);
+void func_80B21900(EnTp* this, PlayState* play);
 void func_80B2194C(EnTp* this);
-void func_80B219A8(EnTp* this, GlobalContext* globalCtx);
+void func_80B219A8(EnTp* this, PlayState* play);
 void func_80B21B90(EnTp* this);
-void func_80B21BDC(EnTp* this, GlobalContext* globalCtx);
+void func_80B21BDC(EnTp* this, PlayState* play);
 void func_80B21EE8(EnTp* this);
-void func_80B21F18(EnTp* this, GlobalContext* globalCtx);
-void func_80B221E8(EnTp* this, GlobalContext* globalCtx);
+void func_80B21F18(EnTp* this, PlayState* play);
+void func_80B221E8(EnTp* this, PlayState* play);
 
 const ActorInit En_Tp_InitVars = {
     ACTOR_EN_TP,
@@ -80,16 +80,16 @@ static InitChainEntry D_80B22AE4[] = {
     ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
 };
 
-void func_80B20DE0(EnTp* this, void (*arg1)(EnTp*, GlobalContext*)) {
+void func_80B20DE0(EnTp* this, void (*arg1)(EnTp*, PlayState*)) {
     this->unk154 = arg1;
 }
 
-void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
+void EnTp_Init(Actor* thisx, PlayState* play2) {
     EnTp* temp_v0_2;
     EnTp* var_s5;
     s32 var_s1;
     EnTp* this = (EnTp*)thisx;
-    GlobalContext* globalCtx = globalCtx2;
+    PlayState* play = play2;
     s64 new_var;
 
     Actor_ProcessInitChain(&this->actor, D_80B22AE4);
@@ -100,8 +100,8 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.colChkInfo.health = 1;
     var_s5 = this;
     this->unk15E = 0xFF;
-    Collider_InitJntSph(globalCtx, &this->unk174);
-    Collider_SetJntSph(globalCtx, &this->unk174, &this->actor, &D_80B22AB4, &this->unk194);
+    Collider_InitJntSph(play, &this->unk174);
+    Collider_SetJntSph(play, &this->unk174, &this->actor, &D_80B22AB4, &this->unk194);
     if (this->actor.params < 0) {
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
         this->unk15A = 0;
@@ -114,7 +114,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_SetScale(&this->actor, 1.5f);
         for (var_s1 = 0; var_s1 < 7; var_s1++) {
             if (((0 * var_s1) != 0) && ((0 * var_s1) != 0)) {}
-            temp_v0_2 = (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
+            temp_v0_2 = (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
                                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0 * var_s1);
             if (temp_v0_2 != NULL) {
                 var_s5->actor.child = &temp_v0_2->actor;
@@ -139,10 +139,10 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnTp_Destroy(Actor* thisx, PlayState* play) {
     EnTp* this = (EnTp*)thisx;
 
-    Collider_DestroyJntSph(globalCtx, &this->unk174);
+    Collider_DestroyJntSph(play, &this->unk174);
 }
 
 void func_80B21084(EnTp* this) {
@@ -150,7 +150,7 @@ void func_80B21084(EnTp* this) {
     func_80B20DE0(this, func_80B210B0);
 }
 
-void func_80B210B0(EnTp* this, GlobalContext* globalCtx) {
+void func_80B210B0(EnTp* this, PlayState* play) {
     s16 sp36;
     s16 temp_a0_sp34;
 
@@ -187,10 +187,10 @@ void func_80B2128C(EnTp* this) {
     func_80B20DE0(this, func_80B212C0);
 }
 
-void func_80B212C0(EnTp* this, GlobalContext* globalCtx) {
+void func_80B212C0(EnTp* this, PlayState* play) {
     Player* player;
 
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
     Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -236,7 +236,7 @@ void func_80B21454(EnTp* this) {
     func_80B20DE0(this, func_80B214CC);
 }
 
-void func_80B214CC(EnTp* this, GlobalContext* globalCtx) {
+void func_80B214CC(EnTp* this, PlayState* play) {
     s16 var_s1;
     EnTp* temp_v0;
     s32 pad;
@@ -249,17 +249,17 @@ void func_80B214CC(EnTp* this, GlobalContext* globalCtx) {
             sp6C.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             sp6C.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             sp6C.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(globalCtx, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9,
+            EffectSsDeadDb_Spawn(play, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9,
                                  1);
             sp6C.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             sp6C.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             sp6C.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(globalCtx, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9,
+            EffectSsDeadDb_Spawn(play, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9,
                                  1);
-            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
         } else {
             for (var_s1 = 0; var_s1 < 1; var_s1++) {
-                temp_v0 = (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
+                temp_v0 = (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
                                              this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0xA);
                 if (temp_v0 != NULL) {
                     Actor_SetScale(&temp_v0->actor, this->actor.scale.z * 0.5f);
@@ -289,7 +289,7 @@ void func_80B217FC(EnTp* this) {
     func_80B20DE0(this, func_80B21900);
 }
 
-void func_80B21900(EnTp* this, GlobalContext* globalCtx) {
+void func_80B21900(EnTp* this, PlayState* play) {
     func_8002D7EC(&this->actor);
     this->unk15E -= 0x14;
     if (this->unk15E < 0x14) {
@@ -304,11 +304,11 @@ void func_80B2194C(EnTp* this) {
     func_80B20DE0(this, func_80B219A8);
 }
 
-void func_80B219A8(EnTp* this, GlobalContext* globalCtx) {
+void func_80B219A8(EnTp* this, PlayState* play) {
     s32 pad;
     Player* player;
 
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->unk16C, 1.0f,
                        this->actor.speedXZ * 0.25f, 0.0f);
@@ -350,11 +350,11 @@ void func_80B21B90(EnTp* this) {
     func_80B20DE0(this, func_80B21BDC);
 }
 
-void func_80B21BDC(EnTp* this, GlobalContext* globalCtx) {
+void func_80B21BDC(EnTp* this, PlayState* play) {
     Player* player;
     s16 sp32;
 
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     this->unk15C -= 1;
     if (this->actor.xzDistToPlayer < 200.0f) {
         if (this->unk174.base.atFlags & AT_HIT) {
@@ -403,7 +403,7 @@ void func_80B21EE8(EnTp* this) {
     func_80B20DE0(this, func_80B21F18);
 }
 
-void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
+void func_80B21F18(EnTp* this, PlayState* play) {
     static Vec3f D_80B22B00 = { 0.0f, -0.5f, 0.0f };
     static Color_RGBA8 D_80B22B0C = { 0xFF, 0xFF, 0xFF, 0xFF };
     static Color_RGBA8 D_80B22B10 = { 0x96, 0x96, 0x96, 0 };
@@ -460,19 +460,19 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
-        if ((sp44 != 0) && (globalCtx->gameplayFrames & 1)) {
+        if ((sp44 != 0) && (play->gameplayFrames & 1)) {
             sp48 = this->actor.world.pos;
             sp48.y = this->actor.floorHeight;
             sp54.x = Rand_CenteredFloat(5.0f);
             sp54.y = (Rand_ZeroOne() * 3.5f) + 1.5f;
             sp54.z = Rand_CenteredFloat(5.0f);
-            EffectSsDtBubble_SpawnCustomColor(globalCtx, &sp48, &sp54, &D_80B22B00, &D_80B22B0C, &D_80B22B10,
+            EffectSsDtBubble_SpawnCustomColor(play, &sp48, &sp54, &D_80B22B00, &D_80B22B0C, &D_80B22B10,
                                               Rand_S16Offset(100, 50), 20, 0);
         }
     }
 }
 
-void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
+void func_80B221E8(EnTp* this, PlayState* play) {
     EnTp* var_s0;
     EnTp* var_s0_2;
     s32 var_s2;
@@ -545,7 +545,7 @@ void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnTp_Update(Actor* thisx, PlayState* play) {
     Player* player;
     s32 pad;
     Vec3f sp5C = { 0.0f, 0.0f, 0.0f };
@@ -556,19 +556,19 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnTp* this = (EnTp*)thisx;
     s16 v;
 
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
 
     if (player->stateFlags1 & PLAYER_STATE1_26) {
         this->unk158 = 0;
     }
     if (this->actor.colChkInfo.health != 0) {
-        func_80B221E8(this, globalCtx);
+        func_80B221E8(this, play);
     }
-    this->unk154(this, globalCtx);
+    this->unk154(this, play);
     if (this->actor.params < 0) {
         Actor_MoveForward(&this->actor);
         if (this->unk14C != 9) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 15.0f, 10.0f,
+            Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 15.0f, 10.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
         if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
@@ -588,7 +588,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         if (this->unk14C >= 2) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk174.base);
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk174.base);
         }
     }
     if (this->actor.params != 0xB) {
@@ -597,7 +597,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actor.focus.pos = this->actor.world.pos;
     if (this->unk158 == 0xE) {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk174.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk174.base);
     }
     if ((this->unk162 & 7) == 0) {
         sp40.r = this->unk160;
@@ -607,29 +607,29 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
         sp44.x = ((Rand_ZeroOne() - 0.5f) * 25.0f) + this->actor.world.pos.x;
         sp44.y = ((Rand_ZeroOne() - 0.5f) * 20.0f) + this->actor.world.pos.y;
         sp44.z = ((Rand_ZeroOne() - 0.5f) * 25.0f) + this->actor.world.pos.z;
-        EffectSsKiraKira_SpawnSmall(globalCtx, &sp44, &sp5C, &sp50, &sp40, &sp3C);
+        EffectSsKiraKira_SpawnSmall(play, &sp44, &sp5C, &sp50, &sp40, &sp3C);
     }
     if ((this->unk14C >= 2) && (this->actor.colChkInfo.health != 0)) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk174.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk174.base);
     }
 }
 
-void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnTp_Draw(Actor* thisx, PlayState* play) {
     s16 temp_v0;
     EnTp* this = (EnTp*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5AB);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_tp.c", 0x5AB);
     if (this->unk150 != 2) {
         temp_v0 = this->actor.params;
         if ((temp_v0 < 0) || (temp_v0 == 0xC)) {
-            func_80093D18(globalCtx->state.gfxCtx);
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5B3),
+            func_80093D18(play->state.gfxCtx);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tp.c", 0x5B3),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, object_tp_0008D0_DL);
             Matrix_Translate(0.0f, 0.0f, 8.0f, 1U);
         } else {
-            func_80093D84(globalCtx->state.gfxCtx);
-            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
+            func_80093D84(play->state.gfxCtx);
+            Matrix_ReplaceRotation(&play->billboardMtxF);
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, this->unk160, 0, 255, this->unk15E);
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,
@@ -638,12 +638,12 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(object_tp_000C68_Tex));
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5C8),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tp.c", 0x5C8),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_tp_000000_DL);
         }
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5D7);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_tp.c", 0x5D7);
     if ((this->actor.params <= 0) || (this->actor.params == 0xB)) {
         Collider_UpdateSpheres(0, &this->unk174);
     }

@@ -11,13 +11,13 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnWallTubo_Init(Actor* thisx, PlayState* play);
+void EnWallTubo_Destroy(Actor* thisx, PlayState* play);
+void EnWallTubo_Update(Actor* thisx, PlayState* play);
 
-void func_80B2EE5C(EnWallTubo* this, GlobalContext* globalCtx);
-void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx);
-void func_80B2F0B8(EnWallTubo* this, GlobalContext* globalCtx);
+void func_80B2EE5C(EnWallTubo* this, PlayState* play);
+void func_80B2EE9C(EnWallTubo* this, PlayState* play);
+void func_80B2F0B8(EnWallTubo* this, PlayState* play);
 
 const ActorInit En_Wall_Tubo_InitVars = {
     ACTOR_EN_WALL_TUBO,
@@ -35,7 +35,7 @@ Vec3f D_80B2F34C = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80B2F358 = { 0.0f, 0.1f, 0.0f };
 Vec3f D_80B2F364 = { 0.0f, 0.0f, 0.0f };
 
-void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnWallTubo_Init(Actor* thisx, PlayState* play) {
     EnWallTubo* this = (EnWallTubo*)thisx;
 
     osSyncPrintf("\n\n");
@@ -44,13 +44,13 @@ void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk14C = func_80B2EE5C;
 }
 
-void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnWallTubo_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void func_80B2EE5C(EnWallTubo* this, GlobalContext* globalCtx) {
+void func_80B2EE5C(EnWallTubo* this, PlayState* play) {
     Actor* var_v0;
 
-    var_v0 = globalCtx->actorCtx.actorLists[4].head;
+    var_v0 = play->actorCtx.actorLists[4].head;
     while (var_v0 != NULL) {
         if (var_v0->id != ACTOR_EN_BOM_BOWL_MAN) {
             var_v0 = var_v0->next;
@@ -62,7 +62,7 @@ void func_80B2EE5C(EnWallTubo* this, GlobalContext* globalCtx) {
     this->unk14C = func_80B2EE9C;
 }
 
-void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
+void func_80B2EE9C(EnWallTubo* this, PlayState* play) {
     Actor* var_v0;
     Actor* thisx = &this->actor;
     Vec3f sp4C;
@@ -73,8 +73,8 @@ void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
 
     sp4C = D_80B2F340;
     sp40 = D_80B2F34C;
-    if ((this->unk160->unk_258 != 0) && (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_CHU_BOWLING)) {
-        var_v0 = globalCtx->actorCtx.actorLists[3].head;
+    if ((this->unk160->unk_258 != 0) && (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_CHU_BOWLING)) {
+        var_v0 = play->actorCtx.actorLists[3].head;
         while (var_v0 != NULL) {
             if ((var_v0 == thisx) || (var_v0->id != ACTOR_EN_BOM_CHU)) {
                 var_v0 = var_v0->next;
@@ -90,8 +90,8 @@ void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
                 ((EnBomChu*)var_v0)->timer = 2;
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 this->unk150 = 0x3C;
-                EffectSsBomb2_SpawnLayered(globalCtx, &this->unk154, &sp40, &sp4C, 200, 40);
-                temp_v0 = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamId], 1U);
+                EffectSsBomb2_SpawnLayered(play, &this->unk154, &sp40, &sp4C, 200, 40);
+                temp_v0 = Quake_Add(play->cameraPtrs[play->activeCamId], 1U);
                 sp32 = temp_v0;
                 Quake_SetSpeed(temp_v0, 0x7FFF);
                 Quake_SetQuakeValues(sp32, 0x64, 0, 0, 0);
@@ -104,7 +104,7 @@ void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B2F0B8(EnWallTubo* this, GlobalContext* globalCtx) {
+void func_80B2F0B8(EnWallTubo* this, PlayState* play) {
     Actor* temp_v0;
     Vec3f sp50;
     Vec3f sp44;
@@ -112,12 +112,12 @@ void func_80B2F0B8(EnWallTubo* this, GlobalContext* globalCtx) {
 
     sp50 = D_80B2F358;
     sp44 = D_80B2F364;
-    if (!(globalCtx->gameplayFrames & 1)) {
+    if (!(play->gameplayFrames & 1)) {
         sp38.x = Rand_CenteredFloat(300.0f) + this->unk154.x;
         sp38.y = Rand_CenteredFloat(300.0f) + this->unk154.y;
         sp38.z = this->unk154.z;
-        EffectSsBomb2_SpawnLayered(globalCtx, &sp38, &sp44, &sp50, 100, 30);
-        EffectSsHahen_SpawnBurst(globalCtx, &sp38, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
+        EffectSsBomb2_SpawnLayered(play, &sp38, &sp44, &sp50, 100, 30);
+        EffectSsHahen_SpawnBurst(play, &sp38, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
         Audio_PlayActorSound2(&this->actor, 0x180EU);
     }
     if (this->unk150 == 0) {
@@ -134,16 +134,16 @@ void func_80B2F0B8(EnWallTubo* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnWallTubo_Update(Actor* thisx, PlayState* play) {
     EnWallTubo* this = (EnWallTubo*)thisx;
 
     if (this->unk150 != 0) {
         this->unk150--;
     }
-    this->unk14C(this, globalCtx);
+    this->unk14C(this, play);
     if (gGameInfo->data[0x960] != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
-                               1.0f, 0, 0, 255, 255, 4, globalCtx->state.gfxCtx);
+                               1.0f, 0, 0, 255, 255, 4, play->state.gfxCtx);
     }
 }

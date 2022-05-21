@@ -9,12 +9,12 @@
 
 #define FLAGS 0
 
-void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgPushbox_Init(Actor* thisx, PlayState* play);
+void BgPushbox_Destroy(Actor* thisx, PlayState* play);
+void BgPushbox_Update(Actor* thisx, PlayState* play);
+void BgPushbox_Draw(Actor* thisx, PlayState* play);
 
-void BgPushbox_UpdateImpl(BgPushbox* this, GlobalContext* globalCtx);
+void BgPushbox_UpdateImpl(BgPushbox* this, PlayState* play);
 
 const ActorInit Bg_Pushbox_InitVars = {
     ACTOR_BG_PUSHBOX,
@@ -37,7 +37,7 @@ void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgPushbox_Init(Actor* thisx, PlayState* play) {
     BgPushbox* this = (BgPushbox*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
@@ -46,18 +46,18 @@ void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&gBlockSmallCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     BgPushbox_SetupAction(this, BgPushbox_UpdateImpl);
 }
 
-void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgPushbox_Destroy(Actor* thisx, PlayState* play) {
     BgPushbox* this = (BgPushbox*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgPushbox_UpdateImpl(BgPushbox* this, GlobalContext* globalCtx) {
+void BgPushbox_UpdateImpl(BgPushbox* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     thisx->speedXZ += this->dyna.unk_150 * 0.2f;
@@ -65,27 +65,27 @@ void BgPushbox_UpdateImpl(BgPushbox* this, GlobalContext* globalCtx) {
     Math_StepToF(&thisx->speedXZ, 0.0f, 0.2f);
     thisx->world.rot.y = this->dyna.unk_158;
     Actor_MoveForward(thisx);
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 40.0f, 40.0f,
+    Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 40.0f, 40.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 }
 
-void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgPushbox_Update(Actor* thisx, PlayState* play) {
     BgPushbox* this = (BgPushbox*)thisx;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
     func_8002DF90(this);
 }
 
-void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgPushbox_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 263);
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_pushbox.c", 263);
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 269),
+    func_80093D18(play->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_pushbox.c", 269),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, gBlockSmallDL);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 272);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_pushbox.c", 272);
 }

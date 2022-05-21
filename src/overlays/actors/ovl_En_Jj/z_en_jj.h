@@ -12,7 +12,7 @@ typedef struct EnJj {
     /* 0x1A8 */ Vec3s unk1A8[22];
     /* 0x22C */ Vec3s unk22C[22];
     /* 0x2B0 */ ColliderCylinder unk2B0;
-    /* 0x2FC */ void (*unk2FC)(struct EnJj*, GlobalContext*);
+    /* 0x2FC */ void (*unk2FC)(struct EnJj*, PlayState*);
     /* 0x300 */ struct EnJj* unk300;
     /* 0x304 */ Actor* unk304;
     /* 0x308 */ s16 unk308;

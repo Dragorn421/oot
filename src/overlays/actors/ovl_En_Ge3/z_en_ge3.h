@@ -18,7 +18,7 @@ typedef struct EnGe3 {
     /* 0x306 */ Vec3s unk306;
     /* 0x30C */ u16 unk30C;
     /* 0x30E */ char pad30E[2];
-    /* 0x310 */ void (*unk310)(struct EnGe3*, GlobalContext*);
+    /* 0x310 */ void (*unk310)(struct EnGe3*, PlayState*);
 } EnGe3; // size = 0x314
 
 #endif

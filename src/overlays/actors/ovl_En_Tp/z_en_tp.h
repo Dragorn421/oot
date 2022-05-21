@@ -10,7 +10,7 @@ typedef struct EnTp {
     /* 0x000 */ Actor actor;
     /* 0x14C */ s32 unk14C;
     /* 0x150 */ s32 unk150;
-    /* 0x154 */ void (*unk154)(struct EnTp*, GlobalContext*);
+    /* 0x154 */ void (*unk154)(struct EnTp*, PlayState*);
     /* 0x158 */ u8 unk158;
     /* 0x159 */ char pad159[1];
     /* 0x15A */ s16 unk15A;

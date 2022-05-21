@@ -9,13 +9,13 @@
 
 #define FLAGS 0
 
-void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnWood02_Init(Actor* thisx, PlayState* play);
+void EnWood02_Destroy(Actor* thisx, PlayState* play);
+void EnWood02_Update(Actor* thisx, PlayState* play);
+void EnWood02_Draw(Actor* thisx, PlayState* play);
 
-s32 EnWood02_IsInUncullZone(EnWood02* this, GlobalContext* globalCtx, Vec3f* arg2);
-void EnWood02_SpawnUnculledChildren(EnWood02* this, GlobalContext* globalCtx);
+s32 EnWood02_IsInUncullZone(EnWood02* this, PlayState* play, Vec3f* arg2);
+void EnWood02_SpawnUnculledChildren(EnWood02* this, PlayState* play);
 
 extern Gfx D_6000090[];
 extern Gfx D_6000340[];
@@ -65,10 +65,10 @@ static Gfx* D_80B3BF70[0xC] = {
 static f32 sCos;
 static f32 sSin;
 
-s32 EnWood02_IsInUncullZone(EnWood02* this, GlobalContext* globalCtx, Vec3f* pos) {
+s32 EnWood02_IsInUncullZone(EnWood02* this, PlayState* play, Vec3f* pos) {
     f32 invW;
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, pos, &this->actor.projectedPos,
+    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, pos, &this->actor.projectedPos,
                                  &this->actor.projectedW);
     if (this->actor.projectedW == 0.0f) {
         invW = 1000.0f;
@@ -86,7 +86,7 @@ s32 EnWood02_IsInUncullZone(EnWood02* this, GlobalContext* globalCtx, Vec3f* pos
     return false;
 }
 
-void EnWood02_SpawnUnculledChildren(EnWood02* this, GlobalContext* globalCtx) {
+void EnWood02_SpawnUnculledChildren(EnWood02* this, PlayState* play) {
     s32 pad[2];
     Vec3f newEnWood02Pos;
     EnWood02* newEnWood02;
@@ -105,14 +105,14 @@ void EnWood02_SpawnUnculledChildren(EnWood02* this, GlobalContext* globalCtx) {
             newEnWood02Pos.x = (sSpawnDistances[i] * sSin) + this->actor.home.pos.x;
             newEnWood02Pos.y = this->actor.home.pos.y;
             newEnWood02Pos.z = (sSpawnDistances[i] * sCos) + this->actor.home.pos.z;
-            if (EnWood02_IsInUncullZone(this, globalCtx, &newEnWood02Pos)) {
+            if (EnWood02_IsInUncullZone(this, play, &newEnWood02Pos)) {
                 if (this->unk14E[i] & 0x80) {
                     newEnWood02Params = ((this->actor.params + 1) | 0xFF00);
                 } else {
                     newEnWood02Params = (((this->unk154 & 0xF0) * 0x10) | (this->actor.params + 1));
                 }
                 newEnWood02 = (EnWood02*)Actor_SpawnAsChild(
-                    &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_WOOD02, newEnWood02Pos.x, newEnWood02Pos.y,
+                    &play->actorCtx, &this->actor, play, ACTOR_EN_WOOD02, newEnWood02Pos.x, newEnWood02Pos.y,
                     newEnWood02Pos.z, this->actor.world.rot.x, sSpawnAngles[i], 0, newEnWood02Params);
                 if (newEnWood02 != NULL) {
                     newEnWood02->unk14E[0] = i;
@@ -126,7 +126,7 @@ void EnWood02_SpawnUnculledChildren(EnWood02* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnWood02_Init(Actor* thisx, PlayState* play) {
     s16 var_t0_sp4E;
     f32 scale;
     EnWood02* this = (EnWood02*)thisx;
@@ -150,8 +150,8 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.params = this->actor.params & 0xFF;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (this->actor.params < EN_WOOD_02_TYPE_11) {
-        Collider_InitCylinder(globalCtx, &this->unk158);
-        Collider_SetCylinder(globalCtx, &this->unk158, &this->actor, &D_80B3BF00);
+        Collider_InitCylinder(play, &this->unk158);
+        Collider_SetCylinder(play, &this->unk158, &this->actor, &D_80B3BF00);
         var_t0_sp4E = 0;
     }
     switch (this->actor.params) {
@@ -231,7 +231,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (var_t0_sp4E == 2) {
             this->unk154 |= this->unk14C * 0x10;
-            EnWood02_SpawnUnculledChildren(this, globalCtx);
+            EnWood02_SpawnUnculledChildren(this, play);
             sCos = Math_CosS(sSpawnAngles[5] + this->actor.world.rot.y + spawnAngleModifier);
             sSin = Math_SinS(sSpawnAngles[5] + this->actor.world.rot.y + spawnAngleModifier);
             this->actor.world.pos.x += sSin * sSpawnDistances[5];
@@ -240,7 +240,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.flags |= ACTOR_FLAG_4;
         }
         this->actor.world.pos.y += 200.0f;
-        floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &floorBgId, &this->actor,
+        floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &floorBgId, &this->actor,
                                              &this->actor.world.pos);
         if (floorY > BGCHECK_Y_MIN) {
             this->actor.world.pos.y = floorY;
@@ -254,15 +254,15 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
-void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnWood02_Destroy(Actor* thisx, PlayState* play) {
     EnWood02* this = (EnWood02*)thisx;
 
     if (this->actor.params < EN_WOOD_02_TYPE_11) {
-        Collider_DestroyCylinder(globalCtx, &this->unk158);
+        Collider_DestroyCylinder(play, &this->unk158);
     }
 }
 
-void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnWood02_Update(Actor* thisx, PlayState* play) {
     s32 pad2;
     EnWood02* this = (EnWood02*)thisx;
     f32 sp6C;
@@ -286,7 +286,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
     } else if (this->unk153 == 2) {
-        EnWood02_SpawnUnculledChildren(this, globalCtx);
+        EnWood02_SpawnUnculledChildren(this, play);
     }
     if (thisx->params < EN_WOOD_02_TYPE_11) {
         if (this->unk158.base.acFlags & AC_HIT) {
@@ -297,11 +297,11 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
             sp58 = this->actor.world.pos;
             sp58.y += 200.0f;
             if ((this->unk14C >= 0) && (this->unk14C < 0x64)) {
-                Item_DropCollectibleRandom(globalCtx, &this->actor, &sp58, this->unk14C * 0x10);
+                Item_DropCollectibleRandom(play, &this->actor, &sp58, this->unk14C * 0x10);
             } else if (this->actor.home.rot.z != 0) {
                 this->actor.home.rot.z &= 0x1FFF;
                 this->actor.home.rot.z |= 0xE000;
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, sp58.x, sp58.y, sp58.z, 0,
+                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, sp58.x, sp58.y, sp58.z, 0,
                             this->actor.world.rot.y, 0, this->actor.home.rot.z);
                 this->actor.home.rot.z = 0;
             }
@@ -312,7 +312,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_TREE_SWING);
                 for (var_s0 = 3; var_s0 >= 0; var_s0--) {
-                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_WOOD02, sp58.x, sp58.y, sp58.z, 0,
+                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_WOOD02, sp58.x, sp58.y, sp58.z, 0,
                                 (s16)(s32)Rand_CenteredFloat(65535.0f), 0, var_v1_sp44_or_sp50);
                 }
             }
@@ -321,18 +321,18 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (this->actor.xzDistToPlayer < 600.0f) {
             Collider_UpdateCylinder(&this->actor, &this->unk158);
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk158.base);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk158.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk158.base);
+            CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk158.base);
         }
     } else if (this->actor.params < EN_WOOD_02_TYPE_23) {
-        player = GET_PLAYER(globalCtx);
+        player = GET_PLAYER(play);
         if ((this->unk14C >= (-1)) &&
             (((((player->rideActor == NULL)) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0)) &&
               (player->linearVelocity != 0.0f)) ||
              (((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0)) &&
               (player->rideActor->speedXZ != 0.0f)))) {
             if ((this->unk14C >= 0) && (this->unk14C < 0x64)) {
-                Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos,
+                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
                                            (this->unk14C * 0x10) | 0x8000);
             }
             this->unk14C = -21;
@@ -357,7 +357,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnWood02_Draw(Actor* thisx, PlayState* play) {
     GraphicsContext* gfxCtx;
     s16 type;
     EnWood02* this = (EnWood02*)thisx;
@@ -365,7 +365,7 @@ void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u8 g;
     u8 b;
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    gfxCtx = play->state.gfxCtx;
     OPEN_DISPS(gfxCtx, "../z_en_wood02.c", 775);
     type = this->actor.params;
     if ((type == EN_WOOD_02_TYPE_8) || (type == EN_WOOD_02_TYPE_9) || (type == EN_WOOD_02_TYPE_5) ||
@@ -384,10 +384,10 @@ void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.params == EN_WOOD_02_TYPE_23) || (this->actor.params == EN_WOOD_02_TYPE_24)) {
         func_80093D18(gfxCtx);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, r, g, b, 127);
-        Gfx_DrawDListOpa(globalCtx, object_wood02_DL_000700);
+        Gfx_DrawDListOpa(play, object_wood02_DL_000700);
     } else {
         if (D_80B3BF70[this->unk154 & 0xF] != NULL) {
-            Gfx_DrawDListOpa(globalCtx, D_80B3BF54[this->unk154 & 0xF]);
+            Gfx_DrawDListOpa(play, D_80B3BF54[this->unk154 & 0xF]);
             gDPSetEnvColor(POLY_XLU_DISP++, r, g, b, 0);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 808),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

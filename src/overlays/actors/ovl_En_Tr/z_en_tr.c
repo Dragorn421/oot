@@ -9,18 +9,18 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void EnTr_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnTr_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnTr_Init(Actor* thisx, PlayState* play);
+void EnTr_Destroy(Actor* thisx, PlayState* play);
+void EnTr_Update(Actor* thisx, PlayState* play);
+void EnTr_Draw(Actor* thisx, PlayState* play);
 
-void func_80B22F1C(EnTr* this, GlobalContext* globalCtx);
-void func_80B234D4(EnTr* this, GlobalContext* globalCtx);
-void func_80B23820(EnTr* this, GlobalContext* globalCtx);
-void func_80B23A88(EnTr* this, GlobalContext* globalCtx);
-void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 arg2);
-void func_80B24230(EnTr* this, GlobalContext* globalCtx, s32 arg2);
-void func_80B242B4(EnTr* this, GlobalContext* globalCtx, s32 arg2);
+void func_80B22F1C(EnTr* this, PlayState* play);
+void func_80B234D4(EnTr* this, PlayState* play);
+void func_80B23820(EnTr* this, PlayState* play);
+void func_80B23A88(EnTr* this, PlayState* play);
+void func_80B24038(EnTr* this, PlayState* play, s32 arg2);
+void func_80B24230(EnTr* this, PlayState* play, s32 arg2);
+void func_80B242B4(EnTr* this, PlayState* play, s32 arg2);
 
 const ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
@@ -69,7 +69,7 @@ void EnTr_SetupAction(EnTr* this, EnTrActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnTr_Init(Actor* thisx, PlayState* play) {
     EnTr* this = (EnTr*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -79,7 +79,7 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     switch (this->actor.params) {
         case 0:
-            SkelAnime_InitFlex(globalCtx, &this->unk14C, &object_tr_Skel_011688, &object_tr_Anim_003FC8, this->unk190,
+            SkelAnime_InitFlex(play, &this->unk14C, &object_tr_Skel_011688, &object_tr_Anim_003FC8, this->unk190,
                                this->unk232, 27);
             Animation_PlayOnce(&this->unk14C, &object_tr_Anim_003FC8);
             this->unk2E4 = NULL;
@@ -88,7 +88,7 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case 1:
-            SkelAnime_InitFlex(globalCtx, &this->unk14C, &object_tr_Skel_00C530, &object_tr_Anim_001CDC, this->unk190,
+            SkelAnime_InitFlex(play, &this->unk14C, &object_tr_Skel_00C530, &object_tr_Anim_001CDC, this->unk190,
                                this->unk232, 27);
             Animation_PlayOnce(&this->unk14C, &object_tr_Anim_001CDC);
             this->unk2E4 = NULL;
@@ -102,10 +102,10 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnTr_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void func_80B22E6C(EnTr* this, GlobalContext* globalCtx) {
+void func_80B22E6C(EnTr* this, PlayState* play) {
     if ((this->unk2D6 == 0xB) && ((this->actor.params != 0) || (gSaveContext.sceneSetupIndex == 6))) {
         Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_VOICE, &gSfxDefaultPos, 4U, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -120,14 +120,14 @@ void func_80B22E6C(EnTr* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
-void func_80B22F1C(EnTr* this, GlobalContext* globalCtx) {
+void func_80B22F1C(EnTr* this, PlayState* play) {
 }
 
-void func_80B22F28(EnTr* this, GlobalContext* globalCtx) {
+void func_80B22F28(EnTr* this, PlayState* play) {
     CsCmdActorAction* temp_v0;
 
-    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
-        temp_v0 = globalCtx->csCtx.npcActions[this->unk2D8];
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        temp_v0 = play->csCtx.npcActions[this->unk2D8];
         if (temp_v0 != NULL) {
             switch (temp_v0->action) {
                 case 4:
@@ -143,15 +143,15 @@ void func_80B22F28(EnTr* this, GlobalContext* globalCtx) {
                     EnTr_SetupAction(this, func_80B22E6C);
                     this->unk2E4 = D_80B24378[this->actor.params];
                     this->unk2D6 = 0x27;
-                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K,
+                    Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_6K,
                                        this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
                                        0, this->actor.params + 9);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
                     break;
 
                 default:
-                    func_80B24038(this, globalCtx, this->unk2D8);
-                    func_80B24230(this, globalCtx, this->unk2D8);
+                    func_80B24038(this, play, this->unk2D8);
+                    func_80B24230(this, play, this->unk2D8);
                     break;
             }
             func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
@@ -159,21 +159,21 @@ void func_80B22F28(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B230D8(EnTr* this, GlobalContext* globalCtx) {
+void func_80B230D8(EnTr* this, PlayState* play) {
     Vec3f sp34;
     CsCmdActorAction* temp_v0;
 
     sp34 = this->actor.world.pos;
-    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
-        temp_v0 = globalCtx->csCtx.npcActions[this->unk2D8];
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        temp_v0 = play->csCtx.npcActions[this->unk2D8];
         if (temp_v0 != NULL) {
             if (temp_v0->action == 8) {
-                func_80B24038(this, globalCtx, this->unk2D8);
+                func_80B24038(this, play, this->unk2D8);
                 this->actor.world.rot.y = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
                 Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0xA, 0x400, 0x100);
                 this->actor.world.rot.y = this->actor.shape.rot.y;
             } else {
-                func_80B242B4(this, globalCtx, this->unk2D8);
+                func_80B242B4(this, play, this->unk2D8);
                 this->actor.world.pos.x += Math_SinS(this->unk2D6) * 150.0f;
                 this->actor.world.pos.y += -100.0f;
                 this->actor.world.pos.z += Math_CosS(this->unk2D6) * 150.0f;
@@ -183,14 +183,14 @@ void func_80B230D8(EnTr* this, GlobalContext* globalCtx) {
                 this->actor.velocity.y = this->actor.world.pos.y - sp34.y;
                 this->actor.velocity.z = this->actor.world.pos.z - sp34.z;
             }
-            if (globalCtx->csCtx.frames < 670) {
+            if (play->csCtx.frames < 670) {
                 func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
             }
         }
     }
 }
 
-void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32 arg4) {
+void func_80B23254(EnTr* this, PlayState* play, s32 arg2, f32 arg3, f32 arg4) {
     Vec3f sp7C;
     Vec3f sp70;
     Vec3f sp64;
@@ -201,7 +201,7 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     s16 temp_s0;
     s16 sp40;
 
-    sp44 = GET_ACTIVE_CAM(globalCtx)->eye;
+    sp44 = GET_ACTIVE_CAM(play)->eye;
     temp_s0 = Math_Vec3f_Yaw(&sp44, &this->actor.world.pos);
     sp40 = -Math_Vec3f_Pitch(&sp44, &this->actor.world.pos);
     sp64.z = 0.0f;
@@ -219,10 +219,10 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     sp7C.x = sp58.x + (D_80B24388[arg2] * arg4 * Math_CosS(temp_s0));
     sp7C.y = sp58.y + (D_80B243A4[arg2] * arg4);
     sp7C.z = sp58.z - (D_80B24388[arg2] * arg4 * Math_SinS(temp_s0));
-    func_8002829C(globalCtx, &sp7C, &sp70, &sp64, sp54, sp50, 800.0f * arg4, 80.0f * arg4);
+    func_8002829C(play, &sp7C, &sp70, &sp64, sp54, sp50, 800.0f * arg4, 80.0f * arg4);
 }
 
-void func_80B234D4(EnTr* this, GlobalContext* globalCtx) {
+void func_80B234D4(EnTr* this, PlayState* play) {
     s32 temp_hi;
 
     if (this->unk2D6 >= 0x11) {
@@ -232,8 +232,8 @@ void func_80B234D4(EnTr* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->unk2D6 * 0x28F)) + 0x3D68;
     } else if (this->unk2D6 > 0) {
         temp_hi = (this->unk2D6 * 2) % 7;
-        func_80B23254(this, globalCtx, temp_hi, 5.0f, 0.2f);
-        func_80B23254(this, globalCtx, (temp_hi + 1) % 7, 5.0f, 0.2f);
+        func_80B23254(this, play, temp_hi, 5.0f, 0.2f);
+        func_80B23254(this, play, (temp_hi + 1) % 7, 5.0f, 0.2f);
         Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
         this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->unk2D6 * 0x28F)) + 0x3D68;
     } else {
@@ -248,13 +248,13 @@ void func_80B234D4(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B23690(EnTr* this, GlobalContext* globalCtx) {
+void func_80B23690(EnTr* this, PlayState* play) {
     s32 temp_hi;
 
     if (this->unk2D6 >= 0x1F) {
         temp_hi = (this->unk2D6 * 2) % 7;
-        func_80B23254(this, globalCtx, temp_hi, 5.0f, 1.0f);
-        func_80B23254(this, globalCtx, (temp_hi + 1) % 7, 5.0f, 1.0f);
+        func_80B23254(this, play, temp_hi, 5.0f, 1.0f);
+        func_80B23254(this, play, (temp_hi + 1) % 7, 5.0f, 1.0f);
     } else if (this->unk2D6 == 0x1E) {
         this->actor.draw = EnTr_Draw;
         this->actor.shape.rot.y += this->unk2D6 * 0x1A6;
@@ -271,15 +271,15 @@ void func_80B23690(EnTr* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
-void func_80B23820(EnTr* this, GlobalContext* globalCtx) {
+void func_80B23820(EnTr* this, PlayState* play) {
     CsCmdActorAction* temp_v0;
 
-    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
-        temp_v0 = globalCtx->csCtx.npcActions[this->unk2D8];
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        temp_v0 = play->csCtx.npcActions[this->unk2D8];
         if ((temp_v0 != NULL) && (((temp_v0->action == 3)) || (temp_v0->action == 5))) {
             Audio_PlayActorSound2(&this->actor, 0x390DU);
             this->unk2D6 = 0x22;
-            func_80B242B4(this, globalCtx, this->unk2D8);
+            func_80B242B4(this, play, this->unk2D8);
             EnTr_SetupAction(this, func_80B23690);
             Animation_PlayLoop(&this->unk14C, &object_tr_Anim_0049C8);
             this->unk2E4 = NULL;
@@ -288,13 +288,13 @@ void func_80B23820(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B238E0(EnTr* this, GlobalContext* globalCtx) {
+void func_80B238E0(EnTr* this, PlayState* play) {
     CsCmdActorAction* temp_v0;
     f32 temp_fv0;
 
     temp_fv0 = Animation_GetLastFrame(D_80B24378[this->actor.params]);
-    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
-        temp_v0 = globalCtx->csCtx.npcActions[this->unk2D8];
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        temp_v0 = play->csCtx.npcActions[this->unk2D8];
         if ((temp_v0 != NULL) && (temp_v0->action == 3)) {
             Animation_Change(&this->unk14C, D_80B24378[this->actor.params], 1.0f, 0.0f, temp_fv0, 0U, -10.0f);
             this->unk2E4 = NULL;
@@ -303,13 +303,13 @@ void func_80B238E0(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B239A8(EnTr* this, GlobalContext* globalCtx) {
+void func_80B239A8(EnTr* this, PlayState* play) {
     CsCmdActorAction* temp_v0;
     f32 temp_fv0;
 
     temp_fv0 = Animation_GetLastFrame(D_80B24368[this->actor.params]);
-    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
-        temp_v0 = globalCtx->csCtx.npcActions[this->unk2D8];
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        temp_v0 = play->csCtx.npcActions[this->unk2D8];
         if ((temp_v0 != NULL) && (temp_v0->action == 2)) {
             Animation_Change(&this->unk14C, D_80B24368[this->actor.params], 1.0f, 0.0f, temp_fv0, 2U, -4.0f);
             this->unk2E4 = D_80B24370[this->actor.params];
@@ -318,22 +318,22 @@ void func_80B239A8(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B23A88(EnTr* this, GlobalContext* globalCtx) {
+void func_80B23A88(EnTr* this, PlayState* play) {
     u32 temp_a3;
     CsCmdActorAction* temp_v1;
 
-    temp_a3 = globalCtx->gameplayFrames;
-    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
-        temp_v1 = globalCtx->csCtx.npcActions[this->unk2D8];
+    temp_a3 = play->gameplayFrames;
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        temp_v1 = play->csCtx.npcActions[this->unk2D8];
         if (temp_v1 != NULL) {
             switch (temp_v1->action) {
                 case 1:
-                    func_80B242B4(this, globalCtx, this->unk2D8);
+                    func_80B242B4(this, play, this->unk2D8);
                     EnTr_SetupAction(this, func_80B239A8);
                     break;
 
                 case 3:
-                    func_80B242B4(this, globalCtx, this->unk2D8);
+                    func_80B242B4(this, play, this->unk2D8);
                     EnTr_SetupAction(this, func_80B22F28);
                     Animation_PlayLoop(&this->unk14C, &object_tr_Anim_0049C8);
                     this->unk2E4 = NULL;
@@ -359,12 +359,12 @@ void func_80B23A88(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnTr_Update(Actor* thisx, PlayState* play) {
     EnTr* this = (EnTr*)thisx;
     s32 pad;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    this->actionFunc(this, globalCtx);
+    Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    this->actionFunc(this, play);
     if (SkelAnime_Update(&this->unk14C)) {
         if (this->unk2E4 != NULL) {
             if ((this->unk2E4 == &object_tr_Anim_0035CC) || (this->unk2E4 == &object_tr_Anim_0013CC)) {
@@ -396,7 +396,7 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx) {
+s32 EnTr_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx) {
     Vec3f sp34;
     Vec3f sp28;
     EnTr* this = thisx;
@@ -407,33 +407,33 @@ s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3f*
     sp20 = this->actor.child;
     if ((sp20 != NULL) && (arg1 == 0x13)) {
         Matrix_MultVec3f(&sp34, &sp28);
-        sp28.x -= 10.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)));
-        sp28.z -= 10.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)));
+        sp28.x -= 10.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)));
+        sp28.z -= 10.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)));
         sp20->world.pos = sp28;
     }
     return 0;
 }
 
-void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnTr_Draw(Actor* thisx, PlayState* play) {
     EnTr* this = (EnTr*)thisx;
     s32 pad;
 
-    if ((globalCtx->csCtx.state == CS_STATE_IDLE) || (globalCtx->csCtx.npcActions[this->unk2D8] == NULL)) {
+    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.npcActions[this->unk2D8] == NULL)) {
         this->actor.shape.shadowDraw = NULL;
     } else {
         if (1) {}
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
-        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tr.c", 840);
-        func_800943C8(globalCtx->state.gfxCtx);
+        OPEN_DISPS(play->state.gfxCtx, "../z_en_tr.c", 840);
+        func_800943C8(play->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80B243D0[this->unk2E0]));
-        func_8002EBCC(&this->actor, globalCtx, 0);
-        SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,
+        func_8002EBCC(&this->actor, play, 0);
+        SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,
                               EnTr_OverrideLimbDraw, NULL, this);
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tr.c", 854);
+        CLOSE_DISPS(play->state.gfxCtx, "../z_en_tr.c", 854);
     }
 }
 
-f32 func_80B23FDC(GlobalContext* arg0, s32 arg1) {
+f32 func_80B23FDC(PlayState* arg0, s32 arg1) {
     CsCmdActorAction* temp_v0;
     f32 temp_fv0;
     f32 var_fv1;
@@ -447,21 +447,21 @@ f32 func_80B23FDC(GlobalContext* arg0, s32 arg1) {
     return var_fv1;
 }
 
-void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 arg2) {
+void func_80B24038(EnTr* this, PlayState* play, s32 arg2) {
     Vec3f sp34;
     Vec3f sp28;
     f32 temp_fv0;
     f32 var_fa0;
     CsCmdActorAction* v;
 
-    v = globalCtx->csCtx.npcActions[arg2];
+    v = play->csCtx.npcActions[arg2];
     sp34.x = v->startPos.x;
     sp34.y = v->startPos.y;
     sp34.z = v->startPos.z;
     sp28.x = v->endPos.x;
     sp28.y = v->endPos.y;
     sp28.z = v->endPos.z;
-    temp_fv0 = func_80B23FDC(globalCtx, (s32)arg2);
+    temp_fv0 = func_80B23FDC(play, (s32)arg2);
     sp34.x = ((sp28.x - sp34.x) * temp_fv0) + sp34.x;
     sp34.y = ((sp28.y - sp34.y) * temp_fv0) + sp34.y;
     sp34.z = ((sp28.z - sp34.z) * temp_fv0) + sp34.z;
@@ -481,12 +481,12 @@ void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 arg2) {
     func_8002D7EC(&this->actor);
 }
 
-void func_80B24230(EnTr* this, GlobalContext* globalCtx, s32 arg2) {
+void func_80B24230(EnTr* this, PlayState* play, s32 arg2) {
     s32 var_v0;
     s16 new_var;
     s32 var_v1;
 
-    new_var = globalCtx->csCtx.npcActions[arg2]->rot.y;
+    new_var = play->csCtx.npcActions[arg2]->rot.y;
     var_v1 = this->actor.world.rot.y - new_var;
     if (var_v1 < 0) {
         var_v1 = -var_v1;
@@ -503,15 +503,15 @@ void func_80B24230(EnTr* this, GlobalContext* globalCtx, s32 arg2) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
-void func_80B242B4(EnTr* this, GlobalContext* globalCtx, s32 arg2) {
+void func_80B242B4(EnTr* this, PlayState* play, s32 arg2) {
     Vec3f spC;
     s16 temp_v1;
 
-    spC.x = globalCtx->csCtx.npcActions[arg2]->startPos.x;
-    spC.y = globalCtx->csCtx.npcActions[arg2]->startPos.y;
-    spC.z = globalCtx->csCtx.npcActions[arg2]->startPos.z;
+    spC.x = play->csCtx.npcActions[arg2]->startPos.x;
+    spC.y = play->csCtx.npcActions[arg2]->startPos.y;
+    spC.z = play->csCtx.npcActions[arg2]->startPos.z;
     this->actor.world.pos = spC;
-    temp_v1 = globalCtx->csCtx.npcActions[arg2]->rot.y;
+    temp_v1 = play->csCtx.npcActions[arg2]->rot.y;
     this->actor.shape.rot.y = temp_v1;
     this->actor.world.rot.y = temp_v1;
 }

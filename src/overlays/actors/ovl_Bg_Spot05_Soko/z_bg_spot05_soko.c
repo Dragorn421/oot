@@ -9,13 +9,13 @@
 
 #define FLAGS 0
 
-void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot05Soko_Draw(Actor* thisx, GlobalContext* globalCtx);
-void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx);
-void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx);
-void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx);
+void BgSpot05Soko_Init(Actor* thisx, PlayState* play);
+void BgSpot05Soko_Destroy(Actor* thisx, PlayState* play);
+void BgSpot05Soko_Update(Actor* thisx, PlayState* play);
+void BgSpot05Soko_Draw(Actor* thisx, PlayState* play);
+void func_808AE5A8(BgSpot05Soko* this, PlayState* play);
+void func_808AE5B4(BgSpot05Soko* this, PlayState* play);
+void func_808AE630(BgSpot05Soko* this, PlayState* play);
 
 const ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
@@ -38,7 +38,7 @@ static Gfx* sDLists[] = {
     object_spot05_objects_DL_001190,
 };
 
-void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
     BgSpot05Soko* this = (BgSpot05Soko*)thisx;
     u32 pad1;
     CollisionHeader* colHeader;
@@ -58,38 +58,38 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         CollisionHeader_GetVirtual(&object_spot05_objects_Col_0012C0, &colHeader);
-        if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
+        if (Flags_GetSwitch(play, this->switchFlag) != 0) {
             Actor_Kill(thisx);
         } else {
             this->actionFunc = func_808AE5B4;
             thisx->flags |= ACTOR_FLAG_4;
         }
     }
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 }
 
-void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot05Soko_Destroy(Actor* thisx, PlayState* play) {
     BgSpot05Soko* this = (BgSpot05Soko*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void func_808AE5A8(BgSpot05Soko* this, PlayState* play) {
 }
 
-void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void func_808AE5B4(BgSpot05Soko* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
-    if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &thisx->world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
+    if (Flags_GetSwitch(play, this->switchFlag)) {
+        SoundSource_PlaySfxAtFixedWorldPos(play, &thisx->world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
         Actor_SetFocus(thisx, 50.0f);
-        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(play, &this->dyna.actor);
         this->actionFunc = func_808AE630;
         thisx->speedXZ = 0.5f;
     }
 }
 
-void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void func_808AE630(BgSpot05Soko* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     thisx->speedXZ *= 1.5f;
@@ -98,12 +98,12 @@ void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot05Soko_Update(Actor* thisx, PlayState* play) {
     BgSpot05Soko* this = (BgSpot05Soko*)thisx;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void BgSpot05Soko_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);
+void BgSpot05Soko_Draw(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, sDLists[thisx->params]);
 }

@@ -16,7 +16,7 @@ typedef enum BgHakaTrapType {
 
 struct BgHakaTrap;
 
-typedef void (*BgHakaTrapActionFunc)(struct BgHakaTrap*, GlobalContext*);
+typedef void (*BgHakaTrapActionFunc)(struct BgHakaTrap*, PlayState*);
 
 typedef struct BgHakaTrap {
     /* 0x000 */ DynaPolyActor dyna;

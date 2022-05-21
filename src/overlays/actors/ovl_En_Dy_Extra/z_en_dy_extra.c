@@ -10,13 +10,13 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnDyExtra_Init(Actor* thisx, PlayState* play);
+void EnDyExtra_Destroy(Actor* thisx, PlayState* play);
+void EnDyExtra_Update(Actor* thisx, PlayState* play);
+void EnDyExtra_Draw(Actor* thisx, PlayState* play);
 
-void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx);
-void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx);
+void func_809FF7AC(EnDyExtra* this, PlayState* play);
+void func_809FF840(EnDyExtra* this, PlayState* play);
 
 const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
@@ -30,10 +30,10 @@ const ActorInit En_Dy_Extra_InitVars = {
     (ActorFunc)EnDyExtra_Draw,
 };
 
-void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnDyExtra_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnDyExtra_Init(Actor* thisx, PlayState* play) {
     EnDyExtra* this = (EnDyExtra*)thisx;
 
     osSyncPrintf("\n\n");
@@ -50,7 +50,7 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = func_809FF7AC;
 }
 
-void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx) {
+void func_809FF7AC(EnDyExtra* this, PlayState* play) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
     if (this->actor.world.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
@@ -61,7 +61,7 @@ void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx) {
+void func_809FF840(EnDyExtra* this, PlayState* play) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
     if (this->unk_154 == 0 || this->unk_158 < 0.02f) {
         Actor_Kill(&this->actor);
@@ -73,7 +73,7 @@ void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnDyExtra_Update(Actor* thisx, PlayState* play) {
     EnDyExtra* this = (EnDyExtra*)thisx;
 
     DECR(this->unk_154);
@@ -81,18 +81,18 @@ void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.scale.y = this->unk_15C.y;
     this->actor.scale.z = this->unk_15C.z;
     Audio_PlayActorSound2(&this->actor, NA_SE_PL_SPIRAL_HEAL_BEAM - SFX_FLAG);
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
     Actor_MoveForward(&this->actor);
 }
 
-void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
     static Color_RGBA8 primColors[] = { { 255, 255, 170, 255 }, { 255, 255, 170, 255 } };
     static Color_RGBA8 envColors[] = { { 255, 100, 255, 255 }, { 100, 255, 255, 255 } };
     static u8 D_809FFC50[] = { 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02,
                                0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x01, 0x02 };
     EnDyExtra* this = (EnDyExtra*)thisx;
     s32 pad;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    GraphicsContext* gfxCtx = play->state.gfxCtx;
     Vtx* vertices = SEGMENTED_TO_VIRTUAL(gGreatFairySpiralBeamVtx);
     s32 i;
     u8 unk[3];
@@ -109,12 +109,12 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_en_dy_extra.c", 294);
 
-    func_80093D84(globalCtx->state.gfxCtx);
+    func_80093D84(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->state.frames * 2, 0, 0x20, 0x40, 1,
-                                globalCtx->state.frames, globalCtx->state.frames * -8, 0x10, 0x10));
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->state.frames * 2, 0, 0x20, 0x40, 1, play->state.frames,
+                                play->state.frames * -8, 0x10, 0x10));
     gDPPipeSync(POLY_XLU_DISP++);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dy_extra.c", 307),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dy_extra.c", 307),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
                     primColors[this->type].b, 255);

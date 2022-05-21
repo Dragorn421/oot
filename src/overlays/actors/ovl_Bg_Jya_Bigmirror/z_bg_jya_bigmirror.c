@@ -3,16 +3,16 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaBigmirror_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBigmirror_Init(Actor* thisx, PlayState* play);
+void BgJyaBigmirror_Destroy(Actor* thisx, PlayState* play);
+void BgJyaBigmirror_Update(Actor* thisx, PlayState* play);
+void BgJyaBigmirror_Draw(Actor* thisx, PlayState* play);
 
-void func_808936E0(BgJyaBigmirror* this, GlobalContext* globalCtx);
-void func_80893750(BgJyaBigmirror* this, GlobalContext* globalCtx);
-void func_8089394C(BgJyaBigmirror* this, GlobalContext* globalCtx);
-void func_8089399C(BgJyaBigmirror* this, GlobalContext* globalCtx);
-void func_80893C68(BgJyaBigmirror* this, GlobalContext* globalCtx);
+void func_808936E0(BgJyaBigmirror* this, PlayState* play);
+void func_80893750(BgJyaBigmirror* this, PlayState* play);
+void func_8089394C(BgJyaBigmirror* this, PlayState* play);
+void func_8089399C(BgJyaBigmirror* this, PlayState* play);
+void func_80893C68(BgJyaBigmirror* this, PlayState* play);
 
 static u8 D_80893ED0 = 0;
 
@@ -48,18 +48,18 @@ static Vec3f D_80893F28[3] = {
 };
 static Vec3s D_80893F4C = { 0, 0, 0 };
 
-void func_808936E0(BgJyaBigmirror* this, GlobalContext* globalCtx) {
+void func_808936E0(BgJyaBigmirror* this, PlayState* play) {
     this->unk15C &= ~0x38;
-    if (globalCtx->roomCtx.curRoom.num == 5) {
+    if (play->roomCtx.curRoom.num == 5) {
         this->unk15C |= 8;
-    } else if (globalCtx->roomCtx.curRoom.num == 0x19) {
+    } else if (play->roomCtx.curRoom.num == 0x19) {
         this->unk15C |= 0x10;
-    } else if (globalCtx->roomCtx.curRoom.num == 0x1A) {
+    } else if (play->roomCtx.curRoom.num == 0x1A) {
         this->unk15C |= 0x20;
     }
 }
 
-void func_80893750(BgJyaBigmirror* this2, GlobalContext* globalCtx) {
+void func_80893750(BgJyaBigmirror* this2, PlayState* play) {
     s32 i;
     BgJyaBigmirror_sub14C* new_var;
     struct_80893EF4* new_var2;
@@ -80,7 +80,7 @@ void func_80893750(BgJyaBigmirror* this2, GlobalContext* globalCtx) {
                     osSyncPrintf("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
                 }
             } else {
-                new_var->unk0 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_JYA_COBRA,
+                new_var->unk0 = Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BG_JYA_COBRA,
                                                    new_var2->unk0.x, new_var2->unk0.y, new_var2->unk0.z, 0,
                                                    new_var->unk4, 0, new_var2->unkC);
                 this->actor.child = NULL;
@@ -104,22 +104,22 @@ void func_80893750(BgJyaBigmirror* this2, GlobalContext* globalCtx) {
     }
 }
 
-void func_8089394C(BgJyaBigmirror* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, 0x29)) {
+void func_8089394C(BgJyaBigmirror* this, PlayState* play) {
+    if (Flags_GetSwitch(play, 0x29)) {
         this->unk15C |= 4;
     } else {
         this->unk15C &= ~4;
     }
 }
 
-void func_8089399C(BgJyaBigmirror* this2, GlobalContext* globalCtx) {
+void func_8089399C(BgJyaBigmirror* this2, PlayState* play) {
     s32 var_s1;
     s32 var_v0;
     s32 sp74[3];
     BgJyaBigmirror* this = this2;
     s32 temp_v0;
 
-    temp_v0 = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MIR_RAY);
+    temp_v0 = Object_GetIndex(&play->objectCtx, OBJECT_MIR_RAY);
     if ((temp_v0 < 0) || ((temp_v0 != this->unk16C))) {
         this->unk160[2] = NULL;
         this->unk160[1] = NULL;
@@ -137,9 +137,9 @@ void func_8089399C(BgJyaBigmirror* this2, GlobalContext* globalCtx) {
 
         for (var_s1 = 0; var_s1 < 3; var_s1++) {
             if (sp74[var_s1] != 0) {
-                if ((this->unk160[var_s1] == NULL) && (Object_IsLoaded(&globalCtx->objectCtx, temp_v0) != 0)) {
+                if ((this->unk160[var_s1] == NULL) && (Object_IsLoaded(&play->objectCtx, temp_v0) != 0)) {
                     this->unk160[var_s1] =
-                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0xB7, D_80893F28[var_s1].x, D_80893F28[var_s1].y,
+                        Actor_Spawn(&play->actorCtx, play, 0xB7, D_80893F28[var_s1].x, D_80893F28[var_s1].y,
                                     D_80893F28[var_s1].z, 0, 0, 0, D_80893F20[var_s1]);
                     if (this->unk160[var_s1] == NULL) {
                         osSyncPrintf("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
@@ -156,7 +156,7 @@ void func_8089399C(BgJyaBigmirror* this2, GlobalContext* globalCtx) {
     this->unk16C = temp_v0;
 }
 
-void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
     BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (D_80893ED0 != 0) {
@@ -173,7 +173,7 @@ void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);
 }
 
-void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaBigmirror_Destroy(Actor* thisx, PlayState* play) {
     BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (this->unk15D != 0) {
@@ -181,50 +181,50 @@ void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaBigmirror_Update(Actor* thisx, PlayState* play) {
     BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
-    func_808936E0(this, globalCtx);
-    func_80893750(this, globalCtx);
-    func_8089394C(this, globalCtx);
-    func_8089399C(this, globalCtx);
+    func_808936E0(this, play);
+    func_80893750(this, play);
+    func_8089394C(this, play);
+    func_8089399C(this, play);
 }
 
-void func_80893C68(BgJyaBigmirror* this, GlobalContext* globalCtx) {
+void func_80893C68(BgJyaBigmirror* this, PlayState* play) {
     s32 pad;
     Actor* temp_v0;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);
-    func_80093D84(globalCtx->state.gfxCtx);
-    temp_v0 = Actor_Find(&globalCtx->actorCtx, ACTOR_BG_JYA_LIFT, ACTORCAT_BG);
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);
+    func_80093D84(play->state.gfxCtx);
+    temp_v0 = Actor_Find(&play->actorCtx, ACTOR_BG_JYA_LIFT, ACTORCAT_BG);
     if (temp_v0 != NULL) {
         this->unk170 = temp_v0->world.pos.y;
     }
     Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 40.0f, this->actor.world.pos.z,
                   &this->actor.shape.rot);
     Matrix_Scale(0.1f, (this->unk170 * -0.00078125f) + 1.3901563f, 0.1f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (1) {}
     gSPDisplayList(POLY_XLU_DISP++, gBigMirror1DL);
     if (temp_v0 != NULL) {
         Matrix_SetTranslateRotateYXZ(temp_v0->world.pos.x, temp_v0->world.pos.y, temp_v0->world.pos.z, &D_80893F4C);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gBigMirror2DL);
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 476);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 476);
 }
 
-void BgJyaBigmirror_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaBigmirror_Draw(Actor* thisx, PlayState* play) {
     BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (this->unk15C & 0x10) {
-        Gfx_DrawDListOpa(globalCtx, gBigMirror3DL);
-        Gfx_DrawDListXlu(globalCtx, gBigMirror4DL);
+        Gfx_DrawDListOpa(play, gBigMirror3DL);
+        Gfx_DrawDListXlu(play, gBigMirror4DL);
     }
     if ((this->unk15C & 0x38) && (this->unk15C & 2) && (this->unk15C & 1)) {
-        func_80893C68(this, globalCtx);
+        func_80893C68(this, play);
     }
 }

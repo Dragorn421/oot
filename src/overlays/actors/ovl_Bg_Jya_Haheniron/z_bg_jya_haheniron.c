@@ -9,19 +9,19 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaHaheniron_Init(Actor* thisx, PlayState* play);
+void BgJyaHaheniron_Destroy(Actor* thisx, PlayState* play);
+void BgJyaHaheniron_Update(Actor* thisx, PlayState* play);
+void BgJyaHaheniron_Draw(Actor* thisx, PlayState* play);
 
-void func_808980C0(BgJyaHaheniron* this, GlobalContext* globalCtx);
-void func_80898114(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
+void func_808980C0(BgJyaHaheniron* this, PlayState* play);
+void func_80898114(PlayState* play, Vec3f* arg1, Vec3f* arg2);
 void func_8089843C(BgJyaHaheniron* this);
-void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx);
+void func_8089844C(BgJyaHaheniron* this, PlayState* play);
 void func_80898588(BgJyaHaheniron* this);
-void func_80898598(BgJyaHaheniron* this, GlobalContext* globalCtx);
+void func_80898598(BgJyaHaheniron* this, PlayState* play);
 void func_8089861C(BgJyaHaheniron* this);
-void func_8089862C(BgJyaHaheniron* this, GlobalContext* globalCtx);
+void func_8089862C(BgJyaHaheniron* this, PlayState* play);
 
 const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
@@ -56,14 +56,14 @@ static Gfx* D_808987B8[] = {
     gObjectJyaIronDL_000600,
 };
 
-void func_808980C0(BgJyaHaheniron* this, GlobalContext* globalCtx) {
+void func_808980C0(BgJyaHaheniron* this, PlayState* play) {
     s32 pad;
 
-    Collider_InitJntSph(globalCtx, &this->unk150);
-    Collider_SetJntSph(globalCtx, &this->unk150, &this->actor, &D_80898764, this->unk170);
+    Collider_InitJntSph(play, &this->unk150);
+    Collider_SetJntSph(play, &this->unk150, &this->actor, &D_80898764, this->unk170);
 }
 
-void func_80898114(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
+void func_80898114(PlayState* play, Vec3f* arg1, Vec3f* arg2) {
     Vec3f spB4;
     Vec3f spA8;
     f32 temp_fv0;
@@ -83,22 +83,22 @@ void func_80898114(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
         } else {
             var_v0 = 0x20;
         }
-        EffectSsKakera_Spawn(globalCtx, arg1, &spB4, arg1, -350, (s16)var_v0, 0x28, 4, 0, D_80898774[var_s1], 0, 0x14,
+        EffectSsKakera_Spawn(play, arg1, &spB4, arg1, -350, (s16)var_v0, 0x28, 4, 0, D_80898774[var_s1], 0, 0x14,
                              40, -1, OBJECT_JYA_IRON, gObjectJyaIronDL_000880);
     }
     spA8.x = arg1->x + (arg2->x * 5.0f);
     spA8.y = arg1->y + (arg2->y * 5.0f);
     spA8.z = arg1->z + (arg2->z * 5.0f);
-    func_80033480(globalCtx, &spA8, 100.0f, 4, 0x64, 0xA0, 1U);
+    func_80033480(play, &spA8, 100.0f, 4, 0x64, 0xA0, 1U);
 }
 
-void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaHaheniron_Init(Actor* thisx, PlayState* play) {
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     Actor_ProcessInitChain(&this->actor, D_80898780);
     Actor_SetScale(&this->actor, D_80898794[this->actor.params]);
     if (this->actor.params == 0) {
-        func_808980C0(this, globalCtx);
+        func_808980C0(this, play);
         this->actor.shape.rot.z = (s16)(s32)(Rand_ZeroOne() * 65535.0f);
         func_8089843C(this);
     } else if (this->actor.params == 1) {
@@ -108,11 +108,11 @@ void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaHaheniron_Destroy(Actor* thisx, PlayState* play) {
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     if (this->actor.params == 0) {
-        Collider_DestroyJntSph(globalCtx, &this->unk150);
+        Collider_DestroyJntSph(play, &this->unk150);
     }
 }
 
@@ -120,11 +120,11 @@ void func_8089843C(BgJyaHaheniron* this) {
     this->unk14C = func_8089844C;
 }
 
-void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
+void func_8089844C(BgJyaHaheniron* this, PlayState* play) {
     Vec3f sp2C;
 
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f,
+    Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 8.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
         ((this->unk150.base.atFlags & AT_HIT) && (this->unk150.base.at != NULL) &&
@@ -132,12 +132,12 @@ void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
         sp2C.x = -Rand_ZeroOne() * this->actor.velocity.x;
         sp2C.y = -Rand_ZeroOne() * this->actor.velocity.y;
         sp2C.z = -Rand_ZeroOne() * this->actor.velocity.z;
-        func_80898114(globalCtx, &this->actor.world.pos, &sp2C);
+        func_80898114(play, &this->actor.world.pos, &sp2C);
         Actor_Kill(&this->actor);
     } else if (this->unk1B0 >= 0x3D) {
         Actor_Kill(&this->actor);
     } else {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk150.base);
     }
     this->actor.shape.rot.y += 0x4B0;
     this->actor.shape.rot.x += 0xFA0;
@@ -147,11 +147,11 @@ void func_80898588(BgJyaHaheniron* this) {
     this->unk14C = func_80898598;
 }
 
-void func_80898598(BgJyaHaheniron* this, GlobalContext* globalCtx) {
+void func_80898598(BgJyaHaheniron* this, PlayState* play) {
     if (this->unk1B0 >= 8) {
         Actor_MoveForward(&this->actor);
     } else if (this->unk1B0 >= 0x11) {
-        func_80898114(globalCtx, &this->actor.world.pos, &D_808987A0);
+        func_80898114(play, &this->actor.world.pos, &D_808987A0);
         Actor_Kill(&this->actor);
     }
     this->actor.shape.rot.y += 0x258;
@@ -162,26 +162,26 @@ void func_8089861C(BgJyaHaheniron* this) {
     this->unk14C = func_8089862C;
 }
 
-void func_8089862C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
+void func_8089862C(BgJyaHaheniron* this, PlayState* play) {
     if (this->unk1B0 >= 0x11) {
-        func_80898114(globalCtx, &this->actor.world.pos, &D_808987AC);
-        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
+        func_80898114(play, &this->actor.world.pos, &D_808987AC);
+        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
         Actor_Kill(&this->actor);
     }
 }
 
-void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaHaheniron_Update(Actor* thisx, PlayState* play) {
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     this->unk1B0 += 1;
-    this->unk14C(this, globalCtx);
+    this->unk14C(this, play);
 }
 
-void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaHaheniron_Draw(Actor* thisx, PlayState* play) {
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     if (this->actor.params == 0) {
         Collider_UpdateSpheres(0, &this->unk150);
     }
-    Gfx_DrawDListOpa(globalCtx, D_808987B8[this->actor.params]);
+    Gfx_DrawDListOpa(play, D_808987B8[this->actor.params]);
 }

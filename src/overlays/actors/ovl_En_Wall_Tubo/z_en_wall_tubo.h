@@ -6,7 +6,7 @@
 
 struct EnWallTubo;
 
-typedef void (*EnWallTuboActionFunc)(struct EnWallTubo*, GlobalContext*);
+typedef void (*EnWallTuboActionFunc)(struct EnWallTubo*, PlayState*);
 
 typedef struct EnWallTubo {
     /* 0x000 */ Actor actor;

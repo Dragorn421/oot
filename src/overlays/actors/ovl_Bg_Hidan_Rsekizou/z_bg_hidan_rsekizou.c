@@ -13,10 +13,10 @@
 
 #define FLAGS 0
 
-void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanRsekizou_Init(Actor* thisx, PlayState* play);
+void BgHidanRsekizou_Destroy(Actor* thisx, PlayState* play);
+void BgHidanRsekizou_Update(Actor* thisx, PlayState* play);
+void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play);
 
 const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     ACTOR_BG_HIDAN_RSEKIZOU,
@@ -68,7 +68,7 @@ static void* sFireballsTexs[] = {
     gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
 };
 
-void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
     s32 pad;
@@ -78,9 +78,9 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, D_8088CD68);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&gFireTempleSpinningFlamethrowerCol, &sp30);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
-    Collider_InitJntSph(globalCtx, &this->unk168);
-    Collider_SetJntSph(globalCtx, &this->unk168, &this->dyna.actor, &D_8088CD58, this->unk188);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp30);
+    Collider_InitJntSph(play, &this->unk168);
+    Collider_SetJntSph(play, &this->unk168, &this->dyna.actor, &D_8088CD58, this->unk188);
     for (i = 0; i < 6; i++) {
         this->unk168.elements[i].dim.worldSphere.radius = this->unk168.elements[i].dim.modelSphere.radius;
     }
@@ -88,14 +88,14 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk164 = 0;
 }
 
-void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanRsekizou_Destroy(Actor* thisx, PlayState* play) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-    Collider_DestroyJntSph(globalCtx, &this->unk168);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    Collider_DestroyJntSph(play, &this->unk168);
 }
 
-void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
     s32 pad[4];
     f32 sp24;
     s32 i;
@@ -123,7 +123,7 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
                                               (sp24 * temp_v0_2->dim.modelSphere.center.x) +
                                               (temp_fv0 * temp_v0_2->dim.modelSphere.center.z);
     }
-    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk168.base);
+    CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk168.base);
     func_8002F974(&this->dyna.actor, 0x2033U);
 }
 
@@ -165,34 +165,34 @@ Gfx* func_8088C70C(GraphicsContext** arg0, BgHidanRsekizou* arg1, s16 arg2, MtxF
     return arg5;
 }
 
-void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 pad;
     s32 var_s0;
     MtxF sp5C;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 564);
-    func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 564);
+    func_80093D18(play->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gFireTempleSpinningFlamethrowerDL);
     Matrix_MtxFCopy(&sp5C, &gMtxFClear);
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14U);
-    if ((s16)((Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->dyna.actor.shape.rot.y) -
+    if ((s16)((Camera_GetCamDirYaw(play->cameraPtrs[play->activeCamId]) - this->dyna.actor.shape.rot.y) -
               0x2E6C) >= 0) {
         for (var_s0 = 3; var_s0 >= 0; var_s0--) {
-            POLY_XLU_DISP = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, POLY_XLU_DISP);
+            POLY_XLU_DISP = func_8088C70C(&play->state.gfxCtx, this, var_s0, &sp5C, 0, POLY_XLU_DISP);
         }
         for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            POLY_XLU_DISP = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, POLY_XLU_DISP);
+            POLY_XLU_DISP = func_8088C70C(&play->state.gfxCtx, this, var_s0, &sp5C, 1, POLY_XLU_DISP);
         }
     } else {
         for (var_s0 = 3; var_s0 >= 0; var_s0--) {
-            POLY_XLU_DISP = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 1, POLY_XLU_DISP);
+            POLY_XLU_DISP = func_8088C70C(&play->state.gfxCtx, this, var_s0, &sp5C, 1, POLY_XLU_DISP);
         }
         for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            POLY_XLU_DISP = func_8088C70C(&globalCtx->state.gfxCtx, this, var_s0, &sp5C, 0, POLY_XLU_DISP);
+            POLY_XLU_DISP = func_8088C70C(&play->state.gfxCtx, this, var_s0, &sp5C, 0, POLY_XLU_DISP);
         }
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 600);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 600);
 }

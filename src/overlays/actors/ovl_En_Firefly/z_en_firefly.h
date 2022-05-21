@@ -14,7 +14,7 @@ typedef enum EnFireflyBodyPart {
     /* 3 */ EN_FIREFLY_BODY_PART_MAX
 } EnFireflyBodyPart;
 
-typedef void (*EnFireflyActionFunc)(struct EnFirefly*, GlobalContext*);
+typedef void (*EnFireflyActionFunc)(struct EnFirefly*, PlayState*);
 
 typedef struct EnFirefly {
     /* 0x000 */ Actor actor;

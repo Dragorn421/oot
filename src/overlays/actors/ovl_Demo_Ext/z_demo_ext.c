@@ -3,24 +3,24 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx);
-void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx);
-void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx);
+void DemoExt_Init(Actor* thisx, PlayState* play);
+void DemoExt_Destroy(Actor* thisx, PlayState* play);
+void DemoExt_Update(Actor* thisx, PlayState* play);
+void DemoExt_Draw(Actor* thisx, PlayState* play);
 
-void func_80977854(DemoExt*, GlobalContext*);
-void func_80977874(DemoExt* arg0, GlobalContext* arg1);
-void func_809778AC(DemoExt* arg0, GlobalContext* arg1);
-void func_80977944(DemoExt* arg0, GlobalContext* arg1);
-void func_80977950(DemoExt* arg0, GlobalContext* arg1);
+void func_80977854(DemoExt*, PlayState*);
+void func_80977874(DemoExt* arg0, PlayState* arg1);
+void func_809778AC(DemoExt* arg0, PlayState* arg1);
+void func_80977944(DemoExt* arg0, PlayState* arg1);
+void func_80977950(DemoExt* arg0, PlayState* arg1);
 
-typedef void (*DemoExtUpdateFunc)(DemoExt*, GlobalContext*);
+typedef void (*DemoExtUpdateFunc)(DemoExt*, PlayState*);
 static DemoExtUpdateFunc sUpdateFuncs[] = {
     func_80977854,
     func_80977874,
     func_809778AC,
 };
-typedef void (*DemoExtDrawFunc)(DemoExt*, GlobalContext*);
+typedef void (*DemoExtDrawFunc)(DemoExt*, PlayState*);
 static DemoExtDrawFunc sDrawFuncs[] = {
     func_80977944,
     func_80977950,
@@ -37,10 +37,10 @@ const ActorInit Demo_Ext_InitVars = {
     (ActorFunc)DemoExt_Draw,
 };
 
-void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void DemoExt_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx) {
+void DemoExt_Init(Actor* thisx, PlayState* play) {
     DemoExt* this = (DemoExt*)thisx;
 
     this->texScrollStep[0] = 25;
@@ -61,9 +61,9 @@ void func_80977450(DemoExt* this) {
     }
 }
 
-CsCmdActorAction* func_809774D8(GlobalContext* globalCtx, s32 arg1) {
-    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
-        return globalCtx->csCtx.npcActions[arg1];
+CsCmdActorAction* func_809774D8(PlayState* play, s32 arg1) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        return play->csCtx.npcActions[arg1];
     }
     return NULL;
 }
@@ -73,11 +73,11 @@ void func_809774FC(DemoExt* this) {
     this->unk150 = 0;
 }
 
-void func_80977508(DemoExt* this, GlobalContext* globalCtx) {
+void func_80977508(DemoExt* this, PlayState* play) {
     CsCmdActorAction* temp_v0;
     s16 temp_v1;
 
-    temp_v0 = func_809774D8(globalCtx, 5);
+    temp_v0 = func_809774D8(play, 5);
     if (temp_v0 != NULL) {
         this->actor.world.pos.x = temp_v0->startPos.x;
         this->actor.world.pos.y = temp_v0->startPos.y;
@@ -102,12 +102,12 @@ void func_809775A4(DemoExt* this) {
     }
 }
 
-void func_80977610(DemoExt* this, GlobalContext* globalCtx) {
+void func_80977610(DemoExt* this, PlayState* play) {
     CsCmdActorAction* temp_v0;
     s32 temp_a2;
     s32 v;
 
-    temp_v0 = func_809774D8(globalCtx, 5);
+    temp_v0 = func_809774D8(play, 5);
     if (temp_v0 != NULL) {
         temp_a2 = temp_v0->action;
         v = this->unk154;
@@ -118,7 +118,7 @@ void func_80977610(DemoExt* this, GlobalContext* globalCtx) {
                     break;
 
                 case 2:
-                    func_80977508(this, globalCtx);
+                    func_80977508(this, play);
                     break;
 
                 case 3:
@@ -161,44 +161,44 @@ void func_8097771C(DemoExt* this) {
     temp_v0->z = (gGameInfo->data[0xA35] + 400.0f) * var_fv0;
 }
 
-void func_80977854(DemoExt* this, GlobalContext* globalCtx) {
-    func_80977610(this, globalCtx);
+void func_80977854(DemoExt* this, PlayState* play) {
+    func_80977610(this, play);
 }
 
-void func_80977874(DemoExt* this, GlobalContext* globalCtx) {
+void func_80977874(DemoExt* this, PlayState* play) {
     func_80977450(this);
     func_809776D0(this);
-    func_80977610(this, globalCtx);
+    func_80977610(this, play);
 }
 
-void func_809778AC(DemoExt* this, GlobalContext* globalCtx) {
+void func_809778AC(DemoExt* this, PlayState* play) {
     func_80977450(this);
     func_809776D0(this);
     func_8097771C(this);
     func_809775A4(this);
 }
 
-void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx) {
+void DemoExt_Update(Actor* thisx, PlayState* play) {
     DemoExt* this = (DemoExt*)thisx;
 
     if ((this->unk14C < 0) || (this->unk14C >= ARRAY_COUNT(sUpdateFuncs)) || (sUpdateFuncs[this->unk14C] == NULL)) {
         osSyncPrintf("\x1b[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
         return;
     }
-    sUpdateFuncs[this->unk14C](this, globalCtx);
+    sUpdateFuncs[this->unk14C](this, play);
 }
 
-void func_80977944(DemoExt* this, GlobalContext* globalCtx) {
+void func_80977944(DemoExt* this, PlayState* play) {
 }
 
-void func_80977950(DemoExt* this, GlobalContext* globalCtx) {
+void func_80977950(DemoExt* this, PlayState* play) {
     GraphicsContext* gfxCtx;
     Mtx* mtx;
     Vec3f* temp_v0;
     s16* texScrollPos;
     s32 pad;
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    gfxCtx = play->state.gfxCtx;
     texScrollPos = this->texScrollPos;
     temp_v0 = &this->unk178;
     mtx = Graph_Alloc(gfxCtx, 0x40U);
@@ -223,12 +223,12 @@ void func_80977950(DemoExt* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_demo_ext.c", 512);
 }
 
-void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void DemoExt_Draw(Actor* thisx, PlayState* play) {
     DemoExt* this = (DemoExt*)thisx;
 
     if ((this->unk150 < 0) || (this->unk150 >= ARRAY_COUNT(sDrawFuncs)) || (sDrawFuncs[this->unk150] == NULL)) {
         osSyncPrintf("\x1b[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
         return;
     }
-    sDrawFuncs[this->unk150](this, globalCtx);
+    sDrawFuncs[this->unk150](this, play);
 }

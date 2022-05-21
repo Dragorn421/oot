@@ -3,10 +3,10 @@
 
 #define FLAGS 0
 
-void EnFish_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnFish_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnFish_Init(Actor* thisx, PlayState* play);
+void EnFish_Destroy(Actor* thisx, PlayState* play);
+void EnFish_Update(Actor* thisx, PlayState* play);
+void EnFish_Draw(Actor* thisx, PlayState* play);
 
 f32 func_80A15280(Vec3f* arg0, Vec3f* arg1);
 void func_80A152AC(EnFish* this);
@@ -15,29 +15,29 @@ void func_80A15374(EnFish* this);
 void func_80A153AC(EnFish* this);
 void func_80A15444(EnFish* this);
 void func_80A155D0(EnFish* this);
-s32 func_80A15688(EnFish* this, GlobalContext* globalCtx);
-s32 func_80A15774(EnFish* this, GlobalContext* globalCtx);
+s32 func_80A15688(EnFish* this, PlayState* play);
+s32 func_80A15774(EnFish* this, PlayState* play);
 void func_80A157A4(EnFish* this);
-void func_80A157FC(EnFish* this, GlobalContext* globalCtx);
+void func_80A157FC(EnFish* this, PlayState* play);
 void func_80A158EC(EnFish* this);
-void func_80A15944(EnFish* this, GlobalContext* globalCtx);
+void func_80A15944(EnFish* this, PlayState* play);
 void func_80A15AD4(EnFish* this);
-void func_80A15B2C(EnFish* this, GlobalContext* globalCtx);
+void func_80A15B2C(EnFish* this, PlayState* play);
 void func_80A15D18(EnFish* this);
-void func_80A15D68(EnFish* this, GlobalContext* globalCtx);
+void func_80A15D68(EnFish* this, PlayState* play);
 void func_80A15F24(EnFish* this);
-void func_80A15F84(EnFish* this, GlobalContext* globalCtx);
+void func_80A15F84(EnFish* this, PlayState* play);
 void func_80A160BC(EnFish* this);
-void func_80A16200(EnFish* this, GlobalContext* globalCtx);
+void func_80A16200(EnFish* this, PlayState* play);
 void func_80A163DC(EnFish* this);
-void func_80A16450(EnFish* this, GlobalContext* globalCtx);
+void func_80A16450(EnFish* this, PlayState* play);
 void func_80A16618(EnFish* this);
-void func_80A16670(EnFish* this, GlobalContext* globalCtx);
-void func_80A16898(EnFish* this, GlobalContext* globalCtx);
-void func_80A169C8(EnFish* this, GlobalContext* globalCtx);
-void func_80A16A64(EnFish* this, GlobalContext* globalCtx);
-void func_80A16C68(EnFish* this, GlobalContext* globalCtx);
-void func_80A16DEC(EnFish* this, GlobalContext* globalCtx);
+void func_80A16670(EnFish* this, PlayState* play);
+void func_80A16898(EnFish* this, PlayState* play);
+void func_80A169C8(EnFish* this, PlayState* play);
+void func_80A16A64(EnFish* this, PlayState* play);
+void func_80A16C68(EnFish* this, PlayState* play);
+void func_80A16DEC(EnFish* this, PlayState* play);
 
 static EnFish* D_80A17010 = NULL;
 static f32 D_80A17014 = 0.0f;
@@ -146,15 +146,15 @@ void func_80A15444(EnFish* this) {
     D_80A17018 = 0.0f;
 }
 
-void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnFish_Init(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
     s16 sp3A;
 
     sp3A = this->actor.params;
     Actor_ProcessInitChain(&this->actor, D_80A17070);
-    SkelAnime_InitFlex(globalCtx, &this->unk1AC, &gFishSkel, &gFish2Anim, this->unk1F0, this->unk21A, 7);
-    Collider_InitJntSph(globalCtx, &this->unk14C);
-    Collider_SetJntSph(globalCtx, &this->unk14C, &this->actor, &D_80A17040, &this->unk16C);
+    SkelAnime_InitFlex(play, &this->unk1AC, &gFishSkel, &gFish2Anim, this->unk1F0, this->unk21A, 7);
+    Collider_InitJntSph(play, &this->unk14C);
+    Collider_SetJntSph(play, &this->unk14C, &this->actor, &D_80A17040, &this->unk16C);
     this->actor.colChkInfo.mass = 0x32;
     this->unk24C = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
     this->unk24E = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
@@ -169,11 +169,11 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx = globalCtx2;
+void EnFish_Destroy(Actor* thisx, PlayState* play2) {
+    PlayState* play = play2;
     EnFish* this = (EnFish*)thisx;
 
-    Collider_DestroyJntSph(globalCtx, &this->unk14C);
+    Collider_DestroyJntSph(play, &this->unk14C);
 }
 
 void func_80A155D0(EnFish* this) {
@@ -181,12 +181,12 @@ void func_80A155D0(EnFish* this) {
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -200.0f, 200.0f);
 }
 
-s32 func_80A15688(EnFish* this, GlobalContext* globalCtx) {
+s32 func_80A15688(EnFish* this, PlayState* play) {
     s32 pad;
     Actor* temp_v0;
     Vec3f sp1C;
 
-    temp_v0 = globalCtx->actorCtx.actorLists[2].head;
+    temp_v0 = play->actorCtx.actorLists[2].head;
     if (this->actor.xzDistToPlayer < 32.0f) {
         sp1C.x = (Math_SinS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f) + temp_v0->world.pos.x;
         sp1C.y = temp_v0->world.pos.y;
@@ -198,7 +198,7 @@ s32 func_80A15688(EnFish* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-s32 func_80A15774(EnFish* this, GlobalContext* globalCtx) {
+s32 func_80A15774(EnFish* this, PlayState* play) {
     return this->actor.xzDistToPlayer < 60.0f;
 }
 
@@ -211,7 +211,7 @@ void func_80A157A4(EnFish* this) {
     this->unk244 = func_80A157FC;
 }
 
-void func_80A157FC(EnFish* this, GlobalContext* globalCtx) {
+void func_80A157FC(EnFish* this, PlayState* play) {
     func_80A155D0(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.05f, 0.3f, 0.0f);
     this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.4f) + 0.8f, 2.0f);
@@ -221,7 +221,7 @@ void func_80A157FC(EnFish* this, GlobalContext* globalCtx) {
         func_80A158EC(this);
     } else if (this->actor.child == &this->actor) {
         func_80A15D18(this);
-    } else if (func_80A15774(this, globalCtx)) {
+    } else if (func_80A15774(this, play)) {
         func_80A15AD4(this);
     }
 }
@@ -235,7 +235,7 @@ void func_80A158EC(EnFish* this) {
     this->unk244 = func_80A15944;
 }
 
-void func_80A15944(EnFish* this, GlobalContext* globalCtx) {
+void func_80A15944(EnFish* this, PlayState* play) {
     s32 pad;
 
     func_80A155D0(this);
@@ -256,7 +256,7 @@ void func_80A15944(EnFish* this, GlobalContext* globalCtx) {
         func_80A157A4(this);
     } else if (this->actor.child == &this->actor) {
         func_80A15D18(this);
-    } else if (func_80A15774(this, globalCtx)) {
+    } else if (func_80A15774(this, play)) {
         func_80A15AD4(this);
     }
 }
@@ -270,7 +270,7 @@ void func_80A15AD4(EnFish* this) {
     this->unk244 = func_80A15B2C;
 }
 
-void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
+void func_80A15B2C(EnFish* this, PlayState* play) {
     s16 temp_v0_2;
     s16 var_a1;
     s32 pad2;
@@ -278,7 +278,7 @@ void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
     s16 sp34;
 
     func_80A155D0(this);
-    sp34 = func_80A15774(this, globalCtx);
+    sp34 = func_80A15774(this, play);
     Math_SmoothStepToF(&this->actor.speedXZ, 4.2f, 0.08f, 1.4f, 0.0f);
     if (func_80A15280(&this->actor.world.pos, &this->actor.home.pos) > SQ(160.0f)) {
         var_a1 = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
@@ -288,8 +288,8 @@ void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
             var_a1 = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.child->world.pos);
             Math_StepToAngleS(&this->actor.world.rot.y, var_a1, 0x7D0);
         } else if (sp34) {
-            temp_v0_2 = globalCtx->state.frames;
-            if (globalCtx) {}
+            temp_v0_2 = play->state.frames;
+            if (play) {}
             var_a1 = this->actor.yawTowardsPlayer + 0x8000;
             if (temp_v0_2 & 0x10) {
                 if (temp_v0_2 & 0x20) {
@@ -322,7 +322,7 @@ void func_80A15D18(EnFish* this) {
     this->unk244 = func_80A15D68;
 }
 
-void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
+void func_80A15D68(EnFish* this, PlayState* play) {
     s32 pad;
     Player* sp48;
     s32 pad2;
@@ -330,14 +330,14 @@ void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
     s16 v;
     s16 temp_a0_2;
 
-    sp48 = GET_PLAYER(globalCtx);
+    sp48 = GET_PLAYER(play);
     func_80A155D0(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
     if (func_80A15280(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) {
         v = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         Math_StepToAngleS(&this->actor.world.rot.y, v, 0xBB8);
     } else {
-        if ((s16)globalCtx->state.frames & 0x40) {
+        if ((s16)play->state.frames & 0x40) {
             temp_a0_2 = (this->actor.yawTowardsPlayer + 0x9000);
         } else {
             temp_a0_2 = (this->actor.yawTowardsPlayer + 0x7000);
@@ -366,7 +366,7 @@ void func_80A15F24(EnFish* this) {
     this->unk248 = 0x12C;
 }
 
-void func_80A15F84(EnFish* this, GlobalContext* globalCtx) {
+void func_80A15F84(EnFish* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.1f, 0.0f);
     Math_StepToAngleS(&this->actor.world.rot.x, 0x4000, 0x64);
     Math_StepToAngleS(&this->actor.world.rot.z, -0x4000, 0x64);
@@ -419,12 +419,12 @@ void func_80A160BC(EnFish* this) {
     }
 }
 
-void func_80A16200(EnFish* this, GlobalContext* globalCtx) {
+void func_80A16200(EnFish* this, PlayState* play) {
     s16 temp_ft1;
     s16 pad;
     s16 temp_v0_sp42;
 
-    temp_v0_sp42 = globalCtx->state.frames; // unk9E;
+    temp_v0_sp42 = play->state.frames; // unk9E;
     Math_SmoothStepToF(&this->actor.speedXZ, Rand_ZeroOne() * 0.2f, 0.1f, 0.1f, 0.0f);
     temp_ft1 = (s16)(s32)((s16)((((temp_v0_sp42 >> 5) & 2) | ((temp_v0_sp42 >> 2) & 1)) * 0x800) * 0.3f);
     if (temp_v0_sp42 & 4) {
@@ -465,7 +465,7 @@ void func_80A163DC(EnFish* this) {
     this->unk250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
 }
 
-void func_80A16450(EnFish* this, GlobalContext* globalCtx) {
+void func_80A16450(EnFish* this, PlayState* play) {
     s32 pad;
 
     Math_SmoothStepToF(&this->actor.speedXZ, 2.8f, 0.1f, 0.4f, 0.0f);
@@ -501,7 +501,7 @@ void func_80A16618(EnFish* this) {
     this->unk244 = func_80A16670;
 }
 
-void func_80A16670(EnFish* this, GlobalContext* globalCtx) {
+void func_80A16670(EnFish* this, PlayState* play) {
     s32 pad2;
     u32 sp50;
     struct_80A17080* var_v0_sp4C;
@@ -509,7 +509,7 @@ void func_80A16670(EnFish* this, GlobalContext* globalCtx) {
     f32 sp44;
     s32 pad;
 
-    sp50 = globalCtx->gameplayFrames;
+    sp50 = play->gameplayFrames;
     if (this->actor.xzDistToPlayer < 60.0f) {
         if (this->unk248 < 0xC) {
             var_v0_sp4C = &D_80A1708C;
@@ -543,7 +543,7 @@ void func_80A16670(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A16898(EnFish* this, GlobalContext* globalCtx) {
+void func_80A16898(EnFish* this, PlayState* play) {
     f32 sp24;
     f32 sp20;
 
@@ -565,7 +565,7 @@ void func_80A16898(EnFish* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk1AC);
 }
 
-void func_80A169C8(EnFish* this, GlobalContext* globalCtx) {
+void func_80A169C8(EnFish* this, PlayState* play) {
     s32 pad;
     f32 sp28;
     f32 sp24;
@@ -579,7 +579,7 @@ void func_80A169C8(EnFish* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk1AC);
 }
 
-void func_80A16A64(EnFish* this, GlobalContext* globalCtx) {
+void func_80A16A64(EnFish* this, PlayState* play) {
     f32 temp_fv0;
     s32 pad;
     CsCmdActorAction* sp4C;
@@ -588,7 +588,7 @@ void func_80A16A64(EnFish* this, GlobalContext* globalCtx) {
     s32 pad2;
     s32 sp2C;
 
-    sp4C = globalCtx->csCtx.npcActions[1];
+    sp4C = play->csCtx.npcActions[1];
     if (sp4C == NULL) {
         if (1) {}
         osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
@@ -601,11 +601,11 @@ void func_80A16A64(EnFish* this, GlobalContext* globalCtx) {
     this->unk24E += 0x500;
     switch (sp4C->action) {
         case 1:
-            func_80A16898(this, globalCtx);
+            func_80A16898(this, play);
             break;
 
         case 2:
-            func_80A169C8(this, globalCtx);
+            func_80A169C8(this, play);
             break;
 
         case 3:
@@ -624,15 +624,15 @@ void func_80A16A64(EnFish* this, GlobalContext* globalCtx) {
     sp34.x = sp4C->endPos.x;
     sp34.y = sp4C->endPos.y;
     sp34.z = sp4C->endPos.z;
-    temp_fv0 = Environment_LerpWeight(sp4C->endFrame, sp4C->startFrame, globalCtx->csCtx.frames);
+    temp_fv0 = Environment_LerpWeight(sp4C->endFrame, sp4C->startFrame, play->csCtx.frames);
     this->actor.world.pos.x = ((sp34.x - sp40.x) * temp_fv0) + sp40.x;
     this->actor.world.pos.y = ((sp34.y - sp40.y) * temp_fv0) + sp40.y + D_80A17014;
     this->actor.world.pos.z = ((sp34.z - sp40.z) * temp_fv0) + sp40.z;
-    this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp2C,
+    this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp2C,
                                                           &this->actor, &this->actor.world.pos);
 }
 
-void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
+void func_80A16C68(EnFish* this, PlayState* play) {
     if (this->unk248 > 0) {
         this->unk248--;
     }
@@ -641,29 +641,29 @@ void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
     if ((this->actor.child != NULL) && (this->actor.child->update == NULL) && (this->actor.child != &this->actor)) {
         this->actor.child = NULL;
     }
-    if ((this->unk244 == NULL) || (this->unk244(this, globalCtx), (this->actor.update != NULL))) {
+    if ((this->unk244 == NULL) || (this->unk244(this, play), (this->actor.update != NULL))) {
         Actor_MoveForward(&this->actor);
         if (this->unk250 != 0) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 17.5f, 4.0f, 0.0f, this->unk250);
+            Actor_UpdateBgCheckInfo(play, &this->actor, 17.5f, 4.0f, 0.0f, this->unk250);
         }
         if (this->actor.xzDistToPlayer < 70.0f) {
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk14C.base);
+            CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
         }
         Actor_SetFocus(&this->actor, this->actor.shape.yOffset * 0.01f);
-        if (Actor_HasParent(&this->actor, globalCtx)) {
+        if (Actor_HasParent(&this->actor, play)) {
             this->actor.parent = NULL;
             if (this->actor.params == 0) {
                 Actor_Kill(&this->actor);
             } else {
                 func_80A15374(this);
             }
-        } else if (func_80A15688(this, globalCtx) != 0) {
-            func_8002F434(&this->actor, globalCtx, 0x7E, 80.0f, 20.0f);
+        } else if (func_80A15688(this, play) != 0) {
+            func_8002F434(&this->actor, play, 0x7E, 80.0f, 20.0f);
         }
     }
 }
 
-void func_80A16DEC(EnFish* this, GlobalContext* globalCtx) {
+void func_80A16DEC(EnFish* this, PlayState* play) {
     f32 var_fv1;
 
     if (this->actor.params == 1) {
@@ -673,7 +673,7 @@ void func_80A16DEC(EnFish* this, GlobalContext* globalCtx) {
     if ((this->actor.child != NULL) && (this->actor.child->update == NULL) && (this->actor.child != &this->actor)) {
         this->actor.child = NULL;
     }
-    if ((this->unk244 == NULL) || (this->unk244(this, globalCtx), (this->actor.update != NULL))) {
+    if ((this->unk244 == NULL) || (this->unk244(this, play), (this->actor.update != NULL))) {
         Actor_MoveForward(&this->actor);
         if (this->unk24A == 0x14) {
             this->actor.draw = EnFish_Draw;
@@ -686,28 +686,28 @@ void func_80A16DEC(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFish_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnFish_Update(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
-    if ((D_80A17010 == NULL) && (this->actor.params == 0) && (globalCtx->csCtx.state != CS_STATE_IDLE) &&
-        (globalCtx->csCtx.npcActions[1] != NULL)) {
+    if ((D_80A17010 == NULL) && (this->actor.params == 0) && (play->csCtx.state != CS_STATE_IDLE) &&
+        (play->csCtx.npcActions[1] != NULL)) {
         func_80A153AC(this);
     }
     if ((D_80A17010 != NULL) && (D_80A17010 == this)) {
-        func_80A16A64(this, globalCtx);
+        func_80A16A64(this, play);
     } else if (this->unk24A > 0) {
         this->unk24A--;
-        func_80A16DEC(this, globalCtx);
+        func_80A16DEC(this, play);
     } else {
-        func_80A16C68(this, globalCtx);
+        func_80A16C68(this, play);
     }
 }
 
-void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnFish_Draw(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->unk1AC.skeleton, this->unk1AC.jointTable, this->unk1AC.dListCount, NULL,
+    func_80093D18(play->state.gfxCtx);
+    SkelAnime_DrawFlexOpa(play, this->unk1AC.skeleton, this->unk1AC.jointTable, this->unk1AC.dListCount, NULL,
                           NULL, NULL);
     Collider_UpdateSpheres(0, &this->unk14C);
 }

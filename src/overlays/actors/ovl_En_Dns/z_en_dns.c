@@ -5,10 +5,10 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
-void EnDns_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnDns_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnDns_Init(Actor* thisx, PlayState* play);
+void EnDns_Destroy(Actor* thisx, PlayState* play);
+void EnDns_Update(Actor* thisx, PlayState* play);
+void EnDns_Draw(Actor* thisx, PlayState* play);
 
 u32 EnDns_CheckPurchase_DekuNuts(EnDns* arg0);
 u32 EnDns_CheckPurchase_DekuSticks(EnDns* arg0);
@@ -25,15 +25,15 @@ void EnDns_ConcludePurchase_Bombs(EnDns* arg0);
 void EnDns_ConcludePurchase_Arrows(EnDns* arg0);
 void EnDns_ConcludePurchase_DekuSticksCapacity(EnDns* arg0);
 void EnDns_ConcludePurchase_DekuNutsCapacity(EnDns* arg0);
-void func_809EFB84(EnDns*, GlobalContext*);
-void func_809EFBC8(EnDns*, GlobalContext*);
-void func_809EFC9C(EnDns*, GlobalContext*);
-void func_809EFEE8(EnDns*, GlobalContext*);
-void func_809EFF50(EnDns*, GlobalContext*);
-void func_809EFF98(EnDns*, GlobalContext*);
-void func_809F008C(EnDns*, GlobalContext*);
-void func_809F0100(EnDns*, GlobalContext*);
-void func_809F017C(EnDns*, GlobalContext*);
+void func_809EFB84(EnDns*, PlayState*);
+void func_809EFBC8(EnDns*, PlayState*);
+void func_809EFC9C(EnDns*, PlayState*);
+void func_809EFEE8(EnDns*, PlayState*);
+void func_809EFF50(EnDns*, PlayState*);
+void func_809EFF98(EnDns*, PlayState*);
+void func_809F008C(EnDns*, PlayState*);
+void func_809F0100(EnDns*, PlayState*);
+void func_809F017C(EnDns*, PlayState*);
 
 typedef enum EnDnsUnk8Result {
     EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES,
@@ -163,7 +163,7 @@ static AnimationMinimalInfo sAnimationInfo[] = {
     { &gBusinessScrubNervousTransitionAnim, ANIMMODE_ONCE, 0.0f },
 };
 
-void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnDns_Init(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
     if (this->actor.params < 0) {
@@ -176,10 +176,10 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     osSyncPrintf("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", D_809F0424[this->actor.params]);
     Actor_ProcessInitChain(&this->actor, D_809F052C);
-    SkelAnime_InitFlex(globalCtx, &this->unk14C, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,
+    SkelAnime_InitFlex(play, &this->unk14C, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,
                        this->unk190, this->unk1FC, 0x12);
-    Collider_InitCylinder(globalCtx, &this->unk26C);
-    Collider_SetCylinderType1(globalCtx, &this->unk26C, &this->actor, &D_809F03E0);
+    Collider_InitCylinder(play, &this->unk26C);
+    Collider_SetCylinderType1(play, &this->unk26C, &this->actor, &D_809F03E0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     this->actor.textId = D_809F040C[this->actor.params];
     Actor_SetScale(&this->actor, 0.01f);
@@ -194,10 +194,10 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk268 = func_809EFB84;
 }
 
-void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnDns_Destroy(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
-    Collider_DestroyCylinder(globalCtx, &this->unk26C);
+    Collider_DestroyCylinder(play, &this->unk26C);
 }
 
 void EnDns_ChangeAnim(EnDns* this, u8 arg1) {
@@ -335,17 +335,17 @@ void EnDns_ConcludePurchase_DekuNutsCapacity(EnDns* this) {
     Rupees_ChangeBy(-this->unk2C0->price);
 }
 
-void func_809EFB84(EnDns* this, GlobalContext* globalCtx) {
+void func_809EFB84(EnDns* this, PlayState* play) {
     if (this->unk14C.curFrame == this->unk14C.endFrame) {
         this->unk268 = func_809EFBC8;
         EnDns_ChangeAnim(this, ENDNS_ANIM_0);
     }
 }
 
-void func_809EFBC8(EnDns* this, GlobalContext* globalCtx) {
+void func_809EFBC8(EnDns* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x7D0, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, play)) {
         this->unk268 = func_809EFC9C;
     } else {
         if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.isTargeted != 0)) {
@@ -354,83 +354,83 @@ void func_809EFBC8(EnDns* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~ACTOR_FLAG_16;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
-            func_8002F2F4(&this->actor, globalCtx);
+            func_8002F2F4(&this->actor, play);
         }
     }
 }
 
-void func_809EFC9C(EnDns* this, GlobalContext* globalCtx) {
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
-        switch (globalCtx->msgCtx.choiceIndex) {
+void func_809EFC9C(EnDns* this, PlayState* play) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
+        switch (play->msgCtx.choiceIndex) {
             case 0:
                 switch (this->unk2C0->checkPurchase(this)) {
                     case EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES:
-                        Message_ContinueTextbox(globalCtx, 0x10A5);
+                        Message_ContinueTextbox(play, 0x10A5);
                         this->unk268 = func_809F008C;
                         return;
                     case EN_DNS_UNK8RESULT_ALREADY_FULL:
-                        Message_ContinueTextbox(globalCtx, 0x10A6);
+                        Message_ContinueTextbox(play, 0x10A6);
                         this->unk268 = func_809F008C;
                         return;
                     case EN_DNS_UNK8RESULT_CANT_BUY_RIGHT_NOW:
-                        Message_ContinueTextbox(globalCtx, 0x10DE);
+                        Message_ContinueTextbox(play, 0x10DE);
                         this->unk268 = func_809F008C;
                         return;
                     case EN_DNS_UNK8RESULT_OK_ALT:
                     case EN_DNS_UNK8RESULT_OK:
-                        Message_ContinueTextbox(globalCtx, 0x10A7);
+                        Message_ContinueTextbox(play, 0x10A7);
                         this->unk268 = func_809EFEE8;
                         return;
                 }
                 break;
             case 1:
-                Message_ContinueTextbox(globalCtx, 0x10A4);
+                Message_ContinueTextbox(play, 0x10A4);
                 this->unk268 = func_809F008C;
                 break;
         }
     }
 }
 
-void EnDns_OfferItem(EnDns* this, GlobalContext* globalCtx) {
+void EnDns_OfferItem(EnDns* this, PlayState* play) {
     if (this->actor.params == EN_DNS_TYPE_DEKU_STICKS_CAPACITY) {
         if (CUR_UPG_VALUE(UPG_STICKS) < 2) {
-            func_8002F434(&this->actor, globalCtx, GI_STICK_UPGRADE_20, 130.0f, 100.0f);
+            func_8002F434(&this->actor, play, GI_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, globalCtx, GI_STICK_UPGRADE_30, 130.0f, 100.0f);
+            func_8002F434(&this->actor, play, GI_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
     } else if (this->actor.params == EN_DNS_TYPE_DEKU_NUTS_CAPACITY) {
         if (CUR_UPG_VALUE(UPG_NUTS) < 2) {
-            func_8002F434(&this->actor, globalCtx, GI_NUT_UPGRADE_30, 130.0f, 100.0f);
+            func_8002F434(&this->actor, play, GI_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, globalCtx, GI_NUT_UPGRADE_40, 130.0f, 100.0f);
+            func_8002F434(&this->actor, play, GI_NUT_UPGRADE_40, 130.0f, 100.0f);
         }
     } else {
-        func_8002F434(&this->actor, globalCtx, this->unk2C0->gid, 130.0f, 100.0f);
+        func_8002F434(&this->actor, play, this->unk2C0->gid, 130.0f, 100.0f);
     }
 }
 
-void func_809EFEE8(EnDns* this, GlobalContext* globalCtx) {
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-        Message_CloseTextbox(globalCtx);
-        EnDns_OfferItem(this, globalCtx);
+void func_809EFEE8(EnDns* this, PlayState* play) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
+        Message_CloseTextbox(play);
+        EnDns_OfferItem(this, play);
         this->unk268 = func_809EFF50;
     }
 }
 
-void func_809EFF50(EnDns* this, GlobalContext* globalCtx) {
-    if (Actor_HasParent(&this->actor, globalCtx)) {
+void func_809EFF50(EnDns* this, PlayState* play) {
+    if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->unk268 = func_809EFF98;
     } else {
-        EnDns_OfferItem(this, globalCtx);
+        EnDns_OfferItem(this, play);
     }
 }
 
-void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_809EFF98(EnDns* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
     if (player->stateFlags1 & PLAYER_STATE1_10) {
-        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
+        if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
             this->unk2C0->concludePurchase(this);
             this->unk2BD = 1;
             this->unk2BB = 0;
@@ -448,8 +448,8 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
+void func_809F008C(EnDns* this, PlayState* play) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         this->unk2BB = 0;
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_ChangeAnim(this, ENDNS_ANIM_1);
@@ -457,7 +457,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809F0100(EnDns* this, GlobalContext* globalCtx) {
+void func_809F0100(EnDns* this, PlayState* play) {
     f32 f = Animation_GetLastFrame(&gBusinessScrubAnim_4404);
 
     if (this->unk14C.curFrame == f) {
@@ -468,7 +468,7 @@ void func_809F0100(EnDns* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809F017C(EnDns* this, GlobalContext* globalCtx) {
+void func_809F017C(EnDns* this, PlayState* play) {
     f32 var_fv0;
     Vec3f sp38;
     s32 var_s0;
@@ -478,7 +478,7 @@ void func_809F017C(EnDns* this, GlobalContext* globalCtx) {
         sp38.x = this->actor.world.pos.x;
         sp38.y = this->unk2C4;
         sp38.z = this->actor.world.pos.z;
-        func_80028990(globalCtx, 20.0f, &sp38);
+        func_80028990(play, 20.0f, &sp38);
     }
     this->actor.shape.rot.y += 0x2000;
     if (var_fv0 > 400.0f) {
@@ -487,14 +487,14 @@ void func_809F017C(EnDns* this, GlobalContext* globalCtx) {
             sp38.y = this->unk2C4;
             sp38.z = this->actor.world.pos.z;
             for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                Item_DropCollectible(globalCtx, &sp38, 3);
+                Item_DropCollectible(play, &sp38, 3);
             }
         }
         Actor_Kill(&this->actor);
     }
 }
 
-void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnDns_Update(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
     s32 pad;
 
@@ -504,20 +504,20 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_Update(&this->unk14C);
     Actor_MoveForward(&this->actor);
-    this->unk268(this, globalCtx);
+    this->unk268(this, play);
     if (this->unk2BC != 0) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
+        Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
     }
     if (this->unk2BB != 0) {
         Collider_UpdateCylinder(&this->actor, &this->unk26C);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk26C.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk26C.base);
     }
 }
 
-void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnDns_Draw(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount, NULL,
+    func_80093D18(play->state.gfxCtx);
+    SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount, NULL,
                           NULL, &this->actor);
 }

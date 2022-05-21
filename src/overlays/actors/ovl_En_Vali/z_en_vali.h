@@ -9,7 +9,7 @@ struct EnVali;
 typedef struct EnVali {
     /* 0x000 */ Actor actor;
     /* 0x14C */ SkelAnime unk14C;
-    /* 0x190 */ void (*unk190)(struct EnVali*, GlobalContext*);
+    /* 0x190 */ void (*unk190)(struct EnVali*, PlayState*);
     /* 0x194 */ u8 unk194;
     /* 0x195 */ u8 unk195;
     /* 0x196 */ s16 unk196;

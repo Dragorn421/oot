@@ -9,19 +9,19 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
-void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx);
-void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjTsubo_Init(Actor* thisx, PlayState* play);
+void ObjTsubo_Destroy(Actor* thisx, PlayState* play);
+void ObjTsubo_Update(Actor* thisx, PlayState* play);
 
 void func_80BA152C(ObjTsubo* this);
-void func_80BA153C(ObjTsubo* this, GlobalContext* globalCtx);
+void func_80BA153C(ObjTsubo* this, PlayState* play);
 void func_80BA15AC(ObjTsubo* this);
-void func_80BA15BC(ObjTsubo* this, GlobalContext* globalCtx);
+void func_80BA15BC(ObjTsubo* this, PlayState* play);
 void func_80BA17C4(ObjTsubo* this);
-void func_80BA180C(ObjTsubo* this, GlobalContext* globalCtx);
+void func_80BA180C(ObjTsubo* this, PlayState* play);
 void func_80BA188C(ObjTsubo* this);
-void func_80BA1958(ObjTsubo* this, GlobalContext* globalCtx);
-void func_80BA1B0C(Actor* thisx, GlobalContext* globalCtx);
+void func_80BA1958(ObjTsubo* this, PlayState* play);
+void func_80BA1B0C(Actor* thisx, PlayState* play);
 
 extern Gfx D_5017870[];
 extern Gfx D_5017A60[];
@@ -76,12 +76,12 @@ static InitChainEntry D_80BA1BC8[] = {
     ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
 };
 
-void func_80BA0D60(ObjTsubo* this, GlobalContext* globalCtx) {
+void func_80BA0D60(ObjTsubo* this, PlayState* play) {
     s16 temp_v0;
 
     temp_v0 = this->actor.params & 0x1F;
     if ((temp_v0 >= 0) && (temp_v0 < ITEM00_MAX)) {
-        Item_DropCollectible(globalCtx, &this->actor.world.pos,
+        Item_DropCollectible(play, &this->actor.world.pos,
                              (s16)(temp_v0 | (((this->actor.params >> 9) & 0x3F) << 8)));
     }
 }
@@ -93,7 +93,7 @@ void func_80BA0DC0(ObjTsubo* this) {
     }
 }
 
-s32 func_80BA0DF4(ObjTsubo* this, GlobalContext* globalCtx) {
+s32 func_80BA0DF4(ObjTsubo* this, PlayState* play) {
     CollisionPoly* sp34;
     Vec3f sp28;
     s32 sp24;
@@ -102,7 +102,7 @@ s32 func_80BA0DF4(ObjTsubo* this, GlobalContext* globalCtx) {
     sp28.x = this->actor.world.pos.x;
     sp28.y = this->actor.world.pos.y + 20.0f;
     sp28.z = this->actor.world.pos.z;
-    temp_fv0 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp34, &sp24, &this->actor, (Vec3f*)&sp28);
+    temp_fv0 = BgCheck_EntityRaycastFloor4(&play->colCtx, &sp34, &sp24, &this->actor, (Vec3f*)&sp28);
     if (temp_fv0 > BGCHECK_Y_MIN) {
         this->actor.world.pos.y = temp_fv0;
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
@@ -113,24 +113,24 @@ s32 func_80BA0DF4(ObjTsubo* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80BA0E98(ObjTsubo* this2, GlobalContext* globalCtx) {
+void func_80BA0E98(ObjTsubo* this2, PlayState* play) {
     ObjTsubo* this = this2;
 
-    Collider_InitCylinder(globalCtx, &this->unk150);
-    Collider_SetCylinder(globalCtx, &this->unk150, &this->actor, &D_80BA1B94);
+    Collider_InitCylinder(play, &this->unk150);
+    Collider_SetCylinder(play, &this->unk150, &this->actor, &D_80BA1B94);
     Collider_UpdateCylinder(&this->actor, &this->unk150);
 }
 
-void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
+void ObjTsubo_Init(Actor* thisx, PlayState* play) {
     ObjTsubo* this = (ObjTsubo*)thisx;
 
     Actor_ProcessInitChain(&this->actor, D_80BA1BC8);
-    func_80BA0E98(this, globalCtx);
+    func_80BA0E98(this, play);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &D_80BA1BC0);
-    if (func_80BA0DF4(this, globalCtx) == 0) {
+    if (func_80BA0DF4(this, play) == 0) {
         Actor_Kill(&this->actor);
     } else {
-        this->unk19C = Object_GetIndex(&globalCtx->objectCtx, D_80BA1B80[(this->actor.params >> 8) & 1]);
+        this->unk19C = Object_GetIndex(&play->objectCtx, D_80BA1B80[(this->actor.params >> 8) & 1]);
         if (this->unk19C < 0) {
             osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c",
                          410);
@@ -142,14 +142,14 @@ void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx = globalCtx2;
+void ObjTsubo_Destroy(Actor* thisx, PlayState* play2) {
+    PlayState* play = play2;
     ObjTsubo* this = (ObjTsubo*)thisx;
 
-    Collider_DestroyCylinder(globalCtx, &this->unk150);
+    Collider_DestroyCylinder(play, &this->unk150);
 }
 
-void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx) {
+void func_80BA100C(ObjTsubo* this, PlayState* play) {
     s32 pad;
     f32 sin;
     f32 cos;
@@ -178,14 +178,14 @@ void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx) {
         } else {
             var_s0 = 0x20;
         }
-        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, &this->actor.world.pos, -240, var_s0, 0xA, 0xA, 0,
+        EffectSsKakera_Spawn(play, &spC8, &spBC, &this->actor.world.pos, -240, var_s0, 0xA, 0xA, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 0x20, 60, -1,
                              D_80BA1B80[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
     }
-    func_80033480(globalCtx, &this->actor.world.pos, 30.0f, 4, 0x14, 0x32, 1U);
+    func_80033480(play, &this->actor.world.pos, 30.0f, 4, 0x14, 0x32, 1U);
 }
 
-void func_80BA1294(ObjTsubo* this, GlobalContext* globalCtx) {
+void func_80BA1294(ObjTsubo* this, PlayState* play) {
     f32 temp_fs0;
     f32 temp_fs1;
     s16 var_s1;
@@ -197,7 +197,7 @@ void func_80BA1294(ObjTsubo* this, GlobalContext* globalCtx) {
 
     spC8 = this->actor.world.pos;
     spC8.y += this->actor.yDistToWater;
-    EffectSsGSplash_Spawn(globalCtx, &spC8, NULL, NULL, 0, 0x190);
+    EffectSsGSplash_Spawn(play, &spC8, NULL, NULL, 0, 0x190);
 
     for (var_s2 = 0, var_s1 = 0; var_s2 < 15; var_s2++, var_s1 += 0x4E20) {
         temp_fs0 = Math_SinS(var_s1);
@@ -214,7 +214,7 @@ void func_80BA1294(ObjTsubo* this, GlobalContext* globalCtx) {
         } else {
             var_s0 = 0x20;
         }
-        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, &this->actor.world.pos, -180, var_s0, 0x1E, 0x1E, 0,
+        EffectSsKakera_Spawn(play, &spC8, &spBC, &this->actor.world.pos, -180, var_s0, 0x1E, 0x1E, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 0x20, 70, -1,
                              D_80BA1B80[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
     }
@@ -224,8 +224,8 @@ void func_80BA152C(ObjTsubo* this) {
     this->actionFunc = func_80BA153C;
 }
 
-void func_80BA153C(ObjTsubo* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->unk19C)) {
+void func_80BA153C(ObjTsubo* this, PlayState* play) {
+    if (Object_IsLoaded(&play->objectCtx, this->unk19C)) {
         this->actor.draw = func_80BA1B0C;
         this->actor.objBankIndex = this->unk19C;
         func_80BA15AC(this);
@@ -237,36 +237,36 @@ void func_80BA15AC(ObjTsubo* this) {
     this->actionFunc = func_80BA15BC;
 }
 
-void func_80BA15BC(ObjTsubo* this, GlobalContext* globalCtx) {
+void func_80BA15BC(ObjTsubo* this, PlayState* play) {
     s16 temp_v0;
     s16 var_v1;
     s32 pad;
 
-    if (Actor_HasParent(&this->actor, globalCtx)) {
+    if (Actor_HasParent(&this->actor, play)) {
         func_80BA17C4(this);
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
-        func_80BA1294(this, globalCtx);
-        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
-        func_80BA0D60(this, globalCtx);
+        func_80BA1294(this, play);
+        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        func_80BA0D60(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->unk150.base.acFlags & AC_HIT) && (this->unk150.info.acHitInfo->toucher.dmgFlags & 0x4FC1FFFC)) {
-        func_80BA100C(this, globalCtx);
-        func_80BA0D60(this, globalCtx);
-        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        func_80BA100C(this, play);
+        func_80BA0D60(this, play);
+        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         if (this->actor.xzDistToPlayer < 600.0f) {
             Collider_UpdateCylinder(&this->actor, &this->unk150);
             this->unk150.base.acFlags &= ~AC_HIT;
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk150.base);
             if (this->actor.xzDistToPlayer < 150.0f) {
-                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
+                CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk150.base);
             }
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            temp_v0 = this->actor.yawTowardsPlayer - GET_PLAYER(globalCtx)->actor.world.rot.y;
+            temp_v0 = this->actor.yawTowardsPlayer - GET_PLAYER(play)->actor.world.rot.y;
             if (ABS(temp_v0) > 0x5555) {
-                func_8002F434(&this->actor, globalCtx, GI_NONE, 30.0f, 30.0f);
+                func_8002F434(&this->actor, play, GI_NONE, 30.0f, 30.0f);
             }
         }
     }
@@ -279,13 +279,13 @@ void func_80BA17C4(ObjTsubo* this) {
     this->actor.flags |= ACTOR_FLAG_4;
 }
 
-void func_80BA180C(ObjTsubo* this, GlobalContext* globalCtx) {
-    if (Actor_HasNoParent(&this->actor, globalCtx)) {
-        this->actor.room = globalCtx->roomCtx.curRoom.num;
+void func_80BA180C(ObjTsubo* this, PlayState* play) {
+    if (Actor_HasNoParent(&this->actor, play)) {
+        this->actor.room = play->roomCtx.curRoom.num;
         func_80BA188C(this);
         func_80BA0DC0(this);
         func_8002D7EC(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f,
+        Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 15.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     }
 }
@@ -301,19 +301,19 @@ void func_80BA188C(ObjTsubo* this) {
     this->actionFunc = func_80BA1958;
 }
 
-void func_80BA1958(ObjTsubo* this, GlobalContext* globalCtx) {
+void func_80BA1958(ObjTsubo* this, PlayState* play) {
     s32 pad[2];
 
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
         (this->unk150.base.atFlags & AT_HIT)) {
-        func_80BA100C(this, globalCtx);
-        func_80BA0D60(this, globalCtx);
-        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        func_80BA100C(this, play);
+        func_80BA0D60(this, play);
+        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
-        func_80BA1294(this, globalCtx);
-        func_80BA0D60(this, globalCtx);
-        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        func_80BA1294(this, play);
+        func_80BA0D60(this, play);
+        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         func_80BA0DC0(this);
@@ -322,20 +322,20 @@ void func_80BA1958(ObjTsubo* this, GlobalContext* globalCtx) {
         Math_StepToS(&D_80BA1B5C, D_80BA1B58, 0x64);
         this->actor.shape.rot.x += D_80BA1B54;
         this->actor.shape.rot.y += D_80BA1B5C;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f,
+        Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 15.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
         Collider_UpdateCylinder(&this->actor, &this->unk150);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk150.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk150.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk150.base);
     }
 }
 
-void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx) {
+void ObjTsubo_Update(Actor* thisx, PlayState* play) {
     ObjTsubo* this = (ObjTsubo*)thisx;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void func_80BA1B0C(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_80BA1B84[(thisx->params >> 8) & 1]);
+void func_80BA1B0C(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, D_80BA1B84[(thisx->params >> 8) & 1]);
 }

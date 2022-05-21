@@ -3,10 +3,10 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
-void EnBili_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnBili_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnBili_Init(Actor* thisx, PlayState* play);
+void EnBili_Destroy(Actor* thisx, PlayState* play);
+void EnBili_Update(Actor* thisx, PlayState* play);
+void EnBili_Draw(Actor* thisx, PlayState* play);
 
 void func_809BF9BC(EnBili* this);
 void func_809BFA14(EnBili* this);
@@ -18,25 +18,25 @@ void func_809BFBC4(EnBili* this);
 void func_809BFC48(EnBili* this);
 void func_809BFCE8(EnBili* this);
 void func_809BFD18(EnBili* this);
-void func_809BFD94(EnBili* this, GlobalContext* globalCtx);
+void func_809BFD94(EnBili* this, PlayState* play);
 void func_809BFF6C(EnBili* this);
 void func_809C008C(EnBili* this);
-void func_809C0174(EnBili* this, GlobalContext* globalCtx);
-void func_809C0260(EnBili* this, GlobalContext* globalCtx);
-void func_809C02B8(EnBili* this, GlobalContext* globalCtx);
-void func_809C04B4(EnBili* this, GlobalContext* globalCtx);
-void func_809C0570(EnBili* this, GlobalContext* globalCtx);
-void func_809C0600(EnBili* this, GlobalContext* globalCtx);
-void func_809C067C(EnBili* this, GlobalContext* globalCtx);
-void func_809C06E0(EnBili* this, GlobalContext* globalCtx);
-void func_809C0754(EnBili* this, GlobalContext* globalCtx);
-void func_809C0980(EnBili* this, GlobalContext* globalCtx);
-void func_809C09E0(EnBili* this, GlobalContext* globalCtx);
-void func_809C0A70(EnBili* this, GlobalContext* globalCtx);
+void func_809C0174(EnBili* this, PlayState* play);
+void func_809C0260(EnBili* this, PlayState* play);
+void func_809C02B8(EnBili* this, PlayState* play);
+void func_809C04B4(EnBili* this, PlayState* play);
+void func_809C0570(EnBili* this, PlayState* play);
+void func_809C0600(EnBili* this, PlayState* play);
+void func_809C067C(EnBili* this, PlayState* play);
+void func_809C06E0(EnBili* this, PlayState* play);
+void func_809C0754(EnBili* this, PlayState* play);
+void func_809C0980(EnBili* this, PlayState* play);
+void func_809C09E0(EnBili* this, PlayState* play);
+void func_809C0A70(EnBili* this, PlayState* play);
 void func_809C0E08(EnBili* this, f32 arg1, Vec3f* arg2);
 void func_809C1020(EnBili* this, f32 arg1, Vec3f* arg2);
 void func_809C1240(EnBili* this, f32 arg1, Vec3f* arg2);
-s32 EnBili_OverrideLimbDraw(GlobalContext* arg0, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx,
+s32 EnBili_OverrideLimbDraw(PlayState* arg0, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx,
                             Gfx** gfx);
 
 const ActorInit En_Bili_InitVars = {
@@ -85,16 +85,16 @@ static InitChainEntry D_809C1698[] = {
 static Color_RGBA8 D_809C16A0 = { 0xFF, 0xFF, 0xFF, 0xFF };
 static Color_RGBA8 D_809C16A4 = { 0xC8, 0xFF, 0xFF, 0xFF };
 
-void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnBili_Init(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;
 
     Actor_ProcessInitChain(&this->actor, D_809C1698);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(globalCtx, &this->unk14C, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6,
+    SkelAnime_Init(play, &this->unk14C, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6,
                    5);
-    Collider_InitCylinder(globalCtx, &this->unk1D4);
-    Collider_SetCylinder(globalCtx, &this->unk1D4, &this->actor, &D_809C1640);
+    Collider_InitCylinder(play, &this->unk1D4);
+    Collider_SetCylinder(play, &this->unk1D4, &this->actor, &D_809C1640);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &D_809C1678, &D_809C166C);
     this->unk195 = 0;
     if (this->actor.params == -1) {
@@ -104,10 +104,10 @@ void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnBili_Destroy(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;
 
-    Collider_DestroyCylinder(globalCtx, &this->unk1D4);
+    Collider_DestroyCylinder(play, &this->unk1D4);
 }
 
 void func_809BF9BC(EnBili* this) {
@@ -203,7 +203,7 @@ void func_809BFD18(EnBili* this) {
     this->unk190 = func_809C0980;
 }
 
-void func_809BFD94(EnBili* this, GlobalContext* globalCtx) {
+void func_809BFD94(EnBili* this, PlayState* play) {
     s32 var_s0;
     Vec3f sp80;
 
@@ -216,7 +216,7 @@ void func_809BFD94(EnBili* this, GlobalContext* globalCtx) {
         sp80.x = ((var_s0 & 1) ? 7.0f : -7.0f) + this->actor.world.pos.x;
         sp80.y += 2.5f;
         sp80.z = ((var_s0 & 4) ? 7.0f : -7.0f) + this->actor.world.pos.z;
-        EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &sp80, 150, 150, 150, 250, 235, 245, 255,
+        EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &sp80, 150, 150, 150, 250, 235, 245, 255,
                                        (Rand_ZeroOne() * 0.2f) + 0.7f);
     }
     this->actor.speedXZ = 0.0f;
@@ -283,7 +283,7 @@ void func_809C008C(EnBili* this) {
     }
 }
 
-void func_809C0174(EnBili* this, GlobalContext* globalCtx) {
+void func_809C0174(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
     if (this->unk196 != 0) {
         this->unk196--;
@@ -300,7 +300,7 @@ void func_809C0174(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C0260(EnBili* this, GlobalContext* globalCtx) {
+void func_809C0260(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
     if (this->unk196 != 0) {
         this->unk196--;
@@ -310,7 +310,7 @@ void func_809C0260(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C02B8(EnBili* this, GlobalContext* globalCtx) {
+void func_809C02B8(EnBili* this, PlayState* play) {
     s16 temp_s1;
     Vec3f sp78;
     s32 var_s0;
@@ -321,7 +321,7 @@ void func_809C02B8(EnBili* this, GlobalContext* globalCtx) {
             sp78.x = Rand_CenteredFloat(5.0f) + this->actor.world.pos.x;
             sp78.y = (Rand_ZeroOne() * 5.0f) + this->actor.world.pos.y + 2.5f;
             sp78.z = Rand_CenteredFloat(5.0f) + this->actor.world.pos.z;
-            EffectSsLightning_Spawn(globalCtx, (Vec3f*)&sp78, &D_809C16A0, &D_809C16A4, 0xF, (s16)(s32)temp_s1, 6, 2);
+            EffectSsLightning_Spawn(play, (Vec3f*)&sp78, &D_809C16A0, &D_809C16A4, 0xF, (s16)(s32)temp_s1, 6, 2);
         }
     }
     SkelAnime_Update(&this->unk14C);
@@ -339,7 +339,7 @@ void func_809C02B8(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C04B4(EnBili* this, GlobalContext* globalCtx) {
+void func_809C04B4(EnBili* this, PlayState* play) {
     s32 sp2C;
     f32 sp28;
 
@@ -357,7 +357,7 @@ void func_809C04B4(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C0570(EnBili* this, GlobalContext* globalCtx) {
+void func_809C0570(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 2, 0x71C);
     if (this->unk196 != 0) {
@@ -372,7 +372,7 @@ void func_809C0570(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C0600(EnBili* this, GlobalContext* globalCtx) {
+void func_809C0600(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
     if (this->unk196 != 0) {
         this->unk196--;
@@ -384,7 +384,7 @@ void func_809C0600(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C067C(EnBili* this, GlobalContext* globalCtx) {
+void func_809C067C(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
     if (Math_StepToF(&this->actor.speedXZ, 0.0f, 0.3f) != 0) {
         this->actor.world.rot.y += 0x8000;
@@ -392,7 +392,7 @@ void func_809C067C(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C06E0(EnBili* this, GlobalContext* globalCtx) {
+void func_809C06E0(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
     if (this->actor.flags & ACTOR_FLAG_15) {
         this->actor.colorFilterTimer = 0x14;
@@ -406,7 +406,7 @@ void func_809C06E0(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C0754(EnBili* this, GlobalContext* globalCtx) {
+void func_809C0754(EnBili* this, PlayState* play) {
     static Vec3f D_809C16A8 = { 0.0f, 0.0f, 0.0f };
     static Vec3f D_809C16B4 = { 0.0f, 0.0f, 0.0f };
     s16 temp_s0;
@@ -416,7 +416,7 @@ void func_809C0754(EnBili* this, GlobalContext* globalCtx) {
     if (this->actor.draw != NULL) {
         if (!(this->actor.flags & ACTOR_FLAG_15)) {
             this->actor.draw = NULL;
-            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
         } else {
             return;
         }
@@ -432,10 +432,10 @@ void func_809C0754(EnBili* this, GlobalContext* globalCtx) {
             D_809C16A8.y = Rand_ZeroOne() + 1.0f;
             temp_s0 = Rand_S16Offset(0x28, 0x28);
             if (Rand_ZeroOne() < 0.7f) {
-                EffectSsDtBubble_SpawnColorProfile(globalCtx, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 2,
+                EffectSsDtBubble_SpawnColorProfile(play, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 2,
                                                    1);
             } else {
-                EffectSsDtBubble_SpawnColorProfile(globalCtx, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 0,
+                EffectSsDtBubble_SpawnColorProfile(play, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 0,
                                                    1);
             }
         }
@@ -443,7 +443,7 @@ void func_809C0754(EnBili* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
     if (this->unk196 == 0xE) {
-        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 0x28, NA_SE_EN_BIRI_BUBLE);
+        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 0x28, NA_SE_EN_BIRI_BUBLE);
     }
 }
 
@@ -453,7 +453,7 @@ static s32 D_809C16CC[9] = {
 };
 #include "overlays/ovl_En_Bili/ovl_En_Bili.c"
 
-void func_809C0980(EnBili* this, GlobalContext* globalCtx) {
+void func_809C0980(EnBili* this, PlayState* play) {
     if (this->unk196 != 0) {
         this->unk196--;
     }
@@ -465,7 +465,7 @@ void func_809C0980(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C09E0(EnBili* this, GlobalContext* globalCtx) {
+void func_809C09E0(EnBili* this, PlayState* play) {
     if (this->unk196 != 0) {
         this->unk196--;
     }
@@ -480,14 +480,14 @@ void func_809C09E0(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C0A70(EnBili* this, GlobalContext* globalCtx) {
+void func_809C0A70(EnBili* this, PlayState* play) {
     if ((this->actor.colChkInfo.health != 0) && (this->unk1D4.base.acFlags & AC_HIT)) {
         this->unk1D4.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->unk1D4.info, true);
         if ((((this->actor.colChkInfo.damageEffect != 0)) || (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_DEAD);
-                Enemy_StartFinishingBlow(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             }
             if (this->actor.colChkInfo.damageEffect == 1) {
@@ -508,7 +508,7 @@ void func_809C0A70(EnBili* this, GlobalContext* globalCtx) {
                 func_809BFC48(this);
                 this->unk196 = 2;
             } else if (this->actor.colChkInfo.damageEffect == 3) {
-                func_809BFD94(this, globalCtx);
+                func_809BFD94(this, play);
             } else if (this->actor.colChkInfo.damageEffect == 0xE) {
                 func_809BFBC4(this);
             } else {
@@ -521,16 +521,16 @@ void func_809C0A70(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
+void EnBili_Update(Actor* thisx, PlayState* play2) {
     EnBili* this = (EnBili*)thisx;
-    GlobalContext* globalCtx = globalCtx2;
+    PlayState* play = play2;
 
     if (this->unk1D4.base.atFlags & AT_HIT) {
         this->unk1D4.base.atFlags &= ~AT_HIT;
         func_809BFA8C(this);
     }
-    func_809C0A70(this, globalCtx);
-    this->unk190(this, globalCtx);
+    func_809C0A70(this, play);
+    this->unk190(this, play);
     if (this->unk190 != func_809C0754) {
         func_809BFF6C(this);
         if (Animation_OnFrame(&this->unk14C, 9.0f) &&
@@ -548,16 +548,16 @@ void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
         } else {
             Actor_MoveForward(&this->actor);
         }
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->unk1D4.dim.radius, this->unk1D4.dim.height,
+        Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, this->unk1D4.dim.radius, this->unk1D4.dim.height,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->unk1D4);
         if (this->unk1D4.base.atFlags & 1) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk1D4.base);
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk1D4.base);
         }
         if (this->unk1D4.base.acFlags & 1) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk1D4.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk1D4.base);
         }
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk1D4.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk1D4.base);
         Actor_SetFocus(&this->actor, 0.0f);
     }
 }
@@ -643,7 +643,7 @@ void func_809C1240(EnBili* this, f32 arg1, Vec3f* arg2) {
     }
 }
 
-s32 EnBili_OverrideLimbDraw(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx,
+s32 EnBili_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx,
                             Gfx** gfx) {
     EnBili* this = thisx;
     Vec3f sp20;
@@ -657,17 +657,17 @@ s32 EnBili_OverrideLimbDraw(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3
         func_809C1020(this, temp_fv0, &sp20);
     } else if (arg1 == 4) {
         func_809C1240(this, temp_fv0, &sp20);
-        arg4->y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000;
+        arg4->y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000;
     }
     Matrix_Scale(sp20.x, sp20.y, sp20.z, MTXMODE_APPLY);
     return 0;
 }
 
-void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnBili_Draw(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bili.c", 1521);
-    func_80093D84(globalCtx->state.gfxCtx);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_bili.c", 1521);
+    func_80093D84(play->state.gfxCtx);
     this->unk194 = CLAMP_MAX(this->unk194, 7);
     gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_809C16CC[this->unk194]));
     if ((this->unk190 == func_809C02B8) && (this->unk196 & 1)) {
@@ -675,7 +675,7 @@ void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         gSPSegment(POLY_XLU_DISP++, 9, D_809C1700);
     }
-    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->unk14C.skeleton, this->unk14C.jointTable, EnBili_OverrideLimbDraw,
+    POLY_XLU_DISP = SkelAnime_Draw(play, this->unk14C.skeleton, this->unk14C.jointTable, EnBili_OverrideLimbDraw,
                                    NULL, this, POLY_XLU_DISP);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bili.c", 1552);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_bili.c", 1552);
 }

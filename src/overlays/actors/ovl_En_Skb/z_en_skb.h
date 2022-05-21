@@ -15,7 +15,7 @@ typedef struct EnSkb {
     /* 0x281 */ u8 unk281;
     /* 0x282 */ u8 unk282;
     /* 0x283 */ u8 unk283;
-    /* 0x284 */ void (*unk284)(struct EnSkb*, GlobalContext*);
+    /* 0x284 */ void (*unk284)(struct EnSkb*, PlayState*);
     /* 0x288 */ s16 unk288;
     /* 0x28A */ char pad28A[2];
     /* 0x28C */ BodyBreak bodyBreak;

@@ -6,7 +6,7 @@
 
 struct BgMoriElevator;
 
-typedef void (*BgMoriElevatorActionFunc)(struct BgMoriElevator*, struct GlobalCtx*);
+typedef void (*BgMoriElevatorActionFunc)(struct BgMoriElevator*, PlayState*);
 
 typedef struct BgMoriElevator {
     /* 0x0000 */ DynaPolyActor dyna;

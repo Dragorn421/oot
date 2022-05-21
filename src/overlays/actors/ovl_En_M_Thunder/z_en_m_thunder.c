@@ -3,14 +3,14 @@
 
 #define FLAGS 0
 
-void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnMThunder_Init(Actor* thisx, PlayState* play);
+void EnMThunder_Destroy(Actor* thisx, PlayState* play);
+void EnMThunder_Update(Actor* thisx, PlayState* play);
+void EnMThunder_Draw(Actor* thisx, PlayState* play);
 
-void func_80A9F314(GlobalContext* globalCtx, f32 arg1);
-void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx);
-void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx);
+void func_80A9F314(PlayState* play, f32 arg1);
+void func_80A9F408(EnMThunder* this, PlayState* play);
+void func_80A9F9B4(EnMThunder* this, PlayState* play);
 
 const ActorInit En_M_Thunder_InitVars = {
     ACTOR_EN_M_THUNDER,
@@ -58,18 +58,18 @@ void EnMThunder_SetupAction(EnMThunder* this, EnMThunderActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnMThunder_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnMThunder* this = (EnMThunder*)thisx;
     Player* player;
 
-    player = GET_PLAYER(globalCtx);
-    Collider_InitCylinder(globalCtx, &this->unk14C);
-    Collider_SetCylinder(globalCtx, &this->unk14C, &this->actor, &D_80AA0420);
+    player = GET_PLAYER(play);
+    Collider_InitCylinder(play, &this->unk14C);
+    Collider_SetCylinder(play, &this->unk14C, &this->actor, &D_80AA0420);
     this->unk1C7 = (this->actor.params & 0xFF) - 1;
     Lights_PointNoGlowSetInfo(&this->unk19C, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                               255, 255, 255, 0);
-    this->unk198 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->unk19C);
+    this->unk198 = LightContext_InsertLight(play, &play->lightCtx, &this->unk19C);
     this->unk14C.dim.radius = 0;
     this->unk14C.dim.height = 40;
     this->unk14C.dim.yShift = -20;
@@ -85,7 +85,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (((gSaveContext.magicAcquired) == 0) || (gSaveContext.unk_13F0 != 0) ||
             (((((this->actor.params & 0xFF00) >> 8) != 0)) &&
-             (func_80087708(globalCtx, (s16)((this->actor.params & 0xFF00) >> 8), 0) == 0))) {
+             (func_80087708(play, (s16)((this->actor.params & 0xFF00) >> 8), 0) == 0))) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4U,
@@ -113,25 +113,25 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.child = NULL;
 }
 
-void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnMThunder_Destroy(Actor* thisx, PlayState* play) {
     EnMThunder* this = (EnMThunder*)thisx;
 
     if (this->unk1CA != 0) {
-        func_800876C8(globalCtx);
+        func_800876C8(play);
     }
-    Collider_DestroyCylinder(globalCtx, &this->unk14C);
-    func_80A9F314(globalCtx, 0.0f);
-    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->unk198);
+    Collider_DestroyCylinder(play, &this->unk14C);
+    func_80A9F314(play, 0.0f);
+    LightContext_RemoveLight(play, &play->lightCtx, this->unk198);
 }
 
-void func_80A9F314(GlobalContext* globalCtx, f32 arg1) {
-    Environment_AdjustLights(globalCtx, arg1, 850.0f, 0.2f, 0.0f);
+void func_80A9F314(PlayState* play, f32 arg1) {
+    Environment_AdjustLights(play, arg1, 850.0f, 0.2f, 0.0f);
 }
 
-void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
+void func_80A9F350(EnMThunder* this, PlayState* play) {
     Player* player;
 
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
@@ -147,19 +147,19 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
+void func_80A9F408(EnMThunder* this, PlayState* play) {
     Player* player;
     Actor* child;
 
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     child = this->actor.child;
     this->unk1B8 = player->unk_858;
     this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
     if ((this->unk1CA == 0) && (player->unk_858 >= 0.10f)) {
         if ((gSaveContext.unk_13F0 != 0) || ((((this->actor.params & 0xFF00) >> 8) != 0) &&
-                                             (func_80087708(globalCtx, (this->actor.params & 0xFF00) >> 8, 4) == 0))) {
-            func_80A9F350(this, globalCtx);
+                                             (func_80087708(play, (this->actor.params & 0xFF00) >> 8, 4) == 0))) {
+            func_80A9F350(this, play);
             EnMThunder_SetupAction(this, func_80A9F350);
             this->unk1C8 = 0;
             this->unk1BC = 0;
@@ -223,7 +223,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     if (player->unk_858 > 0.15f) {
         this->unk1C8 = 0xFF;
         if (this->actor.child == NULL) {
-            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EFF_DUST, this->actor.world.pos.x,
+            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EFF_DUST, this->actor.world.pos.x,
                                this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0,
                                this->unk1C7 + 2);
         }
@@ -241,12 +241,12 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     } else if (player->unk_858 > 0.10f) {
         func_800F4254(&player->actor.projectedPos, 0);
     }
-    if (Play_InCsMode(globalCtx)) {
+    if (Play_InCsMode(play)) {
         Actor_Kill(&this->actor);
     }
 }
 
-void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
+void func_80A9F938(EnMThunder* this, PlayState* play) {
     if (this->unk1C4 < 2) {
         if (this->unk1C8 < 0x28) {
             this->unk1C8 = 0;
@@ -262,10 +262,10 @@ void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
+void func_80A9F9B4(EnMThunder* this, PlayState* play) {
     Player* player;
 
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     if (Math_StepToF(&this->unk1AC, 0.0f, 1 / 16.0f)) {
         Actor_Kill(&this->actor);
     } else {
@@ -273,7 +273,7 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, this->actor.scale.x);
         this->unk14C.dim.radius = this->actor.scale.x * 25.0f;
         Collider_UpdateCylinder(&this->actor, &this->unk14C);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk14C.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk14C.base);
     }
     if (this->unk1C4 > 0) {
         this->actor.world.pos.x = player->bodyPartsPos[PLAYER_BODYPART_WAIST].x;
@@ -285,43 +285,43 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     } else {
         this->unk1B0 = this->unk1AC * (5.0f / 3.0f);
     }
-    func_80A9F938(this, globalCtx);
-    if (Play_InCsMode(globalCtx)) {
+    func_80A9F938(this, play);
+    if (Play_InCsMode(play)) {
         Actor_Kill(&this->actor);
     }
 }
 
-void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnMThunder_Update(Actor* thisx, PlayState* play) {
     f32 temp_fv0;
     s32 temp_v0;
     EnMThunder* this = (EnMThunder*)thisx;
 
-    this->actionFunc(this, globalCtx);
-    func_80A9F314(globalCtx, this->unk1BC);
+    this->actionFunc(this, play);
+    func_80A9F314(play, this->unk1BC);
     temp_fv0 = this->unk1AC;
     temp_v0 = (u32)(temp_fv0 * 255.0f) & 0xFF;
     Lights_PointNoGlowSetInfo(&this->unk19C, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                               temp_v0, temp_v0, temp_fv0 * 100.0f, temp_fv0 * 800.0f);
 }
 
-void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
     f32 var_fa1;
-    GlobalContext* globalCtx = globalCtx2;
+    PlayState* play = play2;
     Player* player;
     EnMThunder* this = (EnMThunder*)thisx;
     s32 var_t1;
 
-    player = GET_PLAYER(globalCtx);
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 0x34C);
-    func_80093D84(globalCtx->state.gfxCtx);
+    player = GET_PLAYER(play);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 0x34C);
+    func_80093D84(play->state.gfxCtx);
     Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 0x355),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_m_thunder.c", 0x355),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     switch (this->unk1C6) {
         case 0:
         case 1:
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0xFF - ((u8)(s32)(this->unk1B4 * 30.0f) & 0xFF), 0,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0xFF - ((u8)(s32)(this->unk1B4 * 30.0f) & 0xFF), 0,
                                         64, 32, 1, 0xFF - ((u8)(s32)(this->unk1B4 * 20.0f) & 0xFF), 0, 8, 8));
             break;
     }
@@ -356,23 +356,23 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
             break;
     }
     if (this->unk1B8 >= 0.85f) {
-        var_fa1 = (D_80AA046C[globalCtx->gameplayFrames & 7] * 6.0f) + 1.0f;
+        var_fa1 = (D_80AA046C[play->gameplayFrames & 7] * 6.0f) + 1.0f;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 0xAA, this->unk1C8);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 100, 0, 128);
         var_t1 = 0x28;
     } else {
-        var_fa1 = (2.0f * D_80AA046C[globalCtx->gameplayFrames & 7]) + 1.0f;
+        var_fa1 = (2.0f * D_80AA046C[play->gameplayFrames & 7]) + 1.0f;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 0xAA, 255, 255, this->unk1C8);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
         var_t1 = 0x14;
     }
     Matrix_Scale(1.0f, var_fa1, var_fa1, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 0x3C0),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_m_thunder.c", 0x3C0),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 9,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->gameplayFrames * 5) & 0xFF, 0U, 32, 32, 1,
-                                (globalCtx->gameplayFrames * 0x14) & 0xFF, (globalCtx->gameplayFrames * var_t1) & 0xFF,
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->gameplayFrames * 5) & 0xFF, 0U, 32, 32, 1,
+                                (play->gameplayFrames * 0x14) & 0xFF, (play->gameplayFrames * var_t1) & 0xFF,
                                 8, 8));
     gSPDisplayList(POLY_XLU_DISP++, gSpinAttackChargingDL);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 0x407);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 0x407);
 }

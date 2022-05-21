@@ -6,8 +6,8 @@
 
 struct EnNb;
 
-typedef void (*EnNbActionFunc)(struct EnNb*, GlobalContext*);
-typedef void (*EnNbDrawFunc)(struct EnNb*, GlobalContext*);
+typedef void (*EnNbActionFunc)(struct EnNb*, PlayState*);
+typedef void (*EnNbDrawFunc)(struct EnNb*, PlayState*);
 
 typedef struct EnNb {
     /* 0x0000 */ Actor actor;

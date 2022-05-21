@@ -6,8 +6,8 @@
 
 struct ObjTimeblock;
 
-typedef void (*ObjTimeblockActionFunc)(struct ObjTimeblock*, GlobalContext*);
-typedef s32 (*ObjTimeblockUnk168Func)(struct ObjTimeblock*, GlobalContext*);
+typedef void (*ObjTimeblockActionFunc)(struct ObjTimeblock*, PlayState*);
+typedef s32 (*ObjTimeblockUnk168Func)(struct ObjTimeblock*, PlayState*);
 
 typedef struct ObjTimeblock {
     /* 0x000 */ DynaPolyActor dyna;

@@ -14,7 +14,7 @@ typedef struct EnZf {
     /* 0x3DC */ s32 unk3DC;
     /* 0x3E0 */ s32 unk3E0;
     /* 0x3E4 */ s32 unk3E4;
-    /* 0x3E8 */ void (*unk3E8)(struct EnZf*, GlobalContext*);
+    /* 0x3E8 */ void (*unk3E8)(struct EnZf*, PlayState*);
     /* 0x3EC */ s16 unk3EC;
     /* 0x3EE */ s16 unk3EE;
     /* 0x3F0 */ s32 unk3F0;

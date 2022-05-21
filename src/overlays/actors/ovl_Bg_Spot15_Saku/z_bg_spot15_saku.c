@@ -9,14 +9,14 @@
 
 #define FLAGS 0
 
-void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot15Saku_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot15Saku_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot15Saku_Init(Actor* thisx, PlayState* play);
+void BgSpot15Saku_Destroy(Actor* thisx, PlayState* play);
+void BgSpot15Saku_Update(Actor* thisx, PlayState* play);
+void BgSpot15Saku_Draw(Actor* thisx, PlayState* play);
 
-void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx);
-void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx);
-void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx);
+void func_808B4930(BgSpot15Saku* this, PlayState* play);
+void func_808B4978(BgSpot15Saku* this, PlayState* play);
+void func_808B4A04(BgSpot15Saku* this, PlayState* play);
 
 const ActorInit Bg_Spot15_Saku_InitVars = {
     ACTOR_BG_SPOT15_SAKU,
@@ -30,14 +30,14 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
     (ActorFunc)BgSpot15Saku_Draw,
 };
 
-void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
     BgSpot15Saku* this = (BgSpot15Saku*)thisx;
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(thisx, DPM_UNK);
     CollisionHeader_GetVirtual(&gLonLonCorralFenceCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     thisx->scale.x = 0.1f;
     thisx->scale.y = 0.1f;
     thisx->scale.z = 0.1f;
@@ -50,20 +50,20 @@ void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = func_808B4930;
 }
 
-void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot15Saku_Destroy(Actor* thisx, PlayState* play) {
     BgSpot15Saku* this = (BgSpot15Saku*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
+void func_808B4930(BgSpot15Saku* this, PlayState* play) {
     if (this->unk_168 && !GET_INFTABLE(INFTABLE_71)) {
         this->unk_17C = 2;
         this->actionFunc = func_808B4978;
     }
 }
 
-void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx) {
+void func_808B4978(BgSpot15Saku* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
     if (!this->unk_17C) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
@@ -76,28 +76,28 @@ void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx) {
+void func_808B4A04(BgSpot15Saku* this, PlayState* play) {
     if (!this->unk_17C) {
         this->unk_168 = 0;
         this->actionFunc = func_808B4930;
     }
 }
 
-void BgSpot15Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot15Saku_Update(Actor* thisx, PlayState* play) {
     BgSpot15Saku* this = (BgSpot15Saku*)thisx;
 
     DECR(this->unk_17C);
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void BgSpot15Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
+void BgSpot15Saku_Draw(Actor* thisx, PlayState* play) {
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
 
-    func_80093D84(globalCtx->state.gfxCtx);
+    func_80093D84(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gLonLonCorralFenceDL);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
 }

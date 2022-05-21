@@ -3,17 +3,17 @@
 
 #define FLAGS 0
 
-void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot08Iceblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play);
+void BgSpot08Iceblock_Destroy(Actor* thisx, PlayState* play);
+void BgSpot08Iceblock_Update(Actor* thisx, PlayState* play);
+void BgSpot08Iceblock_Draw(Actor* thisx, PlayState* play);
 
 void func_808B1388(BgSpot08Iceblock* this);
-void func_808B13AC(BgSpot08Iceblock* this, GlobalContext* globalCtx);
+void func_808B13AC(BgSpot08Iceblock* this, PlayState* play);
 void func_808B13FC(BgSpot08Iceblock* this);
-void func_808B1420(BgSpot08Iceblock* this, GlobalContext* globalCtx);
+void func_808B1420(BgSpot08Iceblock* this, PlayState* play);
 void func_808B147C(BgSpot08Iceblock* this);
-void func_808B14A0(BgSpot08Iceblock* this, GlobalContext* globalCtx);
+void func_808B14A0(BgSpot08Iceblock* this, PlayState* play);
 void func_808B1574(BgSpot08Iceblock* this);
 
 const ActorInit Bg_Spot08_Iceblock_InitVars = {
@@ -40,11 +40,11 @@ static InitChainEntry D_808B16F8[] = {
     ICHAIN_F32(uncullZoneDownward, 2200, ICHAIN_STOP),
 };
 
-void func_808B0960(BgSpot08Iceblock* this, void (*arg1)(BgSpot08Iceblock*, GlobalContext*)) {
+void func_808B0960(BgSpot08Iceblock* this, void (*arg1)(BgSpot08Iceblock*, PlayState*)) {
     this->unk164 = arg1;
 }
 
-void func_808B0968(BgSpot08Iceblock* this, GlobalContext* globalCtx, CollisionHeader* arg2, s32 arg3) {
+void func_808B0968(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* arg2, s32 arg3) {
     s32 pad;
     CollisionHeader* sp30;
     s32 pad2;
@@ -52,7 +52,7 @@ void func_808B0968(BgSpot08Iceblock* this, GlobalContext* globalCtx, CollisionHe
     sp30 = NULL;
     DynaPolyActor_Init(&this->dyna, arg3);
     CollisionHeader_GetVirtual(arg2, &sp30);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp30);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 217,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -148,8 +148,8 @@ s32 func_808B0C44(Vec3f* arg0, Vec3f* arg1) {
     }
 }
 
-void func_808B0CE0(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_808B0CE0(BgSpot08Iceblock* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
     s32 pad;
     Vec3f spD4;
     Vec3f spC8;
@@ -221,7 +221,7 @@ void func_808B0CE0(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     Matrix_MtxFToYXZRotS(&sp44, &this->dyna.actor.shape.rot, 0);
 }
 
-void func_808B1054(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
+void func_808B1054(BgSpot08Iceblock* this, PlayState* play) {
     s32 pad[2];
     f32 sp44;
     f32 temp_fv1;
@@ -229,7 +229,7 @@ void func_808B1054(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     sp44 = Math_SinS(this->dyna.actor.home.rot.y) * 100.0f;
     temp_fv1 = Math_CosS(this->dyna.actor.home.rot.y) * 100.0f;
     if (!(this->dyna.actor.params & 0x100)) {
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT08_ICEBLOCK,
+        Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT08_ICEBLOCK,
                            this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,
                            this->dyna.actor.home.rot.x, this->dyna.actor.home.rot.y, this->dyna.actor.home.rot.z,
                            0x123);
@@ -242,7 +242,7 @@ void func_808B1054(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     func_808B147C(this);
 }
 
-void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* var_a2;
     s32 temp_v0_2;
@@ -261,9 +261,9 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     temp_v0_2 = this->dyna.actor.params & 0xF;
     if ((temp_v0_2 == 2) || (temp_v0_2 == 3)) {
-        func_808B0968(this, globalCtx, var_a2, DPM_UNK3);
+        func_808B0968(this, play, var_a2, DPM_UNK3);
     } else {
-        func_808B0968(this, globalCtx, var_a2, DPM_UNK);
+        func_808B0968(this, play, var_a2, DPM_UNK);
     }
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         Actor_Kill(&this->dyna.actor);
@@ -298,7 +298,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case 3:
-            func_808B1054(this, globalCtx);
+            func_808B1054(this, play);
             break;
         case 4:
             func_808B1574(this);
@@ -309,42 +309,42 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot08Iceblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_Destroy(Actor* thisx, PlayState* play) {
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B1388(BgSpot08Iceblock* this) {
     func_808B0960(this, func_808B13AC);
 }
 
-void func_808B13AC(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
+void func_808B13AC(BgSpot08Iceblock* this, PlayState* play) {
     func_808B0A84(this);
     func_808B0AE0(this);
     func_808B0B8C(this);
     this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y;
-    func_808B0CE0(this, globalCtx);
+    func_808B0CE0(this, play);
 }
 
 void func_808B13FC(BgSpot08Iceblock* this) {
     func_808B0960(this, func_808B1420);
 }
 
-void func_808B1420(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
+void func_808B1420(BgSpot08Iceblock* this, PlayState* play) {
     func_808B0A84(this);
     func_808B0AE0(this);
     func_808B0B8C(this);
     this->dyna.actor.world.rot.y += 0x190;
     this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y;
-    func_808B0CE0(this, globalCtx);
+    func_808B0CE0(this, play);
 }
 
 void func_808B147C(BgSpot08Iceblock* this) {
     func_808B0960(this, func_808B14A0);
 }
 
-void func_808B14A0(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
+void func_808B14A0(BgSpot08Iceblock* this, PlayState* play) {
     f32 temp_fa0;
     f32 temp_fv1;
 
@@ -363,14 +363,14 @@ void func_808B14A0(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
         }
     }
     this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y;
-    func_808B0CE0(this, globalCtx);
+    func_808B0CE0(this, play);
 }
 
 void func_808B1574(BgSpot08Iceblock* this) {
     func_808B0960(this, NULL);
 }
 
-void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_Update(Actor* thisx, PlayState* play) {
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
 
     if (Rand_ZeroOne() < 0.05f) {
@@ -380,11 +380,11 @@ void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk18C += this->unk190;
     this->unk18E += this->unk192;
     if (this->unk164 != NULL) {
-        this->unk164(this, globalCtx);
+        this->unk164(this, play);
     }
 }
 
-void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_Draw(Actor* thisx, PlayState* play) {
     Gfx* sp1C;
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
 
@@ -397,5 +397,5 @@ void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
             sp1C = gZorasFountainIceRampDL;
             break;
     }
-    Gfx_DrawDListOpa(globalCtx, sp1C);
+    Gfx_DrawDListOpa(play, sp1C);
 }

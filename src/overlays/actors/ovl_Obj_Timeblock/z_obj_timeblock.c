@@ -9,20 +9,20 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
-void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
-void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
-void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx);
+void ObjTimeblock_Init(Actor* thisx, PlayState* play);
+void ObjTimeblock_Destroy(Actor* thisx, PlayState* play);
+void ObjTimeblock_Update(Actor* thisx, PlayState* play);
+void ObjTimeblock_Draw(Actor* thisx, PlayState* play);
 
-s32 func_80BA040C(ObjTimeblock*, GlobalContext*);
-s32 func_80BA0480(ObjTimeblock*, GlobalContext*);
-void func_80BA0508(ObjTimeblock* arg0, GlobalContext* arg1);
+s32 func_80BA040C(ObjTimeblock*, PlayState*);
+s32 func_80BA0480(ObjTimeblock*, PlayState*);
+void func_80BA0508(ObjTimeblock* arg0, PlayState* arg1);
 void func_80BA0514(ObjTimeblock* arg0);
-void func_80BA0524(ObjTimeblock* arg0, GlobalContext* arg1);
+void func_80BA0524(ObjTimeblock* arg0, PlayState* arg1);
 void func_80BA0758(ObjTimeblock* arg0);
-void func_80BA0768(ObjTimeblock* arg0, GlobalContext* arg1);
+void func_80BA0768(ObjTimeblock* arg0, PlayState* arg1);
 void func_80BA083C(ObjTimeblock* arg0);
-void func_80BA084C(ObjTimeblock* arg0, GlobalContext* arg1);
+void func_80BA084C(ObjTimeblock* arg0, PlayState* arg1);
 
 const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
@@ -80,21 +80,21 @@ s32 func_80B9FFA0(ObjTimeblock* this) {
     return (((this->dyna.actor.params >> 0xF) & 1) ? 1 : 0) ^ this->unk174;
 }
 
-void func_80BA0058(ObjTimeblock* this, GlobalContext* globalCtx) {
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x,
+void func_80BA0058(ObjTimeblock* this, PlayState* play) {
+    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x,
                 this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, 0, 0,
                 (D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk8));
 }
 
-void func_80BA00CC(GlobalContext* globalCtx, s32 arg1) {
-    if (Flags_GetSwitch(globalCtx, arg1) != 0) {
-        Flags_UnsetSwitch(globalCtx, arg1);
+void func_80BA00CC(PlayState* play, s32 arg1) {
+    if (Flags_GetSwitch(play, arg1) != 0) {
+        Flags_UnsetSwitch(play, arg1);
         return;
     }
-    Flags_SetSwitch(globalCtx, arg1);
+    Flags_SetSwitch(play, arg1);
 }
 
-void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
+void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     ObjTimeblock* this = (ObjTimeblock*)thisx;
     s32 pad;
     CollisionHeader* sp2C;
@@ -103,7 +103,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
     CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &sp2C);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp2C);
     Actor_ProcessInitChain(&this->dyna.actor, D_80BA0B28);
     Actor_SetScale(&this->dyna.actor, D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk0);
     if ((this->dyna.actor.params >> 6) & 1) {
@@ -115,7 +115,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->unk168 = func_80BA040C;
     Actor_SetFocus(&this->dyna.actor, D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk4);
-    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
         this->unk174 = 1;
     } else {
         this->unk174 = 0;
@@ -138,13 +138,13 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
                  (this->dyna.actor.params >> 0xB) & 7, (this->dyna.actor.params >> 0xA) & 1);
 }
 
-void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void ObjTimeblock_Destroy(Actor* thisx, PlayState* play) {
     ObjTimeblock* this = (ObjTimeblock*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-s32 func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx) {
+s32 func_80BA032C(ObjTimeblock* this, PlayState* play) {
     Vec3f sp1C;
     f32 temp_fv1;
 
@@ -152,7 +152,7 @@ s32 func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx) {
         return 0;
     }
     if ((this->dyna.actor.xzDistToPlayer <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7])) {
-        func_8002DBD0(&this->dyna.actor, &sp1C, &GET_PLAYER(globalCtx)->actor.world.pos);
+        func_8002DBD0(&this->dyna.actor, &sp1C, &GET_PLAYER(play)->actor.world.pos);
         temp_fv1 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
         if ((temp_fv1 < fabsf(sp1C.x)) || (temp_fv1 < fabsf(sp1C.z))) {
             return 1;
@@ -161,13 +161,13 @@ s32 func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx) {
+s32 func_80BA040C(ObjTimeblock* this, PlayState* play) {
     Player* temp_v1;
 
-    temp_v1 = GET_PLAYER(globalCtx);
-    if (func_80BA032C(this, globalCtx) != 0) {
+    temp_v1 = GET_PLAYER(play);
+    if (func_80BA032C(this, play) != 0) {
         if (temp_v1->stateFlags2 & PLAYER_STATE2_24) {
-            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
+            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
             this->unk168 = func_80BA0480;
         } else {
             temp_v1->stateFlags2 |= PLAYER_STATE2_23;
@@ -176,11 +176,11 @@ s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx) {
-    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+s32 func_80BA0480(ObjTimeblock* this, PlayState* play) {
+    if (play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         this->unk168 = func_80BA040C;
     }
-    if (globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_TIME) {
+    if (play->msgCtx.lastPlayedSong == OCARINA_SONG_TIME) {
         if (this->unk172 == 0xFE) {
             this->unk16E = 0x6E;
         } else {
@@ -197,29 +197,29 @@ void func_80BA04F8(ObjTimeblock* this) {
     this->unk164 = func_80BA0508;
 }
 
-void func_80BA0508(ObjTimeblock* this, GlobalContext* globalCtx) {
+void func_80BA0508(ObjTimeblock* this, PlayState* play) {
 }
 
 void func_80BA0514(ObjTimeblock* this) {
     this->unk164 = func_80BA0524;
 }
 
-void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx) {
+void func_80BA0524(ObjTimeblock* this, PlayState* play) {
     s32 var_v1;
 
-    if ((this->unk168(this, globalCtx) != 0) && (this->unk16C <= 0)) {
-        func_80BA0058(this, globalCtx);
+    if ((this->unk168(this, play) != 0) && (this->unk16C <= 0)) {
+        func_80BA0058(this, play);
         this->unk16C = 0xA0;
-        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
-        osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", globalCtx->state.frames);
+        OnePointCutscene_Attention(play, &this->dyna.actor);
+        osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", play->state.frames);
         this->unk170 = 0xC;
         if (this->unk177 == 0) {
             this->dyna.actor.params ^= 0x8000;
         } else {
-            func_80BA00CC(globalCtx, this->dyna.actor.params & 0x3F);
+            func_80BA00CC(play, this->dyna.actor.params & 0x3F);
         }
     }
-    this->unk172 = globalCtx->msgCtx.lastPlayedSong;
+    this->unk172 = play->msgCtx.lastPlayedSong;
     if (this->unk170 > 0) {
         this->unk170 -= 1;
         if (this->unk170 == 0) {
@@ -229,7 +229,7 @@ void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx) {
                 } else {
                     this->unk175 = 0;
                 }
-            } else if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) != 0) {
+            } else if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) != 0) {
                 this->unk174 = 1;
             } else {
                 this->unk174 = 0;
@@ -246,17 +246,17 @@ void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80BA06AC(ObjTimeblock* this, GlobalContext* globalCtx) {
+void func_80BA06AC(ObjTimeblock* this, PlayState* play) {
     s32 sp24;
     s16 temp_v0;
 
     sp24 = this->dyna.actor.params & 0x3F;
     temp_v0 = this->unk170;
-    this->unk172 = globalCtx->msgCtx.lastPlayedSong;
+    this->unk172 = play->msgCtx.lastPlayedSong;
     if (temp_v0 > 0) {
         this->unk170 = temp_v0 - 1;
         if (this->unk170 == 0) {
-            if (Flags_GetSwitch(globalCtx, sp24) != 0) {
+            if (Flags_GetSwitch(play, sp24) != 0) {
                 this->unk174 = 1;
             } else {
                 this->unk174 = 0;
@@ -264,7 +264,7 @@ void func_80BA06AC(ObjTimeblock* this, GlobalContext* globalCtx) {
         }
     }
     this->unk178 = func_80B9FFA0(this);
-    if (Flags_GetSwitch(globalCtx, sp24) != 0) {
+    if (Flags_GetSwitch(play, sp24) != 0) {
         this->unk176 = 1;
         return;
     }
@@ -275,16 +275,16 @@ void func_80BA0758(ObjTimeblock* this) {
     this->unk164 = func_80BA0768;
 }
 
-void func_80BA0768(ObjTimeblock* this, GlobalContext* globalCtx) {
-    if ((this->unk168(this, globalCtx) != 0) && (this->unk16C <= 0)) {
+void func_80BA0768(ObjTimeblock* this, PlayState* play) {
+    if ((this->unk168(this, play) != 0) && (this->unk16C <= 0)) {
         this->unk170 = 0xC;
-        func_80BA0058(this, globalCtx);
+        func_80BA0058(this, play);
         this->unk16C = 0xA0;
-        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
-        osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", globalCtx->state.frames);
-        func_80BA00CC(globalCtx, this->dyna.actor.params & 0x3F);
+        OnePointCutscene_Attention(play, &this->dyna.actor);
+        osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", play->state.frames);
+        func_80BA00CC(play, this->dyna.actor.params & 0x3F);
     }
-    func_80BA06AC(this, globalCtx);
+    func_80BA06AC(this, play);
     if (this->unk16C == 0x32) {
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
     }
@@ -297,11 +297,11 @@ void func_80BA083C(ObjTimeblock* this) {
     this->unk164 = func_80BA084C;
 }
 
-void func_80BA084C(ObjTimeblock* this, GlobalContext* globalCtx) {
+void func_80BA084C(ObjTimeblock* this, PlayState* play) {
     s32 var_v1;
     s32 flag = this->dyna.actor.params & 0x3F;
 
-    if (Flags_GetSwitch(globalCtx, flag) != 0) {
+    if (Flags_GetSwitch(play, flag) != 0) {
         var_v1 = 1;
     } else {
         var_v1 = 0;
@@ -309,45 +309,45 @@ void func_80BA084C(ObjTimeblock* this, GlobalContext* globalCtx) {
     if (this->unk176 ^ var_v1) {
         if (((((s16)this->dyna.actor.params >> 0xF) & 1) ? 1 : 0) ^ var_v1) {
             if (this->unk16C <= 0) {
-                func_80BA0058(this, globalCtx);
+                func_80BA0058(this, play);
                 this->unk16C = 0xA0;
             }
             this->unk170 = 0xC;
         }
     }
-    func_80BA06AC(this, globalCtx);
+    func_80BA06AC(this, play);
     if ((this->unk178 != 0) && (this->unk16C <= 0)) {
         func_80BA0758(this);
     }
 }
 
-void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
+void ObjTimeblock_Update(Actor* thisx, PlayState* play) {
     s16 temp_v0;
     ObjTimeblock* this = (ObjTimeblock*)thisx;
 
-    this->unk164(this, globalCtx);
+    this->unk164(this, play);
     temp_v0 = this->unk16C;
     if (temp_v0 > 0) {
         this->unk16C = temp_v0 - 1;
     }
     if (this->unk178 != 0) {
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
         return;
     }
-    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void ObjTimeblock_Draw(Actor* thisx, PlayState* play) {
     Color_RGB8* sp44;
 
     if (((ObjTimeblock*)thisx)->unk178 != 0) {
         sp44 = &D_80BA0B38[thisx->home.rot.z & 7];
-        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 762);
-        func_80093D18(globalCtx->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 766),
+        OPEN_DISPS(play->state.gfxCtx, "../z_obj_timeblock.c", 762);
+        func_80093D18(play->state.gfxCtx);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_timeblock.c", 766),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sp44->r, sp44->g, sp44->b, 255);
         gSPDisplayList(POLY_OPA_DISP++, gSongOfTimeBlockDL);
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 772);
+        CLOSE_DISPS(play->state.gfxCtx, "../z_obj_timeblock.c", 772);
     }
 }

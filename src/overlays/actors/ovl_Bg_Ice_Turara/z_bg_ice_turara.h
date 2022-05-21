@@ -6,7 +6,7 @@
 
 struct BgIceTurara;
 
-typedef void (*BgIceTuraraActionFunc)(struct BgIceTurara*, GlobalContext*);
+typedef void (*BgIceTuraraActionFunc)(struct BgIceTurara*, PlayState*);
 
 typedef struct BgIceTurara {
     /* 0x000 */ DynaPolyActor dyna;

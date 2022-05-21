@@ -25,11 +25,11 @@ typedef struct BgDyYoseizoEffect {
 
 struct BgDyYoseizo;
 
-typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, GlobalContext*);
+typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, PlayState*);
 
 typedef struct BgDyYoseizo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ void (*actionFunc)(struct BgDyYoseizo*, GlobalContext*);
+    /* 0x014C */ void (*actionFunc)(struct BgDyYoseizo*, PlayState*);
     /* 0x0150 */ SkelAnime skelAnime;
     /* 0x0194 */ Vec3s unk194[28];
     /* 0x023C */ Vec3s unk23C[28];

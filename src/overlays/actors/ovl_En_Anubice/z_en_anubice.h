@@ -7,7 +7,7 @@
 
 struct EnAnubice;
 
-typedef void (*EnAnubiceActionFunc)(struct EnAnubice*, struct GlobalContext*);
+typedef void (*EnAnubiceActionFunc)(struct EnAnubice*, struct PlayState*);
 
 typedef struct EnAnubice {
     /* 0x0000 */ Actor actor;

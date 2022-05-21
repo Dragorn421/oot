@@ -10,16 +10,16 @@
 
 #define FLAGS 0
 
-void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgIceTurara_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgIceTurara_Init(Actor* thisx, PlayState* play);
+void BgIceTurara_Destroy(Actor* thisx, PlayState* play);
+void BgIceTurara_Update(Actor* thisx, PlayState* play);
+void BgIceTurara_Draw(Actor* thisx, PlayState* play);
 
-void func_80892220(BgIceTurara*, GlobalContext*);
-void func_80892280(BgIceTurara*, GlobalContext*);
-void func_808922B8(BgIceTurara*, GlobalContext*);
-void func_80892424(BgIceTurara*, GlobalContext*);
-void func_80892574(BgIceTurara*, GlobalContext*);
+void func_80892220(BgIceTurara*, PlayState*);
+void func_80892280(BgIceTurara*, PlayState*);
+void func_808922B8(BgIceTurara*, PlayState*);
+void func_80892424(BgIceTurara*, PlayState*);
+void func_80892574(BgIceTurara*, PlayState*);
 
 static ColliderCylinderInit D_80892620 = {
     { 0xA, 0x11, 9, 0, 0x20, 1 },
@@ -47,7 +47,7 @@ static Vec3f D_8089267C = { 0.0f, -1.0f, 0.0f };
 static Color_RGBA8 D_80892688 = { 0xAA, 0xFF, 0xFF, 0xFF };
 static Color_RGBA8 D_8089268C = { 0, 0x32, 0x64, 0xFF };
 
-void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgIceTurara_Init(Actor* thisx, PlayState* play) {
     BgIceTurara* this = (BgIceTurara*)thisx;
     s32 pad;
     CollisionHeader* sp24;
@@ -56,10 +56,10 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, D_8089266C);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002594, &sp24);
-    Collider_InitCylinder(globalCtx, &this->unk16C);
-    Collider_SetCylinder(globalCtx, &this->unk16C, &this->dyna.actor, &D_80892620);
+    Collider_InitCylinder(play, &this->unk16C);
+    Collider_SetCylinder(play, &this->unk16C, &this->dyna.actor, &D_80892620);
     Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp24);
     if (this->dyna.actor.params == 0) {
         this->unk164 = func_80892220;
     } else {
@@ -69,20 +69,20 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgIceTurara_Destroy(Actor* thisx, PlayState* play) {
     BgIceTurara* this = (BgIceTurara*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-    Collider_DestroyCylinder(globalCtx, &this->unk16C);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    Collider_DestroyCylinder(play, &this->unk16C);
 }
 
-void func_80892040(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
+void func_80892040(BgIceTurara* this, PlayState* play, f32 arg2) {
     Vec3f sp9C;
     Vec3f sp90;
     s32 var_s0;
     s32 sp88;
 
-    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
+    SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
     sp88 = 0;
     do {
         for (var_s0 = 0; var_s0 < 10; var_s0++) {
@@ -92,30 +92,30 @@ void func_80892040(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
             sp9C.x = Rand_CenteredFloat(7.0f);
             sp9C.z = Rand_CenteredFloat(7.0f);
             sp9C.y = (Rand_ZeroOne() * 4.0f) + 8.0f;
-            EffectSsEnIce_Spawn(globalCtx, &sp90, (Rand_ZeroOne() * 0.2f) + 0.1f, &sp9C, &D_8089267C, &D_80892688,
+            EffectSsEnIce_Spawn(play, &sp90, (Rand_ZeroOne() * 0.2f) + 0.1f, &sp9C, &D_8089267C, &D_80892688,
                                 &D_8089268C, 30);
         }
         sp88 = sp88 + 1;
     } while (sp88 != 2);
 }
 
-void func_80892220(BgIceTurara* this, GlobalContext* globalCtx) {
+void func_80892220(BgIceTurara* this, PlayState* play) {
     if (this->unk16C.base.acFlags & AC_HIT) {
-        func_80892040(this, globalCtx, 50.0f);
+        func_80892040(this, play, 50.0f);
         Actor_Kill(&this->dyna.actor);
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk16C.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk16C.base);
     }
 }
 
-void func_80892280(BgIceTurara* this, GlobalContext* globalCtx) {
+void func_80892280(BgIceTurara* this, PlayState* play) {
     if (this->dyna.actor.xzDistToPlayer < 60.0f) {
         this->unk168 = 0xA;
         this->unk164 = func_808922B8;
     }
 }
 
-void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
+void func_808922B8(BgIceTurara* this, PlayState* play) {
     s32 var_v0_2;
     f32 sp28;
 
@@ -129,8 +129,8 @@ void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
         Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk16C.base);
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk16C.base);
+        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
         this->unk164 = func_80892424;
     } else {
         sp28 = Rand_ZeroOne();
@@ -150,17 +150,17 @@ void func_808922B8(BgIceTurara* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
+void func_80892424(BgIceTurara* this, PlayState* play) {
     if ((this->unk16C.base.atFlags & AT_HIT) || (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->unk16C.base.atFlags &= ~AT_HIT;
         this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         if (this->dyna.actor.world.pos.y < this->dyna.actor.floorHeight) {
             this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         }
-        func_80892040(this, globalCtx, 40.0f);
+        func_80892040(this, play, 40.0f);
         if (this->dyna.actor.params == 2) {
             this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 120.0f;
-            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+            func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
             this->unk164 = func_80892574;
         } else {
             Actor_Kill(&this->dyna.actor);
@@ -168,28 +168,28 @@ void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
     } else {
         Actor_MoveForward(&this->dyna.actor);
         this->dyna.actor.world.pos.y += 40.0f;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+        Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->dyna.actor.world.pos.y -= 40.0f;
         Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk16C.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk16C.base);
     }
 }
 
-void func_80892574(BgIceTurara* this, GlobalContext* globalCtx) {
+void func_80892574(BgIceTurara* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f)) {
         this->unk164 = func_80892280;
         this->dyna.actor.velocity.y = 0.0f;
     }
 }
 
-void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgIceTurara_Update(Actor* thisx, PlayState* play) {
     BgIceTurara* this = (BgIceTurara*)thisx;
 
-    this->unk164(this, globalCtx);
+    this->unk164(this, play);
 }
 
-void BgIceTurara_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgIceTurara_Draw(Actor* thisx, PlayState* play) {
     BgIceTurara* this = (BgIceTurara*)thisx;
 
-    Gfx_DrawDListOpa(globalCtx, object_ice_objects_DL_0023D0);
+    Gfx_DrawDListOpa(play, object_ice_objects_DL_0023D0);
 }

@@ -14,7 +14,7 @@ typedef struct EnWf {
     /* 0x250 */ Vec3s unk250[22];
     /* 0x2D4 */ s32 unk2D4;
     /* 0x2D8 */ char pad2D8[4];
-    /* 0x2DC */ void (*unk2DC)(struct EnWf*, GlobalContext*);
+    /* 0x2DC */ void (*unk2DC)(struct EnWf*, PlayState*);
     /* 0x2E0 */ s16 unk2E0;
     /* 0x2E2 */ s16 unk2E2;
     /* 0x2E4 */ s16 unk2E4;

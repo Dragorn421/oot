@@ -25,7 +25,7 @@ typedef struct EnDns {
     /* 0x14C */ SkelAnime unk14C;
     /* 0x190 */ Vec3s unk190[0x12];
     /* 0x1FC */ Vec3s unk1FC[0x12];
-    /* 0x268 */ void (*unk268)(struct EnDns*, GlobalContext*);
+    /* 0x268 */ void (*unk268)(struct EnDns*, PlayState*);
     /* 0x26C */ ColliderCylinder unk26C;
     /* 0x2B8 */ s16 unk2B8;
     /* 0x2BA */ u8 unk2BA;

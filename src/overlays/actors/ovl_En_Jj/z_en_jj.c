@@ -9,16 +9,16 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void EnJj_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnJj_Init(Actor* thisx, PlayState* play);
+void EnJj_Destroy(Actor* thisx, PlayState* play);
+void EnJj_Update(Actor* thisx, PlayState* play);
+void EnJj_Draw(Actor* thisx, PlayState* play);
 
-void func_80A87BEC(EnJj* this, GlobalContext* globalCtx);
-void func_80A87C30(EnJj* this, GlobalContext* globalCtx);
-void func_80A87CEC(EnJj* this, GlobalContext* globalCtx);
-void func_80A87EF0(EnJj* this, GlobalContext* globalCtx);
-void func_80A87F44(Actor* thisx, GlobalContext* globalCtx);
+void func_80A87BEC(EnJj* this, PlayState* play);
+void func_80A87C30(EnJj* this, PlayState* play);
+void func_80A87CEC(EnJj* this, PlayState* play);
+void func_80A87EF0(EnJj* this, PlayState* play);
+void func_80A87F44(Actor* thisx, PlayState* play);
 
 const ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
@@ -187,11 +187,11 @@ static InitChainEntry D_80A88CE0[] = {
 static Vec3f D_80A88CF0 = { -1589.0f, 53.0f, -43.0f };
 static s32 D_80A88CFC[5] = { 0x06007698, 0x06007A98, 0x06007E98, 0, 0 };
 
-void func_80A87800(EnJj* this, void (*arg1)(EnJj*, GlobalContext*)) {
+void func_80A87800(EnJj* this, void (*arg1)(EnJj*, PlayState*)) {
     this->unk2FC = arg1;
 }
 
-void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnJj_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnJj* this = (EnJj*)thisx;
     CollisionHeader* sp4C;
@@ -201,7 +201,7 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
     switch (this->dyna.actor.params) {
         case -1:
-            SkelAnime_InitFlex(globalCtx, &this->unk164, &object_jj_00B9A8_Skel, &object_jj_001F4C_Anim, this->unk1A8,
+            SkelAnime_InitFlex(play, &this->unk164, &object_jj_00B9A8_Skel, &object_jj_001F4C_Anim, this->unk1A8,
                                this->unk22C, 22);
             Animation_PlayLoop(&this->unk164, &object_jj_001F4C_Anim);
             this->unk30A = 0;
@@ -215,21 +215,21 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
                 func_80A87800(this, func_80A87C30);
             }
             this->unk300 = (EnJj*)Actor_SpawnAsChild(
-                &globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
+                &play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
                 this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
             DynaPolyActor_Init(&this->dyna, DPM_UNK);
             CollisionHeader_GetVirtual(&object_jj_000A1C_Col, &sp4C);
-            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
-            Collider_InitCylinder(globalCtx, &this->unk2B0);
-            Collider_SetCylinder(globalCtx, &this->unk2B0, &this->dyna.actor, &D_80A88CB4);
+            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+            Collider_InitCylinder(play, &this->unk2B0);
+            Collider_SetCylinder(play, &this->unk2B0, &this->dyna.actor, &D_80A88CB4);
             this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
             return;
 
         case 0:
             DynaPolyActor_Init(&this->dyna, DPM_UNK);
             CollisionHeader_GetVirtual(&object_jj_001830_Col, &sp4C);
-            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
-            func_8003ECA8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+            func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
             this->dyna.actor.update = func_80A87F44;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -238,7 +238,7 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 1:
             DynaPolyActor_Init(&this->dyna, DPM_UNK);
             CollisionHeader_GetVirtual(&object_jj_00BA8C_Col, &sp4C);
-            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
+            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
             this->dyna.actor.update = func_80A87F44;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -246,18 +246,18 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnJj_Destroy(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
 
     switch (this->dyna.actor.params) {
         case -1:
-            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-            Collider_DestroyCylinder(globalCtx, &this->unk2B0);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            Collider_DestroyCylinder(play, &this->unk2B0);
             return;
 
         case 0:
         case 1:
-            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
             return;
     }
 }
@@ -279,39 +279,39 @@ void func_80A87B1C(EnJj* this) {
     }
 }
 
-void func_80A87B9C(EnJj* this, GlobalContext* globalCtx) {
+void func_80A87B9C(EnJj* this, PlayState* play) {
     EnJj* unk300;
 
     unk300 = this->unk300;
     if (this->unk308 >= -0x1450) {
         this->unk308 -= 0x66;
         if (this->unk308 < -0xA28) {
-            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, unk300->dyna.bgId);
+            func_8003EBF8(play, &play->colCtx.dyna, unk300->dyna.bgId);
         }
     }
 }
 
-void func_80A87BEC(EnJj* this, GlobalContext* globalCtx) {
+void func_80A87BEC(EnJj* this, PlayState* play) {
     if (this->dyna.actor.xzDistToPlayer < 300.0f) {
         func_80A87800(this, func_80A87B9C);
     }
 }
 
-void func_80A87C30(EnJj* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_80A87C30(EnJj* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
     if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) &&
-        globalCtx->isPlayerDroppingFish(globalCtx)) {
+        play->isPlayerDroppingFish(play)) {
         this->unk30C = 0x64;
         func_80A87800(this, func_80A87CEC);
     }
     this->unk2B0.dim.pos.x = -0x4DD;
     this->unk2B0.dim.pos.y = 0x14;
     this->unk2B0.dim.pos.z = -0x30;
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk2B0.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk2B0.base);
 }
 
-void func_80A87CEC(EnJj* this, GlobalContext* globalCtx) {
+void func_80A87CEC(EnJj* this, PlayState* play) {
     EnJj* temp_v1;
     Actor* sp1C;
 
@@ -321,16 +321,16 @@ void func_80A87CEC(EnJj* this, GlobalContext* globalCtx) {
         return;
     }
     func_80A87800(this, func_80A87EF0);
-    globalCtx->csCtx.segment = D_80A88164;
+    play->csCtx.segment = D_80A88164;
     gSaveContext.cutsceneTrigger = 1;
-    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, temp_v1->dyna.bgId);
-    func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+    func_8003EBF8(play, &play->colCtx.dyna, temp_v1->dyna.bgId);
+    func_8005B1A4(play->cameraPtrs[play->activeCamId]);
     SET_EVENTCHKINF(EVENTCHKINF_3A);
     func_80078884(NA_SE_SY_CORRECT_CHIME);
 }
 
-void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
-    switch (globalCtx->csCtx.npcActions[2]->action) {
+void func_80A87D94(EnJj* this, PlayState* play) {
+    switch (play->csCtx.npcActions[2]->action) {
         case 1:
             if (this->unk30A & 2) {
                 this->unk30E = 0;
@@ -344,7 +344,7 @@ void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
         case 2:
             this->unk30A |= 1;
             if (!(this->unk30A & 8)) {
-                this->unk304 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EFF_DUST,
+                this->unk304 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EFF_DUST,
                                                   -1100.0f, 105.0f, -27.0f, 0, 0, 0, 0);
                 this->unk30A |= 8;
             }
@@ -368,7 +368,7 @@ void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A87EF0(EnJj* this, GlobalContext* globalCtx) {
+void func_80A87EF0(EnJj* this, PlayState* play) {
     if (!(this->unk30A & 4)) {
         this->unk30A |= 4;
         if (this->unk304 != NULL) {
@@ -378,16 +378,16 @@ void func_80A87EF0(EnJj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A87F44(Actor* thisx, GlobalContext* globalCtx) {
+void func_80A87F44(Actor* thisx, PlayState* play) {
 }
 
-void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnJj_Update(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
 
-    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[2] != NULL)) {
-        func_80A87D94(this, globalCtx);
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL)) {
+        func_80A87D94(this, play);
     } else {
-        this->unk2FC(this, globalCtx);
+        this->unk2FC(this, play);
         if (this->unk164.curFrame == 41.0f) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
@@ -398,16 +398,16 @@ void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk164.jointTable[10].z = (s16)this->unk308;
 }
 
-void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnJj_Draw(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
     s32 pad;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_jj.c", 879);
-    func_800943C8(globalCtx->state.gfxCtx);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_jj.c", 879);
+    func_800943C8(play->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->unk164.curFrame * 0.076624215f) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(10.0f, 10.0f, 10.0f, MTXMODE_APPLY);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A88CFC[this->unk30E]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->unk164.skeleton, this->unk164.jointTable, (s32)this->unk164.dListCount, NULL,
+    SkelAnime_DrawFlexOpa(play, this->unk164.skeleton, this->unk164.jointTable, (s32)this->unk164.dListCount, NULL,
                           NULL, this);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_jj.c", 898);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_jj.c", 898);
 }

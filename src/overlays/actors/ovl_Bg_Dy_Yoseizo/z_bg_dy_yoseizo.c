@@ -13,30 +13,30 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
-void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgDyYoseizo_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgDyYoseizo_Init(Actor* thisx, PlayState* play);
+void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play);
+void BgDyYoseizo_Update(Actor* thisx, PlayState* play);
 
-void func_80872D20(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_8087328C(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873380(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_808734DC(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_808736A4(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873780(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873C14(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873D14(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873E04(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx);
-void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx);
+void func_80872D20(BgDyYoseizo* this, PlayState* play);
+void func_80872DE4(BgDyYoseizo* this, PlayState* play);
+void func_8087328C(BgDyYoseizo* this, PlayState* play);
+void func_80873380(BgDyYoseizo* this, PlayState* play);
+void func_808734DC(BgDyYoseizo* this, PlayState* play);
+void func_8087358C(BgDyYoseizo* this, PlayState* play);
+void func_808736A4(BgDyYoseizo* this, PlayState* play);
+void func_80873780(BgDyYoseizo* this, PlayState* play);
+void func_80873868(BgDyYoseizo* this, PlayState* play);
+void func_80873B3C(BgDyYoseizo* this, PlayState* play);
+void func_80873C14(BgDyYoseizo* this, PlayState* play);
+void func_80873D14(BgDyYoseizo* this, PlayState* play);
+void func_80873E04(BgDyYoseizo* this, PlayState* play);
+void func_80873EA4(BgDyYoseizo* this, PlayState* play);
+void func_80873FD8(BgDyYoseizo* this, PlayState* play);
+void func_80874304(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Draw(Actor* thisx, PlayState* play);
 void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f*, Vec3f*, Vec3f*, Color_RGB8*, Color_RGB8*, f32, s16, s16);
-void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx);
-void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play);
 
 static s32 D_80875440[3] = { 0x5D, 0x5E, 0x5C };
 const ActorInit Bg_Dy_Yoseizo_InitVars = {
@@ -75,33 +75,33 @@ static void* D_808754D8[] = {
     gGreatFairyMouthOpenTex,
 };
 
-void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
+void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
-    GlobalContext* globalCtx = globalCtx2;
+    PlayState* play = play2;
 
-    this->unk2EC = (s16)globalCtx->curSpawn;
+    this->unk2EC = (s16)play->curSpawn;
     if (this->unk2EC < 0) {
         this->unk2EC = 0;
     }
     this->unk310 = this->actor.world.pos.y;
     this->unk30C = this->actor.world.pos.y + 40.0f;
     this->actor.focus.pos = this->actor.world.pos;
-    if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", globalCtx->curSpawn);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
+    if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+        osSyncPrintf("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->curSpawn);
+        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
                            this->unk194, this->unk23C, 28);
     } else {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", globalCtx->curSpawn);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
+        osSyncPrintf("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->curSpawn);
+        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
                            this->unk194, this->unk23C, 28);
     }
     this->actionFunc = func_80872D20;
 }
 
-void BgDyYoseizo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void func_80872960(BgDyYoseizo* this, GlobalContext* globalCtx, s16 arg2) {
+void func_80872960(BgDyYoseizo* this, PlayState* play, s16 arg2) {
     Vec3f spC4;
     Vec3f spB8;
     Vec3f spAC;
@@ -132,7 +132,7 @@ void func_80872960(BgDyYoseizo* this, GlobalContext* globalCtx, s16 arg2) {
                 var_s2 = 0x32;
                 var_s1 = arg2;
                 spAC.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
-                if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+                if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                     spAC.y = this->actor.world.pos.y + temp_fs0 + 50.0f + (temp_fs0 * 0.1f * (Rand_ZeroOne() - 0.5f));
                     spAC.z = this->actor.world.pos.z + 30.0f;
                 } else {
@@ -154,21 +154,21 @@ void func_80872960(BgDyYoseizo* this, GlobalContext* globalCtx, s16 arg2) {
     }
 }
 
-void func_80872C58(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void func_80872C58(BgDyYoseizo* this, PlayState* play) {
     this->unk31C = this->unk30C + this->unk320;
     Math_ApproachF(&this->actor.world.pos.y, this->unk31C, 0.1f, 10.0f);
     Math_ApproachF(&this->unk320, 10.0f, 0.1f, 0.5f);
-    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
+    if (play->csCtx.state == CS_STATE_IDLE) {
         this->actor.velocity.y = Math_SinS((s16)(s32)this->unk324);
     } else {
         this->actor.velocity.y = Math_SinS((s16)(s32)this->unk324) * 0.4f;
     }
 }
 
-void func_80872D20(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, 0x38)) {
-        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
-        if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+void func_80872D20(BgDyYoseizo* this, PlayState* play) {
+    if (Flags_GetSwitch(play, 0x38)) {
+        play->msgCtx.ocarinaMode = OCARINA_MODE_04;
+        if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             if (!gSaveContext.magicAcquired && (this->unk2EC != 0)) {
                 Actor_Kill(&this->actor);
                 return;
@@ -179,18 +179,18 @@ void func_80872D20(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 return;
             }
         }
-        func_8002DF54(globalCtx, &this->actor, 1U);
+        func_8002DF54(play, &this->actor, 1U);
         this->actionFunc = func_80872DE4;
     }
 }
 
-void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
     s32 var_v1;
 
-    func_8002DF54(globalCtx, &this->actor, 1U);
-    osSyncPrintf("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", globalCtx->msgCtx.ocarinaMode);
+    func_8002DF54(play, &this->actor, 1U);
+    osSyncPrintf("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", play->msgCtx.ocarinaMode);
     var_v1 = 0;
-    if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
+    if (play->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
         switch (this->unk2EC) {
             case 0:
                 if (!GET_ITEMGETINF(ITEMGETINF_18)) {
@@ -239,37 +239,37 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
     if (var_v1 != 0) {
         if (gSaveContext.sceneSetupIndex < 4) {
-            if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
+            if (play->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
                 switch (this->unk2EC) {
                     case 0:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
+                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 1:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
+                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 2:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
+                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
             } else {
                 switch (this->unk2EC) {
                     case 0:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
+                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 1:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
+                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 2:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenceCs);
+                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenceCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
@@ -277,11 +277,11 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = func_80873EA4;
     } else {
-        globalCtx->envCtx.lightSettingOverride = 2;
-        if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            OnePointCutscene_Init(globalCtx, 8603, -99, NULL, CAM_ID_MAIN);
+        play->envCtx.lightSettingOverride = 2;
+        if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+            OnePointCutscene_Init(play, 8603, -99, NULL, CAM_ID_MAIN);
         } else {
-            OnePointCutscene_Init(globalCtx, 8604, -99, NULL, CAM_ID_MAIN);
+            OnePointCutscene_Init(play, 8604, -99, NULL, CAM_ID_MAIN);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
         this->actor.draw = BgDyYoseizo_Draw;
@@ -289,8 +289,8 @@ void func_80872DE4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8087328C(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+void func_8087328C(BgDyYoseizo* this, PlayState* play) {
+    if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
         Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
                          -10.0f);
@@ -300,12 +300,12 @@ void func_8087328C(BgDyYoseizo* this, GlobalContext* globalCtx) {
                          ANIMMODE_ONCE, -10.0f);
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_VO_FR_LAUGH_0);
-    func_8002DF54(globalCtx, &this->actor, 1U);
+    func_8002DF54(play, &this->actor, 1U);
     this->actionFunc = func_80873380;
 }
 
-void func_80873380(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    func_8002DF54(globalCtx, &this->actor, 1U);
+void func_80873380(BgDyYoseizo* this, PlayState* play) {
+    func_8002DF54(play, &this->actor, 1U);
     Math_ApproachF(&this->actor.world.pos.y, this->unk30C, this->unk314, 100.0f);
     Math_ApproachF(&this->unk308, 0.035f, this->unk318, 0.005f);
     Math_ApproachF(&this->unk314, 0.8f, 0.1f, 0.02f);
@@ -323,14 +323,14 @@ void func_80873380(BgDyYoseizo* this, GlobalContext* globalCtx) {
     } else {
         this->actor.shape.rot.y += 0xBB8;
     }
-    func_80872960(this, globalCtx, 0);
+    func_80872960(this, play, 0);
 }
 
-void func_808734DC(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void func_808734DC(BgDyYoseizo* this, PlayState* play) {
     f32 sp1C;
 
     sp1C = this->skelAnime.curFrame;
-    func_8002DF54(globalCtx, &this->actor, 1U);
+    func_8002DF54(play, &this->actor, 1U);
     if ((this->unk32C * 1273.0f) <= this->unk324) {
         this->unk324 = 0.0f;
     }
@@ -340,9 +340,9 @@ void func_808734DC(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    func_8002DF54(globalCtx, &this->actor, 1U);
-    if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+void func_8087358C(BgDyYoseizo* this, PlayState* play) {
+    func_8002DF54(play, &this->actor, 1U);
+    if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
         Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
     } else {
@@ -352,29 +352,29 @@ void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
     this->actor.textId = 0xDB;
     this->unk2EE = TEXT_STATE_EVENT;
-    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
-    func_80872960(this, globalCtx, 0);
+    Message_StartTextbox(play, this->actor.textId, NULL);
+    func_80872960(this, play, 0);
     this->actionFunc = func_808736A4;
 }
 
-void func_808736A4(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    func_8002DF54(globalCtx, &this->actor, 1U);
+void func_808736A4(BgDyYoseizo* this, PlayState* play) {
+    func_8002DF54(play, &this->actor, 1U);
     this->unk324 = this->skelAnime.curFrame * 1273.0f;
     if (this->unk324 >= (this->unk32C * 1273.0f)) {
         this->unk324 = 0.0f;
     }
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk2EE == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        Message_CloseTextbox(globalCtx);
+    if ((this->unk2EE == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+        Message_CloseTextbox(play);
         Interface_ChangeAlpha(5U);
         this->actionFunc = func_80873780;
     }
-    func_80872C58(this, globalCtx);
-    func_80872960(this, globalCtx, 0);
+    func_80872C58(this, play);
+    func_80872960(this, play, 0);
 }
 
-void func_80873780(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+void func_80873780(BgDyYoseizo* this, PlayState* play) {
+    if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
         Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
                          -10.0f);
@@ -387,13 +387,13 @@ void func_80873780(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80873868;
 }
 
-void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void func_80873868(BgDyYoseizo* this, PlayState* play) {
     Player* player;
     f32 temp_fv1;
     s16 var_v0;
     Vec3f vec;
 
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     temp_fv1 = this->skelAnime.curFrame;
     if (this->unk2FC != 0) {
         this->unk324 = this->skelAnime.curFrame * 1300.0f;
@@ -403,7 +403,7 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk32C <= temp_fv1) && (this->unk2FC == 0)) {
-        if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
             Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
                              -10.0f);
@@ -418,12 +418,12 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
             vec.x = player->actor.world.pos.x;
             vec.y = player->actor.world.pos.y + 200.0f;
             vec.z = player->actor.world.pos.z;
-            if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+            if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 var_v0 = 0;
             } else {
                 var_v0 = 1;
             }
-            this->unk340 = (EnDyExtra*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
+            this->unk340 = (EnDyExtra*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play,
                                                           ACTOR_EN_DY_EXTRA, vec.x, vec.y, vec.z, 0, 0, 0, var_v0);
         }
     }
@@ -435,7 +435,7 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
     if (this->unk302 == 0x6E) {
         gSaveContext.healthAccumulator = 0x140;
-        Magic_Fill(globalCtx);
+        Magic_Fill(play);
         this->unk306 = 0xC8;
     }
     if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.unk_13F4)) ||
@@ -451,31 +451,31 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (this->unk302 == 1) {
         this->actor.textId = 0xDA;
         this->unk2EE = TEXT_STATE_EVENT;
-        Message_ContinueTextbox(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(play, this->actor.textId);
         this->actionFunc = func_80873B3C;
     } else {
-        func_80872C58(this, globalCtx);
+        func_80872C58(this, play);
     }
 }
 
-void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void func_80873B3C(BgDyYoseizo* this, PlayState* play) {
     this->unk324 = this->skelAnime.curFrame * 1400.0f;
     if (this->unk324 >= (this->unk32C * 1400.0f)) {
         this->unk324 = 0.0f;
     }
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk2EE == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        Message_CloseTextbox(globalCtx);
+    if ((this->unk2EE == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+        Message_CloseTextbox(play);
         this->unk2F6 = 0;
         this->actionFunc = func_80873C14;
-        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamId]);
+        func_8005B1A4(play->cameraPtrs[play->activeCamId]);
     }
-    func_80872C58(this, globalCtx);
-    func_80872960(this, globalCtx, 0);
+    func_80872C58(this, play);
+    func_80872960(this, play, 0);
 }
 
-void func_80873C14(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+void func_80873C14(BgDyYoseizo* this, PlayState* play) {
+    if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairyJewelFountainSpinShrinkAnim);
         Animation_Change(&this->skelAnime, &gGreatFairyJewelFountainSpinShrinkAnim, 1.0f, 0.0f, this->unk32C,
                          ANIMMODE_ONCE, -10.0f);
@@ -492,7 +492,7 @@ void func_80873C14(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80873D14;
 }
 
-void func_80873D14(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void func_80873D14(BgDyYoseizo* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk2E8 == 0) {
         if (this->unk308 < 0.003f) {
@@ -504,18 +504,18 @@ void func_80873D14(BgDyYoseizo* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->unk314, 0.8f, 0.1f, 0.02f);
             Math_ApproachF(&this->unk318, 0.2f, 0.03f, 0.05f);
             this->actor.shape.rot.y += 0xBB8;
-            func_80872960(this, globalCtx, 0);
+            func_80872960(this, play, 0);
         }
     }
 }
 
-void func_80873E04(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void func_80873E04(BgDyYoseizo* this, PlayState* play) {
     Actor* var_a0;
 
     if (this->unk2E8 == 0) {
-        func_8002DF54(globalCtx, &this->actor, 7U);
-        globalCtx->envCtx.lightSettingOverride = 0;
-        var_a0 = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
+        func_8002DF54(play, &this->actor, 7U);
+        play->envCtx.lightSettingOverride = 0;
+        var_a0 = play->actorCtx.actorLists[ACTORCAT_PROP].head;
         while (var_a0 != NULL) {
             if (var_a0->id != ACTOR_EN_OKARINA_TAG) {
                 var_a0 = var_a0->next;
@@ -524,18 +524,18 @@ void func_80873E04(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 break;
             }
         }
-        Flags_UnsetSwitch(globalCtx, 0x38);
+        Flags_UnsetSwitch(play, 0x38);
         Actor_Kill(&this->actor);
     }
 }
 
-void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[0] != NULL) &&
-        (globalCtx->csCtx.npcActions[0]->action == 2)) {
+void func_80873EA4(BgDyYoseizo* this, PlayState* play) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL) &&
+        (play->csCtx.npcActions[0]->action == 2)) {
         this->actor.draw = BgDyYoseizo_Draw;
-        func_8002DF54(globalCtx, &this->actor, 1U);
+        func_8002DF54(play, &this->actor, 1U);
         this->unk2FE = 0;
-        if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             this->unk32C = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
             Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->unk32C,
                              ANIMMODE_ONCE, -10.0f);
@@ -549,7 +549,7 @@ void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void func_80873FD8(BgDyYoseizo* this, PlayState* play) {
     f32 temp_fv0;
 
     temp_fv0 = this->skelAnime.curFrame;
@@ -574,7 +574,7 @@ void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
     } else {
         SkelAnime_Update(&this->skelAnime);
         if ((this->unk32C <= temp_fv0) && (this->unk2FC == 0)) {
-            if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+            if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
                 Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
                                  -10.0f);
@@ -585,10 +585,10 @@ void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
             }
             this->unk2FC = 1;
         }
-        if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[0] != NULL) &&
-            (globalCtx->csCtx.npcActions[0]->action == 3)) {
+        if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL) &&
+            (play->csCtx.npcActions[0]->action == 3)) {
             this->unk2FE = this->unk2FC = 0;
-            if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+            if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 this->unk32C = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
                 Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->unk32C,
                                  ANIMMODE_ONCE, -10.0f);
@@ -601,10 +601,10 @@ void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
             this->actionFunc = func_80874304;
         }
     }
-    func_80872960(this, globalCtx, 0);
+    func_80872960(this, play, 0);
 }
 
-void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void func_80874304(BgDyYoseizo* this, PlayState* play) {
     f32 temp_fv1_sp5C;
     Player* player;
     s16 var_v1;
@@ -612,7 +612,7 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
     Vec3f var_fv1;
 
     temp_fv1_sp5C = this->skelAnime.curFrame;
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     if (this->unk2FC != 0) {
         this->unk324 = this->skelAnime.curFrame * 1400.0f;
         if (this->unk324 >= (this->unk32C * 1400.0f)) {
@@ -621,7 +621,7 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk32C <= temp_fv1_sp5C) && (this->unk2FC == 0)) {
-        if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
             Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
                              -10.0f);
@@ -632,28 +632,28 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
         }
         this->unk2FC = 1;
     }
-    if (globalCtx->csCtx.npcActions[0]->action == 0xD) {
+    if (play->csCtx.npcActions[0]->action == 0xD) {
         this->actionFunc = func_80873C14;
         return;
     }
-    if ((globalCtx->csCtx.npcActions[0]->action >= 4) && (globalCtx->csCtx.npcActions[0]->action < 7)) {
-        var_v1 = globalCtx->csCtx.npcActions[0]->action - 4;
-        if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+    if ((play->csCtx.npcActions[0]->action >= 4) && (play->csCtx.npcActions[0]->action < 7)) {
+        var_v1 = play->csCtx.npcActions[0]->action - 4;
+        if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             var_v1 += 1;
-            func_80872960(this, globalCtx, var_v1);
+            func_80872960(this, play, var_v1);
         } else if (this->unk2E4 == 0) {
             sp56 = D_808754B0[var_v1] << 0xC;
             sp56 |= 0x12;
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+            Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
                         this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, sp56);
             this->unk2E4 = 1;
         }
     } else {
-        func_80872960(this, globalCtx, 0);
+        func_80872960(this, play, 0);
     }
-    if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        if ((globalCtx->csCtx.npcActions[0]->action >= 0xA) && (globalCtx->csCtx.npcActions[0]->action < 0xD)) {
-            var_v1 = globalCtx->csCtx.npcActions[0]->action - 0xA;
+    if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+        if ((play->csCtx.npcActions[0]->action >= 0xA) && (play->csCtx.npcActions[0]->action < 0xD)) {
+            var_v1 = play->csCtx.npcActions[0]->action - 0xA;
             switch (var_v1) {
                 case 0:
                     gSaveContext.magicAcquired = 1;
@@ -680,14 +680,14 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 gSaveContext.healthAccumulator = 0x140;
                 this->unk2E6 = 1;
                 if (var_v1 == 2) {
-                    Magic_Fill(globalCtx);
+                    Magic_Fill(play);
                 }
             }
         }
     }
-    if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
-        if ((globalCtx->csCtx.npcActions[0]->action >= 0xE) && (globalCtx->csCtx.npcActions[0]->action < 0x11)) {
-            var_v1 = globalCtx->csCtx.npcActions[0]->action - 0xE;
+    if (play->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
+        if ((play->csCtx.npcActions[0]->action >= 0xE) && (play->csCtx.npcActions[0]->action < 0x11)) {
+            var_v1 = play->csCtx.npcActions[0]->action - 0xE;
             if (this->unk300 == 0) {
                 var_fv1.x = player->actor.world.pos.x;
                 if (LINK_IS_ADULT) {
@@ -697,19 +697,19 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 }
                 var_fv1.z = player->actor.world.pos.z;
                 this->unk344 =
-                    (EnExItem*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
+                    (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM,
                                                   var_fv1.x, var_fv1.y, var_fv1.z, 0, 0, 0, D_808754B8[var_v1]);
                 if (this->unk344 != NULL) {
                     if (!gSaveContext.magicAcquired) {
                         gSaveContext.magicAcquired = true;
                     } else {
-                        Magic_Fill(globalCtx);
+                        Magic_Fill(play);
                     }
                     this->unk300 = 1;
                     gSaveContext.healthAccumulator = 0x140;
                     Interface_ChangeAlpha(9U);
                     gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= D_808754C0[var_v1];
-                    Item_Give(globalCtx, D_808754C8[var_v1]);
+                    Item_Give(play, D_808754C8[var_v1]);
                 }
             } else {
                 this->unk344->actor.world.pos.x = player->actor.world.pos.x;
@@ -723,13 +723,13 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if ((globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action == 0x11)) {
+    if ((play->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.npcActions[0]->action == 0x11)) {
         if (this->unk344 != NULL) {
             Actor_Kill(&this->unk344->actor);
             this->unk344 = NULL;
         }
     }
-    if ((globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action == 0x12)) {
+    if ((play->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.npcActions[0]->action == 0x12)) {
         this->unk2E5 = 1;
     }
     if (this->unk2E5 != 0) {
@@ -737,19 +737,19 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
             gSaveContext.inventory.defenseHearts += 1;
         }
     }
-    if ((globalCtx->csCtx.npcActions[0]->action >= 0x13) && (globalCtx->csCtx.npcActions[0]->action < 0x16) &&
+    if ((play->csCtx.npcActions[0]->action >= 0x13) && (play->csCtx.npcActions[0]->action < 0x16) &&
         (this->unk304 == 0)) {
-        var_v1 = globalCtx->csCtx.npcActions[0]->action - 0xB;
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, player->actor.world.pos.x,
+        var_v1 = play->csCtx.npcActions[0]->action - 0xB;
+        Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x,
                     player->actor.world.pos.y, player->actor.world.pos.z, 0, 0, 0, var_v1);
         this->unk304 = 1;
     }
-    func_80872C58(this, globalCtx);
+    func_80872C58(this, play);
 }
 
-void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
+void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
-    GlobalContext* globalCtx = globalCtx2;
+    PlayState* play = play2;
     s32 var_v1;
 
     this->unk2F0 += 1;
@@ -762,23 +762,23 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->unk2FA != 0) {
         this->unk2FA--;
     }
-    this->actionFunc(this, globalCtx);
-    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
+    this->actionFunc(this, play);
+    if (play->csCtx.state != CS_STATE_IDLE) {
         var_v1 = 0;
-        if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if ((globalCtx->csCtx.frames == 32) || (globalCtx->csCtx.frames == 291) ||
-                (globalCtx->csCtx.frames == 426) || (globalCtx->csCtx.frames == 851)) {
+        if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+            if ((play->csCtx.frames == 32) || (play->csCtx.frames == 291) ||
+                (play->csCtx.frames == 426) || (play->csCtx.frames == 851)) {
                 var_v1 = 1;
             }
-            if (globalCtx->csCtx.frames == 101) {
+            if (play->csCtx.frames == 101) {
                 var_v1 = 2;
             }
         } else {
-            if ((globalCtx->csCtx.frames == 35) || (globalCtx->csCtx.frames == 181) ||
-                (globalCtx->csCtx.frames == 462) || (globalCtx->csCtx.frames == 795)) {
+            if ((play->csCtx.frames == 35) || (play->csCtx.frames == 181) ||
+                (play->csCtx.frames == 462) || (play->csCtx.frames == 795)) {
                 var_v1 = 1;
             }
-            if (globalCtx->csCtx.frames == 90) {
+            if (play->csCtx.frames == 90) {
                 var_v1 = 2;
             }
         }
@@ -802,12 +802,12 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->unk328 = this->unk308 * 7500.0f;
     Actor_SetFocus(&this->actor, this->unk328);
     this->actor.focus.pos.y = this->unk328;
-    func_80038290(globalCtx, &this->actor, &this->unk334, &this->unk33A, this->actor.focus.pos);
-    BgDyYoseizo_UpdateEffects(this, globalCtx);
+    func_80038290(play, &this->actor, &this->unk334, &this->unk33A, this->actor.focus.pos);
+    BgDyYoseizo_UpdateEffects(this, play);
     Actor_SetScale(&this->actor, this->unk308);
 }
 
-s32 func_80874B7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 func_80874B7C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BgDyYoseizo* this = thisx;
 
     if (limbIndex == 8) {
@@ -820,20 +820,20 @@ s32 func_80874B7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgDyYoseizo_Draw(Actor* thisx, PlayState* play) {
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1609);
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1609);
     if (this->actionFunc != func_80873E04) {
-        func_80093D18(globalCtx->state.gfxCtx);
+        func_80093D18(play->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_808754CC[this->unk2F2]));
         gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(D_808754CC[this->unk2F4]));
         gSPSegment(POLY_OPA_DISP++, 10, SEGMENTED_TO_VIRTUAL(D_808754D8[this->unk2F6]));
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, func_80874B7C, NULL, this);
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1629);
-    BgDyYoseizo_DrawEffects(this, globalCtx);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1629);
+    BgDyYoseizo_DrawEffects(this, play);
 }
 
 void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, Color_RGB8* arg4,
@@ -862,7 +862,7 @@ void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f* arg1, Vec3f* arg2, Vec3f*
     }
 }
 
-void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, PlayState* play) {
     s16 var_s5;
     Player* player;
     Vec3f sp94;
@@ -872,7 +872,7 @@ void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 temp_fs1;
 
     effect = this->effects;
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     for (var_s5 = 0; var_s5 < BG_DY_YOSEIZO_EFFECT_COUNT; var_s5++, effect++) {
         if (effect->unk0 != 0) {
             effect->unk40 += 3000.0f;
@@ -921,17 +921,17 @@ void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
     GraphicsContext* gfxCtx;
     s16 var_s4;
     BgDyYoseizoEffect* effect;
     u8 materialFlag;
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    gfxCtx = play->state.gfxCtx;
     effect = this->effects;
     materialFlag = 0;
     OPEN_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1767);
-    func_80093D84(globalCtx->state.gfxCtx);
+    func_80093D84(play->state.gfxCtx);
     for (var_s4 = 0; var_s4 < BG_DY_YOSEIZO_EFFECT_COUNT; var_s4++, effect++) {
         if (effect->unk0 == 1) {
             if (materialFlag == 0) {
@@ -943,7 +943,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
                             effect->unk2E);
             gDPSetEnvColor(POLY_XLU_DISP++, effect->unk2B.r, effect->unk2B.g, effect->unk2B.b, 0);
             Matrix_Translate(effect->unk4.x, effect->unk4.y, effect->unk4.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->unk30, effect->unk30, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(effect->unk40, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),

@@ -9,17 +9,17 @@
 
 #define FLAGS 0
 
-void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot12Saku_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot12Saku_Init(Actor* thisx, PlayState* play);
+void BgSpot12Saku_Destroy(Actor* thisx, PlayState* play);
+void BgSpot12Saku_Update(Actor* thisx, PlayState* play);
+void BgSpot12Saku_Draw(Actor* thisx, PlayState* play);
 
 void func_808B3550(BgSpot12Saku* this);
-void func_808B357C(BgSpot12Saku* this, GlobalContext* globalCtx);
+void func_808B357C(BgSpot12Saku* this, PlayState* play);
 void func_808B35E4(BgSpot12Saku* this);
-void func_808B3604(BgSpot12Saku* this, GlobalContext* globalCtx);
+void func_808B3604(BgSpot12Saku* this, PlayState* play);
 void func_808B3714(BgSpot12Saku* this);
-void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx);
+void func_808B37AC(BgSpot12Saku* this, PlayState* play);
 
 const ActorInit Bg_Spot12_Saku_InitVars = {
     ACTOR_BG_SPOT12_SAKU,
@@ -40,36 +40,36 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
+void func_808B3420(BgSpot12Saku* this, PlayState* play, CollisionHeader* collision, s32 flags) {
     Actor* thisx = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
     s32 pad[2];
 
     DynaPolyActor_Init(thisx, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_saku.c", 140,
                      thisx->id, thisx->params);
     }
 }
 
-void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot12Saku_Init(Actor* thisx, PlayState* play) {
     BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
-    func_808B3420(this, globalCtx, &gGerudoFortressGTGShutterCol, DPM_UNK);
+    func_808B3420(this, play, &gGerudoFortressGTGShutterCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
         func_808B3714(this);
     } else {
         func_808B3550(this);
     }
 }
 
-void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot12Saku_Destroy(Actor* thisx, PlayState* play) {
     BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B3550(BgSpot12Saku* this) {
@@ -81,13 +81,13 @@ void func_808B3550(BgSpot12Saku* this) {
     thisx->world.pos.z = thisx->home.pos.z;
 }
 
-void func_808B357C(BgSpot12Saku* this, GlobalContext* globalCtx) {
+void func_808B357C(BgSpot12Saku* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
         func_808B35E4(this);
         this->unk_168 = 0x14;
-        OnePointCutscene_Init(globalCtx, 4170, -99, thisx, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 4170, -99, thisx, CAM_ID_MAIN);
     }
 }
 
@@ -97,7 +97,7 @@ void func_808B35E4(BgSpot12Saku* this) {
     }
 }
 
-void func_808B3604(BgSpot12Saku* this, GlobalContext* globalCtx) {
+void func_808B3604(BgSpot12Saku* this, PlayState* play) {
     f32 temp_ret = Math_SmoothStepToF(&this->dyna.actor.scale.x, 0.001f / 0.14f, 0.16f, 0.0022f, 0.001f);
     f32 temp_f18 = ((0.1f - this->dyna.actor.scale.x) * 840.0f);
 
@@ -122,18 +122,18 @@ void func_808B3714(BgSpot12Saku* this) {
     thisx->world.pos.z = thisx->home.pos.z - (Math_CosS(thisx->shape.rot.y + 0x4000) * 78.0f);
 }
 
-void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx) {
+void func_808B37AC(BgSpot12Saku* this, PlayState* play) {
 }
 
-void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot12Saku_Update(Actor* thisx, PlayState* play) {
     BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
     if (this->unk_168 > 0) {
         this->unk_168 -= 1;
     }
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void BgSpot12Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gGerudoFortressGTGShutterDL);
+void BgSpot12Saku_Draw(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, gGerudoFortressGTGShutterDL);
 }

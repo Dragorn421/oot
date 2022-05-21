@@ -9,7 +9,7 @@ struct BgTokiHikari;
 typedef struct BgTokiHikari {
     /* 0x000 */ Actor actor;
     /* 0x14C */ f32 unk14C;
-    /* 0x150 */ void (*unk150)(struct BgTokiHikari*, GlobalContext*);
+    /* 0x150 */ void (*unk150)(struct BgTokiHikari*, PlayState*);
 } BgTokiHikari; // size = 0x154
 
 #endif

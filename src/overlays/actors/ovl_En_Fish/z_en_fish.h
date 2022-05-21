@@ -13,7 +13,7 @@ typedef struct EnFish {
     /* 0x1AC */ SkelAnime unk1AC;
     /* 0x1F0 */ Vec3s unk1F0[7];
     /* 0x21A */ Vec3s unk21A[7];
-    /* 0x244 */ void (*unk244)(struct EnFish*, GlobalContext*);
+    /* 0x244 */ void (*unk244)(struct EnFish*, PlayState*);
     /* 0x248 */ s16 unk248;
     /* 0x24A */ s16 unk24A;
     /* 0x24C */ s16 unk24C;

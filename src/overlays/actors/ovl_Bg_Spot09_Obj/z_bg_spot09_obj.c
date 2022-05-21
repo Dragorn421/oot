@@ -9,14 +9,14 @@
 
 #define FLAGS 0
 
-void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot09Obj_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot09Obj_Init(Actor* thisx, PlayState* play);
+void BgSpot09Obj_Destroy(Actor* thisx, PlayState* play);
+void BgSpot09Obj_Update(Actor* thisx, PlayState* play);
+void BgSpot09Obj_Draw(Actor* thisx, PlayState* play);
 
-s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx);
-s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx);
-s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx);
+s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play);
+s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play);
+s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play);
 
 const ActorInit Bg_Spot09_Obj_InitVars = {
     ACTOR_BG_SPOT09_OBJ,
@@ -34,7 +34,7 @@ static CollisionHeader* D_808B1F90[] = {
     NULL, &gValleyObjects1Col, &gValleyObjects2Col, &gValleyObjects3Col, &gValleyObjects4Col,
 };
 
-static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
+static s32 (*D_808B1FA4[])(BgSpot09Obj* this, PlayState* play) = {
     func_808B1BEC,
     func_808B1AE0,
     func_808B1BA0,
@@ -56,7 +56,7 @@ static Gfx* sDLists[] = {
     gValleyBridgeSidesDL, gValleyBrokenBridgeDL, gValleyBridgeChildDL, gCarpentersTentDL, gValleyRepairedBridgeDL,
 };
 
-s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
+s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
     s32 carpentersRescued;
     Actor* thisx = &this->dyna.actor;
 
@@ -84,7 +84,7 @@ s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx) {
+s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (thisx->params == 3) {
@@ -95,7 +95,7 @@ s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     return 1;
 }
 
-s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
+s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
     s32 pad[2];
@@ -103,41 +103,41 @@ s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
     if (D_808B1F90[thisx->params] != NULL) {
         DynaPolyActor_Init(thisx, DPM_UNK);
         CollisionHeader_GetVirtual(D_808B1F90[thisx->params], &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     }
     return 1;
 }
 
-s32 func_808B1C70(BgSpot09Obj* this, GlobalContext* globalCtx) {
+s32 func_808B1C70(BgSpot09Obj* this, PlayState* play) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(D_808B1FA4); i++) {
-        if (!D_808B1FA4[i](this, globalCtx)) {
+        if (!D_808B1FA4[i](this, play)) {
             return 0;
         }
     }
     return 1;
 }
 
-s32 func_808B1CEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
+s32 func_808B1CEC(BgSpot09Obj* this, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain1);
     return 1;
 }
 
-s32 func_808B1D18(BgSpot09Obj* this, GlobalContext* globalCtx) {
+s32 func_808B1D18(BgSpot09Obj* this, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain2);
     return 1;
 }
 
-s32 func_808B1D44(BgSpot09Obj* this, GlobalContext* globalCtx) {
+s32 func_808B1D44(BgSpot09Obj* this, PlayState* play) {
     if (this->dyna.actor.params == 3) {
-        return func_808B1D18(this, globalCtx);
+        return func_808B1D18(this, play);
     } else {
-        return func_808B1CEC(this, globalCtx);
+        return func_808B1CEC(this, play);
     }
 }
 
-void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot09Obj_Init(Actor* thisx, PlayState* play) {
     BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
     osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", thisx->params,
@@ -148,37 +148,37 @@ void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
                      "../z_bg_spot09_obj.c", 322, thisx->params);
     }
 
-    if (!func_808B1C70(this, globalCtx)) {
+    if (!func_808B1C70(this, play)) {
         Actor_Kill(thisx);
-    } else if (!func_808B1D44(this, globalCtx)) {
+    } else if (!func_808B1D44(this, play)) {
         Actor_Kill(thisx);
     }
 }
 
-void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DynaCollisionContext* dynaColCtx = &globalCtx->colCtx.dyna;
+void BgSpot09Obj_Destroy(Actor* thisx, PlayState* play) {
+    DynaCollisionContext* dynaColCtx = &play->colCtx.dyna;
     BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
     if (thisx->params != 0) {
-        DynaPoly_DeleteBgActor(globalCtx, dynaColCtx, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(play, dynaColCtx, this->dyna.bgId);
     }
 }
 
-void BgSpot09Obj_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot09Obj_Update(Actor* thisx, PlayState* play) {
 }
 
-void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);
+void BgSpot09Obj_Draw(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, sDLists[thisx->params]);
 
     if (thisx->params == 3) {
-        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
+        OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
 
-        func_80093D84(globalCtx->state.gfxCtx);
+        func_80093D84(play->state.gfxCtx);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gCarpentersTentEntranceDL);
 
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
+        CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
     }
 }

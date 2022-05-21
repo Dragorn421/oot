@@ -7,25 +7,25 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
 
-void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnBomBowlMan_Init(Actor* thisx, PlayState* play);
+void EnBomBowlMan_Destroy(Actor* thisx, PlayState* play);
+void EnBomBowlMan_Update(Actor* thisx, PlayState* play);
+void EnBomBowlMan_Draw(Actor* thisx, PlayState* play);
 
-void func_809C3820(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C38A8_WaitTalk(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C395C(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C39D0(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C3A54(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C3C7C(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C3CD4(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C4318(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx);
-void func_809C4664(EnBomBowlMan* this, GlobalContext* globalCtx);
+void func_809C3820(EnBomBowlMan* this, PlayState* play);
+void func_809C38A8_WaitTalk(EnBomBowlMan* this, PlayState* play);
+void func_809C395C(EnBomBowlMan* this, PlayState* play);
+void func_809C39D0(EnBomBowlMan* this, PlayState* play);
+void func_809C3A54(EnBomBowlMan* this, PlayState* play);
+void func_809C3B50(EnBomBowlMan* this, PlayState* play);
+void func_809C3C7C(EnBomBowlMan* this, PlayState* play);
+void func_809C3CD4(EnBomBowlMan* this, PlayState* play);
+void func_809C3DC4(EnBomBowlMan* this, PlayState* play);
+void func_809C4040(EnBomBowlMan* this, PlayState* play);
+void func_809C41FC(EnBomBowlMan* this, PlayState* play);
+void func_809C4318(EnBomBowlMan* this, PlayState* play);
+void func_809C441C(EnBomBowlMan* this, PlayState* play);
+void func_809C4664(EnBomBowlMan* this, PlayState* play);
 
 const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
@@ -55,22 +55,22 @@ Vec3f D_809C4A60[5] = {
 static s16 D_809C4A9C[6] = { 0x4268, 0x4268, -0x3E8, 0, 0x4268, 0 };
 static s32 D_809C4AA8[6] = { 0x06004110, 0x06004910, 0x06005110, 0, 0, 0 };
 
-void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
+void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     EnBomBowlMan* this = (EnBomBowlMan*)thisx;
-    GlobalContext* globalCtx = globalCtx2;
+    PlayState* play = play2;
     s32 var_s1;
     EnSyatekiNiw* temp_v0;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->unk14C, &object_bg_006EB0_Skel, &object_bg_000710_Anim, &this->unk190,
+    SkelAnime_InitFlex(play, &this->unk14C, &object_bg_006EB0_Skel, &object_bg_000710_Anim, &this->unk190,
                        &this->unk1D2, 0xB);
     osSyncPrintf("\x1b[32m☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n\x1b[m");
-    osSyncPrintf("\x1b[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n\x1b[m", globalCtx->bombchuBowlingStatus);
+    osSyncPrintf("\x1b[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
     this->unk248 = this->actor.world.pos;
     this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
     for (var_s1 = 0; var_s1 < 2; var_s1++) {
-        temp_v0 = (EnSyatekiNiw*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x143, D_809C4A28[var_s1].x,
+        temp_v0 = (EnSyatekiNiw*)Actor_Spawn(&play->actorCtx, play, 0x143, D_809C4A28[var_s1].x,
                                              D_809C4A28[var_s1].y, D_809C4A28[var_s1].z, 0, 0, 0, 1);
         if (temp_v0 != NULL) {
             temp_v0->unk_2F4 = D_809C4A40[var_s1];
@@ -83,10 +83,10 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actionFunc = func_809C3820;
 }
 
-void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnBomBowlMan_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void func_809C3820(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C3820(EnBomBowlMan* this, PlayState* play) {
     this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_000710_Anim);
     Animation_Change(&this->unk14C, &object_bg_000710_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_LOOP,
                      -10.0f);
@@ -95,31 +95,31 @@ void func_809C3820(EnBomBowlMan* this, GlobalContext* globalCtx) {
     this->actionFunc = func_809C38A8_WaitTalk;
 }
 
-void func_809C38A8_WaitTalk(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C38A8_WaitTalk(EnBomBowlMan* this, PlayState* play) {
     s16 relYawTowardsPlayer;
     s16 relYawTowardsPlayerAbs;
 
     SkelAnime_Update(&this->unk14C);
-    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, play)) {
         this->actionFunc = func_809C395C;
     } else {
         relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         relYawTowardsPlayerAbs = ABS(relYawTowardsPlayer);
         if (!(this->actor.xzDistToPlayer > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
-            func_8002F2CC(&this->actor, globalCtx, 120.0f);
+            func_8002F2CC(&this->actor, play, 120.0f);
         }
     }
 }
 
-void func_809C395C(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C395C(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
+    if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+        play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_809C39D0;
     }
 }
 
-void func_809C39D0(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C39D0(EnBomBowlMan* this, PlayState* play) {
     this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_000080_Anim);
     Animation_Change(&this->unk14C, &object_bg_000080_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_ONCE,
                      -10.0f);
@@ -127,7 +127,7 @@ void func_809C39D0(EnBomBowlMan* this, GlobalContext* globalCtx) {
     this->actionFunc = func_809C3A54;
 }
 
-void func_809C3A54(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C3A54(EnBomBowlMan* this, PlayState* play) {
     f32 sp1C;
 
     sp1C = this->unk14C.curFrame;
@@ -140,7 +140,7 @@ void func_809C3A54(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x7058;
         }
     }
-    Message_ContinueTextbox(globalCtx, this->actor.textId);
+    Message_ContinueTextbox(play, this->actor.textId);
     if ((this->unk234 == 0) && (this->unk238 == 2) && (this->unk236 == 0)) {
         this->unk234 = 2;
         this->unk23A += 1;
@@ -150,10 +150,10 @@ void func_809C3A54(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C3B50(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        Message_CloseTextbox(globalCtx);
+    if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+        Message_CloseTextbox(play);
         this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_0072AC_Anim);
         Animation_Change(&this->unk14C, &object_bg_0072AC_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount,
                          ANIMMODE_LOOP, -10.0f);
@@ -164,30 +164,30 @@ void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
         } else {
             this->actor.textId = 0x18;
             this->unk22E = TEXT_STATE_CHOICE;
-            Message_ContinueTextbox(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(play, this->actor.textId);
             this->actionFunc = func_809C4040;
         }
     }
 }
 
-void func_809C3C7C(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C3C7C(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, play)) {
         this->actionFunc = func_809C3CD4;
     } else {
-        func_8002F2CC(&this->actor, globalCtx, 120.0f);
+        func_8002F2CC(&this->actor, play, 120.0f);
     }
 }
 
-void func_809C3CD4(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C3CD4(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        Message_CloseTextbox(globalCtx);
+    if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+        Message_CloseTextbox(play);
         this->actionFunc = func_809C3C7C;
     }
 }
 
-void func_809C3D40(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C3D40(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
     if (this->unk_258 == 0) {
         if (this->unk232 == 0) {
@@ -203,13 +203,13 @@ void func_809C3D40(EnBomBowlMan* this, GlobalContext* globalCtx) {
     this->actionFunc = func_809C3DC4;
 }
 
-void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
     s16 relYawTowardsPlayer;
     s16 relYawTowardsPlayerAbs;
 
     SkelAnime_Update(&this->unk14C);
     if (gGameInfo->data[0x963] != 0) {
-        osSyncPrintf("\x1b[31m☆ game_play->bomchu_game_flag ☆ %d\n\x1b[m", globalCtx->bombchuBowlingStatus);
+        osSyncPrintf("\x1b[31m☆ game_play->bomchu_game_flag ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
         osSyncPrintf("\x1b[31m☆ 壁１の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[0]);
         osSyncPrintf("\x1b[31m☆ 壁２の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[1]);
         osSyncPrintf("\x1b[31m☆ 穴情報\t     ☆ %d\n\x1b[m", this->unk25C->unk164);
@@ -222,7 +222,7 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->unk25C->unk164 = 0U;
             osSyncPrintf("\x1b[35m☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n\x1b[m");
         }
-        if ((globalCtx->bombchuBowlingStatus == -1) && (globalCtx->actorCtx.actorLists[3].length == 0) &&
+        if ((play->bombchuBowlingStatus == -1) && (play->actorCtx.actorLists[3].length == 0) &&
             (this->unk25C->unk164 == 0) && (this->unk23E_arr[0] != 1) && (this->unk23E_arr[1] != 1)) {
             this->unk244 = 2;
             osSyncPrintf("\x1b[35m☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n\x1b[m");
@@ -236,14 +236,14 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->unk260->killItem = 1;
             this->unk260 = NULL;
         }
-        globalCtx->bombchuBowlingStatus = 0;
+        play->bombchuBowlingStatus = 0;
         this->unk23C = 1;
-        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
+        Message_StartTextbox(play, this->actor.textId, NULL);
         if (this->unk244 == 2) {
-            func_8002DF54(globalCtx, NULL, 8U);
+            func_8002DF54(play, NULL, 8U);
         }
         this->actionFunc = func_809C4040;
-    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
         if (this->unk_258 == 0) {
             this->actionFunc = func_809C4040;
         } else {
@@ -253,41 +253,41 @@ void func_809C3DC4(EnBomBowlMan* this, GlobalContext* globalCtx) {
         relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         relYawTowardsPlayerAbs = ABS(relYawTowardsPlayer);
         if (!(this->actor.xzDistToPlayer > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
-            func_8002F2CC(&this->actor, globalCtx, 120.0f);
+            func_8002F2CC(&this->actor, play, 120.0f);
         }
     }
 }
 
-void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C4040(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        Message_CloseTextbox(globalCtx);
-        switch (globalCtx->msgCtx.choiceIndex) {
+    if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+        Message_CloseTextbox(play);
+        switch (play->msgCtx.choiceIndex) {
             case 0:
                 if (gSaveContext.rupees >= 0x1E) {
                     Rupees_ChangeBy(-0x1E);
                     this->unk23E_arr[1] = 0;
                     this->unk_258 = 1;
                     this->unk23E_arr[0] = this->unk23E_arr[1];
-                    globalCtx->bombchuBowlingStatus = 0xA;
-                    Flags_SetSwitch(globalCtx, 0x38);
+                    play->bombchuBowlingStatus = 0xA;
+                    Flags_SetSwitch(play, 0x38);
                     if ((this->unk232 == 0) && (this->unk23C == 0)) {
                         this->actor.textId = 0x19;
-                        Message_ContinueTextbox(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(play, this->actor.textId);
                         this->unk22E = TEXT_STATE_EVENT;
                         this->actionFunc = func_809C41FC;
                     } else {
                         this->actor.textId = 0x1B;
-                        Message_ContinueTextbox(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(play, this->actor.textId);
                         this->unk22E = TEXT_STATE_EVENT;
-                        OnePointCutscene_Init(globalCtx, 8010, -99, NULL, CAM_ID_MAIN);
-                        func_8002DF54(globalCtx, NULL, 8U);
+                        OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
+                        func_8002DF54(play, NULL, 8U);
                         this->actionFunc = func_809C4318;
                     }
                 } else {
                     this->unk23C = 0;
                     this->actor.textId = 0x85;
-                    Message_ContinueTextbox(globalCtx, this->actor.textId);
+                    Message_ContinueTextbox(play, this->actor.textId);
                     this->unk22E = TEXT_STATE_EVENT;
                     this->actionFunc = func_809C41FC;
                 }
@@ -295,7 +295,7 @@ void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
             case 1:
                 this->unk23C = 0;
                 this->actor.textId = 0x2D;
-                Message_ContinueTextbox(globalCtx, this->actor.textId);
+                Message_ContinueTextbox(play, this->actor.textId);
                 this->unk22E = TEXT_STATE_EVENT;
                 this->actionFunc = func_809C41FC;
                 break;
@@ -303,47 +303,47 @@ void func_809C4040(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C41FC(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        Message_CloseTextbox(globalCtx);
-        if (((this->actor.textId == 0x2D) || (this->actor.textId == 0x85)) && Flags_GetSwitch(globalCtx, 0x38)) {
-            Flags_UnsetSwitch(globalCtx, 0x38);
+    if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+        Message_CloseTextbox(play);
+        if (((this->actor.textId == 0x2D) || (this->actor.textId == 0x85)) && Flags_GetSwitch(play, 0x38)) {
+            Flags_UnsetSwitch(play, 0x38);
         }
         if (this->unk_258 == 1) {
             this->actor.textId = 0x1B;
-            Message_ContinueTextbox(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(play, this->actor.textId);
             this->unk22E = TEXT_STATE_EVENT;
-            OnePointCutscene_Init(globalCtx, 8010, -99, NULL, CAM_ID_MAIN);
-            func_8002DF54(globalCtx, NULL, 8U);
+            OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
+            func_8002DF54(play, NULL, 8U);
             this->actionFunc = func_809C4318;
         } else {
             if (this->unk244 == 2) {
-                func_8002DF54(globalCtx, NULL, 7U);
+                func_8002DF54(play, NULL, 7U);
             }
             this->actionFunc = func_809C3D40;
         }
     }
 }
 
-void func_809C4318(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C4318(EnBomBowlMan* this, PlayState* play) {
     Vec3f sp44 = D_809C4A48;
     Vec3f sp38 = D_809C4A54;
     Vec3f sp2C;
 
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+    if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         sp2C.x = 148.0f;
         sp2C.y = 40.0f;
         sp2C.z = 300.0f;
-        EffectSsBomb2_SpawnLayered(globalCtx, &sp2C, &sp38, &sp44, 50, 15);
+        EffectSsBomb2_SpawnLayered(play, &sp2C, &sp38, &sp44, 50, 15);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_GOODS_APPEAR);
         this->unk22A = 0xA;
         this->actionFunc = func_809C441C;
     }
 }
 
-void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C441C(EnBomBowlMan* this, PlayState* play) {
     s16 var_v1;
     s32 pad;
 
@@ -377,11 +377,11 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->unk230 = gGameInfo->data[0x967] - 1;
         }
         this->unk260 = (EnExItem*)Actor_SpawnAsChild(
-            &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM, D_809C4A60[this->unk230].x + 148.0f,
+            &play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, D_809C4A60[this->unk230].x + 148.0f,
             D_809C4A60[this->unk230].y + 40.0f, D_809C4A60[this->unk230].z + 300.0f, 0, D_809C4A9C[this->unk230], 0,
             this->unk230 + 5);
         if (this->unk232 == 0) {
-            this->unk25C = (EnBomBowlPit*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
+            this->unk25C = (EnBomBowlPit*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play,
                                                              ACTOR_EN_BOM_BOWL_PIT, 0.0f, 90.0f, -860.0f, 0, 0, 0, 0);
             if (this->unk25C != NULL) {
                 this->unk25C->unk15A = (s16)this->unk230;
@@ -392,7 +392,7 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->unk25C->unk15C = 1;
         this->unk_258 = 2;
         this->actor.textId = 0x405A;
-        Message_ContinueTextbox(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(play, this->actor.textId);
         this->unk22E = TEXT_STATE_EVENT;
         this->unk242 += 1;
         if ((s16)this->unk242 >= 5) {
@@ -402,22 +402,22 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C4664(EnBomBowlMan* this, GlobalContext* globalCtx) {
+void func_809C4664(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if ((this->unk22E == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
-        Message_CloseTextbox(globalCtx);
-        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamId]);
+    if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+        Message_CloseTextbox(play);
+        func_8005B1A4(play->cameraPtrs[play->activeCamId]);
         this->unk232 = 1;
         if (gGameInfo->data[0x962] != 0) {
             gGameInfo->data[0x962] = 0;
         }
-        osSyncPrintf("\x1b[33m☆ わー ☆ %d\n\x1b[m", globalCtx->bombchuBowlingStatus);
-        func_8002DF54(globalCtx, NULL, 7U);
+        osSyncPrintf("\x1b[33m☆ わー ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
+        func_8002DF54(play, NULL, 7U);
         this->actionFunc = func_809C3D40;
     }
 }
 
-void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
     EnBomBowlMan* this = (EnBomBowlMan*)thisx;
 
     this->unk22C += 1;
@@ -450,7 +450,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
                     this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
                 }
             }
-            func_80038290(globalCtx, &this->actor, &this->unk218, &this->unk224, this->actor.focus.pos);
+            func_80038290(play, &this->actor, &this->unk218, &this->unk224, this->actor.focus.pos);
             break;
     }
     if (this->unk22A == 0) {
@@ -461,10 +461,10 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk236 != 0) {
         this->unk236 -= 1;
     }
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-s32 EnBomBowlMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+s32 EnBomBowlMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
     EnBomBowlMan* this = thisx;
 
@@ -475,13 +475,13 @@ s32 EnBomBowlMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
     return 0;
 }
 
-void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnBomBowlMan_Draw(Actor* thisx, PlayState* play) {
     EnBomBowlMan* this = (EnBomBowlMan*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);
-    func_80093D18(globalCtx->state.gfxCtx);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);
+    func_80093D18(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809C4AA8[this->unk234]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,
+    SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,
                           EnBomBowlMan_OverrideLimbDraw, NULL, this);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_bowl_man.c", 923);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_bom_bowl_man.c", 923);
 }

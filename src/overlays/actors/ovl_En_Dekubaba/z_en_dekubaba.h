@@ -12,7 +12,7 @@ typedef struct EnDekubaba {
     /* 0x164 */ Vec3f unk164;
     /* 0x170 */ Vec3f unk170;
     /* 0x17C */ SkelAnime unk17C;
-    /* 0x1C0 */ void (*unk1C0)(struct EnDekubaba*, GlobalContext*);
+    /* 0x1C0 */ void (*unk1C0)(struct EnDekubaba*, PlayState*);
     /* 0x1C4 */ char pad1C4[2];
     /* 0x1C6 */ s16 unk1C6;
     /* 0x1C8 */ s16 unk1C8;
