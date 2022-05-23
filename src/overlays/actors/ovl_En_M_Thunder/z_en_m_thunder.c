@@ -83,9 +83,9 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.1f);
     this->unk1CA = 0;
     if (player->stateFlags2 & PLAYER_STATE2_17) {
-        if (((gSaveContext.magicAcquired) == 0) || (gSaveContext.unk_13F0 != 0) ||
+        if (((gSaveContext.isMagicAcquired) == 0) || (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
             (((((this->actor.params & 0xFF00) >> 8) != 0)) &&
-             (func_80087708(play, (s16)((this->actor.params & 0xFF00) >> 8), 0) == 0))) {
+             (Magic_RequestChange(play, (s16)((this->actor.params & 0xFF00) >> 8), MAGIC_CONSUME_NOW) == 0))) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4U,
@@ -117,7 +117,7 @@ void EnMThunder_Destroy(Actor* thisx, PlayState* play) {
     EnMThunder* this = (EnMThunder*)thisx;
 
     if (this->unk1CA != 0) {
-        func_800876C8(play);
+        Magic_Reset(play);
     }
     Collider_DestroyCylinder(play, &this->unk14C);
     func_80A9F314(play, 0.0f);
@@ -157,8 +157,9 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
     this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
     if ((this->unk1CA == 0) && (player->unk_858 >= 0.10f)) {
-        if ((gSaveContext.unk_13F0 != 0) || ((((this->actor.params & 0xFF00) >> 8) != 0) &&
-                                             (func_80087708(play, (this->actor.params & 0xFF00) >> 8, 4) == 0))) {
+        if ((gSaveContext.magicState != MAGIC_STATE_IDLE) ||
+            ((((this->actor.params & 0xFF00) >> 8) != 0) &&
+             (Magic_RequestChange(play, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_WAIT_PREVIEW) == 0))) {
             func_80A9F350(this, play);
             EnMThunder_SetupAction(this, func_80A9F350);
             this->unk1C8 = 0;
@@ -187,7 +188,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         }
         player->stateFlags2 &= ~PLAYER_STATE2_17;
         if (((this->actor.params & 0xFF00) >> 8) != 0) {
-            gSaveContext.unk_13F0 = 1;
+            gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
         }
         if (player->unk_858 < 0.85f) {
             this->unk14C.info.toucher.dmgFlags = D_80AA044C[this->unk1C7];
@@ -321,8 +322,8 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
         case 0:
         case 1:
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0xFF - ((u8)(s32)(this->unk1B4 * 30.0f) & 0xFF), 0,
-                                        64, 32, 1, 0xFF - ((u8)(s32)(this->unk1B4 * 20.0f) & 0xFF), 0, 8, 8));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0xFF - ((u8)(s32)(this->unk1B4 * 30.0f) & 0xFF), 0, 64,
+                                        32, 1, 0xFF - ((u8)(s32)(this->unk1B4 * 20.0f) & 0xFF), 0, 8, 8));
             break;
     }
     switch (this->unk1C6) {
@@ -371,8 +372,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 9,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->gameplayFrames * 5) & 0xFF, 0U, 32, 32, 1,
-                                (play->gameplayFrames * 0x14) & 0xFF, (play->gameplayFrames * var_t1) & 0xFF,
-                                8, 8));
+                                (play->gameplayFrames * 0x14) & 0xFF, (play->gameplayFrames * var_t1) & 0xFF, 8, 8));
     gSPDisplayList(POLY_XLU_DISP++, gSpinAttackChargingDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 0x407);
 }

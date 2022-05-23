@@ -169,12 +169,12 @@ void func_80872D20(BgDyYoseizo* this, PlayState* play) {
     if (Flags_GetSwitch(play, 0x38)) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if (!gSaveContext.magicAcquired && (this->unk2EC != 0)) {
+            if (!gSaveContext.isMagicAcquired && (this->unk2EC != 0)) {
                 Actor_Kill(&this->actor);
                 return;
             }
         } else {
-            if (!gSaveContext.magicAcquired) {
+            if (!gSaveContext.isMagicAcquired) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -213,7 +213,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
     } else {
         switch (this->unk2EC) {
             case 0:
-                if (!gSaveContext.magicAcquired || (gGameInfo->data[0x962] != 0)) {
+                if (!gSaveContext.isMagicAcquired || (gGameInfo->data[0x962] != 0)) {
                     osSyncPrintf("\x1b[32m ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;
@@ -221,7 +221,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
                 break;
 
             case 1:
-                if (!gSaveContext.doubleMagic) {
+                if (!gSaveContext.isDoubleMagicAcquired) {
                     osSyncPrintf("\x1b[33m ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;
@@ -438,7 +438,7 @@ void func_80873868(BgDyYoseizo* this, PlayState* play) {
         Magic_Fill(play);
         this->unk306 = 0xC8;
     }
-    if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.unk_13F4)) ||
+    if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.magicCapacity)) ||
         (this->unk306 == 1)) {
         this->unk302--;
         if (this->unk302 == 0x5A) {
@@ -656,17 +656,17 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
             var_v1 = play->csCtx.npcActions[0]->action - 0xA;
             switch (var_v1) {
                 case 0:
-                    gSaveContext.magicAcquired = 1;
-                    gSaveContext.unk_13F6 = 0x30;
+                    gSaveContext.isMagicAcquired = 1;
+                    gSaveContext.magicFillTarget = 0x30;
                     Interface_ChangeAlpha(9U);
                     break;
 
                 case 1:
-                    if (gSaveContext.magicAcquired == 0) {
-                        gSaveContext.magicAcquired = 1;
+                    if (gSaveContext.isMagicAcquired == 0) {
+                        gSaveContext.isMagicAcquired = 1;
                     }
-                    gSaveContext.doubleMagic = 1;
-                    gSaveContext.unk_13F6 = 0x60;
+                    gSaveContext.isDoubleMagicAcquired = 1;
+                    gSaveContext.magicFillTarget = 0x60;
                     gSaveContext.magicLevel = 0;
                     Interface_ChangeAlpha(9U);
                     break;
@@ -700,8 +700,8 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
                     (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM,
                                                   var_fv1.x, var_fv1.y, var_fv1.z, 0, 0, 0, D_808754B8[var_v1]);
                 if (this->unk344 != NULL) {
-                    if (!gSaveContext.magicAcquired) {
-                        gSaveContext.magicAcquired = true;
+                    if (!gSaveContext.isMagicAcquired) {
+                        gSaveContext.isMagicAcquired = true;
                     } else {
                         Magic_Fill(play);
                     }
