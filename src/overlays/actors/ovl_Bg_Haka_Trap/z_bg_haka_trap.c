@@ -127,7 +127,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 Collider_SetTris(play, &this->unk1C4, &this->dyna.actor, &D_80880FF8, this->unk1E4);
                 this->unk178.dim.radius = 0x12;
                 this->unk178.dim.height = 0x73;
-                this->unk178.info.toucherFlags |= 0;
+                this->unk178.info.toucherFlags &= ~TOUCH_SFX_NORMAL;
                 this->unk178.info.toucherFlags |= 0x10;
                 this->actionFunc = &func_808801B8;
             }

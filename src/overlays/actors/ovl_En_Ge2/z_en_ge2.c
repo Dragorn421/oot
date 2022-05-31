@@ -1,6 +1,7 @@
 #include "z_en_ge2.h"
 #include "macros.h"
 #include "objects/object_gla/object_gla.h"
+#include "z64collision_check.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -268,8 +269,7 @@ void func_80A3334C(EnGe2* this, PlayState* play) {
         sp38.x = this->actor.focus.pos.x + (Math_CosS(temp_v0) * 5.0f);
         sp38.y = this->actor.focus.pos.y + 10.0f;
         sp38.z = this->actor.focus.pos.z + (Math_SinS(temp_v0) * 5.0f);
-        EffectSsKiraKira_SpawnDispersed(play, &sp38, &D_80A34390, &D_80A3439C, &D_80A343A8, &D_80A343AC, 0x3E8,
-                                        0x10);
+        EffectSsKiraKira_SpawnDispersed(play, &sp38, &D_80A34390, &D_80A3439C, &D_80A343A8, &D_80A343AC, 0x3E8, 0x10);
     }
 }
 
@@ -451,8 +451,7 @@ void func_80A33BE8(EnGe2* this, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->unk14C);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
-    Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (!(this->unk2F4 & 2) && SkelAnime_Update(&this->unk198)) {
         this->unk2F4 |= 2;
     }
@@ -506,7 +505,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     if ((this->unk2F4 & 4) || (this->unk2F4 & 8)) {
         this->unk308(this, play);
     } else {
-        if (this->unk14C.base.acFlags & 2) {
+        if (this->unk14C.base.acFlags & AC_HIT) {
             if ((this->unk14C.info.acHitInfo != NULL) && (this->unk14C.info.acHitInfo->toucher.dmgFlags & 0x80)) {
                 Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x190);
                 this->actor.update = func_80A3402C;
@@ -545,9 +544,8 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
 
     Collider_UpdateCylinder(&this->actor, &this->unk14C);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
-    Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    if ((this->unk14C.base.acFlags & 2) &&
+    Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    if ((this->unk14C.base.acFlags & AC_HIT) &&
         (((this->unk14C.info.acHitInfo == NULL)) || !(this->unk14C.info.acHitInfo->toucher.dmgFlags & 0x80))) {
         this->actor.colorFilterTimer = 0;
         func_80A32BD0(this, 3);
@@ -592,7 +590,7 @@ void EnGe2_Draw(Actor* thisx, PlayState* play) {
     func_800943C8(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A343BC[this->unk2E4]));
     func_8002EBCC(&this->actor, play, 0);
-    SkelAnime_DrawFlexOpa(play, this->unk198.skeleton, this->unk198.jointTable, this->unk198.dListCount,
-                          func_80A3415C, func_80A341A0, this);
+    SkelAnime_DrawFlexOpa(play, this->unk198.skeleton, this->unk198.jointTable, this->unk198.dListCount, func_80A3415C,
+                          func_80A341A0, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ge2.c", 1291);
 }
