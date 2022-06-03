@@ -351,6 +351,7 @@ u16 EnGo2_GetStateGoronCityRollingBig(PlayState* play, EnGo2* this) {
                     return 2;
                 }
             }
+            FALLTHROUGH;
         default:
             return 1;
     }
@@ -383,6 +384,7 @@ u16 EnGo2_GetStateGoronDmtBombFlower(PlayState* play, EnGo2* this) {
                 }
                 return 1;
             }
+            FALLTHROUGH;
         default:
             return 1;
     }
@@ -515,6 +517,7 @@ u16 EnGo2_GetStateGoronCityLink(PlayState* play, EnGo2* this) {
                     return 2;
                 case 0x3037:
                     SET_INFTABLE(INFTABLE_10E);
+                    FALLTHROUGH;
                 default:
                     return 0;
             }
@@ -544,6 +547,7 @@ u16 EnGo2_GetStateGoronCityLink(PlayState* play, EnGo2* this) {
                 switch (this->actor.textId) {
                     case 0x3035:
                         SET_INFTABLE(INFTABLE_10B);
+                        FALLTHROUGH;
                     case 0x3032:
                     case 0x3033:
                         this->actor.textId = 0x3034;
@@ -553,6 +557,7 @@ u16 EnGo2_GetStateGoronCityLink(PlayState* play, EnGo2* this) {
                         return 2;
                 }
             }
+            break;
     }
     return 1;
 }
@@ -598,15 +603,18 @@ u16 EnGo2_GetStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
                     if (func_8002F368(play) != EXCH_ITEM_CLAIM_CHECK) {
                         break;
                     }
+                    FALLTHROUGH;
                 case 0x3059:
                     if (dialogState == TEXT_STATE_NONE) {
                         func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_WAKE_UP, 60);
                     }
+                    FALLTHROUGH;
                 case 0x3054:
                     if (dialogState == TEXT_STATE_NONE) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     }
+                    break;
             }
             return 1;
         case TEXT_STATE_CHOICE:
@@ -631,6 +639,7 @@ u16 EnGo2_GetStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
                 }
                 return 2;
             }
+            break;
     }
     return 1;
 }
@@ -655,6 +664,7 @@ u16 EnGo2_GetStateGoronFireGeneric(PlayState* play, EnGo2* this) {
                 }
                 return 1;
             }
+            FALLTHROUGH;
         default:
             return 1;
     }
@@ -731,7 +741,7 @@ u16 EnGo2_GetStateGoronDmtFairyHint(PlayState* play, EnGo2* this) {
 u16 EnGo2_GetTextId(PlayState* play, EnGo2* this) {
     u16 faceReaction = Text_GetFaceReaction(play, 0x20);
 
-    if (faceReaction) {
+    if (faceReaction != 0) {
         return faceReaction;
     } else {
         switch (this->actor.params & 0x1F) {
@@ -765,6 +775,9 @@ u16 EnGo2_GetTextId(PlayState* play, EnGo2* this) {
                 return EnGo2_GetTextIdGoronMarketBazaar(play, this);
         }
     }
+#ifdef AVOID_UB
+    return faceReaction; // faceReaction is always in the v0 return value register at this point
+#endif
 }
 
 u16 EnGo2_GetState(PlayState* play, EnGo2* this) {
@@ -798,6 +811,11 @@ u16 EnGo2_GetState(PlayState* play, EnGo2* this) {
         case GORON_MARKET_BAZAAR:
             return EnGo2_GetStateGoronMarketBazaar(play, this);
     }
+#ifdef AVOID_UB
+    // The v0 register isn't set in this function, the last value in v0 is the return value of Actor_ProcessTalkRequest
+    // called in the function below, which must be false for this function to be called
+    return false;
+#endif
 }
 
 s32 func_80A44790(EnGo2* this, PlayState* play) {
@@ -1119,6 +1137,7 @@ void func_80A454CC(EnGo2* this) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_4);
                 break;
             }
+            FALLTHROUGH;
         default:
             this->skelAnime.playSpeed = 0.0f;
             break;
@@ -1215,8 +1234,10 @@ void EnGo2_SelectGoronWakingUp(EnGo2* this) {
                 EnGo2_WakingUp(this);
                 break;
             }
+            FALLTHROUGH;
         default:
             EnGo2_DefaultWakingUp(this);
+            break;
     }
 }
 
@@ -1590,10 +1611,12 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
             }
+            FALLTHROUGH;
         case GORON_DMT_DC_ENTRANCE:
         case GORON_DMT_FAIRY_HINT:
         default:
             this->actionFunc = EnGo2_CurledUp;
+            break;
     }
 }
 

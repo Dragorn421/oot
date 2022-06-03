@@ -158,9 +158,11 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
         case EN_WOOD_02_TYPE_15:
         case EN_WOOD_02_TYPE_21:
             var_t0_sp4E = 1;
+            FALLTHROUGH;
         case EN_WOOD_02_TYPE_16:
         case EN_WOOD_02_TYPE_22:
             var_t0_sp4E += 1;
+            FALLTHROUGH;
         case EN_WOOD_02_TYPE_0:
         case EN_WOOD_02_TYPE_12:
         case EN_WOOD_02_TYPE_18:
@@ -176,12 +178,14 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
         case EN_WOOD_02_TYPE_13:
         case EN_WOOD_02_TYPE_19:
             var_t0_sp4E = 1;
+            FALLTHROUGH;
         case EN_WOOD_02_TYPE_4:
         case EN_WOOD_02_TYPE_7:
         case EN_WOOD_02_TYPE_9:
         case EN_WOOD_02_TYPE_14:
         case EN_WOOD_02_TYPE_20:
             var_t0_sp4E += 1;
+            FALLTHROUGH;
         case EN_WOOD_02_TYPE_1:
         case EN_WOOD_02_TYPE_5:
         case EN_WOOD_02_TYPE_10:

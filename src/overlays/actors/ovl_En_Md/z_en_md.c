@@ -97,6 +97,7 @@ void func_80AAA274(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_2);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_3);
@@ -111,6 +112,7 @@ void func_80AAA308(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_4);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_5);
@@ -126,6 +128,7 @@ void func_80AAA39C(EnMd* this) {
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_2);
             func_80AAA250(this);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_7);
@@ -133,11 +136,13 @@ void func_80AAA39C(EnMd* this) {
             } else {
                 break;
             }
+            FALLTHROUGH;
         case 2:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_8);
                 this->unk20A++;
             }
+            break;
     }
 }
 
@@ -146,6 +151,7 @@ void func_80AAA474(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_7);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_10);
@@ -161,6 +167,7 @@ void func_80AAA508(EnMd* this) {
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_2);
             func_80AAA250(this);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_10);
@@ -175,6 +182,7 @@ void func_80AAA5A4(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_9);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_6);
@@ -190,6 +198,7 @@ void func_80AAA638(EnMd* this) {
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_9);
             func_80AAA250(this);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_10);
@@ -204,6 +213,7 @@ void func_80AAA6D4(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_11);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_6);
@@ -218,6 +228,7 @@ void func_80AAA768(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_12);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_3);
@@ -232,6 +243,7 @@ void func_80AAA7FC(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_13);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_6);
@@ -247,6 +259,7 @@ void func_80AAA890(EnMd* this) {
             Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_7);
             func_80AAA250(this);
             this->unk20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
                 Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_10);

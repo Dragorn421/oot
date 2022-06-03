@@ -305,6 +305,7 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, EnGo* this) {
                 switch (this->actor.textId) {
                     case 0x3035:
                         SET_INFTABLE(INFTABLE_10B);
+                        FALLTHROUGH;
                     case 0x3032:
                     case 0x3033:
                         this->actor.textId = 0x3034;
