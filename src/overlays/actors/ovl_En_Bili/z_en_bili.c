@@ -514,7 +514,7 @@ void func_809C0A70(EnBili* this, PlayState* play) {
             } else {
                 func_809BFC48(this);
             }
-            if (this->unk1D4.info.acHitInfo->toucher.dmgFlags & 0x1F820) {
+            if (this->unk1D4.info.acHitInfo->toucher.dmgFlags & DMG_ARROW) {
                 this->actor.flags |= ACTOR_FLAG_4;
             }
         }

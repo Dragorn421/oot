@@ -81,8 +81,7 @@ void func_80BA0D60(ObjTsubo* this, PlayState* play) {
 
     temp_v0 = this->actor.params & 0x1F;
     if ((temp_v0 >= 0) && (temp_v0 < ITEM00_MAX)) {
-        Item_DropCollectible(play, &this->actor.world.pos,
-                             (s16)(temp_v0 | (((this->actor.params >> 9) & 0x3F) << 8)));
+        Item_DropCollectible(play, &this->actor.world.pos, (s16)(temp_v0 | (((this->actor.params >> 9) & 0x3F) << 8)));
     }
 }
 
@@ -249,7 +248,9 @@ void func_80BA15BC(ObjTsubo* this, PlayState* play) {
         SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         func_80BA0D60(this, play);
         Actor_Kill(&this->actor);
-    } else if ((this->unk150.base.acFlags & AC_HIT) && (this->unk150.info.acHitInfo->toucher.dmgFlags & 0x4FC1FFFC)) {
+    } else if ((this->unk150.base.acFlags & AC_HIT) &&
+               (this->unk150.info.acHitInfo->toucher.dmgFlags &
+                (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         func_80BA100C(this, play);
         func_80BA0D60(this, play);
         SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
