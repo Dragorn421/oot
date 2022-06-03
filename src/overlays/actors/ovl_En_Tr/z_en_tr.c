@@ -424,7 +424,7 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
         if (1) {}
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         OPEN_DISPS(play->state.gfxCtx, "../z_en_tr.c", 840);
-        func_800943C8(play->state.gfxCtx);
+        Gfx_SetupDL_37Opa(play->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80B243D0[this->unk2E0]));
         func_8002EBCC(&this->actor, play, 0);
         SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,

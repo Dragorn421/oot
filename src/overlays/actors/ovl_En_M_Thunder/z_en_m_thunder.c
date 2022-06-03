@@ -314,7 +314,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
 
     player = GET_PLAYER(play);
     OPEN_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 0x34C);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_m_thunder.c", 0x355),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

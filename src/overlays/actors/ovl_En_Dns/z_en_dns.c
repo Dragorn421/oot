@@ -176,8 +176,8 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     }
     osSyncPrintf("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", D_809F0424[this->actor.params]);
     Actor_ProcessInitChain(&this->actor, D_809F052C);
-    SkelAnime_InitFlex(play, &this->unk14C, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,
-                       this->unk190, this->unk1FC, 0x12);
+    SkelAnime_InitFlex(play, &this->unk14C, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim, this->unk190,
+                       this->unk1FC, 0x12);
     Collider_InitCylinder(play, &this->unk26C);
     Collider_SetCylinderType1(play, &this->unk26C, &this->actor, &D_809F03E0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
@@ -517,7 +517,7 @@ void EnDns_Update(Actor* thisx, PlayState* play) {
 void EnDns_Draw(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount, NULL,
-                          NULL, &this->actor);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
+    SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount, NULL, NULL,
+                          &this->actor);
 }

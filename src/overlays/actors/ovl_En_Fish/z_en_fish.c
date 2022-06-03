@@ -706,7 +706,7 @@ void EnFish_Update(Actor* thisx, PlayState* play) {
 void EnFish_Draw(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->unk1AC.skeleton, this->unk1AC.jointTable, this->unk1AC.dListCount, NULL,
                           NULL, NULL);
     Collider_UpdateSpheres(0, &this->unk14C);

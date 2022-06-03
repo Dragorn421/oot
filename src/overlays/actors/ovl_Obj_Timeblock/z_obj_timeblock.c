@@ -343,7 +343,7 @@ void ObjTimeblock_Draw(Actor* thisx, PlayState* play) {
     if (((ObjTimeblock*)thisx)->unk178 != 0) {
         sp44 = &D_80BA0B38[thisx->home.rot.z & 7];
         OPEN_DISPS(play->state.gfxCtx, "../z_obj_timeblock.c", 762);
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_timeblock.c", 766),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sp44->r, sp44->g, sp44->b, 255);

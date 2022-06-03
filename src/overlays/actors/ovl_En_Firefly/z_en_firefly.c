@@ -708,7 +708,7 @@ void EnFirefly_DrawOpa(Actor* thisx, PlayState* play) {
     EnFirefly* this = (EnFirefly*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_firefly.c", 0x6C5);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (this->unk1B9 != 0) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
     } else {
@@ -723,7 +723,7 @@ void EnFirefly_DrawXlu(Actor* thisx, PlayState* play) {
     EnFirefly* this = (EnFirefly*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_firefly.c", 1775);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (this->unk1B9 != 0) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 0);
     } else {

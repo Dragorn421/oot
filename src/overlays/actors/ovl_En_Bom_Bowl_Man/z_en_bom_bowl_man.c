@@ -479,7 +479,7 @@ void EnBomBowlMan_Draw(Actor* thisx, PlayState* play) {
     EnBomBowlMan* this = (EnBomBowlMan*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809C4AA8[this->unk234]));
     SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,
                           EnBomBowlMan_OverrideLimbDraw, NULL, this);

@@ -622,13 +622,13 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
     if (this->unk150 != 2) {
         temp_v0 = this->actor.params;
         if ((temp_v0 < 0) || (temp_v0 == 0xC)) {
-            func_80093D18(play->state.gfxCtx);
+            Gfx_SetupDL_25Opa(play->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tp.c", 0x5B3),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, object_tp_0008D0_DL);
             Matrix_Translate(0.0f, 0.0f, 8.0f, 1U);
         } else {
-            func_80093D84(play->state.gfxCtx);
+            Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, this->unk160, 0, 255, this->unk15E);
             gDPPipeSync(POLY_XLU_DISP++);

@@ -87,9 +87,9 @@ void func_8086F260(BgBowlWall* this, PlayState* play) {
     this->unk174.y = D_8086FA40[params].y + this->dyna.actor.world.pos.y;
     this->unk174.z = D_8086FA40[params].z + this->dyna.actor.world.pos.z;
     if (0) {}
-    temp_v0_2 = (EnWallTubo*)Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_WALL_TUBO,
-                                                this->unk174.x, this->unk174.y, this->unk174.z, 0, 0, 0,
-                                                this->dyna.actor.params);
+    temp_v0_2 =
+        (EnWallTubo*)Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_WALL_TUBO, this->unk174.x,
+                                        this->unk174.y, this->unk174.z, 0, 0, 0, this->dyna.actor.params);
     if (temp_v0_2 != NULL) {
         temp_v0_2->unk154 = this->unk174;
         if (params != 0) {
@@ -197,7 +197,7 @@ void BgBowlWall_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_bowl_wall.c", 441);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x8,
                Gfx_TexScroll(play->state.gfxCtx, 0, (new_var2 = play->state.frames) * -2, 16, 16));
     gDPPipeSync(POLY_OPA_DISP++);

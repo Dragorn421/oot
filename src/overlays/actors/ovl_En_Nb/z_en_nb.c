@@ -568,7 +568,7 @@ void EnNb_DrawTransparency(EnNb* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb_inKenjyanomaDemo02.c", 263);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
@@ -976,7 +976,7 @@ void func_80AB2E70(EnNb* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb_inConfrontion.c", 572);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(object_nb_00D8E8_Tex));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(object_nb_00D8E8_Tex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
@@ -1006,7 +1006,7 @@ void func_80AB2FE4(EnNb* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb_inConfrontion.c", 623);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
@@ -1521,7 +1521,7 @@ void EnNb_DrawDefault(EnNb* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb.c", 992);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);

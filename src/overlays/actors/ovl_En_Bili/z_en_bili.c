@@ -667,7 +667,7 @@ void EnBili_Draw(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bili.c", 1521);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     this->unk194 = CLAMP_MAX(this->unk194, 7);
     gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_809C16CC[this->unk194]));
     if ((this->unk190 == func_809C02B8) && (this->unk196 & 1)) {

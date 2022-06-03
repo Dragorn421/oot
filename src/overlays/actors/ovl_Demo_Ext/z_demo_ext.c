@@ -209,7 +209,7 @@ void func_80977950(DemoExt* this, PlayState* play) {
     Matrix_Translate(gGameInfo->data[0xA36], gGameInfo->data[0xA37], gGameInfo->data[0xA38], MTXMODE_APPLY);
     Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
     Matrix_Pop();
-    func_80093D84(gfxCtx);
+    Gfx_SetupDL_25Xlu(gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, gGameInfo->data[0xA41] + 0x80, gGameInfo->data[0xA39] + 0x8C,
                     gGameInfo->data[0xA3A] + 0x50, gGameInfo->data[0xA3B] + 0x8C, this->unk170);
     gDPSetEnvColor(POLY_XLU_DISP++, gGameInfo->data[0xA3D] + 0x5A, gGameInfo->data[0xA3E] + 0x32,

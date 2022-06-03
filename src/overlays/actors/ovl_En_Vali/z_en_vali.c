@@ -722,7 +722,7 @@ void EnVali_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_vali.c", 1505);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 8,
                Gfx_TexScroll(play->state.gfxCtx, 0U, (0x7F - (play->gameplayFrames * 0xC)) & 0x7F, 32, 32));
     if (this->unk194 & 1) {

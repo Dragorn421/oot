@@ -1053,7 +1053,7 @@ void func_809E8AD8(EnDekubaba* this, PlayState* play) {
     f32 temp_fa0;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2692);
-    func_80094044(play->state.gfxCtx);
+    Gfx_SetupDL_44Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 0, 255);
     func_80038A28(this->unk234, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &sp50);
     Matrix_Mult(&sp50, MTXMODE_NEW);
@@ -1078,7 +1078,7 @@ void EnDekubaba_Draw(Actor* thisx, PlayState* play) {
     f32 sp50;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2752);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (this->unk1C0 != func_809E80D8) {
         SkelAnime_DrawOpa(play, this->unk17C.skeleton, this->unk17C.jointTable, NULL, func_809E8C0C, this);
         if (this->unk1C0 == func_809E64F4) {

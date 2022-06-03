@@ -2018,7 +2018,7 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
     gSPTexture(D_80B4A2F8, gGameInfo->data[0x360], gGameInfo->data[0x361], 0, G_TX_RENDERTILE, G_ON);
     gSPSegment(POLY_OPA_DISP++, 8, D_80B4A2F8);
     if (this->unk404 == 255) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->unk404);
         gSPSegment(POLY_OPA_DISP++, 9, &D_80116280[2]);
         POLY_OPA_DISP = SkelAnime_Draw(play, this->unk14C.skeleton, this->unk14C.jointTable, func_80B495FC,
@@ -2035,7 +2035,7 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
             }
         }
     } else {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk404);
         gSPSegment(POLY_XLU_DISP++, 9, D_80116280);

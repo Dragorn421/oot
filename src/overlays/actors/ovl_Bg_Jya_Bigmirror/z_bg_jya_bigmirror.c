@@ -195,7 +195,7 @@ void func_80893C68(BgJyaBigmirror* this, PlayState* play) {
     Actor* temp_v0;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     temp_v0 = Actor_Find(&play->actorCtx, ACTOR_BG_JYA_LIFT, ACTORCAT_BG);
     if (temp_v0 != NULL) {
         this->unk170 = temp_v0->world.pos.y;

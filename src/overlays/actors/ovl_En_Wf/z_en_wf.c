@@ -1325,7 +1325,7 @@ void EnWf_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_wf.c", 2157);
     if ((this->unk2D4 != 0) || (this->unk300 == 0)) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         if (this->actor.params == 0) {
             gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80B37AF4[this->unk302]));
         } else {

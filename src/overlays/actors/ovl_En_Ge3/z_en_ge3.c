@@ -276,7 +276,7 @@ void EnGe3_Draw(Actor* thisx, PlayState* play) {
     EnGe3* this = (EnGe3*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 614);
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A351D4[this->unk2FC]));
     func_8002EBCC(&this->actor, play, 0);
     SkelAnime_DrawFlexOpa(play, this->unk198.skeleton, this->unk198.jointTable, this->unk198.dListCount,
