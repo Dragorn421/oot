@@ -357,7 +357,7 @@ void func_80A33704(EnGe2* this, PlayState* play) {
     if (ABS(temp_v0) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        func_80038290(play, &this->actor, &this->unk2E8, &this->unk2EE, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk2E8, &this->unk2EE, this->actor.focus.pos);
         return;
     }
     if (temp_v0 < 0) {
@@ -374,7 +374,7 @@ void func_80A3381C(EnGe2* this, PlayState* play) {
 
     temp_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(temp_v0) < 0x4301) && (this->actor.xzDistToPlayer < 200.0f)) {
-        func_80038290(play, &this->actor, &this->unk2E8, &this->unk2EE, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk2E8, &this->unk2EE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk2E8.x, 0, 6, 0x1838, 0x64);
         Math_SmoothStepToS(&this->unk2E8.y, 0, 6, 0x1838, 0x64);

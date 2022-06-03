@@ -450,7 +450,7 @@ void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
                     this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
                 }
             }
-            func_80038290(play, &this->actor, &this->unk218, &this->unk224, this->actor.focus.pos);
+            Actor_TrackPlayer(play, &this->actor, &this->unk218, &this->unk224, this->actor.focus.pos);
             break;
     }
     if (this->unk22A == 0) {

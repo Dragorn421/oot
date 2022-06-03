@@ -802,7 +802,7 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     this->unk328 = this->unk308 * 7500.0f;
     Actor_SetFocus(&this->actor, this->unk328);
     this->actor.focus.pos.y = this->unk328;
-    func_80038290(play, &this->actor, &this->unk334, &this->unk33A, this->actor.focus.pos);
+    Actor_TrackPlayer(play, &this->actor, &this->unk334, &this->unk33A, this->actor.focus.pos);
     BgDyYoseizo_UpdateEffects(this, play);
     Actor_SetScale(&this->actor, this->unk308);
 }
