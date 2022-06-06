@@ -1,5 +1,5 @@
 #include "z_en_ge1.h"
-#include "objects/object_ge1/object_ge1.h"
+#include "assets/objects/object_ge1/object_ge1.h"
 #include "z64.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)

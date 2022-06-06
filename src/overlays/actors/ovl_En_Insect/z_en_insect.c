@@ -1,6 +1,6 @@
 #include "z_en_insect.h"
 #include "vt.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
 

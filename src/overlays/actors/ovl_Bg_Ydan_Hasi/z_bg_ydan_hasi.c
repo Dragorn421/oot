@@ -4,7 +4,7 @@
  * Description: Deku Tree Puzzle elements. Water plane and floating block in B1, and 3 blocks on 2F
  */
 #include "z_bg_ydan_hasi.h"
-#include "objects/object_ydan_objects/object_ydan_objects.h"
+#include "assets/objects/object_ydan_objects/object_ydan_objects.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

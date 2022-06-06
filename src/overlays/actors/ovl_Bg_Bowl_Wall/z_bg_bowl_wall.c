@@ -7,7 +7,7 @@
 #include "z_bg_bowl_wall.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
-#include "objects/object_bowl/object_bowl.h"
+#include "assets/objects/object_bowl/object_bowl.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

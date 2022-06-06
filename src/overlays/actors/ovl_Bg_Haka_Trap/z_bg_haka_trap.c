@@ -3,7 +3,7 @@
 #include "z64.h"
 #include "z64collision_check.h"
 #include "z_bg_haka_trap.h"
-#include "objects/object_haka_objects/object_haka_objects.h"
+#include "assets/objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0
 

@@ -1,6 +1,6 @@
 #include "z_en_dekubaba.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_dekubaba/object_dekubaba.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_dekubaba/object_dekubaba.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 

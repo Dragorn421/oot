@@ -1,7 +1,7 @@
 #include "z_en_dns.h"
 #include "functions.h"
 #include "z64collision_check.h"
-#include "objects/object_shopnuts/object_shopnuts.h"
+#include "assets/objects/object_shopnuts/object_shopnuts.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

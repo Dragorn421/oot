@@ -7,9 +7,9 @@
 #include "z_bg_dy_yoseizo.h"
 #include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
-#include "objects/object_dy_obj/object_dy_obj.h"
-#include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
-#include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
+#include "assets/objects/object_dy_obj/object_dy_obj.h"
+#include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
+#include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 

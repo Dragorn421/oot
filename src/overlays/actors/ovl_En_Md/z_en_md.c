@@ -1,7 +1,7 @@
 #include "global.h"
 #include "z_en_md.h"
 #include "macros.h"
-#include "objects/object_md/object_md.h"
+#include "assets/objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "z64cutscene.h"
 
