@@ -65,8 +65,8 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
     if (play->roomCtx.curRoom.num >= 6) {
         sp6A_finalChestParams = GET_ITEMGETINF(ITEMGETINF_1B) ? 0x4EA0 : 0x4EC0;
         sp6A_finalChestParams = sTreasureFlags[5] | sp6A_finalChestParams;
-        this->unk158 = (EnBox*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_BOX, 20.0f,
-                                                   20.0f, -2500.0f, 0, 0x7FFF, 0, sp6A_finalChestParams);
+        this->unk158 = (EnBox*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_BOX, 20.0f, 20.0f,
+                                                  -2500.0f, 0, 0x7FFF, 0, sp6A_finalChestParams);
         if (this->unk158 != NULL) {
             if (this->unk168 != 0) {
                 Flags_SetTreasure(play, sp6A_finalChestParams & 0x1F);
@@ -102,9 +102,9 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
         sp64_leftChestThing = 0xD;
     }
     this->unk150 = (EnBox*)Actor_SpawnAsChild(
-        &play->actorCtx, &this->actor, play, ACTOR_EN_BOX,
-        sLeftChestPositions[play->roomCtx.curRoom.num].x, sLeftChestPositions[play->roomCtx.curRoom.num].y,
-        sLeftChestPositions[play->roomCtx.curRoom.num].z, 0, -0x3FFF, 0, sp6E_leftChestParams);
+        &play->actorCtx, &this->actor, play, ACTOR_EN_BOX, sLeftChestPositions[play->roomCtx.curRoom.num].x,
+        sLeftChestPositions[play->roomCtx.curRoom.num].y, sLeftChestPositions[play->roomCtx.curRoom.num].z, 0, -0x3FFF,
+        0, sp6E_leftChestParams);
     if (this->unk150 != NULL) {
         osSyncPrintf("\x1b[35m☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n\x1b[m", sp6E_leftChestParams);
         osSyncPrintf("\x1b[35m☆☆☆☆☆ 部屋番号は？  %x\n\x1b[m", play->roomCtx.curRoom.num);
@@ -114,17 +114,16 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
         if (this->unk168 != 0) {
             Flags_SetTreasure(play, this->unk15C_l & 0x1F);
         } else {
-            Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA,
-                        sLeftChestPositions[play->roomCtx.curRoom.num].x,
+            Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA, sLeftChestPositions[play->roomCtx.curRoom.num].x,
                         sLeftChestPositions[play->roomCtx.curRoom.num].y,
                         sLeftChestPositions[play->roomCtx.curRoom.num].z, 0, 0, 0,
                         ((this->unk15C_l & 0x1F) << 8) + (sp64_leftChestThing & 0xFF));
         }
     }
     this->unk154 = (EnBox*)Actor_SpawnAsChild(
-        &play->actorCtx, &this->actor, play, ACTOR_EN_BOX,
-        sRightChestPositions[play->roomCtx.curRoom.num].x, sRightChestPositions[play->roomCtx.curRoom.num].y,
-        sRightChestPositions[play->roomCtx.curRoom.num].z, 0, 0x3FFF, 0, sp6C_rightChestParams);
+        &play->actorCtx, &this->actor, play, ACTOR_EN_BOX, sRightChestPositions[play->roomCtx.curRoom.num].x,
+        sRightChestPositions[play->roomCtx.curRoom.num].y, sRightChestPositions[play->roomCtx.curRoom.num].z, 0, 0x3FFF,
+        0, sp6C_rightChestParams);
     if (this->unk154 != NULL) {
         osSyncPrintf("\x1b[36m☆☆☆☆☆ 右宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n\x1b[m", sp6C_rightChestParams);
         osSyncPrintf("\x1b[36m☆☆☆☆☆ 部屋番号は？  %d\n\x1b[m", play->roomCtx.curRoom.num);
@@ -136,8 +135,7 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
             Actor_Kill(&this->actor);
             return;
         }
-        Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA,
-                    sRightChestPositions[play->roomCtx.curRoom.num].x,
+        Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA, sRightChestPositions[play->roomCtx.curRoom.num].x,
                     sRightChestPositions[play->roomCtx.curRoom.num].y,
                     sRightChestPositions[play->roomCtx.curRoom.num].z, 0, 0, 0,
                     ((this->unk15E_r & 0x1F) << 8) + (sp66_rightChestThing & 0xFF));
@@ -179,8 +177,7 @@ void func_809D2D70(EnChanger* this, PlayState* play) {
                 } else {
                     temp_s0 = (s16)(this->unk162 - 0x72) + 0xA;
                     osSyncPrintf("\x1b[32m☆☆☆☆☆ 右宝開く ☆☆☆☆☆ %d\n\x1b[m", temp_s0);
-                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0,
-                                temp_s0);
+                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, temp_s0);
                 }
                 break;
             case 1:
@@ -193,8 +190,7 @@ void func_809D2D70(EnChanger* this, PlayState* play) {
                 } else {
                     temp_s0 = (s16)(this->unk160 - 0x72) + 0xA;
                     osSyncPrintf("\x1b[32m☆☆☆☆☆ 左宝開く ☆☆☆☆☆ %d\n\x1b[m", temp_s0);
-                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0,
-                                temp_s0);
+                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, temp_s0);
                 }
                 break;
         }

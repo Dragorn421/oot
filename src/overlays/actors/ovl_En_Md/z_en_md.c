@@ -789,8 +789,7 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
     this->unk190(this, play);
 }
 
-s32 func_80AABEF0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** gfx) {
+s32 func_80AABEF0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnMd* this = (EnMd*)thisx;
     Vec3s sp2C;
 

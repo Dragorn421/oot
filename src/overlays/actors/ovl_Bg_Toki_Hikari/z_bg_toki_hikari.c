@@ -92,10 +92,8 @@ void func_808BA018(BgTokiHikari* this, PlayState* play) {
     } else {
         gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007E20);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPSegment(POLY_XLU_DISP++, 8,
-                   Gfx_TexScroll(play->state.gfxCtx, 0U, play->gameplayFrames & 0x7F, 0x40, 0x20));
-        gSPSegment(POLY_XLU_DISP++, 9,
-                   Gfx_TexScroll(play->state.gfxCtx, 0U, play->gameplayFrames & 0x7F, 0x40, 0x20));
+        gSPSegment(POLY_XLU_DISP++, 8, Gfx_TexScroll(play->state.gfxCtx, 0U, play->gameplayFrames & 0x7F, 0x40, 0x20));
+        gSPSegment(POLY_XLU_DISP++, 9, Gfx_TexScroll(play->state.gfxCtx, 0U, play->gameplayFrames & 0x7F, 0x40, 0x20));
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0x116),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_007EE0);

@@ -36,8 +36,7 @@ void func_809C0A70(EnBili* this, PlayState* play);
 void func_809C0E08(EnBili* this, f32 arg1, Vec3f* arg2);
 void func_809C1020(EnBili* this, f32 arg1, Vec3f* arg2);
 void func_809C1240(EnBili* this, f32 arg1, Vec3f* arg2);
-s32 EnBili_OverrideLimbDraw(PlayState* arg0, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx,
-                            Gfx** gfx);
+s32 EnBili_OverrideLimbDraw(PlayState* arg0, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx, Gfx** gfx);
 
 const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
@@ -91,8 +90,7 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, D_809C1698);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(play, &this->unk14C, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6,
-                   5);
+    SkelAnime_Init(play, &this->unk14C, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6, 5);
     Collider_InitCylinder(play, &this->unk1D4);
     Collider_SetCylinder(play, &this->unk1D4, &this->actor, &D_809C1640);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &D_809C1678, &D_809C166C);
@@ -432,11 +430,9 @@ void func_809C0754(EnBili* this, PlayState* play) {
             D_809C16A8.y = Rand_ZeroOne() + 1.0f;
             temp_s0 = Rand_S16Offset(0x28, 0x28);
             if (Rand_ZeroOne() < 0.7f) {
-                EffectSsDtBubble_SpawnColorProfile(play, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 2,
-                                                   1);
+                EffectSsDtBubble_SpawnColorProfile(play, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 2, 1);
             } else {
-                EffectSsDtBubble_SpawnColorProfile(play, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 0,
-                                                   1);
+                EffectSsDtBubble_SpawnColorProfile(play, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 0, 1);
             }
         }
     } else {
@@ -643,8 +639,7 @@ void func_809C1240(EnBili* this, f32 arg1, Vec3f* arg2) {
     }
 }
 
-s32 EnBili_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx,
-                            Gfx** gfx) {
+s32 EnBili_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx, Gfx** gfx) {
     EnBili* this = thisx;
     Vec3f sp20;
     f32 temp_fv0;
@@ -675,7 +670,7 @@ void EnBili_Draw(Actor* thisx, PlayState* play) {
     } else {
         gSPSegment(POLY_XLU_DISP++, 9, D_809C1700);
     }
-    POLY_XLU_DISP = SkelAnime_Draw(play, this->unk14C.skeleton, this->unk14C.jointTable, EnBili_OverrideLimbDraw,
-                                   NULL, this, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_Draw(play, this->unk14C.skeleton, this->unk14C.jointTable, EnBili_OverrideLimbDraw, NULL,
+                                   this, POLY_XLU_DISP);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bili.c", 1552);
 }

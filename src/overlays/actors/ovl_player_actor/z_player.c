@@ -9341,8 +9341,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
                 (gEntranceTable[(0, gSaveContext.entranceIndex) + (0, gSaveContext.sceneSetupIndex)].field & 0x4000) &&
                 ((play->sceneNum != SCENE_DDAN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
                 ((play->sceneNum != SCENE_NIGHT_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))) {
-                TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144,
-                                        24, 20);
+                TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144, 24, 20);
             }
         }
         gSaveContext.showTitleCard = true;

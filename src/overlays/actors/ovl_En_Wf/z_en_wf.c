@@ -653,8 +653,8 @@ void func_80B35024(EnWf* this, PlayState* play) {
         if ((play->gameplayFrames & 0x5F) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
         }
-        if ((Math_CosS(sp56_real - this->actor.shape.rot.y) < -0.85f) &&
-            !Actor_OtherIsTargeted(play, &this->actor) && (this->actor.xzDistToPlayer <= 80.0f)) {
+        if ((Math_CosS(sp56_real - this->actor.shape.rot.y) < -0.85f) && !Actor_OtherIsTargeted(play, &this->actor) &&
+            (this->actor.xzDistToPlayer <= 80.0f)) {
             func_80B35540(this);
         } else {
             this->unk2E8 -= 1;

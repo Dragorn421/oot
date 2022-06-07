@@ -88,12 +88,12 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     this->actor.focus.pos = this->actor.world.pos;
     if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         osSyncPrintf("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->curSpawn);
-        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
-                           this->unk194, this->unk23C, 28);
+        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim, this->unk194,
+                           this->unk23C, 28);
     } else {
         osSyncPrintf("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->curSpawn);
-        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
-                           this->unk194, this->unk23C, 28);
+        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim, this->unk194,
+                           this->unk23C, 28);
     }
     this->actionFunc = func_80872D20;
 }
@@ -423,8 +423,8 @@ void func_80873868(BgDyYoseizo* this, PlayState* play) {
             } else {
                 var_v0 = 1;
             }
-            this->unk340 = (EnDyExtra*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play,
-                                                          ACTOR_EN_DY_EXTRA, vec.x, vec.y, vec.z, 0, 0, 0, var_v0);
+            this->unk340 = (EnDyExtra*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DY_EXTRA, vec.x,
+                                                          vec.y, vec.z, 0, 0, 0, var_v0);
         }
     }
     if (this->unk306 >= 2) {
@@ -644,8 +644,8 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
         } else if (this->unk2E4 == 0) {
             sp56 = D_808754B0[var_v1] << 0xC;
             sp56 |= 0x12;
-            Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
-                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, sp56);
+            Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x, this->actor.world.pos.y,
+                        this->actor.world.pos.z, 0, 0, 0, sp56);
             this->unk2E4 = 1;
         }
     } else {
@@ -697,8 +697,8 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
                 }
                 var_fv1.z = player->actor.world.pos.z;
                 this->unk344 =
-                    (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM,
-                                                  var_fv1.x, var_fv1.y, var_fv1.z, 0, 0, 0, D_808754B8[var_v1]);
+                    (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, var_fv1.x,
+                                                  var_fv1.y, var_fv1.z, 0, 0, 0, D_808754B8[var_v1]);
                 if (this->unk344 != NULL) {
                     if (!gSaveContext.isMagicAcquired) {
                         gSaveContext.isMagicAcquired = true;
@@ -740,8 +740,8 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
     if ((play->csCtx.npcActions[0]->action >= 0x13) && (play->csCtx.npcActions[0]->action < 0x16) &&
         (this->unk304 == 0)) {
         var_v1 = play->csCtx.npcActions[0]->action - 0xB;
-        Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x,
-                    player->actor.world.pos.y, player->actor.world.pos.z, 0, 0, 0, var_v1);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x, player->actor.world.pos.y,
+                    player->actor.world.pos.z, 0, 0, 0, var_v1);
         this->unk304 = 1;
     }
     func_80872C58(this, play);
@@ -766,16 +766,16 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         var_v1 = 0;
         if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if ((play->csCtx.frames == 32) || (play->csCtx.frames == 291) ||
-                (play->csCtx.frames == 426) || (play->csCtx.frames == 851)) {
+            if ((play->csCtx.frames == 32) || (play->csCtx.frames == 291) || (play->csCtx.frames == 426) ||
+                (play->csCtx.frames == 851)) {
                 var_v1 = 1;
             }
             if (play->csCtx.frames == 101) {
                 var_v1 = 2;
             }
         } else {
-            if ((play->csCtx.frames == 35) || (play->csCtx.frames == 181) ||
-                (play->csCtx.frames == 462) || (play->csCtx.frames == 795)) {
+            if ((play->csCtx.frames == 35) || (play->csCtx.frames == 181) || (play->csCtx.frames == 462) ||
+                (play->csCtx.frames == 795)) {
                 var_v1 = 1;
             }
             if (play->csCtx.frames == 90) {
@@ -829,8 +829,8 @@ void BgDyYoseizo_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_808754CC[this->unk2F2]));
         gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(D_808754CC[this->unk2F4]));
         gSPSegment(POLY_OPA_DISP++, 10, SEGMENTED_TO_VIRTUAL(D_808754D8[this->unk2F6]));
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, func_80874B7C, NULL, this);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              func_80874B7C, NULL, this);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1629);
     BgDyYoseizo_DrawEffects(this, play);

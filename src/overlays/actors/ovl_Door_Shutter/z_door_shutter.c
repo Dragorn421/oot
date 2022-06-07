@@ -710,7 +710,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_door_shutter.c", 2048);
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        
+
         if (this->unk_16C == 3) {
             POLY_OPA_DISP = func_80997838(play, this, POLY_OPA_DISP);
             if (this->unk_170 != 0.0f) {

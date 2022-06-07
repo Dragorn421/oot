@@ -249,13 +249,13 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == -2) {
         this->actor.colChkInfo.health = 12;
         this->actor.naviEnemyId = NAVI_ENEMY_DINOLFOS;
-        SkelAnime_Init(play, &this->unk14C, &object_zf_Skel_006690, &object_zf_Anim_00B10C, this->unk190,
-                       this->unk2B6, 0x31);
+        SkelAnime_Init(play, &this->unk14C, &object_zf_Skel_006690, &object_zf_Anim_00B10C, this->unk190, this->unk2B6,
+                       0x31);
     } else {
         this->actor.colChkInfo.health = 6;
         this->actor.naviEnemyId = NAVI_ENEMY_LIZALFOS;
-        SkelAnime_Init(play, &this->unk14C, &object_zf_Skel_0104B8, &object_zf_Anim_00B10C, this->unk190,
-                       this->unk2B6, 0x31);
+        SkelAnime_Init(play, &this->unk14C, &object_zf_Skel_0104B8, &object_zf_Anim_00B10C, this->unk190, this->unk2B6,
+                       0x31);
     }
     if (this->actor.params < 0) {
         this->unk3FE = -1;
@@ -1600,8 +1600,7 @@ void func_80B48578(EnZf* this, PlayState* play) {
         }
     } else {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ,
-                                        this->actor.shape.rot.y + 0x3FFF)) {
+            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y + 0x3FFF)) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 if (this->actor.speedXZ >= 0.0f) {
                     var_v0 = this->actor.shape.rot.y + 0x3FFF;
@@ -2028,8 +2027,8 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
             this->unk3F6 -= 1;
             if (!(this->unk3F6 & 3)) {
                 v = this->unk3F6 >> 2;
-                EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &this->unk4FC[v], 150, 150, 150, 250, 235, 245,
-                                               255, 1.4f);
+                EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &this->unk4FC[v], 150, 150, 150, 250, 235, 245, 255,
+                                               1.4f);
                 if (1) {}
                 if (1) {}
             }

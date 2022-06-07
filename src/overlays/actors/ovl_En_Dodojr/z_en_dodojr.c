@@ -69,8 +69,8 @@ void EnDodojr_Init(Actor* thisx, PlayState* play) {
     EnDodojr* this = (EnDodojr*)thisx;
 
     ActorShape_Init(&this->actor.shape.rot.x, 0.0f, NULL, 18.0f);
-    SkelAnime_Init(play, &this->skelAnime, &object_dodojr_Skel_0020E0, &object_dodojr_Anim_0009D4,
-                   &this->jointTable, &this->morphTable, 15);
+    SkelAnime_Init(play, &this->skelAnime, &object_dodojr_Skel_0020E0, &object_dodojr_Anim_0009D4, &this->jointTable,
+                   &this->morphTable, 15);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);

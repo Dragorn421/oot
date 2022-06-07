@@ -85,8 +85,7 @@ void func_8087D0AC(BgHakaHuta* this, PlayState* play) {
             sp94.z += 120.0f * var_fs0;
         }
         sp94.x = this->dyna.actor.home.pos.x - (Rand_ZeroOne() * temp_fs1);
-        func_8002829C(play, &sp94, &sp88, &D_8087D944, &D_8087D950, &D_8087D954, (Rand_ZeroOne() * 10.0f) + 50.0f,
-                      10);
+        func_8002829C(play, &sp94, &sp88, &D_8087D944, &D_8087D950, &D_8087D954, (Rand_ZeroOne() * 10.0f) + 50.0f, 10);
     }
 }
 

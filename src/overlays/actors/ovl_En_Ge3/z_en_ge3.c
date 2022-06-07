@@ -177,8 +177,7 @@ void func_80A34C40(EnGe3* this, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->unk14C);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
-    Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (!(this->unk30C & 2) && SkelAnime_Update(&this->unk198)) {
         this->unk30C |= 2;
     }
@@ -279,7 +278,7 @@ void EnGe3_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A351D4[this->unk2FC]));
     func_8002EBCC(&this->actor, play, 0);
-    SkelAnime_DrawFlexOpa(play, this->unk198.skeleton, this->unk198.jointTable, this->unk198.dListCount,
-                          func_80A34E58, func_80A35004, this);
+    SkelAnime_DrawFlexOpa(play, this->unk198.skeleton, this->unk198.jointTable, this->unk198.dListCount, func_80A34E58,
+                          func_80A35004, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 631);
 }

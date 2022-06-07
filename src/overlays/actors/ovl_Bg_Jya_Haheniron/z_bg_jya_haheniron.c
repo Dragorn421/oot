@@ -83,8 +83,8 @@ void func_80898114(PlayState* play, Vec3f* arg1, Vec3f* arg2) {
         } else {
             var_v0 = 0x20;
         }
-        EffectSsKakera_Spawn(play, arg1, &spB4, arg1, -350, (s16)var_v0, 0x28, 4, 0, D_80898774[var_s1], 0, 0x14,
-                             40, -1, OBJECT_JYA_IRON, gObjectJyaIronDL_000880);
+        EffectSsKakera_Spawn(play, arg1, &spB4, arg1, -350, (s16)var_v0, 0x28, 4, 0, D_80898774[var_s1], 0, 0x14, 40,
+                             -1, OBJECT_JYA_IRON, gObjectJyaIronDL_000880);
     }
     spA8.x = arg1->x + (arg2->x * 5.0f);
     spA8.y = arg1->y + (arg2->y * 5.0f);

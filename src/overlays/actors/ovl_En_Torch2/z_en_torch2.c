@@ -553,7 +553,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         input->cur.button = ((sCounterState == 0) && (this->meleeWeaponState == 0)) ? BTN_R : input->cur.button ^ BTN_R;
     }
     input->rel.button = input->prev.button & pad54;
-    input->prev.button = input->cur.button & (u16)~(BTN_A | BTN_B);
+    input->prev.button = input->cur.button & (u16) ~(BTN_A | BTN_B);
     PadUtils_UpdateRelXY(input);
 
     input->press.stick_x += (s8)(input->cur.stick_x - input->prev.stick_x);

@@ -100,8 +100,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelAnimeCurve* skelCurv
 
     Matrix_Push();
 
-    if (overrideLimbDraw == NULL ||
-        (overrideLimbDraw != NULL && overrideLimbDraw(play, skelCurve, limbIndex, data))) {
+    if (overrideLimbDraw == NULL || (overrideLimbDraw != NULL && overrideLimbDraw(play, skelCurve, limbIndex, data))) {
         Vec3f scale;
         Vec3s rot;
         Vec3f pos;
@@ -170,8 +169,8 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelAnimeCurve* skelCurv
     CLOSE_DISPS(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 371);
 }
 
-void SkelCurve_Draw(Actor* actor, PlayState* play, SkelAnimeCurve* skelCurve,
-                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
+void SkelCurve_Draw(Actor* actor, PlayState* play, SkelAnimeCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
+                    PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
     if (skelCurve->transforms != NULL) {
         SkelCurve_DrawLimb(play, 0, skelCurve, overrideLimbDraw, postLimbDraw, lod, data);
     }

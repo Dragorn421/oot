@@ -70,8 +70,8 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
     for (var_s1 = 0; var_s1 < 2; var_s1++) {
-        temp_v0 = (EnSyatekiNiw*)Actor_Spawn(&play->actorCtx, play, 0x143, D_809C4A28[var_s1].x,
-                                             D_809C4A28[var_s1].y, D_809C4A28[var_s1].z, 0, 0, 0, 1);
+        temp_v0 = (EnSyatekiNiw*)Actor_Spawn(&play->actorCtx, play, 0x143, D_809C4A28[var_s1].x, D_809C4A28[var_s1].y,
+                                             D_809C4A28[var_s1].z, 0, 0, 0, 1);
         if (temp_v0 != NULL) {
             temp_v0->unk_2F4 = D_809C4A40[var_s1];
             temp_v0->collider.dim.radius = (s16)(s32)D_809C4A10[var_s1].unk0;
@@ -381,8 +381,8 @@ void func_809C441C(EnBomBowlMan* this, PlayState* play) {
             D_809C4A60[this->unk230].y + 40.0f, D_809C4A60[this->unk230].z + 300.0f, 0, D_809C4A9C[this->unk230], 0,
             this->unk230 + 5);
         if (this->unk232 == 0) {
-            this->unk25C = (EnBomBowlPit*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play,
-                                                             ACTOR_EN_BOM_BOWL_PIT, 0.0f, 90.0f, -860.0f, 0, 0, 0, 0);
+            this->unk25C = (EnBomBowlPit*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_BOM_BOWL_PIT,
+                                                             0.0f, 90.0f, -860.0f, 0, 0, 0, 0);
             if (this->unk25C != NULL) {
                 this->unk25C->unk15A = (s16)this->unk230;
             }
@@ -464,8 +464,7 @@ void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 }
 
-s32 EnBomBowlMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                  void* thisx) {
+s32 EnBomBowlMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnBomBowlMan* this = thisx;
 
     if (limbIndex == 4) {

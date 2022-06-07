@@ -222,8 +222,8 @@ void func_809CEA24(EnBw* this, PlayState* play) {
         this->color1.g = sp60;
     }
     if ((((play->gameplayFrames % 4) == this->actor.params) && (this->actor.speedXZ != 0.0f) &&
-         (sp64 = BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0,
-                                      1))) ||
+         (sp64 =
+              BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0, 1))) ||
         (this->unk_222 == 0)) {
         if (sp74 != NULL) {
             sp74 = SEGMENTED_TO_VIRTUAL(sp74);

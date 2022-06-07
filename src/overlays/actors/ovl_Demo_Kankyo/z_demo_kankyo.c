@@ -233,9 +233,8 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             this->unk_150[0].unk_18 = 0.0f;
             if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
-                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_TOKI,
-                                   this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
-                                   0, 0x0000);
+                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_TOKI, this->actor.world.pos.x,
+                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x0000);
             } else {
                 play->roomCtx.unk_74[1] = 0xFF;
                 Actor_Kill(&this->actor);

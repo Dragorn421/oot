@@ -204,8 +204,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
                 // set collided to 0 so that the boomerang will go through the wall.
                 // Otherwise play a clank sound and keep collided set to bounce back.
                 if (func_8002F9EC(play, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
-                    (hitDynaID != BGCHECK_SCENE &&
-                     ((hitActor = DynaPoly_GetActor(&play->colCtx, hitDynaID)) != NULL) &&
+                    (hitDynaID != BGCHECK_SCENE && ((hitActor = DynaPoly_GetActor(&play->colCtx, hitDynaID)) != NULL) &&
                      hitActor->id == ACTOR_BG_BDAN_OBJECTS && hitActor->params == 0)) {
                     collided = false;
                 } else {

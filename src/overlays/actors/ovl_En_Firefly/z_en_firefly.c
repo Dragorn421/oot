@@ -40,9 +40,7 @@ static ColliderJntSphInit D_80A14F54 = { { 3, 0x11, 9, 0x39, 0x10, 0 }, 1, &D_80
 static CollisionCheckInfoInit D_80A14F64 = { 1, 0xA, 0xA, 0x1E };
 static DamageTable D_80A14F6C = {
     {
-        { 0x10 }, { 2 },    { 1 }, { 2 }, { 1 }, { 2 }, { 2 },    { 2 },    { 1 }, { 2 }, { 4 },
-        { 0xF2 }, { 0x34 }, { 2 }, { 2 }, { 2 }, { 2 }, { 0x20 }, { 0x34 }, { 0 }, { 0 }, { 0 },
-        { 1 },    { 4 },    { 2 }, { 2 }, { 8 }, { 4 }, { 0 },    { 0 },    { 4 }, { 0 },
+        0x10, 2, 1, 2, 1, 2, 2, 2, 1, 2, 4, 0xF2, 0x34, 2, 2, 2, 2, 0x20, 0x34, 0, 0, 0, 1, 4, 2, 2, 8, 4, 0, 0, 4, 0,
     },
 };
 static InitChainEntry D_80A14F8C[5] = {
@@ -316,8 +314,7 @@ void func_80A13A08_Action(EnFirefly* this, PlayState* play) {
     sp3C = Animation_OnFrame(&this->skelAnime, 0.0f);
     this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 1.5f;
     if ((this->unk1B9 != 0) || (this->actor.params == 4) ||
-        (!func_80A1379C_HoneInOnHomeIfPlayerFar_(this, play) &&
-         !func_80A138B8_HoneInOnLitTorch(this, play))) {
+        (!func_80A1379C_HoneInOnHomeIfPlayerFar_(this, play) && !func_80A138B8_HoneInOnLitTorch(this, play))) {
         if (sp3C != 0) {
             temp_fv0 = Rand_ZeroOne();
             if (temp_fv0 < 0.5f) {
@@ -637,8 +634,8 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
     this->actor.focus.pos.z = (Math_CosS(this->actor.shape.rot.y) * (10.0f * sp34)) + this->actor.world.pos.z;
 }
 
-s32 EnFirefly_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               void* thisx, Gfx** gfx) {
+s32 EnFirefly_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                               Gfx** gfx) {
     EnFirefly* this = thisx;
     if ((this->actor.draw == EnFirefly_DrawXlu) && (play->actorCtx.lensActive == 0)) {
         *dList = NULL;

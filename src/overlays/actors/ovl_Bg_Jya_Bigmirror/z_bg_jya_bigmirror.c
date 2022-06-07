@@ -80,9 +80,9 @@ void func_80893750(BgJyaBigmirror* this2, PlayState* play) {
                     osSyncPrintf("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
                 }
             } else {
-                new_var->unk0 = Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BG_JYA_COBRA,
-                                                   new_var2->unk0.x, new_var2->unk0.y, new_var2->unk0.z, 0,
-                                                   new_var->unk4, 0, new_var2->unkC);
+                new_var->unk0 =
+                    Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BG_JYA_COBRA, new_var2->unk0.x,
+                                       new_var2->unk0.y, new_var2->unk0.z, 0, new_var->unk4, 0, new_var2->unkC);
                 this->actor.child = NULL;
                 if (new_var->unk0 == NULL) {
                     osSyncPrintf("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
@@ -201,7 +201,7 @@ void func_80893C68(BgJyaBigmirror* this, PlayState* play) {
         this->unk170 = temp_v0->world.pos.y;
     }
     Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 40.0f, this->actor.world.pos.z,
-                  &this->actor.shape.rot);
+                                 &this->actor.shape.rot);
     Matrix_Scale(0.1f, (this->unk170 * -0.00078125f) + 1.3901563f, 0.1f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

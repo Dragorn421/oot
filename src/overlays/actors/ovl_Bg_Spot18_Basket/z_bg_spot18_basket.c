@@ -78,8 +78,7 @@ void func_808B7710(Actor* thisx, PlayState* play) {
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
 
     Collider_InitJntSph(play, &this->colliderJntSph);
-    Collider_SetJntSph(play, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit,
-                       &this->ColliderJntSphElements);
+    Collider_SetJntSph(play, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, &this->ColliderJntSphElements);
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
@@ -151,9 +150,8 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
     }
 
     func_808B7AEC(this);
-    Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_BG_SPOT18_FUTA, actor->world.pos.x,
-                       actor->world.pos.y, actor->world.pos.z, actor->shape.rot.x, actor->shape.rot.y + 0x1555,
-                       actor->shape.rot.z, -1);
+    Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_BG_SPOT18_FUTA, actor->world.pos.x, actor->world.pos.y,
+                       actor->world.pos.z, actor->shape.rot.x, actor->shape.rot.y + 0x1555, actor->shape.rot.z, -1);
 
     if (actor->child == NULL) {
         osSyncPrintf(VT_FGCOL(RED));

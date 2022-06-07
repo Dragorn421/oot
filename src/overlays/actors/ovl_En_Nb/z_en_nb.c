@@ -1447,8 +1447,7 @@ void EnNb_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnNb_SetupCollider(thisx, play);
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_nb_0181C8_Skel, NULL, this->jointTable, this->morphTable,
-                       19);
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_nb_0181C8_Skel, NULL, this->jointTable, this->morphTable, 19);
 
     switch (EnNb_GetType(this)) {
         case NB_TYPE_DEMO02:

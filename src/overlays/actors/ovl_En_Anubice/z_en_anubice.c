@@ -122,8 +122,7 @@ void EnAnubice_Init(Actor* thisx, PlayState* play) {
     EnAnubice* this = (EnAnubice*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
-    SkelAnime_Init(play, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable,
-                   16);
+    SkelAnime_Init(play, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable, 16);
 
     osSyncPrintf("\n\n");
     // "☆☆☆☆☆ Anubis occurence ☆☆☆☆☆"
@@ -277,8 +276,8 @@ void EnAnubis_ShootFireball(EnAnubice* this, PlayState* play) {
     EnAnubice_SetFireballRot(this, play);
 
     if (curFrame == 12.0f) {
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ANUBICE_FIRE, this->fireballPos.x,
-                    this->fireballPos.y + 15.0f, this->fireballPos.z, this->fireballRot.x, this->fireballRot.y, 0, 0);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ANUBICE_FIRE, this->fireballPos.x, this->fireballPos.y + 15.0f,
+                    this->fireballPos.z, this->fireballRot.x, this->fireballRot.y, 0, 0);
     }
 
     if (this->animLastFrame <= curFrame) {
@@ -457,8 +456,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnAnubis_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                              void* thisx) {
+s32 EnAnubis_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnAnubice* this = (EnAnubice*)thisx;
 
     if (limbIndex == 13) {

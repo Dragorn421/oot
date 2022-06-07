@@ -178,8 +178,8 @@ void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
     gSPDisplayList(POLY_OPA_DISP++, gFireTempleSpinningFlamethrowerDL);
     Matrix_MtxFCopy(&sp5C, &gMtxFClear);
     POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
-    if ((s16)((Camera_GetCamDirYaw(play->cameraPtrs[play->activeCamId]) - this->dyna.actor.shape.rot.y) -
-              0x2E6C) >= 0) {
+    if ((s16)((Camera_GetCamDirYaw(play->cameraPtrs[play->activeCamId]) - this->dyna.actor.shape.rot.y) - 0x2E6C) >=
+        0) {
         for (var_s0 = 3; var_s0 >= 0; var_s0--) {
             POLY_XLU_DISP = func_8088C70C(&play->state.gfxCtx, this, var_s0, &sp5C, 0, POLY_XLU_DISP);
         }

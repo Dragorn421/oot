@@ -1786,9 +1786,8 @@ void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_effect.c", 2709),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(POLY_XLU_DISP++, play->billboardMtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPSegment(
-        POLY_XLU_DISP++, 8,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 128 - ((frames * 20) % 128) - 1, 32, 32));
+    gSPSegment(POLY_XLU_DISP++, 8,
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 128 - ((frames * 20) % 128) - 1, 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, object_efc_fire_ball_000040_DL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2723);
 }
@@ -1952,8 +1951,8 @@ void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_effect.c", 2963),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (frames * 5) % 64, 512 - ((frames * 2) % 512) - 1, 16, 128,
-                                1, 0, 0, 8, 1024));
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (frames * 5) % 64, 512 - ((frames * 2) % 512) - 1, 16, 128, 1, 0,
+                                0, 8, 1024));
     gSPDisplayList(POLY_XLU_DISP++, object_light_ring_000190_DL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2978);

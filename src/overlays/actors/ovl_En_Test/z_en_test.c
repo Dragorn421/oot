@@ -82,7 +82,7 @@ static u8 sJointCopyFlags[] = {
     false, false, false, false, true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
     true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
     true,  true,  true,  true,  true,  true,  true,  false, false, false, false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false, false, false, 
+    false, false, false, false, false, false, false, false, false, false, false, false, false,
 };
 
 const ActorInit En_Test_InitVars = {
@@ -220,8 +220,8 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     SkelAnime_Init(play, &this->skelAnime, &D_06007C28, &D_0600316C, this->jointTable, this->morphTable, 61);
-    SkelAnime_Init(play, &this->upperSkelanime, &D_06007C28, &D_0600316C, this->upperJointTable,
-                   this->upperMorphTable, 61);
+    SkelAnime_Init(play, &this->upperSkelanime, &D_06007C28, &D_0600316C, this->upperJointTable, this->upperMorphTable,
+                   61);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
 

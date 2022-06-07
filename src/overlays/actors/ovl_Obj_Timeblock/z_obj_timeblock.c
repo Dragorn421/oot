@@ -81,9 +81,8 @@ s32 func_80B9FFA0(ObjTimeblock* this) {
 }
 
 void func_80BA0058(ObjTimeblock* this, PlayState* play) {
-    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x,
-                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, 0, 0,
-                (D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk8));
+    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
+                this->dyna.actor.world.pos.z, 0, 0, 0, (D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk8));
 }
 
 void func_80BA00CC(PlayState* play, s32 arg1) {

@@ -300,8 +300,7 @@ void func_80A87BEC(EnJj* this, PlayState* play) {
 void func_80A87C30(EnJj* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) &&
-        play->isPlayerDroppingFish(play)) {
+    if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) && play->isPlayerDroppingFish(play)) {
         this->unk30C = 0x64;
         func_80A87800(this, func_80A87CEC);
     }
@@ -344,8 +343,8 @@ void func_80A87D94(EnJj* this, PlayState* play) {
         case 2:
             this->unk30A |= 1;
             if (!(this->unk30A & 8)) {
-                this->unk304 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EFF_DUST,
-                                                  -1100.0f, 105.0f, -27.0f, 0, 0, 0, 0);
+                this->unk304 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EFF_DUST, -1100.0f,
+                                                  105.0f, -27.0f, 0, 0, 0, 0);
                 this->unk30A |= 8;
             }
             break;

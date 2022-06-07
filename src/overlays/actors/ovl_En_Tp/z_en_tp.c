@@ -249,13 +249,11 @@ void func_80B214CC(EnTp* this, PlayState* play) {
             sp6C.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             sp6C.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             sp6C.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(play, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9,
-                                 1);
+            EffectSsDeadDb_Spawn(play, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
             sp6C.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             sp6C.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             sp6C.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(play, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9,
-                                 1);
+            EffectSsDeadDb_Spawn(play, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
         } else {
             for (var_s1 = 0; var_s1 < 1; var_s1++) {

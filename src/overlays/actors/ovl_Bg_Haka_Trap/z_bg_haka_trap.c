@@ -305,9 +305,9 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     sp74.z = this->dyna.actor.world.pos.z;
     var_fs0 = this->dyna.actor.floorHeight;
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
-        temp_fv1 = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &sp64,
-                                               &this->dyna.actor, &sp74) -
-                   25.0f;
+        temp_fv1 =
+            BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor, &sp74) -
+            25.0f;
         if (var_fs0 < temp_fv1) {
             var_fs0 = temp_fv1;
         }

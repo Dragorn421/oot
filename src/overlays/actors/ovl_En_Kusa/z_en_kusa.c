@@ -161,8 +161,8 @@ void func_80A9B21C(EnKusa* this, PlayState* play) {
         spC4.y = Rand_ZeroOne() * 10.0f;
         spC4.z = (Rand_ZeroOne() - 0.5f) * 8.0f;
         new_var = (s32)(Rand_ZeroOne() * 111.1f) & 7;
-        EffectSsKakera_Spawn(play, &spB8, &spC4, &spB8, -100, 0x40, 0x28, 3, 0, sFragmentScales[new_var], 0, 0, 80,
-                             -1, 1, gCuttableShrubStalkDL);
+        EffectSsKakera_Spawn(play, &spB8, &spC4, &spB8, -100, 0x40, 0x28, 3, 0, sFragmentScales[new_var], 0, 0, 80, -1,
+                             1, gCuttableShrubStalkDL);
 
         spB8.x = this->actor.world.pos.x + (dir->x * this->actor.scale.x * 40.0f);
         spB8.y = this->actor.world.pos.y + (dir->y * this->actor.scale.y * 40.0f) + 10.0f;
@@ -171,8 +171,8 @@ void func_80A9B21C(EnKusa* this, PlayState* play) {
         spC4.y = Rand_ZeroOne() * 10.0f;
         spC4.z = (Rand_ZeroOne() - 0.5f) * 6.0f;
         new_var = (s32)(Rand_ZeroOne() * 111.1f) % 7;
-        EffectSsKakera_Spawn(play, &spB8, &spC4, &spB8, -100, 0x40, 0x28, 3, 0, sFragmentScales[new_var], 0, 0, 80,
-                             -1, 1, gCuttableShrubTipDL);
+        EffectSsKakera_Spawn(play, &spB8, &spC4, &spB8, -100, 0x40, 0x28, 3, 0, sFragmentScales[new_var], 0, 0, 80, -1,
+                             1, gCuttableShrubTipDL);
     }
 }
 
@@ -180,8 +180,8 @@ void func_80A9B574(EnKusa* this, PlayState* play) {
     s32 var_s0;
 
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
-        if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_INSECT, this->actor.world.pos.x,
-                        this->actor.world.pos.y, this->actor.world.pos.z, 0, (s16)(s32)(Rand_ZeroOne() * 65535.0f), 0,
+        if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_INSECT, this->actor.world.pos.x, this->actor.world.pos.y,
+                        this->actor.world.pos.z, 0, (s16)(s32)(Rand_ZeroOne() * 65535.0f), 0,
                         INSECT_TYPE_SPAWNED) == NULL) {
             break;
         }

@@ -767,8 +767,7 @@ void EnInsect_Update(Actor* thisx, PlayState* play) {
                 CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             }
 
-            if (!(this->insectFlags & INSECT_FLAG_UNCATCHABLE) && sCaughtCount < 4 &&
-                func_80A7BE6C(this, play) != 0 &&
+            if (!(this->insectFlags & INSECT_FLAG_UNCATCHABLE) && sCaughtCount < 4 && func_80A7BE6C(this, play) != 0 &&
                 func_8002F434(&this->actor, play, GI_MAX, 60.0f, 30.0f) != 0) {
                 sCaughtCount++;
             }

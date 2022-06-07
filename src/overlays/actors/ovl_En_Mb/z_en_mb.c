@@ -656,8 +656,7 @@ void EnMb_SpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
 
     if (ABS(this->actor.yDistToPlayer) <= 20.0f && EnMb_IsPlayerInCorridor(this, play)) {
         relYawFromPlayer = this->actor.shape.rot.y - this->actor.yawTowardsPlayer;
-        if (ABS(relYawFromPlayer) <= 0x4000 ||
-            ((func_8002DDE4(play) != 0) && this->actor.xzDistToPlayer < 160.0f)) {
+        if (ABS(relYawFromPlayer) <= 0x4000 || ((func_8002DDE4(play) != 0) && this->actor.xzDistToPlayer < 160.0f)) {
             EnMb_FindWaypointTowardsPlayer(this, play);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             EnMb_SetupSpearPrepareAndCharge(this);
@@ -858,8 +857,8 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
                                               &effWhiteShockwaveDynamics);
             func_80033480(play, &effSpawnPos, 2.0f, 3, 0x12C, 0xB4, 1);
             Camera_AddQuake(&play->mainCamera, 2, 0x19, 5);
-            func_800358DC(&this->actor, &effSpawnPos, &this->actor.world.rot, &flamesParams, 20, &flamesUnused,
-                          play, -1, 0);
+            func_800358DC(&this->actor, &effSpawnPos, &this->actor.world.rot, &flamesParams, 20, &flamesUnused, play,
+                          -1, 0);
             EnMb_SetupClubWaitAfterAttack(this);
         }
     } else {
@@ -1190,8 +1189,7 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
     yDistToPlayerAbs = (this->actor.yDistToPlayer >= 0.0f) ? this->actor.yDistToPlayer : -this->actor.yDistToPlayer;
     if (yDistToPlayerAbs <= 20.0f && EnMb_IsPlayerInCorridor(this, play)) {
         relYawTowardsPlayer = (this->actor.shape.rot.y - this->actor.yawTowardsPlayer);
-        if (ABS(relYawTowardsPlayer) <= 0x4000 ||
-            func_8002DDE4(play) != 0 && this->actor.xzDistToPlayer < 160.0f) {
+        if (ABS(relYawTowardsPlayer) <= 0x4000 || func_8002DDE4(play) != 0 && this->actor.xzDistToPlayer < 160.0f) {
             EnMb_FindWaypointTowardsPlayer(this, play);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             EnMb_SetupSpearPrepareAndCharge(this);

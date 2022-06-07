@@ -628,8 +628,8 @@ void func_80A16A64(EnFish* this, PlayState* play) {
     this->actor.world.pos.x = ((sp34.x - sp40.x) * temp_fv0) + sp40.x;
     this->actor.world.pos.y = ((sp34.y - sp40.y) * temp_fv0) + sp40.y + D_80A17014;
     this->actor.world.pos.z = ((sp34.z - sp40.z) * temp_fv0) + sp40.z;
-    this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp2C,
-                                                          &this->actor, &this->actor.world.pos);
+    this->actor.floorHeight =
+        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp2C, &this->actor, &this->actor.world.pos);
 }
 
 void func_80A16C68(EnFish* this, PlayState* play) {
@@ -707,7 +707,7 @@ void EnFish_Draw(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(play, this->unk1AC.skeleton, this->unk1AC.jointTable, this->unk1AC.dListCount, NULL,
-                          NULL, NULL);
+    SkelAnime_DrawFlexOpa(play, this->unk1AC.skeleton, this->unk1AC.jointTable, this->unk1AC.dListCount, NULL, NULL,
+                          NULL);
     Collider_UpdateSpheres(0, &this->unk14C);
 }

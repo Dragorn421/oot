@@ -102,8 +102,8 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, D_80B28944);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(play, &this->unk14C, &object_vali_004848_Skel, &object_vali_Anim_0014AC, this->unk198,
-                   this->unk246, 29);
+    SkelAnime_Init(play, &this->unk14C, &object_vali_004848_Skel, &object_vali_Anim_0014AC, this->unk198, this->unk246,
+                   29);
     Collider_InitQuad(play, &this->unk2FC);
     Collider_SetQuad(play, &this->unk2FC, &this->actor, &D_80B288A0);
     Collider_InitQuad(play, &this->unk37C);
@@ -113,8 +113,8 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80B28924, &D_80B2891C);
     func_80B26878(this);
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp34,
-                                                          &this->actor, &this->actor.world.pos);
+    this->actor.floorHeight =
+        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &this->actor.world.pos);
     this->actor.params = 0;
     if (this->actor.floorHeight == BGCHECK_Y_MIN) {
         Actor_Kill(&this->actor);
@@ -731,7 +731,7 @@ void EnVali_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_XLU_DISP++, 9, D_80B289A8);
     }
     func_80B28344(this, play);
-    POLY_XLU_DISP = SkelAnime_Draw(play, this->unk14C.skeleton, this->unk14C.jointTable, func_80B281F0,
-                                   func_80B28280, this, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_Draw(play, this->unk14C.skeleton, this->unk14C.jointTable, func_80B281F0, func_80B28280,
+                                   this, POLY_XLU_DISP);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_vali.c", 1538);
 }

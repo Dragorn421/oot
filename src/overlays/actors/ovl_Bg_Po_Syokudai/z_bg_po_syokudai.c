@@ -61,8 +61,7 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     this->unk164.dim.pos.z = this->actor.world.pos.z;
     if ((this->unk14C == 0) && Flags_GetSwitch(play, 0x1F) && Flags_GetSwitch(play, 0x1E) &&
         Flags_GetSwitch(play, 0x1D) && !Flags_GetSwitch(play, this->actor.params)) {
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0,
-                    this->actor.params);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0, this->actor.params);
         play->envCtx.lightSettingOverride = 4;
     } else if (!Flags_GetSwitch(play, 0x1C) && !Flags_GetSwitch(play, 0x1B)) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,

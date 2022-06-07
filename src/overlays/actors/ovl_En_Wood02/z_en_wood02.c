@@ -68,8 +68,7 @@ static f32 sSin;
 s32 EnWood02_IsInUncullZone(EnWood02* this, PlayState* play, Vec3f* pos) {
     f32 invW;
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, pos, &this->actor.projectedPos,
-                                 &this->actor.projectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, pos, &this->actor.projectedPos, &this->actor.projectedW);
     if (this->actor.projectedW == 0.0f) {
         invW = 1000.0f;
     } else {
@@ -244,8 +243,8 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_4;
         }
         this->actor.world.pos.y += 200.0f;
-        floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &floorBgId, &this->actor,
-                                             &this->actor.world.pos);
+        floorY =
+            BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &floorBgId, &this->actor, &this->actor.world.pos);
         if (floorY > BGCHECK_Y_MIN) {
             this->actor.world.pos.y = floorY;
         } else {
@@ -305,8 +304,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
             } else if (this->actor.home.rot.z != 0) {
                 this->actor.home.rot.z &= 0x1FFF;
                 this->actor.home.rot.z |= 0xE000;
-                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, sp58.x, sp58.y, sp58.z, 0,
-                            this->actor.world.rot.y, 0, this->actor.home.rot.z);
+                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, sp58.x, sp58.y, sp58.z, 0, this->actor.world.rot.y, 0,
+                            this->actor.home.rot.z);
                 this->actor.home.rot.z = 0;
             }
             var_v1_sp44_or_sp50 = EN_WOOD_02_TYPE_23;
@@ -336,8 +335,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
              (((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0)) &&
               (player->rideActor->speedXZ != 0.0f)))) {
             if ((this->unk14C >= 0) && (this->unk14C < 0x64)) {
-                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
-                                           (this->unk14C * 0x10) | 0x8000);
+                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, (this->unk14C * 0x10) | 0x8000);
             }
             this->unk14C = -21;
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_TREE_SWING);

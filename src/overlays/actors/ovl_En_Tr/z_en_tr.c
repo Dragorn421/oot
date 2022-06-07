@@ -143,9 +143,9 @@ void func_80B22F28(EnTr* this, PlayState* play) {
                     EnTr_SetupAction(this, func_80B22E6C);
                     this->unk2E4 = D_80B24378[this->actor.params];
                     this->unk2D6 = 0x27;
-                    Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_6K,
-                                       this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
-                                       0, this->actor.params + 9);
+                    Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_6K, this->actor.world.pos.x,
+                                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
+                                       this->actor.params + 9);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
                     break;
 
