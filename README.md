@@ -1,3 +1,15 @@
+This is an example of adding a color for messages.
+
+Without further changes, the game seems to support adding 8 colors this way. (after `8` this uses, 9, A, B, C, D, E, F are still left unused)
+
+For example changing message `0x5065` (text is extracted to, and can be changed in, `assets/text/message_data.h`):
+
+```c
+COLOR(MAGENTA) "Ding dong, ding dong!\n" COLOR(DEFAULT)
+```
+
+![Magenta sentence](https://cdn.discordapp.com/attachments/448118684792389632/985869954249293824/unknown.png)
+
 # The Legend of Zelda: Ocarina of Time
 
 [![Build Status][jenkins-badge]][jenkins] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
