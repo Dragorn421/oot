@@ -68,6 +68,7 @@
 #define CTRL_PURPLE     5
 #define CTRL_YELLOW     6
 #define CTRL_BLACK      7
+#define CTRL_MAGENTA    8
 
 #ifdef MESSAGE_DATA_STATIC
 // For use in message_data_static files
@@ -131,6 +132,7 @@
 #define PURPLE      COLOR_STR(CTRL_PURPLE)
 #define YELLOW      COLOR_STR(CTRL_YELLOW)
 #define BLACK       COLOR_STR(CTRL_BLACK)
+#define MAGENTA     COLOR_STR(CTRL_MAGENTA)
 
 #else
 // For use in code files
@@ -142,6 +144,7 @@
 #define MSGCOL_PURPLE       HEX(CTRL_PURPLE)
 #define MSGCOL_YELLOW       HEX(CTRL_YELLOW)
 #define MSGCOL_BLACK        HEX(CTRL_BLACK)
+#define MSGCOL_MAGENTA      HEX(CTRL_MAGENTA)
 
 #define MESSAGE_NEWLINE                 HEX(CTRL_NEWLINE)
 #define MESSAGE_END                     HEX(CTRL_END)
