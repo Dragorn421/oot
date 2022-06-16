@@ -442,7 +442,7 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
     ArenaImpl_SetDebugInfo(node, NULL, 0, arena);
 
     if (arena->flag & FILL_FREEBLOCK) {
-        func_80106860((u32)node + sizeof(ArenaNode), BLOCK_FREE_MAGIC, node->size);
+        func_80106860((void*)((u32)node + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, node->size);
     }
 
     newNext = next;
@@ -512,7 +512,7 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
     ArenaImpl_SetDebugInfo(node, file, line, arena);
 
     if (arena->flag & FILL_FREEBLOCK) {
-        func_80106860((u32)node + sizeof(ArenaNode), BLOCK_FREE_MAGIC, node->size);
+        func_80106860((void*)((u32)node + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, node->size);
     }
 
     newNext = node->next;
