@@ -14,7 +14,7 @@
 void BgBowlWall_Init(Actor* thisx, PlayState* play);
 void BgBowlWall_Destroy(Actor* thisx, PlayState* play);
 void BgBowlWall_Update(Actor* thisx, PlayState* play);
-void BgBowlWall_Draw(Actor* thisx, PlayState* play);
+void BgBowlWall_Draw(Actor* thisx, PlayState* play2);
 
 void func_8086F260(BgBowlWall* this, PlayState* play);
 void func_8086F440(BgBowlWall* this, PlayState* play);

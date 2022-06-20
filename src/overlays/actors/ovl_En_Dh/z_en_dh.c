@@ -5,7 +5,7 @@
 
 typedef enum { DH_WAIT, DH_RETREAT, DH_BURROW, DH_WALK, DH_ATTACK, DH_DEATH, DH_DAMAGE } EnDhAction;
 
-void EnDh_Init(Actor* this, PlayState* play);
+void EnDh_Init(Actor* thisx, PlayState* play);
 void EnDh_Destroy(Actor* thisx, PlayState* play);
 void EnDh_Update(Actor* thisx, PlayState* play);
 void EnDh_Draw(Actor* thisx, PlayState* play);

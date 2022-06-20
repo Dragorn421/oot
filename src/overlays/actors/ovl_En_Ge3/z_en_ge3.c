@@ -8,10 +8,10 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-void EnGe3_Init(Actor* thisx, PlayState* play);
+void EnGe3_Init(Actor* thisx, PlayState* play2);
 void EnGe3_Destroy(Actor* thisx, PlayState* play);
 void EnGe3_Update(Actor* thisx, PlayState* play);
-void EnGe3_Draw(Actor* thisx, PlayState* play);
+void EnGe3_Draw(Actor* thisx, PlayState* play2);
 
 void func_80A34A80(EnGe3* this, PlayState* play);
 void func_80A34B90(EnGe3* this, PlayState* play);
