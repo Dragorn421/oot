@@ -164,13 +164,16 @@ for c_file_path in src_path.glob("**/*.c"):
                 if symbol_qualifier_last == "":
                     new_data_definition = (
                         mycolliderinit.parse_and_format_collider_init_data(
-                            target_struct_name, rom
+                            target_struct_name, rom, dump_name=data_symbol_name
                         )
                     )
                 else:  # array
                     if target_struct_name.endswith("ElementInit"):
                         new_data_definition = mycolliderinit.parse_and_format_collider_init_data_array_cached_length(
-                            target_struct_name, rom, data_symbol_name
+                            target_struct_name,
+                            rom,
+                            data_symbol_name,
+                            dump_name=data_symbol_name,
                         )
                     else:
                         raise NotImplementedError("array of " + target_struct_name)
@@ -203,3 +206,8 @@ for c_file_path in src_path.glob("**/*.c"):
         if DEBUG_NOREPLACE:
             Path("OUT_colliderdata_reextractor.c").write_text(c_file_processed)
         break
+
+import json
+
+with open("tools421/all_parsed_data.json", "w") as f:
+    json.dump(mycolliderinit.all_parsed_data, f)

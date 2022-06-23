@@ -19,6 +19,7 @@ ParsedMapEntry = Tuple[str, str, Optional[int], int, str]
 parsed_map: Optional[List[ParsedMapEntry]] = None
 parsed_map_by_symbol: Optional[Dict[str, ParsedMapEntry]] = None
 parsed_map_by_address: Optional[Dict[int, ParsedMapEntry]] = None
+parsed_map_by_rom_offset: Optional[Dict[int, ParsedMapEntry]] = None
 
 
 def parse_map_file(
@@ -136,6 +137,7 @@ def load_map_file():
     global parsed_map
     global parsed_map_by_symbol
     global parsed_map_by_address
+    global parsed_map_by_rom_offset
 
     with open("build/z64.map") as f:
         mapfile_lines = f.readlines()
@@ -149,11 +151,19 @@ def load_map_file():
         ram: (objfile, section, ram, rom, symbol)
         for (objfile, section, ram, rom, symbol) in parsed_map
     }
+    parsed_map_by_rom_offset = {
+        rom: (objfile, section, ram, rom, symbol)
+        for (objfile, section, ram, rom, symbol) in parsed_map
+    }
+
     # remove address lookups for addresses shared by several symbols
     for (objfile, section, ram, rom, symbol) in parsed_map:
         if ram in parsed_map_by_address:
             if parsed_map_by_address[ram][4] != symbol:
                 del parsed_map_by_address[ram]
+        if rom in parsed_map_by_rom_offset:
+            if parsed_map_by_rom_offset[rom][4] != symbol:
+                del parsed_map_by_rom_offset[rom]
 
 
 def find_symbol(name: str):
@@ -164,6 +174,11 @@ def find_symbol(name: str):
 def find_address(address: int):
     assert parsed_map_by_address is not None, "call load_map_file first"
     return parsed_map_by_address[address]
+
+
+def find_rom_offset(rom_offset: int):
+    assert parsed_map_by_rom_offset is not None, "call load_map_file first"
+    return parsed_map_by_rom_offset[rom_offset]
 
 
 if __name__ == "__main__":

@@ -104,14 +104,40 @@ def ctype_to_c(data, data_type):
         raise NotImplementedError(data_type, type(data))
 
 
-def parse_and_format_collider_init_data(struct_name, rom_offset):
+all_parsed_data = dict()
+
+
+def ctype_to_dumpable(data, data_type):
+    if issubclass(data_type, ctypes.Structure):
+        return {
+            field_name: ctype_to_dumpable(getattr(data, field_name), field_type)
+            for field_name, field_type in data._fields_
+        }
+    elif issubclass(data_type, ctypes.Array):
+        return [ctype_to_dumpable(e, data._type_) for e in data]
+    elif isinstance(data, int):
+        return data
+    elif isinstance(data, float):
+        return data
+    else:
+        return {"type": str(type(data)), "value": str(data)}
+
+
+def parse_and_format_collider_init_data(struct_name, rom_offset, dump_name):
     data = z64collision_check.convert(struct_name, rom_offset, baserom_bytes)
+    assert dump_name not in all_parsed_data
+    all_parsed_data[dump_name] = {
+        "struct": data.struct_type,
+        "data": ctype_to_dumpable(data, ctypes.Structure),
+    }
     print(str(data))
     c = ctype_to_c(data, ctypes.Structure)
     return c
 
 
-def parse_and_format_collider_init_data_array(struct_name, rom_offset, length):
+def parse_and_format_collider_init_data_array(
+    struct_name, rom_offset, length, dump_name
+):
     sizes = {
         "ColliderJntSphElementInit": 0x24,
         "ColliderTrisElementInit": 0x3C,
@@ -123,7 +149,9 @@ def parse_and_format_collider_init_data_array(struct_name, rom_offset, length):
         + indent
         + ",\n".join(
             f"/* {i} */ "
-            + parse_and_format_collider_init_data(struct_name, rom_offset + size * i)
+            + parse_and_format_collider_init_data(
+                struct_name, rom_offset + size * i, f"{dump_name}[{i}]"
+            )
             for i in range(length)
         ).replace("\n", "\n" + indent)
         + "\n}"
@@ -131,8 +159,8 @@ def parse_and_format_collider_init_data_array(struct_name, rom_offset, length):
 
 
 def parse_and_format_collider_init_data_array_cached_length(
-    struct_name, rom_offset, symbol_name
+    struct_name, rom_offset, symbol_name, dump_name
 ):
     return parse_and_format_collider_init_data_array(
-        struct_name, rom_offset, cached_lengths[symbol_name]
+        struct_name, rom_offset, cached_lengths[symbol_name], dump_name
     )

@@ -1,3 +1,7 @@
+```
+./tools421/colliderdata_reextractor.py REMOVE_STATIC && make -j32 && ./tools421/colliderdata_reextractor.py RECONSTRUCT && make -j32
+```
+
 # The Legend of Zelda: Ocarina of Time
 
 [![Build Status][jenkins-badge]][jenkins] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
