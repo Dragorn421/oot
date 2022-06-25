@@ -130,7 +130,7 @@ void func_808922B8(BgIceTurara* this, PlayState* play) {
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
         Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk16C.base);
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->unk164 = func_80892424;
     } else {
         sp28 = Rand_ZeroOne();
@@ -160,7 +160,7 @@ void func_80892424(BgIceTurara* this, PlayState* play) {
         func_80892040(this, play, 40.0f);
         if (this->dyna.actor.params == 2) {
             this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 120.0f;
-            func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->unk164 = func_80892574;
         } else {
             Actor_Kill(&this->dyna.actor);

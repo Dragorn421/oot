@@ -329,7 +329,7 @@ void func_8086C6EC(BgBdanObjects* this, PlayState* play) {
 }
 
 void func_8086C76C(BgBdanObjects* this, PlayState* play) {
-    if (func_8004356C(&this->dyna.actor)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
         if (this->dyna.actor.xzDistToPlayer < 120.0f) {
             this->actionFunc = func_8086C7D0;
             OnePointCutscene_Init(play, 3090, -99, &this->dyna.actor, CAM_ID_MAIN);
@@ -355,7 +355,7 @@ void func_8086C874(BgBdanObjects* this, PlayState* play) {
         this->unk_16A -= 1;
     }
     if (this->switchFlag == 0) {
-        if (func_8004356C(&this->dyna.actor)) {
+        if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
             this->cameraSetting = play->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
             func_8005AD1C(play->cameraPtrs[CAM_ID_MAIN], 4);
@@ -363,7 +363,7 @@ void func_8086C874(BgBdanObjects* this, PlayState* play) {
         }
     } else {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
-        if (!func_8004356C(&this->dyna.actor)) {
+        if (!DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
             if (this->switchFlag != 0) {
                 this->switchFlag -= 1;
             }
@@ -415,7 +415,7 @@ void func_8086CABC(BgBdanObjects* this, PlayState* play) {
 }
 
 void func_8086CB10(BgBdanObjects* this, PlayState* play) {
-    if (func_8004356C(&this->dyna.actor)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
         Flags_SetSwitch(play, this->switchFlag);
         this->unk_16A = 0x32;
         this->actionFunc = func_8086CB8C;

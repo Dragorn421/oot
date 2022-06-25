@@ -491,7 +491,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
         } else {
             dynaActor = DynaPoly_GetActor(&play->colCtx, bgId);
             if (dynaActor != NULL) {
-                func_800434A8(dynaActor);
+                DynaPolyActor_SetActorOnTop(dynaActor);
                 func_80043538(dynaActor);
 
                 if ((this->timer <= 0) && (fabsf(this->dyna.unk_150) > 0.001f)) {
@@ -520,7 +520,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
             dynaActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
             if ((dynaActor != NULL) && (dynaActor->unk_15C & 1)) {
-                func_800434A8(dynaActor);
+                DynaPolyActor_SetActorOnTop(dynaActor);
                 func_80043538(dynaActor);
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             } else {

@@ -105,7 +105,7 @@ void func_808B0AE0(BgSpot08Iceblock* this) {
             sp18 = 0.4f;
             break;
     }
-    if (func_80043548(&this->dyna) != 0) {
+    if (DynaPolyActor_IsActorOnTop(&this->dyna) != 0) {
         var_fv0 = -4.0f;
     } else {
         var_fv0 = 0.0f;
@@ -186,7 +186,7 @@ void func_808B0CE0(BgSpot08Iceblock* this, PlayState* play) {
     spD4.x = this->unk168.x;
     spD4.y = 0.0f;
     spD4.z = this->unk168.z;
-    if ((func_8004356C(&this->dyna) != 0) && (sp88 > 3.0f)) {
+    if ((DynaPolyActor_IsPlayerOnTop(&this->dyna) != 0) && (sp88 > 3.0f)) {
         Math_Vec3f_Diff(&spC8, &spD4, &spBC);
         func_808B0BA8(&spBC, &spBC, (D_808B16C8[sp84] * sp88) / this->dyna.actor.scale.x);
     } else {

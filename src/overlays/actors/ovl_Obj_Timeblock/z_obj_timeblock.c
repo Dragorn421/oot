@@ -147,7 +147,7 @@ s32 func_80BA032C(ObjTimeblock* this, PlayState* play) {
     Vec3f sp1C;
     f32 temp_fv1;
 
-    if ((this->unk178 != 0) && (func_80043590(&this->dyna) != 0)) {
+    if ((this->unk178 != 0) && (DynaPolyActor_IsPlayerAbove(&this->dyna) != 0)) {
         return 0;
     }
     if ((this->dyna.actor.xzDistToPlayer <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7])) {
@@ -330,10 +330,10 @@ void ObjTimeblock_Update(Actor* thisx, PlayState* play) {
         this->unk16C = temp_v0 - 1;
     }
     if (this->unk178 != 0) {
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         return;
     }
-    func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void ObjTimeblock_Draw(Actor* thisx, PlayState* play) {

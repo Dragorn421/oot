@@ -57,7 +57,7 @@ void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play2) {
 void BgGndFIremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
     f32 sinkTarget = this->homePos.y - 150.0f;
 
-    if (func_8004356C(&this->dyna) != 0) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna) != 0) {
         this->timer = 10;
     }
     if (sinkTarget < this->dyna.actor.world.pos.y) {
@@ -79,7 +79,7 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
     s32 pad;
     f32 shakeOffset;
 
-    if (func_8004356C(&this->dyna) != 0) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna) != 0) {
         if (this->timer > 0) {
             this->timer--;
             if ((this->timer % 2) != 0) {
@@ -109,7 +109,7 @@ void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     Actor* thisx = &this->dyna.actor;
 
-    if ((player->currentBoots != 2) && (func_8004356C(&this->dyna) != 0)) {
+    if ((player->currentBoots != 2) && (DynaPolyActor_IsPlayerOnTop(&this->dyna) != 0)) {
         if (thisx->world.pos.y < this->homePos.y) {
             this->actionFunc = BgGndFIremeiro_Sink;
             this->timer = 20;

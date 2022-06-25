@@ -229,7 +229,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
             DynaPolyActor_Init(&this->dyna, DPM_UNK);
             CollisionHeader_GetVirtual(&object_jj_001830_Col, &sp4C);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
-            func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->dyna.actor.update = func_80A87F44;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -286,7 +286,7 @@ void func_80A87B9C(EnJj* this, PlayState* play) {
     if (this->unk308 >= -0x1450) {
         this->unk308 -= 0x66;
         if (this->unk308 < -0xA28) {
-            func_8003EBF8(play, &play->colCtx.dyna, unk300->dyna.bgId);
+            DynaPoly_DisableCollision(play, &play->colCtx.dyna, unk300->dyna.bgId);
         }
     }
 }
@@ -322,7 +322,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
     func_80A87800(this, func_80A87EF0);
     play->csCtx.segment = D_80A88164;
     gSaveContext.cutsceneTrigger = 1;
-    func_8003EBF8(play, &play->colCtx.dyna, temp_v1->dyna.bgId);
+    DynaPoly_DisableCollision(play, &play->colCtx.dyna, temp_v1->dyna.bgId);
     func_8005B1A4(play->cameraPtrs[play->activeCamId]);
     SET_EVENTCHKINF(EVENTCHKINF_3A);
     func_80078884(NA_SE_SY_CORRECT_CHIME);
