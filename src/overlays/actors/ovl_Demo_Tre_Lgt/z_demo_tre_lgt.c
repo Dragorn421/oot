@@ -154,9 +154,6 @@ s32 DemoTreLgt_OverrideLimbDraw(PlayState* play, SkelCurve* skelCurve, s32 limbI
     //! - In debug versions, the last instruction that does this is in `Graph_CloseDisps`.
     //! - In retail versions, `gDPSetPrimColor` writes to it last.
     //! In both cases, that instruction sets v0 to a non-NULL pointer, which is "true", so the limb happens to be drawn.
-#ifdef AVOID_UB
-    return true;
-#endif
 }
 
 void DemoTreLgt_Draw(Actor* thisx, PlayState* play) {

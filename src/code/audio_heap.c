@@ -1091,9 +1091,6 @@ void* AudioHeap_AllocPermanent(s32 tableType, s32 id, u32 size) {
 
     //! @bug UB: missing return. "ramAddr" is in v0 at this point, but doing an
     //! explicit return uses an additional register.
-#ifdef AVOID_UB
-    return ramAddr;
-#endif
 }
 
 void* AudioHeap_AllocSampleCache(u32 size, s32 fontId, void* sampleAddr, s8 medium, s32 cache) {

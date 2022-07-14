@@ -275,9 +275,6 @@ QuakeRequest* Quake_SetValue(s16 index, s16 valueType, s16 value) {
 
         //! @bug UB: missing return. "req" is in v0 at this point, but doing an
         //! explicit return uses an additional register.
-#ifdef AVOID_UB
-    return req;
-#endif
 }
 
 /**

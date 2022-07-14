@@ -33,9 +33,6 @@ ActorInit En_Tana_InitVars = {
 static const char* sShelfTypes[] = {
     "木の棚", // "Wooden Shelves"
     "石の棚", // "Stone Shelves"
-#ifdef AVOID_UB
-    "",
-#endif
 };
 
 static const ActorFunc sDrawFuncs[] = {

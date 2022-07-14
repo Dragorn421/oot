@@ -773,9 +773,6 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
                 return EnGo2_GetTextIdGoronMarketBazaar(play, this);
         }
     }
-#ifdef AVOID_UB
-    return faceReaction; // faceReaction is always in the v0 return value register at this point
-#endif
 }
 
 s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
@@ -810,11 +807,6 @@ s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
         case GORON_MARKET_BAZAAR:
             return EnGo2_GetStateGoronMarketBazaar(play, this);
     }
-#ifdef AVOID_UB
-    // The v0 register isn't set in this function, the last value in v0 is the return value of Actor_ProcessTalkRequest
-    // called in the function below, which must be false for this function to be called
-    return false;
-#endif
 }
 
 s32 func_80A44790(EnGo2* this, PlayState* play) {

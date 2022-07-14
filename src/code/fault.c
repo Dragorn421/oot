@@ -352,21 +352,14 @@ void Fault_Sleep(u32 msec) {
     Fault_SleepImpl(msec);
 }
 
-#ifndef AVOID_UB
 void PadMgr_RequestPadData(Input* inputs, s32 gameRequest);
-#endif
 
 void Fault_PadCallback(Input* inputs) {
     //! @bug This function is not called correctly, it is missing a leading PadMgr* argument. This
     //! renders the crash screen unusable.
     //! In Majora's Mask, PadMgr functions were changed to not require this argument, and this was
     //! likely just not addressed when backporting.
-#ifndef AVOID_UB
     PadMgr_RequestPadData(inputs, false);
-#else
-    // Guarantee crashing behavior: false -> NULL, previous value in a2 is more often non-zero than zero
-    PadMgr_RequestPadData((PadMgr*)inputs, NULL, true);
-#endif
 }
 
 void Fault_UpdatePadImpl(void) {

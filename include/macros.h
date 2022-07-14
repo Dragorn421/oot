@@ -5,11 +5,7 @@
 #define __attribute__(x)
 #endif
 
-#ifndef AVOID_UB
 #define BAD_RETURN(type) type
-#else
-#define BAD_RETURN(type) void
-#endif
 
 #define UNUSED __attribute__((unused))
 #define FALLTHROUGH __attribute__((fallthrough))
