@@ -6,6 +6,27 @@
 
 struct EnMd;
 
+typedef enum {
+    ENMD_LIMB_NONE,
+    ENMD_LIMB_ROOT,
+    ENMD_LIMB_WAIST,
+    ENMD_LIMB_LEFT_THIGH,
+    ENMD_LIMB_LEFT_LEG,
+    ENMD_LIMB_LEFT_FOOT,
+    ENMD_LIMB_RIGHT_THIGH,
+    ENMD_LIMB_RIGHT_LEG,
+    ENMD_LIMB_RIGHT_FOOT,
+    ENMD_LIMB_TORSO,
+    ENMD_LIMB_LEFT_UPPER_ARM,
+    ENMD_LIMB_LEFT_FOREARM,
+    ENMD_LIMB_LEFT_HAND,
+    ENMD_LIMB_RIGHT_UPPER_ARM,
+    ENMD_LIMB_RIGHT_FOREARM,
+    ENMD_LIMB_RIGHT_HAND,
+    ENMD_LIMB_HEAD,
+    ENMD_LIMB_MAX
+} EnMdLimb;
+
 typedef void (*EnMdActionFunc)(struct EnMd*, PlayState*);
 
 typedef struct EnMd {
@@ -22,10 +43,10 @@ typedef struct EnMd {
     /* 0x20E */ s16 unk20E;
     /* 0x210 */ s16 unk210;
     /* 0x212 */ s16 unk212;
-    /* 0x214 */ s16 unk214[17];
-    /* 0x236 */ s16 unk236[17];
-    /* 0x258 */ Vec3s unk258[17];
-    /* 0x2BE */ Vec3s unk2BE[17];
+    /* 0x214 */ s16 unk214[ENMD_LIMB_MAX];
+    /* 0x236 */ s16 unk236[ENMD_LIMB_MAX];
+    /* 0x258 */ Vec3s unk258[ENMD_LIMB_MAX];
+    /* 0x2BE */ Vec3s unk2BE[ENMD_LIMB_MAX];
 } EnMd; // size = 0x0324
 
 #endif
