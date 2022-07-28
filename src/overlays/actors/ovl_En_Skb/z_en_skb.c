@@ -1,27 +1,43 @@
+/*
+ * File: z_en_skb.c
+ * Overlay: ovl_En_Skb
+ * Description: Stalchild
+ */
+
 #include "z_en_skb.h"
 #include "assets/objects/object_skb/object_skb.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+
+typedef enum {
+    SKB_BEHAVIOR_BURIED,
+    SKB_BEHAVIOR_DYING,
+    SKB_BEHAVIOR_DAMAGED,
+    SKB_BEHAVIOR_ATTACKING,
+    SKB_BEHAVIOR_WALKING,
+    SKB_BEHAVIOR_RECOILING,
+    SKB_BEHAVIOR_STUNNED
+} StalchildBehavior;
 
 void EnSkb_Init(Actor* thisx, PlayState* play);
 void EnSkb_Destroy(Actor* thisx, PlayState* play);
 void EnSkb_Update(Actor* thisx, PlayState* play);
 void EnSkb_Draw(Actor* thisx, PlayState* play);
 
-void func_80AFCDF8(EnSkb* this);
-void func_80AFCE5C(EnSkb* this, PlayState* play);
-void func_80AFCF48(EnSkb* this);
-void func_80AFCFF0(EnSkb* this, PlayState* play);
-void func_80AFD0A4(EnSkb* this);
-void func_80AFD13C(EnSkb* this, PlayState* play);
-void func_80AFD33C(EnSkb* this);
-void func_80AFD3D4(EnSkb* this, PlayState* play);
-void func_80AFD47C(EnSkb* this);
-void func_80AFD508(EnSkb* this, PlayState* play);
-void func_80AFD59C(EnSkb* this, PlayState* play);
-void func_80AFD6CC(EnSkb* this, PlayState* play);
-void func_80AFD7B4(EnSkb* this, PlayState* play);
-void func_80AFD880(EnSkb* this, PlayState* play);
+void EnSkb_SetupRiseFromGround(EnSkb* this);
+void EnSkb_RiseFromGround(EnSkb* this, PlayState* play);
+void EnSkb_SetupDespawn(EnSkb* this);
+void EnSkb_Despawn(EnSkb* this, PlayState* play);
+void EnSkb_SetupWalkForward(EnSkb* this);
+void EnSkb_WalkForward(EnSkb* this, PlayState* play);
+void EnSkb_SetupAttack(EnSkb* this);
+void EnSkb_Attack(EnSkb* this, PlayState* play);
+void EnSkb_SetupRecoil(EnSkb* this);
+void EnSkb_Recoil(EnSkb* this, PlayState* play);
+void EnSkb_Stunned(EnSkb* this, PlayState* play);
+void EnSkb_TakeDamage(EnSkb* this, PlayState* play);
+void EnSkb_SetupDeath(EnSkb* this, PlayState* play);
+void EnSkb_Death(EnSkb* this, PlayState* play);
 
 static ColliderJntSphElementInit D_80AFE020[2] = {
     {
@@ -133,7 +149,7 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
         (this->actor.params + 10) * 2;
     this->actor.home.pos = this->actor.world.pos;
     this->actor.floorHeight = this->actor.world.pos.y;
-    func_80AFCDF8(this);
+    EnSkb_SetupRiseFromGround(this);
 }
 
 typedef struct UnkActor {
@@ -157,26 +173,26 @@ void EnSkb_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->unk2A4);
 }
 
-void func_80AFCD60(EnSkb* this) {
+void EnSkb_DecideNextAction(EnSkb* this) {
     if (IS_DAY) {
-        func_80AFCF48(this);
+        EnSkb_SetupDespawn(this);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
-        func_80AFD33C(this);
+        EnSkb_SetupAttack(this);
     } else {
-        func_80AFD0A4(this);
+        EnSkb_SetupWalkForward(this);
     }
 }
 
-void func_80AFCDF8(EnSkb* this) {
+void EnSkb_SetupRiseFromGround(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->unk14C, &object_skb_001854_Anim, 1.0f);
-    this->unk280 = 0;
+    this->actionState = SKB_BEHAVIOR_BURIED;
     this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
-    func_80AFC9A0(this, func_80AFCE5C);
+    func_80AFC9A0(this, EnSkb_RiseFromGround);
 }
 
-void func_80AFCE5C(EnSkb* this, PlayState* play) {
+void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
     if (this->unk14C.curFrame < 4.0f) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     } else {
@@ -188,22 +204,22 @@ void func_80AFCE5C(EnSkb* this, PlayState* play) {
         func_80AFC9A8(play, this, &this->actor.world.pos);
     }
     if (SkelAnime_Update(&this->unk14C) && (this->actor.shape.yOffset == 0.0f)) {
-        func_80AFCD60(this);
+        EnSkb_DecideNextAction(this);
     }
 }
 
-void func_80AFCF48(EnSkb* this) {
+void EnSkb_SetupDespawn(EnSkb* this) {
     Animation_Change(&this->unk14C, &object_skb_001854_Anim, -1.0f, Animation_GetLastFrame(&object_skb_001854_Anim),
                      0.0f, ANIMMODE_ONCE, -4.0f);
-    this->unk280 = 0;
-    this->unk281 = 0;
+    this->actionState = SKB_BEHAVIOR_BURIED;
+    this->setColliderAT = false;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
-    func_80AFC9A0(this, func_80AFCFF0);
+    func_80AFC9A0(this, EnSkb_Despawn);
 }
 
-void func_80AFCFF0(EnSkb* this, PlayState* play) {
+void EnSkb_Despawn(EnSkb* this, PlayState* play) {
     if ((Math_SmoothStepToF(&this->actor.shape.yOffset, -8000.0f, 1.0f, 500.0f, 0.0f) != 0.0f) &&
         (play->gameplayFrames & 1)) {
         func_80AFC9A8(play, this, &this->actor.world.pos);
@@ -214,26 +230,26 @@ void func_80AFCFF0(EnSkb* this, PlayState* play) {
     }
 }
 
-void func_80AFD0A4(EnSkb* this) {
+void EnSkb_SetupWalkForward(EnSkb* this) {
     Animation_Change(&this->unk14C, &object_skb_0047E0_Anim, 0.96000004f, 0.0f,
                      Animation_GetLastFrame(&object_skb_0047E0_Anim), ANIMMODE_LOOP, -4.0f);
-    this->unk280 = 4;
-    this->unk288 = 0;
+    this->actionState = SKB_BEHAVIOR_WALKING;
+    this->headlessYawOffset = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
-    func_80AFC9A0(this, func_80AFD13C);
+    func_80AFC9A0(this, EnSkb_WalkForward);
 }
 
-void func_80AFD13C(EnSkb* this, PlayState* play) {
+void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
     s32 temp_ft2_sp34;
     f32 var_fv1_2;
     s32 temp_ft4;
     Actor* sp28;
 
     sp28 = play->actorCtx.actorLists[2].head;
-    if ((this->unk283 != 0) && !(play->gameplayFrames & 0xF)) {
-        this->unk288 = (s16)(s32)Rand_CenteredFloat(50000.0f);
+    if ((this->breakFlags != 0) && !(play->gameplayFrames & 0xF)) {
+        this->headlessYawOffset = (s16)(s32)Rand_CenteredFloat(50000.0f);
     }
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->unk288, 1, 0x2EE, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->headlessYawOffset, 1, 0x2EE, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     temp_ft2_sp34 = (s32)this->unk14C.curFrame;
     SkelAnime_Update(&this->unk14C);
@@ -246,53 +262,53 @@ void func_80AFD13C(EnSkb* this, PlayState* play) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_WALK);
     }
     if ((Math_Vec3f_DistXZ(&this->actor.home.pos, &sp28->world.pos) > 800.0f) || IS_DAY) {
-        func_80AFCF48(this);
+        EnSkb_SetupDespawn(this);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
-        func_80AFD33C(this);
+        EnSkb_SetupAttack(this);
     }
 }
 
-void func_80AFD33C(EnSkb* this) {
+void EnSkb_SetupAttack(EnSkb* this) {
     Animation_Change(&this->unk14C, &object_skb_000460_Anim, 0.6f, 0.0f,
                      Animation_GetLastFrame(&object_skb_000460_Anim), ANIMMODE_ONCE_INTERP, 4.0f);
     this->unk2A4.base.atFlags &= ~AT_BOUNCED;
-    this->unk280 = 3;
+    this->actionState = SKB_BEHAVIOR_ATTACKING;
     this->actor.speedXZ = 0.0f;
-    func_80AFC9A0(this, func_80AFD3D4);
+    func_80AFC9A0(this, EnSkb_Attack);
 }
 
-void func_80AFD3D4(EnSkb* this, PlayState* play) {
+void EnSkb_Attack(EnSkb* this, PlayState* play) {
     s32 temp_ft1;
     u8 temp_v0;
 
     temp_ft1 = (s32)this->unk14C.curFrame;
     if (temp_ft1 == 3) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_ATTACK);
-        this->unk281 = 1;
+        this->setColliderAT = true;
     } else if (temp_ft1 == 6) {
-        this->unk281 = 0;
+        this->setColliderAT = false;
     }
     if (this->unk2A4.base.atFlags & AT_BOUNCED) {
         this->unk2A4.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
-        func_80AFD47C(this);
+        EnSkb_SetupRecoil(this);
     } else if (SkelAnime_Update(&this->unk14C)) {
-        func_80AFCD60(this);
+        EnSkb_DecideNextAction(this);
     }
 }
 
-void func_80AFD47C(EnSkb* this) {
+void EnSkb_SetupRecoil(EnSkb* this) {
     Animation_Change(&this->unk14C, &object_skb_000460_Anim, -0.4f, this->unk14C.curFrame - 1.0f, 0.0f,
                      ANIMMODE_ONCE_INTERP, 0.0f);
     this->unk2A4.base.atFlags &= ~AT_BOUNCED;
-    this->unk280 = 5;
-    this->unk281 = 0;
-    func_80AFC9A0(this, func_80AFD508);
+    this->actionState = SKB_BEHAVIOR_RECOILING;
+    this->setColliderAT = false;
+    func_80AFC9A0(this, EnSkb_Recoil);
 }
 
-void func_80AFD508(EnSkb* this, PlayState* play) {
+void EnSkb_Recoil(EnSkb* this, PlayState* play) {
     if (SkelAnime_Update(&this->unk14C)) {
-        func_80AFCD60(this);
+        EnSkb_DecideNextAction(this);
     }
 }
 
@@ -301,12 +317,12 @@ void func_80AFD540(EnSkb* this) {
         this->actor.speedXZ = 0.0f;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    this->unk281 = 0;
-    this->unk280 = 6;
-    func_80AFC9A0(this, func_80AFD59C);
+    this->setColliderAT = false;
+    this->actionState = SKB_BEHAVIOR_STUNNED;
+    func_80AFC9A0(this, EnSkb_Stunned);
 }
 
-void func_80AFD59C(EnSkb* this, PlayState* play) {
+void EnSkb_Stunned(EnSkb* this, PlayState* play) {
     f32 temp_fv0;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
@@ -319,31 +335,31 @@ void func_80AFD59C(EnSkb* this, PlayState* play) {
     }
     if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->actor.colChkInfo.health == 0) {
-            func_80AFD7B4(this, play);
+            EnSkb_SetupDeath(this, play);
         } else {
-            func_80AFCD60(this);
+            EnSkb_DecideNextAction(this);
         }
     }
 }
 
-void func_80AFD644(EnSkb* this) {
+void EnSkb_SetupTakeDamage(EnSkb* this) {
     Animation_MorphToPlayOnce(&this->unk14C, &object_skb_000D98_Anim, -4.0f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -4.0f;
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_DAMAGE);
-    this->unk280 = 2;
-    func_80AFC9A0(this, func_80AFD6CC);
+    this->actionState = SKB_BEHAVIOR_DAMAGED;
+    func_80AFC9A0(this, EnSkb_TakeDamage);
 }
 
-void func_80AFD6CC(EnSkb* this, PlayState* play) {
+void EnSkb_TakeDamage(EnSkb* this, PlayState* play) {
     u8* new_var;
 
-    new_var = &this->unk283;
-    if ((this->unk283 != 1) || BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, 1)) {
+    new_var = &this->breakFlags;
+    if ((this->breakFlags != 1) || BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, 1)) {
         if (*new_var != 0) {
-            this->unk283 = *new_var | 2;
+            this->breakFlags = *new_var | 2;
         }
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             this->actor.speedXZ = 0.0f;
@@ -355,26 +371,26 @@ void func_80AFD6CC(EnSkb* this, PlayState* play) {
         }
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x1194, 0);
         if (SkelAnime_Update(&this->unk14C) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-            func_80AFCD60(this);
+            EnSkb_DecideNextAction(this);
         }
     }
 }
 
-void func_80AFD7B4(EnSkb* this, PlayState* play) {
+void EnSkb_SetupDeath(EnSkb* this, PlayState* play) {
     Animation_MorphToPlayOnce(&this->unk14C, &object_skb_0009DC_Anim, -4.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -6.0f;
     }
-    this->unk280 = 1;
+    this->actionState = SKB_BEHAVIOR_DYING;
     this->actor.flags &= ~ACTOR_FLAG_0;
     BodyBreak_Alloc(&this->bodyBreak, 18, play);
-    this->unk283 |= 4;
+    this->breakFlags |= 4;
     EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 40);
-    func_80AFC9A0(this, func_80AFD880);
+    func_80AFC9A0(this, EnSkb_Death);
 }
 
-void func_80AFD880(EnSkb* this, PlayState* play) {
+void EnSkb_Death(EnSkb* this, PlayState* play) {
 
     if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, 1)) {
         if (this->actor.scale.x == 0.01f) {
@@ -386,37 +402,38 @@ void func_80AFD880(EnSkb* this, PlayState* play) {
             Item_DropCollectible(play, &this->actor.world.pos, 2);
             Item_DropCollectible(play, &this->actor.world.pos, 2);
         }
-        this->unk283 |= 8;
+        this->breakFlags |= 8;
         Actor_Kill(&this->actor);
     }
 }
 
-void func_80AFD968(EnSkb* this, PlayState* play) {
+void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
     Player* player;
-    s32 var_v1;
+    s32 colorFilterDuration;
     Vec3f sp54;
     s16 sp52;
     s32 var_s0;
 
-    if ((this->unk280 != 1) && (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
+    if ((this->actionState != SKB_BEHAVIOR_DYING) &&
+        (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
         (this->actor.yDistToWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
-        this->unk281 = 0;
-        func_80AFD7B4(this, play);
-    } else if ((this->unk280 >= 3) && (this->unk2A4.base.acFlags & AC_HIT)) {
+        this->setColliderAT = false;
+        EnSkb_SetupDeath(this, play);
+    } else if ((this->actionState >= SKB_BEHAVIOR_ATTACKING) && (this->unk2A4.base.acFlags & AC_HIT)) {
         this->unk2A4.base.acFlags &= ~AC_HIT;
         if (((this->actor.colChkInfo.damageEffect != 6))) {
-            this->unk282 = this->actor.colChkInfo.damageEffect;
+            this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
             Actor_SetDropFlag(&this->actor, &this->unk2A4.elements[1].info, true);
-            this->unk281 = 0;
+            this->setColliderAT = false;
             if (this->actor.colChkInfo.damageEffect == 1) {
-                if (this->unk280 != 6) {
+                if (this->actionState != SKB_BEHAVIOR_STUNNED) {
                     Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 80);
                     Actor_ApplyDamage(&this->actor);
                     func_80AFD540(this);
                 }
             } else {
-                var_v1 = 8;
+                colorFilterDuration = 8;
                 if (this->actor.colChkInfo.damageEffect == 7) {
                     sp52 = this->actor.scale.y * 7500.0f;
                     for (var_s0 = 4; var_s0 >= 0; var_s0--) {
@@ -426,23 +443,24 @@ void func_80AFD968(EnSkb* this, PlayState* play) {
                         sp54.y += Rand_ZeroOne() * 25.0f;
                         EffectSsEnFire_SpawnVec3f(play, &this->actor, &sp54, sp52, 0, 0, -1);
                     }
-                    var_v1 = 25;
+                    colorFilterDuration = 25;
                 }
-                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, var_v1);
+                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, colorFilterDuration);
                 if (Actor_ApplyDamage(&this->actor) == 0) {
-                    func_80AFD7B4(this, play);
+                    EnSkb_SetupDeath(this, play);
                 } else {
                     player = GET_PLAYER(play);
-                    if ((this->unk283 == 0) && (((this->actor.colChkInfo.damageEffect == 0xD)) ||
-                                                ((this->actor.colChkInfo.damageEffect == 0xE) &&
-                                                 (((((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H))) &&
-                                                   (player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H)) ||
-                                                  (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT) ||
-                                                  (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT))))) {
+                    if ((this->breakFlags == 0) &&
+                        (((this->actor.colChkInfo.damageEffect == 0xD)) ||
+                         ((this->actor.colChkInfo.damageEffect == 0xE) &&
+                          (((((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H))) &&
+                            (player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H)) ||
+                           (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT) ||
+                           (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT))))) {
                         BodyBreak_Alloc(&this->bodyBreak, 2, play);
-                        this->unk283 = 1;
+                        this->breakFlags = 1; // setup for head bodybreak
                     }
-                    func_80AFD644(this);
+                    EnSkb_SetupTakeDamage(this);
                 }
             }
         }
@@ -453,7 +471,7 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
     EnSkb* this = (EnSkb*)thisx;
     s32 pad;
 
-    func_80AFD968(this, play);
+    EnSkb_CheckDamage(this, play);
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 15.0f, 30.0f, 60.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
@@ -461,10 +479,11 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
     this->unk284(this, play);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 3000.0f * this->actor.scale.y;
-    if (this->unk281 != 0) {
+    if (this->setColliderAT) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk2A4.base);
     }
-    if ((this->unk280 >= 3) && ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
+    if ((this->actionState >= SKB_BEHAVIOR_ATTACKING) &&
+        ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk2A4.base);
     }
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk2A4.base);
@@ -476,7 +495,7 @@ s32 func_80AFDD30(PlayState* arg0, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg
     s32 temp_v0;
 
     if (arg1 == 11) {
-        if (!(this->unk283 & 2)) {
+        if (!(this->breakFlags & 2)) { // head limb, head is still attached
             OPEN_DISPS(arg0->state.gfxCtx, "../z_en_skb.c", 972);
             temp_v0 = (s16)(ABS((s16)(Math_SinS(arg0->gameplayFrames * 0x1770) * 95.0f)) + 0xA0) & 0xFF;
             gDPPipeSync(POLY_OPA_DISP++);
@@ -485,7 +504,7 @@ s32 func_80AFDD30(PlayState* arg0, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg
         } else {
             *arg2 = NULL;
         }
-    } else if ((arg1 == 12) && (this->unk283 & 2)) {
+    } else if ((arg1 == 12) && (this->breakFlags & 2)) { // jaw limb, don't draw if headless
         *arg2 = NULL;
     }
     return 0;
@@ -495,9 +514,9 @@ void func_80AFDF24(PlayState* arg0, s32 arg1, Gfx** arg2, Vec3s* arg3, void* thi
     EnSkb* this = thisx;
 
     Collider_UpdateSpheres(arg1, &this->unk2A4);
-    if ((this->unk283 ^ 1) == 0) {
+    if ((this->breakFlags ^ 1) == 0) {
         BodyBreak_SetInfo(&this->bodyBreak, arg1, 11, 12, 18, arg2, BODYBREAK_OBJECT_DEFAULT);
-    } else if ((this->unk283 ^ (this->unk283 | 4)) == 0) {
+    } else if ((this->breakFlags ^ (this->breakFlags | 4)) == 0) {
         BodyBreak_SetInfo(&this->bodyBreak, arg1, 0, 18, 18, arg2, BODYBREAK_OBJECT_DEFAULT);
     }
 }
