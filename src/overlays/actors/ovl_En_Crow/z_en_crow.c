@@ -152,7 +152,7 @@ void func_809E03B4(EnCrow* this, PlayState* play) {
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     this->actor.shape.yOffset = 0.0f;
     this->actor.targetArrowOffset = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_DEAD);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KAICHO_DEAD);
 
     if (this->actor.colChkInfo.damageEffect == 3) {
         Actor_SetColorFilter(&this->actor, 0, 255, 0, 40);
@@ -195,7 +195,7 @@ void func_809E06E8(EnCrow* this) {
     this->aimRotY = this->actor.yawTowardsPlayer + 0x8000;
     this->skelAnime.playSpeed = 2.0f;
     Actor_SetColorFilter(&this->actor, 0, 255, 0, 5);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_809E1004;
 }
 
@@ -244,7 +244,7 @@ void EnCrow_Wait(EnCrow* this, PlayState* play) {
         } else {
             this->aimRotY -= 0x1000 + (0x1000 * Rand_ZeroOne());
         }
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_CRY);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KAICHO_CRY);
     }
 
     if (this->actor.yDistToWater > -40.0f) {
@@ -313,7 +313,7 @@ void func_809E0C8C(EnCrow* this, PlayState* play) {
         (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
         }
 
         EnCrow_SetupWait(this);
@@ -466,7 +466,7 @@ void EnCrow_Update(Actor* thisx, PlayState* play) {
     Actor_SetFocus(&this->actor, height);
 
     if (this->actor.colChkInfo.health != 0 && Animation_OnFrame(&this->skelAnime, 3.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_FLUTTER);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KAICHO_FLUTTER);
     }
 }
 

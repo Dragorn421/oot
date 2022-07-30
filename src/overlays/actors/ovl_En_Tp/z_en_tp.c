@@ -192,7 +192,7 @@ void func_80B212C0(EnTp* this, PlayState* play) {
 
     player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
-    Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+    Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     if (this->unk174.base.atFlags & AT_HIT) {
         this->unk174.base.atFlags &= ~AT_HIT;
@@ -230,7 +230,7 @@ void func_80B21454(EnTp* this) {
             var_v0 = var_v0->child;
         }
         this->unk15A = 0xD;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TAIL_DEAD);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
     this->unk14C = 1;
     func_80B20DE0(this, func_80B214CC);
@@ -310,7 +310,7 @@ void func_80B219A8(EnTp* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->unk16C, 1.0f,
                        this->actor.speedXZ * 0.25f, 0.0f);
-    Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+    Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     if (this->unk174.base.atFlags & AT_HIT) {
         this->unk174.base.atFlags &= ~AT_HIT;
@@ -390,7 +390,7 @@ void func_80B21BDC(EnTp* this, PlayState* play) {
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->actor.world.pos.y != this->actor.home.pos.y) {
-        Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+        Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
@@ -455,7 +455,7 @@ void func_80B21F18(EnTp* this, PlayState* play) {
             sp44 = 1;
         }
         if (this->actor.world.pos.y != this->actor.home.pos.y) {
-            Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U,
+            Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         if ((sp44 != 0) && (play->gameplayFrames & 1)) {
@@ -504,7 +504,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
             } else {
                 if (var_s4 != 0) {
                     this->actor.freezeTimer = 80;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     if (var_s2 != 0) {
                         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
                     } else {
@@ -516,7 +516,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
                     var_s0->unk174.base.acFlags &= ~AC_HIT;
                     if (var_s4 != 0) {
                         var_s0->actor.freezeTimer = 80;
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         if (var_s2 != 0) {
                             Actor_SetColorFilter(&var_s0->actor, 0, 0xFF, 0, 80);
                         } else {
@@ -582,7 +582,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
         }
         this->actor.shape.rot.z += 0x800;
         if (this->actor.shape.rot.z == 0) {
-            Audio_PlaySoundGeneral(NA_SE_EN_TAIL_CRY, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_EN_TAIL_CRY, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         if (this->unk14C >= 2) {

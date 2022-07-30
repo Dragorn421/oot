@@ -415,7 +415,7 @@ void func_80A160BC(EnFish* this) {
     this->unk244 = func_80A16200;
     this->unk250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
     if ((var_v0 != 0) && (this->actor.draw != NULL)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
     }
 }
 
@@ -554,7 +554,7 @@ void func_80A16898(EnFish* this, PlayState* play) {
         D_80A17014 = 1.0f;
         if (Rand_ZeroOne() < 0.1f) {
             D_80A17018 = (Rand_ZeroOne() * 3.0f) + 2.0f;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
         } else {
             D_80A17018 = 0.0f;
         }

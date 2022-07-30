@@ -82,7 +82,7 @@ void func_80892040(BgIceTurara* this, PlayState* play, f32 arg2) {
     s32 var_s0;
     s32 sp88;
 
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
     sp88 = 0;
     do {
         for (var_s0 = 0; var_s0 < 10; var_s0++) {
@@ -123,7 +123,7 @@ void func_808922B8(BgIceTurara* this, PlayState* play) {
         this->unk168 -= 1;
     }
     if (!(this->unk168 % 4)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ICE_SWING);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_SWING);
     }
     if (this->unk168 == 0) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;

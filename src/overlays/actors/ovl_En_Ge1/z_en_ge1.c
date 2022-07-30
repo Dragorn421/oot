@@ -288,7 +288,7 @@ void func_80A31234(EnGe1* this, PlayState* play) {
         this->unk2AF = 0x32;
         Message_CloseTextbox(play);
     } else if ((this->unk198.curFrame == 15.0f) || (this->unk198.curFrame == 19.0f)) {
-        Audio_PlayActorSound2(&this->actor, 0x184DU);
+        Audio_PlayActorSfx2(&this->actor, 0x184DU);
     }
 }
 
@@ -376,7 +376,7 @@ void func_80A31644(EnGe1* this, PlayState* play) {
         this->unk2AF = 0x32;
         Message_CloseTextbox(play);
     } else if ((this->unk198.curFrame == 15.0f) || (this->unk198.curFrame == 19.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_HAND_CLAP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_HAND_CLAP);
     }
 }
 

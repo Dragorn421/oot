@@ -516,7 +516,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
             this->unk305 = 0x64;
             this->unk2F4 |= 4;
             this->actor.speedXZ = 0.0f;
-            Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
         } else {
             this->unk308(this, play);
             if (func_80A32F74(play, this, &this->actor.focus.pos, this->actor.shape.rot.y, this->unk2FC) != 0) {
@@ -553,7 +553,7 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
         this->unk305 = 0x64;
         this->unk2F4 = (u16)(this->unk2F4 | 4);
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk14C.base);
     if (func_80A330A0() != 0) {

@@ -188,7 +188,7 @@ void EnSkb_SetupRiseFromGround(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->unk14C, &object_skb_001854_Anim, 1.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     func_80AFC9A0(this, EnSkb_RiseFromGround);
 }
 
@@ -215,7 +215,7 @@ void EnSkb_SetupDespawn(EnSkb* this) {
     this->setColliderAT = false;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     func_80AFC9A0(this, EnSkb_Despawn);
 }
 
@@ -259,7 +259,7 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
     if ((temp_ft2_sp34 != (s32)this->unk14C.curFrame) &&
         (((temp_ft4 < 9) && (((s32)var_fv1_2 + temp_ft2_sp34) >= 8)) ||
          ((temp_ft4 < 0x10) && (((s32)var_fv1_2 + temp_ft2_sp34) >= 0xF)))) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_WALK);
     }
     if ((Math_Vec3f_DistXZ(&this->actor.home.pos, &sp28->world.pos) > 800.0f) || IS_DAY) {
         EnSkb_SetupDespawn(this);
@@ -284,7 +284,7 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
 
     temp_ft1 = (s32)this->unk14C.curFrame;
     if (temp_ft1 == 3) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_ATTACK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_ATTACK);
         this->setColliderAT = true;
     } else if (temp_ft1 == 6) {
         this->setColliderAT = false;
@@ -316,7 +316,7 @@ void func_80AFD540(EnSkb* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = 0.0f;
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->setColliderAT = false;
     this->actionState = SKB_BEHAVIOR_STUNNED;
     func_80AFC9A0(this, EnSkb_Stunned);
@@ -348,7 +348,7 @@ void EnSkb_SetupTakeDamage(EnSkb* this) {
         this->actor.speedXZ = -4.0f;
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_DAMAGE);
     this->actionState = SKB_BEHAVIOR_DAMAGED;
     func_80AFC9A0(this, EnSkb_TakeDamage);
 }

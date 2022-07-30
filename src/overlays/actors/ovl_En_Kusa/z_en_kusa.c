@@ -255,12 +255,12 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
 
     if (Actor_HasParent(&this->actor, play)) {
         func_80A9BA98(this);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
     } else if (this->unk150.base.acFlags & AC_HIT) {
         this->unk150.base.acFlags &= ~AC_HIT;
         func_80A9B21C(this, play);
         func_80A9B07C(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         if ((this->actor.params >> 4) & 1) {
             func_80A9B574(this, play);
         }
@@ -325,7 +325,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
 
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         func_80A9B21C(this, play);
         func_80A9B07C(this, play);
@@ -354,7 +354,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
         rotSpeedY = (s16)((s16)rotSpeedY >> 1);
         rotSpeedYtarget = (s16)((s16)rotSpeedYtarget >> 1);
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
     }
     EnKusa_UpdateVelY(this);
     Math_StepToS(&rotSpeedX, rotSpeedXtarget, 0x1F4);

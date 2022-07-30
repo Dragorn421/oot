@@ -118,7 +118,7 @@ void func_80B2F0B8(EnWallTubo* this, PlayState* play) {
         sp38.z = this->unk154.z;
         EffectSsBomb2_SpawnLayered(play, &sp38, &sp44, &sp50, 100, 30);
         EffectSsHahen_SpawnBurst(play, &sp38, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
-        Audio_PlayActorSound2(&this->actor, 0x180EU);
+        Audio_PlayActorSfx2(&this->actor, 0x180EU);
     }
     if (this->unk150 == 0) {
         temp_v0 = this->actor.parent;

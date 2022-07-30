@@ -105,7 +105,7 @@ void func_8088706C(BgHidanFslift* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 4.0f)) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_BLOCK_BOUND);
         func_80886FB4(this);
     } else {
         func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
@@ -118,7 +118,7 @@ void func_808870D8(BgHidanFslift* this, PlayState* play) {
 
     if (DynaPolyActor_IsPlayerAbove(thisx)) {
         if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 790.0f, 4.0f)) {
-            Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+            Audio_PlayActorSfx2(thisx, NA_SE_EV_BLOCK_BOUND);
             func_80886FB4(this);
         } else {
             func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);

@@ -245,7 +245,7 @@ void func_809E5D28(EnDekubaba* this) {
     }
     this->unk238.base.colType = COLTYPE_HIT6;
     this->unk238.base.acFlags &= ~AC_HARD;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DUMMY482);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DUMMY482);
     this->unk1C0 = func_809E65A0;
 }
 
@@ -517,9 +517,9 @@ void func_809E6ED4(EnDekubaba* this, PlayState* play) {
     SkelAnime_Update(&this->unk17C);
     if (Animation_OnFrame(&this->unk17C, 0.0f) || Animation_OnFrame(&this->unk17C, 12.0f)) {
         if (this->actor.params == 1) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_MOUTH);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_MOUTH);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
         }
     }
     if (this->unk1C6 != 0) {
@@ -563,9 +563,9 @@ void func_809E7104(EnDekubaba* this, PlayState* play) {
     if (this->unk1C6 == 0) {
         if (Animation_OnFrame(&this->unk17C, 1.0f)) {
             if (this->actor.params == 1) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_ATTACK);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_ATTACK);
             } else {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_ATTACK);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_ATTACK);
             }
         }
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x222);
@@ -593,9 +593,9 @@ void func_809E7104(EnDekubaba* this, PlayState* play) {
         }
         if (Animation_OnFrame(&this->unk17C, 0.0f) || Animation_OnFrame(&this->unk17C, 12.0f)) {
             if (this->actor.params == 1) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_MOUTH);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_MOUTH);
             } else {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
             }
         }
     }
@@ -682,7 +682,7 @@ void func_809E7458(EnDekubaba* this, PlayState* play) {
     } else {
         this->unk1C6 += 1;
         if (this->unk1C6 == 0xA) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_SCRAPE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_SCRAPE);
         }
         if (this->unk1C6 >= 0xC) {
             Math_ScaledStepToS(&this->unk1CA_arr[2], -0x5C71, 0x88);
@@ -803,7 +803,7 @@ void func_809E7BB0(EnDekubaba* this, PlayState* play) {
                                      this->unk230 * 5.0f, 15, -1, 10, NULL);
         }
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
             this->unk1C6 = 1;
         }
     } else if (this->unk1C6 == 1) {
@@ -917,16 +917,16 @@ void func_809E8140(EnDekubaba* this, PlayState* play) {
     }
     if (this->actor.colChkInfo.health != 0) {
         if (this->unk1C6 == 2) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_DAMAGE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_DAMAGE);
         }
     } else {
         Enemy_StartFinishingBlow(play, &this->actor);
         if (this->actor.params == 1) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_DEAD);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_DEAD);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
         }
     }
 }

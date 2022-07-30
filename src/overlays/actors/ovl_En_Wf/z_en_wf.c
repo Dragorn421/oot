@@ -372,7 +372,7 @@ void func_80B34428(EnWf* this, PlayState* play) {
         Math_SmoothStepToF(&this->actor.shape.shadowScale, 70.0f, 1.0f, 14.0f, 0.0f);
         this->unk2E8 -= 1;
         if (this->unk2E8 == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_APPEAR);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_APPEAR);
         }
     } else if (SkelAnime_Update(&this->unk188)) {
         this->actor.scale.y = this->actor.scale.x;
@@ -440,7 +440,7 @@ void func_80B345E4(EnWf* this, PlayState* play) {
                     func_80B34CFC(this);
                 }
                 if ((play->gameplayFrames & 0x5F) == 0) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_CRY);
                 }
             }
         }
@@ -521,11 +521,11 @@ void func_80B3487C(EnWf* this, PlayState* play) {
         }
         if (func_80B33FB0(play, this, 0) == 0) {
             if ((play->gameplayFrames & 0x5F) == 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_CRY);
             }
             if ((prevFrame != (s32)this->unk188.curFrame) && (beforeCurFrame <= 0) &&
                 (((s32)absPlaySpeed + prevFrame) > 0)) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_WALK);
                 Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, true);
             }
         }
@@ -573,7 +573,7 @@ void func_80B34D48(EnWf* this, PlayState* play) {
             }
         }
         if ((play->gameplayFrames & 0x5F) == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_CRY);
         }
     }
 }
@@ -647,11 +647,11 @@ void func_80B35024(EnWf* this, PlayState* play) {
         beforeCurFrame = (s32)(this->unk188.curFrame - ABS(this->unk188.playSpeed));
         absPlaySpeed = new_var = (s32)ABS(this->unk188.playSpeed);
         if ((prevFrame != (s32)this->unk188.curFrame) && (beforeCurFrame <= 0) && ((absPlaySpeed + prevFrame) > 0)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_WALK);
             Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, true);
         }
         if ((play->gameplayFrames & 0x5F) == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_CRY);
         }
         if ((Math_CosS(sp56_real - this->actor.shape.rot.y) < -0.85f) && !Actor_OtherIsTargeted(play, &this->actor) &&
             (this->actor.xzDistToPlayer <= 80.0f)) {
@@ -696,7 +696,7 @@ void func_80B355BC(EnWf* this, PlayState* play) {
     this->actor.speedXZ = 0.0f;
     if (((var_a2_sp3C >= 9) && (var_a2_sp3C <= 12)) || ((var_a2_sp3C >= 17) && (var_a2_sp3C <= 19))) {
         if (this->unk2F8 == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_ATTACK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_ATTACK);
         }
         this->unk2F8 = 1;
     } else {
@@ -802,7 +802,7 @@ void func_80B35B94(EnWf* this) {
     this->unk2D4 = 5;
     this->actor.speedXZ = -6.0f;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
     func_80B33CB0(this, func_80B35C10);
 }
 
@@ -818,7 +818,7 @@ void func_80B35C10(EnWf* this, PlayState* play) {
         }
     }
     if ((play->state.frames & 0x5F) == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_CRY);
     }
 }
 
@@ -826,7 +826,7 @@ void func_80B35D18(EnWf* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = 0.0f;
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     Animation_PlayOnceSetSpeed(&this->unk188, &D_6009B20, 0.0f);
     this->unk2D4 = 0xF;
     func_80B33CB0(this, func_80B35D90);
@@ -861,7 +861,7 @@ void func_80B35E4C(EnWf* this) {
     }
     this->unk2E2 = 0;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_DAMAGE);
     this->unk2D4 = 3;
     func_80B33CB0(this, func_80B35EE4);
 }
@@ -910,7 +910,7 @@ void func_80B360E8(EnWf* this) {
     this->unk2D4 = 4;
     this->actor.speedXZ = 6.5f;
     this->actor.velocity.y = 15.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     func_80B33CB0(this, func_80B361A0);
 }
@@ -1100,11 +1100,11 @@ void func_80B36740(EnWf* this, PlayState* play) {
         }
         if ((prevFrame != (s32)this->unk188.curFrame) && (beforeCurFrame <= 0) &&
             (((s32)absPlaySpeed + prevFrame) > 0)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_WALK);
             Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, true);
         }
         if ((play->gameplayFrames & 0x5F) == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_CRY);
         }
     }
 }
@@ -1121,7 +1121,7 @@ void func_80B36C8C(EnWf* this) {
     this->unk2D4 = 2;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk2E8 = this->unk188.animLength;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_DEAD);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_WOLFOS_DEAD);
     func_80B33CB0(this, func_80B36D3C);
 }
 

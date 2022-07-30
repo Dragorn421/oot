@@ -461,7 +461,7 @@ void func_809F0100(EnDns* this, PlayState* play) {
     f32 f = Animation_GetLastFrame(&gBusinessScrubAnim_4404);
 
     if (this->unk14C.curFrame == f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->unk268 = func_809F017C;
         this->unk2BC = 0;
         this->unk2C4 = this->actor.world.pos.y;

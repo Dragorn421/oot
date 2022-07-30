@@ -245,7 +245,7 @@ void func_80BA15BC(ObjTsubo* this, PlayState* play) {
         func_80BA17C4(this);
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
         func_80BA1294(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         func_80BA0D60(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->unk150.base.acFlags & AC_HIT) &&
@@ -253,7 +253,7 @@ void func_80BA15BC(ObjTsubo* this, PlayState* play) {
                 (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         func_80BA100C(this, play);
         func_80BA0D60(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         if (this->actor.xzDistToPlayer < 600.0f) {
@@ -309,12 +309,12 @@ void func_80BA1958(ObjTsubo* this, PlayState* play) {
         (this->unk150.base.atFlags & AT_HIT)) {
         func_80BA100C(this, play);
         func_80BA0D60(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         func_80BA1294(this, play);
         func_80BA0D60(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         func_80BA0DC0(this);

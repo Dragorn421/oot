@@ -337,7 +337,7 @@ void func_809C4318(EnBomBowlMan* this, PlayState* play) {
         sp2C.y = 40.0f;
         sp2C.z = 300.0f;
         EffectSsBomb2_SpawnLayered(play, &sp2C, &sp38, &sp44, 50, 15);
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_GOODS_APPEAR);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_GOODS_APPEAR);
         this->unk22A = 0xA;
         this->actionFunc = func_809C441C;
     }

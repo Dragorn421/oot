@@ -227,7 +227,7 @@ void func_80B26C50(EnVali* this, PlayState* play) {
     Item_DropCollectibleRandom(play, &this->actor, &temp_s1->pos, 0x50);
     this->unk196 = Rand_S16Offset(0xA, 0xA);
     this->unk3FC.base.acFlags &= ~AC_ON;
-    SoundSource_PlaySfxAtFixedWorldPos(play, &temp_s1->pos, 40, NA_SE_EN_BARI_SPLIT);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &temp_s1->pos, 40, NA_SE_EN_BARI_SPLIT);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.draw = NULL;
     this->unk190 = func_80B274A0;
@@ -239,7 +239,7 @@ void func_80B26D54(EnVali* this) {
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 80);
     this->unk3FC.info.bumper.effect = 0;
-    Audio_PlayActorSound2(&this->actor, 0x389EU);
+    Audio_PlayActorSfx2(&this->actor, 0x389EU);
     this->unk190 = func_80B27654;
     this->actor.velocity.y = 1.0f;
 }
@@ -291,7 +291,7 @@ void func_80B270D8(EnVali* this, PlayState* play) {
     this->actor.velocity.y *= 1.5f;
     this->actor.velocity.y = CLAMP_MAX(this->actor.velocity.y, 40.0f);
     if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
         func_80B268FC(this);
     }
 }
@@ -309,10 +309,10 @@ void func_80B2716C(EnVali* this, PlayState* play) {
     if (this->unk195 != 0) {
         this->actor.shape.rot.y += 0x800;
         if (((this->unk195 % 6) == 0) && (var_v1 >= 0x10) && (var_v1 < 0x38)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_ROLL);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_ROLL);
         }
     } else if ((var_v1 == 0x10) || (var_v1 == 0x1E) || (var_v1 == 0x2A) || (var_v1 == 0x37)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_ROLL);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_ROLL);
     }
     if (var_v1 >= 0x29) {
         var_v1 = 0x50 - var_v1;
@@ -419,7 +419,7 @@ void func_80B27654(EnVali* this, PlayState* play) {
     if (this->actor.velocity.y != 0.0f) {
         if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
             this->actor.velocity.y = 0.0f;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             this->actor.velocity.y += 1.0f;
         }
@@ -471,12 +471,12 @@ void func_80B2790C(EnVali* this, PlayState* play) {
         if (((Actor_SetDropFlag(&this->actor, &this->unk3FC.info, true), (this->actor.colChkInfo.damageEffect != 0)) ||
              (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             } else {
                 if ((this->actor.colChkInfo.damageEffect != 1) && (this->actor.colChkInfo.damageEffect != 0xE)) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DAMAGE);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_DAMAGE);
                 }
             }
             if (this->actor.colChkInfo.damageEffect == 1) {

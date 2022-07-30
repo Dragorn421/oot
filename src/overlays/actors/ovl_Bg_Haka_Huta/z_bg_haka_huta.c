@@ -99,7 +99,7 @@ void BgHakaHuta_PlaySound(BgHakaHuta* this, PlayState* play, u16 arg2) {
     }
     sp24.x = this->dyna.actor.world.pos.x;
     sp24.y = this->dyna.actor.world.pos.y;
-    SoundSource_PlaySfxAtFixedWorldPos(play, &sp24, 30, arg2);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &sp24, 30, arg2);
 }
 
 void func_8087D2F0(BgHakaHuta* this, PlayState* play) {

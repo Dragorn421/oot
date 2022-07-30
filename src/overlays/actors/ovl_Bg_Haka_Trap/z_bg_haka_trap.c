@@ -246,7 +246,7 @@ void func_80880484(BgHakaTrap* this, PlayState* play) {
         Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 185.0f, this->dyna.actor.velocity.y);
     unk168 = this->unk168;
     if (((unk168 == 0xA) && !this->unk16A) || ((unk168 == 0xD) && this->unk16A)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
     }
     if (this->unk168 == 0) {
         this->dyna.actor.velocity.y = 0.0f;
@@ -255,7 +255,7 @@ void func_80880484(BgHakaTrap* this, PlayState* play) {
         } else {
             this->unk168 = 0x28;
         }
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         this->actionFunc = func_808805C0;
     }
     func_8087FFC0(this, play);
@@ -277,7 +277,7 @@ void func_808805C0(BgHakaTrap* this, PlayState* play) {
             Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 4.5f);
         }
         if (this->unk168 == 0x14) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         }
     }
     if (this->unk168 == 0) {
@@ -315,7 +315,7 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     }
     if (Math_StepToF(&this->dyna.actor.world.pos.y, var_fs0, this->dyna.actor.velocity.y) != 0) {
         if (this->dyna.actor.velocity.y > 0.01f) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
         }
         this->dyna.actor.velocity.y = 0.0f;
     }

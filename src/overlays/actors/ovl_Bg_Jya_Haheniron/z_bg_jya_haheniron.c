@@ -165,7 +165,7 @@ void func_8089861C(BgJyaHaheniron* this) {
 void func_8089862C(BgJyaHaheniron* this, PlayState* play) {
     if (this->unk1B0 >= 0x11) {
         func_80898114(play, &this->actor.world.pos, &D_808987AC);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
         Actor_Kill(&this->actor);
     }
 }
