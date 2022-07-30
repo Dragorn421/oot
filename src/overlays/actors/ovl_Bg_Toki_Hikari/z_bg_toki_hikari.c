@@ -144,8 +144,8 @@ void func_808BA2CC(BgTokiHikari* this, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0x17E),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->gameplayFrames & 0x7F) * -2, 0U, 0x20, 0x40, 1,
-                                (play->gameplayFrames & 0x7F) * 4, 0U, 0x20, 0x40));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->gameplayFrames & 0x7F) * -2, 0U, 0x20, 0x40,
+                                1, (play->gameplayFrames & 0x7F) * 4, 0U, 0x20, 0x40));
     gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_000880);
     Matrix_Pop();
     Matrix_Push();

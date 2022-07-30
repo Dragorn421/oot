@@ -115,9 +115,9 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
         temp_fv1 = (Rand_ZeroOne() * 0.3f) + 0.7f;
         Lights_PointSetColorAndRadius(&this->unk154, sp64->r * temp_fv1, sp64->g * temp_fv1, sp64->b * temp_fv1, 200);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPSegment(
-            POLY_XLU_DISP++, 0x08,
-            Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->unk14E * -0x14) & 0x1FF, 32, 128));
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 64, 1, 0,
+                                    (this->unk14E * -0x14) & 0x1FF, 32, 128));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, sp64->r, sp64->g, sp64->b, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, sp60->r, sp60->g, sp60->b, 255);
         Matrix_Translate(0.0f, 52.0f, 0.0f, MTXMODE_APPLY);
