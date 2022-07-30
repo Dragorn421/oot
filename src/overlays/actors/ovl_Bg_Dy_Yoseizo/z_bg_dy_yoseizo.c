@@ -238,7 +238,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
         }
     }
     if (var_v1 != 0) {
-        if (gSaveContext.sceneSetupIndex < 4) {
+        if (!IS_CUTSCENE_LAYER) {
             if (play->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
                 switch (this->unk2EC) {
                     case 0:

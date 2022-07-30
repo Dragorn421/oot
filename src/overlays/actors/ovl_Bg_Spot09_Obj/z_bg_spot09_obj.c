@@ -60,7 +60,7 @@ s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
     s32 carpentersRescued;
     Actor* thisx = &this->dyna.actor;
 
-    if (gSaveContext.sceneSetupIndex >= 4) {
+    if (IS_CUTSCENE_LAYER) {
         return thisx->params == 0;
     }
 
