@@ -99,7 +99,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->unk14C, &this->actor, &D_80A34310);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
-    if (play->sceneNum == SCENE_SPOT09) {
+    if (play->sceneId == SCENE_SPOT09) {
         this->actor.uncullZoneForward = 1000.0f;
     } else {
         this->actor.uncullZoneForward = 1200.0f;
