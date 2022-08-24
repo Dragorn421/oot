@@ -229,7 +229,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
                 break;
 
             case 2:
-                if (!gSaveContext.doubleDefense) {
+                if (!gSaveContext.isDoubleDefenseAcquired) {
                     osSyncPrintf("\x1b[35m ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;
@@ -269,7 +269,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
                         break;
 
                     case 2:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenceCs);
+                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenseCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
@@ -672,7 +672,7 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
                     break;
 
                 case 2:
-                    gSaveContext.doubleDefense = 1;
+                    gSaveContext.isDoubleDefenseAcquired = 1;
                     Interface_ChangeAlpha(9U);
                     break;
             }
