@@ -225,7 +225,7 @@ void EnSkb_Despawn(EnSkb* this, PlayState* play) {
         func_80AFC9A8(play, this, &this->actor.world.pos);
     }
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 0.0f, 1.0f, 2.5f, 0.0f);
-    if (SkelAnime_Update(&this->unk14C) != 0) {
+    if (SkelAnime_Update(&this->unk14C)) {
         Actor_Kill(&this->actor);
     }
 }

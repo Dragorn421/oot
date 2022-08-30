@@ -264,7 +264,7 @@ void EnSt_SetDropAnimAndVel(EnSt* this) {
 }
 
 /**
- * Initalizes the skulltulla's 6 cylinders, and sphere collider.
+ * Initializes the skulltulla's 6 cylinders, and sphere collider.
  */
 void EnSt_InitColliders(EnSt* this, PlayState* play) {
     ColliderCylinderInit* cylinders[6] = {
@@ -374,7 +374,7 @@ void EnSt_UpdateCylinders(EnSt* this, PlayState* play) {
     }
 }
 
-s32 EnSt_CheckHitLink(EnSt* this, PlayState* play) {
+s32 EnSt_CheckHitPlayer(EnSt* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 hit;
     s32 i;
@@ -494,8 +494,8 @@ s32 EnSt_CheckColliders(EnSt* this, PlayState* play) {
     }
 
     if (this->stunTimer == 0 && this->takeDamageSpinTimer == 0) {
-        // check if the skulltulla has hit link.
-        EnSt_CheckHitLink(this, play);
+        // check if the skulltulla has hit the player.
+        EnSt_CheckHitPlayer(this, play);
     }
     return false;
 }
