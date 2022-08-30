@@ -291,10 +291,10 @@ void func_808805C0(BgHakaTrap* this, PlayState* play) {
 
 void func_808806BC(BgHakaTrap* this, PlayState* play) {
     Vec3f sp74;
-    f32 temp_fv1;
-    f32 var_fs0;
+    f32 yIntersect;
+    f32 floorHeight;
     s32 var_s0;
-    s32 sp64;
+    s32 bgId;
 
     this->dyna.actor.velocity.y *= 1.6f;
     if (this->unk168 != 0) {
@@ -303,17 +303,17 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     sp74.x = this->dyna.actor.world.pos.x + 90.0f;
     sp74.y = this->dyna.actor.world.pos.y + 1.0f + 25.0f;
     sp74.z = this->dyna.actor.world.pos.z;
-    var_fs0 = this->dyna.actor.floorHeight;
+    floorHeight = this->dyna.actor.floorHeight;
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
-        temp_fv1 =
-            BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor, &sp74) -
+        yIntersect =
+            BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &sp74) -
             25.0f;
-        if (var_fs0 < temp_fv1) {
-            var_fs0 = temp_fv1;
+        if (floorHeight < yIntersect) {
+            floorHeight = yIntersect;
         }
         sp74.x -= 90.0f;
     }
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, var_fs0, this->dyna.actor.velocity.y) != 0) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, floorHeight, this->dyna.actor.velocity.y) != 0) {
         if (this->dyna.actor.velocity.y > 0.01f) {
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
         }

@@ -101,7 +101,7 @@ s32 func_80BA0DF4(ObjTsubo* this, PlayState* play) {
     sp28.x = this->actor.world.pos.x;
     sp28.y = this->actor.world.pos.y + 20.0f;
     sp28.z = this->actor.world.pos.z;
-    temp_fv0 = BgCheck_EntityRaycastFloor4(&play->colCtx, &sp34, &sp24, &this->actor, (Vec3f*)&sp28);
+    temp_fv0 = BgCheck_EntityRaycastDown4(&play->colCtx, &sp34, &sp24, &this->actor, (Vec3f*)&sp28);
     if (temp_fv0 > BGCHECK_Y_MIN) {
         this->actor.world.pos.y = temp_fv0;
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);

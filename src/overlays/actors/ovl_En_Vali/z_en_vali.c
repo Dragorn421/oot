@@ -114,7 +114,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     func_80B26878(this);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &this->actor.world.pos);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &this->actor.world.pos);
     this->actor.params = 0;
     if (this->actor.floorHeight == BGCHECK_Y_MIN) {
         Actor_Kill(&this->actor);

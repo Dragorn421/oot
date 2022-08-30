@@ -244,7 +244,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
         }
         this->actor.world.pos.y += 200.0f;
         floorY =
-            BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &floorBgId, &this->actor, &this->actor.world.pos);
+            BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &floorBgId, &this->actor, &this->actor.world.pos);
         if (floorY > BGCHECK_Y_MIN) {
             this->actor.world.pos.y = floorY;
         } else {

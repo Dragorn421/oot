@@ -88,7 +88,7 @@ s32 func_80A9AFAC(EnKusa* this, PlayState* play, f32 arg2) {
     sp2C.x = this->actor.world.pos.x;
     sp2C.y = this->actor.world.pos.y + 30.0f;
     sp2C.z = this->actor.world.pos.z;
-    temp_fv0 = BgCheck_EntityRaycastFloor4(&play->colCtx, &sp38, &sp28, &this->actor, &sp2C);
+    temp_fv0 = BgCheck_EntityRaycastDown4(&play->colCtx, &sp38, &sp28, &this->actor, &sp2C);
     if (temp_fv0 > BGCHECK_Y_MIN) {
         this->actor.world.pos.y = temp_fv0 + arg2;
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);

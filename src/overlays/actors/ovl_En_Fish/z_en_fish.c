@@ -629,7 +629,7 @@ void func_80A16A64(EnFish* this, PlayState* play) {
     this->actor.world.pos.y = ((sp34.y - sp40.y) * temp_fv0) + sp40.y + D_80A17014;
     this->actor.world.pos.z = ((sp34.z - sp40.z) * temp_fv0) + sp40.z;
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp2C, &this->actor, &this->actor.world.pos);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &sp2C, &this->actor, &this->actor.world.pos);
 }
 
 void func_80A16C68(EnFish* this, PlayState* play) {
