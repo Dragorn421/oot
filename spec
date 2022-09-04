@@ -3375,6 +3375,12 @@ beginseg
 endseg
 
 beginseg
+    name "ovl_MyCustomActor"
+    include "build/src/overlays/actors/ovl_MyCustomActor/mycustomactor.o"
+    include "build/src/overlays/actors/ovl_MyCustomActor/ovl_MyCustomActor_reloc.o"
+endseg
+
+beginseg
     name "gameplay_keep"
     romalign 0x1000
     include "build/assets/objects/gameplay_keep/gameplay_keep.o"
