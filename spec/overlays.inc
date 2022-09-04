@@ -81,3 +81,9 @@ endseg
 #else
 #include "overlays_gc.inc"
 #endif
+
+beginseg
+    name "ovl_MyCustomActor"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_MyCustomActor/mycustomactor.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_MyCustomActor/ovl_MyCustomActor_reloc.o"
+endseg
