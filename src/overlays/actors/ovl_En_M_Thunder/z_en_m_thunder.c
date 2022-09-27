@@ -170,7 +170,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         this->unk1CA = 1;
     }
     if (player->unk_858 >= 0.10f) {
-        func_800AA000(0.0f, (u8)(s32)(player->unk_858 * 150.0f), 2, (u8)(s32)(player->unk_858 * 150.0f));
+        Rumble_Request(0.0f, (u8)(s32)(player->unk_858 * 150.0f), 2, (u8)(s32)(player->unk_858 * 150.0f));
     }
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if ((child != NULL) && (child->update != NULL)) {
