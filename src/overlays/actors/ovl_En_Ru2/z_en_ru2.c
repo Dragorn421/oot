@@ -812,7 +812,7 @@ void func_80AF3F20(EnRu2* this, PlayState* play) {
 void EnRu2_Draw(Actor* thisx, PlayState* play) {
     EnRu2* this = (EnRu2*)thisx;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == 0) {
+    if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

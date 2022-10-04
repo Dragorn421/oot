@@ -456,7 +456,7 @@ void EnRu1_SpawnSplash(EnRu1* this, PlayState* play) {
     pos.y = thisx->world.pos.y + thisx->yDistToWater;
     pos.z = thisx->world.pos.z;
 
-    EffectSsGSplash_Spawn(play, &pos, 0, 0, 1, 0);
+    EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 1, 0);
 }
 
 void func_80AEB6E0(EnRu1* this, PlayState* play) {
@@ -1622,7 +1622,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
     s32 pad;
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
-    if (!GET_INFTABLE(INFTABLE_144) && (func_80AEB124(play) != 0)) {
+    if (!GET_INFTABLE(INFTABLE_144) && (func_80AEB124(play) != NULL)) {
         if (!Player_InCsMode(play)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
@@ -2389,7 +2389,7 @@ void EnRu1_DrawXlu(EnRu1* this, PlayState* play) {
 void EnRu1_Draw(Actor* thisx, PlayState* play) {
     EnRu1* this = (EnRu1*)thisx;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == 0) {
+    if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
