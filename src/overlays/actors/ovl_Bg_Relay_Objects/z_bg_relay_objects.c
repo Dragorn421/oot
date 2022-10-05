@@ -108,7 +108,7 @@ void BgRelayObjects_Destroy(Actor* thisx, PlayState* play) {
     BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
+    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (GET_CUTSCENE_INDEX < 0xFFF0)) {
         CLEAR_EVENTCHKINF(EVENTCHKINF_65);
     }
 }
@@ -156,7 +156,7 @@ void func_808A9234(BgRelayObjects* this, PlayState* play) {
         Flags_UnsetSwitch(play, this->switchFlag);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         if (play->roomCtx.curRoom.num == 4) {
-            gSaveContext.timer1State = 0xF;
+            SET_TIMER1_STATE(0xF)
         }
         this->actionFunc = BgRelayObjects_DoNothing;
     }

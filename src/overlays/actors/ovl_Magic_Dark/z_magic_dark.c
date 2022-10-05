@@ -49,7 +49,7 @@ void MagicDark_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.0f);
     thisx->room = -1;
 
-    if (gSaveContext.nayrusLoveTimer != 0) {
+    if (GET_NAYRUS_LOVE_TIMER != 0) {
         thisx->update = MagicDark_DiamondUpdate;
         thisx->draw = MagicDark_DiamondDraw;
         thisx->scale.x = thisx->scale.z = this->scale * 1.6f;
@@ -58,12 +58,12 @@ void MagicDark_Init(Actor* thisx, PlayState* play) {
         this->primAlpha = 0;
     } else {
         this->timer = 0;
-        gSaveContext.nayrusLoveTimer = 0;
+        SET_NAYRUS_LOVE_TIMER(0)
     }
 }
 
 void MagicDark_Destroy(Actor* thisx, PlayState* play) {
-    if (gSaveContext.nayrusLoveTimer == 0) {
+    if (GET_NAYRUS_LOVE_TIMER == 0) {
         Magic_Reset(play);
     }
 }
@@ -73,7 +73,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
     u8 phi_a0;
     Player* player = GET_PLAYER(play);
     s16 pad;
-    s16 nayrusLoveTimer = gSaveContext.nayrusLoveTimer;
+    s16 nayrusLoveTimer = GET_NAYRUS_LOVE_TIMER;
     s32 msgMode = play->msgCtx.msgMode;
 
     if (1) {}
@@ -91,7 +91,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
 
     if (nayrusLoveTimer >= 1200) {
         player->invincibilityTimer = 0;
-        gSaveContext.nayrusLoveTimer = 0;
+        SET_NAYRUS_LOVE_TIMER(0)
         Actor_Kill(thisx);
         return;
     }
@@ -130,7 +130,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
     thisx->world.rot.y += 0x3E8;
     thisx->shape.rot.y = thisx->world.rot.y + Camera_GetCamDirYaw(GET_ACTIVE_CAM(play));
     this->timer++;
-    gSaveContext.nayrusLoveTimer = nayrusLoveTimer + 1;
+    SET_NAYRUS_LOVE_TIMER(nayrusLoveTimer + 1)
 
     if (nayrusLoveTimer < 1100) {
         func_8002F974(thisx, NA_SE_PL_MAGIC_SOUL_NORMAL - SFX_FLAG);

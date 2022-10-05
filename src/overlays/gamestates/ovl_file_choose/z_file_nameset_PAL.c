@@ -127,7 +127,7 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
     gSPVertex(POLY_OPA_DISP++, D_80811BB0, 24, 0);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, sNameLabelTextures[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 56, 16, 0,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sNameLabelTextures[GET_LANGUAGE], G_IM_FMT_IA, G_IM_SIZ_8b, 56, 16, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
@@ -137,7 +137,7 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     for (phi_t1 = 0; phi_t1 < 2; phi_t1++, phi_s0 += 4) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2], 255);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sBackspaceEndTextures[gSaveContext.language][phi_t1], G_IM_FMT_IA,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sBackspaceEndTextures[GET_LANGUAGE][phi_t1], G_IM_FMT_IA,
                             G_IM_SIZ_16b, sBackspaceEndWidths[phi_t1], 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, phi_s0, phi_s0 + 2, phi_s0 + 3, phi_s0 + 1, 0);
@@ -439,10 +439,10 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                             Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
-                            gSaveContext.fileNum = this->buttonIndex;
-                            dayTime = ((void)0, gSaveContext.save.dayTime);
+                            SET_FILE_NUM(this->buttonIndex)
+                            dayTime = (GET_DAY_TIME_VOID0);
                             Sram_InitSave(this, &this->sramCtx);
-                            gSaveContext.save.dayTime = dayTime;
+                            SET_DAY_TIME(dayTime)
                             this->configMode = CM_NAME_ENTRY_TO_MAIN;
                             this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
                             this->connectorAlpha[this->buttonIndex] = 255;
@@ -672,18 +672,18 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->configMode = CM_OPTIONS_TO_MAIN;
-        sramCtx->readBuff[0] = gSaveContext.audioSetting;
-        sramCtx->readBuff[1] = gSaveContext.zTargetSetting;
+        sramCtx->readBuff[0] = GET_AUDIO_SETTING;
+        sramCtx->readBuff[1] = GET_Z_TARGET_SETTING;
         osSyncPrintf("ＳＡＶＥ");
         Sram_WriteSramHeader(sramCtx);
         osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("sram->read_buff[2] = J_N = %x\n", sramCtx->readBuff[2]);
         osSyncPrintf("sram->read_buff[2] = J_N = %x\n", &sramCtx->readBuff[2]);
-        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        osSyncPrintf("Na_SetSoundOutputMode = %d\n", GET_AUDIO_SETTING);
+        osSyncPrintf("Na_SetSoundOutputMode = %d\n", GET_AUDIO_SETTING);
+        osSyncPrintf("Na_SetSoundOutputMode = %d\n", GET_AUDIO_SETTING);
         osSyncPrintf(VT_RST);
-        func_800F6700(gSaveContext.audioSetting);
+        func_800F6700(GET_AUDIO_SETTING);
         osSyncPrintf("終了\n");
         return;
     }
@@ -693,27 +693,27 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
         if (sSelectedSetting == FS_SETTING_AUDIO) {
-            gSaveContext.audioSetting--;
+            GET_AUDIO_SETTING--;
 
             // because audio setting is unsigned, can't check for < 0
-            if (gSaveContext.audioSetting > 0xF0) {
-                gSaveContext.audioSetting = FS_AUDIO_SURROUND;
+            if (GET_AUDIO_SETTING > 0xF0) {
+                SET_AUDIO_SETTING(FS_AUDIO_SURROUND)
             }
         } else {
-            gSaveContext.zTargetSetting ^= 1;
+            GET_Z_TARGET_SETTING ^= 1;
         }
     } else if (this->stickAdjX > 30) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
         if (sSelectedSetting == FS_SETTING_AUDIO) {
-            gSaveContext.audioSetting++;
+            GET_AUDIO_SETTING++;
 
-            if (gSaveContext.audioSetting > FS_AUDIO_SURROUND) {
-                gSaveContext.audioSetting = FS_AUDIO_STEREO;
+            if (GET_AUDIO_SETTING > FS_AUDIO_SURROUND) {
+                SET_AUDIO_SETTING(FS_AUDIO_STEREO)
             }
         } else {
-            gSaveContext.zTargetSetting ^= 1;
+            GET_Z_TARGET_SETTING ^= 1;
         }
     }
 
@@ -877,7 +877,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
         }
     }
 
-    if (gSaveContext.language == LANGUAGE_GER) {
+    if (GET_LANGUAGE == LANGUAGE_GER) {
         gSPVertex(POLY_OPA_DISP++, D_80811E30, 32, 0);
     } else {
         gSPVertex(POLY_OPA_DISP++, D_80811D30, 32, 0);
@@ -890,14 +890,14 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
     for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuHeaders[i].texture[gSaveContext.language], G_IM_FMT_IA,
-                            G_IM_SIZ_8b, gOptionsMenuHeaders[i].width[gSaveContext.language],
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuHeaders[i].texture[GET_LANGUAGE], G_IM_FMT_IA,
+                            G_IM_SIZ_8b, gOptionsMenuHeaders[i].width[GET_LANGUAGE],
                             gOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
 
-    if (gSaveContext.language == LANGUAGE_GER) {
+    if (GET_LANGUAGE == LANGUAGE_GER) {
         gSPVertex(POLY_OPA_DISP++, D_80812130, 32, 0);
     } else {
         gSPVertex(POLY_OPA_DISP++, D_80811F30, 32, 0);
@@ -905,7 +905,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 
     for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
-        if (i == gSaveContext.audioSetting) {
+        if (i == GET_AUDIO_SETTING) {
             if (sSelectedSetting == FS_SETTING_AUDIO) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
                                 this->titleAlpha[0]);
@@ -919,8 +919,8 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
-                            G_IM_SIZ_8b, gOptionsMenuSettings[i].width[gSaveContext.language],
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuSettings[i].texture[GET_LANGUAGE], G_IM_FMT_IA,
+                            G_IM_SIZ_8b, gOptionsMenuSettings[i].width[GET_LANGUAGE],
                             gOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
@@ -929,7 +929,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     for (; i < 6; i++, vtx += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
 
-        if (i == (gSaveContext.zTargetSetting + 4)) {
+        if (i == (GET_Z_TARGET_SETTING + 4)) {
             if (sSelectedSetting != FS_SETTING_AUDIO) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
                                 this->titleAlpha[0]);
@@ -943,8 +943,8 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
-                            G_IM_SIZ_8b, gOptionsMenuSettings[i].width[gSaveContext.language],
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuSettings[i].texture[GET_LANGUAGE], G_IM_FMT_IA,
+                            G_IM_SIZ_8b, gOptionsMenuSettings[i].width[GET_LANGUAGE],
                             gOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);

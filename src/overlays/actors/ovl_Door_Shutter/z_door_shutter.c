@@ -373,7 +373,7 @@ void func_80996B0C(DoorShutter* this, PlayState* play) {
         if (this->unk_16E != 0) {
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
             if (this->doorType != SHUTTER_BOSS) {
-                gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex]--;
+                GET_INVENTORY_DUNGEON_KEYS[GET_MAP_INDEX]--;
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
             } else {
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
@@ -387,11 +387,11 @@ void func_80996B0C(DoorShutter* this, PlayState* play) {
 
             if (this->unk_16E != 0) {
                 if (this->doorType == SHUTTER_BOSS) {
-                    if (!CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, gSaveContext.mapIndex)) {
+                    if (!CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, GET_MAP_INDEX)) {
                         player->naviTextId = -0x204;
                         return;
                     }
-                } else if (gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
+                } else if (GET_INVENTORY_DUNGEON_KEYS[GET_MAP_INDEX] <= 0) {
                     player->naviTextId = -0x203;
                     return;
                 }

@@ -206,7 +206,7 @@ void func_80A55D00(EnHeishi3* this, PlayState* play) {
         play->transitionTrigger = TRANS_TRIGGER_START;
         this->respawnFlag = 1;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
-        gSaveContext.nextTransitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+        SET_NEXT_TRANSITION_TYPE(TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST))
     }
 }
 

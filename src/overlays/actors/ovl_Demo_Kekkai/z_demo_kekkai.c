@@ -257,7 +257,7 @@ void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play) {
         this->actor.update = DemoKekkai_TrialBarrierDispel;
         this->timer = 0;
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(sSageCutscenes[this->actor.params]);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENE_TRIGGER(1)
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider2.base);
     func_8002F974(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);

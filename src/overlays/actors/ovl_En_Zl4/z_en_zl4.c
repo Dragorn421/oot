@@ -378,7 +378,7 @@ void EnZl4_Init(Actor* thisx, PlayState* play) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_Idle;
     } else {
-        if (gSaveContext.save.entranceIndex != ENTR_NAKANIWA_1) {
+        if (GET_ENTRANCE_INDEX != ENTR_NAKANIWA_1) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_21);
             this->csState = ZL4_CS_WAIT;
             this->talkState = 0;
@@ -466,7 +466,7 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, PlayState* play) {
         case 2:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardMeetCs);
-                gSaveContext.cutsceneTrigger = 1;
+                SET_CUTSCENE_TRIGGER(1)
                 EnZl4_SetActiveCamMove(play, 0);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkTimer2 = 0;
@@ -779,7 +779,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
             if (this->talkTimer2 == 130) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
-                gSaveContext.nextCutsceneIndex = 0xFFF7;
+                SET_NEXT_CUTSCENE_INDEX(0xFFF7)
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_WHITE;
             }
@@ -900,7 +900,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
         case 0:
             EnZl4_SetActiveCamMove(play, 7);
             play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardWindowCs);
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENE_TRIGGER(1)
             this->talkState++;
             break;
         case 1:
@@ -910,7 +910,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
                 }
             } else {
                 play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardGanonCs);
-                gSaveContext.cutsceneTrigger = 1;
+                SET_CUTSCENE_TRIGGER(1)
                 this->talkState++;
                 func_8002DF54(play, &this->actor, 8);
             }
@@ -1194,7 +1194,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
         case ZL4_CS_PLAN:
             if (EnZl4_CsMakePlan(this, play)) {
                 func_8002DF54(play, &this->actor, 7);
-                gSaveContext.unk_13EE = 0x32;
+                SET_UNK_13_E_E(0x32)
                 SET_EVENTCHKINF(EVENTCHKINF_40);
                 this->actionFunc = EnZl4_Idle;
             }

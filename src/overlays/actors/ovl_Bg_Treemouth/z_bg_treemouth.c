@@ -72,7 +72,7 @@ void BgTreemouth_Init(Actor* thisx, PlayState* play) {
 
     if (!IS_CUTSCENE_LAYER && !LINK_IS_ADULT) {
         BgTreemouth_SetupAction(this, func_808BC8B8);
-    } else if (LINK_IS_ADULT || (gSaveContext.sceneLayer == 7)) {
+    } else if (LINK_IS_ADULT || (GET_SCENE_LAYER == 7)) {
         this->unk_168 = 0.0f;
         BgTreemouth_SetupAction(this, BgTreemouth_DoNothing);
     } else {
@@ -115,7 +115,7 @@ void func_808BC6F8(BgTreemouth* this, PlayState* play) {
         this->unk_168 = 1.0f;
     }
 
-    if ((gSaveContext.sceneLayer == 6) && (play->csCtx.frames >= 0x2BD) && (play->state.frames % 8 == 0)) {
+    if ((GET_SCENE_LAYER == 6) && (play->csCtx.frames >= 0x2BD) && (play->state.frames % 8 == 0)) {
         sp34.x = (Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
         sp34.z = (Rand_ZeroOne() * 2026.0f) + -2163.0f;
@@ -146,14 +146,14 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play) {
                     if (this->dyna.actor.isTargeted) {
                         this->dyna.actor.flags &= ~ACTOR_FLAG_0;
                         play->csCtx.segment = D_808BD2A0;
-                        gSaveContext.cutsceneTrigger = 1;
+                        SET_CUTSCENE_TRIGGER(1)
                         BgTreemouth_SetupAction(this, func_808BC9EC);
                     }
                 }
             } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x4E20)) {
                 Flags_SetEventChkInf(EVENTCHKINF_0C);
                 play->csCtx.segment = D_808BCE20;
-                gSaveContext.cutsceneTrigger = 1;
+                SET_CUTSCENE_TRIGGER(1)
                 BgTreemouth_SetupAction(this, func_808BC9EC);
             }
         }
@@ -239,7 +239,7 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
     } else { // needed to match
     }
 
-    if (gSaveContext.sceneLayer == 6) {
+    if (GET_SCENE_LAYER == 6) {
         alpha = (play->roomCtx.unk_74[0] + 0x1F4);
     }
 

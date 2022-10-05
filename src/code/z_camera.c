@@ -1642,7 +1642,7 @@ s32 Camera_Normal1(Camera* camera) {
         }
 
         // crit wiggle
-        if (gSaveContext.save.info.playerData.health <= 16 && ((camera->play->state.frames % 256) == 0)) {
+        if (GET_HEALTH <= 16 && ((camera->play->state.frames % 256) == 0)) {
             wiggleAdj = Rand_ZeroOne() * 10000.0f;
             camera->inputDir.y = wiggleAdj + camera->inputDir.y;
         }
@@ -1653,7 +1653,7 @@ s32 Camera_Normal1(Camera* camera) {
         *eye = *eyeNext;
     }
 
-    spA0 = (gSaveContext.save.info.playerData.health <= 16 ? 0.8f : 1.0f);
+    spA0 = (GET_HEALTH <= 16 ? 0.8f : 1.0f);
     camera->fov = Camera_LERPCeilF(roData->fovTarget * spA0, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, roData->atLERPScaleMax);
@@ -2980,7 +2980,7 @@ s32 Camera_Battle1(Camera* camera) {
     rwData->roll += (((OREG(36) * camera->speedRatio) * (1.0f - distRatio)) - rwData->roll) * CAM_DATA_SCALED(OREG(37));
     camera->roll = CAM_DEG_TO_BINANG(rwData->roll);
     camera->fov = Camera_LERPCeilF((player->meleeWeaponState != 0                      ? 0.8f
-                                    : gSaveContext.save.info.playerData.health <= 0x10 ? 0.8f
+                                    : GET_HEALTH <= 0x10 ? 0.8f
                                                                                        : 1.0f) *
                                        (fov - ((fov * 0.05f) * distRatio)),
                                    camera->fov, camera->fovUpdateRate, 1.0f);
@@ -7546,7 +7546,7 @@ Vec3s Camera_Update(Camera* camera) {
     }
 
     if (camera->status == CAM_STAT_ACTIVE) {
-        if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS)) {
+        if ((GET_GAME_MODE != GAMEMODE_NORMAL) && (GET_GAME_MODE != GAMEMODE_END_CREDITS)) {
             sCameraInterfaceFlags = 0;
             Camera_UpdateInterface(sCameraInterfaceFlags);
         } else if ((D_8011D3F0 != 0) && (camera->camId == CAM_ID_MAIN)) {

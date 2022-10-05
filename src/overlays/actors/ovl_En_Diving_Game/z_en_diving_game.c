@@ -103,7 +103,7 @@ void EnDivingGame_Destroy(Actor* thisx, PlayState* play) {
     EnDivingGame* this = (EnDivingGame*)thisx;
 
     if (this->unk_31F == 0) {
-        gSaveContext.timer1State = 0;
+        SET_TIMER1_STATE(0)
     }
     Collider_DestroyCylinder(play, &this->collider);
 }
@@ -125,9 +125,9 @@ void EnDivingGame_SpawnRuppy(EnDivingGame* this, PlayState* play) {
 }
 
 s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
-    if (gSaveContext.timer1State == 10 && !Play_InCsMode(play)) {
+    if (GET_TIMER1_STATE == 10 && !Play_InCsMode(play)) {
         // Failed.
-        gSaveContext.timer1State = 0;
+        SET_TIMER1_STATE(0)
         func_800F5B58();
         func_80078884(NA_SE_SY_FOUND);
         this->actor.textId = 0x71AD;
@@ -145,7 +145,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
         }
         if (this->grabbedRupeesCounter >= rupeesNeeded) {
             // Won.
-            gSaveContext.timer1State = 0;
+            SET_TIMER1_STATE(0)
             this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
             if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
                 this->actor.textId = 0x4055;
@@ -235,7 +235,7 @@ void EnDivingGame_HandlePlayChoice(EnDivingGame* this, PlayState* play) {
         Message_ShouldAdvance(play)) { // Did the player select an answer?
         switch (play->msgCtx.choiceIndex) {
             case 0: // Yes
-                if (gSaveContext.save.info.playerData.rupees >= 20) {
+                if (GET_RUPEES >= 20) {
                     Rupees_ChangeBy(-20);
                     this->actor.textId = 0x4054;
                 } else {
@@ -506,7 +506,7 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
 
     if (1) {}
 
-    if (gSaveContext.timer1Value == 10) {
+    if (GET_TIMER1_VALUE == 10) {
         func_800F5918();
     }
     if (this->eyeTimer == 0) {

@@ -49,16 +49,16 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
             break;
         case 1:
             this->fadeTimer += updateRate;
-            if (this->fadeTimer >= gSaveContext.transFadeDuration) {
-                this->fadeTimer = gSaveContext.transFadeDuration;
+            if (this->fadeTimer >= GET_TRANS_FADE_DURATION) {
+                this->fadeTimer = GET_TRANS_FADE_DURATION;
                 this->isDone = true;
             }
-            if (!gSaveContext.transFadeDuration) {
+            if (!GET_TRANS_FADE_DURATION) {
                 // "Divide by 0! Zero is included in ZCommonGet fade_speed"
                 osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }
 
-            alpha = (255.0f * this->fadeTimer) / ((void)0, gSaveContext.transFadeDuration);
+            alpha = (255.0f * this->fadeTimer) / (GET_TRANS_FADE_DURATION_VOID0);
             this->fadeColor.a = (this->fadeDirection != 0) ? 255 - alpha : alpha;
             break;
         case 2:

@@ -616,7 +616,7 @@ void func_80ACB274(EnOwl* this, PlayState* play) {
 void EnOwl_WaitDeathMountainShortcut(EnOwl* this, PlayState* play) {
     EnOwl_LookAtLink(this, play);
 
-    if (!gSaveContext.save.info.playerData.isMagicAcquired) {
+    if (!GET_IS_MAGIC_ACQUIRED) {
         if (func_80ACA558(this, play, 0x3062)) {
             Audio_PlayFanfare(NA_BGM_OWL);
             this->actionFunc = func_80ACB274;
@@ -949,7 +949,7 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
             }
 
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENE_TRIGGER(1)
             func_800F44EC(0x14, 0xA);
             this->actionFunc = EnOwl_WaitDefault;
             this->unk_40A = 0;

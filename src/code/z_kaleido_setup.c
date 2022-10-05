@@ -14,9 +14,9 @@ void KaleidoSetup_Update(PlayState* play) {
 
     if (pauseCtx->state == 0 && pauseCtx->debugState == 0 && play->gameOverCtx.state == GAMEOVER_INACTIVE &&
         play->transitionTrigger == TRANS_TRIGGER_OFF && play->transitionMode == TRANS_MODE_OFF &&
-        gSaveContext.save.cutsceneIndex < 0xFFF0 && gSaveContext.nextCutsceneIndex < 0xFFF0 && !Play_InCsMode(play) &&
-        play->shootingGalleryStatus <= 1 && gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY &&
-        gSaveContext.magicState != MAGIC_STATE_FILL &&
+        GET_CUTSCENE_INDEX < 0xFFF0 && GET_NEXT_CUTSCENE_INDEX < 0xFFF0 && !Play_InCsMode(play) &&
+        play->shootingGalleryStatus <= 1 && GET_MAGIC_STATE != MAGIC_STATE_STEP_CAPACITY &&
+        GET_MAGIC_STATE != MAGIC_STATE_FILL &&
         (play->sceneId != SCENE_BOWLING || !Flags_GetSwitch(play, 0x38))) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
@@ -24,7 +24,7 @@ void KaleidoSetup_Update(PlayState* play) {
                 pauseCtx->debugState = 3;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-            gSaveContext.unk_13EE = gSaveContext.unk_13EA;
+            SET_UNK_13_E_E(gSaveContext.unk_13EA)
 
             WREG(16) = -175;
             WREG(17) = 155;

@@ -181,7 +181,7 @@ s16 func_80AA0778(PlayState* play, Actor* thisx) {
 }
 
 s32 func_80AA08C4(EnMa1* this, PlayState* play) {
-    if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneLayer == 5)) {
+    if ((this->actor.shape.rot.z == 3) && (GET_SCENE_LAYER == 5)) {
         return 1;
     }
     if (!LINK_IS_CHILD) {
@@ -386,7 +386,7 @@ void func_80AA1150(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         play->nextEntranceIndex = ENTR_SPOT20_0;
-        gSaveContext.nextCutsceneIndex = 0xFFF1;
+        SET_NEXT_CUTSCENE_INDEX(0xFFF1)
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_WAVE, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
         this->actionFunc = EnMa1_DoNothing;

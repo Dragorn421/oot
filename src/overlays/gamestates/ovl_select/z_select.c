@@ -16,27 +16,27 @@ void MapSelect_LoadTitle(MapSelectState* this) {
 
 void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
     osSyncPrintf(VT_FGCOL(BLUE));
-    osSyncPrintf("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", gSaveContext.fileNum);
+    osSyncPrintf("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", GET_FILE_NUM);
     osSyncPrintf(VT_RST);
-    if (gSaveContext.fileNum == 0xFF) {
+    if (GET_FILE_NUM == 0xFF) {
         Sram_InitDebugSave();
         // Set the fill target to be the saved magic amount
-        gSaveContext.magicFillTarget = gSaveContext.save.info.playerData.magic;
+        SET_MAGIC_FILL_TARGET(gSaveContext.save.info.playerData.magic)
         // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing
         // to respectively the full capacity and `magicFillTarget`
-        gSaveContext.magicCapacity = 0;
-        gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.magic = 0;
+        SET_MAGIC_CAPACITY(0)
+        SET_MAGIC_LEVEL(gSaveContext.save.info.playerData.magic = 0)
     }
-    gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
-        gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
-    gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
+    GET_BUTTON_STATUS[0] = GET_BUTTON_STATUS[1] = GET_BUTTON_STATUS[2] =
+        GET_BUTTON_STATUS[3] = GET_BUTTON_STATUS[4] = BTN_ENABLED;
+    SET_UNK_13_E7(gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0)
     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
-    gSaveContext.save.entranceIndex = entranceIndex;
-    gSaveContext.respawnFlag = 0;
-    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_LOAD_OPENING;
-    gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-    gSaveContext.natureAmbienceId = 0xFF;
-    gSaveContext.showTitleCard = true;
+    SET_ENTRANCE_INDEX(entranceIndex)
+    SET_RESPAWN_FLAG(0)
+    GET_RESPAWN[RESPAWN_MODE_DOWN].entranceIndex = ENTR_LOAD_OPENING;
+    SET_SEQ_ID((u8)NA_BGM_DISABLED)
+    SET_NATURE_AMBIENCE_ID(0xFF)
+    SET_SHOW_TITLE_CARD(true)
     gWeatherMode = WEATHER_MODE_CLEAR;
     this->state.running = false;
     SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
@@ -314,73 +314,73 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
 
         if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-                gSaveContext.save.linkAge = LINK_AGE_CHILD;
+                SET_LINK_AGE(LINK_AGE_CHILD)
             } else {
-                gSaveContext.save.linkAge = LINK_AGE_ADULT;
+                SET_LINK_AGE(LINK_AGE_ADULT)
             }
         }
 
         if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
-            if (gSaveContext.save.cutsceneIndex == 0x8000) {
-                gSaveContext.save.cutsceneIndex = 0;
-            } else if (gSaveContext.save.cutsceneIndex == 0) {
-                gSaveContext.save.cutsceneIndex = 0xFFF0;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF0) {
-                gSaveContext.save.cutsceneIndex = 0xFFF1;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF1) {
-                gSaveContext.save.cutsceneIndex = 0xFFF2;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF2) {
-                gSaveContext.save.cutsceneIndex = 0xFFF3;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF3) {
-                gSaveContext.save.cutsceneIndex = 0xFFF4;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF4) {
-                gSaveContext.save.cutsceneIndex = 0xFFF5;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF5) {
-                gSaveContext.save.cutsceneIndex = 0xFFF6;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF6) {
-                gSaveContext.save.cutsceneIndex = 0xFFF7;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF7) {
-                gSaveContext.save.cutsceneIndex = 0xFFF8;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF8) {
-                gSaveContext.save.cutsceneIndex = 0xFFF9;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF9) {
-                gSaveContext.save.cutsceneIndex = 0xFFFA;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFFA) {
-                gSaveContext.save.cutsceneIndex = 0x8000;
+            if (GET_CUTSCENE_INDEX == 0x8000) {
+                SET_CUTSCENE_INDEX(0)
+            } else if (GET_CUTSCENE_INDEX == 0) {
+                SET_CUTSCENE_INDEX(0xFFF0)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF0) {
+                SET_CUTSCENE_INDEX(0xFFF1)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF1) {
+                SET_CUTSCENE_INDEX(0xFFF2)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF2) {
+                SET_CUTSCENE_INDEX(0xFFF3)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF3) {
+                SET_CUTSCENE_INDEX(0xFFF4)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF4) {
+                SET_CUTSCENE_INDEX(0xFFF5)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF5) {
+                SET_CUTSCENE_INDEX(0xFFF6)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF6) {
+                SET_CUTSCENE_INDEX(0xFFF7)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF7) {
+                SET_CUTSCENE_INDEX(0xFFF8)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF8) {
+                SET_CUTSCENE_INDEX(0xFFF9)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF9) {
+                SET_CUTSCENE_INDEX(0xFFFA)
+            } else if (GET_CUTSCENE_INDEX == 0xFFFA) {
+                SET_CUTSCENE_INDEX(0x8000)
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
-            if (gSaveContext.save.cutsceneIndex == 0x8000) {
-                gSaveContext.save.cutsceneIndex = 0xFFFA;
-            } else if (gSaveContext.save.cutsceneIndex == 0) {
-                gSaveContext.save.cutsceneIndex = 0x8000;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF0) {
-                gSaveContext.save.cutsceneIndex = 0;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF1) {
-                gSaveContext.save.cutsceneIndex = 0xFFF0;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF2) {
-                gSaveContext.save.cutsceneIndex = 0xFFF1;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF3) {
-                gSaveContext.save.cutsceneIndex = 0xFFF2;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF4) {
-                gSaveContext.save.cutsceneIndex = 0xFFF3;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF5) {
-                gSaveContext.save.cutsceneIndex = 0xFFF4;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF6) {
-                gSaveContext.save.cutsceneIndex = 0xFFF5;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF7) {
-                gSaveContext.save.cutsceneIndex = 0xFFF6;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF8) {
-                gSaveContext.save.cutsceneIndex = 0xFFF7;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFF9) {
-                gSaveContext.save.cutsceneIndex = 0xFFF8;
-            } else if (gSaveContext.save.cutsceneIndex == 0xFFFA) {
-                gSaveContext.save.cutsceneIndex = 0xFFF9;
+            if (GET_CUTSCENE_INDEX == 0x8000) {
+                SET_CUTSCENE_INDEX(0xFFFA)
+            } else if (GET_CUTSCENE_INDEX == 0) {
+                SET_CUTSCENE_INDEX(0x8000)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF0) {
+                SET_CUTSCENE_INDEX(0)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF1) {
+                SET_CUTSCENE_INDEX(0xFFF0)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF2) {
+                SET_CUTSCENE_INDEX(0xFFF1)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF3) {
+                SET_CUTSCENE_INDEX(0xFFF2)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF4) {
+                SET_CUTSCENE_INDEX(0xFFF3)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF5) {
+                SET_CUTSCENE_INDEX(0xFFF4)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF6) {
+                SET_CUTSCENE_INDEX(0xFFF5)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF7) {
+                SET_CUTSCENE_INDEX(0xFFF6)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF8) {
+                SET_CUTSCENE_INDEX(0xFFF7)
+            } else if (GET_CUTSCENE_INDEX == 0xFFF9) {
+                SET_CUTSCENE_INDEX(0xFFF8)
+            } else if (GET_CUTSCENE_INDEX == 0xFFFA) {
+                SET_CUTSCENE_INDEX(0xFFF9)
             }
         }
 
-        gSaveContext.save.nightFlag = 0;
-        if (gSaveContext.save.cutsceneIndex == 0) {
-            gSaveContext.save.nightFlag = 1;
+        SET_NIGHT_FLAG(0)
+        if (GET_CUTSCENE_INDEX == 0) {
+            SET_NIGHT_FLAG(1)
         }
 
         // user can change "opt", but it doesn't do anything
@@ -595,16 +595,16 @@ void MapSelect_PrintCutsceneSetting(MapSelectState* this, GfxPrint* printer, u16
     switch (csIndex) {
         case 0:
             label = GFXP_HIRAGANA " ﾖﾙ " GFXP_KATAKANA "ｺﾞﾛﾝ";
-            gSaveContext.save.dayTime = CLOCK_TIME(0, 0);
+            SET_DAY_TIME(CLOCK_TIME(0, 0))
             break;
         case 0x8000:
             // clang-format off
-            gSaveContext.save.dayTime = CLOCK_TIME(12, 0); label = GFXP_HIRAGANA "ｵﾋﾙ " GFXP_KATAKANA "ｼﾞｬﾗ";
+            SET_DAY_TIME(CLOCK_TIME(12, 0)) label = GFXP_HIRAGANA "ｵﾋﾙ " GFXP_KATAKANA "ｼﾞｬﾗ";
             // clang-format on
             break;
         case 0xFFF0:
             // clang-format off
-            gSaveContext.save.dayTime = CLOCK_TIME(12, 0); label = "ﾃﾞﾓ00";
+            SET_DAY_TIME(CLOCK_TIME(12, 0)) label = "ﾃﾞﾓ00";
             // clang-format on
             break;
         case 0xFFF1:
@@ -639,7 +639,7 @@ void MapSelect_PrintCutsceneSetting(MapSelectState* this, GfxPrint* printer, u16
             break;
     };
 
-    gSaveContext.skyboxTime = gSaveContext.save.dayTime;
+    SET_SKYBOX_TIME(gSaveContext.save.dayTime)
     GfxPrint_Printf(printer, "Stage:" GFXP_KATAKANA "%s", label);
 }
 
@@ -659,8 +659,8 @@ void MapSelect_DrawMenu(MapSelectState* this) {
     GfxPrint_Init(printer);
     GfxPrint_Open(printer, POLY_OPA_DISP);
     MapSelect_PrintMenu(this, printer);
-    MapSelect_PrintAgeSetting(this, printer, ((void)0, gSaveContext.save.linkAge));
-    MapSelect_PrintCutsceneSetting(this, printer, ((void)0, gSaveContext.save.cutsceneIndex));
+    MapSelect_PrintAgeSetting(this, printer, (GET_LINK_AGE_VOID0));
+    MapSelect_PrintCutsceneSetting(this, printer, (GET_CUTSCENE_INDEX_VOID0));
     POLY_OPA_DISP = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
 
@@ -762,6 +762,6 @@ void MapSelect_Init(GameState* thisx) {
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_select.c", 1114);
     DmaMgr_SendRequest1(this->staticSegment, (uintptr_t)_z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
-    gSaveContext.save.cutsceneIndex = 0x8000;
-    gSaveContext.save.linkAge = LINK_AGE_CHILD;
+    SET_CUTSCENE_INDEX(0x8000)
+    SET_LINK_AGE(LINK_AGE_CHILD)
 }

@@ -76,7 +76,7 @@ void EnHoll_SetupAction(EnHoll* this, EnHollActionFunc func) {
 }
 
 s32 EnHoll_IsKokiriLayer8(void) {
-    return gSaveContext.save.entranceIndex == ENTR_SPOT04_0 && gSaveContext.sceneLayer == 8;
+    return GET_ENTRANCE_INDEX == ENTR_SPOT04_0 && GET_SCENE_LAYER == 8;
 }
 
 void EnHoll_ChooseAction(EnHoll* this) {

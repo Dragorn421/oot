@@ -114,7 +114,7 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(play, this->switchFlag))) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
+        if ((this->ocarinaSong != 6) || (GET_SCARECROW_SPAWN_SONG_SET)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
                 // "North! ! ! ! !"
                 osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToPlayer);
@@ -186,7 +186,7 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     this->unk_15A++;
-    if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
+    if ((this->ocarinaSong != 6) || (GET_SCARECROW_SPAWN_SONG_SET)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
         } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
@@ -242,17 +242,17 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 break;
             case 2:
                 play->csCtx.segment = D_80ABF9D0;
-                gSaveContext.cutsceneTrigger = 1;
+                SET_CUTSCENE_TRIGGER(1)
                 func_800F574C(1.18921f, 0x5A);
                 break;
             case 4:
                 play->csCtx.segment = D_80ABFB40;
-                gSaveContext.cutsceneTrigger = 1;
+                SET_CUTSCENE_TRIGGER(1)
                 break;
             case 6:
                 play->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
                                                     : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
-                gSaveContext.cutsceneTrigger = 1;
+                SET_CUTSCENE_TRIGGER(1)
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 break;
@@ -305,7 +305,7 @@ void func_80ABF7CC(EnOkarinaTag* this, PlayState* play) {
         Message_CloseTextbox(play);
         if (!CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
             play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSunSongGraveSunSongTeachCs);
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENE_TRIGGER(1)
         }
         this->actionFunc = func_80ABF708;
     }

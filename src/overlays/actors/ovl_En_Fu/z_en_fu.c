@@ -173,7 +173,7 @@ void func_80A1DBD4(EnFu* this, PlayState* play) {
         this->actionFunc = func_80A1DB60;
         this->actor.flags &= ~ACTOR_FLAG_16;
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENE_TRIGGER(1)
         Item_Give(play, ITEM_SONG_STORMS);
         play->msgCtx.ocarinaMode = OCARINA_MODE_00;
         SET_EVENTCHKINF(EVENTCHKINF_65);

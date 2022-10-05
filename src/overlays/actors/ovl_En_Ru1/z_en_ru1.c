@@ -861,7 +861,7 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
         play->csCtx.segment = D_80AF0880;
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENE_TRIGGER(1)
         player->linearVelocity = 0.0f;
         this->action = 8;
     }
@@ -1543,7 +1543,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
             dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
             func_80AEE02C(this);
             play->csCtx.segment = D_80AF10A4;
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENE_TRIGGER(1)
             this->action = 36;
             this->drawConfig = 0;
             this->unk_28C = (BgBdanObjects*)dynaPolyActor;
@@ -1609,7 +1609,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
             this->action = 34;
             this->unk_26C = 0.0f;
             play->csCtx.segment = D_80AF1728;
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENE_TRIGGER(1)
         }
         this->roomNum3 = curRoomNum;
         return true;

@@ -581,7 +581,7 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 
-    frontRoom = gSaveContext.respawnFlag > 0 ? ((void)0, gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex)
+    frontRoom = GET_RESPAWN_FLAG > 0 ? (GET_RESPAWN_VOID0[GET_RESPAWN_FLAG - 1].roomIndex)
                                              : play->setupEntranceList[play->curSpawn].room;
     func_8009728C(play, roomCtx, frontRoom);
 

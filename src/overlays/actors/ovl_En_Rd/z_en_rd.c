@@ -188,8 +188,8 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
 void EnRd_Destroy(Actor* thisx, PlayState* play) {
     EnRd* this = (EnRd*)thisx;
 
-    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
-        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+    if (GET_SUNS_SONG_STATE != SUNSSONG_INACTIVE) {
+        SET_SUNS_SONG_STATE(SUNSSONG_INACTIVE)
     }
 
     Collider_DestroyCylinder(play, &this->collider);
@@ -725,7 +725,7 @@ void EnRd_SetupStunned(EnRd* this) {
     this->action = REDEAD_ACTION_STUNNED;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
+    if (GET_SUNS_SONG_STATE != SUNSSONG_INACTIVE) {
         this->stunnedBySunsSong = true;
         this->sunsSongStunTimer = 600;
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
@@ -749,7 +749,7 @@ void EnRd_Stunned(EnRd* this, PlayState* play) {
 
         if (this->sunsSongStunTimer == 0) {
             this->stunnedBySunsSong = false;
-            gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+            SET_SUNS_SONG_STATE(SUNSSONG_INACTIVE)
         }
     }
 
@@ -788,7 +788,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    if ((gSaveContext.sunsSongState != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) &&
+    if ((GET_SUNS_SONG_STATE != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) &&
         !this->stunnedBySunsSong && (this->action != REDEAD_ACTION_DAMAGED) && (this->action != REDEAD_ACTION_DEAD) &&
         (this->action != REDEAD_ACTION_STUNNED)) {
         EnRd_SetupStunned(this);
@@ -845,8 +845,8 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
 
     EnRd_UpdateDamage(this, play);
 
-    if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE && !this->stunnedBySunsSong) {
-        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+    if (GET_SUNS_SONG_STATE != SUNSSONG_INACTIVE && !this->stunnedBySunsSong) {
+        SET_SUNS_SONG_STATE(SUNSSONG_INACTIVE)
     }
 
     if (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC &&

@@ -333,11 +333,11 @@ void EnNb_SetupChamberCsImpl(EnNb* this, PlayState* play) {
     s32 pad[2];
     Player* player;
 
-    if ((gSaveContext.chamberCutsceneNum == 3) && !IS_CUTSCENE_LAYER) {
+    if ((GET_CHAMBER_CUTSCENE_NUM == 3) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = NB_CHAMBER_UNDERGROUND;
         play->csCtx.segment = D_80AB431C;
-        gSaveContext.cutsceneTrigger = 2;
+        SET_CUTSCENE_TRIGGER(2)
         Item_Give(play, ITEM_MEDALLION_SPIRIT);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
     }

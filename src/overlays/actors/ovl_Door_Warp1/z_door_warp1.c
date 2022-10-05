@@ -161,11 +161,11 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             DoorWarp1_SetupAction(this, DoorWarp1_AwaitClearFlag);
             break;
         case WARP_DESTINATION:
-            if ((!(gSaveContext.save.entranceIndex == ENTR_SPOT05_3 ||
-                   gSaveContext.save.entranceIndex == ENTR_SPOT17_5 ||
-                   gSaveContext.save.entranceIndex == ENTR_SPOT06_9 ||
-                   gSaveContext.save.entranceIndex == ENTR_SPOT11_8 ||
-                   gSaveContext.save.entranceIndex == ENTR_SPOT02_8) &&
+            if ((!(GET_ENTRANCE_INDEX == ENTR_SPOT05_3 ||
+                   GET_ENTRANCE_INDEX == ENTR_SPOT17_5 ||
+                   GET_ENTRANCE_INDEX == ENTR_SPOT06_9 ||
+                   GET_ENTRANCE_INDEX == ENTR_SPOT11_8 ||
+                   GET_ENTRANCE_INDEX == ENTR_SPOT02_8) &&
                  !IS_CUTSCENE_LAYER) ||
                 (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
@@ -261,7 +261,7 @@ void DoorWarp1_SetupPurpleCrystal(DoorWarp1* this, PlayState* play) {
     this->unk_1BC = 1.f;
     this->actor.shape.yOffset = 800.0f;
 
-    if (gSaveContext.save.entranceIndex != ENTR_TOKINOMA_0) {
+    if (GET_ENTRANCE_INDEX != ENTR_TOKINOMA_0) {
         this->actor.scale.x = 0.0499f;
         this->actor.scale.y = 0.077f;
         this->actor.scale.z = 0.09f;
@@ -491,7 +491,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
     Math_SmoothStepToF(&this->lightRayAlpha, 0.0f, 0.2f, 6.0f, 0.01f);
     this->warpTimer++;
 
-    if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == 0xFFEF) {
+    if (sWarpTimerTarget < this->warpTimer && GET_NEXT_CUTSCENE_INDEX == 0xFFEF) {
         osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger,
                      TRANS_TRIGGER_START);
 
@@ -500,10 +500,10 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 Flags_SetEventChkInf(EVENTCHKINF_25);
                 Item_Give(play, ITEM_GORON_RUBY);
                 play->nextEntranceIndex = ENTR_SPOT16_0;
-                gSaveContext.nextCutsceneIndex = 0xFFF1;
+                SET_NEXT_CUTSCENE_INDEX(0xFFF1)
             } else {
                 play->nextEntranceIndex = ENTR_SPOT16_5;
-                gSaveContext.nextCutsceneIndex = 0;
+                SET_NEXT_CUTSCENE_INDEX(0)
             }
         } else if (play->sceneId == SCENE_YDAN_BOSS) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_07)) {
@@ -511,19 +511,19 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 Flags_SetEventChkInf(EVENTCHKINF_09);
                 Item_Give(play, ITEM_KOKIRI_EMERALD);
                 play->nextEntranceIndex = ENTR_SPOT04_0;
-                gSaveContext.nextCutsceneIndex = 0xFFF1;
+                SET_NEXT_CUTSCENE_INDEX(0xFFF1)
             } else {
                 play->nextEntranceIndex = ENTR_SPOT04_11;
-                gSaveContext.nextCutsceneIndex = 0;
+                SET_NEXT_CUTSCENE_INDEX(0)
             }
         } else if (play->sceneId == SCENE_BDAN_BOSS) {
             play->nextEntranceIndex = ENTR_SPOT08_0;
-            gSaveContext.nextCutsceneIndex = 0;
+            SET_NEXT_CUTSCENE_INDEX(0)
         }
         osSyncPrintf("\n\n\nおわりおわり");
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
-        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
+        SET_NEXT_TRANSITION_TYPE(TRANS_TYPE_FADE_WHITE)
     }
 
     Math_StepToF(&this->unk_194, 2.0f, 0.01f);
@@ -603,11 +603,11 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, PlayState* play) {
     Math_SmoothStepToF(&this->lightRayAlpha, 0.0f, 0.2f, 6.0f, 0.01f);
     this->warpTimer++;
 
-    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
+    if (this->warpTimer > sWarpTimerTarget && GET_NEXT_CUTSCENE_INDEX == 0xFFEF) {
         SET_EVENTCHKINF(EVENTCHKINF_37);
         Item_Give(play, ITEM_ZORA_SAPPHIRE);
         play->nextEntranceIndex = ENTR_SPOT08_0;
-        gSaveContext.nextCutsceneIndex = 0xFFF0;
+        SET_NEXT_CUTSCENE_INDEX(0xFFF0)
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
     }
@@ -703,83 +703,83 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
     }
     this->warpTimer++;
 
-    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
+    if (this->warpTimer > sWarpTimerTarget && GET_NEXT_CUTSCENE_INDEX == 0xFFEF) {
         if (play->sceneId == SCENE_MORIBOSSROOM) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_48)) {
                 SET_EVENTCHKINF(EVENTCHKINF_48);
                 Item_Give(play, ITEM_MEDALLION_FOREST);
                 play->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                gSaveContext.nextCutsceneIndex = 0;
-                gSaveContext.chamberCutsceneNum = CHAMBER_CS_FOREST;
+                SET_NEXT_CUTSCENE_INDEX(0)
+                SET_CHAMBER_CUTSCENE_NUM(CHAMBER_CS_FOREST)
             } else {
                 if (!LINK_IS_ADULT) {
                     play->nextEntranceIndex = ENTR_SPOT05_2;
                 } else {
                     play->nextEntranceIndex = ENTR_SPOT05_3;
                 }
-                gSaveContext.nextCutsceneIndex = 0;
+                SET_NEXT_CUTSCENE_INDEX(0)
             }
         } else if (play->sceneId == SCENE_FIRE_BS) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_49)) {
                 SET_EVENTCHKINF(EVENTCHKINF_49);
                 Item_Give(play, ITEM_MEDALLION_FIRE);
                 play->nextEntranceIndex = ENTR_SPOT01_0;
-                gSaveContext.nextCutsceneIndex = 0xFFF3;
+                SET_NEXT_CUTSCENE_INDEX(0xFFF3)
             } else {
                 if (!LINK_IS_ADULT) {
                     play->nextEntranceIndex = ENTR_SPOT17_4;
                 } else {
                     play->nextEntranceIndex = ENTR_SPOT17_5;
                 }
-                gSaveContext.nextCutsceneIndex = 0;
+                SET_NEXT_CUTSCENE_INDEX(0)
             }
         } else if (play->sceneId == SCENE_MIZUSIN_BS) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                 SET_EVENTCHKINF(EVENTCHKINF_4A);
                 Item_Give(play, ITEM_MEDALLION_WATER);
                 play->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                gSaveContext.nextCutsceneIndex = 0;
-                gSaveContext.chamberCutsceneNum = CHAMBER_CS_WATER;
+                SET_NEXT_CUTSCENE_INDEX(0)
+                SET_CHAMBER_CUTSCENE_NUM(CHAMBER_CS_WATER)
             } else {
                 if (!LINK_IS_ADULT) {
                     play->nextEntranceIndex = ENTR_SPOT06_8;
                 } else {
                     play->nextEntranceIndex = ENTR_SPOT06_9;
                 }
-                gSaveContext.nextCutsceneIndex = 0;
+                SET_NEXT_CUTSCENE_INDEX(0)
             }
         } else if (play->sceneId == SCENE_JYASINBOSS) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                 Item_Give(play, ITEM_MEDALLION_SPIRIT);
                 play->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                gSaveContext.nextCutsceneIndex = 0;
-                gSaveContext.chamberCutsceneNum = CHAMBER_CS_SPIRIT;
+                SET_NEXT_CUTSCENE_INDEX(0)
+                SET_CHAMBER_CUTSCENE_NUM(CHAMBER_CS_SPIRIT)
             } else {
                 if (!LINK_IS_ADULT) {
                     play->nextEntranceIndex = ENTR_SPOT11_5;
                 } else {
                     play->nextEntranceIndex = ENTR_SPOT11_8;
                 }
-                gSaveContext.nextCutsceneIndex = 0;
+                SET_NEXT_CUTSCENE_INDEX(0)
             }
         } else if (play->sceneId == SCENE_HAKADAN_BS) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
                 Item_Give(play, ITEM_MEDALLION_SHADOW);
                 play->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                gSaveContext.nextCutsceneIndex = 0;
-                gSaveContext.chamberCutsceneNum = CHAMBER_CS_SHADOW;
+                SET_NEXT_CUTSCENE_INDEX(0)
+                SET_CHAMBER_CUTSCENE_NUM(CHAMBER_CS_SHADOW)
             } else {
                 if (!LINK_IS_ADULT) {
                     play->nextEntranceIndex = ENTR_SPOT02_7;
                 } else {
                     play->nextEntranceIndex = ENTR_SPOT02_8;
                 }
-                gSaveContext.nextCutsceneIndex = 0;
+                SET_NEXT_CUTSCENE_INDEX(0)
             }
         }
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE;
-        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE_SLOW;
+        SET_NEXT_TRANSITION_TYPE(TRANS_TYPE_FADE_WHITE_SLOW)
     }
     if (this->warpTimer >= 141) {
         f32 screenFillAlpha;

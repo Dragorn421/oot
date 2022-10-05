@@ -217,7 +217,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
         case 0x2031:
             if (play->msgCtx.choiceIndex == 1) {
                 this->actor.textId = 0x2032;
-            } else if (gSaveContext.save.info.playerData.rupees < 10) {
+            } else if (GET_RUPEES < 10) {
                 this->actor.textId = 0x2033;
             } else {
                 this->actor.textId = 0x2034;
@@ -244,7 +244,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             }
             break;
         case 0x2038:
-            if (play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees >= 50) {
+            if (play->msgCtx.choiceIndex == 0 && GET_RUPEES >= 50) {
                 sp18 = 2;
             } else {
                 this->actor.textId = 0x2039;
@@ -253,7 +253,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             }
             break;
         case 0x205B:
-            if (play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees >= 50) {
+            if (play->msgCtx.choiceIndex == 0 && GET_RUPEES >= 50) {
                 sp18 = 2;
             } else {
                 Message_ContinueTextbox(play, this->actor.textId = 0x2039);
@@ -264,7 +264,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             }
             break;
     }
-    if (!gSaveContext.save.info.playerData.rupees) {}
+    if (!GET_RUPEES) {}
 
     return sp18;
 }
@@ -428,7 +428,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
 
     play->nextEntranceIndex = entrances[index];
     if (index == 2) {
-        gSaveContext.nextCutsceneIndex = 0xFFF0;
+        SET_NEXT_CUTSCENE_INDEX(0xFFF0)
     }
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
@@ -437,7 +437,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     if (index == 0) {
         AREG(6) = 0;
     }
-    gSaveContext.timer1State = 0;
+    SET_TIMER1_STATE(0)
 }
 
 void func_80A79C78(EnIn* this, PlayState* play) {
@@ -478,7 +478,7 @@ static s32 D_80A7B998 = 0;
 
 void EnIn_Init(Actor* thisx, PlayState* play) {
     EnIn* this = (EnIn*)thisx;
-    RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
+    RespawnData* respawn = &GET_RESPAWN[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
     this->ingoObjBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_IN);
@@ -490,7 +490,7 @@ void EnIn_Init(Actor* thisx, PlayState* play) {
     respawnPos = respawn->pos;
     // hardcoded coords for lon lon entrance
     if (D_80A7B998 == 0 && respawnPos.x == 1107.0f && respawnPos.y == 0.0f && respawnPos.z == -3740.0f) {
-        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
+        GET_EVENT_INF[EVENTINF_HORSES_INDEX] = 0;
         D_80A7B998 = 1;
     }
     this->actionFunc = func_80A79FB0;
@@ -574,7 +574,7 @@ void func_80A79FB0(EnIn* this, PlayState* play) {
                     case EVENTINF_HORSES_STATE_2:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A4C8;
-                        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
+                        GET_EVENT_INF[EVENTINF_HORSES_INDEX] = 0;
                         break;
                     case EVENTINF_HORSES_STATE_1:
                         this->actor.targetMode = 3;
@@ -657,15 +657,15 @@ void func_80A7A568(EnIn* this, PlayState* play) {
     if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         SET_INFTABLE(INFTABLE_AB);
     }
-    if (gSaveContext.timer1State == 10) {
+    if (GET_TIMER1_STATE == 10) {
         Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A79C78(this, play);
         this->actionFunc = func_80A7B024;
-        gSaveContext.timer1State = 0;
+        SET_TIMER1_STATE(0)
     } else if (this->unk_308.unk_00 == 2) {
         if (play->msgCtx.choiceIndex == 0) {
-            if (gSaveContext.save.info.playerData.rupees < 50) {
+            if (GET_RUPEES < 50) {
                 play->msgCtx.stateTimer = 4;
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->unk_308.unk_00 = 0;
@@ -706,8 +706,8 @@ void func_80A7A770(EnIn* this, PlayState* play) {
         this->actionFunc = func_80A7A848;
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_7);
         this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_05_MASK;
+        GET_EVENT_INF[EVENTINF_HORSES_INDEX] =
+            (GET_EVENT_INF[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_05_MASK;
         if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
             play->msgCtx.stateTimer = 4;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -717,7 +717,7 @@ void func_80A7A770(EnIn* this, PlayState* play) {
 
 void func_80A7A848(EnIn* this, PlayState* play) {
     if (this->unk_308.unk_00 == 2) {
-        if ((play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees < 50) ||
+        if ((play->msgCtx.choiceIndex == 0 && GET_RUPEES < 50) ||
             play->msgCtx.choiceIndex == 1) {
             SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
             this->actionFunc = func_80A7A4C8;
@@ -753,8 +753,8 @@ void func_80A7A940(EnIn* this, PlayState* play) {
         play->msgCtx.stateTimer = 0;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_06_MASK;
+        GET_EVENT_INF[EVENTINF_HORSES_INDEX] =
+            (GET_EVENT_INF[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_06_MASK;
     }
 }
 
@@ -930,7 +930,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, play);
-        if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.unk_00 == 0) {
+        if (GET_TIMER2_VALUE < 6 && GET_TIMER2_STATE != 0 && this->unk_308.unk_00 == 0) {
             if (Actor_ProcessTalkRequest(&this->actor, play)) {}
         } else {
             func_800343CC(play, &this->actor, &this->unk_308.unk_00,

@@ -10,8 +10,8 @@ void Interface_Init(PlayState* play) {
     u16 doActionOffset;
     u8 temp;
 
-    gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-    gSaveContext.unk_13E8 = gSaveContext.unk_13EA = 0;
+    SET_SUNS_SONG_STATE(SUNSSONG_INACTIVE)
+    SET_UNK_13_E8(gSaveContext.unk_13EA = 0)
 
     View_Init(&interfaceCtx->view, play->state.gfxCtx);
 
@@ -47,9 +47,9 @@ void Interface_Init(PlayState* play) {
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
-    if (gSaveContext.language == LANGUAGE_ENG) {
+    if (GET_LANGUAGE == LANGUAGE_ENG) {
         doActionOffset = 0;
-    } else if (gSaveContext.language == LANGUAGE_GER) {
+    } else if (GET_LANGUAGE == LANGUAGE_GER) {
         doActionOffset = 0x2B80;
     } else {
         doActionOffset = 0x5700;
@@ -58,9 +58,9 @@ void Interface_Init(PlayState* play) {
     DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
                         0x300, "../z_construct.c", 174);
 
-    if (gSaveContext.language == LANGUAGE_ENG) {
+    if (GET_LANGUAGE == LANGUAGE_ENG) {
         doActionOffset = 0x480;
-    } else if (gSaveContext.language == LANGUAGE_GER) {
+    } else if (GET_LANGUAGE == LANGUAGE_GER) {
         doActionOffset = 0x3000;
     } else {
         doActionOffset = 0x5B80;
@@ -77,76 +77,76 @@ void Interface_Init(PlayState* play) {
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.save.info.equips.buttonItems[0],
-                 gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
-                 gSaveContext.save.info.equips.buttonItems[3]);
+    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", GET_EQUIPS_BUTTON_ITEMS[0],
+                 GET_EQUIPS_BUTTON_ITEMS[1], GET_EQUIPS_BUTTON_ITEMS[2],
+                 GET_EQUIPS_BUTTON_ITEMS[3]);
 
-    if (gSaveContext.save.info.equips.buttonItems[0] < 0xF0) {
+    if (GET_EQUIPS_BUTTON_ITEMS[0] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
                             (uintptr_t)_icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[0] * 0x1000,
+                                GET_EQUIPS_BUTTON_ITEMS[0] * 0x1000,
                             0x1000, "../z_construct.c", 198);
-    } else if (gSaveContext.save.info.equips.buttonItems[0] != 0xFF) {
+    } else if (GET_EQUIPS_BUTTON_ITEMS[0] != 0xFF) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
                             (uintptr_t)_icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[0] * 0x1000,
+                                GET_EQUIPS_BUTTON_ITEMS[0] * 0x1000,
                             0x1000, "../z_construct.c", 203);
     }
 
-    if (gSaveContext.save.info.equips.buttonItems[1] < 0xF0) {
+    if (GET_EQUIPS_BUTTON_ITEMS[1] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x1000,
                             (uintptr_t)_icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[1] * 0x1000,
+                                GET_EQUIPS_BUTTON_ITEMS[1] * 0x1000,
                             0x1000, "../z_construct.c", 209);
     }
 
-    if (gSaveContext.save.info.equips.buttonItems[2] < 0xF0) {
+    if (GET_EQUIPS_BUTTON_ITEMS[2] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x2000,
                             (uintptr_t)_icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[2] * 0x1000,
+                                GET_EQUIPS_BUTTON_ITEMS[2] * 0x1000,
                             0x1000, "../z_construct.c", 214);
     }
 
-    if (gSaveContext.save.info.equips.buttonItems[3] < 0xF0) {
+    if (GET_EQUIPS_BUTTON_ITEMS[3] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x3000,
                             (uintptr_t)_icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[3] * 0x1000,
+                                GET_EQUIPS_BUTTON_ITEMS[3] * 0x1000,
                             0x1000, "../z_construct.c", 219);
     }
 
-    osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timer1State));
+    osSyncPrintf("ＥＶＥＮＴ＝%d\n", (GET_TIMER1_STATE_VOID0));
 
-    if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8) || (gSaveContext.timer2State == 4) ||
-        (gSaveContext.timer2State == 10)) {
-        osSyncPrintf("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
+    if ((GET_TIMER1_STATE == 4) || (GET_TIMER1_STATE == 8) || (GET_TIMER2_STATE == 4) ||
+        (GET_TIMER2_STATE == 10)) {
+        osSyncPrintf("restart_flag=%d\n", (GET_RESPAWN_FLAG_VOID0));
 
-        if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
-            if (gSaveContext.timer1State == 4) {
-                gSaveContext.timer1State = 1;
-                gSaveContext.timerX[0] = 140;
-                gSaveContext.timerY[0] = 80;
+        if ((GET_RESPAWN_FLAG == -1) || (GET_RESPAWN_FLAG == 1)) {
+            if (GET_TIMER1_STATE == 4) {
+                SET_TIMER1_STATE(1)
+                GET_TIMER_X[0] = 140;
+                GET_TIMER_Y[0] = 80;
             }
         }
 
-        if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8)) {
+        if ((GET_TIMER1_STATE == 4) || (GET_TIMER1_STATE == 8)) {
             temp = 0;
         } else {
             temp = 1;
         }
 
-        gSaveContext.timerX[temp] = 26;
+        GET_TIMER_X[temp] = 26;
 
-        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
-            gSaveContext.timerY[temp] = 54;
+        if (GET_HEALTH_CAPACITY > 0xA0) {
+            GET_TIMER_Y[temp] = 54;
         } else {
-            gSaveContext.timerY[temp] = 46;
+            GET_TIMER_Y[temp] = 46;
         }
     }
 
-    if ((gSaveContext.timer1State >= 11) && (gSaveContext.timer1State < 16)) {
-        gSaveContext.timer1State = 0;
+    if ((GET_TIMER1_STATE >= 11) && (GET_TIMER1_STATE < 16)) {
+        SET_TIMER1_STATE(0)
         // "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timer1State);
+        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", GET_TIMER1_STATE);
     }
 
     osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"
@@ -511,7 +511,7 @@ void func_80111070(void) {
     WREG(94) = 3;
     WREG(95) = 6;
 
-    if (gSaveContext.gameMode == GAMEMODE_NORMAL) {
+    if (GET_GAME_MODE == GAMEMODE_NORMAL) {
         R_TEXTBOX_X = 52;
         R_TEXTBOX_Y = 36;
         VREG(2) = 214;

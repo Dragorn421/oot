@@ -1806,7 +1806,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             FALLTHROUGH;
         case 20:
             play->nextEntranceIndex = ENTR_KENJYANOMA_0;
-            gSaveContext.nextCutsceneIndex = 0xFFF2;
+            SET_NEXT_CUTSCENE_INDEX(0xFFF2)
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_FADE_WHITE;
             play->linkAgeOnLoad = LINK_AGE_CHILD;

@@ -137,9 +137,9 @@ void ConsoleLogo_Main(GameState* thisx) {
     }
 
     if (this->exit) {
-        gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-        gSaveContext.natureAmbienceId = 0xFF;
-        gSaveContext.gameMode = GAMEMODE_TITLE_SCREEN;
+        SET_SEQ_ID((u8)NA_BGM_DISABLED)
+        SET_NATURE_AMBIENCE_ID(0xFF)
+        SET_GAME_MODE(GAMEMODE_TITLE_SCREEN)
         this->state.running = false;
         SET_NEXT_GAMESTATE(&this->state, TitleSetup_Init, TitleSetupState);
     }
@@ -168,7 +168,7 @@ void ConsoleLogo_Init(GameState* thisx) {
     this->state.main = ConsoleLogo_Main;
     this->state.destroy = ConsoleLogo_Destroy;
     this->exit = false;
-    gSaveContext.fileNum = 0xFF;
+    SET_FILE_NUM(0xFF)
     Sram_Alloc(&this->state, &this->sramCtx);
     this->ult = 0;
     this->unk_1D4 = 0x14;

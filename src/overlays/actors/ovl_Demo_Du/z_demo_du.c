@@ -194,12 +194,12 @@ void func_80969FB4(DemoDu* this, PlayState* play) {
 void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, PlayState* play) {
     s32 pad[2];
 
-    if ((gSaveContext.chamberCutsceneNum == 1) && !IS_CUTSCENE_LAYER) {
+    if ((GET_CHAMBER_CUTSCENE_NUM == 1) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
 
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(1);
         play->csCtx.segment = D_8096C1A4;
-        gSaveContext.cutsceneTrigger = 2;
+        SET_CUTSCENE_TRIGGER(2)
         Item_Give(play, ITEM_MEDALLION_FIRE);
 
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
