@@ -1902,8 +1902,7 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
         lightRadius = 500.0f * ratio;
 
         if ((play->csCtx.state == CS_STATE_IDLE) &&
-            ((GET_RESPAWN_A0_ENTRANCEINDEX_VOID0(RESPAWN_MODE_TOP)) ==
-             (GET_ENTRANCEINDEX_VOID0)) &&
+            ((GET_RESPAWN_A0_ENTRANCEINDEX_VOID0(RESPAWN_MODE_TOP)) == (GET_ENTRANCEINDEX_VOID0)) &&
             ((GET_RESPAWN_A0_ROOMINDEX_VOID0(RESPAWN_MODE_TOP)) == play->roomCtx.curRoom.num)) {
             f32 scale = 0.025f * ratio;
 
@@ -4519,8 +4518,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 retTextId = 0x7002;
             } else if (Flags_GetInfTable(INFTABLE_6A)) {
                 retTextId = 0x7004;
-            } else if ((GET_DAYTIME >= CLOCK_TIME(6, 0)) &&
-                       (GET_DAYTIME <= CLOCK_TIME(18, 30))) {
+            } else if ((GET_DAYTIME >= CLOCK_TIME(6, 0)) && (GET_DAYTIME <= CLOCK_TIME(18, 30))) {
                 retTextId = 0x7002;
             } else {
                 retTextId = 0x7003;
@@ -5563,8 +5561,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
     actor->focus.pos = actor->world.pos;
     actor->focus.pos.y += focusHeight;
 
-    if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
-          (GET_ENTRANCEINDEX == ENTR_SPOT04_0))) {
+    if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (GET_ENTRANCEINDEX == ENTR_SPOT04_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
             Actor_TrackNone(headRot, torsoRot);
@@ -5572,8 +5569,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
         }
     }
 
-    if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
-        (GET_ENTRANCEINDEX == ENTR_SPOT04_0)) {
+    if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (GET_ENTRANCEINDEX == ENTR_SPOT04_0)) {
         target = play->view.eye;
     } else {
         target = player->actor.focus.pos;
@@ -5607,8 +5603,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
 
     actor->focus.pos = focusPos;
 
-    if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
-          (GET_ENTRANCEINDEX == ENTR_SPOT04_0))) {
+    if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (GET_ENTRANCEINDEX == ENTR_SPOT04_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
             Actor_TrackNone(headRot, torsoRot);
@@ -5616,8 +5611,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
         }
     }
 
-    if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
-        (GET_ENTRANCEINDEX == ENTR_SPOT04_0)) {
+    if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (GET_ENTRANCEINDEX == ENTR_SPOT04_0)) {
         target = play->view.eye;
     } else {
         target = player->actor.focus.pos;

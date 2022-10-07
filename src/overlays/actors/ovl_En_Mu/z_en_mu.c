@@ -66,7 +66,9 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
 
     textFlags = GET_EVENTINF_A0(EVENTINF_20_21_22_23_24_INDEX) &
                 (EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
-    SET_EVENTINF_A0(EVENTINF_20_21_22_23_24_INDEX, GET_EVENTINF_A0(EVENTINF_20_21_22_23_24_INDEX) & (~(EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK)));
+    SET_EVENTINF_A0(EVENTINF_20_21_22_23_24_INDEX, GET_EVENTINF_A0(EVENTINF_20_21_22_23_24_INDEX) &
+                                                       (~(EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK |
+                                                          EVENTINF_23_MASK | EVENTINF_24_MASK)));
     randomIndex = (play->state.frames + (s32)(Rand_ZeroOne() * 5.0f)) % 5;
 
     for (i = 0; i < 5; i++) {

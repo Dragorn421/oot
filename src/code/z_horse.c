@@ -71,17 +71,14 @@ void func_8006D0EC(PlayState* play, Player* player) {
         Actor* horseActor =
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
-    } else if ((play->sceneId == GET_HORSEDATA_SCENEID) &&
-               (Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1) != 0)) {
+    } else if ((play->sceneId == GET_HORSEDATA_SCENEID) && (Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1) != 0)) {
         // "Set by existence of horse %d %d %d"
-        osSyncPrintf("馬存在によるセット %d %d %d\n", GET_HORSEDATA_SCENEID,
-                     Flags_GetEventChkInf(EVENTCHKINF_18), DREG(1));
+        osSyncPrintf("馬存在によるセット %d %d %d\n", GET_HORSEDATA_SCENEID, Flags_GetEventChkInf(EVENTCHKINF_18),
+                     DREG(1));
 
         if (func_8006CFC0(GET_HORSEDATA_SCENEID)) {
-            Actor* horseActor =
-                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, GET_HORSEDATA_POS_X,
-                            GET_HORSEDATA_POS_Y, GET_HORSEDATA_POS_Z, 0,
-                            GET_HORSEDATA_ANGLE, 0, 1);
+            Actor* horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, GET_HORSEDATA_POS_X,
+                                            GET_HORSEDATA_POS_Y, GET_HORSEDATA_POS_Z, 0, GET_HORSEDATA_ANGLE, 0, 1);
             ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 414);
             if (play->sceneId == SCENE_SPOT12) {
                 horseActor->room = -1;
@@ -249,10 +246,8 @@ void func_8006DC68(PlayState* play, Player* player) {
 
         if (func_8006CFC0(play->sceneId)) {
             if (IS_CUTSCENE_LAYER ||
-                ((GET_ENTRANCEINDEX == ENTR_SPOT00_11 ||
-                  GET_ENTRANCEINDEX == ENTR_SPOT00_12 ||
-                  GET_ENTRANCEINDEX == ENTR_SPOT00_13 ||
-                  GET_ENTRANCEINDEX == ENTR_SPOT00_15) &&
+                ((GET_ENTRANCEINDEX == ENTR_SPOT00_11 || GET_ENTRANCEINDEX == ENTR_SPOT00_12 ||
+                  GET_ENTRANCEINDEX == ENTR_SPOT00_13 || GET_ENTRANCEINDEX == ENTR_SPOT00_15) &&
                  (GET_RESPAWNFLAG == 0)) ||
                 ((play->sceneId == SCENE_SPOT20) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
                  !Flags_GetEventChkInf(EVENTCHKINF_18) && (DREG(1) == 0))) {

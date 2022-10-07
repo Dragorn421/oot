@@ -16,8 +16,7 @@ void KaleidoSetup_Update(PlayState* play) {
         play->transitionTrigger == TRANS_TRIGGER_OFF && play->transitionMode == TRANS_MODE_OFF &&
         GET_CUTSCENEINDEX < 0xFFF0 && GET_NEXTCUTSCENEINDEX < 0xFFF0 && !Play_InCsMode(play) &&
         play->shootingGalleryStatus <= 1 && GET_MAGICSTATE != MAGIC_STATE_STEP_CAPACITY &&
-        GET_MAGICSTATE != MAGIC_STATE_FILL &&
-        (play->sceneId != SCENE_BOWLING || !Flags_GetSwitch(play, 0x38))) {
+        GET_MAGICSTATE != MAGIC_STATE_FILL && (play->sceneId != SCENE_BOWLING || !Flags_GetSwitch(play, 0x38))) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
             if (BREG(0)) {

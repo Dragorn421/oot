@@ -257,7 +257,8 @@ void EnSth_GiveReward(EnSth* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
-        SET_EVENTCHKINF_A0(EVENTCHKINF_DA_DB_DC_DD_DE_INDEX, GET_EVENTCHKINF_A0(EVENTCHKINF_DA_DB_DC_DD_DE_INDEX) | (this->eventFlag));
+        SET_EVENTCHKINF_A0(EVENTCHKINF_DA_DB_DC_DD_DE_INDEX,
+                           GET_EVENTCHKINF_A0(EVENTCHKINF_DA_DB_DC_DD_DE_INDEX) | (this->eventFlag));
     } else {
         EnSth_GivePlayerItem(this, play);
     }

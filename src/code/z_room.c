@@ -581,8 +581,8 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 
-    frontRoom = GET_RESPAWNFLAG > 0 ? (GET_RESPAWN_A0_ROOMINDEX_VOID0(GET_RESPAWNFLAG-1))
-                                             : play->setupEntranceList[play->curSpawn].room;
+    frontRoom = GET_RESPAWNFLAG > 0 ? (GET_RESPAWN_A0_ROOMINDEX_VOID0(GET_RESPAWNFLAG - 1))
+                                    : play->setupEntranceList[play->curSpawn].room;
     func_8009728C(play, roomCtx, frontRoom);
 
     return maxRoomSize;

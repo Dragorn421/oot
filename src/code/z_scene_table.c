@@ -161,8 +161,7 @@ void Scene_DrawConfigDdan(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4905);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(gDCEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDCEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sDCLavaFloorTextures[(s32)(gameplayFrames & 14) >> 1]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 1) % 256, 0, 64, 32, 1, 0,
@@ -411,8 +410,7 @@ void Scene_DrawConfigGerudoway(PlayState* play) {
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_OPA_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 3) % 128, 32, 32));
 
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sThievesHideoutEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sThievesHideoutEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5507);
 }
@@ -657,8 +655,7 @@ void Scene_DrawConfigIceDoukuto(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6042);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sIceCavernEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sIceCavernEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
@@ -760,8 +757,7 @@ void Scene_DrawConfigMen(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6290);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sGTGEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGTGEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
@@ -849,8 +845,7 @@ void* sLonLonHouseEntranceTextures[] = {
 void Scene_DrawConfigSouko(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6515);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sLonLonHouseEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sLonLonHouseEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -926,8 +921,7 @@ void Scene_DrawConfigBmori1(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6640);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sForestTempleEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sForestTempleEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
@@ -954,8 +948,7 @@ void* sSpiritTempleEntranceTextures[] = {
 void Scene_DrawConfigJyasinzou(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6752);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sSpiritTempleEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sSpiritTempleEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6762);
 }
@@ -1015,8 +1008,7 @@ void* sKakarikoWindowTextures[] = {
 void Scene_DrawConfigSpot01(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6890);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sKakarikoWindowTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sKakarikoWindowTextures[(GET_NIGHTFLAG_VOID0)]));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1157,8 +1149,7 @@ void Scene_DrawConfigSpot07(PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sZorasDomainEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sZorasDomainEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7147);
 }
@@ -1411,8 +1402,7 @@ void Scene_DrawConfigSpot18(PlayState* play) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sGoronCityEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGoronCityEntranceTextures[(GET_NIGHTFLAG_VOID0)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7578);
 }
@@ -1425,8 +1415,7 @@ void* sLonLonRanchWindowTextures[] = {
 void Scene_DrawConfigSpot20(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7602);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sLonLonRanchWindowTextures[(GET_NIGHTFLAG_VOID0)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sLonLonRanchWindowTextures[(GET_NIGHTFLAG_VOID0)]));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);

@@ -533,8 +533,7 @@ u32 Health_IsCritical(void) {
         criticalHealth = 0x2C;
     }
 
-    if ((criticalHealth >= GET_HEALTH) &&
-        (GET_HEALTH > 0)) {
+    if ((criticalHealth >= GET_HEALTH) && (GET_HEALTH > 0)) {
         return true;
     } else {
         return false;

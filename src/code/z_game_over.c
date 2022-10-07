@@ -49,8 +49,7 @@ void GameOver_Update(PlayState* play) {
 
             // restore "temporary B" to the B Button if not a sword item
             if (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KOKIRI &&
-                GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_MASTER &&
-                GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_BGS &&
+                GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_MASTER && GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_BGS &&
                 GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KNIFE) {
 
                 if (GET_BUTTONSTATUS_A0(0) != BTN_ENABLED) {
@@ -68,7 +67,9 @@ void GameOver_Update(PlayState* play) {
             SET_EVENTINF_A0(1, 0);
             SET_EVENTINF_A0(2, 0);
             SET_EVENTINF_A0(3, 0);
-            SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, SET_BUTTONSTATUS_A0(4, BTN_ENABLED)))));
+            SET_BUTTONSTATUS_A0(
+                0, SET_BUTTONSTATUS_A0(
+                       1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, SET_BUTTONSTATUS_A0(4, BTN_ENABLED)))));
             SET_UNK_13E7(SET_UNK_13E8(SET_UNK_13EA(SET_UNK_13EC(0))));
 
             Environment_InitGameOverLights(play);

@@ -706,7 +706,8 @@ void func_80A7A770(EnIn* this, PlayState* play) {
         this->actionFunc = func_80A7A848;
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_7);
         this->unk_308.unk_00 = 0;
-        SET_EVENTINF_A0(EVENTINF_HORSES_INDEX, (GET_EVENTINF_A0(EVENTINF_HORSES_INDEX) & 0xFFFF) | EVENTINF_HORSES_05_MASK);
+        SET_EVENTINF_A0(EVENTINF_HORSES_INDEX,
+                        (GET_EVENTINF_A0(EVENTINF_HORSES_INDEX) & 0xFFFF) | EVENTINF_HORSES_05_MASK);
         if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
             play->msgCtx.stateTimer = 4;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -716,8 +717,7 @@ void func_80A7A770(EnIn* this, PlayState* play) {
 
 void func_80A7A848(EnIn* this, PlayState* play) {
     if (this->unk_308.unk_00 == 2) {
-        if ((play->msgCtx.choiceIndex == 0 && GET_RUPEES < 50) ||
-            play->msgCtx.choiceIndex == 1) {
+        if ((play->msgCtx.choiceIndex == 0 && GET_RUPEES < 50) || play->msgCtx.choiceIndex == 1) {
             SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
             this->actionFunc = func_80A7A4C8;
         } else {
@@ -752,7 +752,8 @@ void func_80A7A940(EnIn* this, PlayState* play) {
         play->msgCtx.stateTimer = 0;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
-        SET_EVENTINF_A0(EVENTINF_HORSES_INDEX, (GET_EVENTINF_A0(EVENTINF_HORSES_INDEX) & 0xFFFF) | EVENTINF_HORSES_06_MASK);
+        SET_EVENTINF_A0(EVENTINF_HORSES_INDEX,
+                        (GET_EVENTINF_A0(EVENTINF_HORSES_INDEX) & 0xFFFF) | EVENTINF_HORSES_06_MASK);
     }
 }
 

@@ -1972,8 +1972,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
     u16 voiceSfx;
 
     if (this->meleeWeaponState == 0) {
-        if ((this->heldItemActionParam == PLAYER_AP_SWORD_BGS) &&
-            (GET_SWORDHEALTH > 0.0f)) {
+        if ((this->heldItemActionParam == PLAYER_AP_SWORD_BGS) && (GET_SWORDHEALTH > 0.0f)) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
         } else {
             itemSfx = NA_SE_IT_SWORD_SWING;
@@ -2170,8 +2169,8 @@ void func_808340DC(Player* this, PlayState* play) {
 void func_80834298(Player* this, PlayState* play) {
     if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & PLAYER_STATE1_8) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
-        (GET_HEALTH != 0) && (play->csCtx.state == CS_STATE_IDLE) &&
-        (this->csMode == 0) && (play->shootingGalleryStatus == 0) && (play->activeCamId == CAM_ID_MAIN) &&
+        (GET_HEALTH != 0) && (play->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
+        (play->shootingGalleryStatus == 0) && (play->activeCamId == CAM_ID_MAIN) &&
         (play->transitionTrigger != TRANS_TRIGGER_START) && (GET_TIMER1STATE != 10)) {
         func_80833DF8(this, play);
     }
@@ -5442,8 +5441,7 @@ s32 func_8083C544(Player* this, PlayState* play) {
     if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
         if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld(this) != 0) && (this->unk_844 == 1) &&
             (this->heldItemActionParam != PLAYER_AP_STICK)) {
-            if ((this->heldItemActionParam != PLAYER_AP_SWORD_BGS) ||
-                (GET_SWORDHEALTH > 0.0f)) {
+            if ((this->heldItemActionParam != PLAYER_AP_SWORD_BGS) || (GET_SWORDHEALTH > 0.0f)) {
                 func_808377DC(play, this);
                 return 1;
             }

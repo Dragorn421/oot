@@ -77,47 +77,40 @@ void Interface_Init(PlayState* play) {
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", GET_EQUIPS_BUTTONITEMS_A0(0),
-                 GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2),
-                 GET_EQUIPS_BUTTONITEMS_A0(3));
+    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", GET_EQUIPS_BUTTONITEMS_A0(0), GET_EQUIPS_BUTTONITEMS_A0(1),
+                 GET_EQUIPS_BUTTONITEMS_A0(2), GET_EQUIPS_BUTTONITEMS_A0(3));
 
     if (GET_EQUIPS_BUTTONITEMS_A0(0) < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (uintptr_t)_icon_item_staticSegmentRomStart +
-                                GET_EQUIPS_BUTTONITEMS_A0(0) * 0x1000,
-                            0x1000, "../z_construct.c", 198);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + GET_EQUIPS_BUTTONITEMS_A0(0) * 0x1000, 0x1000,
+                            "../z_construct.c", 198);
     } else if (GET_EQUIPS_BUTTONITEMS_A0(0) != 0xFF) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (uintptr_t)_icon_item_staticSegmentRomStart +
-                                GET_EQUIPS_BUTTONITEMS_A0(0) * 0x1000,
-                            0x1000, "../z_construct.c", 203);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + GET_EQUIPS_BUTTONITEMS_A0(0) * 0x1000, 0x1000,
+                            "../z_construct.c", 203);
     }
 
     if (GET_EQUIPS_BUTTONITEMS_A0(1) < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x1000,
-                            (uintptr_t)_icon_item_staticSegmentRomStart +
-                                GET_EQUIPS_BUTTONITEMS_A0(1) * 0x1000,
-                            0x1000, "../z_construct.c", 209);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + GET_EQUIPS_BUTTONITEMS_A0(1) * 0x1000, 0x1000,
+                            "../z_construct.c", 209);
     }
 
     if (GET_EQUIPS_BUTTONITEMS_A0(2) < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x2000,
-                            (uintptr_t)_icon_item_staticSegmentRomStart +
-                                GET_EQUIPS_BUTTONITEMS_A0(2) * 0x1000,
-                            0x1000, "../z_construct.c", 214);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + GET_EQUIPS_BUTTONITEMS_A0(2) * 0x1000, 0x1000,
+                            "../z_construct.c", 214);
     }
 
     if (GET_EQUIPS_BUTTONITEMS_A0(3) < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x3000,
-                            (uintptr_t)_icon_item_staticSegmentRomStart +
-                                GET_EQUIPS_BUTTONITEMS_A0(3) * 0x1000,
-                            0x1000, "../z_construct.c", 219);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + GET_EQUIPS_BUTTONITEMS_A0(3) * 0x1000, 0x1000,
+                            "../z_construct.c", 219);
     }
 
     osSyncPrintf("ＥＶＥＮＴ＝%d\n", (GET_TIMER1STATE_VOID0));
 
-    if ((GET_TIMER1STATE == 4) || (GET_TIMER1STATE == 8) || (GET_TIMER2STATE == 4) ||
-        (GET_TIMER2STATE == 10)) {
+    if ((GET_TIMER1STATE == 4) || (GET_TIMER1STATE == 8) || (GET_TIMER2STATE == 4) || (GET_TIMER2STATE == 10)) {
         osSyncPrintf("restart_flag=%d\n", (GET_RESPAWNFLAG_VOID0));
 
         if ((GET_RESPAWNFLAG == -1) || (GET_RESPAWNFLAG == 1)) {

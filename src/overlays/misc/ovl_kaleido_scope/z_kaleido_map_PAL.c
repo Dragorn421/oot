@@ -74,9 +74,8 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                     pauseCtx->cursorX[PAUSE_MAP] = 0;
                     pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot;
                     osSyncPrintf("kscope->cursor_point=%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
-                    R_MAP_TEX_INDEX =
-                        R_MAP_TEX_INDEX_BASE +
-                        gMapData->floorTexIndexOffset[GET_MAPINDEX][pauseCtx->cursorPoint[PAUSE_MAP] - 3];
+                    R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE +
+                                      gMapData->floorTexIndexOffset[GET_MAPINDEX][pauseCtx->cursorPoint[PAUSE_MAP] - 3];
                     KaleidoScope_UpdateDungeonMap(play);
                 }
             }
@@ -129,9 +128,8 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 }
 
                 i = R_MAP_TEX_INDEX;
-                R_MAP_TEX_INDEX =
-                    R_MAP_TEX_INDEX_BASE +
-                    gMapData->floorTexIndexOffset[GET_MAPINDEX][pauseCtx->cursorPoint[PAUSE_MAP] - 3];
+                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE +
+                                  gMapData->floorTexIndexOffset[GET_MAPINDEX][pauseCtx->cursorPoint[PAUSE_MAP] - 3];
                 pauseCtx->dungeonMapSlot = pauseCtx->cursorPoint[PAUSE_MAP];
                 if (i != R_MAP_TEX_INDEX) {
                     KaleidoScope_UpdateDungeonMap(play);
@@ -164,8 +162,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                                 pauseCtx->dungeonMapSlot;
                             R_MAP_TEX_INDEX =
                                 R_MAP_TEX_INDEX_BASE +
-                                gMapData
-                                    ->floorTexIndexOffset[GET_MAPINDEX][pauseCtx->cursorPoint[PAUSE_MAP] - 3];
+                                gMapData->floorTexIndexOffset[GET_MAPINDEX][pauseCtx->cursorPoint[PAUSE_MAP] - 3];
                             KaleidoScope_UpdateDungeonMap(play);
                         }
                     }
@@ -243,8 +240,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
     gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[84], 32, 0);
 
     for (i = j = 0; i < 8; i++, j += 4) {
-        if ((GET_SCENEFLAGS_A0_FLOORS(GET_MAPINDEX) & gBitFlags[i]) ||
-            CHECK_DUNGEON_ITEM(DUNGEON_MAP, GET_MAPINDEX)) {
+        if ((GET_SCENEFLAGS_A0_FLOORS(GET_MAPINDEX) & gBitFlags[i]) || CHECK_DUNGEON_ITEM(DUNGEON_MAP, GET_MAPINDEX)) {
             if (i != (pauseCtx->dungeonMapSlot - 3)) {
                 gDPLoadTextureBlock(POLY_OPA_DISP++, floorIconTexs[gMapData->floorID[interfaceCtx->unk_25A][i]],
                                     G_IM_FMT_IA, G_IM_SIZ_8b, 24, 16, 0, G_TX_WRAP | G_TX_NOMIRROR,
@@ -286,8 +282,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
-    if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, GET_MAPINDEX) &&
-        (gMapData->skullFloorIconY[GET_MAPINDEX] != -99)) {
+    if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, GET_MAPINDEX) && (gMapData->skullFloorIconY[GET_MAPINDEX] != -99)) {
         pauseCtx->mapPageVtx[120].v.ob[1] = pauseCtx->mapPageVtx[121].v.ob[1] =
             gMapData->skullFloorIconY[GET_MAPINDEX] + pauseCtx->offsetY;
         pauseCtx->mapPageVtx[122].v.ob[1] = pauseCtx->mapPageVtx[123].v.ob[1] = pauseCtx->mapPageVtx[120].v.ob[1] - 16;
@@ -573,8 +568,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_POINT);
 
-        pauseCtx->mapPageVtx[172].v.ob[0] = pauseCtx->mapPageVtx[174].v.ob[0] =
-            areaBoxPosX[(GET_WORLDMAPAREA_VOID0)];
+        pauseCtx->mapPageVtx[172].v.ob[0] = pauseCtx->mapPageVtx[174].v.ob[0] = areaBoxPosX[(GET_WORLDMAPAREA_VOID0)];
 
         pauseCtx->mapPageVtx[173].v.ob[0] = pauseCtx->mapPageVtx[175].v.ob[0] =
             pauseCtx->mapPageVtx[172].v.ob[0] + areaBoxWidths[(GET_WORLDMAPAREA_VOID0)];
@@ -585,11 +579,11 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->mapPageVtx[174].v.ob[1] = pauseCtx->mapPageVtx[175].v.ob[1] =
             pauseCtx->mapPageVtx[172].v.ob[1] - areaBoxHeights[(GET_WORLDMAPAREA_VOID0)];
 
-        pauseCtx->mapPageVtx[173].v.tc[0] = pauseCtx->mapPageVtx[175].v.tc[0] =
-            areaBoxWidths[(GET_WORLDMAPAREA_VOID0)] << 5;
+        pauseCtx->mapPageVtx[173].v.tc[0] = pauseCtx->mapPageVtx[175].v.tc[0] = areaBoxWidths[(GET_WORLDMAPAREA_VOID0)]
+                                                                                << 5;
 
-        pauseCtx->mapPageVtx[174].v.tc[1] = pauseCtx->mapPageVtx[175].v.tc[1] =
-            areaBoxHeights[(GET_WORLDMAPAREA_VOID0)] << 5;
+        pauseCtx->mapPageVtx[174].v.tc[1] = pauseCtx->mapPageVtx[175].v.tc[1] = areaBoxHeights[(GET_WORLDMAPAREA_VOID0)]
+                                                                                << 5;
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[172], 4, 0);
 

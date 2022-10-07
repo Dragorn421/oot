@@ -184,8 +184,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                                 }
                             }
                         } else {
-                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
-                                GET_INVENTORY_EQUIPMENT) {
+                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] & GET_INVENTORY_EQUIPMENT) {
                                 cursorMoveResult = 2;
                             }
                         }
@@ -221,8 +220,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                                 cursorMoveResult = 1;
                             }
                         } else {
-                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
-                                GET_INVENTORY_EQUIPMENT) {
+                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] & GET_INVENTORY_EQUIPMENT) {
                                 cursorMoveResult = 2;
                             }
                         }
@@ -273,8 +271,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                             } else if (CUR_UPG_VALUE(pauseCtx->cursorY[PAUSE_EQUIP]) != 0) {
                                 cursorMoveResult = 1;
                             }
-                        } else if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
-                                   GET_INVENTORY_EQUIPMENT) {
+                        } else if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] & GET_INVENTORY_EQUIPMENT) {
                             cursorMoveResult = 2;
                         }
                     } else {
@@ -291,8 +288,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                             if (CUR_UPG_VALUE(pauseCtx->cursorY[PAUSE_EQUIP]) != 0) {
                                 cursorMoveResult = 1;
                             }
-                        } else if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
-                                   GET_INVENTORY_EQUIPMENT) {
+                        } else if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] & GET_INVENTORY_EQUIPMENT) {
                             cursorMoveResult = 2;
                         }
                     } else {
@@ -440,8 +436,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         osSyncPrintf("kscope->select_name[Display_Equipment] = %d\n", pauseCtx->cursorItem[PAUSE_EQUIP]);
 
         if (!((gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] == 9) ||
-              (gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] ==
-               (GET_LINKAGE_VOID0)))) {
+              (gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] == (GET_LINKAGE_VOID0)))) {
             pauseCtx->nameColorSet = 1;
         }
 
@@ -487,8 +482,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                         if (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_HEART_PIECE_2) {
                             SET_EQUIPS_BUTTONITEMS_A0(0, ITEM_SWORD_BGS);
                         }
-                        if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_SWORD_BGS) &&
-                            (GET_BGSFLAG == 0) &&
+                        if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_SWORD_BGS) && (GET_BGSFLAG == 0) &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
                             SET_EQUIPS_BUTTONITEMS_A0(0, ITEM_SWORD_KNIFE);
                         }
@@ -526,8 +520,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         for (k = 0, temp = rowStart + 1, bit = rowStart, j = point; k < 3; k++, bit++, j += 4, temp++) {
 
             if ((gBitFlags[bit] & GET_INVENTORY_EQUIPMENT) && (pauseCtx->cursorSpecialPos == 0)) {
-                if ((gEquipAgeReqs[i][k + 1] == 9) ||
-                    (gEquipAgeReqs[i][k + 1] == (GET_LINKAGE_VOID0))) {
+                if ((gEquipAgeReqs[i][k + 1] == 9) || (gEquipAgeReqs[i][k + 1] == (GET_LINKAGE_VOID0))) {
                     if (temp == cursorSlot) {
                         pauseCtx->equipVtx[j].v.ob[0] = pauseCtx->equipVtx[j + 2].v.ob[0] =
                             pauseCtx->equipVtx[j].v.ob[0] - 2;

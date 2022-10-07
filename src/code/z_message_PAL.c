@@ -318,8 +318,7 @@ void Message_FindMessage(PlayState* play, u16 textId) {
             messageTableEntry++;
         }
     } else {
-        languageSegmentTable =
-            (GET_LANGUAGE == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
+        languageSegmentTable = (GET_LANGUAGE == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
         seg = messageTableEntry->segment;
 
         while (messageTableEntry->textId != 0xFFFF) {
@@ -353,8 +352,7 @@ void Message_FindMessage(PlayState* play, u16 textId) {
         messageTableEntry++;
         nextSeg = messageTableEntry->segment;
     } else {
-        languageSegmentTable =
-            (GET_LANGUAGE == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
+        languageSegmentTable = (GET_LANGUAGE == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
         foundSeg = *languageSegmentTable;
         font->charTexBuf[0] = messageTableEntry->typePos;
         languageSegmentTable++;
@@ -1242,9 +1240,8 @@ void Message_Decode(PlayState* play) {
             break;
         } else if (curChar == MESSAGE_NAME) {
             // Substitute the player name control character for the file's player name.
-            for (playerNameLen = ARRAY_COUNT(GET_PLAYERNAME); playerNameLen > 0;
-                 playerNameLen--) {
-                if (GET_PLAYERNAME_A0(playerNameLen-1) != 0x3E) {
+            for (playerNameLen = ARRAY_COUNT(GET_PLAYERNAME); playerNameLen > 0; playerNameLen--) {
+                if (GET_PLAYERNAME_A0(playerNameLen - 1) != 0x3E) {
                     break;
                 }
             }
@@ -2632,8 +2629,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     osSyncPrintf("録音終了！！！！！！！！！録音終了\n");
                     osSyncPrintf(VT_FGCOL(YELLOW));
                     osSyncPrintf("\n====================================================================\n");
-                    MemCpy(GET_SCARECROWLONGSONG, gScarecrowLongSongPtr,
-                           sizeof(GET_SCARECROWLONGSONG));
+                    MemCpy(GET_SCARECROWLONGSONG, gScarecrowLongSongPtr, sizeof(GET_SCARECROWLONGSONG));
                     for (i = 0; i < ARRAY_COUNT(GET_SCARECROWLONGSONG); i++) {
                         osSyncPrintf("%d, ", GET_SCARECROWLONGSONG_A0(i));
                     }
@@ -2696,8 +2692,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     osSyncPrintf(VT_FGCOL(YELLOW));
                     osSyncPrintf("\n====================================================================\n");
-                    MemCpy(GET_SCARECROWSPAWNSONG, gScarecrowSpawnSongPtr,
-                           sizeof(GET_SCARECROWSPAWNSONG));
+                    MemCpy(GET_SCARECROWSPAWNSONG, gScarecrowSpawnSongPtr, sizeof(GET_SCARECROWSPAWNSONG));
                     for (i = 0; i < ARRAY_COUNT(GET_SCARECROWSPAWNSONG); i++) {
                         osSyncPrintf("%d, ", GET_SCARECROWSPAWNSONG_A0(i));
                     }

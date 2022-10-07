@@ -305,8 +305,7 @@ void Play_Init(GameState* thisx) {
     // save the base scene layer (before accounting for the special cases below) to use later for the transition type
     baseSceneLayer = GET_SCENELAYER;
 
-    if ((gEntranceTable[(GET_ENTRANCEINDEX_VOID0)].sceneId == SCENE_SPOT00) && !LINK_IS_ADULT &&
-        !IS_CUTSCENE_LAYER) {
+    if ((gEntranceTable[(GET_ENTRANCEINDEX_VOID0)].sceneId == SCENE_SPOT00) && !LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
             SET_SCENELAYER(1);
@@ -318,16 +317,14 @@ void Play_Init(GameState* thisx) {
         SET_SCENELAYER(GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2);
     }
 
-    Play_SpawnScene(
-        this, gEntranceTable[(GET_ENTRANCEINDEX_VOID0) + (GET_SCENELAYER_VOID0)].sceneId,
-        gEntranceTable[(GET_ENTRANCEINDEX_VOID0) + (GET_SCENELAYER_VOID0)].spawn);
+    Play_SpawnScene(this, gEntranceTable[(GET_ENTRANCEINDEX_VOID0) + (GET_SCENELAYER_VOID0)].sceneId,
+                    gEntranceTable[(GET_ENTRANCEINDEX_VOID0) + (GET_SCENELAYER_VOID0)].spawn);
 
     osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", (GET_ENTRANCEINDEX_VOID0), GET_SCENELAYER);
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[(GET_ENTRANCEINDEX_VOID0)].sceneId == SCENE_SPOT09) &&
-        GET_SCENELAYER == 6) {
+    if ((gEntranceTable[(GET_ENTRANCEINDEX_VOID0)].sceneId == SCENE_SPOT09) && GET_SCENELAYER == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
         osSyncPrintf("出戻り？\n"); // "Return?"
@@ -373,8 +370,8 @@ void Play_Init(GameState* thisx) {
 
     if (GET_GAMEMODE != GAMEMODE_TITLE_SCREEN) {
         if (GET_NEXTTRANSITIONTYPE == TRANS_NEXT_TYPE_DEFAULT) {
-            this->transitionType = ENTRANCE_INFO_END_TRANS_TYPE(
-                gEntranceTable[(GET_ENTRANCEINDEX_VOID0) + baseSceneLayer].field);
+            this->transitionType =
+                ENTRANCE_INFO_END_TRANS_TYPE(gEntranceTable[(GET_ENTRANCEINDEX_VOID0) + baseSceneLayer].field);
         } else {
             this->transitionType = GET_NEXTTRANSITIONTYPE;
             SET_NEXTTRANSITIONTYPE(TRANS_NEXT_TYPE_DEFAULT);
@@ -1714,10 +1711,8 @@ void Play_LoadToLastEntrance(PlayState* this) {
         (this->sceneId == SCENE_GANONTIKA_SONOGO) || (this->sceneId == SCENE_GANON_DEMO)) {
         this->nextEntranceIndex = ENTR_GANON_FINAL_0;
         Item_Give(this, ITEM_SWORD_MASTER);
-    } else if ((GET_ENTRANCEINDEX == ENTR_SPOT00_11) ||
-               (GET_ENTRANCEINDEX == ENTR_SPOT00_12) ||
-               (GET_ENTRANCEINDEX == ENTR_SPOT00_13) ||
-               (GET_ENTRANCEINDEX == ENTR_SPOT00_15)) {
+    } else if ((GET_ENTRANCEINDEX == ENTR_SPOT00_11) || (GET_ENTRANCEINDEX == ENTR_SPOT00_12) ||
+               (GET_ENTRANCEINDEX == ENTR_SPOT00_13) || (GET_ENTRANCEINDEX == ENTR_SPOT00_15)) {
         this->nextEntranceIndex = ENTR_SPOT00_6;
     } else {
         this->nextEntranceIndex = GET_ENTRANCEINDEX;

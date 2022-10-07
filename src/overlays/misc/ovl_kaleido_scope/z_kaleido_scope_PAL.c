@@ -616,8 +616,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1173),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
-                                                          sSelectItemTexs[GET_LANGUAGE]);
+            POLY_OPA_DISP =
+                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx, sSelectItemTexs[GET_LANGUAGE]);
 
             KaleidoScope_DrawItemSelect(play);
         }
@@ -634,8 +634,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1196),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
-                                                          sEquipmentTexs[GET_LANGUAGE]);
+            POLY_OPA_DISP =
+                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx, sEquipmentTexs[GET_LANGUAGE]);
 
             KaleidoScope_DrawEquipment(play);
         }
@@ -653,8 +653,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1220),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
-                                                          sQuestStatusTexs[GET_LANGUAGE]);
+            POLY_OPA_DISP =
+                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx, sQuestStatusTexs[GET_LANGUAGE]);
 
             KaleidoScope_DrawQuestStatus(play, gfxCtx);
         }
@@ -672,8 +672,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1243),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            POLY_OPA_DISP =
-                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, sMapTexs[GET_LANGUAGE]);
+            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, sMapTexs[GET_LANGUAGE]);
 
             if (sInDungeonScene) {
                 KaleidoScope_DrawDungeonMap(play, gfxCtx);
@@ -701,8 +700,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1281),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-                POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
-                                                              sSelectItemTexs[GET_LANGUAGE]);
+                POLY_OPA_DISP =
+                    KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx, sSelectItemTexs[GET_LANGUAGE]);
 
                 KaleidoScope_DrawItemSelect(play);
                 break;
@@ -767,8 +766,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1367),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-                POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
-                                                              sEquipmentTexs[GET_LANGUAGE]);
+                POLY_OPA_DISP =
+                    KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx, sEquipmentTexs[GET_LANGUAGE]);
 
                 KaleidoScope_DrawEquipment(play);
 
@@ -821,15 +820,13 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         if ((pauseCtx->state >= 8) && (pauseCtx->state <= 0x11)) {
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
         } else {
-            POLY_OPA_DISP =
-                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sSaveTexs[GET_LANGUAGE]);
+            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sSaveTexs[GET_LANGUAGE]);
         }
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->saveVtx[60], 32, 0);
 
         if (((pauseCtx->state == 7) && (pauseCtx->unk_1EC < 4)) || (pauseCtx->state == 0xE)) {
-            POLY_OPA_DISP =
-                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptTexs[GET_LANGUAGE], 152, 16, 0);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptTexs[GET_LANGUAGE], 152, 16, 0);
 
             gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0,
                               0, PRIMITIVE, 0);
@@ -845,11 +842,9 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
-            POLY_OPA_DISP =
-                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[GET_LANGUAGE][0], 48, 16, 12);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[GET_LANGUAGE][0], 48, 16, 12);
 
-            POLY_OPA_DISP =
-                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[GET_LANGUAGE][1], 48, 16, 16);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[GET_LANGUAGE][1], 48, 16, 16);
         } else if ((pauseCtx->state != 7) || (pauseCtx->unk_1EC < 4)) {
             if ((pauseCtx->state != 0xF) && ((pauseCtx->state == 0x10) || (pauseCtx->state == 0x11))) {
                 POLY_OPA_DISP =
@@ -1143,7 +1138,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             if (YREG(7) != 0) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAGS(YREG(6)),
-                             gAreaGsFlags[YREG(6)], GET_GSFLAGS_A0(YREG(6)>>2));
+                             gAreaGsFlags[YREG(6)], GET_GSFLAGS_A0(YREG(6) >> 2));
                 osSyncPrintf(VT_RST);
 
                 YREG(7) = 0;
@@ -1204,16 +1199,15 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
             pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x300;
 
-            pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] = D_8082ADE0[GET_LANGUAGE]
-                                                                                      << 5;
+            pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] = D_8082ADE0[GET_LANGUAGE] << 5;
 
             gSPDisplayList(POLY_OPA_DISP++, gAButtonIconDL);
 
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
-            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD60[GET_LANGUAGE],
-                                                        D_8082ADE0[GET_LANGUAGE], 16, 4);
+            POLY_OPA_DISP =
+                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD60[GET_LANGUAGE], D_8082ADE0[GET_LANGUAGE], 16, 4);
         } else if (pauseCtx->cursorSpecialPos != 0) {
             if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0)) {
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
@@ -1236,8 +1230,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             }
         } else {
             if (!pauseCtx->pageIndex) { // pageIndex == PAUSE_ITEM
-                pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                    WREG(49 + GET_LANGUAGE);
+                pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = WREG(49 + GET_LANGUAGE);
 
                 pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                     pauseCtx->infoPanelVtx[16].v.ob[0] + 48;
@@ -1250,8 +1243,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
                 pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x600;
 
-                pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
-                    D_8082ADD8[GET_LANGUAGE] << 5;
+                pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] = D_8082ADD8[GET_LANGUAGE] << 5;
 
                 gSPDisplayList(POLY_OPA_DISP++, gCButtonIconsDL);
 
@@ -1265,8 +1257,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             } else if ((pauseCtx->pageIndex == PAUSE_QUEST) && (pauseCtx->cursorSlot[PAUSE_QUEST] >= 6) &&
                        (pauseCtx->cursorSlot[PAUSE_QUEST] <= 0x11)) {
                 if (pauseCtx->namedItem != PAUSE_ITEM_NONE) {
-                    pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                        WREG(55 + GET_LANGUAGE);
+                    pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = WREG(55 + GET_LANGUAGE);
 
                     pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                         pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
@@ -1284,8 +1275,8 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
                     pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x300;
 
-                    pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
-                        D_8082ADE8[GET_LANGUAGE] << 5;
+                    pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] = D_8082ADE8[GET_LANGUAGE]
+                                                                                              << 5;
 
                     gSPDisplayList(POLY_OPA_DISP++, gAButtonIconDL);
 
@@ -1296,8 +1287,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                                                                 D_8082ADE8[GET_LANGUAGE], 16, 4);
                 }
             } else if (pauseCtx->pageIndex == PAUSE_EQUIP) {
-                pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                    WREG(64 + GET_LANGUAGE);
+                pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = WREG(64 + GET_LANGUAGE);
 
                 pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                     pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
@@ -1310,8 +1300,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
                 pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x300;
 
-                pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
-                    D_8082ADD8[GET_LANGUAGE] << 5;
+                pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] = D_8082ADD8[GET_LANGUAGE] << 5;
 
                 gSPDisplayList(POLY_OPA_DISP++, gAButtonIconDL);
 
@@ -1906,8 +1895,8 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
     }
 
     for (phi_t3 = 1; phi_t3 < 4; phi_t3++, phi_t2 += 4) {
-        if (GET_EQUIPS_CBUTTONSLOTS_A0(phi_t3-1) != ITEM_NONE) {
-            phi_t4 = GET_EQUIPS_CBUTTONSLOTS_A0(phi_t3-1) * 4;
+        if (GET_EQUIPS_CBUTTONSLOTS_A0(phi_t3 - 1) != ITEM_NONE) {
+            phi_t4 = GET_EQUIPS_CBUTTONSLOTS_A0(phi_t3 - 1) * 4;
 
             pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 2].v.ob[0] =
                 pauseCtx->itemVtx[phi_t4].v.ob[0] - 2;
@@ -2623,18 +2612,18 @@ void KaleidoScope_Update(PlayState* play) {
             if ((GET_WORLDMAPAREA_VOID0) < 22) {
                 if (GET_LANGUAGE == LANGUAGE_ENG) {
                     DmaMgr_SendRequest1(pauseCtx->nameSegment + 0x400,
-                                        (uintptr_t)_map_name_staticSegmentRomStart +
-                                            ((GET_WORLDMAPAREA_VOID0) * 0xA00) + 0x9000,
+                                        (uintptr_t)_map_name_staticSegmentRomStart + ((GET_WORLDMAPAREA_VOID0)*0xA00) +
+                                            0x9000,
                                         0xA00, "../z_kaleido_scope_PAL.c", 3776);
                 } else if (GET_LANGUAGE == LANGUAGE_GER) {
                     DmaMgr_SendRequest1(pauseCtx->nameSegment + 0x400,
-                                        (uintptr_t)_map_name_staticSegmentRomStart +
-                                            ((GET_WORLDMAPAREA_VOID0) * 0xA00) + 0x16C00,
+                                        (uintptr_t)_map_name_staticSegmentRomStart + ((GET_WORLDMAPAREA_VOID0)*0xA00) +
+                                            0x16C00,
                                         0xA00, "../z_kaleido_scope_PAL.c", 3780);
                 } else {
                     DmaMgr_SendRequest1(pauseCtx->nameSegment + 0x400,
-                                        (uintptr_t)_map_name_staticSegmentRomStart +
-                                            ((GET_WORLDMAPAREA_VOID0) * 0xA00) + 0x24800,
+                                        (uintptr_t)_map_name_staticSegmentRomStart + ((GET_WORLDMAPAREA_VOID0)*0xA00) +
+                                            0x24800,
                                         0xA00, "../z_kaleido_scope_PAL.c", 3784);
                 }
             }
@@ -2916,7 +2905,8 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                        SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
+                        SET_BUTTONSTATUS_A0(
+                            0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
                         SET_BUTTONSTATUS_A0(4, BTN_ENABLED);
                         SET_UNK_13EA(0);
                         Interface_ChangeAlpha(50);
@@ -2962,7 +2952,8 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                        SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
+                        SET_BUTTONSTATUS_A0(
+                            0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
                         SET_BUTTONSTATUS_A0(4, BTN_ENABLED);
                         SET_UNK_13EA(0);
                         Interface_ChangeAlpha(50);
@@ -3011,7 +3002,8 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                        SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
+                        SET_BUTTONSTATUS_A0(
+                            0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
                         SET_BUTTONSTATUS_A0(4, BTN_ENABLED);
                         SET_UNK_13EA(0);
                         Interface_ChangeAlpha(50);
@@ -3045,7 +3037,8 @@ void KaleidoScope_Update(PlayState* play) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         if (pauseCtx->promptChoice != 0) {
                             Interface_SetDoAction(play, DO_ACTION_NONE);
-                            SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_ENABLED))));
+                            SET_BUTTONSTATUS_A0(
+                                0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_ENABLED))));
                             SET_UNK_13EA(0);
                             Interface_ChangeAlpha(50);
                             pauseCtx->unk_1EC = 2;
@@ -3069,7 +3062,8 @@ void KaleidoScope_Update(PlayState* play) {
                         WREG(2) = -6240;
                         YREG(8) = pauseCtx->unk_204;
                         func_800F64E0(0);
-                        SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_ENABLED))));
+                        SET_BUTTONSTATUS_A0(
+                            0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_ENABLED))));
                         SET_UNK_13EA(0);
                         Interface_ChangeAlpha(50);
                     }
@@ -3079,7 +3073,8 @@ void KaleidoScope_Update(PlayState* play) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_B) || CHECK_BTN_ALL(input->press.button, BTN_A) ||
                         CHECK_BTN_ALL(input->press.button, BTN_START) || (--D_8082B25C == 0)) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
-                        SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_ENABLED))));
+                        SET_BUTTONSTATUS_A0(
+                            0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_ENABLED))));
                         SET_UNK_13EA(0);
                         Interface_ChangeAlpha(50);
                         pauseCtx->unk_1EC = 5;

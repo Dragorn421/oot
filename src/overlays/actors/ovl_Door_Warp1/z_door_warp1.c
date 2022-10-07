@@ -161,10 +161,8 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             DoorWarp1_SetupAction(this, DoorWarp1_AwaitClearFlag);
             break;
         case WARP_DESTINATION:
-            if ((!(GET_ENTRANCEINDEX == ENTR_SPOT05_3 ||
-                   GET_ENTRANCEINDEX == ENTR_SPOT17_5 ||
-                   GET_ENTRANCEINDEX == ENTR_SPOT06_9 ||
-                   GET_ENTRANCEINDEX == ENTR_SPOT11_8 ||
+            if ((!(GET_ENTRANCEINDEX == ENTR_SPOT05_3 || GET_ENTRANCEINDEX == ENTR_SPOT17_5 ||
+                   GET_ENTRANCEINDEX == ENTR_SPOT06_9 || GET_ENTRANCEINDEX == ENTR_SPOT11_8 ||
                    GET_ENTRANCEINDEX == ENTR_SPOT02_8) &&
                  !IS_CUTSCENE_LAYER) ||
                 (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {

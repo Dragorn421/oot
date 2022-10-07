@@ -69,8 +69,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
             return;
         }
 
-        if ((GET_SCENELAYER != 6) &&
-            ((GET_SCENELAYER == 4) || (GET_SCENELAYER == 5) || (!LINK_IS_ADULT && !IS_DAY))) {
+        if ((GET_SCENELAYER != 6) && ((GET_SCENELAYER == 4) || (GET_SCENELAYER == 5) || (!LINK_IS_ADULT && !IS_DAY))) {
             this->dyna.actor.shape.rot.x = -0x4000;
         } else {
             this->dyna.actor.shape.rot.x = 0;

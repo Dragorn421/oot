@@ -86,9 +86,7 @@ void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame) {
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
 
     SkelCurve_SetAnim(skelCurve, sAnimations[GET_LINKAGE], 1.0f,
-                      sDemoTreLgtInfo[GET_LINKAGE].endFrame +
-                          sDemoTreLgtInfo[GET_LINKAGE].unk_08,
-                      currentFrame, 1.0f);
+                      sDemoTreLgtInfo[GET_LINKAGE].endFrame + sDemoTreLgtInfo[GET_LINKAGE].unk_08, currentFrame, 1.0f);
     SkelCurve_Update(play, skelCurve);
 }
 
@@ -98,8 +96,8 @@ void func_80993848(DemoTreLgt* this, PlayState* play) {
     if (currentFrame < sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].endFrame) {
         this->unk_170 = 255;
     } else {
-        if (currentFrame <= (sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].endFrame +
-                             sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].unk_08)) {
+        if (currentFrame <=
+            (sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].endFrame + sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].unk_08)) {
             this->unk_170 = ((((sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].endFrame - currentFrame) /
                                sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].unk_08) *
                               255.0f) +
@@ -111,9 +109,7 @@ void func_80993848(DemoTreLgt* this, PlayState* play) {
     if (currentFrame < sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].unk_0C) {
         this->unk_174 = 255;
     } else if (currentFrame < (sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].unk_0C + 10.0f)) {
-        this->unk_174 =
-            ((((sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].unk_0C - currentFrame) / 10.0f) * 255.0f) +
-             255.0f);
+        this->unk_174 = ((((sDemoTreLgtInfo[(GET_LINKAGE_VOID0)].unk_0C - currentFrame) / 10.0f) * 255.0f) + 255.0f);
     } else {
         this->unk_174 = 0;
     }

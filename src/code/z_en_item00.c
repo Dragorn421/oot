@@ -930,14 +930,12 @@ s16 func_8001F404(s16 dropId) {
          INV_CONTENT(ITEM_BOMB) == ITEM_NONE) ||
         ((dropId == ITEM00_ARROWS_SMALL || dropId == ITEM00_ARROWS_MEDIUM || dropId == ITEM00_ARROWS_LARGE) &&
          INV_CONTENT(ITEM_BOW) == ITEM_NONE) ||
-        ((dropId == ITEM00_MAGIC_LARGE || dropId == ITEM00_MAGIC_SMALL) &&
-         GET_MAGICLEVEL == 0) ||
+        ((dropId == ITEM00_MAGIC_LARGE || dropId == ITEM00_MAGIC_SMALL) && GET_MAGICLEVEL == 0) ||
         ((dropId == ITEM00_SEEDS) && INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE)) {
         return -1;
     }
 
-    if (dropId == ITEM00_RECOVERY_HEART &&
-        GET_HEALTHCAPACITY == GET_HEALTH) {
+    if (dropId == ITEM00_RECOVERY_HEART && GET_HEALTHCAPACITY == GET_HEALTH) {
         return ITEM00_RUPEE_GREEN;
     }
 
@@ -1082,13 +1080,11 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_RECOVERY_HEART;
-        } else if ((GET_MAGICLEVEL != 0) &&
-                   (GET_MAGIC == 0)) { // Empty magic meter
+        } else if ((GET_MAGICLEVEL != 0) && (GET_MAGIC == 0)) { // Empty magic meter
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_LARGE;
-        } else if ((GET_MAGICLEVEL != 0) &&
-                   (GET_MAGIC <= (GET_MAGICLEVEL >> 1))) {
+        } else if ((GET_MAGICLEVEL != 0) && (GET_MAGIC <= (GET_MAGICLEVEL >> 1))) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_SMALL;

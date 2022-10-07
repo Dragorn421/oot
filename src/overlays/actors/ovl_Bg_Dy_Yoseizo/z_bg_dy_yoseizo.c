@@ -466,9 +466,7 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
         this->refillTimer = 200;
     }
 
-    if (((GET_HEALTHCAPACITY == GET_HEALTH) &&
-         (GET_MAGIC == GET_MAGICCAPACITY)) ||
-        (this->refillTimer == 1)) {
+    if (((GET_HEALTHCAPACITY == GET_HEALTH) && (GET_MAGIC == GET_MAGICCAPACITY)) || (this->refillTimer == 1)) {
         this->healingTimer--;
         if (this->healingTimer == 90) {
             if (!this->givingSpell) {
@@ -762,7 +760,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
                 this->itemSpawned = true;
                 SET_HEALTHACCUMULATOR(0x140);
                 Interface_ChangeAlpha(9);
-                SET_ITEMGETINF_A0(ITEMGETINF_18_19_1A_INDEX, GET_ITEMGETINF_A0(ITEMGETINF_18_19_1A_INDEX) | (sItemGetFlags[actionIndex]));
+                SET_ITEMGETINF_A0(ITEMGETINF_18_19_1A_INDEX,
+                                  GET_ITEMGETINF_A0(ITEMGETINF_18_19_1A_INDEX) | (sItemGetFlags[actionIndex]));
                 Item_Give(play, sItemIds[actionIndex]);
             }
         } else {

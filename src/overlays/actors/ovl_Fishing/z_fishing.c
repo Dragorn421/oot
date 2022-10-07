@@ -3096,13 +3096,11 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             }
 
             if (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) {
-                if ((GET_DAYTIME >= CLOCK_TIME(18, 0)) &&
-                    (GET_DAYTIME <= CLOCK_TIME(18, 0) + 27)) {
+                if ((GET_DAYTIME >= CLOCK_TIME(18, 0)) && (GET_DAYTIME <= CLOCK_TIME(18, 0) + 27)) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
                 }
-                if ((GET_DAYTIME >= CLOCK_TIME(5, 30) - 1) &&
-                    (GET_DAYTIME < CLOCK_TIME(5, 30) + 27)) {
+                if ((GET_DAYTIME >= CLOCK_TIME(5, 30) - 1) && (GET_DAYTIME < CLOCK_TIME(5, 30) + 27)) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
                 }
@@ -3354,8 +3352,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
             if ((GET_DAYTIME >= CLOCK_TIME(17, 0)) && (GET_DAYTIME < CLOCK_TIME(19, 0))) {
                 multiplier *= 1.75f;
-            } else if ((GET_DAYTIME >= CLOCK_TIME(5, 0)) &&
-                       (GET_DAYTIME < CLOCK_TIME(7, 0))) {
+            } else if ((GET_DAYTIME >= CLOCK_TIME(5, 0)) && (GET_DAYTIME < CLOCK_TIME(7, 0))) {
                 multiplier *= 1.5f;
             } else if (D_80B7E076 != 0) {
                 multiplier *= 1.5f;

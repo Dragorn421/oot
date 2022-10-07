@@ -227,8 +227,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
     }
 
     if (play->envCtx.precipitation[PRECIP_SNOW_MAX] < 64 &&
-        (GET_ENTRANCEINDEX != ENTR_SPOT04_0 || GET_SCENELAYER != 4 ||
-         play->envCtx.precipitation[PRECIP_SNOW_MAX])) {
+        (GET_ENTRANCEINDEX != ENTR_SPOT04_0 || GET_SCENELAYER != 4 || play->envCtx.precipitation[PRECIP_SNOW_MAX])) {
         play->envCtx.precipitation[PRECIP_SNOW_MAX] += 16;
     }
 

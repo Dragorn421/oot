@@ -346,8 +346,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
             this->elfMsg = NULL;
             this->unk_2C7 = 0x14;
 
-            if ((GET_NAVITIMER >= 25800) ||
-                (GET_NAVITIMER < 3000)) {
+            if ((GET_NAVITIMER >= 25800) || (GET_NAVITIMER < 3000)) {
                 SET_NAVITIMER(0);
             }
             break;
@@ -1379,9 +1378,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 
     if (player->naviTextId == 0) {
         if (player->unk_664 == NULL) {
-            if (((GET_NAVITIMER >= 600) &&
-                 (GET_NAVITIMER <= 3000)) ||
-                (nREG(89) != 0)) {
+            if (((GET_NAVITIMER >= 600) && (GET_NAVITIMER <= 3000)) || (nREG(89) != 0)) {
                 player->naviTextId = ElfMessage_GetCUpText(play);
 
                 if (player->naviTextId == 0x15F) {

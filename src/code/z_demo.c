@@ -365,11 +365,9 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 26:
             if ((GET_DAYTIME < CLOCK_TIME(4, 30)) || (GET_DAYTIME >= CLOCK_TIME(6, 30))) {
-                if ((GET_DAYTIME >= CLOCK_TIME(6, 30)) &&
-                    (GET_DAYTIME < CLOCK_TIME(16, 0))) {
+                if ((GET_DAYTIME >= CLOCK_TIME(6, 30)) && (GET_DAYTIME < CLOCK_TIME(16, 0))) {
                     play->envCtx.lightSettingOverride = 1;
-                } else if ((GET_DAYTIME >= CLOCK_TIME(16, 0)) &&
-                           (GET_DAYTIME <= CLOCK_TIME(18, 30))) {
+                } else if ((GET_DAYTIME >= CLOCK_TIME(16, 0)) && (GET_DAYTIME <= CLOCK_TIME(18, 30))) {
                     play->envCtx.lightSettingOverride = 2;
                 } else {
                     play->envCtx.lightSettingOverride = 3;
@@ -1251,9 +1249,9 @@ void Cutscene_Command_TransitionFX(PlayState* play, CutsceneContext* csCtx, CsCm
                     if ((temp == 0.0f) && (GET_ENTRANCEINDEX == ENTR_KENJYANOMA_0)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    } else if ((temp == 0.0f) && ((GET_ENTRANCEINDEX == ENTR_TOKINOMA_0) ||
-                                                  (GET_ENTRANCEINDEX == ENTR_SPOT15_0) ||
-                                                  (GET_ENTRANCEINDEX == ENTR_YOUSEI_IZUMI_YOKO_0))) {
+                    } else if ((temp == 0.0f) &&
+                               ((GET_ENTRANCEINDEX == ENTR_TOKINOMA_0) || (GET_ENTRANCEINDEX == ENTR_SPOT15_0) ||
+                                (GET_ENTRANCEINDEX == ENTR_YOUSEI_IZUMI_YOKO_0))) {
                         Audio_PlaySfxGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else if ((temp == 0.0f) && (play->sceneId == SCENE_GANONTIKA)) {
@@ -2062,8 +2060,7 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
 
         if ((GET_ENTRANCEINDEX == entranceCutscene->entrance) &&
             (!Flags_GetEventChkInf(entranceCutscene->flag) || (entranceCutscene->flag == EVENTCHKINF_18)) &&
-            (GET_CUTSCENEINDEX < 0xFFF0) && ((u8)GET_LINKAGE == requiredAge) &&
-            (GET_RESPAWNFLAG <= 0)) {
+            (GET_CUTSCENEINDEX < 0xFFF0) && ((u8)GET_LINKAGE == requiredAge) && (GET_RESPAWNFLAG <= 0)) {
             Flags_SetEventChkInf(entranceCutscene->flag);
             Cutscene_SetSegment(play, entranceCutscene->segAddr);
             SET_CUTSCENETRIGGER(2);
@@ -2076,15 +2073,14 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
 void Cutscene_HandleConditionalTriggers(PlayState* play) {
     osSyncPrintf("\ngame_info.mode=[%d] restart_flag", (GET_RESPAWNFLAG_VOID0));
 
-    if ((GET_GAMEMODE == GAMEMODE_NORMAL) && (GET_RESPAWNFLAG <= 0) &&
-        (GET_CUTSCENEINDEX < 0xFFF0)) {
+    if ((GET_GAMEMODE == GAMEMODE_NORMAL) && (GET_RESPAWNFLAG <= 0) && (GET_CUTSCENEINDEX < 0xFFF0)) {
         if ((GET_ENTRANCEINDEX == ENTR_SPOT11_1) && !Flags_GetEventChkInf(EVENTCHKINF_AC)) {
             Flags_SetEventChkInf(EVENTCHKINF_AC);
             SET_ENTRANCEINDEX(ENTR_SPOT11_0);
             SET_CUTSCENEINDEX(0xFFF0);
-        } else if ((GET_ENTRANCEINDEX == ENTR_SPOT01_0) && LINK_IS_ADULT &&
-                   GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
-                   GET_EVENTCHKINF(EVENTCHKINF_4A) && !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
+        } else if ((GET_ENTRANCEINDEX == ENTR_SPOT01_0) && LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_48) &&
+                   GET_EVENTCHKINF(EVENTCHKINF_49) && GET_EVENTCHKINF(EVENTCHKINF_4A) &&
+                   !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
             Flags_SetEventChkInf(EVENTCHKINF_AA);
             SET_CUTSCENEINDEX(0xFFF0);
         } else if ((GET_ENTRANCEINDEX == ENTR_SPOT10_9) && !Flags_GetEventChkInf(EVENTCHKINF_C1)) {

@@ -788,8 +788,8 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    if ((GET_SUNSSONGSTATE != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) &&
-        !this->stunnedBySunsSong && (this->action != REDEAD_ACTION_DAMAGED) && (this->action != REDEAD_ACTION_DEAD) &&
+    if ((GET_SUNSSONGSTATE != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) && !this->stunnedBySunsSong &&
+        (this->action != REDEAD_ACTION_DAMAGED) && (this->action != REDEAD_ACTION_DEAD) &&
         (this->action != REDEAD_ACTION_STUNNED)) {
         EnRd_SetupStunned(this);
         return;

@@ -134,8 +134,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->cursorX[PAUSE_ITEM] -= 1;
                             pauseCtx->cursorPoint[PAUSE_ITEM] -= 1;
 
-                            if (GET_INVENTORY_ITEMS[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
-                                ITEM_NONE) {
+                            if (GET_INVENTORY_ITEMS[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
                                 moveCursorResult = 1;
                             }
                         } else {
@@ -167,8 +166,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->cursorX[PAUSE_ITEM] += 1;
                             pauseCtx->cursorPoint[PAUSE_ITEM] += 1;
 
-                            if (GET_INVENTORY_ITEMS[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
-                                ITEM_NONE) {
+                            if (GET_INVENTORY_ITEMS[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
                                 moveCursorResult = 1;
                             }
                         } else {
@@ -292,8 +290,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 pauseCtx->cursorY[PAUSE_ITEM] -= 1;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] -= 6;
 
-                                if (GET_INVENTORY_ITEMS[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
-                                    ITEM_NONE) {
+                                if (GET_INVENTORY_ITEMS[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
                                     moveCursorResult = 1;
                                 }
                             } else {
@@ -307,8 +304,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 pauseCtx->cursorY[PAUSE_ITEM] += 1;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] += 6;
 
-                                if (GET_INVENTORY_ITEMS[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
-                                    ITEM_NONE) {
+                                if (GET_INVENTORY_ITEMS[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
                                     moveCursorResult = 1;
                                 }
                             } else {
@@ -340,8 +336,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
             pauseCtx->cursorItem[PAUSE_ITEM] = cursorItem;
             pauseCtx->cursorSlot[PAUSE_ITEM] = cursorSlot;
 
-            if (!((gSlotAgeReqs[cursorSlot] == 9) ||
-                  (gSlotAgeReqs[cursorSlot] == (GET_LINKAGE_VOID0)))) {
+            if (!((gSlotAgeReqs[cursorSlot] == 9) || (gSlotAgeReqs[cursorSlot] == (GET_LINKAGE_VOID0)))) {
                 pauseCtx->nameColorSet = 1;
             }
 
@@ -351,8 +346,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
                 if ((pauseCtx->debugState == 0) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0)) {
                     if (CHECK_BTN_ANY(input->press.button, BTN_CLEFT | BTN_CDOWN | BTN_CRIGHT)) {
-                        if (((gSlotAgeReqs[cursorSlot] == 9) ||
-                             (gSlotAgeReqs[cursorSlot] == (GET_LINKAGE_VOID0))) &&
+                        if (((gSlotAgeReqs[cursorSlot] == 9) || (gSlotAgeReqs[cursorSlot] == (GET_LINKAGE_VOID0))) &&
                             (cursorItem != ITEM_SOLD_OUT)) {
                             if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                                 pauseCtx->equipTargetCBtn = 0;
@@ -424,7 +418,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
     for (i = 0, j = 24 * 4; i < 3; i++, j += 4) {
-        if (GET_EQUIPS_BUTTONITEMS_A0(i+1) != ITEM_NONE) {
+        if (GET_EQUIPS_BUTTONITEMS_A0(i + 1) != ITEM_NONE) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j], 4, 0);
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, gEquippedItemOutlineTex, 32, 32, 0);
         }
@@ -472,8 +466,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
             }
 
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j + 0], 4, 0);
-            KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx,
-                                               gItemIcons[GET_INVENTORY_ITEMS_A0(i)], 32, 32, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[GET_INVENTORY_ITEMS_A0(i)], 32, 32, 0);
         }
     }
 
@@ -653,19 +646,15 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                 Interface_LoadItemIcon1(play, 1);
 
                 osSyncPrintf("Ｃ左sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2),
-                             GET_EQUIPS_BUTTONITEMS_A0(3));
+                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2), GET_EQUIPS_BUTTONITEMS_A0(3));
                 osSyncPrintf("Ｃ左sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             GET_EQUIPS_CBUTTONSLOTS_A0(0),
-                             GET_EQUIPS_CBUTTONSLOTS_A0(1),
+                             GET_EQUIPS_CBUTTONSLOTS_A0(0), GET_EQUIPS_CBUTTONSLOTS_A0(1),
                              GET_EQUIPS_CBUTTONSLOTS_A0(2));
             } else if (pauseCtx->equipTargetCBtn == 1) {
                 osSyncPrintf("Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2),
-                             GET_EQUIPS_BUTTONITEMS_A0(3));
+                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2), GET_EQUIPS_BUTTONITEMS_A0(3));
                 osSyncPrintf("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             GET_EQUIPS_CBUTTONSLOTS_A0(0),
-                             GET_EQUIPS_CBUTTONSLOTS_A0(1),
+                             GET_EQUIPS_CBUTTONSLOTS_A0(0), GET_EQUIPS_CBUTTONSLOTS_A0(1),
                              GET_EQUIPS_CBUTTONSLOTS_A0(2));
 
                 if (pauseCtx->equipTargetSlot == GET_EQUIPS_CBUTTONSLOTS_A0(0)) {
@@ -728,19 +717,15 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                 Interface_LoadItemIcon1(play, 2);
 
                 osSyncPrintf("Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2),
-                             GET_EQUIPS_BUTTONITEMS_A0(3));
+                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2), GET_EQUIPS_BUTTONITEMS_A0(3));
                 osSyncPrintf("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             GET_EQUIPS_CBUTTONSLOTS_A0(0),
-                             GET_EQUIPS_CBUTTONSLOTS_A0(1),
+                             GET_EQUIPS_CBUTTONSLOTS_A0(0), GET_EQUIPS_CBUTTONSLOTS_A0(1),
                              GET_EQUIPS_CBUTTONSLOTS_A0(2));
             } else {
                 osSyncPrintf("Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2),
-                             GET_EQUIPS_BUTTONITEMS_A0(3));
+                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2), GET_EQUIPS_BUTTONITEMS_A0(3));
                 osSyncPrintf("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             GET_EQUIPS_CBUTTONSLOTS_A0(0),
-                             GET_EQUIPS_CBUTTONSLOTS_A0(1),
+                             GET_EQUIPS_CBUTTONSLOTS_A0(0), GET_EQUIPS_CBUTTONSLOTS_A0(1),
                              GET_EQUIPS_CBUTTONSLOTS_A0(2));
 
                 if (pauseCtx->equipTargetSlot == GET_EQUIPS_CBUTTONSLOTS_A0(0)) {
@@ -803,11 +788,9 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                 Interface_LoadItemIcon1(play, 3);
 
                 osSyncPrintf("Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2),
-                             GET_EQUIPS_BUTTONITEMS_A0(3));
+                             GET_EQUIPS_BUTTONITEMS_A0(1), GET_EQUIPS_BUTTONITEMS_A0(2), GET_EQUIPS_BUTTONITEMS_A0(3));
                 osSyncPrintf("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             GET_EQUIPS_CBUTTONSLOTS_A0(0),
-                             GET_EQUIPS_CBUTTONSLOTS_A0(1),
+                             GET_EQUIPS_CBUTTONSLOTS_A0(0), GET_EQUIPS_CBUTTONSLOTS_A0(1),
                              GET_EQUIPS_CBUTTONSLOTS_A0(2));
             }
 

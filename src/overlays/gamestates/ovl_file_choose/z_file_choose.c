@@ -955,17 +955,17 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
     gSPVertex(POLY_OPA_DISP++, this->windowContentVtx, 4, 0);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, sTitleLabels[GET_LANGUAGE][this->titleLabel], G_IM_FMT_IA,
-                        G_IM_SIZ_8b, 128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sTitleLabels[GET_LANGUAGE][this->titleLabel], G_IM_FMT_IA, G_IM_SIZ_8b, 128,
+                        16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                        G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
     // draw next title label
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[1]);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, sTitleLabels[GET_LANGUAGE][this->nextTitleLabel], G_IM_FMT_IA,
-                        G_IM_SIZ_8b, 128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sTitleLabels[GET_LANGUAGE][this->nextTitleLabel], G_IM_FMT_IA, G_IM_SIZ_8b,
+                        128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                        G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
     temp = 4;
@@ -995,9 +995,9 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sWindowContentColors[isActive][0], sWindowContentColors[isActive][1],
                         sWindowContentColors[isActive][2], this->fileButtonAlpha[i]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sFileButtonTextures[GET_LANGUAGE][i], G_IM_FMT_IA, G_IM_SIZ_16b,
-                            64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                            G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sFileButtonTextures[GET_LANGUAGE][i], G_IM_FMT_IA, G_IM_SIZ_16b, 64, 16, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
         // draw file name box
@@ -1048,8 +1048,8 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->actionButtonAlpha[i]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[GET_LANGUAGE][i], G_IM_FMT_IA, G_IM_SIZ_16b,
-                            64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[GET_LANGUAGE][i], G_IM_FMT_IA, G_IM_SIZ_16b, 64, 16,
+                            0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, quadVtxIndex, quadVtxIndex + 2, quadVtxIndex + 3, quadVtxIndex + 1, 0);
     }
@@ -1062,9 +1062,9 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->confirmButtonAlpha[i]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[GET_LANGUAGE][temp], G_IM_FMT_IA,
-                            G_IM_SIZ_16b, 64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[GET_LANGUAGE][temp], G_IM_FMT_IA, G_IM_SIZ_16b, 64,
+                            16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, quadVtxIndex, quadVtxIndex + 2, quadVtxIndex + 3, quadVtxIndex + 1, 0);
     }
 
@@ -1072,9 +1072,9 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                     this->optionButtonAlpha);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsButtonTextures[GET_LANGUAGE], G_IM_FMT_IA, G_IM_SIZ_16b, 64,
-                        16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                        G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsButtonTextures[GET_LANGUAGE], G_IM_FMT_IA, G_IM_SIZ_16b, 64, 16, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
 
     // draw highlight over currently selected button
@@ -1101,9 +1101,9 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->emptyFileTextAlpha);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sWarningLabels[GET_LANGUAGE][this->warningLabel], G_IM_FMT_IA,
-                            G_IM_SIZ_8b, 128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sWarningLabels[GET_LANGUAGE][this->warningLabel], G_IM_FMT_IA, G_IM_SIZ_8b,
+                            128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 16, 18, 19, 17, 0);
     }
 
@@ -1484,7 +1484,8 @@ void FileSelect_LoadGame(GameState* thisx) {
     SET_NEXTDAYTIME(NEXT_TIME_NONE);
     SET_RETAINWEATHERMODE(false);
 
-    SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, SET_BUTTONSTATUS_A0(4, BTN_ENABLED)))));
+    SET_BUTTONSTATUS_A0(
+        0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, SET_BUTTONSTATUS_A0(4, BTN_ENABLED)))));
 
     SET_UNK_13E7(SET_UNK_13E8(SET_UNK_13EA(SET_UNK_13EC(SET_MAGICCAPACITY(0)))));
 
@@ -1495,20 +1496,16 @@ void FileSelect_LoadGame(GameState* thisx) {
     SET_MAGICLEVEL(SET_MAGIC(0));
 
     osSyncPrintf(VT_FGCOL(GREEN));
-    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", (GET_MAGICFILLTARGET_VOID0),
-                 GET_MAGIC);
+    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", (GET_MAGICFILLTARGET_VOID0), GET_MAGIC);
     osSyncPrintf(VT_RST);
 
     SET_NAVITIMER(0);
 
-    if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KOKIRI) &&
-        (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_MASTER) &&
-        (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_BGS) &&
-        (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KNIFE)) {
+    if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KOKIRI) && (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_MASTER) &&
+        (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_BGS) && (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KNIFE)) {
 
         SET_EQUIPS_BUTTONITEMS_A0(0, ITEM_NONE);
-        swordEquipValue =
-            (gEquipMasks[EQUIP_TYPE_SWORD] & GET_EQUIPS_EQUIPMENT) >> (EQUIP_TYPE_SWORD * 4);
+        swordEquipValue = (gEquipMasks[EQUIP_TYPE_SWORD] & GET_EQUIPS_EQUIPMENT) >> (EQUIP_TYPE_SWORD * 4);
         SET_EQUIPS_EQUIPMENT(GET_EQUIPS_EQUIPMENT & (gEquipNegMasks[EQUIP_TYPE_SWORD]));
         SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^ (OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1)));
     }
@@ -1681,9 +1678,9 @@ void FileSelect_Main(GameState* thisx) {
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 255, 255, this->controlsAlpha);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, controlsTextures[GET_LANGUAGE], G_IM_FMT_IA, G_IM_SIZ_8b, 144, 16,
-                            0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                            G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, controlsTextures[GET_LANGUAGE], G_IM_FMT_IA, G_IM_SIZ_8b, 144, 16, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
         gSPTextureRectangle(POLY_OPA_DISP++, 90 << 2, 204 << 2, 234 << 2, 220 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
                             1 << 10);
     }
@@ -1852,7 +1849,8 @@ void FileSelect_InitContext(GameState* thisx) {
 
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
 
-    SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, SET_BUTTONSTATUS_A0(4, BTN_ENABLED)))));
+    SET_BUTTONSTATUS_A0(
+        0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, SET_BUTTONSTATUS_A0(4, BTN_ENABLED)))));
 
     this->n64ddFlags[0] = this->n64ddFlags[1] = this->n64ddFlags[2] = this->defense[0] = this->defense[1] =
         this->defense[2] = 0;

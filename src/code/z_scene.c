@@ -338,7 +338,8 @@ void Scene_CommandSkyboxDisables(PlayState* play, SceneCmd* cmd) {
 
 void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
-        SET_SKYBOXTIME(SET_DAYTIME(((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / ((f32)(24 * 60) / 0x10000)));
+        SET_SKYBOXTIME(SET_DAYTIME(((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) /
+                                   ((f32)(24 * 60) / 0x10000)));
     }
 
     if (cmd->timeSettings.timeSpeed != 0xFF) {
@@ -351,12 +352,11 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
         gTimeSpeed = play->envCtx.sceneTimeSpeed;
     }
 
-    play->envCtx.sunPos.x = -(Math_SinS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    play->envCtx.sunPos.y = (Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    play->envCtx.sunPos.z = (Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
+    play->envCtx.sunPos.x = -(Math_SinS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    play->envCtx.sunPos.y = (Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    play->envCtx.sunPos.z = (Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
-    if (((play->envCtx.sceneTimeSpeed == 0) && (GET_CUTSCENEINDEX < 0xFFF0)) ||
-        (GET_ENTRANCEINDEX == ENTR_SPOT06_8)) {
+    if (((play->envCtx.sceneTimeSpeed == 0) && (GET_CUTSCENEINDEX < 0xFFF0)) || (GET_ENTRANCEINDEX == ENTR_SPOT06_8)) {
         SET_SKYBOXTIME((GET_DAYTIME_VOID0));
 
         if ((GET_SKYBOXTIME > CLOCK_TIME(4, 0)) && (GET_SKYBOXTIME < CLOCK_TIME(6, 30))) {
@@ -365,8 +365,7 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
             SET_SKYBOXTIME(CLOCK_TIME(8, 0) + 1);
         } else if ((GET_SKYBOXTIME >= CLOCK_TIME(16, 0)) && (GET_SKYBOXTIME <= CLOCK_TIME(17, 0))) {
             SET_SKYBOXTIME(CLOCK_TIME(17, 0) + 1);
-        } else if ((GET_SKYBOXTIME >= CLOCK_TIME(18, 0) + 1) &&
-                   (GET_SKYBOXTIME <= CLOCK_TIME(19, 0))) {
+        } else if ((GET_SKYBOXTIME >= CLOCK_TIME(18, 0) + 1) && (GET_SKYBOXTIME <= CLOCK_TIME(19, 0))) {
             SET_SKYBOXTIME(CLOCK_TIME(19, 0) + 1);
         }
     }
@@ -427,8 +426,7 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
             if (GET_SCENELAYER == SCENE_LAYER_ADULT_NIGHT) {
                 // Due to the condition above, this is equivalent to accessing altHeaders[SCENE_LAYER_ADULT_DAY - 1]
                 altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(
-                    cmd->altHeaders
-                        .data))[(GET_SCENELAYER - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
+                    cmd->altHeaders.data))[(GET_SCENELAYER - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
 
                 // "Using adult day data there!"
                 osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
@@ -462,8 +460,7 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
         ((play->sceneId >= SCENE_ENTRA) && (play->sceneId <= SCENE_SHRINE_R))) {
         if (GET_CUTSCENEINDEX < 0xFFF0) {
             SET_WORLDMAPAREADATA(GET_WORLDMAPAREADATA | (gBitFlags[GET_WORLDMAPAREA]));
-            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", GET_WORLDMAPAREADATA,
-                         GET_WORLDMAPAREA);
+            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", GET_WORLDMAPAREADATA, GET_WORLDMAPAREA);
         }
     }
 }

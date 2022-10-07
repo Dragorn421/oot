@@ -852,8 +852,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
             }
         }
 
-        if (GET_ENTRANCEINDEX == ENTR_HIRAL_DEMO_0 && GET_SCENELAYER == 6 &&
-            play->csCtx.frames == 143) {
+        if (GET_ENTRANCEINDEX == ENTR_HIRAL_DEMO_0 && GET_SCENELAYER == 6 && play->csCtx.frames == 143) {
             Audio_PlayActorSfx2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
     }

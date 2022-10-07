@@ -33,11 +33,9 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
     switch (type) {
         case (ELF_MSG_CONDITION_FLAG << 1):
             flag = 1 << (msg->byte1 & 0x0F);
-            return ((msg->byte0 & 1) == 1) ==
-                   ((flag & GET_EVENTCHKINF_A0((msg->byte1&0xF0)>>4)) != 0);
+            return ((msg->byte0 & 1) == 1) == ((flag & GET_EVENTCHKINF_A0((msg->byte1 & 0xF0) >> 4)) != 0);
         case (ELF_MSG_CONDITION_DUNGEON_ITEM << 1):
-            return ((msg->byte0 & 1) == 1) ==
-                   (CHECK_DUNGEON_ITEM(msg->byte1 - ITEM_KEY_BOSS, GET_MAPINDEX) != 0);
+            return ((msg->byte0 & 1) == 1) == (CHECK_DUNGEON_ITEM(msg->byte1 - ITEM_KEY_BOSS, GET_MAPINDEX) != 0);
         case (ELF_MSG_CONDITION_ITEM << 1):
             return ((msg->byte0 & 1) == 1) == (msg->byte3 == INV_CONTENT(msg->byte1));
         case (ELF_MSG_CONDITION_OTHER << 1):
@@ -55,8 +53,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                     return ((msg->byte0 & 1) == 1) ==
                            (CHECK_QUEST_ITEM(msg->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST) != 0);
                 case (ELF_MSG_CONDITION_MAGIC << 4):
-                    return ((msg->byte0 & 1) == 1) ==
-                           ((GET_ISMAGICACQUIRED_VOID0) != 0);
+                    return ((msg->byte0 & 1) == 1) == ((GET_ISMAGICACQUIRED_VOID0) != 0);
             }
     }
 

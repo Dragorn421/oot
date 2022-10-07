@@ -624,8 +624,7 @@ void func_80083108(PlayState* play) {
     s16 i;
     s16 sp28 = false;
 
-    if ((GET_CUTSCENEINDEX < 0xFFF0) ||
-        ((play->sceneId == SCENE_SPOT20) && (GET_CUTSCENEINDEX == 0xFFF0))) {
+    if ((GET_CUTSCENEINDEX < 0xFFF0) || ((play->sceneId == SCENE_SPOT20) && (GET_CUTSCENEINDEX == 0xFFF0))) {
         SET_UNK_13E7(0);
 
         if ((player->stateFlags1 & PLAYER_STATE1_23) || (play->shootingGalleryStatus > 1) ||
@@ -634,13 +633,12 @@ void func_80083108(PlayState* play) {
                 SET_UNK_13E7(1);
 
                 if (GET_BUTTONSTATUS_A0(0) == BTN_DISABLED) {
-                    SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_ENABLED))));
+                    SET_BUTTONSTATUS_A0(
+                        0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_ENABLED))));
                 }
 
-                if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SLINGSHOT) &&
-                    (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_BOW) &&
-                    (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_BOMBCHU) &&
-                    (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE)) {
+                if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SLINGSHOT) && (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_BOW) &&
+                    (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_BOMBCHU) && (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE)) {
                     SET_BUTTONSTATUS_A0(0, GET_EQUIPS_BUTTONITEMS_A0(0));
 
                     if ((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
@@ -707,14 +705,16 @@ void func_80083108(PlayState* play) {
                     Interface_LoadItemIcon1(play, 0);
                 }
 
-                SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
+                SET_BUTTONSTATUS_A0(
+                    0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
                 Interface_ChangeAlpha(50);
             } else {
                 if (GET_BUTTONSTATUS_A0(0) == BTN_ENABLED) {
                     SET_UNK_13EA(0);
                 }
 
-                SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
+                SET_BUTTONSTATUS_A0(
+                    0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, BTN_DISABLED))));
                 Interface_ChangeAlpha(50);
             }
         } else if (msgCtx->msgMode == MSGMODE_NONE) {
@@ -766,8 +766,7 @@ void func_80083108(PlayState* play) {
                 }
             } else if (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_1) {
                 if (player->stateFlags1 & PLAYER_STATE1_23) {
-                    if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE) &&
-                        (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_BOW)) {
+                    if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE) && (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_BOW)) {
                         if (GET_INVENTORY_ITEMS_A0(SLOT_BOW) == ITEM_NONE) {
                             SET_EQUIPS_BUTTONITEMS_A0(0, ITEM_NONE);
                         } else {
@@ -776,8 +775,7 @@ void func_80083108(PlayState* play) {
                         }
                     }
                 } else {
-                    if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_NONE) ||
-                        (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW)) {
+                    if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_NONE) || (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW)) {
 
                         if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KOKIRI) &&
                             (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_MASTER) &&
@@ -821,11 +819,9 @@ void func_80083108(PlayState* play) {
             } else {
                 if (interfaceCtx->restrictions.bButton == 0) {
                     if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_SLINGSHOT) ||
-                        (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW) ||
-                        (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOMBCHU) ||
+                        (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW) || (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOMBCHU) ||
                         (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_NONE)) {
-                        if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE) ||
-                            (GET_INFTABLE_A0(INFTABLE_1DX_INDEX) == 0)) {
+                        if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE) || (GET_INFTABLE_A0(INFTABLE_1DX_INDEX) == 0)) {
                             SET_EQUIPS_BUTTONITEMS_A0(0, GET_BUTTONSTATUS_A0(0));
                             sp28 = true;
 
@@ -845,11 +841,9 @@ void func_80083108(PlayState* play) {
                     }
                 } else if (interfaceCtx->restrictions.bButton == 1) {
                     if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_SLINGSHOT) ||
-                        (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW) ||
-                        (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOMBCHU) ||
+                        (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW) || (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOMBCHU) ||
                         (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_NONE)) {
-                        if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE) ||
-                            (GET_INFTABLE_A0(INFTABLE_1DX_INDEX) == 0)) {
+                        if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE) || (GET_INFTABLE_A0(INFTABLE_1DX_INDEX) == 0)) {
                             SET_EQUIPS_BUTTONITEMS_A0(0, GET_BUTTONSTATUS_A0(0));
                             sp28 = true;
 
@@ -1017,8 +1011,7 @@ void func_80083108(PlayState* play) {
                               (GET_EQUIPS_BUTTONITEMS_A0(i) <= ITEM_POE)) &&
                             !((GET_EQUIPS_BUTTONITEMS_A0(i) >= ITEM_WEIRD_EGG) &&
                               (GET_EQUIPS_BUTTONITEMS_A0(i) <= ITEM_CLAIM_CHECK))) {
-                            if ((play->sceneId != SCENE_TAKARAYA) ||
-                                (GET_EQUIPS_BUTTONITEMS_A0(i) != ITEM_LENS)) {
+                            if ((play->sceneId != SCENE_TAKARAYA) || (GET_EQUIPS_BUTTONITEMS_A0(i) != ITEM_LENS)) {
                                 if (GET_BUTTONSTATUS_A0(i) == BTN_ENABLED) {
                                     sp28 = true;
                                 }
@@ -1158,7 +1151,7 @@ void Inventory_SwapAgeEquipment(void) {
             }
 
             if (i != 0) {
-                SET_CHILDEQUIPS_CBUTTONSLOTS_A0(i-1, GET_EQUIPS_CBUTTONSLOTS_A0(i-1));
+                SET_CHILDEQUIPS_CBUTTONSLOTS_A0(i - 1, GET_EQUIPS_CBUTTONSLOTS_A0(i - 1));
             }
         }
 
@@ -1179,23 +1172,22 @@ void Inventory_SwapAgeEquipment(void) {
             SET_EQUIPS_CBUTTONSLOTS_A0(1, SLOT_BOMB);
             SET_EQUIPS_CBUTTONSLOTS_A0(2, SLOT_OCARINA);
             SET_EQUIPS_EQUIPMENT((EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4)) |
-                                                      (EQUIP_VALUE_SHIELD_HYLIAN << (EQUIP_TYPE_SHIELD * 4)) |
-                                                      (EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4)) |
-                                                      (EQUIP_VALUE_BOOTS_KOKIRI << (EQUIP_TYPE_BOOTS * 4)));
+                                 (EQUIP_VALUE_SHIELD_HYLIAN << (EQUIP_TYPE_SHIELD * 4)) |
+                                 (EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4)) |
+                                 (EQUIP_VALUE_BOOTS_KOKIRI << (EQUIP_TYPE_BOOTS * 4)));
         } else {
             for (i = 0; i < 4; i++) {
                 SET_EQUIPS_BUTTONITEMS_A0(i, GET_ADULTEQUIPS_BUTTONITEMS_A0(i));
 
                 if (i != 0) {
-                    SET_EQUIPS_CBUTTONSLOTS_A0(i-1, GET_ADULTEQUIPS_CBUTTONSLOTS_A0(i-1));
+                    SET_EQUIPS_CBUTTONSLOTS_A0(i - 1, GET_ADULTEQUIPS_CBUTTONSLOTS_A0(i - 1));
                 }
 
-                if (((GET_EQUIPS_BUTTONITEMS_A0(i) >= ITEM_BOTTLE) &&
-                     (GET_EQUIPS_BUTTONITEMS_A0(i) <= ITEM_POE)) ||
+                if (((GET_EQUIPS_BUTTONITEMS_A0(i) >= ITEM_BOTTLE) && (GET_EQUIPS_BUTTONITEMS_A0(i) <= ITEM_POE)) ||
                     ((GET_EQUIPS_BUTTONITEMS_A0(i) >= ITEM_WEIRD_EGG) &&
                      (GET_EQUIPS_BUTTONITEMS_A0(i) <= ITEM_CLAIM_CHECK))) {
-                    osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, GET_EQUIPS_CBUTTONSLOTS_A0(i-1));
-                    SET_EQUIPS_BUTTONITEMS_A0(i, GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(i-1)]);
+                    osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, GET_EQUIPS_CBUTTONSLOTS_A0(i - 1));
+                    SET_EQUIPS_BUTTONITEMS_A0(i, GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(i - 1)]);
                 }
             }
 
@@ -1206,7 +1198,7 @@ void Inventory_SwapAgeEquipment(void) {
             SET_ADULTEQUIPS_BUTTONITEMS_A0(i, GET_EQUIPS_BUTTONITEMS_A0(i));
 
             if (i != 0) {
-                SET_ADULTEQUIPS_CBUTTONSLOTS_A0(i-1, GET_EQUIPS_CBUTTONSLOTS_A0(i-1));
+                SET_ADULTEQUIPS_CBUTTONSLOTS_A0(i - 1, GET_EQUIPS_CBUTTONSLOTS_A0(i - 1));
             }
         }
 
@@ -1217,15 +1209,14 @@ void Inventory_SwapAgeEquipment(void) {
                 SET_EQUIPS_BUTTONITEMS_A0(i, GET_CHILDEQUIPS_BUTTONITEMS_A0(i));
 
                 if (i != 0) {
-                    SET_EQUIPS_CBUTTONSLOTS_A0(i-1, GET_CHILDEQUIPS_CBUTTONSLOTS_A0(i-1));
+                    SET_EQUIPS_CBUTTONSLOTS_A0(i - 1, GET_CHILDEQUIPS_CBUTTONSLOTS_A0(i - 1));
                 }
 
-                if (((GET_EQUIPS_BUTTONITEMS_A0(i) >= ITEM_BOTTLE) &&
-                     (GET_EQUIPS_BUTTONITEMS_A0(i) <= ITEM_POE)) ||
+                if (((GET_EQUIPS_BUTTONITEMS_A0(i) >= ITEM_BOTTLE) && (GET_EQUIPS_BUTTONITEMS_A0(i) <= ITEM_POE)) ||
                     ((GET_EQUIPS_BUTTONITEMS_A0(i) >= ITEM_WEIRD_EGG) &&
                      (GET_EQUIPS_BUTTONITEMS_A0(i) <= ITEM_CLAIM_CHECK))) {
-                    osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, GET_EQUIPS_CBUTTONSLOTS_A0(i-1));
-                    SET_EQUIPS_BUTTONITEMS_A0(i, GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(i-1)]);
+                    osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, GET_EQUIPS_CBUTTONSLOTS_A0(i - 1));
+                    SET_EQUIPS_BUTTONITEMS_A0(i, GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(i - 1)]);
                 }
             }
 
@@ -1255,7 +1246,8 @@ void Interface_InitHorsebackArchery(PlayState* play) {
 
 void func_800849EC(PlayState* play) {
     SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT | (OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BGS)));
-    SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^ (OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)));
+    SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^
+                            (OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)));
 
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
         SET_EQUIPS_BUTTONITEMS_A0(0, ITEM_SWORD_KNIFE);
@@ -1271,8 +1263,7 @@ void Interface_LoadItemIcon1(PlayState* play, u16 button) {
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
     DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + button * 0x1000,
-                        (uintptr_t)_icon_item_staticSegmentRomStart +
-                            (GET_EQUIPS_BUTTONITEMS_A0(button) * 0x1000),
+                        (uintptr_t)_icon_item_staticSegmentRomStart + (GET_EQUIPS_BUTTONITEMS_A0(button) * 0x1000),
                         0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
@@ -1282,29 +1273,23 @@ void Interface_LoadItemIcon2(PlayState* play, u16 button) {
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
     DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + button * 0x1000,
-                        (uintptr_t)_icon_item_staticSegmentRomStart +
-                            (GET_EQUIPS_BUTTONITEMS_A0(button) * 0x1000),
+                        (uintptr_t)_icon_item_staticSegmentRomStart + (GET_EQUIPS_BUTTONITEMS_A0(button) * 0x1000),
                         0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
 
 void func_80084BF4(PlayState* play, u16 flag) {
     if (flag) {
-        if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_SLINGSHOT) ||
-            (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW) ||
-            (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOMBCHU) ||
-            (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_FISHING_POLE) ||
+        if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_SLINGSHOT) || (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW) ||
+            (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOMBCHU) || (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_FISHING_POLE) ||
             (GET_BUTTONSTATUS_A0(0) == BTN_DISABLED)) {
-            if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_SLINGSHOT) ||
-                (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW) ||
-                (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOMBCHU) ||
-                (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_FISHING_POLE)) {
+            if ((GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_SLINGSHOT) || (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOW) ||
+                (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_BOMBCHU) || (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_FISHING_POLE)) {
                 SET_EQUIPS_BUTTONITEMS_A0(0, GET_BUTTONSTATUS_A0(0));
                 Interface_LoadItemIcon1(play, 0);
             }
         } else if (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_NONE) {
-            if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE) ||
-                (GET_INFTABLE_A0(INFTABLE_1DX_INDEX) == 0)) {
+            if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_NONE) || (GET_INFTABLE_A0(INFTABLE_1DX_INDEX) == 0)) {
                 SET_EQUIPS_BUTTONITEMS_A0(0, GET_BUTTONSTATUS_A0(0));
                 Interface_LoadItemIcon1(play, 0);
             }
@@ -1337,7 +1322,8 @@ u8 Item_Give(PlayState* play, u8 item) {
     osSyncPrintf(VT_RST);
 
     if ((item >= ITEM_MEDALLION_FOREST) && (item <= ITEM_MEDALLION_LIGHT)) {
-        SET_INVENTORY_QUESTITEMS(GET_INVENTORY_QUESTITEMS | (gBitFlags[item - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST]));
+        SET_INVENTORY_QUESTITEMS(GET_INVENTORY_QUESTITEMS |
+                                 (gBitFlags[item - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST]));
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("封印 = %x\n", GET_INVENTORY_QUESTITEMS); // "Seals = %x"
@@ -1360,7 +1346,8 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         return ITEM_NONE;
     } else if ((item >= ITEM_KOKIRI_EMERALD) && (item <= ITEM_ZORA_SAPPHIRE)) {
-        SET_INVENTORY_QUESTITEMS(GET_INVENTORY_QUESTITEMS | (gBitFlags[item - ITEM_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD]));
+        SET_INVENTORY_QUESTITEMS(GET_INVENTORY_QUESTITEMS |
+                                 (gBitFlags[item - ITEM_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD]));
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("精霊石 = %x\n", GET_INVENTORY_QUESTITEMS); // "Spiritual Stones = %x"
@@ -1368,7 +1355,8 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         return ITEM_NONE;
     } else if ((item == ITEM_STONE_OF_AGONY) || (item == ITEM_GERUDO_CARD)) {
-        SET_INVENTORY_QUESTITEMS(GET_INVENTORY_QUESTITEMS | (gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY]));
+        SET_INVENTORY_QUESTITEMS(GET_INVENTORY_QUESTITEMS |
+                                 (gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY]));
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("アイテム = %x\n", GET_INVENTORY_QUESTITEMS); // "Items = %x"
@@ -1381,13 +1369,14 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         // "N Coins = %x(%d)"
-        osSyncPrintf("Ｎコイン = %x(%d)\n", GET_INVENTORY_QUESTITEMS,
-                     GET_INVENTORY_GSTOKENS);
+        osSyncPrintf("Ｎコイン = %x(%d)\n", GET_INVENTORY_QUESTITEMS, GET_INVENTORY_GSTOKENS);
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
-        SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT | (OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI + EQUIP_INV_SWORD_KOKIRI)));
+        SET_INVENTORY_EQUIPMENT(
+            GET_INVENTORY_EQUIPMENT |
+            (OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI + EQUIP_INV_SWORD_KOKIRI)));
 
         if (item == ITEM_SWORD_BGS) {
             SET_SWORDHEALTH(8);
@@ -1395,7 +1384,8 @@ u8 Item_Give(PlayState* play, u8 item) {
             if (ALL_EQUIP_VALUE(EQUIP_TYPE_SWORD) ==
                 ((1 << EQUIP_INV_SWORD_KOKIRI) | (1 << EQUIP_INV_SWORD_MASTER) | (1 << EQUIP_INV_SWORD_BGS) |
                  (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE))) {
-                SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^ (OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)));
+                SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^
+                                        (OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)));
                 if (GET_EQUIPS_BUTTONITEMS_A0(0) == ITEM_SWORD_KNIFE) {
                     SET_EQUIPS_BUTTONITEMS_A0(0, ITEM_SWORD_BGS);
                     Interface_LoadItemIcon1(play, 0);
@@ -1410,16 +1400,20 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SHIELD_DEKU) && (item <= ITEM_SHIELD_MIRROR)) {
-        SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT | (OWNED_EQUIP_FLAG(EQUIP_TYPE_SHIELD, item - ITEM_SHIELD_DEKU)));
+        SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT |
+                                (OWNED_EQUIP_FLAG(EQUIP_TYPE_SHIELD, item - ITEM_SHIELD_DEKU)));
         return ITEM_NONE;
     } else if ((item >= ITEM_TUNIC_KOKIRI) && (item <= ITEM_TUNIC_ZORA)) {
-        SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT | (OWNED_EQUIP_FLAG(EQUIP_TYPE_TUNIC, item - ITEM_TUNIC_KOKIRI)));
+        SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT |
+                                (OWNED_EQUIP_FLAG(EQUIP_TYPE_TUNIC, item - ITEM_TUNIC_KOKIRI)));
         return ITEM_NONE;
     } else if ((item >= ITEM_BOOTS_KOKIRI) && (item <= ITEM_BOOTS_HOVER)) {
-        SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT | (OWNED_EQUIP_FLAG(EQUIP_TYPE_BOOTS, item - ITEM_BOOTS_KOKIRI)));
+        SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT |
+                                (OWNED_EQUIP_FLAG(EQUIP_TYPE_BOOTS, item - ITEM_BOOTS_KOKIRI)));
         return ITEM_NONE;
     } else if ((item == ITEM_KEY_BOSS) || (item == ITEM_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
-        SET_INVENTORY_DUNGEONITEMS_A0(GET_MAPINDEX, GET_INVENTORY_DUNGEONITEMS_A0(GET_MAPINDEX) | (gBitFlags[item - ITEM_KEY_BOSS]));
+        SET_INVENTORY_DUNGEONITEMS_A0(GET_MAPINDEX,
+                                      GET_INVENTORY_DUNGEONITEMS_A0(GET_MAPINDEX) | (gBitFlags[item - ITEM_KEY_BOSS]));
         return ITEM_NONE;
     } else if (item == ITEM_KEY_SMALL) {
         if (GET_INVENTORY_DUNGEONKEYS_A0(GET_MAPINDEX) < 0) {
@@ -1729,8 +1723,8 @@ u8 Item_Give(PlayState* play, u8 item) {
         temp = SLOT(item);
 
         for (i = 0; i < 4; i++) {
-            if (GET_INVENTORY_ITEMS_A0(temp+i) == ITEM_NONE) {
-                SET_INVENTORY_ITEMS_A0(temp+i, item);
+            if (GET_INVENTORY_ITEMS_A0(temp + i) == ITEM_NONE) {
+                SET_INVENTORY_ITEMS_A0(temp + i, item);
                 return ITEM_NONE;
             }
         }
@@ -1744,11 +1738,10 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
 
             for (i = 0; i < 4; i++) {
-                if (GET_INVENTORY_ITEMS_A0(temp+i) == ITEM_BOTTLE) {
+                if (GET_INVENTORY_ITEMS_A0(temp + i) == ITEM_BOTTLE) {
                     // "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
                     osSyncPrintf("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
-                                 GET_EQUIPS_CBUTTONSLOTS_A0(0),
-                                 GET_EQUIPS_CBUTTONSLOTS_A0(1),
+                                 GET_EQUIPS_CBUTTONSLOTS_A0(0), GET_EQUIPS_CBUTTONSLOTS_A0(1),
                                  GET_EQUIPS_CBUTTONSLOTS_A0(2), temp + i, item);
 
                     if ((temp + i) == GET_EQUIPS_CBUTTONSLOTS_A0(0)) {
@@ -1765,14 +1758,14 @@ u8 Item_Give(PlayState* play, u8 item) {
                         SET_BUTTONSTATUS_A0(3, BTN_ENABLED);
                     }
 
-                    SET_INVENTORY_ITEMS_A0(temp+i, item);
+                    SET_INVENTORY_ITEMS_A0(temp + i, item);
                     return ITEM_NONE;
                 }
             }
         } else {
             for (i = 0; i < 4; i++) {
-                if (GET_INVENTORY_ITEMS_A0(temp+i) == ITEM_NONE) {
-                    SET_INVENTORY_ITEMS_A0(temp+i, item);
+                if (GET_INVENTORY_ITEMS_A0(temp + i) == ITEM_NONE) {
+                    SET_INVENTORY_ITEMS_A0(temp + i, item);
                     return ITEM_NONE;
                 }
             }
@@ -1918,13 +1911,13 @@ u8 Item_CheckObtainability(u8 item) {
             }
 
             for (i = 0; i < 4; i++) {
-                if (GET_INVENTORY_ITEMS_A0(temp+i) == ITEM_BOTTLE) {
+                if (GET_INVENTORY_ITEMS_A0(temp + i) == ITEM_BOTTLE) {
                     return ITEM_NONE;
                 }
             }
         } else {
             for (i = 0; i < 4; i++) {
-                if (GET_INVENTORY_ITEMS_A0(temp+i) == ITEM_NONE) {
+                if (GET_INVENTORY_ITEMS_A0(temp + i) == ITEM_NONE) {
                     return ITEM_NONE;
                 }
             }
@@ -1950,7 +1943,7 @@ void Inventory_DeleteItem(u16 item, u16 invSlot) {
     for (i = 1; i < 4; i++) {
         if (GET_EQUIPS_BUTTONITEMS_A0(i) == item) {
             SET_EQUIPS_BUTTONITEMS_A0(i, ITEM_NONE);
-            SET_EQUIPS_CBUTTONSLOTS_A0(i-1, SLOT_NONE);
+            SET_EQUIPS_CBUTTONSLOTS_A0(i - 1, SLOT_NONE);
         }
     }
 }
@@ -2010,17 +2003,14 @@ s32 Inventory_HasSpecificBottle(u8 bottleItem) {
 
 void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
     osSyncPrintf("item_no=%x,  c_no=%x,  Pt=%x  Item_Register=%x\n", item, button,
-                 GET_EQUIPS_CBUTTONSLOTS_A0(button-1),
-                 GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(button-1)]);
+                 GET_EQUIPS_CBUTTONSLOTS_A0(button - 1), GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(button - 1)]);
 
     // Special case to only empty half of a Lon Lon Milk Bottle
-    if ((GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(button-1)] ==
-         ITEM_MILK_BOTTLE) &&
-        (item == ITEM_BOTTLE)) {
+    if ((GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(button - 1)] == ITEM_MILK_BOTTLE) && (item == ITEM_BOTTLE)) {
         item = ITEM_MILK_HALF;
     }
 
-    GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(button-1)] = item;
+    GET_INVENTORY_ITEMS[GET_EQUIPS_CBUTTONSLOTS_A0(button - 1)] = item;
     SET_EQUIPS_BUTTONITEMS_A0(button, item);
 
     Interface_LoadItemIcon1(play, button);
@@ -2035,18 +2025,18 @@ s32 Inventory_ConsumeFairy(PlayState* play) {
     s16 j;
 
     for (i = 0; i < 4; i++) {
-        if (GET_INVENTORY_ITEMS_A0(bottleSlot+i) == ITEM_FAIRY) {
+        if (GET_INVENTORY_ITEMS_A0(bottleSlot + i) == ITEM_FAIRY) {
             for (j = 1; j < 4; j++) {
                 if (GET_EQUIPS_BUTTONITEMS_A0(j) == ITEM_FAIRY) {
                     SET_EQUIPS_BUTTONITEMS_A0(j, ITEM_BOTTLE);
                     Interface_LoadItemIcon1(play, j);
                     i = 0;
-                    bottleSlot = GET_EQUIPS_CBUTTONSLOTS_A0(j-1);
+                    bottleSlot = GET_EQUIPS_CBUTTONSLOTS_A0(j - 1);
                     break;
                 }
             }
             osSyncPrintf("妖精使用＝%d\n", bottleSlot); // "Fairy Usage＝%d"
-            SET_INVENTORY_ITEMS_A0(bottleSlot+i, ITEM_BOTTLE);
+            SET_INVENTORY_ITEMS_A0(bottleSlot + i, ITEM_BOTTLE);
             return true;
         }
     }
@@ -2160,8 +2150,7 @@ s32 Health_ChangeBy(PlayState* play, s16 amount) {
     u16 healthLevel;
 
     // "＊＊＊＊＊ Fluctuation=%d (now=%d, max=%d) ＊＊＊"
-    osSyncPrintf("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", amount, GET_HEALTH,
-                 GET_HEALTHCAPACITY);
+    osSyncPrintf("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", amount, GET_HEALTH, GET_HEALTHCAPACITY);
 
     // clang-format off
     if (amount > 0) { Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -2309,8 +2298,7 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
         case MAGIC_CONSUME_NOW:
         case MAGIC_CONSUME_NOW_ALT:
             // Consume magic immediately
-            if ((GET_MAGICSTATE == MAGIC_STATE_IDLE) ||
-                (GET_MAGICSTATE == MAGIC_STATE_CONSUME_LENS)) {
+            if ((GET_MAGICSTATE == MAGIC_STATE_IDLE) || (GET_MAGICSTATE == MAGIC_STATE_CONSUME_LENS)) {
                 if (GET_MAGICSTATE == MAGIC_STATE_CONSUME_LENS) {
                     play->actorCtx.lensActive = false;
                 }
@@ -2327,8 +2315,7 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
             // Sets consume target but waits to consume.
             // No yellow magic to preview target consumption.
             // Unused
-            if ((GET_MAGICSTATE == MAGIC_STATE_IDLE) ||
-                (GET_MAGICSTATE == MAGIC_STATE_CONSUME_LENS)) {
+            if ((GET_MAGICSTATE == MAGIC_STATE_IDLE) || (GET_MAGICSTATE == MAGIC_STATE_CONSUME_LENS)) {
                 if (GET_MAGICSTATE == MAGIC_STATE_CONSUME_LENS) {
                     play->actorCtx.lensActive = false;
                 }
@@ -2359,8 +2346,7 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
         case MAGIC_CONSUME_WAIT_PREVIEW:
             // Sets consume target but waits to consume.
             // Preview consumption with a yellow bar
-            if ((GET_MAGICSTATE == MAGIC_STATE_IDLE) ||
-                (GET_MAGICSTATE == MAGIC_STATE_CONSUME_LENS)) {
+            if ((GET_MAGICSTATE == MAGIC_STATE_IDLE) || (GET_MAGICSTATE == MAGIC_STATE_CONSUME_LENS)) {
                 if (GET_MAGICSTATE == MAGIC_STATE_CONSUME_LENS) {
                     play->actorCtx.lensActive = false;
                 }
@@ -2442,8 +2428,7 @@ void Magic_Update(PlayState* play) {
             }
 
             // "Storage  MAGIC_NOW=%d (%d)"
-            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", GET_MAGIC,
-                         GET_MAGICFILLTARGET);
+            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", GET_MAGIC, GET_MAGICFILLTARGET);
 
             if (GET_MAGIC >= GET_MAGICFILLTARGET) {
                 SET_MAGIC(GET_MAGICFILLTARGET);
@@ -2519,10 +2504,8 @@ void Magic_Update(PlayState* play) {
             if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0) && (msgCtx->msgMode == MSGMODE_NONE) &&
                 (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
                 (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {
-                if ((GET_MAGIC == 0) ||
-                    ((func_8008F2F8(play) >= 2) && (func_8008F2F8(play) < 5)) ||
-                    ((GET_EQUIPS_BUTTONITEMS_A0(1) != ITEM_LENS) &&
-                     (GET_EQUIPS_BUTTONITEMS_A0(2) != ITEM_LENS) &&
+                if ((GET_MAGIC == 0) || ((func_8008F2F8(play) >= 2) && (func_8008F2F8(play) < 5)) ||
+                    ((GET_EQUIPS_BUTTONITEMS_A0(1) != ITEM_LENS) && (GET_EQUIPS_BUTTONITEMS_A0(2) != ITEM_LENS) &&
                      (GET_EQUIPS_BUTTONITEMS_A0(3) != ITEM_LENS)) ||
                     !play->actorCtx.lensActive) {
                     // Force lens off and set magic meter state to idle
@@ -2623,8 +2606,8 @@ void Magic_DrawMeter(PlayState* play) {
                             G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 3, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
         gSPTextureRectangle(OVERLAY_DISP++, (R_MAGIC_METER_X + GET_MAGICCAPACITY + 8) << 2, magicMeterY << 2,
-                            (R_MAGIC_METER_X + GET_MAGICCAPACITY + 16) << 2, (magicMeterY + 16) << 2,
-                            G_TX_RENDERTILE, 256, 0, 1 << 10, 1 << 10);
+                            (R_MAGIC_METER_X + GET_MAGICCAPACITY + 16) << 2, (magicMeterY + 16) << 2, G_TX_RENDERTILE,
+                            256, 0, 1 << 10, 1 << 10);
 
         gDPPipeSync(OVERLAY_DISP++);
         gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE, PRIMITIVE,
@@ -2640,8 +2623,8 @@ void Magic_DrawMeter(PlayState* play) {
                                  G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicMeterY + 3) << 2,
-                                (R_MAGIC_FILL_X + GET_MAGIC) << 2,
-                                (magicMeterY + 10) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+                                (R_MAGIC_FILL_X + GET_MAGIC) << 2, (magicMeterY + 10) << 2, G_TX_RENDERTILE, 0, 0,
+                                1 << 10, 1 << 10);
 
             // Fill the rest of the meter with the normal magic color
             gDPPipeSync(OVERLAY_DISP++);
@@ -2649,8 +2632,8 @@ void Magic_DrawMeter(PlayState* play) {
                             interfaceCtx->magicAlpha);
 
             gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicMeterY + 3) << 2,
-                                (R_MAGIC_FILL_X + GET_MAGICTARGET) << 2, (magicMeterY + 10) << 2,
-                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+                                (R_MAGIC_FILL_X + GET_MAGICTARGET) << 2, (magicMeterY + 10) << 2, G_TX_RENDERTILE, 0, 0,
+                                1 << 10, 1 << 10);
         } else {
             // Fill the whole meter with the normal magic color
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MAGIC_FILL_COLOR(0), R_MAGIC_FILL_COLOR(1), R_MAGIC_FILL_COLOR(2),
@@ -2661,8 +2644,8 @@ void Magic_DrawMeter(PlayState* play) {
                                  G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicMeterY + 3) << 2,
-                                (R_MAGIC_FILL_X + GET_MAGIC) << 2,
-                                (magicMeterY + 10) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+                                (R_MAGIC_FILL_X + GET_MAGIC) << 2, (magicMeterY + 10) << 2, G_TX_RENDERTILE, 0, 0,
+                                1 << 10, 1 << 10);
         }
     }
 
@@ -2783,11 +2766,10 @@ void Interface_DrawItemButtons(PlayState* play) {
             texCoordScale = (1 << 10) / (R_START_LABEL_DD(GET_LANGUAGE) / 100.0f);
             width = DO_ACTION_TEX_WIDTH / (R_START_LABEL_DD(GET_LANGUAGE) / 100.0f);
             height = DO_ACTION_TEX_HEIGHT / (R_START_LABEL_DD(GET_LANGUAGE) / 100.0f);
-            gSPTextureRectangle(OVERLAY_DISP++, R_START_LABEL_X(GET_LANGUAGE) << 2,
-                                R_START_LABEL_Y(GET_LANGUAGE) << 2,
+            gSPTextureRectangle(OVERLAY_DISP++, R_START_LABEL_X(GET_LANGUAGE) << 2, R_START_LABEL_Y(GET_LANGUAGE) << 2,
                                 (R_START_LABEL_X(GET_LANGUAGE) + width) << 2,
-                                (R_START_LABEL_Y(GET_LANGUAGE) + height) << 2, G_TX_RENDERTILE, 0, 0,
-                                texCoordScale, texCoordScale);
+                                (R_START_LABEL_Y(GET_LANGUAGE) + height) << 2, G_TX_RENDERTILE, 0, 0, texCoordScale,
+                                texCoordScale);
         }
     }
 
@@ -3134,8 +3116,7 @@ void Interface_Draw(PlayState* play) {
                                       TEXEL0, 0, PRIMITIVE, 0);
 
                     interfaceCtx->counterDigits[2] = 0;
-                    interfaceCtx->counterDigits[3] =
-                        GET_INVENTORY_DUNGEONKEYS_A0(GET_MAPINDEX);
+                    interfaceCtx->counterDigits[3] = GET_INVENTORY_DUNGEONKEYS_A0(GET_MAPINDEX);
 
                     while (interfaceCtx->counterDigits[3] >= 10) {
                         interfaceCtx->counterDigits[2]++;
@@ -3240,8 +3221,7 @@ void Interface_Draw(PlayState* play) {
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
             R_B_LABEL_DD = (1 << 10) / (WREG(37 + GET_LANGUAGE) / 100.0f);
-            gSPTextureRectangle(OVERLAY_DISP++, R_B_LABEL_X(GET_LANGUAGE) << 2,
-                                R_B_LABEL_Y(GET_LANGUAGE) << 2,
+            gSPTextureRectangle(OVERLAY_DISP++, R_B_LABEL_X(GET_LANGUAGE) << 2, R_B_LABEL_Y(GET_LANGUAGE) << 2,
                                 (R_B_LABEL_X(GET_LANGUAGE) + DO_ACTION_TEX_WIDTH) << 2,
                                 (R_B_LABEL_Y(GET_LANGUAGE) + DO_ACTION_TEX_HEIGHT) << 2, G_TX_RENDERTILE, 0, 0,
                                 R_B_LABEL_DD, R_B_LABEL_DD);
@@ -3448,8 +3428,11 @@ void Interface_Draw(PlayState* play) {
             // Revert any spoiling trade quest items
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
-                    SET_EVENTINF_A0(EVENTINF_HORSES_INDEX, GET_EVENTINF_A0(EVENTINF_HORSES_INDEX) & ((u16) ~(EVENTINF_HORSES_STATE_MASK | EVENTINF_HORSES_HORSETYPE_MASK | EVENTINF_HORSES_05_MASK |
-                                EVENTINF_HORSES_06_MASK | EVENTINF_HORSES_0F_MASK)));
+                    SET_EVENTINF_A0(
+                        EVENTINF_HORSES_INDEX,
+                        GET_EVENTINF_A0(EVENTINF_HORSES_INDEX) &
+                            ((u16) ~(EVENTINF_HORSES_STATE_MASK | EVENTINF_HORSES_HORSETYPE_MASK |
+                                     EVENTINF_HORSES_05_MASK | EVENTINF_HORSES_06_MASK | EVENTINF_HORSES_0F_MASK)));
                     osSyncPrintf("EVENT_INF=%x\n", GET_EVENTINF_A0(EVENTINF_HORSES_INDEX));
                     play->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
@@ -3681,8 +3664,7 @@ void Interface_Draw(PlayState* play) {
                         case 3:
                         case 9:
                             osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n",
-                                         (GET_TIMERX_A0_VOID0(1)), (GET_TIMERY_A0_VOID0(1)),
-                                         GET_TIMER2VALUE);
+                                         (GET_TIMERX_A0_VOID0(1)), (GET_TIMERY_A0_VOID0(1)), GET_TIMER2VALUE);
                             svar1 = (GET_TIMERX_A0(1) - 26) / D_8015FFE6;
                             GET_TIMERX_A0(1) -= svar1;
                             if (GET_HEALTHCAPACITY > 0xA0) {
@@ -3789,8 +3771,7 @@ void Interface_Draw(PlayState* play) {
                     break;
             }
 
-            if (((GET_TIMER1STATE != 0) && (GET_TIMER1STATE != 10)) ||
-                (GET_TIMER2STATE != 0)) {
+            if (((GET_TIMER1STATE != 0) && (GET_TIMER1STATE != 10)) || (GET_TIMER2STATE != 0)) {
                 timerDigits[0] = timerDigits[1] = timerDigits[3] = 0;
                 timerDigits[2] = 10; // digit 10 is used as ':' (colon)
 
@@ -3818,9 +3799,8 @@ void Interface_Draw(PlayState* play) {
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                 gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
-                OVERLAY_DISP =
-                    Gfx_TextureIA8(OVERLAY_DISP, gClockIconTex, 16, 16, (GET_TIMERX_A0_VOID0(svar6)),
-                                   (GET_TIMERY_A0_VOID0(svar6)) + 2, 16, 16, 1 << 10, 1 << 10);
+                OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gClockIconTex, 16, 16, (GET_TIMERX_A0_VOID0(svar6)),
+                                              (GET_TIMERY_A0_VOID0(svar6)) + 2, 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
                 gDPPipeSync(OVERLAY_DISP++);
@@ -3842,11 +3822,10 @@ void Interface_Draw(PlayState* play) {
                 }
 
                 for (svar1 = 0; svar1 < 5; svar1++) {
-                    OVERLAY_DISP =
-                        Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
-                                      (GET_TIMERX_A0_VOID0(svar6)) + timerDigitLeftPos[svar1],
-                                      (GET_TIMERY_A0_VOID0(svar6)), digitWidth[svar1], VREG(42), VREG(43) << 1,
-                                      VREG(43) << 1);
+                    OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * timerDigits[svar1])),
+                                                 8, 16, (GET_TIMERX_A0_VOID0(svar6)) + timerDigitLeftPos[svar1],
+                                                 (GET_TIMERY_A0_VOID0(svar6)), digitWidth[svar1], VREG(42),
+                                                 VREG(43) << 1, VREG(43) << 1);
                 }
             }
         }
@@ -4007,13 +3986,11 @@ void Interface_Update(PlayState* play) {
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
 
-        osSyncPrintf("now_life=%d  max_life=%d\n", GET_HEALTH,
-                     GET_HEALTHCAPACITY);
+        osSyncPrintf("now_life=%d  max_life=%d\n", GET_HEALTH, GET_HEALTHCAPACITY);
 
         if (GET_HEALTH >= GET_HEALTHCAPACITY) {
             SET_HEALTH(GET_HEALTHCAPACITY);
-            osSyncPrintf("S_Private.now_life=%d  S_Private.max_life=%d\n", GET_HEALTH,
-                         GET_HEALTHCAPACITY);
+            osSyncPrintf("S_Private.now_life=%d  S_Private.max_life=%d\n", GET_HEALTH, GET_HEALTHCAPACITY);
             SET_HEALTHACCUMULATOR(0);
         }
     }
@@ -4139,8 +4116,7 @@ void Interface_Update(PlayState* play) {
     }
 
     if (GET_TIMER1STATE == 0) {
-        if (((D_80125A58 == 1) || (D_80125A58 == 2) || (D_80125A58 == 4)) &&
-            ((GET_HEALTH >> 1) != 0)) {
+        if (((D_80125A58 == 1) || (D_80125A58 == 2) || (D_80125A58 == 4)) && ((GET_HEALTH >> 1) != 0)) {
             SET_TIMER1STATE(1);
             SET_TIMERX_A0(0, 140);
             SET_TIMERY_A0(0, 80);
@@ -4188,8 +4164,7 @@ void Interface_Update(PlayState* play) {
 
     if (GET_SUNSSONGSTATE != SUNSSONG_INACTIVE) {
         // exit out of ocarina mode after suns song finishes playing
-        if ((msgCtx->ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE) &&
-            (GET_SUNSSONGSTATE == SUNSSONG_START)) {
+        if ((msgCtx->ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE) && (GET_SUNSSONGSTATE == SUNSSONG_START)) {
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         }
 
@@ -4197,8 +4172,7 @@ void Interface_Update(PlayState* play) {
         if (play->envCtx.sceneTimeSpeed != 0) {
             if (GET_SUNSSONGSTATE != SUNSSONG_SPEED_TIME) {
                 D_80125B60 = false;
-                if ((GET_DAYTIME >= CLOCK_TIME(6, 30)) &&
-                    (GET_DAYTIME <= CLOCK_TIME(18, 0) + 1)) {
+                if ((GET_DAYTIME >= CLOCK_TIME(6, 30)) && (GET_DAYTIME <= CLOCK_TIME(18, 0) + 1)) {
                     D_80125B60 = true;
                 }
 
@@ -4206,8 +4180,7 @@ void Interface_Update(PlayState* play) {
                 sPrevTimeSpeed = gTimeSpeed;
                 gTimeSpeed = 400;
             } else if (!D_80125B60) {
-                if ((GET_DAYTIME >= CLOCK_TIME(6, 30)) &&
-                    (GET_DAYTIME <= CLOCK_TIME(18, 0) + 1)) {
+                if ((GET_DAYTIME >= CLOCK_TIME(6, 30)) && (GET_DAYTIME <= CLOCK_TIME(18, 0) + 1)) {
                     SET_SUNSSONGSTATE(SUNSSONG_INACTIVE);
                     gTimeSpeed = sPrevTimeSpeed;
                     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
@@ -4219,8 +4192,7 @@ void Interface_Update(PlayState* play) {
             }
         } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_1) &&
                    (interfaceCtx->restrictions.sunsSong != 3)) {
-            if ((GET_DAYTIME >= CLOCK_TIME(6, 30)) &&
-                (GET_DAYTIME < CLOCK_TIME(18, 0) + 1)) {
+            if ((GET_DAYTIME >= CLOCK_TIME(6, 30)) && (GET_DAYTIME < CLOCK_TIME(18, 0) + 1)) {
                 SET_NEXTDAYTIME(NEXT_TIME_NIGHT);
                 play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 SET_NEXTTRANSITIONTYPE(TRANS_TYPE_FADE_BLACK);

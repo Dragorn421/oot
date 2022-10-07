@@ -251,8 +251,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     SET_SUNSSONGSTATE(SUNSSONG_INACTIVE);
 
-    if ((GET_DAYTIME_VOID0) > CLOCK_TIME(18, 0) ||
-        (GET_DAYTIME_VOID0) < CLOCK_TIME(6, 30)) {
+    if ((GET_DAYTIME_VOID0) > CLOCK_TIME(18, 0) || (GET_DAYTIME_VOID0) < CLOCK_TIME(6, 30)) {
         (SET_NIGHTFLAG(1));
     } else {
         (SET_NIGHTFLAG(0));
@@ -322,9 +321,9 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
             envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjFogFar = 0;
 
-    envCtx->sunPos.x = -(Math_SinS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    envCtx->sunPos.y = +(Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    envCtx->sunPos.z = +(Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
+    envCtx->sunPos.x = -(Math_SinS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    envCtx->sunPos.y = +(Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    envCtx->sunPos.z = +(Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
     envCtx->windDirection.x = 80;
     envCtx->windDirection.y = 80;
@@ -848,7 +847,7 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
     GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * (GET_SKYBOXTIME_VOID0) / 60.0f));
 
-    if (((GET_SKYBOXTIME_VOID0) & 0x1F) >= 0x10 || gTimeSpeed >= 6) {
+    if (((GET_SKYBOXTIME_VOID0)&0x1F) >= 0x10 || gTimeSpeed >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
     } else {
         GfxPrint_Printf(&printer, "%s", " ");
@@ -882,8 +881,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
     EnvLightSettings* lightSettingsList = play->envCtx.lightSettingsList;
     s32 adjustment;
 
-    if (((GET_GAMEMODE_VOID0) != GAMEMODE_NORMAL) &&
-        ((GET_GAMEMODE_VOID0) != GAMEMODE_END_CREDITS)) {
+    if (((GET_GAMEMODE_VOID0) != GAMEMODE_NORMAL) && ((GET_GAMEMODE_VOID0) != GAMEMODE_END_CREDITS)) {
         Rumble_ClearRequests();
     }
 
@@ -935,8 +933,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         }
 
         //! @bug `gTimeSpeed` is unsigned, it can't be negative
-        if ((((GET_SCENELAYER_VOID0) >= 5 || gTimeSpeed != 0) &&
-             (GET_DAYTIME_VOID0) > GET_SKYBOXTIME) ||
+        if ((((GET_SCENELAYER_VOID0) >= 5 || gTimeSpeed != 0) && (GET_DAYTIME_VOID0) > GET_SKYBOXTIME) ||
             ((GET_DAYTIME_VOID0) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
 
             SET_SKYBOXTIME((GET_DAYTIME_VOID0));
@@ -1025,11 +1022,9 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                         // set light1 direction for the sun
                         envCtx->lightSettings.light1Dir[0] =
-                            -(Math_SinS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f);
-                        envCtx->lightSettings.light1Dir[1] =
-                            Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f;
-                        envCtx->lightSettings.light1Dir[2] =
-                            Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 20.0f;
+                            -(Math_SinS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f);
+                        envCtx->lightSettings.light1Dir[1] = Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f;
+                        envCtx->lightSettings.light1Dir[2] = Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 20.0f;
 
                         // set light2 direction for the moon
                         envCtx->lightSettings.light2Dir[0] = -envCtx->lightSettings.light1Dir[0];
@@ -1372,20 +1367,17 @@ void Environment_DrawSunAndMoon(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 2266);
 
     if (play->csCtx.state != 0) {
-        Math_SmoothStepToF(&play->envCtx.sunPos.x,
-                           -(Math_SinS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f,
+        Math_SmoothStepToF(&play->envCtx.sunPos.x, -(Math_SinS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f) * 25.0f,
                            1.0f, 0.8f, 0.8f);
-        Math_SmoothStepToF(&play->envCtx.sunPos.y,
-                           (Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
-                           0.8f, 0.8f);
+        Math_SmoothStepToF(&play->envCtx.sunPos.y, (Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f) * 25.0f,
+                           1.0f, 0.8f, 0.8f);
         //! @bug This should be z.
-        Math_SmoothStepToF(&play->envCtx.sunPos.y,
-                           (Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f, 1.0f,
-                           0.8f, 0.8f);
+        Math_SmoothStepToF(&play->envCtx.sunPos.y, (Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 20.0f) * 25.0f,
+                           1.0f, 0.8f, 0.8f);
     } else {
-        play->envCtx.sunPos.x = -(Math_SinS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-        play->envCtx.sunPos.y = +(Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-        play->envCtx.sunPos.z = +(Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
+        play->envCtx.sunPos.x = -(Math_SinS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+        play->envCtx.sunPos.y = +(Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+        play->envCtx.sunPos.z = +(Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
     }
 
     if (GET_ENTRANCEINDEX != ENTR_SPOT00_0 || (GET_SCENELAYER_VOID0) != 5) {
@@ -1454,8 +1446,7 @@ void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, V
                                   Vec3f pos, s32 unused) {
     if ((play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) && (play->envCtx.skyboxConfig == 0)) {
         Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, 2000, 370,
-                                  Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f, 400,
-                                  true);
+                                  Math_CosS((GET_DAYTIME_VOID0)-CLOCK_TIME(12, 0)) * 120.0f, 400, true);
     }
 }
 
@@ -2032,8 +2023,7 @@ void Environment_PlaySceneSequence(PlayState* play) {
     play->envCtx.timeSeqState = TIMESEQ_DISABLED;
 
     // both lost woods exits on the bridge from kokiri to hyrule field
-    if ((GET_ENTRANCEINDEX_VOID0) == ENTR_SPOT10_8 ||
-        (GET_ENTRANCEINDEX_VOID0) == ENTR_SPOT10_9) {
+    if ((GET_ENTRANCEINDEX_VOID0) == ENTR_SPOT10_8 || (GET_ENTRANCEINDEX_VOID0) == ENTR_SPOT10_9) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_KOKIRI_REGION);
     } else if ((GET_FORCEDSEQID_VOID0) != NA_BGM_GENERAL_SFX) {
         if (!Environment_IsForcedSequenceDisabled()) {
@@ -2054,8 +2044,7 @@ void Environment_PlaySceneSequence(PlayState* play) {
         if ((GET_SEQID_VOID0) != play->sequenceCtx.seqId) {
             func_800F5550(play->sequenceCtx.seqId);
         }
-    } else if ((GET_DAYTIME_VOID0) >= CLOCK_TIME(7, 0) &&
-               (GET_DAYTIME_VOID0) <= CLOCK_TIME(17, 10)) {
+    } else if ((GET_DAYTIME_VOID0) >= CLOCK_TIME(7, 0) && (GET_DAYTIME_VOID0) <= CLOCK_TIME(17, 10)) {
         if ((GET_SEQID_VOID0) != play->sequenceCtx.seqId) {
             func_800F5550(play->sequenceCtx.seqId);
         }
@@ -2066,11 +2055,9 @@ void Environment_PlaySceneSequence(PlayState* play) {
             Audio_PlayNatureAmbienceSequence(play->sequenceCtx.natureAmbienceId);
         }
 
-        if ((GET_DAYTIME_VOID0) > CLOCK_TIME(17, 10) &&
-            (GET_DAYTIME_VOID0) <= CLOCK_TIME(19, 0)) {
+        if ((GET_DAYTIME_VOID0) > CLOCK_TIME(17, 10) && (GET_DAYTIME_VOID0) <= CLOCK_TIME(19, 0)) {
             play->envCtx.timeSeqState = TIMESEQ_EARLY_NIGHT_CRITTERS;
-        } else if ((GET_DAYTIME_VOID0) > CLOCK_TIME(19, 0) + 1 ||
-                   (GET_DAYTIME_VOID0) < CLOCK_TIME(6, 30)) {
+        } else if ((GET_DAYTIME_VOID0) > CLOCK_TIME(19, 0) + 1 || (GET_DAYTIME_VOID0) < CLOCK_TIME(6, 30)) {
             play->envCtx.timeSeqState = TIMESEQ_NIGHT_CRITTERS;
         } else {
             play->envCtx.timeSeqState = TIMESEQ_MORNING_CRITTERS;

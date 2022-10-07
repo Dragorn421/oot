@@ -2491,8 +2491,7 @@ s32 func_80B59698(EnZl3* this, PlayState* play) {
     if (cond) {
         u8 curSpawn = play->curSpawn;
 
-        if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) &&
-            ((GET_TIMER2VALUE <= 0) || (GET_TIMER2STATE == 0))) {
+        if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) && ((GET_TIMER2VALUE <= 0) || (GET_TIMER2STATE == 0))) {
             return 1;
         }
     }

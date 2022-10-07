@@ -491,8 +491,7 @@ s32 Player_InBlockingCsMode(PlayState* play, Player* this) {
     return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csMode != 0) ||
            (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
            (this->stateFlags3 & PLAYER_STATE3_7) ||
-           ((GET_MAGICSTATE != MAGIC_STATE_IDLE) &&
-            (Player_ActionToMagicSpell(this, this->itemActionParam) >= 0));
+           ((GET_MAGICSTATE != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemActionParam) >= 0));
 }
 
 s32 Player_InCsMode(PlayState* play) {
@@ -525,8 +524,7 @@ void Player_SetModelsForHoldingShield(Player* this) {
         ((this->itemActionParam < 0) || (this->itemActionParam == this->heldItemActionParam))) {
         if (!Player_HoldsTwoHandedWeapon(this) && !Player_IsChildWithHylianShield(this)) {
             this->rightHandType = PLAYER_MODELTYPE_RH_SHIELD;
-            this->rightHandDLists =
-                sPlayerDListGroups[PLAYER_MODELTYPE_RH_SHIELD] + (GET_LINKAGE_VOID0);
+            this->rightHandDLists = sPlayerDListGroups[PLAYER_MODELTYPE_RH_SHIELD] + (GET_LINKAGE_VOID0);
             if (this->sheathType == PLAYER_MODELTYPE_SHEATH_18) {
                 this->sheathType = PLAYER_MODELTYPE_SHEATH_16;
             } else if (this->sheathType == PLAYER_MODELTYPE_SHEATH_19) {
@@ -544,14 +542,14 @@ void Player_SetModels(Player* this, s32 modelGroup) {
     this->rightHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND];
     this->sheathType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH];
 
-    this->leftHandDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND]] +
-                           (GET_LINKAGE_VOID0);
-    this->rightHandDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND]] +
-                            (GET_LINKAGE_VOID0);
-    this->sheathDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH]] +
-                         (GET_LINKAGE_VOID0);
-    this->waistDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST]] +
-                        (GET_LINKAGE_VOID0);
+    this->leftHandDLists =
+        sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND]] + (GET_LINKAGE_VOID0);
+    this->rightHandDLists =
+        sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND]] + (GET_LINKAGE_VOID0);
+    this->sheathDLists =
+        sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH]] + (GET_LINKAGE_VOID0);
+    this->waistDLists =
+        sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST]] + (GET_LINKAGE_VOID0);
 
     Player_SetModelsForHoldingShield(this);
 }
@@ -733,8 +731,7 @@ s32 Player_HoldsTwoHandedWeapon(Player* this) {
 }
 
 s32 Player_HoldsBrokenKnife(Player* this) {
-    return (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) &&
-           (GET_SWORDHEALTH <= 0.0f);
+    return (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) && (GET_SWORDHEALTH <= 0.0f);
 }
 
 s32 Player_ActionToBottle(Player* this, s32 actionParam) {
@@ -905,8 +902,7 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
     SkelAnime_DrawFlexLod(play, skeleton, jointTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
     if ((overrideLimbDraw != Player_OverrideLimbDrawGameplayFirstPerson) &&
-        (overrideLimbDraw != Player_OverrideLimbDrawGameplay_80090440) &&
-        (GET_GAMEMODE != GAMEMODE_END_CREDITS)) {
+        (overrideLimbDraw != Player_OverrideLimbDrawGameplay_80090440) && (GET_GAMEMODE != GAMEMODE_END_CREDITS)) {
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
@@ -991,8 +987,7 @@ void func_8008F87C(PlayState* play, Player* this, SkelAnime* skelAnime, Vec3f* p
         Matrix_Push();
         Matrix_TranslateRotateZYX(pos, rot);
         Matrix_MultVec3f(&sZeroVec, &spA4);
-        Matrix_TranslateRotateZYX(&D_80126038[GET_LINKAGE_VOID0],
-                                  &skelAnime->jointTable[shinLimbIndex]);
+        Matrix_TranslateRotateZYX(&D_80126038[GET_LINKAGE_VOID0], &skelAnime->jointTable[shinLimbIndex]);
         Matrix_Translate(D_80126050[GET_LINKAGE_VOID0], 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_MultVec3f(&sZeroVec, &sp98);
         Matrix_MultVec3f(&D_80126070, &footprintPos);
@@ -1195,9 +1190,8 @@ s32 Player_OverrideLimbDrawGameplayFirstPerson(PlayState* play, s32 limbIndex, G
         } else if (limbIndex == PLAYER_LIMB_R_FOREARM) {
             *dList = sFirstPersonForearmDLs[GET_LINKAGE_VOID0];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-            *dList = Player_HoldsHookshot(this)
-                         ? gLinkAdultRightHandHoldingHookshotFarDL
-                         : sFirstPersonRightHandHoldingWeaponDLs[GET_LINKAGE_VOID0];
+            *dList = Player_HoldsHookshot(this) ? gLinkAdultRightHandHoldingHookshotFarDL
+                                                : sFirstPersonRightHandHoldingWeaponDLs[GET_LINKAGE_VOID0];
         } else {
             *dList = NULL;
         }
@@ -1663,8 +1657,8 @@ u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime) {
     gSegments[6] =
         VIRTUAL_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE);
 
-    SkelAnime_InitLink(play, skelAnime, gPlayerSkelHeaders[GET_LINKAGE_VOID0],
-                       &gPlayerAnim_link_normal_wait, 9, ptr, ptr, PLAYER_LIMB_MAX);
+    SkelAnime_InitLink(play, skelAnime, gPlayerSkelHeaders[GET_LINKAGE_VOID0], &gPlayerAnim_link_normal_wait, 9, ptr,
+                       ptr, PLAYER_LIMB_MAX);
 
     return size + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE +
            sizeof(Vec3s[PLAYER_LIMB_BUF_COUNT]);

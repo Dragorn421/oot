@@ -257,8 +257,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
     MemCpy(&gSaveContext, sramCtx->readBuff + i, sizeof(Save));
 
     osSyncPrintf(VT_FGCOL(YELLOW));
-    osSyncPrintf("SCENE_DATA_ID = %d   SceneNo = %d\n", GET_SAVEDSCENEID,
-                 (GET_ENTRANCEINDEX_VOID0));
+    osSyncPrintf("SCENE_DATA_ID = %d   SceneNo = %d\n", GET_SAVEDSCENEID, (GET_ENTRANCEINDEX_VOID0));
 
     switch (GET_SAVEDSCENEID) {
         case SCENE_YDAN:
@@ -338,8 +337,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         osSyncPrintf(VT_FGCOL(BLUE));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCpy(gScarecrowLongSongPtr, GET_SCARECROWLONGSONG,
-               sizeof(GET_SCARECROWLONGSONG));
+        MemCpy(gScarecrowLongSongPtr, GET_SCARECROWLONGSONG, sizeof(GET_SCARECROWLONGSONG));
 
         ptr = (u8*)gScarecrowLongSongPtr;
         for (i = 0; i < ARRAY_COUNT(GET_SCARECROWLONGSONG); i++, ptr++) {
@@ -354,8 +352,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         osSyncPrintf(VT_FGCOL(GREEN));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCpy(gScarecrowSpawnSongPtr, GET_SCARECROWSPAWNSONG,
-               sizeof(GET_SCARECROWSPAWNSONG));
+        MemCpy(gScarecrowSpawnSongPtr, GET_SCARECROWSPAWNSONG, sizeof(GET_SCARECROWSPAWNSONG));
 
         ptr = gScarecrowSpawnSongPtr;
         for (i = 0; i < ARRAY_COUNT(GET_SCARECROWSPAWNSONG); i++, ptr++) {
@@ -530,10 +527,8 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                     SET_NEWF_A0(3, 'D');
                     SET_NEWF_A0(4, 'A');
                     SET_NEWF_A0(5, 'Z');
-                    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", GET_NEWF_A0(0),
-                                 GET_NEWF_A0(1), GET_NEWF_A0(2),
-                                 GET_NEWF_A0(3), GET_NEWF_A0(4),
-                                 GET_NEWF_A0(5));
+                    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", GET_NEWF_A0(0), GET_NEWF_A0(1), GET_NEWF_A0(2),
+                                 GET_NEWF_A0(3), GET_NEWF_A0(4), GET_NEWF_A0(5));
                 } else {
                     Sram_InitNewSave();
                 }
@@ -556,19 +551,15 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                 i = gSramSlotOffsets[slotNum + 3];
                 SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
-                osSyncPrintf("????#%x,%x,%x,%x,%x,%x\n", GET_NEWF_A0(0),
-                             GET_NEWF_A0(1), GET_NEWF_A0(2),
-                             GET_NEWF_A0(3), GET_NEWF_A0(4),
-                             GET_NEWF_A0(5));
-                osSyncPrintf("\nぽいんと＝%x(%d+3)  check_sum=%x(%x)\n", i, slotNum, GET_CHECKSUM,
-                             newChecksum);
+                osSyncPrintf("????#%x,%x,%x,%x,%x,%x\n", GET_NEWF_A0(0), GET_NEWF_A0(1), GET_NEWF_A0(2), GET_NEWF_A0(3),
+                             GET_NEWF_A0(4), GET_NEWF_A0(5));
+                osSyncPrintf("\nぽいんと＝%x(%d+3)  check_sum=%x(%x)\n", i, slotNum, GET_CHECKSUM, newChecksum);
             }
 
             i = gSramSlotOffsets[slotNum];
             SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
-            osSyncPrintf("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", i, slotNum, GET_CHECKSUM,
-                         newChecksum);
+            osSyncPrintf("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", i, slotNum, GET_CHECKSUM, newChecksum);
         } else {
             osSyncPrintf("\nＳＡＶＥデータ ＯＫ！！！！\n"); // "SAVE data OK! ! ! !"
         }
@@ -652,10 +643,8 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
 
     SET_N64DDFLAG(fileSelect->n64ddFlag);
     osSyncPrintf("６４ＤＤフラグ=%d\n", fileSelect->n64ddFlag);
-    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", GET_NEWF_A0(0),
-                 GET_NEWF_A0(1), GET_NEWF_A0(2),
-                 GET_NEWF_A0(3), GET_NEWF_A0(4),
-                 GET_NEWF_A0(5));
+    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", GET_NEWF_A0(0), GET_NEWF_A0(1), GET_NEWF_A0(2), GET_NEWF_A0(3),
+                 GET_NEWF_A0(4), GET_NEWF_A0(5));
     osSyncPrintf("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
 
     ptr = (u16*)&gSaveContext;
@@ -691,14 +680,11 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     j = gSramSlotOffsets[GET_FILENUM];
 
     MemCpy(&fileSelect->deaths[GET_FILENUM], sramCtx->readBuff + j + DEATHS, sizeof(fileSelect->deaths[0]));
-    MemCpy(&fileSelect->fileNames[GET_FILENUM], sramCtx->readBuff + j + NAME,
-           sizeof(fileSelect->fileNames[0]));
+    MemCpy(&fileSelect->fileNames[GET_FILENUM], sramCtx->readBuff + j + NAME, sizeof(fileSelect->fileNames[0]));
     MemCpy(&fileSelect->healthCapacities[GET_FILENUM], sramCtx->readBuff + j + HEALTH_CAP,
            sizeof(fileSelect->healthCapacities[0]));
-    MemCpy(&fileSelect->questItems[GET_FILENUM], sramCtx->readBuff + j + QUEST,
-           sizeof(fileSelect->questItems[0]));
-    MemCpy(&fileSelect->n64ddFlags[GET_FILENUM], sramCtx->readBuff + j + N64DD,
-           sizeof(fileSelect->n64ddFlags[0]));
+    MemCpy(&fileSelect->questItems[GET_FILENUM], sramCtx->readBuff + j + QUEST, sizeof(fileSelect->questItems[0]));
+    MemCpy(&fileSelect->n64ddFlags[GET_FILENUM], sramCtx->readBuff + j + N64DD, sizeof(fileSelect->n64ddFlags[0]));
     MemCpy(&fileSelect->defense[GET_FILENUM], sramCtx->readBuff + j + DEFENSE, sizeof(fileSelect->defense[0]));
     MemCpy(&fileSelect->health[GET_FILENUM], sramCtx->readBuff + j + HEALTH, sizeof(fileSelect->health[0]));
 
