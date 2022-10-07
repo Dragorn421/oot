@@ -1973,7 +1973,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
 
     if (this->meleeWeaponState == 0) {
         if ((this->heldItemActionParam == PLAYER_AP_SWORD_BGS) &&
-            (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
+            (GET_SWORDHEALTH > 0.0f)) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
         } else {
             itemSfx = NA_SE_IT_SWORD_SWING;
@@ -2170,9 +2170,9 @@ void func_808340DC(Player* this, PlayState* play) {
 void func_80834298(Player* this, PlayState* play) {
     if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & PLAYER_STATE1_8) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
-        (gSaveContext.save.info.playerData.health != 0) && (play->csCtx.state == CS_STATE_IDLE) &&
+        (GET_HEALTH != 0) && (play->csCtx.state == CS_STATE_IDLE) &&
         (this->csMode == 0) && (play->shootingGalleryStatus == 0) && (play->activeCamId == CAM_ID_MAIN) &&
-        (play->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timer1State != 10)) {
+        (play->transitionTrigger != TRANS_TRIGGER_START) && (GET_TIMER1STATE != 10)) {
         func_80833DF8(this, play);
     }
 
@@ -2194,7 +2194,7 @@ s32 func_80834380(PlayState* play, Player* this, s32* itemPtr, s32* typePtr) {
         *typePtr = ARROW_SEED;
     }
 
-    if (gSaveContext.minigameState == 1) {
+    if (GET_MINIGAMESTATE == 1) {
         return play->interfaceCtx.hbaAmmo;
     } else if (play->shootingGalleryStatus != 0) {
         return play->shootingGalleryStatus;
@@ -2209,7 +2209,7 @@ s32 func_8083442C(Player* this, PlayState* play) {
     s32 magicArrowType;
 
     if ((this->heldItemActionParam >= PLAYER_AP_BOW_FIRE) && (this->heldItemActionParam <= PLAYER_AP_BOW_0E) &&
-        (gSaveContext.magicState != MAGIC_STATE_IDLE)) {
+        (GET_MAGICSTATE != MAGIC_STATE_IDLE)) {
         func_80078884(NA_SE_SY_ERROR);
     } else {
         func_80833638(this, func_808351D4);
@@ -2517,7 +2517,7 @@ s32 func_808350A4(PlayState* play, Player* this) {
         if (!Player_HoldsHookshot(this)) {
             func_80834380(play, this, &item, &arrowType);
 
-            if (gSaveContext.minigameState == 1) {
+            if (GET_MINIGAMESTATE == 1) {
                 play->interfaceCtx.hbaAmmo--;
             } else if (play->shootingGalleryStatus != 0) {
                 play->shootingGalleryStatus--;
@@ -2703,7 +2703,7 @@ s32 func_808356E8(Player* this, PlayState* play) {
 }
 
 void func_808357E8(Player* this, Gfx** dLists) {
-    this->leftHandDLists = dLists + gSaveContext.save.linkAge;
+    this->leftHandDLists = dLists + GET_LINKAGE;
 }
 
 s32 func_80835800(Player* this, PlayState* play) {
@@ -2935,9 +2935,9 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                     func_80078884(NA_SE_SY_ERROR);
                 }
             } else if ((temp = Player_ActionToMagicSpell(this, actionParam)) >= 0) {
-                if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
-                    ((gSaveContext.magicCapacity != 0) && (gSaveContext.magicState == MAGIC_STATE_IDLE) &&
-                     (gSaveContext.save.info.playerData.magic >= sMagicSpellCosts[temp]))) {
+                if (((actionParam == PLAYER_AP_FARORES_WIND) && (GET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP) > 0)) ||
+                    ((GET_MAGICCAPACITY != 0) && (GET_MAGICSTATE == MAGIC_STATE_IDLE) &&
+                     (GET_MAGIC >= sMagicSpellCosts[temp]))) {
                     this->itemActionParam = actionParam;
                     this->unk_6AD = 4;
                 } else {
@@ -3009,8 +3009,8 @@ void func_80836448(PlayState* play, Player* this, LinkAnimationHeader* anim) {
             play->gameOverCtx.state = GAMEOVER_DEATH_START;
             func_800F6AB0(0);
             Audio_PlayFanfare(NA_BGM_GAME_OVER);
-            gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-            gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
+            SET_SEQID((u8)NA_BGM_DISABLED);
+            SET_NATUREAMBIENCEID(NATURE_ID_DISABLED);
         }
 
         OnePointCutscene_Init(play, 9806, cond ? 120 : 60, &this->actor, CAM_ID_MAIN);
@@ -3185,7 +3185,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                     actorToTarget = &GET_PLAYER(play)->actor;
                 }
 
-                holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
+                holdTarget = (GET_ZTARGETSETTING != 0) || (this->actor.category != ACTORCAT_PLAYER);
                 this->stateFlags1 |= PLAYER_STATE1_15;
 
                 if ((actorToTarget != NULL) && !(actorToTarget->flags & ACTOR_FLAG_27)) {
@@ -3837,8 +3837,8 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
 
                     Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0xDFF);
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos = respawnInfo->pos;
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].yaw = respawnInfo->yaw;
+                    SET_RESPAWN_A0_POS(RESPAWN_MODE_DOWN, respawnInfo->pos);
+                    SET_RESPAWN_A0_YAW(RESPAWN_MODE_DOWN, respawnInfo->yaw);
                 }
 
                 Play_TriggerVoidOut(play);
@@ -4195,10 +4195,10 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                 play->nextEntranceIndex = play->setupExitList[exitIndex - 1];
 
                 if (play->nextEntranceIndex == ENTR_RETURN_GROTTO) {
-                    gSaveContext.respawnFlag = 2;
-                    play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
+                    SET_RESPAWNFLAG(2);
+                    play->nextEntranceIndex = GET_RESPAWN_A0_ENTRANCEINDEX(RESPAWN_MODE_RETURN);
                     play->transitionType = TRANS_TYPE_FADE_WHITE;
-                    gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
+                    SET_NEXTTRANSITIONTYPE(TRANS_TYPE_FADE_WHITE);
                 } else if (play->nextEntranceIndex >= ENTR_RETURN_YOUSEI_IZUMI_YOKO) {
                     play->nextEntranceIndex =
                         sReturnEntranceGroupData[sReturnEntranceGroupIndices[play->nextEntranceIndex -
@@ -4207,12 +4207,12 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                     Scene_SetTransitionForNextEntrance(play);
                 } else {
                     if (SurfaceType_GetFloorEffect(&play->colCtx, poly, bgId) == FLOOR_EFFECT_2) {
-                        gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = play->nextEntranceIndex;
+                        SET_RESPAWN_A0_ENTRANCEINDEX(RESPAWN_MODE_DOWN, play->nextEntranceIndex);
                         Play_TriggerVoidOut(play);
-                        gSaveContext.respawnFlag = -2;
+                        SET_RESPAWNFLAG(-2);
                     }
 
-                    gSaveContext.retainWeatherMode = true;
+                    SET_RETAINWEATHERMODE(true);
                     Scene_SetTransitionForNextEntrance(play);
                 }
 
@@ -4227,8 +4227,8 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                 if (temp == FLOOR_TYPE_11) {
                     func_800788CC(NA_SE_OC_SECRET_HOLE_OUT);
                     func_800F6964(5);
-                    gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-                    gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
+                    SET_SEQID((u8)NA_BGM_DISABLED);
+                    SET_NATUREAMBIENCEID(NATURE_ID_DISABLED);
                 } else {
                     linearVel = this->linearVelocity;
 
@@ -4238,9 +4238,9 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                     }
 
                     if (linearVel > R_RUN_SPEED_LIMIT / 100.0f) {
-                        gSaveContext.entranceSpeed = R_RUN_SPEED_LIMIT / 100.0f;
+                        SET_ENTRANCESPEED(R_RUN_SPEED_LIMIT / 100.0f);
                     } else {
-                        gSaveContext.entranceSpeed = linearVel;
+                        SET_ENTRANCESPEED(linearVel);
                     }
 
                     if (sConveyorSpeedIndex != CONVEYOR_SPEED_DISABLED) {
@@ -4479,8 +4479,8 @@ s32 func_80839800(Player* this, PlayState* play) {
 
                         //! @bug groundPoly's bgId is not guaranteed to be BGCHECK_SCENE
                         if (func_80839034(play, this, groundPoly, BGCHECK_SCENE)) {
-                            gSaveContext.entranceSpeed = 2.0f;
-                            gSaveContext.entranceSound = NA_SE_OC_DOOR_OPEN;
+                            SET_ENTRANCESPEED(2.0f);
+                            SET_ENTRANCESOUND(NA_SE_OC_DOOR_OPEN);
                         }
                     } else {
                         Camera_ChangeDoorCam(Play_GetCamera(play, CAM_ID_MAIN), doorActor,
@@ -4957,7 +4957,7 @@ s32 func_8083B040(Player* this, PlayState* play) {
             if (this->unk_6AD == 4) {
                 sp2C = Player_ActionToMagicSpell(this, this->itemActionParam);
                 if (sp2C >= 0) {
-                    if ((sp2C != 3) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
+                    if ((sp2C != 3) || (GET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP) <= 0)) {
                         func_8083AF44(play, this, sp2C);
                     } else {
                         func_80835C58(play, this, func_8085063C, 1);
@@ -5443,7 +5443,7 @@ s32 func_8083C544(Player* this, PlayState* play) {
         if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld(this) != 0) && (this->unk_844 == 1) &&
             (this->heldItemActionParam != PLAYER_AP_STICK)) {
             if ((this->heldItemActionParam != PLAYER_AP_SWORD_BGS) ||
-                (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
+                (GET_SWORDHEALTH > 0.0f)) {
                 func_808377DC(play, this);
                 return 1;
             }
@@ -5566,18 +5566,18 @@ void func_8083CA20(PlayState* play, Player* this) {
 
 void func_8083CA54(PlayState* play, Player* this) {
     this->linearVelocity = 2.0f;
-    gSaveContext.entranceSpeed = 2.0f;
+    SET_ENTRANCESPEED(2.0f);
     if (func_8083C910(play, this, 120.0f)) {
         this->unk_850 = -15;
     }
 }
 
 void func_8083CA9C(PlayState* play, Player* this) {
-    if (gSaveContext.entranceSpeed < 0.1f) {
-        gSaveContext.entranceSpeed = 0.1f;
+    if (GET_ENTRANCESPEED < 0.1f) {
+        SET_ENTRANCESPEED(0.1f);
     }
 
-    this->linearVelocity = gSaveContext.entranceSpeed;
+    this->linearVelocity = GET_ENTRANCESPEED;
 
     if (func_8083C910(play, this, 800.0f)) {
         this->unk_850 = -80 / this->linearVelocity;
@@ -7732,8 +7732,8 @@ s32 func_80842AC4(PlayState* play, Player* this) {
 
 s32 func_80842B7C(PlayState* play, Player* this) {
     if (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) {
-        if (!gSaveContext.save.info.playerData.bgsFlag && (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
-            if ((gSaveContext.save.info.playerData.swordHealth -= 1.0f) <= 0.0f) {
+        if (!GET_BGSFLAG && (GET_SWORDHEALTH > 0.0f)) {
+            if ((GET_SWORDHEALTH -= 1.0f) <= 0.0f) {
                 EffectSsStick_Spawn(play, &this->bodyPartsPos[PLAYER_BODYPART_R_HAND],
                                     this->actor.shape.rot.y + 0x8000);
                 func_800849EC(play);
@@ -8113,10 +8113,10 @@ void func_80843AE8(PlayState* play, Player* this) {
                     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_link_derth_rebirth, 1.0f, 99.0f,
                                          Animation_GetLastFrame(&gPlayerAnim_link_derth_rebirth), ANIMMODE_ONCE, 0.0f);
                 }
-                gSaveContext.healthAccumulator = 0x140;
+                SET_HEALTHACCUMULATOR(0x140);
                 this->unk_850 = -1;
             }
-        } else if (gSaveContext.healthAccumulator == 0) {
+        } else if (GET_HEALTHACCUMULATOR == 0) {
             this->stateFlags1 &= ~PLAYER_STATE1_7;
             if (this->stateFlags1 & PLAYER_STATE1_27) {
                 func_80838F18(play, this);
@@ -8259,7 +8259,7 @@ void func_8084411C(Player* this, PlayState* play) {
     f32 sp4C;
     s16 sp4A;
 
-    if (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 40) {
+    if (GET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP) > 40) {
         this->actor.gravity = 0.0f;
     } else if (func_8008E9C4(this)) {
         this->actor.gravity = -1.2f;
@@ -8874,7 +8874,7 @@ s32 func_80845C68(PlayState* play, s32 arg1) {
     if (arg1 == 0) {
         Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0xDFF);
     }
-    gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 0;
+    SET_RESPAWN_A0_DATA(RESPAWN_MODE_DOWN, 0);
     return arg1;
 }
 
@@ -8908,7 +8908,7 @@ void func_80845CA4(Player* this, PlayState* play) {
             sp30 = 20;
 
             if (this->stateFlags1 & PLAYER_STATE1_0) {
-                sp34 = gSaveContext.entranceSpeed;
+                sp34 = GET_ENTRANCESPEED;
 
                 if (sConveyorSpeedIndex != CONVEYOR_SPEED_DISABLED) {
                     this->unk_450.x = (Math_SinS(sConveyorYaw) * 400.0f) + this->actor.world.pos.x;
@@ -8917,7 +8917,7 @@ void func_80845CA4(Player* this, PlayState* play) {
             } else if (this->unk_850 < 0) {
                 this->unk_850++;
 
-                sp34 = gSaveContext.entranceSpeed;
+                sp34 = GET_ENTRANCESPEED;
                 sp30 = -1;
             }
 
@@ -8927,7 +8927,7 @@ void func_80845CA4(Player* this, PlayState* play) {
                                          (Play_GetCamera(play, CAM_ID_MAIN)->unk_14C & 0x10))) {
 
                 func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
-                func_80845C68(play, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
+                func_80845C68(play, GET_RESPAWN_A0_DATA(RESPAWN_MODE_DOWN));
 
                 if (!func_8083B644(this, play)) {
                     func_8083CF5C(this, play);
@@ -9221,7 +9221,7 @@ void func_80846660(PlayState* play, Player* this) {
 static u8 D_808546F0[] = { ITEM_SWORD_MASTER, ITEM_SWORD_KOKIRI };
 
 void func_80846720(PlayState* play, Player* this, s32 arg2) {
-    s32 item = D_808546F0[(void)0, gSaveContext.save.linkAge];
+    s32 item = D_808546F0[GET_LINKAGE_VOID0];
     s32 actionParam = sItemActionParams[item];
 
     func_80835EFC(this);
@@ -9302,7 +9302,7 @@ static EffectBlureInit2 D_8085470C = {
 static Vec3s D_80854730 = { -57, 3377, 0 };
 
 void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHeader) {
-    this->ageProperties = &sAgeProperties[gSaveContext.save.linkAge];
+    this->ageProperties = &sAgeProperties[GET_LINKAGE];
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->meleeWeaponEffectIndex = TOTAL_EFFECT_COUNT;
     this->currentYaw = this->actor.world.rot.y;
@@ -9359,21 +9359,21 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     play->talkWithPlayer = func_80853148;
 
     thisx->room = -1;
-    this->ageProperties = &sAgeProperties[gSaveContext.save.linkAge];
+    this->ageProperties = &sAgeProperties[GET_LINKAGE];
     this->itemActionParam = this->heldItemActionParam = -1;
     this->heldItemId = ITEM_NONE;
 
     func_80835F44(play, this, ITEM_NONE);
     Player_SetEquipmentData(play, this);
     this->prevBoots = this->currentBoots;
-    Player_InitCommon(this, play, gPlayerSkelHeaders[((void)0, gSaveContext.save.linkAge)]);
+    Player_InitCommon(this, play, gPlayerSkelHeaders[(GET_LINKAGE_VOID0)]);
     this->giObjectSegment = (void*)(((uintptr_t)ZeldaArena_MallocDebug(0x3008, "../z_player.c", 17175) + 8) & ~0xF);
 
-    respawnFlag = gSaveContext.respawnFlag;
+    respawnFlag = GET_RESPAWNFLAG;
 
     if (respawnFlag != 0) {
         if (respawnFlag == -3) {
-            thisx->params = gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams;
+            thisx->params = GET_RESPAWN_A0_PLAYERPARAMS(RESPAWN_MODE_RETURN);
         } else {
             if ((respawnFlag == 1) || (respawnFlag == -1)) {
                 this->unk_A86 = -2;
@@ -9383,46 +9383,46 @@ void Player_Init(Actor* thisx, PlayState* play2) {
                 respawnMode = RESPAWN_MODE_DOWN;
             } else {
                 respawnMode = respawnFlag - 1;
-                Math_Vec3f_Copy(&thisx->world.pos, &gSaveContext.respawn[respawnMode].pos);
+                Math_Vec3f_Copy(&thisx->world.pos, &GET_RESPAWN_A0_POS(respawnMode));
                 Math_Vec3f_Copy(&thisx->home.pos, &thisx->world.pos);
                 Math_Vec3f_Copy(&thisx->prevPos, &thisx->world.pos);
                 this->fallStartHeight = thisx->world.pos.y;
-                this->currentYaw = thisx->shape.rot.y = gSaveContext.respawn[respawnMode].yaw;
-                thisx->params = gSaveContext.respawn[respawnMode].playerParams;
+                this->currentYaw = thisx->shape.rot.y = GET_RESPAWN_A0_YAW(respawnMode);
+                thisx->params = GET_RESPAWN_A0_PLAYERPARAMS(respawnMode);
             }
 
-            play->actorCtx.flags.tempSwch = gSaveContext.respawn[respawnMode].tempSwchFlags & 0xFFFFFF;
-            play->actorCtx.flags.tempCollect = gSaveContext.respawn[respawnMode].tempCollectFlags;
+            play->actorCtx.flags.tempSwch = GET_RESPAWN_A0_TEMPSWCHFLAGS(respawnMode) & 0xFFFFFF;
+            play->actorCtx.flags.tempCollect = GET_RESPAWN_A0_TEMPCOLLECTFLAGS(respawnMode);
         }
     }
 
     if ((respawnFlag == 0) || (respawnFlag < -1)) {
         titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
-        if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
+        if ((titleFileSize != 0) && GET_SHOWTITLECARD) {
             if (!IS_CUTSCENE_LAYER &&
-                (gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
+                (gEntranceTable[(GET_ENTRANCEINDEX_VOID0) + (GET_SCENELAYER_VOID0)].field &
                  ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&
                 ((play->sceneId != SCENE_DDAN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
                 ((play->sceneId != SCENE_NIGHT_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))) {
                 TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144, 24, 20);
             }
         }
-        gSaveContext.showTitleCard = true;
+        SET_SHOWTITLECARD(true);
     }
 
     if (func_80845C68(play, (respawnFlag == 2) ? 1 : 0) == 0) {
-        gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams = (thisx->params & 0xFF) | 0xD00;
+        SET_RESPAWN_A0_PLAYERPARAMS(RESPAWN_MODE_DOWN, (thisx->params & 0xFF) | 0xD00);
     }
 
-    gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 1;
+    SET_RESPAWN_A0_DATA(RESPAWN_MODE_DOWN, 1);
 
     if (play->sceneId <= SCENE_GANONTIKA_SONOGO) {
-        gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] |= gBitFlags[play->sceneId];
+        SET_INFTABLE_A0(INFTABLE_1AX_INDEX, GET_INFTABLE_A0(INFTABLE_1AX_INDEX) | (gBitFlags[play->sceneId]));
     }
 
     initMode = (thisx->params & 0xF00) >> 8;
     if ((initMode == 5) || (initMode == 6)) {
-        if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
+        if (GET_CUTSCENEINDEX >= 0xFFF0) {
             initMode = 13;
         }
     }
@@ -9430,23 +9430,23 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     D_80854738[initMode](play, this);
 
     if (initMode != 0) {
-        if ((gSaveContext.gameMode == GAMEMODE_NORMAL) || (gSaveContext.gameMode == GAMEMODE_END_CREDITS)) {
+        if ((GET_GAMEMODE == GAMEMODE_NORMAL) || (GET_GAMEMODE == GAMEMODE_END_CREDITS)) {
             this->naviActor = Player_SpawnFairy(play, this, &thisx->world.pos, &D_80854778, FAIRY_NAVI);
-            if (gSaveContext.dogParams != 0) {
-                gSaveContext.dogParams |= 0x8000;
+            if (GET_DOGPARAMS != 0) {
+                SET_DOGPARAMS(GET_DOGPARAMS | (0x8000));
             }
         }
     }
 
-    if (gSaveContext.nayrusLoveTimer != 0) {
-        gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
+    if (GET_NAYRUSLOVETIMER != 0) {
+        SET_MAGICSTATE(MAGIC_STATE_METER_FLASH_1);
         func_80846A00(play, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 
-    if (gSaveContext.entranceSound != 0) {
-        Audio_PlayActorSfx2(&this->actor, ((void)0, gSaveContext.entranceSound));
-        gSaveContext.entranceSound = 0;
+    if (GET_ENTRANCESOUND != 0) {
+        Audio_PlayActorSfx2(&this->actor, (GET_ENTRANCESOUND_VOID0));
+        SET_ENTRANCESOUND(0);
     }
 
     Map_SavePlayerInitialInfo(play);
@@ -10236,9 +10236,9 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         func_80848C74(play, this);
     }
 
-    if ((this->stateFlags3 & PLAYER_STATE3_RESTORE_NAYRUS_LOVE) && (gSaveContext.nayrusLoveTimer != 0) &&
-        (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
-        gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
+    if ((this->stateFlags3 & PLAYER_STATE3_RESTORE_NAYRUS_LOVE) && (GET_NAYRUSLOVETIMER != 0) &&
+        (GET_MAGICSTATE == MAGIC_STATE_IDLE)) {
+        SET_MAGICSTATE(MAGIC_STATE_METER_FLASH_1);
         func_80846A00(play, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
@@ -10409,7 +10409,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         if (!Player_InBlockingCsMode(play, this) && !(this->stateFlags2 & PLAYER_STATE2_18)) {
             func_8083D53C(play, this);
 
-            if ((this->actor.category == ACTORCAT_PLAYER) && (gSaveContext.save.info.playerData.health == 0)) {
+            if ((this->actor.category == ACTORCAT_PLAYER) && (GET_HEALTH == 0)) {
                 if (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21)) {
                     func_80832440(play, this);
                     func_80837B9C(this, play);
@@ -10593,13 +10593,13 @@ void Player_Update(Actor* thisx, PlayState* play) {
     Actor* dog;
 
     if (func_8084FCAC(this, play)) {
-        if (gSaveContext.dogParams < 0) {
+        if (GET_DOGPARAMS < 0) {
             if (Object_GetIndex(&play->objectCtx, OBJECT_DOG) < 0) {
-                gSaveContext.dogParams = 0;
+                SET_DOGPARAMS(0);
             } else {
-                gSaveContext.dogParams &= 0x7FFF;
+                SET_DOGPARAMS(GET_DOGPARAMS & (0x7FFF));
                 func_808395DC(this, &this->actor.world.pos, &D_80854838, &sDogSpawnPos);
-                dogParams = gSaveContext.dogParams;
+                dogParams = GET_DOGPARAMS;
 
                 dog = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y, sDogSpawnPos.z,
                                   0, this->actor.shape.rot.y, 0, dogParams | 0x8000);
@@ -10828,7 +10828,7 @@ void Player_Destroy(Actor* thisx, PlayState* play) {
 
     Magic_Reset(play);
 
-    gSaveContext.save.linkAge = play->linkAgeOnLoad;
+    SET_LINKAGE(play->linkAgeOnLoad);
 }
 
 s16 func_8084ABD8(PlayState* play, Player* this, s32 arg2, s16 arg3) {
@@ -11846,10 +11846,10 @@ void func_8084D3E4(Player* this, PlayState* play) {
         AREG(6) = 0;
 
         if (Flags_GetEventChkInf(EVENTCHKINF_18) || (DREG(1) != 0)) {
-            gSaveContext.save.info.horseData.pos.x = rideActor->actor.world.pos.x;
-            gSaveContext.save.info.horseData.pos.y = rideActor->actor.world.pos.y;
-            gSaveContext.save.info.horseData.pos.z = rideActor->actor.world.pos.z;
-            gSaveContext.save.info.horseData.angle = rideActor->actor.shape.rot.y;
+            SET_HORSEDATA_POS_X(rideActor->actor.world.pos.x);
+            SET_HORSEDATA_POS_Y(rideActor->actor.world.pos.y);
+            SET_HORSEDATA_POS_Z(rideActor->actor.world.pos.z);
+            SET_HORSEDATA_ANGLE(rideActor->actor.shape.rot.y);
         }
     } else {
         Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_NORMAL0);
@@ -12136,7 +12136,7 @@ s32 func_8084DFF4(PlayState* play, Player* this) {
         } else {
             if ((this->getItemId == GI_HEART_CONTAINER_2) || (this->getItemId == GI_HEART_CONTAINER) ||
                 ((this->getItemId == GI_HEART_PIECE) &&
-                 ((gSaveContext.save.info.inventory.questItems & 0xF0000000) == (4 << QUEST_HEART_PIECE_COUNT)))) {
+                 ((GET_INVENTORY_QUESTITEMS & 0xF0000000) == (4 << QUEST_HEART_PIECE_COUNT)))) {
                 temp1 = NA_BGM_HEART_GET | 0x900;
             } else {
                 temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? NA_BGM_SMALL_ITEM_GET : NA_BGM_ITEM_GET | 0x900;
@@ -12148,7 +12148,7 @@ s32 func_8084DFF4(PlayState* play, Player* this) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
                 play->nextEntranceIndex = ENTR_SPOT11_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
-                gSaveContext.nextCutsceneIndex = 0xFFF1;
+                SET_NEXTCUTSCENEINDEX(0xFFF1);
                 play->transitionType = TRANS_TYPE_SANDSTORM_END;
                 this->stateFlags1 &= ~PLAYER_STATE1_29;
                 func_80852FFC(play, NULL, 8);
@@ -12239,9 +12239,9 @@ void func_8084E3C4(Player* this, PlayState* play) {
         this->stateFlags2 &= ~(PLAYER_STATE2_23 | PLAYER_STATE2_24 | PLAYER_STATE2_25);
         this->unk_6A8 = NULL;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_02) {
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = sWarpSongEntrances[play->msgCtx.lastPlayedSong];
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].data = play->msgCtx.lastPlayedSong;
+        SET_RESPAWN_A0_ENTRANCEINDEX(RESPAWN_MODE_RETURN, sWarpSongEntrances[play->msgCtx.lastPlayedSong]);
+        SET_RESPAWN_A0_PLAYERPARAMS(RESPAWN_MODE_RETURN, 0x5FF);
+        SET_RESPAWN_A0_DATA(RESPAWN_MODE_RETURN, play->msgCtx.lastPlayedSong);
 
         this->csMode = 0;
         this->stateFlags1 &= ~PLAYER_STATE1_29;
@@ -12257,8 +12257,8 @@ void func_8084E3C4(Player* this, PlayState* play) {
             Environment_WarpSongLeave(play);
         }
 
-        gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-        gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
+        SET_SEQID((u8)NA_BGM_DISABLED);
+        SET_NATUREAMBIENCEID(NATURE_ID_DISABLED);
     }
 }
 
@@ -12296,7 +12296,7 @@ void func_8084E6D4(Player* this, PlayState* play) {
                 cond = ((this->targetActor != NULL) && (this->exchangeItemId < 0)) ||
                        (this->stateFlags3 & PLAYER_STATE3_5);
 
-                if (cond || (gSaveContext.healthAccumulator == 0)) {
+                if (cond || (GET_HEALTHACCUMULATOR == 0)) {
                     if (cond) {
                         func_8084DF6C(play, this);
                         this->exchangeItemId = EXCH_ITEM_NONE;
@@ -12404,20 +12404,20 @@ void func_8084EAC0(Player* this, PlayState* play) {
                     rand = 3;
                 }
 
-                if ((rand < 0) && (gSaveContext.save.info.playerData.health <= 0x10)) {
+                if ((rand < 0) && (GET_HEALTH <= 0x10)) {
                     rand = 3;
                 }
 
                 if (rand < 0) {
                     Health_ChangeBy(play, -0x10);
                 } else {
-                    gSaveContext.healthAccumulator = rand * 0x10;
+                    SET_HEALTHACCUMULATOR(rand * 0x10);
                 }
             } else {
                 s32 sp28 = D_808549FC[this->itemActionParam - PLAYER_AP_BOTTLE_POTION_RED];
 
                 if (sp28 & 1) {
-                    gSaveContext.healthAccumulator = 0x140;
+                    SET_HEALTHACCUMULATOR(0x140);
                 }
 
                 if (sp28 & 2) {
@@ -12425,7 +12425,7 @@ void func_8084EAC0(Player* this, PlayState* play) {
                 }
 
                 if (sp28 & 4) {
-                    gSaveContext.healthAccumulator = 0x50;
+                    SET_HEALTHACCUMULATOR(0x50);
                 }
             }
 
@@ -12437,7 +12437,7 @@ void func_8084EAC0(Player* this, PlayState* play) {
         func_8083C0E8(this, play);
         func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
     } else if (this->unk_850 == 1) {
-        if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
+        if ((GET_HEALTHACCUMULATOR == 0) && (GET_MAGICSTATE != MAGIC_STATE_FILL)) {
             func_80832B78(play, this, &gPlayerAnim_link_bottle_drink_demo_end);
             this->unk_850 = 2;
             Player_UpdateBottleHeld(play, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
@@ -12535,7 +12535,7 @@ void func_8084EED8(Player* this, PlayState* play) {
         func_8002F7DC(&this->actor, NA_SE_EV_BOTTLE_CAP_OPEN);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 47.0f)) {
-        gSaveContext.healthAccumulator = 0x140;
+        SET_HEALTHACCUMULATOR(0x140);
     }
 }
 
@@ -12779,9 +12779,9 @@ void func_8084F88C(Player* this, PlayState* play) {
             func_80078884(NA_SE_OC_ABYSS);
         } else {
             play->transitionType = TRANS_TYPE_FADE_BLACK;
-            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
-            gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-            gSaveContext.natureAmbienceId = 0xFF;
+            SET_NEXTTRANSITIONTYPE(TRANS_TYPE_FADE_BLACK);
+            SET_SEQID((u8)NA_BGM_DISABLED);
+            SET_NATUREAMBIENCEID(0xFF);
         }
 
         play->transitionTrigger = TRANS_TRIGGER_START;
@@ -13100,21 +13100,21 @@ void func_8085063C(Player* this, PlayState* play) {
     }
 
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        s32 respawnData = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
+        s32 respawnData = GET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP);
 
         if (play->msgCtx.choiceIndex == 0) {
-            gSaveContext.respawnFlag = 3;
+            SET_RESPAWNFLAG(3);
             play->transitionTrigger = TRANS_TRIGGER_START;
-            play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex;
+            play->nextEntranceIndex = GET_RESPAWN_A0_ENTRANCEINDEX(RESPAWN_MODE_TOP);
             play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
             func_80088AF0(play);
             return;
         }
 
         if (play->msgCtx.choiceIndex == 1) {
-            gSaveContext.respawn[RESPAWN_MODE_TOP].data = -respawnData;
-            gSaveContext.save.info.fw.set = 0;
-            func_80078914(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos, NA_SE_PL_MAGIC_WIND_VANISH);
+            SET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP, -respawnData);
+            SET_FW_SET(0);
+            func_80078914(&GET_RESPAWN_A0_POS(RESPAWN_MODE_TOP), NA_SE_PL_MAGIC_WIND_VANISH);
         }
 
         func_80853080(this, play);
@@ -13123,7 +13123,7 @@ void func_8085063C(Player* this, PlayState* play) {
 }
 
 void func_8085076C(Player* this, PlayState* play) {
-    s32 respawnData = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
+    s32 respawnData = GET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP);
 
     if (this->unk_850 > 20) {
         this->actor.draw = Player_Draw;
@@ -13133,8 +13133,8 @@ void func_8085076C(Player* this, PlayState* play) {
     }
 
     if (this->unk_850++ == 20) {
-        gSaveContext.respawn[RESPAWN_MODE_TOP].data = respawnData + 1;
-        func_80078914(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos, NA_SE_PL_MAGIC_WIND_WARP);
+        SET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP, respawnData + 1);
+        func_80078914(&GET_RESPAWN_A0_POS(RESPAWN_MODE_TOP), NA_SE_PL_MAGIC_WIND_WARP);
     }
 }
 
@@ -13182,7 +13182,7 @@ static struct_80832924 D_80854A8C[][2] = {
 void func_808507F4(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->unk_84F < 0) {
-            if ((this->itemActionParam == PLAYER_AP_NAYRUS_LOVE) || (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
+            if ((this->itemActionParam == PLAYER_AP_NAYRUS_LOVE) || (GET_MAGICSTATE == MAGIC_STATE_IDLE)) {
                 func_80839FFC(this, play);
                 func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
             }
@@ -13192,8 +13192,8 @@ void func_808507F4(Player* this, PlayState* play) {
 
                 if (func_80846A00(play, this, this->unk_84F) != NULL) {
                     this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
-                    if ((this->unk_84F != 0) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
-                        gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
+                    if ((this->unk_84F != 0) || (GET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP) <= 0)) {
+                        SET_MAGICSTATE(MAGIC_STATE_CONSUME_SETUP);
                     }
                 } else {
                     Magic_Reset(play);
@@ -13213,18 +13213,18 @@ void func_808507F4(Player* this, PlayState* play) {
             this->unk_850++;
 
             if (this->unk_850 == 0) {
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data = 1;
+                SET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP, 1);
                 Play_SetupRespawnPoint(play, RESPAWN_MODE_TOP, 0x6FF);
-                gSaveContext.save.info.fw.set = 1;
-                gSaveContext.save.info.fw.pos.x = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x;
-                gSaveContext.save.info.fw.pos.y = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y;
-                gSaveContext.save.info.fw.pos.z = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z;
-                gSaveContext.save.info.fw.yaw = gSaveContext.respawn[RESPAWN_MODE_DOWN].yaw;
-                gSaveContext.save.info.fw.playerParams = 0x6FF;
-                gSaveContext.save.info.fw.entranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
-                gSaveContext.save.info.fw.roomIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].roomIndex;
-                gSaveContext.save.info.fw.tempSwchFlags = gSaveContext.respawn[RESPAWN_MODE_DOWN].tempSwchFlags;
-                gSaveContext.save.info.fw.tempCollectFlags = gSaveContext.respawn[RESPAWN_MODE_DOWN].tempCollectFlags;
+                SET_FW_SET(1);
+                SET_FW_POS_X(GET_RESPAWN_A0_POS_X(RESPAWN_MODE_DOWN));
+                SET_FW_POS_Y(GET_RESPAWN_A0_POS_Y(RESPAWN_MODE_DOWN));
+                SET_FW_POS_Z(GET_RESPAWN_A0_POS_Z(RESPAWN_MODE_DOWN));
+                SET_FW_YAW(GET_RESPAWN_A0_YAW(RESPAWN_MODE_DOWN));
+                SET_FW_PLAYERPARAMS(0x6FF);
+                SET_FW_ENTRANCEINDEX(GET_RESPAWN_A0_ENTRANCEINDEX(RESPAWN_MODE_DOWN));
+                SET_FW_ROOMINDEX(GET_RESPAWN_A0_ROOMINDEX(RESPAWN_MODE_DOWN));
+                SET_FW_TEMPSWCHFLAGS(GET_RESPAWN_A0_TEMPSWCHFLAGS(RESPAWN_MODE_DOWN));
+                SET_FW_TEMPCOLLECTFLAGS(GET_RESPAWN_A0_TEMPCOLLECTFLAGS(RESPAWN_MODE_DOWN));
                 this->unk_850 = 2;
             }
         } else if (this->unk_84F >= 0) {
@@ -13877,7 +13877,7 @@ void func_80851A50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 
     if ((LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 70.0f)) ||
         (!LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 87.0f))) {
-        sp2C = &D_808551A4[gSaveContext.save.linkAge];
+        sp2C = &D_808551A4[GET_LINKAGE];
         this->interactRangeActor->parent = &this->actor;
 
         if (!LINK_IS_ADULT) {
@@ -13885,7 +13885,7 @@ void func_80851A50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         } else {
             dLists = gPlayerLeftHandClosedDLs;
         }
-        this->leftHandDLists = dLists + gSaveContext.save.linkAge;
+        this->leftHandDLists = dLists + GET_LINKAGE;
 
         func_8002F7DC(&this->actor, sp2C->unk_00);
         if (!LINK_IS_ADULT) {
@@ -14197,7 +14197,7 @@ void func_80852648(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_AP_NONE);
         this->leftHandDLists = gPlayerLeftHandOpenDLs;
         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
-        gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_MASTER;
+        SET_EQUIPS_BUTTONITEMS_A0(0, ITEM_SWORD_MASTER);
         Inventory_DeleteEquipment(play, EQUIP_TYPE_SWORD);
     }
 }
@@ -14216,7 +14216,7 @@ void func_808526EC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Color_RGBA8 primColor = { 255, 255, 255, 0 };
     static Color_RGBA8 envColor = { 0, 128, 128, 0 };
-    s32 linkAge = gSaveContext.save.linkAge;
+    s32 linkAge = GET_LINKAGE;
     Vec3f sparklePos;
     Vec3f sp34;
     Vec3s* ptr;
@@ -14228,7 +14228,7 @@ void func_808526EC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         return;
     }
 
-    ptr = D_80855210[gSaveContext.save.linkAge];
+    ptr = D_80855210[GET_LINKAGE];
 
     sp34.x = ptr[0].x + Rand_CenteredFloat(ptr[1].x);
     sp34.y = ptr[0].y + Rand_CenteredFloat(ptr[1].y);

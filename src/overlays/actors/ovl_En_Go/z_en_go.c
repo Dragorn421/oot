@@ -93,7 +93,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
 
     switch (thisx->params & 0xF0) {
         case 0x90:
-            if (gSaveContext.save.info.playerData.bgsFlag) {
+            if (GET_BGSFLAG) {
                 return 0x305E;
             } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_CLAIM_CHECK) {
                 if (Environment_GetBgsDayCount() >= 3) {
@@ -856,7 +856,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
 
 void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
     if (((this->actor.params & 0xF0) == 0x90) && (this->unk_1E0.unk_00 == 2)) {
-        if (gSaveContext.save.info.playerData.bgsFlag) {
+        if (GET_BGSFLAG) {
             this->unk_1E0.unk_00 = 0;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
@@ -865,7 +865,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
-                gSaveContext.timer2State = 0;
+                SET_TIMER2STATE(0);
                 OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             } else {
                 this->unk_1E0.unk_00 = 0;
@@ -982,7 +982,7 @@ void func_80A40C78(EnGo* this, PlayState* play) {
             this->unk_1E0.unk_00 = 0;
         } else if (this->unk_20C) {
             this->unk_1E0.unk_00 = 0;
-            gSaveContext.save.info.playerData.bgsFlag = true;
+            SET_BGSFLAG(true);
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
             this->actor.textId = 0x3058;
             Message_ContinueTextbox(play, this->actor.textId);

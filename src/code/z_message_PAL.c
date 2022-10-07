@@ -296,7 +296,7 @@ void Message_FindMessage(PlayState* play, u16 textId) {
     Font* font;
     const char* seg;
 
-    if (gSaveContext.language == LANGUAGE_ENG) {
+    if (GET_LANGUAGE == LANGUAGE_ENG) {
         seg = messageTableEntry->segment;
 
         while (messageTableEntry->textId != 0xFFFF) {
@@ -319,7 +319,7 @@ void Message_FindMessage(PlayState* play, u16 textId) {
         }
     } else {
         languageSegmentTable =
-            (gSaveContext.language == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
+            (GET_LANGUAGE == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
         seg = messageTableEntry->segment;
 
         while (messageTableEntry->textId != 0xFFFF) {
@@ -347,14 +347,14 @@ void Message_FindMessage(PlayState* play, u16 textId) {
     font = &play->msgCtx.font;
     messageTableEntry = sNesMessageEntryTablePtr;
 
-    if (gSaveContext.language == LANGUAGE_ENG) {
+    if (GET_LANGUAGE == LANGUAGE_ENG) {
         foundSeg = messageTableEntry->segment;
         font->charTexBuf[0] = messageTableEntry->typePos;
         messageTableEntry++;
         nextSeg = messageTableEntry->segment;
     } else {
         languageSegmentTable =
-            (gSaveContext.language == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
+            (GET_LANGUAGE == LANGUAGE_GER) ? sGerMessageEntryTablePtr : sFraMessageEntryTablePtr;
         foundSeg = *languageSegmentTable;
         font->charTexBuf[0] = messageTableEntry->typePos;
         languageSegmentTable++;
@@ -1163,7 +1163,7 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         interfaceCtx->mapPalette[31] = 0xFF;
     }
     if (itemId < ITEM_MEDALLION_FOREST) {
-        R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem32XOffsets[gSaveContext.language];
+        R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem32XOffsets[GET_LANGUAGE];
         R_TEXTBOX_ICON_YPOS = y + 6;
         R_TEXTBOX_ICON_SIZE = 32;
         DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
@@ -1172,7 +1172,7 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         // "Item 32-0"
         osSyncPrintf("アイテム32-0\n");
     } else {
-        R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem24XOffsets[gSaveContext.language];
+        R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem24XOffsets[GET_LANGUAGE];
         R_TEXTBOX_ICON_YPOS = y + 10;
         R_TEXTBOX_ICON_SIZE = 24;
         DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
@@ -1242,16 +1242,16 @@ void Message_Decode(PlayState* play) {
             break;
         } else if (curChar == MESSAGE_NAME) {
             // Substitute the player name control character for the file's player name.
-            for (playerNameLen = ARRAY_COUNT(gSaveContext.save.info.playerData.playerName); playerNameLen > 0;
+            for (playerNameLen = ARRAY_COUNT(GET_PLAYERNAME); playerNameLen > 0;
                  playerNameLen--) {
-                if (gSaveContext.save.info.playerData.playerName[playerNameLen - 1] != 0x3E) {
+                if (GET_PLAYERNAME_A0(playerNameLen-1) != 0x3E) {
                     break;
                 }
             }
             // "Name"
             osSyncPrintf("\n名前 ＝ ");
             for (i = 0; i < playerNameLen; i++) {
-                curChar2 = gSaveContext.save.info.playerData.playerName[i];
+                curChar2 = GET_PLAYERNAME_A0(i);
                 if (curChar2 == 0x3E) {
                     curChar2 = ' ';
                 } else if (curChar2 == 0x40) {
@@ -1284,9 +1284,9 @@ void Message_Decode(PlayState* play) {
             osSyncPrintf("\nＥＶＥＮＴタイマー ＝ ");
             digits[0] = digits[1] = digits[2] = 0;
             if (curChar == MESSAGE_RACE_TIME) {
-                digits[3] = gSaveContext.timer1Value;
+                digits[3] = GET_TIMER1VALUE;
             } else {
-                digits[3] = gSaveContext.timer2Value;
+                digits[3] = GET_TIMER2VALUE;
             }
 
             while (digits[3] >= 60) {
@@ -1322,9 +1322,9 @@ void Message_Decode(PlayState* play) {
             // Convert the values of the current minigame score to digits and
             //  add the digits to the decoded buffer in place of the control character.
             // "Yabusame score"
-            osSyncPrintf("\n流鏑馬スコア ＝ %d\n", gSaveContext.minigameScore);
+            osSyncPrintf("\n流鏑馬スコア ＝ %d\n", GET_MINIGAMESCORE);
             digits[0] = digits[1] = digits[2] = 0;
-            digits[3] = gSaveContext.minigameScore;
+            digits[3] = GET_MINIGAMESCORE;
 
             while (digits[3] >= 1000) {
                 digits[0]++;
@@ -1356,9 +1356,9 @@ void Message_Decode(PlayState* play) {
             // Convert the current number of collected gold skulltula tokens to digits and
             //  add the digits to the decoded buffer in place of the control character.
             // "Total number of gold stars"
-            osSyncPrintf("\n金スタ合計数 ＝ %d", gSaveContext.save.info.inventory.gsTokens);
+            osSyncPrintf("\n金スタ合計数 ＝ %d", GET_INVENTORY_GSTOKENS);
             digits[0] = digits[1] = 0;
-            digits[2] = gSaveContext.save.info.inventory.gsTokens;
+            digits[2] = GET_INVENTORY_GSTOKENS;
 
             while (digits[2] >= 100) {
                 digits[0]++;
@@ -1387,7 +1387,7 @@ void Message_Decode(PlayState* play) {
             // "Fishing hole fish size"
             osSyncPrintf("\n釣り堀魚サイズ ＝ ");
             digits[0] = 0;
-            digits[1] = gSaveContext.minigameScore;
+            digits[1] = GET_MINIGAMESCORE;
 
             while (digits[1] >= 10) {
                 digits[0]++;
@@ -1497,7 +1497,7 @@ void Message_Decode(PlayState* play) {
             // "Zelda time"
             osSyncPrintf("\nゼルダ時間 ＝ ");
             digits[0] = 0;
-            timeInSeconds = gSaveContext.save.dayTime * (24.0f * 60.0f / 0x10000);
+            timeInSeconds = GET_DAYTIME * (24.0f * 60.0f / 0x10000);
 
             digits[1] = timeInSeconds / 60.0f;
             while (digits[1] >= 10) {
@@ -1589,7 +1589,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
     s16 textBoxType;
 
     if (msgCtx->msgMode == MSGMODE_NONE) {
-        gSaveContext.unk_13EE = gSaveContext.unk_13EA;
+        SET_UNK_13EE(GET_UNK_13EA);
     }
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
         Interface_ChangeAlpha(5);
@@ -1611,7 +1611,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
     if (textId == 0xC2 || textId == 0xFA) {
         // Increments text id based on piece of heart count, assumes the piece of heart text is all
         // in order and that you don't have more than the intended amount of heart pieces.
-        textId += (gSaveContext.save.info.inventory.questItems & 0xF0000000 & 0xF0000000) >> QUEST_HEART_PIECE_COUNT;
+        textId += (GET_INVENTORY_QUESTITEMS & 0xF0000000 & 0xF0000000) >> QUEST_HEART_PIECE_COUNT;
     } else if (msgCtx->textId == 0xC && CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BGS)) {
         textId = 0xB; // Traded Giant's Knife for Biggoron Sword
     } else if (msgCtx->textId == 0xB4 && GET_EVENTCHKINF(EVENTCHKINF_96)) {
@@ -1631,7 +1631,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("？？？？？？？？？？？？？？？？  z_message.c  ？？？？？？？？？？？？？？？？？？\n");
         osSyncPrintf(VT_RST);
-        gSaveContext.eventInf[0] = gSaveContext.eventInf[1] = gSaveContext.eventInf[2] = gSaveContext.eventInf[3] = 0;
+        SET_EVENTINF_A0(0, SET_EVENTINF_A0(1, SET_EVENTINF_A0(2, SET_EVENTINF_A0(3, 0))));
     }
 
     if (sTextIsCredits) {
@@ -1640,12 +1640,12 @@ void Message_OpenText(PlayState* play, u16 textId) {
         DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
                             font->msgLength, "../z_message_PAL.c", 1954);
     } else {
-        if (gSaveContext.language == LANGUAGE_ENG) {
+        if (GET_LANGUAGE == LANGUAGE_ENG) {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
             DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                                 font->msgLength, "../z_message_PAL.c", 1966);
-        } else if (gSaveContext.language == LANGUAGE_GER) {
+        } else if (GET_LANGUAGE == LANGUAGE_GER) {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
             DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
@@ -1769,7 +1769,7 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
             sOcarinaSongBitFlags |= sOcarinaSongFlagsMap[i];
         }
     }
-    if (gSaveContext.save.info.scarecrowSpawnSongSet) {
+    if (GET_SCARECROWSPAWNSONGSET) {
         sOcarinaSongBitFlags |= (1 << OCARINA_SONG_SCARECROW_SPAWN);
     }
     osSyncPrintf("ocarina_bit = %x\n", sOcarinaSongBitFlags);
@@ -1840,9 +1840,9 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
     msgCtx->textboxColorAlphaCurrent = msgCtx->textboxColorAlphaTarget;
     if (noStop == false) {
         Interface_LoadActionLabelB(play, DO_ACTION_STOP);
-        noStop = gSaveContext.unk_13EA;
+        noStop = GET_UNK_13EA;
         Interface_ChangeAlpha(0xA);
-        gSaveContext.unk_13EA = noStop;
+        SET_UNK_13EA(noStop);
     }
     // "Music Performance Start"
     osSyncPrintf("演奏開始\n");
@@ -1868,7 +1868,7 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
         msgCtx->stateTimer = 3;
         msgCtx->msgMode = MSGMODE_SCARECROW_LONG_PLAYBACK;
         AudioOcarina_SetPlaybackSong(OCARINA_SONG_SCARECROW_LONG + 1, 1);
-        gSaveContext.unk_13EA = 0;
+        SET_UNK_13EA(0);
         Interface_ChangeAlpha(1);
     }
     for (k = 0, j = 0; j < 48; j++, k += 0x80) {
@@ -2619,7 +2619,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                         // "Recording complete！！！！！！！！！"
                         osSyncPrintf("録音終了！！！！！！！！！  message->info->status=%d \n",
                                      msgCtx->ocarinaStaff->state);
-                        gSaveContext.save.info.scarecrowLongSongSet = true;
+                        SET_SCARECROWLONGSONGSET(true);
                     }
                     Audio_PlaySfxGeneral(NA_SE_SY_OCARINA_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -2632,10 +2632,10 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     osSyncPrintf("録音終了！！！！！！！！！録音終了\n");
                     osSyncPrintf(VT_FGCOL(YELLOW));
                     osSyncPrintf("\n====================================================================\n");
-                    MemCpy(gSaveContext.save.info.scarecrowLongSong, gScarecrowLongSongPtr,
-                           sizeof(gSaveContext.save.info.scarecrowLongSong));
-                    for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.scarecrowLongSong); i++) {
-                        osSyncPrintf("%d, ", gSaveContext.save.info.scarecrowLongSong[i]);
+                    MemCpy(GET_SCARECROWLONGSONG, gScarecrowLongSongPtr,
+                           sizeof(GET_SCARECROWLONGSONG));
+                    for (i = 0; i < ARRAY_COUNT(GET_SCARECROWLONGSONG); i++) {
+                        osSyncPrintf("%d, ", GET_SCARECROWLONGSONG_A0(i));
                     }
                     osSyncPrintf(VT_RST);
                     osSyncPrintf("\n====================================================================\n");
@@ -2690,16 +2690,16 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     // "8 Note Recording ＯＫ！"
                     osSyncPrintf("８音録音ＯＫ！\n");
                     msgCtx->stateTimer = 20;
-                    gSaveContext.save.info.scarecrowSpawnSongSet = true;
+                    SET_SCARECROWSPAWNSONGSET(true);
                     msgCtx->msgMode = MSGMODE_SCARECROW_SPAWN_RECORDING_DONE;
                     Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     osSyncPrintf(VT_FGCOL(YELLOW));
                     osSyncPrintf("\n====================================================================\n");
-                    MemCpy(gSaveContext.save.info.scarecrowSpawnSong, gScarecrowSpawnSongPtr,
-                           sizeof(gSaveContext.save.info.scarecrowSpawnSong));
-                    for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.scarecrowSpawnSong); i++) {
-                        osSyncPrintf("%d, ", gSaveContext.save.info.scarecrowSpawnSong[i]);
+                    MemCpy(GET_SCARECROWSPAWNSONG, gScarecrowSpawnSongPtr,
+                           sizeof(GET_SCARECROWSPAWNSONG));
+                    for (i = 0; i < ARRAY_COUNT(GET_SCARECROWSPAWNSONG); i++) {
+                        osSyncPrintf("%d, ", GET_SCARECROWSPAWNSONG_A0(i));
                     }
                     osSyncPrintf(VT_RST);
                     osSyncPrintf("\n====================================================================\n");
@@ -2724,7 +2724,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
             case MSGMODE_MEMORY_GAME_START:
                 AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_DEFAULT);
                 AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_FLUTE);
-                AudioOcarina_MemoryGameInit(gSaveContext.save.info.playerData.ocarinaGameRoundNum);
+                AudioOcarina_MemoryGameInit(GET_OCARINAGAMEROUNDNUM);
                 msgCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
                 msgCtx->ocarinaStaff->pos = sOcarinaButtonIndexBufPos = 0;
                 Message_ResetOcarinaNoteState();
@@ -3007,7 +3007,7 @@ void Message_Draw(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_message_PAL.c", 3554);
 
-    watchVar = gSaveContext.save.info.scarecrowLongSongSet;
+    watchVar = GET_SCARECROWLONGSONGSET;
     Message_DrawDebugVariableChanged(&watchVar, play->state.gfxCtx);
     if (BREG(0) != 0 && play->msgCtx.textId != 0) {
         plusOne = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
@@ -3266,27 +3266,27 @@ void Message_Update(PlayState* play) {
             }
             if ((msgCtx->textId >= 0xC2 && msgCtx->textId < 0xC7) ||
                 (msgCtx->textId >= 0xFA && msgCtx->textId < 0xFE)) {
-                gSaveContext.healthAccumulator = 0x140; // Refill 20 hearts
+                SET_HEALTHACCUMULATOR(0x140); // Refill 20 hearts
             }
             if (msgCtx->textId == 0x301F || msgCtx->textId == 0xA || msgCtx->textId == 0xC || msgCtx->textId == 0xCF ||
                 msgCtx->textId == 0x21C || msgCtx->textId == 9 || msgCtx->textId == 0x4078 ||
                 msgCtx->textId == 0x2015 || msgCtx->textId == 0x3040) {
-                gSaveContext.unk_13EE = 0x32;
+                SET_UNK_13EE(0x32);
             }
             if (play->csCtx.state == 0) {
                 osSyncPrintf(VT_FGCOL(GREEN));
-                osSyncPrintf("day_time=%x  active_camera=%d  ", gSaveContext.save.cutsceneIndex, play->activeCamId);
+                osSyncPrintf("day_time=%x  active_camera=%d  ", GET_CUTSCENEINDEX, play->activeCamId);
 
                 if (msgCtx->textId != 0x2061 && msgCtx->textId != 0x2025 && msgCtx->textId != 0x208C &&
                     ((msgCtx->textId < 0x88D || msgCtx->textId >= 0x893) || msgCtx->choiceIndex != 0) &&
-                    (msgCtx->textId != 0x3055 && gSaveContext.save.cutsceneIndex < 0xFFF0)) {
-                    osSyncPrintf("=== day_time=%x ", ((void)0, gSaveContext.save.cutsceneIndex));
+                    (msgCtx->textId != 0x3055 && GET_CUTSCENEINDEX < 0xFFF0)) {
+                    osSyncPrintf("=== day_time=%x ", (GET_CUTSCENEINDEX_VOID0));
                     if (play->activeCamId == CAM_ID_MAIN) {
-                        if (gSaveContext.unk_13EE == 0 || gSaveContext.unk_13EE == 1 || gSaveContext.unk_13EE == 2) {
-                            gSaveContext.unk_13EE = 0x32;
+                        if (GET_UNK_13EE == 0 || GET_UNK_13EE == 1 || GET_UNK_13EE == 2) {
+                            SET_UNK_13EE(0x32);
                         }
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(gSaveContext.unk_13EE);
+                        SET_UNK_13EA(0);
+                        Interface_ChangeAlpha(GET_UNK_13EE);
                     }
                 }
             }
@@ -3302,10 +3302,10 @@ void Message_Update(PlayState* play) {
             } else {
                 msgCtx->textboxEndType = TEXTBOX_ENDTYPE_DEFAULT;
             }
-            if ((s32)(gSaveContext.save.info.inventory.questItems & 0xF0000000) == (4 << QUEST_HEART_PIECE_COUNT)) {
-                gSaveContext.save.info.inventory.questItems ^= (4 << QUEST_HEART_PIECE_COUNT);
-                gSaveContext.save.info.playerData.healthCapacity += 0x10;
-                gSaveContext.save.info.playerData.health += 0x10;
+            if ((s32)(GET_INVENTORY_QUESTITEMS & 0xF0000000) == (4 << QUEST_HEART_PIECE_COUNT)) {
+                GET_INVENTORY_QUESTITEMS ^= (4 << QUEST_HEART_PIECE_COUNT);
+                GET_HEALTHCAPACITY += 0x10;
+                GET_HEALTH += 0x10;
             }
             if (msgCtx->ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE) {
                 if (sLastPlayedSong == OCARINA_SONG_SARIAS) {

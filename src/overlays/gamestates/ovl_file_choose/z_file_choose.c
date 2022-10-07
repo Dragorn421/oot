@@ -382,7 +382,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
     Input* debugInput = &this->state.input[2];
 
     if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
-        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_ENG;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = SET_LANGUAGE(LANGUAGE_ENG);
         *((u8*)0x80000002) = LANGUAGE_ENG;
 
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
@@ -395,7 +395,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
                      sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                      sramCtx->readBuff[SRAM_HEADER_MAGIC]);
     } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DUP)) {
-        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_GER;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = SET_LANGUAGE(LANGUAGE_GER);
         *((u8*)0x80000002) = LANGUAGE_GER;
 
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
@@ -407,7 +407,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
                      sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                      sramCtx->readBuff[SRAM_HEADER_MAGIC]);
     } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DRIGHT)) {
-        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_FRA;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = SET_LANGUAGE(LANGUAGE_FRA);
         *((u8*)0x80000002) = LANGUAGE_FRA;
 
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
@@ -955,7 +955,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
     gSPVertex(POLY_OPA_DISP++, this->windowContentVtx, 4, 0);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, sTitleLabels[gSaveContext.language][this->titleLabel], G_IM_FMT_IA,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sTitleLabels[GET_LANGUAGE][this->titleLabel], G_IM_FMT_IA,
                         G_IM_SIZ_8b, 128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
@@ -963,7 +963,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
     // draw next title label
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[1]);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, sTitleLabels[gSaveContext.language][this->nextTitleLabel], G_IM_FMT_IA,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sTitleLabels[GET_LANGUAGE][this->nextTitleLabel], G_IM_FMT_IA,
                         G_IM_SIZ_8b, 128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
@@ -995,7 +995,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sWindowContentColors[isActive][0], sWindowContentColors[isActive][1],
                         sWindowContentColors[isActive][2], this->fileButtonAlpha[i]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sFileButtonTextures[gSaveContext.language][i], G_IM_FMT_IA, G_IM_SIZ_16b,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sFileButtonTextures[GET_LANGUAGE][i], G_IM_FMT_IA, G_IM_SIZ_16b,
                             64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
@@ -1048,7 +1048,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->actionButtonAlpha[i]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[gSaveContext.language][i], G_IM_FMT_IA, G_IM_SIZ_16b,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[GET_LANGUAGE][i], G_IM_FMT_IA, G_IM_SIZ_16b,
                             64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, quadVtxIndex, quadVtxIndex + 2, quadVtxIndex + 3, quadVtxIndex + 1, 0);
@@ -1062,7 +1062,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->confirmButtonAlpha[i]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[gSaveContext.language][temp], G_IM_FMT_IA,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[GET_LANGUAGE][temp], G_IM_FMT_IA,
                             G_IM_SIZ_16b, 64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, quadVtxIndex, quadVtxIndex + 2, quadVtxIndex + 3, quadVtxIndex + 1, 0);
@@ -1072,7 +1072,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                     this->optionButtonAlpha);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsButtonTextures[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_16b, 64,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsButtonTextures[GET_LANGUAGE], G_IM_FMT_IA, G_IM_SIZ_16b, 64,
                         16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                         G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
@@ -1101,7 +1101,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->emptyFileTextAlpha);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sWarningLabels[gSaveContext.language][this->warningLabel], G_IM_FMT_IA,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sWarningLabels[GET_LANGUAGE][this->warningLabel], G_IM_FMT_IA,
                             G_IM_SIZ_8b, 128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 16, 18, 19, 17, 0);
@@ -1443,76 +1443,74 @@ void FileSelect_LoadGame(GameState* thisx) {
     if (this->buttonIndex == FS_BTN_SELECT_FILE_1) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        gSaveContext.fileNum = this->buttonIndex;
+        SET_FILENUM(this->buttonIndex);
         Sram_OpenSave(&this->sramCtx);
-        gSaveContext.gameMode = GAMEMODE_NORMAL;
+        SET_GAMEMODE(GAMEMODE_NORMAL);
         SET_NEXT_GAMESTATE(&this->state, MapSelect_Init, MapSelectState);
         this->state.running = false;
     } else {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        gSaveContext.fileNum = this->buttonIndex;
+        SET_FILENUM(this->buttonIndex);
         Sram_OpenSave(&this->sramCtx);
-        gSaveContext.gameMode = GAMEMODE_NORMAL;
+        SET_GAMEMODE(GAMEMODE_NORMAL);
         SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
         this->state.running = false;
     }
 
-    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_LOAD_OPENING;
-    gSaveContext.respawnFlag = 0;
-    gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-    gSaveContext.natureAmbienceId = 0xFF;
-    gSaveContext.showTitleCard = true;
-    gSaveContext.dogParams = 0;
-    gSaveContext.timer1State = 0;
-    gSaveContext.timer2State = 0;
-    gSaveContext.eventInf[0] = 0;
-    gSaveContext.eventInf[1] = 0;
-    gSaveContext.eventInf[2] = 0;
-    gSaveContext.eventInf[3] = 0;
-    gSaveContext.unk_13EE = 0x32;
-    gSaveContext.nayrusLoveTimer = 0;
-    gSaveContext.healthAccumulator = 0;
-    gSaveContext.magicState = MAGIC_STATE_IDLE;
-    gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
-    gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
-    gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
-    gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
-    gSaveContext.nextCutsceneIndex = 0xFFEF;
-    gSaveContext.cutsceneTrigger = 0;
-    gSaveContext.chamberCutsceneNum = 0;
-    gSaveContext.nextDayTime = NEXT_TIME_NONE;
-    gSaveContext.retainWeatherMode = false;
+    SET_RESPAWN_A0_ENTRANCEINDEX(RESPAWN_MODE_DOWN, ENTR_LOAD_OPENING);
+    SET_RESPAWNFLAG(0);
+    SET_SEQID((u8)NA_BGM_DISABLED);
+    SET_NATUREAMBIENCEID(0xFF);
+    SET_SHOWTITLECARD(true);
+    SET_DOGPARAMS(0);
+    SET_TIMER1STATE(0);
+    SET_TIMER2STATE(0);
+    SET_EVENTINF_A0(0, 0);
+    SET_EVENTINF_A0(1, 0);
+    SET_EVENTINF_A0(2, 0);
+    SET_EVENTINF_A0(3, 0);
+    SET_UNK_13EE(0x32);
+    SET_NAYRUSLOVETIMER(0);
+    SET_HEALTHACCUMULATOR(0);
+    SET_MAGICSTATE(MAGIC_STATE_IDLE);
+    SET_PREVMAGICSTATE(MAGIC_STATE_IDLE);
+    SET_FORCEDSEQID(NA_BGM_GENERAL_SFX);
+    SET_SKYBOXTIME(CLOCK_TIME(0, 0));
+    SET_NEXTTRANSITIONTYPE(TRANS_NEXT_TYPE_DEFAULT);
+    SET_NEXTCUTSCENEINDEX(0xFFEF);
+    SET_CUTSCENETRIGGER(0);
+    SET_CHAMBERCUTSCENENUM(0);
+    SET_NEXTDAYTIME(NEXT_TIME_NONE);
+    SET_RETAINWEATHERMODE(false);
 
-    gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
-        gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
+    SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, SET_BUTTONSTATUS_A0(4, BTN_ENABLED)))));
 
-    gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC =
-        gSaveContext.magicCapacity = 0;
+    SET_UNK_13E7(SET_UNK_13E8(SET_UNK_13EA(SET_UNK_13EC(SET_MAGICCAPACITY(0)))));
 
     // Set the fill target to be the saved magic amount
-    gSaveContext.magicFillTarget = gSaveContext.save.info.playerData.magic;
+    SET_MAGICFILLTARGET(GET_MAGIC);
     // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing to respectively the full
     // capacity and `magicFillTarget`
-    gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.magic = 0;
+    SET_MAGICLEVEL(SET_MAGIC(0));
 
     osSyncPrintf(VT_FGCOL(GREEN));
-    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicFillTarget),
-                 gSaveContext.save.info.playerData.magic);
+    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", (GET_MAGICFILLTARGET_VOID0),
+                 GET_MAGIC);
     osSyncPrintf(VT_RST);
 
-    gSaveContext.save.info.playerData.naviTimer = 0;
+    SET_NAVITIMER(0);
 
-    if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
-        (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-        (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-        (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+    if ((GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KOKIRI) &&
+        (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_MASTER) &&
+        (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_BGS) &&
+        (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KNIFE)) {
 
-        gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
+        SET_EQUIPS_BUTTONITEMS_A0(0, ITEM_NONE);
         swordEquipValue =
-            (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.save.info.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);
-        gSaveContext.save.info.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SWORD];
-        gSaveContext.save.info.inventory.equipment ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
+            (gEquipMasks[EQUIP_TYPE_SWORD] & GET_EQUIPS_EQUIPMENT) >> (EQUIP_TYPE_SWORD * 4);
+        SET_EQUIPS_EQUIPMENT(GET_EQUIPS_EQUIPMENT & (gEquipNegMasks[EQUIP_TYPE_SWORD]));
+        GET_INVENTORY_EQUIPMENT ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
     }
 }
 
@@ -1683,7 +1681,7 @@ void FileSelect_Main(GameState* thisx) {
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 255, 255, this->controlsAlpha);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, controlsTextures[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 144, 16,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, controlsTextures[GET_LANGUAGE], G_IM_FMT_IA, G_IM_SIZ_8b, 144, 16,
                             0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
         gSPTextureRectangle(POLY_OPA_DISP++, 90 << 2, 204 << 2, 234 << 2, 220 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
@@ -1829,8 +1827,8 @@ void FileSelect_InitContext(GameState* thisx) {
 
     Letterbox_SetSizeTarget(0);
 
-    gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
-    gSaveContext.save.dayTime = CLOCK_TIME(0, 0);
+    SET_SKYBOXTIME(CLOCK_TIME(0, 0));
+    SET_DAYTIME(CLOCK_TIME(0, 0));
 
     Skybox_Init(&this->state, &this->skyboxCtx, SKYBOX_NORMAL_SKY);
 
@@ -1854,18 +1852,17 @@ void FileSelect_InitContext(GameState* thisx) {
 
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
 
-    gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
-        gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
+    SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, SET_BUTTONSTATUS_A0(4, BTN_ENABLED)))));
 
     this->n64ddFlags[0] = this->n64ddFlags[1] = this->n64ddFlags[2] = this->defense[0] = this->defense[1] =
         this->defense[2] = 0;
 
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
-    gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
+    SET_LANGUAGE(sramCtx->readBuff[SRAM_HEADER_LANGUAGE]);
 
-    if (gSaveContext.language >= LANGUAGE_MAX) {
-        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_ENG;
+    if (GET_LANGUAGE >= LANGUAGE_MAX) {
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = SET_LANGUAGE(LANGUAGE_ENG);
     }
 }
 

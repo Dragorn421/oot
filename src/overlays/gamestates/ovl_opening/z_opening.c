@@ -7,12 +7,12 @@
 #include "global.h"
 
 void TitleSetup_SetupTitleScreen(TitleSetupState* this) {
-    gSaveContext.gameMode = GAMEMODE_TITLE_SCREEN;
+    SET_GAMEMODE(GAMEMODE_TITLE_SCREEN);
     this->state.running = false;
-    gSaveContext.save.linkAge = LINK_AGE_ADULT;
+    SET_LINKAGE(LINK_AGE_ADULT);
     Sram_InitDebugSave();
-    gSaveContext.save.cutsceneIndex = 0xFFF3;
-    gSaveContext.sceneLayer = 7;
+    SET_CUTSCENEINDEX(0xFFF3);
+    SET_SCENELAYER(7);
     SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 

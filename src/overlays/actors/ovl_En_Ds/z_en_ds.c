@@ -88,7 +88,7 @@ void EnDs_GiveOddPotion(EnDs* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_DisplayOddPotionText;
-        gSaveContext.timer2State = 0;
+        SET_TIMER2STATE(0);
     } else {
         func_8002F434(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
     }
@@ -156,7 +156,7 @@ void EnDs_OfferOddPotion(EnDs* this, PlayState* play) {
 }
 
 s32 EnDs_CheckRupeesAndBottle(void) {
-    if (gSaveContext.save.info.playerData.rupees < 100) {
+    if (GET_RUPEES < 100) {
         return 0;
     } else if (Inventory_HasEmptyBottle() == 0) {
         return 1;

@@ -288,7 +288,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
         if (z < -2225.0f) {
             if (!Play_InCsMode(play)) {
                 play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gMinuetCs);
-                gSaveContext.cutsceneTrigger = 1;
+                SET_CUTSCENETRIGGER(1);
                 SET_EVENTCHKINF(EVENTCHKINF_50);
                 Item_Give(play, ITEM_SONG_MINUET);
                 return true;
@@ -319,7 +319,7 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
             (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
             !Play_InCsMode(play)) {
             play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDeathMountainCraterBoleroCs);
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENETRIGGER(1);
             SET_EVENTCHKINF(EVENTCHKINF_51);
             Item_Give(play, ITEM_SONG_BOLERO);
             return true;
@@ -349,7 +349,7 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
         if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
             !(stateFlags & PLAYER_STATE1_29) && !Play_InCsMode(play)) {
             Cutscene_SetSegment(play, gIceCavernSerenadeCs);
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENETRIGGER(1);
             SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag
             Item_Give(play, ITEM_SONG_SERENADE);
             osSyncPrintf("ブーツを取った!!!!!!!!!!!!!!!!!!\n");
@@ -399,7 +399,7 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
     u32 sfxId;
     s16 sceneId = play->sceneId;
 
-    if ((gSaveContext.sceneLayer != 4) || (sceneId != SCENE_SPOT11)) {
+    if ((GET_SCENELAYER != 4) || (sceneId != SCENE_SPOT11)) {
         if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfxId(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
@@ -412,7 +412,7 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
     static Vec3f sXyzDist;
     s16 sceneId;
 
-    if (gSaveContext.sceneLayer == 4) {
+    if (GET_SCENELAYER == 4) {
         sceneId = play->sceneId;
         if (sceneId == SCENE_SPOT11) {
             CutsceneContext* csCtx = &play->csCtx;
@@ -438,7 +438,7 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
 void func_80B3D118(PlayState* play) {
     s16 sceneId;
 
-    if ((gSaveContext.sceneLayer != 4) || (sceneId = play->sceneId, sceneId != SCENE_SPOT11)) {
+    if ((GET_SCENELAYER != 4) || (sceneId = play->sceneId, sceneId != SCENE_SPOT11)) {
         func_800788CC(NA_SE_PL_SKIP);
     }
 }
@@ -446,7 +446,7 @@ void func_80B3D118(PlayState* play) {
 static Vec3f D_80B42DA0;
 
 void EnXc_SetColossusWindSFX(PlayState* play) {
-    if (gSaveContext.sceneLayer == 4) {
+    if (GET_SCENELAYER == 4) {
         static s32 D_80B41D90 = 0;
         static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
         static f32 sMaxSpeed = 0.0f;
@@ -2143,13 +2143,13 @@ void EnXc_InitTempleOfTime(EnXc* this, PlayState* play) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_C5)) {
             SET_EVENTCHKINF(EVENTCHKINF_C5);
             play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENETRIGGER(1);
             func_80B3EBF0(this, play);
         } else if (!GET_EVENTCHKINF(EVENTCHKINF_55) && GET_EVENTCHKINF(EVENTCHKINF_48)) {
             SET_EVENTCHKINF(EVENTCHKINF_55);
             Item_Give(play, ITEM_SONG_PRELUDE);
             play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENETRIGGER(1);
             this->action = SHEIK_ACTION_30;
         } else if (!GET_EVENTCHKINF(EVENTCHKINF_55)) {
             func_80B3C9EC(this);

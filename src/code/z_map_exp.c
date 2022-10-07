@@ -19,7 +19,7 @@ void Map_SavePlayerInitialInfo(PlayState* play) {
 }
 
 void Map_SetPaletteData(PlayState* play, s16 room) {
-    s32 mapIndex = gSaveContext.mapIndex;
+    s32 mapIndex = GET_MAPINDEX;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 paletteIndex = gMapData->roomPalette[mapIndex][room];
 
@@ -30,7 +30,7 @@ void Map_SetPaletteData(PlayState* play, s16 room) {
     osSyncPrintf(VT_FGCOL(YELLOW));
     // "PALETE Set"
     osSyncPrintf("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n", paletteIndex,
-                 room, mapIndex, gSaveContext.save.info.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteIndex);
+                 room, mapIndex, GET_SCENEFLAGS_A0_ROOMS(mapIndex), interfaceCtx->mapPaletteIndex);
     osSyncPrintf(VT_RST);
 
     interfaceCtx->mapPalette[paletteIndex * 2] = 2;
@@ -38,7 +38,7 @@ void Map_SetPaletteData(PlayState* play, s16 room) {
 }
 
 void Map_SetFloorPalettesData(PlayState* play, s16 floor) {
-    s32 mapIndex = gSaveContext.mapIndex;
+    s32 mapIndex = GET_MAPINDEX;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 room;
     s16 i;
@@ -74,7 +74,7 @@ void Map_SetFloorPalettesData(PlayState* play, s16 floor) {
         case SCENE_HAKADAN_BS:
             for (i = 0; i < gMapData->maxPaletteCount[mapIndex]; i++) {
                 room = gMapData->paletteRoom[mapIndex][floor][i];
-                if ((room != 0xFF) && (gSaveContext.save.info.sceneFlags[mapIndex].rooms & gBitFlags[room])) {
+                if ((room != 0xFF) && (GET_SCENEFLAGS_A0_ROOMS(mapIndex) & gBitFlags[room])) {
                     Map_SetPaletteData(play, room);
                 }
             }
@@ -83,7 +83,7 @@ void Map_SetFloorPalettesData(PlayState* play, s16 floor) {
 }
 
 void Map_InitData(PlayState* play, s16 room) {
-    s32 mapIndex = gSaveContext.mapIndex;
+    s32 mapIndex = GET_MAPINDEX;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 extendedMapIndex;
 
@@ -172,7 +172,7 @@ void Map_InitData(PlayState* play, s16 room) {
 }
 
 void Map_InitRoomData(PlayState* play, s16 room) {
-    s32 mapIndex = gSaveContext.mapIndex;
+    s32 mapIndex = GET_MAPINDEX;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     osSyncPrintf("＊＊＊＊＊＊＊\n＊＊＊＊＊＊＊\nroom_no=%d (%d)(%d)\n＊＊＊＊＊＊＊\n＊＊＊＊＊＊＊\n", room,
@@ -198,8 +198,8 @@ void Map_InitRoomData(PlayState* play, s16 room) {
             case SCENE_MIZUSIN_BS:
             case SCENE_JYASINBOSS:
             case SCENE_HAKADAN_BS:
-                gSaveContext.save.info.sceneFlags[mapIndex].rooms |= gBitFlags[room];
-                osSyncPrintf("ＲＯＯＭ＿ＩＮＦ＝%d\n", gSaveContext.save.info.sceneFlags[mapIndex].rooms);
+                SET_SCENEFLAGS_A0_ROOMS(mapIndex, GET_SCENEFLAGS_A0_ROOMS(mapIndex) | (gBitFlags[room]));
+                osSyncPrintf("ＲＯＯＭ＿ＩＮＦ＝%d\n", GET_SCENEFLAGS_A0_ROOMS(mapIndex));
                 interfaceCtx->mapRoomNum = room;
                 interfaceCtx->unk_25A = mapIndex;
                 Map_SetPaletteData(play, room);
@@ -213,8 +213,8 @@ void Map_InitRoomData(PlayState* play, s16 room) {
         interfaceCtx->mapRoomNum = 0;
     }
 
-    if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
-        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+    if (GET_SUNSSONGSTATE != SUNSSONG_SPEED_TIME) {
+        SET_SUNSSONGSTATE(SUNSSONG_INACTIVE);
     }
 }
 
@@ -224,7 +224,7 @@ void Map_Destroy(PlayState* play) {
 }
 
 void Map_Init(PlayState* play) {
-    s32 mapIndex = gSaveContext.mapIndex;
+    s32 mapIndex = GET_MAPINDEX;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     gMapData = &gMapDataTable;
@@ -260,7 +260,7 @@ void Map_Init(PlayState* play) {
         case SCENE_SPOT20:
         case SCENE_GANON_TOU:
             mapIndex = play->sceneId - SCENE_SPOT00;
-            R_MAP_INDEX = gSaveContext.mapIndex = mapIndex;
+            R_MAP_INDEX = SET_MAPINDEX(mapIndex);
             R_COMPASS_SCALE_X = gMapData->owCompassInfo[mapIndex][0];
             R_COMPASS_SCALE_Y = gMapData->owCompassInfo[mapIndex][1];
             R_COMPASS_OFFSET_X = gMapData->owCompassInfo[mapIndex][2];
@@ -295,7 +295,7 @@ void Map_Init(PlayState* play) {
         case SCENE_JYASINBOSS:
         case SCENE_HAKADAN_BS:
             mapIndex = (play->sceneId >= SCENE_YDAN_BOSS) ? play->sceneId - SCENE_YDAN_BOSS : play->sceneId;
-            R_MAP_INDEX = gSaveContext.mapIndex = mapIndex;
+            R_MAP_INDEX = SET_MAPINDEX(mapIndex);
             if ((play->sceneId <= SCENE_ICE_DOUKUTO) || (play->sceneId >= SCENE_YDAN_BOSS)) {
                 R_COMPASS_SCALE_X = gMapData->dgnCompassInfo[mapIndex][0];
                 R_COMPASS_SCALE_Y = gMapData->dgnCompassInfo[mapIndex][1];
@@ -361,7 +361,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
 void Minimap_Draw(PlayState* play) {
     s32 pad[2];
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
-    s32 mapIndex = gSaveContext.mapIndex;
+    s32 mapIndex = GET_MAPINDEX;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_map_exp.c", 626);
 
@@ -459,7 +459,7 @@ void Minimap_Draw(PlayState* play) {
                         (LINK_AGE_IN_YEARS != YEARS_ADULT)) {
                         if ((gMapData->owEntranceFlag[sEntranceIconMapIndex] == 0xFFFF) ||
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
-                             (gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] &
+                             (GET_INFTABLE_A0(INFTABLE_1AX_INDEX) &
                               gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
 
                             gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b,
@@ -476,7 +476,7 @@ void Minimap_Draw(PlayState* play) {
                     }
 
                     if ((play->sceneId == SCENE_SPOT08) &&
-                        (gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] & gBitFlags[INFTABLE_1A9_SHIFT])) {
+                        (GET_INFTABLE_A0(INFTABLE_1AX_INDEX) & gBitFlags[INFTABLE_1A9_SHIFT])) {
                         gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8,
                                             8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -516,7 +516,7 @@ s16 Map_GetFloorTextIndexOffset(s32 mapIndex, s32 floor) {
 void Map_Update(PlayState* play) {
     static s16 sLastRoomNum = 99;
     Player* player = GET_PLAYER(play);
-    s32 mapIndex = gSaveContext.mapIndex;
+    s32 mapIndex = GET_MAPINDEX;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 floor;
     s16 i;
@@ -546,7 +546,7 @@ void Map_Update(PlayState* play) {
                     }
                 }
 
-                gSaveContext.save.info.sceneFlags[mapIndex].floors |= gBitFlags[floor];
+                SET_SCENEFLAGS_A0_FLOORS(mapIndex, GET_SCENEFLAGS_A0_FLOORS(mapIndex) | (gBitFlags[floor]));
                 VREG(30) = floor;
                 if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
                     R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);
@@ -569,7 +569,7 @@ void Map_Update(PlayState* play) {
                         osSyncPrintf("階層切替＝%x\n", interfaceCtx->mapRoomNum);
                         osSyncPrintf(VT_RST);
                         Map_InitData(play, interfaceCtx->mapRoomNum);
-                        gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+                        SET_SUNSSONGSTATE(SUNSSONG_INACTIVE);
                         Map_SavePlayerInitialInfo(play);
                     }
                 }

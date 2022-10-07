@@ -169,7 +169,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, PlayState* play) {
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gHyruleFieldZeldaSongOfTimeCs);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENETRIGGER(1);
     }
 }
 

@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+#include "savectxmacros.h"
+
 typedef enum {
     /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay
     /* 0x1 */ MAGIC_STATE_CONSUME_SETUP, // Sets the speed at which magic border flashes

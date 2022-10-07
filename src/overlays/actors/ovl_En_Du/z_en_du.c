@@ -294,9 +294,9 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
     this->actor.targetMode = 1;
     this->unk_1F4.unk_00 = 0;
 
-    if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
+    if (GET_CUTSCENEINDEX >= 0xFFF0) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENETRIGGER(1);
         EnDu_SetupAction(this, func_809FE890);
     } else if (play->sceneId == SCENE_HIDAN) {
         EnDu_SetupAction(this, func_809FE638);
@@ -344,7 +344,7 @@ void func_809FE4A4(EnDu* this, PlayState* play) {
         EnDu_SetupAction(this, func_809FE3C0);
     } else if (play->msgCtx.ocarinaMode >= OCARINA_MODE_06) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaWrongCs);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENETRIGGER(1);
         this->unk_1E8 = 1;
         EnDu_SetupAction(this, func_809FE890);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
@@ -352,7 +352,7 @@ void func_809FE4A4(EnDu* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENETRIGGER(1);
         this->unk_1E8 = 0;
         EnDu_SetupAction(this, func_809FE890);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;

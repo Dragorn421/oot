@@ -381,14 +381,14 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
     switch (skyboxId) {
         case SKYBOX_NORMAL_SKY:
             skyboxConfig = 0;
-            if (gSaveContext.retainWeatherMode && !IS_CUTSCENE_LAYER && gWeatherMode > WEATHER_MODE_CLEAR &&
+            if (GET_RETAINWEATHERMODE && !IS_CUTSCENE_LAYER && gWeatherMode > WEATHER_MODE_CLEAR &&
                 gWeatherMode <= WEATHER_MODE_HEAVY_RAIN) {
                 skyboxConfig = 1;
             }
 
             for (i = 0; i < ARRAY_COUNT(gTimeBasedSkyboxConfigs[skyboxConfig]); i++) {
-                if (gSaveContext.skyboxTime >= gTimeBasedSkyboxConfigs[skyboxConfig][i].startTime &&
-                    (gSaveContext.skyboxTime < gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime ||
+                if (GET_SKYBOXTIME >= gTimeBasedSkyboxConfigs[skyboxConfig][i].startTime &&
+                    (GET_SKYBOXTIME < gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime ||
                      gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime == 0xFFFF)) {
                     play->envCtx.skybox1Index = skybox1Index = gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox1Index;
                     play->envCtx.skybox2Index = skybox2Index = gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox2Index;
@@ -396,7 +396,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
                         play->envCtx.skyboxBlend =
                             Environment_LerpWeight(gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime,
                                                    gTimeBasedSkyboxConfigs[skyboxConfig][i].startTime,
-                                                   ((void)0, gSaveContext.skyboxTime)) *
+                                                   (GET_SKYBOXTIME_VOID0)) *
                             255.0f;
                     } else {
                         play->envCtx.skyboxBlend = 0;

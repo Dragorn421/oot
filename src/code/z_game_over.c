@@ -28,8 +28,8 @@ void GameOver_Update(PlayState* play) {
         case GAMEOVER_DEATH_START:
             Message_CloseTextbox(play);
 
-            gSaveContext.timer1State = 0;
-            gSaveContext.timer2State = 0;
+            SET_TIMER1STATE(0);
+            SET_TIMER2STATE(0);
             CLEAR_EVENTINF(EVENTINF_10);
 
             // search inventory for spoiling items and revert if necessary
@@ -38,9 +38,9 @@ void GameOver_Update(PlayState* play) {
                     INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i];
 
                     // search c buttons for the found spoiling item and revert if necessary
-                    for (j = 1; j < ARRAY_COUNT(gSaveContext.save.info.equips.buttonItems); j++) {
-                        if (gSaveContext.save.info.equips.buttonItems[j] == gSpoilingItems[i]) {
-                            gSaveContext.save.info.equips.buttonItems[j] = gSpoilingItemReverts[i];
+                    for (j = 1; j < ARRAY_COUNT(GET_EQUIPS_BUTTONITEMS); j++) {
+                        if (GET_EQUIPS_BUTTONITEMS_A0(j) == gSpoilingItems[i]) {
+                            SET_EQUIPS_BUTTONITEMS_A0(j, gSpoilingItemReverts[i]);
                             Interface_LoadItemIcon1(play, j);
                         }
                     }
@@ -48,29 +48,28 @@ void GameOver_Update(PlayState* play) {
             }
 
             // restore "temporary B" to the B Button if not a sword item
-            if (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI &&
-                gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_MASTER &&
-                gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_BGS &&
-                gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KNIFE) {
+            if (GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KOKIRI &&
+                GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_MASTER &&
+                GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_BGS &&
+                GET_EQUIPS_BUTTONITEMS_A0(0) != ITEM_SWORD_KNIFE) {
 
-                if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {
-                    gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
+                if (GET_BUTTONSTATUS_A0(0) != BTN_ENABLED) {
+                    SET_EQUIPS_BUTTONITEMS_A0(0, GET_BUTTONSTATUS_A0(0));
                 } else {
-                    gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
+                    SET_EQUIPS_BUTTONITEMS_A0(0, ITEM_NONE);
                 }
             }
 
-            gSaveContext.nayrusLoveTimer = 2000;
-            gSaveContext.save.info.playerData.naviTimer = 0;
-            gSaveContext.seqId = (u8)NA_BGM_DISABLED;
-            gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
-            gSaveContext.eventInf[0] = 0;
-            gSaveContext.eventInf[1] = 0;
-            gSaveContext.eventInf[2] = 0;
-            gSaveContext.eventInf[3] = 0;
-            gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
-                gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
-            gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
+            SET_NAYRUSLOVETIMER(2000);
+            SET_NAVITIMER(0);
+            SET_SEQID((u8)NA_BGM_DISABLED);
+            SET_NATUREAMBIENCEID(NATURE_ID_DISABLED);
+            SET_EVENTINF_A0(0, 0);
+            SET_EVENTINF_A0(1, 0);
+            SET_EVENTINF_A0(2, 0);
+            SET_EVENTINF_A0(3, 0);
+            SET_BUTTONSTATUS_A0(0, SET_BUTTONSTATUS_A0(1, SET_BUTTONSTATUS_A0(2, SET_BUTTONSTATUS_A0(3, SET_BUTTONSTATUS_A0(4, BTN_ENABLED)))));
+            SET_UNK_13E7(SET_UNK_13E8(SET_UNK_13EA(SET_UNK_13EC(0))));
 
             Environment_InitGameOverLights(play);
             gGameOverTimer = 20;

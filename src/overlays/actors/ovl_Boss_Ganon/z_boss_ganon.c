@@ -574,7 +574,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                 BossGanon_SetIntroCsCamera(this, 11);
                 this->unk_198 = 2;
                 this->timers[2] = 110;
-                gSaveContext.healthAccumulator = 0x140;
+                SET_HEALTHACCUMULATOR(0x140);
                 Audio_QueueSeqCmd(NA_BGM_STOP);
             } else {
                 this->useOpenHand = true;
@@ -789,7 +789,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             }
 
             if (this->csTimer == 25) {
-                gSaveContext.healthAccumulator = 0x140;
+                SET_HEALTHACCUMULATOR(0x140);
             }
 
             if (this->csTimer == 100) {
@@ -1189,8 +1189,8 @@ void BossGanon_SetupTowerCutscene(BossGanon* this, PlayState* play) {
         this->csTimer = 0;
         this->csState = 100;
         this->unk_198 = 1;
-        gSaveContext.save.info.playerData.magic = gSaveContext.magicCapacity;
-        gSaveContext.save.info.playerData.health = gSaveContext.save.info.playerData.healthCapacity;
+        SET_MAGIC(GET_MAGICCAPACITY);
+        SET_HEALTH(GET_HEALTHCAPACITY);
     } else {
         this->actionFunc = BossGanon_SetupTowerCutscene;
     }

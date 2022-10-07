@@ -65,13 +65,13 @@ void TransitionWipe_Update(void* thisx, s32 updateRate) {
     TransitionWipe* this = (TransitionWipe*)thisx;
 
     if (this->direction != 0) {
-        this->texY += (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
+        this->texY += ((GET_TRANSWIPESPEED_VOID0) * 3) / updateRate;
         if (this->texY >= (s32)(153.0 * (1 << 2))) {
             this->texY = (s32)(153.0 * (1 << 2));
             this->isDone = true;
         }
     } else {
-        this->texY -= (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
+        this->texY -= ((GET_TRANSWIPESPEED_VOID0) * 3) / updateRate;
         if (this->texY <= (s32)(83.25 * (1 << 2))) {
             this->texY = (s32)(83.25 * (1 << 2));
             this->isDone = true;

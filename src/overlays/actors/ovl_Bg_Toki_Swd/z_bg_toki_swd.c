@@ -76,7 +76,7 @@ void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
         this->actor.draw = NULL;
     }
 
-    if (gSaveContext.sceneLayer == 5) {
+    if (GET_SCENELAYER == 5) {
         play->roomCtx.unk_74[0] = 0xFF;
     }
 
@@ -97,7 +97,7 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
         Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Play_InCsMode(play)) {
         SET_EVENTCHKINF(EVENTCHKINF_4F);
         play->csCtx.segment = D_808BBD90;
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENETRIGGER(1);
     }
     if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_55)) {
         if (Actor_HasParent(&this->actor, play)) {
@@ -109,7 +109,7 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
             }
             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_MASTER_SWORD);
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENETRIGGER(1);
             this->actor.parent = NULL;
             BgTokiSwd_SetupAction(this, func_808BB0AC);
         } else {
@@ -118,7 +118,7 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
             }
         }
     }
-    if (gSaveContext.sceneLayer == 5) {
+    if (GET_SCENELAYER == 5) {
         if (play->roomCtx.unk_74[0] > 0) {
             play->roomCtx.unk_74[0]--;
         } else {

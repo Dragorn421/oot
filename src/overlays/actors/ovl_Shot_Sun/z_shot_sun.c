@@ -166,7 +166,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
             play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaFireArrowsCS);
             if (1) {}
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENETRIGGER(1);
         } else {
             spawnPos.x = 700.0f;
             spawnPos.y = -800.0f;
@@ -180,8 +180,8 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
         }
         Actor_Kill(&this->actor);
     } else {
-        if (!(this->actor.xzDistToPlayer > 120.0f) && gSaveContext.save.dayTime >= CLOCK_TIME(6, 30) &&
-            gSaveContext.save.dayTime < CLOCK_TIME(7, 30)) {
+        if (!(this->actor.xzDistToPlayer > 120.0f) && GET_DAYTIME >= CLOCK_TIME(6, 30) &&
+            GET_DAYTIME < CLOCK_TIME(7, 30)) {
             cylinderPos.x = player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + play->envCtx.sunPos.x * (1.0f / 6.0f);
             cylinderPos.y =
                 player->bodyPartsPos[PLAYER_BODYPART_HEAD].y - 30.0f + play->envCtx.sunPos.y * (1.0f / 6.0f);

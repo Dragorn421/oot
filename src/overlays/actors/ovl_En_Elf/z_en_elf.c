@@ -346,9 +346,9 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
             this->elfMsg = NULL;
             this->unk_2C7 = 0x14;
 
-            if ((gSaveContext.save.info.playerData.naviTimer >= 25800) ||
-                (gSaveContext.save.info.playerData.naviTimer < 3000)) {
-                gSaveContext.save.info.playerData.naviTimer = 0;
+            if ((GET_NAVITIMER >= 25800) ||
+                (GET_NAVITIMER < 3000)) {
+                SET_NAVITIMER(0);
             }
             break;
         case FAIRY_REVIVE_BOTTLE:
@@ -863,7 +863,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
             func_80A02C98(this, &nextPos, 0.2f);
         }
 
-        if ((play->sceneId == SCENE_LINK_HOME) && (gSaveContext.sceneLayer == 4)) {
+        if ((play->sceneId == SCENE_LINK_HOME) && (GET_SCENELAYER == 4)) {
             // play dash sound effect as Navi enters Links house in the intro
             if (1) {}
             if (play->csCtx.frames == 55) {
@@ -1379,8 +1379,8 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 
     if (player->naviTextId == 0) {
         if (player->unk_664 == NULL) {
-            if (((gSaveContext.save.info.playerData.naviTimer >= 600) &&
-                 (gSaveContext.save.info.playerData.naviTimer <= 3000)) ||
+            if (((GET_NAVITIMER >= 600) &&
+                 (GET_NAVITIMER <= 3000)) ||
                 (nREG(89) != 0)) {
                 player->naviTextId = ElfMessage_GetCUpText(play);
 
@@ -1400,7 +1400,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 
         if (thisx->textId == ElfMessage_GetCUpText(play)) {
             this->fairyFlags |= 0x80;
-            gSaveContext.save.info.playerData.naviTimer = 3001;
+            SET_NAVITIMER(3001);
         }
 
         this->fairyFlags |= 0x10;
@@ -1417,7 +1417,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
         thisx->shape.rot.y = this->unk_2BC;
 
-        // `gSaveContext.save.info.sceneFlags[127].chest` (like in the debug string) instead of `HIGH_SCORE(HS_HBA)`
+        // `GET_SCENEFLAGS_A0_CHEST(127)` (like in the debug string) instead of `HIGH_SCORE(HS_HBA)`
         // matches too, but, with how the `SaveContext` struct is currently defined, it is an out-of-bounds read in the
         // `sceneFlags` array. It is theorized the original `room_inf` (currently `sceneFlags`) was an array of length
         // 128, not broken up like currently into structs. Structs are currently used because they're easier to work
@@ -1428,10 +1428,10 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         }
 
         if (!Play_InCsMode(play)) {
-            if (gSaveContext.save.info.playerData.naviTimer < 25800) {
-                gSaveContext.save.info.playerData.naviTimer++;
+            if (GET_NAVITIMER < 25800) {
+                GET_NAVITIMER++;
             } else if (!(this->fairyFlags & 0x80)) {
-                gSaveContext.save.info.playerData.naviTimer = 0;
+                SET_NAVITIMER(0);
             }
         }
     }

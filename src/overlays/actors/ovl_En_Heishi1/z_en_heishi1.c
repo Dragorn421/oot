@@ -98,7 +98,7 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play) {
     osSyncPrintf(VT_FGCOL(MAGENTA) " (頭)反転アングルスピード加算値 %f\n" VT_RST, this->headTurnSpeedScale);
     // "(head) maximum turning angle speed"
     osSyncPrintf(VT_FGCOL(MAGENTA) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
-    osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, ((void)0, gSaveContext.save.dayTime)); // "current time"
+    osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, (GET_DAYTIME_VOID0)); // "current time"
     osSyncPrintf(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, CLOCK_TIME(17, 30) - 1);        // "check time"
     osSyncPrintf("\n\n");
 
@@ -111,13 +111,13 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play) {
     }
 
     if (this->type != 5) {
-        if (((gSaveContext.save.dayTime < CLOCK_TIME(17, 18) - 1) || IS_DAY) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        if (((GET_DAYTIME < CLOCK_TIME(17, 18) - 1) || IS_DAY) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
             this->actionFunc = EnHeishi1_SetupWalk;
         } else {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.save.dayTime > CLOCK_TIME(17, 18) - 1) || !IS_DAY || GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        if ((GET_DAYTIME > CLOCK_TIME(17, 18) - 1) || !IS_DAY || GET_EVENTCHKINF(EVENTCHKINF_80)) {
             this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);
@@ -352,7 +352,7 @@ void EnHeishi1_Kick(EnHeishi1* this, PlayState* play) {
                 this->loadStarted = true;
                 sPlayerIsCaught = false;
                 play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
-                gSaveContext.nextTransitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+                SET_NEXTTRANSITIONTYPE(TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST));
             }
         }
     }

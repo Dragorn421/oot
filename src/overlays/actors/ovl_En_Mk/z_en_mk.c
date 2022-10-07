@@ -253,7 +253,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
                         Animation_Change(&this->skelAnime, &object_mk_Anim_000368, 1.0f, 0.0f,
                                          Animation_GetLastFrame(&object_mk_Anim_000368), ANIMMODE_ONCE, -4.0f);
                         this->flags &= ~2;
-                        gSaveContext.timer2State = 0;
+                        SET_TIMER2STATE(0);
                         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                         break;
                     default:

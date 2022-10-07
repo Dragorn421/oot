@@ -989,7 +989,7 @@ void EnSkj_WaitForSong(EnSkj* this, PlayState* play) {
             player->stateFlags2 |= PLAYER_STATE2_23;
         } else {
             if (play->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
-                gSaveContext.sunsSongState = 0;
+                SET_SUNSSONGSTATE(0);
                 if (GET_ITEMGETINF(ITEMGETINF_16)) {
                     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
@@ -1525,7 +1525,7 @@ void EnSkj_WonOcarinaMiniGame(EnSkj* this, PlayState* play) {
 
 void EnSkj_WaitToGiveReward(EnSkj* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        func_8002F434(&this->actor, play, sOcarinaGameRewards[gSaveContext.save.info.playerData.ocarinaGameRoundNum],
+        func_8002F434(&this->actor, play, sOcarinaGameRewards[GET_OCARINAGAMEROUNDNUM],
                       26.0f, 26.0f);
         this->actionFunc = EnSkj_GiveOcarinaGameReward;
     }
@@ -1536,17 +1536,17 @@ void EnSkj_GiveOcarinaGameReward(EnSkj* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnSkj_FinishOcarinaGameRound;
     } else {
-        func_8002F434(&this->actor, play, sOcarinaGameRewards[gSaveContext.save.info.playerData.ocarinaGameRoundNum],
+        func_8002F434(&this->actor, play, sOcarinaGameRewards[GET_OCARINAGAMEROUNDNUM],
                       26.0f, 26.0f);
     }
 }
 
 void EnSkj_FinishOcarinaGameRound(EnSkj* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        s32 ocarinaGameRoundNum = gSaveContext.save.info.playerData.ocarinaGameRoundNum;
+        s32 ocarinaGameRoundNum = GET_OCARINAGAMEROUNDNUM;
 
-        if (gSaveContext.save.info.playerData.ocarinaGameRoundNum < 3) {
-            gSaveContext.save.info.playerData.ocarinaGameRoundNum++;
+        if (GET_OCARINAGAMEROUNDNUM < 3) {
+            GET_OCARINAGAMEROUNDNUM++;
         }
 
         if (ocarinaGameRoundNum == 2) {

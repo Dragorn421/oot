@@ -1748,7 +1748,7 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->stateFlags &= ~ENHORSE_INACTIVE;
-            gSaveContext.save.info.horseData.sceneId = play->sceneId;
+            SET_HORSEDATA_SCENEID(play->sceneId);
 
             // Focus the camera on Epona
             Camera_SetParam(play->cameraPtrs[CAM_ID_MAIN], 8, this);
@@ -2523,8 +2523,8 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
     sp20 = func_800F5A58(NA_BGM_HORSE_GOAL);
     EnHorse_UpdateHbaRaceInfo(this, play, &sHbaInfo);
     if (this->hbaFlags & 1 || this->hbaTimer >= 46) {
-        if (sp20 != 1 && gSaveContext.minigameState != 3) {
-            gSaveContext.save.cutsceneIndex = 0;
+        if (sp20 != 1 && GET_MINIGAMESTATE != 3) {
+            SET_CUTSCENEINDEX(0);
             play->nextEntranceIndex = ENTR_SPOT12_16;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
@@ -2534,11 +2534,11 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
     if (play->interfaceCtx.hbaAmmo != 0) {
         if (!(this->hbaFlags & 2)) {
             if (GET_INFTABLE(INFTABLE_190)) {
-                if ((s32)gSaveContext.minigameScore >= 1500) {
+                if ((s32)GET_MINIGAMESCORE >= 1500) {
                     this->hbaFlags |= 4;
                 }
             } else {
-                if ((s32)gSaveContext.minigameScore >= 1000) {
+                if ((s32)GET_MINIGAMESCORE >= 1000) {
                     this->hbaFlags |= 4;
                 }
             }
@@ -2774,10 +2774,10 @@ void EnHorse_StartBridgeJump(EnHorse* this, PlayState* play) {
     this->postDrawFunc = EnHorse_BridgeJumpInit;
     if (this->bridgeJumpIdx == 0) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFieldFortressCs);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENETRIGGER(1);
     } else {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFortressToFieldCs);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENETRIGGER(1);
     }
 }
 
@@ -3598,7 +3598,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
             this->cyl1.base.atFlags &= ~AT_ON;
         }
 
-        if (gSaveContext.save.entranceIndex != 343 || gSaveContext.sceneLayer != 9) {
+        if (GET_ENTRANCEINDEX != 343 || GET_SCENELAYER != 9) {
             if (this->dustFlags & 1) {
                 this->dustFlags &= ~1;
                 func_800287AC(play, &this->frontRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,

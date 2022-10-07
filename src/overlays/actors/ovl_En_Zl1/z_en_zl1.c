@@ -319,7 +319,7 @@ void func_80B4B240(EnZl1* this, PlayState* play) {
                 animHeaderSeg = &gChildZelda1Anim_00438;
                 sp3C = 1;
                 play->csCtx.segment = D_80B4C5D0;
-                gSaveContext.cutsceneTrigger = 1;
+                SET_CUTSCENETRIGGER(1);
                 this->actionFunc = func_80B4B8B4;
                 this->unk_1E2++;
             }

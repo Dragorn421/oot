@@ -68,7 +68,7 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
     this->effectFadeInState = this->effectPrimLodFrac = this->globalState = this->effectAlpha = this->mainAlpha =
         this->subAlpha = this->copyrightAlpha = 0.0f;
 
-    if (gSaveContext.unk_13E7 != 0) {
+    if (GET_UNK_13E7 != 0) {
         this->mainAlpha = 210;
         this->subAlpha = 255;
         this->copyrightAlpha = 255;
@@ -83,11 +83,11 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
         this->effectEnvColor[1] = 255.0f;
         this->effectEnvColor[2] = 0;
 
-        gSaveContext.unk_13E7 = 0;
+        SET_UNK_13E7(0);
         this->globalState = MAG_STATE_DISPLAY;
         sDelayTimer = 20;
-        gSaveContext.transFadeDuration = 1;
-        gSaveContext.transWipeSpeed = 255;
+        SET_TRANSFADEDURATION(1);
+        SET_TRANSWIPESPEED(255);
     }
 
     Font_LoadOrderedFont(&this->font);
@@ -105,7 +105,7 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
     s32 pad[2];
     EnMag* this = (EnMag*)thisx;
 
-    if (gSaveContext.fileNum != 0xFEDC) {
+    if (GET_FILENUM != 0xFEDC) {
         if (this->globalState < MAG_STATE_DISPLAY) {
             if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) ||
                 CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) ||
@@ -130,8 +130,8 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
 
                 this->globalState = MAG_STATE_DISPLAY;
                 sDelayTimer = 20;
-                gSaveContext.transFadeDuration = 1;
-                gSaveContext.transWipeSpeed = 255;
+                SET_TRANSFADEDURATION(1);
+                SET_TRANSWIPESPEED(255);
             }
         } else if (this->globalState >= MAG_STATE_DISPLAY) {
             if (sDelayTimer == 0) {
@@ -145,7 +145,7 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
                         Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
-                        gSaveContext.gameMode = GAMEMODE_FILE_SELECT;
+                        SET_GAMEMODE(GAMEMODE_FILE_SELECT);
                         play->transitionTrigger = TRANS_TRIGGER_START;
                         play->transitionType = TRANS_TYPE_FADE_BLACK;
                     }
@@ -475,7 +475,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxp) {
         gSPTextureRectangle(gfx++, 78 << 2, 198 << 2, 238 << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     }
 
-    if (gSaveContext.fileNum == 0xFEDC) {
+    if (GET_FILENUM == 0xFEDC) {
         // Draw "NO CONTROLLER" Text
         textAlpha = textFadeTimer * 10;
         if (textAlpha >= 255) {

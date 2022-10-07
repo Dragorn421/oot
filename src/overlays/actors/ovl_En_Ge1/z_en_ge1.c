@@ -150,7 +150,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
             this->actor.targetMode = 3;
             this->hairstyle = GE1_HAIR_BOB;
             // "Horseback archery Gerudo EVENT_INF(0) ="
-            osSyncPrintf(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
+            osSyncPrintf(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, GET_EVENTINF_A0(0));
 
             if (GET_EVENTINF(EVENTINF_HORSES_08)) {
                 this->actionFunc = EnGe1_TalkAfterGame_Archery;
@@ -363,7 +363,7 @@ void EnGe1_OfferOpen_GTGGuard(EnGe1* this, PlayState* play) {
 
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.save.info.playerData.rupees < 10) {
+                if (GET_RUPEES < 10) {
                     Message_ContinueTextbox(play, 0x6016);
                     this->actionFunc = EnGe1_RefuseEntryTooPoor_GTGGuard;
                 } else {
@@ -574,13 +574,13 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
 
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.save.info.playerData.rupees < 20) {
+                if (GET_RUPEES < 20) {
                     Message_ContinueTextbox(play, 0x85);
                     this->actionFunc = EnGe1_TalkTooPoor_Archery;
                 } else {
                     Rupees_ChangeBy(-20);
                     play->nextEntranceIndex = ENTR_SPOT12_0;
-                    gSaveContext.nextCutsceneIndex = 0xFFF0;
+                    SET_NEXTCUTSCENEINDEX(0xFFF0);
                     play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     SET_EVENTINF(EVENTINF_HORSES_08);
@@ -626,24 +626,24 @@ void EnGe1_TalkNoPrize_Archery(EnGe1* this, PlayState* play) {
 
 void EnGe1_TalkAfterGame_Archery(EnGe1* this, PlayState* play) {
     CLEAR_EVENTINF(EVENTINF_HORSES_08);
-    LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
+    LOG_NUM("z_common_data.yabusame_total", GET_MINIGAMESCORE, "../z_en_ge1.c", 1110);
     // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
     // see the other occurrence of this for more details.
     LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
     this->actor.flags |= ACTOR_FLAG_16;
 
-    if (HIGH_SCORE(HS_HBA) < gSaveContext.minigameScore) {
-        HIGH_SCORE(HS_HBA) = gSaveContext.minigameScore;
+    if (HIGH_SCORE(HS_HBA) < GET_MINIGAMESCORE) {
+        HIGH_SCORE(HS_HBA) = GET_MINIGAMESCORE;
     }
 
-    if (gSaveContext.minigameScore < 1000) {
+    if (GET_MINIGAMESCORE < 1000) {
         this->actor.textId = 0x6045;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
     } else if (!GET_INFTABLE(INFTABLE_190)) {
         this->actor.textId = 0x6046;
         this->actionFunc = EnGe1_TalkWinPrize_Archery;
         this->stateFlags &= ~GE1_STATE_GIVE_QUIVER;
-    } else if (gSaveContext.minigameScore < 1500) {
+    } else if (GET_MINIGAMESCORE < 1500) {
         this->actor.textId = 0x6047;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
     } else if (GET_ITEMGETINF(ITEMGETINF_0F)) {

@@ -235,7 +235,7 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 
     if (this->actor.params != 1 && this->actor.params != 2 && play->sceneId == SCENE_SOUKO) {
-        gSaveContext.timer1State = 0;
+        SET_TIMER1STATE(0);
     }
 
     if (this->unk_2E0 & 0x200) {
@@ -508,7 +508,7 @@ void func_80B14D98(EnTa* this, PlayState* play) {
 }
 
 s32 func_80B14DD8(void) {
-    if (gSaveContext.save.info.playerData.rupees < 30) {
+    if (GET_RUPEES < 30) {
         return 0;
     } else if (!Inventory_HasEmptyBottle()) {
         return 1;
@@ -666,10 +666,10 @@ void func_80B15424(EnTa* this, PlayState* play) {
 
         if (GET_EVENTINF(EVENTINF_HORSES_08)) {
             play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
-            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
+            SET_NEXTTRANSITIONTYPE(TRANS_TYPE_FADE_WHITE);
         } else {
             play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
-            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
+            SET_NEXTTRANSITIONTYPE(TRANS_TYPE_FADE_BLACK);
         }
 
         play->transitionTrigger = TRANS_TRIGGER_START;
@@ -698,7 +698,7 @@ void func_80B154FC(EnTa* this, PlayState* play) {
 
                     switch (EnTa_GetSuperCuccosCount(this, play)) {
                         case 1:
-                            gSaveContext.timer1State = 0;
+                            SET_TIMER1STATE(0);
                             func_8002DF54(play, &this->actor, 1);
 
                             Message_StartTextbox(play, 0x2084, &this->actor);
@@ -732,15 +732,15 @@ void func_80B154FC(EnTa* this, PlayState* play) {
         }
     }
 
-    if (gSaveContext.timer1Value == 10) {
+    if (GET_TIMER1VALUE == 10) {
         func_800F5918();
     }
 
-    if (gSaveContext.timer1Value == 0 && !Play_InCsMode(play)) {
+    if (GET_TIMER1VALUE == 0 && !Play_InCsMode(play)) {
         Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
         this->unk_2E0 &= ~0x200;
         func_80078884(NA_SE_SY_FOUND);
-        gSaveContext.timer1State = 0;
+        SET_TIMER1STATE(0);
         func_8002DF54(play, &this->actor, 1);
         Message_StartTextbox(play, 0x2081, &this->actor);
         this->actionFunc = func_80B15424;
@@ -907,7 +907,7 @@ void func_80B15FE8(EnTa* this, PlayState* play) {
                 }
                 break;
             case 1:
-                if (gSaveContext.save.info.playerData.rupees < 10) {
+                if (GET_RUPEES < 10) {
                     Message_ContinueTextbox(play, 0x85);
                     func_80B13AA0(this, func_80B15034, func_80B16938);
                 } else {
@@ -939,7 +939,7 @@ void func_80B161C0(EnTa* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.save.info.playerData.rupees < price) {
+                if (GET_RUPEES < price) {
                     Message_ContinueTextbox(play, 0x85);
                     func_80B13AA0(this, func_80B15034, func_80B16938);
                 } else {

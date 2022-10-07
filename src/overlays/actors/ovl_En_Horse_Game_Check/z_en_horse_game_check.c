@@ -106,7 +106,7 @@ s32 EnHorseGameCheck_DestroyIngoRace(EnHorseGameCheckBase* base, PlayState* play
 }
 
 void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, PlayState* play) {
-    gSaveContext.save.cutsceneIndex = 0;
+    SET_CUTSCENEINDEX(0);
     if (this->result == INGORACE_PLAYER_WIN) {
         play->nextEntranceIndex = ENTR_SPOT20_7;
         if (GET_EVENTINF(EVENTINF_HORSES_06)) {
@@ -128,7 +128,7 @@ void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, PlayState* 
     }
     DREG(25) = 0;
     play->transitionTrigger = TRANS_TRIGGER_START;
-    gSaveContext.timer1State = 0;
+    SET_TIMER1STATE(0);
 }
 
 s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play) {
@@ -211,7 +211,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play)
             this->result = INGORACE_INGO_WIN;
             this->finishTimer = 20;
         }
-        if ((gSaveContext.timer1Value >= 180) && (this->startFlags & 2)) {
+        if ((GET_TIMER1VALUE >= 180) && (this->startFlags & 2)) {
             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HORSE_GOAL);
             this->result = INGORACE_TIME_UP;
             this->finishTimer = 20;
@@ -293,21 +293,21 @@ s32 EnHorseGameCheck_DestroyMalonRace(EnHorseGameCheckBase* base, PlayState* pla
 
 void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, PlayState* play) {
     if ((this->result == MALONRACE_SUCCESS) || (this->result == MALONRACE_TIME_UP)) {
-        gSaveContext.save.cutsceneIndex = 0;
+        SET_CUTSCENEINDEX(0);
         play->nextEntranceIndex = ENTR_SPOT20_7;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
     } else if (this->result == MALONRACE_FAILURE) {
-        gSaveContext.timer1Value = 240;
-        gSaveContext.timer1State = 0xF;
-        gSaveContext.save.cutsceneIndex = 0;
+        SET_TIMER1VALUE(240);
+        SET_TIMER1STATE(0xF);
+        SET_CUTSCENEINDEX(0);
         play->nextEntranceIndex = ENTR_SPOT20_7;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
     } else {
         // "not supported"
         osSyncPrintf("En_HGC_Spot20_Ta_end():対応せず\n");
-        gSaveContext.save.cutsceneIndex = 0;
+        SET_CUTSCENEINDEX(0);
         play->nextEntranceIndex = ENTR_SPOT20_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
@@ -383,7 +383,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, PlayState* play
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->result = MALONRACE_SUCCESS;
                 this->finishTimer = 70;
-                gSaveContext.timer1State = 0xF;
+                SET_TIMER1STATE(0xF);
             } else if ((this->fenceCheck[7] == 1) && !(this->raceFlags & MALONRACE_SECOND_LAP)) {
                 this->lapCount = 1;
                 this->raceFlags |= MALONRACE_SECOND_LAP;
@@ -400,11 +400,11 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, PlayState* play
                 this->finishTimer = 30;
             }
         }
-        if ((gSaveContext.timer1Value >= 180) && (this->raceFlags & MALONRACE_SET_TIMER)) {
-            gSaveContext.timer1Value = 240;
+        if ((GET_TIMER1VALUE >= 180) && (this->raceFlags & MALONRACE_SET_TIMER)) {
+            SET_TIMER1VALUE(240);
             this->result = MALONRACE_TIME_UP;
             this->finishTimer = 30;
-            gSaveContext.timer1State = 0;
+            SET_TIMER1STATE(0);
         }
     } else {
         if (this->finishTimer > 0) {

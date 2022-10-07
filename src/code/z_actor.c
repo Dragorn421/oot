@@ -721,7 +721,7 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2824);
 
-        textureLanguageOffset = width * height * gSaveContext.language;
+        textureLanguageOffset = width * height * GET_LANGUAGE;
         height = (width * height > 0x1000) ? 0x1000 / width : height;
         titleSecondY = titleY + (height * 4);
 
@@ -1768,27 +1768,27 @@ f32 D_8015BC18;
 void func_8002FA60(PlayState* play) {
     Vec3f lightPos;
 
-    if (gSaveContext.save.info.fw.set) {
-        gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = gSaveContext.save.info.fw.pos.x;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = gSaveContext.save.info.fw.pos.y;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = gSaveContext.save.info.fw.pos.z;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].yaw = gSaveContext.save.info.fw.yaw;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = gSaveContext.save.info.fw.playerParams;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex = gSaveContext.save.info.fw.entranceIndex;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex = gSaveContext.save.info.fw.roomIndex;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].tempSwchFlags = gSaveContext.save.info.fw.tempSwchFlags;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].tempCollectFlags = gSaveContext.save.info.fw.tempCollectFlags;
+    if (GET_FW_SET) {
+        SET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP, 0x28);
+        SET_RESPAWN_A0_POS_X(RESPAWN_MODE_TOP, GET_FW_POS_X);
+        SET_RESPAWN_A0_POS_Y(RESPAWN_MODE_TOP, GET_FW_POS_Y);
+        SET_RESPAWN_A0_POS_Z(RESPAWN_MODE_TOP, GET_FW_POS_Z);
+        SET_RESPAWN_A0_YAW(RESPAWN_MODE_TOP, GET_FW_YAW);
+        SET_RESPAWN_A0_PLAYERPARAMS(RESPAWN_MODE_TOP, GET_FW_PLAYERPARAMS);
+        SET_RESPAWN_A0_ENTRANCEINDEX(RESPAWN_MODE_TOP, GET_FW_ENTRANCEINDEX);
+        SET_RESPAWN_A0_ROOMINDEX(RESPAWN_MODE_TOP, GET_FW_ROOMINDEX);
+        SET_RESPAWN_A0_TEMPSWCHFLAGS(RESPAWN_MODE_TOP, GET_FW_TEMPSWCHFLAGS);
+        SET_RESPAWN_A0_TEMPCOLLECTFLAGS(RESPAWN_MODE_TOP, GET_FW_TEMPCOLLECTFLAGS);
     } else {
-        gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = 0.0f;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = 0.0f;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = 0.0f;
+        SET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP, 0);
+        SET_RESPAWN_A0_POS_X(RESPAWN_MODE_TOP, 0.0f);
+        SET_RESPAWN_A0_POS_Y(RESPAWN_MODE_TOP, 0.0f);
+        SET_RESPAWN_A0_POS_Z(RESPAWN_MODE_TOP, 0.0f);
     }
 
-    lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-    lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
-    lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
+    lightPos.x = GET_RESPAWN_A0_POS_X(RESPAWN_MODE_TOP);
+    lightPos.y = GET_RESPAWN_A0_POS_Y(RESPAWN_MODE_TOP) + 80.0f;
+    lightPos.z = GET_RESPAWN_A0_POS_Z(RESPAWN_MODE_TOP);
 
     Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
 
@@ -1803,7 +1803,7 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 5308);
 
-    params = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
+    params = GET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP);
 
     if (params) {
         f32 yOffset = LINK_IS_ADULT ? 80.0f : 60.0f;
@@ -1812,7 +1812,7 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
         s32 temp = params - 40;
 
         if (temp < 0) {
-            gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++params;
+            SET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP, ++params);
             ratio = ABS(params) * 0.025f;
             D_8015BC14 = 60;
             D_8015BC18 = 1.0f;
@@ -1823,8 +1823,8 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             static Vec3f effectAccel = { 0.0f, -0.025f, 0.0f };
             static Color_RGBA8 effectPrimCol = { 255, 255, 255, 0 };
             static Color_RGBA8 effectEnvCol = { 100, 200, 0, 0 };
-            Vec3f* curPos = &gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
-            Vec3f* nextPos = &gSaveContext.respawn[RESPAWN_MODE_DOWN].pos;
+            Vec3f* curPos = &GET_RESPAWN_A0_POS(RESPAWN_MODE_TOP);
+            Vec3f* nextPos = &GET_RESPAWN_A0_POS(RESPAWN_MODE_DOWN);
             f32 prevNum = D_8015BC18;
             Vec3f dist;
             f32 diff = Math_Vec3f_DistXYZAndStoreDiff(nextPos, curPos, &dist);
@@ -1860,14 +1860,14 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
                                             1000, 16);
 
             if (D_8015BC18 == 0.0f) {
-                gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];
-                gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = 0x06FF;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data = 40;
+                SET_RESPAWN_A0(RESPAWN_MODE_TOP, GET_RESPAWN_A0(RESPAWN_MODE_DOWN));
+                SET_RESPAWN_A0_PLAYERPARAMS(RESPAWN_MODE_TOP, 0x06FF);
+                SET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP, 40);
             }
 
-            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *curPos;
+            SET_RESPAWN_A0_POS(RESPAWN_MODE_TOP, *curPos);
         } else if (temp > 0) {
-            Vec3f* curPos = &gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+            Vec3f* curPos = &GET_RESPAWN_A0_POS(RESPAWN_MODE_TOP);
             f32 nextRatio = 1.0f - temp * 0.1f;
             f32 curRatio = 1.0f - (f32)(temp - 1) * 0.1f;
             Vec3f eye;
@@ -1883,17 +1883,17 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
                 curPos->x = eye.x + (dist.x * diff);
                 curPos->y = eye.y + (dist.y * diff);
                 curPos->z = eye.z + (dist.z * diff);
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *curPos;
+                SET_RESPAWN_A0_POS(RESPAWN_MODE_TOP, *curPos);
             }
 
             alpha = 255 - (temp * 30);
 
             if (alpha < 0) {
-                gSaveContext.save.info.fw.set = 0;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
+                SET_FW_SET(0);
+                SET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP, 0);
                 alpha = 0;
             } else {
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++params;
+                SET_RESPAWN_A0_DATA(RESPAWN_MODE_TOP, ++params);
             }
 
             ratio = 1.0f + ((f32)temp * 0.2); // required to match
@@ -1902,16 +1902,16 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
         lightRadius = 500.0f * ratio;
 
         if ((play->csCtx.state == CS_STATE_IDLE) &&
-            (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex) ==
-             ((void)0, gSaveContext.save.entranceIndex)) &&
-            (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex) == play->roomCtx.curRoom.num)) {
+            ((GET_RESPAWN_A0_ENTRANCEINDEX_VOID0(RESPAWN_MODE_TOP)) ==
+             (GET_ENTRANCEINDEX_VOID0)) &&
+            ((GET_RESPAWN_A0_ROOMINDEX_VOID0(RESPAWN_MODE_TOP)) == play->roomCtx.curRoom.num)) {
             f32 scale = 0.025f * ratio;
 
             POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_25);
 
-            Matrix_Translate(((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x),
-                             ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
-                             ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z), MTXMODE_NEW);
+            Matrix_Translate((GET_RESPAWN_A0_POS_X_VOID0(RESPAWN_MODE_TOP)),
+                             (GET_RESPAWN_A0_POS_Y_VOID0(RESPAWN_MODE_TOP)) + yOffset,
+                             (GET_RESPAWN_A0_POS_Z_VOID0(RESPAWN_MODE_TOP)), MTXMODE_NEW);
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
             Matrix_Push();
@@ -1933,9 +1933,9 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
         }
 
-        Lights_PointNoGlowSetInfo(&D_8015BC00, ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x),
-                                  ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
-                                  ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z), 255, 255, 255, lightRadius);
+        Lights_PointNoGlowSetInfo(&D_8015BC00, (GET_RESPAWN_A0_POS_X_VOID0(RESPAWN_MODE_TOP)),
+                                  (GET_RESPAWN_A0_POS_Y_VOID0(RESPAWN_MODE_TOP)) + yOffset,
+                                  (GET_RESPAWN_A0_POS_Z_VOID0(RESPAWN_MODE_TOP)), 255, 255, 255, lightRadius);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 5474);
     }
@@ -1958,7 +1958,7 @@ void func_800304DC(PlayState* play, ActorContext* actorCtx, ActorEntry* actorEnt
     SavedSceneFlags* savedSceneFlags;
     s32 i;
 
-    savedSceneFlags = &gSaveContext.save.info.sceneFlags[play->sceneId];
+    savedSceneFlags = &GET_SCENEFLAGS_A0(play->sceneId);
 
     bzero(actorCtx, sizeof(*actorCtx));
 
@@ -4519,8 +4519,8 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 retTextId = 0x7002;
             } else if (Flags_GetInfTable(INFTABLE_6A)) {
                 retTextId = 0x7004;
-            } else if ((gSaveContext.save.dayTime >= CLOCK_TIME(6, 0)) &&
-                       (gSaveContext.save.dayTime <= CLOCK_TIME(18, 30))) {
+            } else if ((GET_DAYTIME >= CLOCK_TIME(6, 0)) &&
+                       (GET_DAYTIME <= CLOCK_TIME(18, 30))) {
                 retTextId = 0x7002;
             } else {
                 retTextId = 0x7003;
@@ -5319,7 +5319,7 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
         case 0x2030:
         case 0x2031:
             if (msgCtx->choiceIndex == 0) {
-                if (gSaveContext.save.info.playerData.rupees >= 10) {
+                if (GET_RUPEES >= 10) {
                     func_80035B18(play, actor, 0x2034);
                     Rupees_ChangeBy(-10);
                 } else {
@@ -5564,7 +5564,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
     actor->focus.pos.y += focusHeight;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
-          (gSaveContext.save.entranceIndex == ENTR_SPOT04_0))) {
+          (GET_ENTRANCEINDEX == ENTR_SPOT04_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
             Actor_TrackNone(headRot, torsoRot);
@@ -5573,7 +5573,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
-        (gSaveContext.save.entranceIndex == ENTR_SPOT04_0)) {
+        (GET_ENTRANCEINDEX == ENTR_SPOT04_0)) {
         target = play->view.eye;
     } else {
         target = player->actor.focus.pos;
@@ -5608,7 +5608,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
     actor->focus.pos = focusPos;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
-          (gSaveContext.save.entranceIndex == ENTR_SPOT04_0))) {
+          (GET_ENTRANCEINDEX == ENTR_SPOT04_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
             Actor_TrackNone(headRot, torsoRot);
@@ -5617,7 +5617,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
-        (gSaveContext.save.entranceIndex == ENTR_SPOT04_0)) {
+        (GET_ENTRANCEINDEX == ENTR_SPOT04_0)) {
         target = play->view.eye;
     } else {
         target = player->actor.focus.pos;

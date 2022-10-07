@@ -1812,7 +1812,7 @@ void func_80B5772C(EnZl3* this, PlayState* play) {
 }
 
 void func_80B57754(EnZl3* this, PlayState* play) {
-    if (gSaveContext.magicState == MAGIC_STATE_IDLE) {
+    if (GET_MAGICSTATE == MAGIC_STATE_IDLE) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_OCEFF_WIPE4, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 1);
         func_80B56DA4(this);
@@ -2492,7 +2492,7 @@ s32 func_80B59698(EnZl3* this, PlayState* play) {
         u8 curSpawn = play->curSpawn;
 
         if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) &&
-            ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == 0))) {
+            ((GET_TIMER2VALUE <= 0) || (GET_TIMER2STATE == 0))) {
             return 1;
         }
     }
@@ -2507,7 +2507,7 @@ s32 func_80B59768(EnZl3* this, PlayState* play) {
     if (cond) {
         u8 curSpawn = play->curSpawn;
 
-        if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) && (gSaveContext.timer2Value <= 0)) {
+        if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) && (GET_TIMER2VALUE <= 0)) {
             return 1;
         }
     }
@@ -2536,7 +2536,7 @@ void func_80B59828(EnZl3* this, PlayState* play) {
     if (func_80B59698(this, play) != 0) {
         func_80088AA0(180);
         func_80B53468();
-        gSaveContext.healthAccumulator = 320;
+        SET_HEALTHACCUMULATOR(320);
         Magic_Fill(play);
         if (Flags_GetSwitch(play, 0x20)) {
             Flags_UnsetSwitch(play, 0x20);
@@ -2584,7 +2584,7 @@ void func_80B59AD0(EnZl3* this, PlayState* play) {
     func_80B53614(this, play);
     CLEAR_EVENTCHKINF(EVENTCHKINF_C7);
     func_80B56F10(this, play);
-    gSaveContext.healthAccumulator = 320;
+    SET_HEALTHACCUMULATOR(320);
     Magic_Fill(play);
     this->action = 27;
     this->drawConfig = 1;
@@ -2667,7 +2667,7 @@ void EnZl3_Init(Actor* thisx, PlayState* play) {
 
     switch (func_80B54DD4(this)) {
         case 1:
-            gSaveContext.timer2State = 0;
+            SET_TIMER2STATE(0);
             break;
         case 3:
             func_80B59A80(this, play);

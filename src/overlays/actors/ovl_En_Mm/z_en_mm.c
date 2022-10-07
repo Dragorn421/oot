@@ -202,7 +202,7 @@ void EnMm_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80AADA70(void) {
     s32 isDay = false;
 
-    if ((gSaveContext.save.dayTime > CLOCK_TIME(5, 0)) && (gSaveContext.save.dayTime <= CLOCK_TIME(20, 0) + 1)) {
+    if ((GET_DAYTIME > CLOCK_TIME(5, 0)) && (GET_DAYTIME <= CLOCK_TIME(20, 0) + 1)) {
         isDay = true;
     }
 
@@ -459,7 +459,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
             dustPos.y = this->actor.world.pos.y;
             dustPos.z = this->actor.world.pos.z;
 
-            if (gSaveContext.gameMode != GAMEMODE_END_CREDITS) {
+            if (GET_GAMEMODE != GAMEMODE_END_CREDITS) {
                 func_80033480(play, &dustPos, 50.0f, 2, 350, 20, 0);
             }
 

@@ -226,8 +226,8 @@ void BgPoEvent_Destroy(Actor* thisx, PlayState* play) {
         Collider_DestroyTris(play, &this->collider);
     } else {
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-        if ((this->type == 1) && (gSaveContext.timer1Value > 0)) {
-            gSaveContext.timer1State = 0xA;
+        if ((this->type == 1) && (GET_TIMER1VALUE > 0)) {
+            SET_TIMER1STATE(0xA);
         }
     }
 }
@@ -342,10 +342,10 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
                 OnePointCutscene_Init(play, 3170, 30, amy, CAM_ID_MAIN);
             }
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-            gSaveContext.timer1State = 0xA;
+            SET_TIMER1STATE(0xA);
         }
     } else {
-        if ((gSaveContext.timer1Value == 0) && (sBlocksAtRest == 5)) {
+        if ((GET_TIMER1VALUE == 0) && (sBlocksAtRest == 5)) {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
             sPuzzleState = 0x10;
             sBlocksAtRest = 0;

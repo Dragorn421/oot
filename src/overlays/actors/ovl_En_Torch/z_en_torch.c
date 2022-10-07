@@ -28,7 +28,7 @@ static u8 sChestContents[] = {
 
 void EnTorch_Init(Actor* thisx, PlayState* play) {
     EnTorch* this = (EnTorch*)thisx;
-    s8 returnData = gSaveContext.respawn[RESPAWN_MODE_RETURN].data;
+    s8 returnData = GET_RESPAWN_A0_DATA(RESPAWN_MODE_RETURN);
 
     /* Spawn chest with desired contents.
        Contents are passed to en_torch from grotto params via Save Context. */

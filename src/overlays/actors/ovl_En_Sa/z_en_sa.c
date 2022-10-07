@@ -380,7 +380,7 @@ void EnSa_ChangeAnim(EnSa* this, s32 index) {
 }
 
 s32 func_80AF5DFC(EnSa* this, PlayState* play) {
-    if (gSaveContext.save.cutsceneIndex >= 0xFFF0 && gSaveContext.save.cutsceneIndex != 0xFFFD) {
+    if (GET_CUTSCENEINDEX >= 0xFFF0 && GET_CUTSCENEINDEX != 0xFFFD) {
         if (play->sceneId == SCENE_SPOT04) {
             return 4;
         }
@@ -505,7 +505,7 @@ void EnSa_Init(Actor* thisx, PlayState* play) {
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
             play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
-            gSaveContext.cutsceneTrigger = 1;
+            SET_CUTSCENETRIGGER(1);
             EnSa_ChangeAnim(this, ENSA_ANIM1_4);
             this->actionFunc = func_80AF68E4;
             break;
@@ -625,7 +625,7 @@ void func_80AF683C(EnSa* this, PlayState* play) {
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Play_InCsMode(play)) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot05_scene_Cs_005730);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENETRIGGER(1);
         this->actionFunc = func_80AF68E4;
     }
 }

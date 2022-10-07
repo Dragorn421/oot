@@ -325,12 +325,12 @@ void func_80985430(DemoIm* this, PlayState* play) {
 void func_8098544C(DemoIm* this, PlayState* play) {
     s32 pad[2];
 
-    if ((gSaveContext.chamberCutsceneNum == 4) && !IS_CUTSCENE_LAYER) {
+    if ((GET_CHAMBERCUTSCENENUM == 4) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;
         play->csCtx.segment = D_8098786C;
-        gSaveContext.cutsceneTrigger = 2;
+        SET_CUTSCENETRIGGER(2);
         Item_Give(play, ITEM_MEDALLION_SHADOW);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
     }
@@ -899,7 +899,7 @@ void func_80986BF8(DemoIm* this, PlayState* play) {
 void func_80986C30(DemoIm* this, PlayState* play) {
     if (func_80986A5C(this, play)) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardLullabyCs);
-        gSaveContext.cutsceneTrigger = 1;
+        SET_CUTSCENETRIGGER(1);
         SET_EVENTCHKINF(EVENTCHKINF_59);
         Item_Give(play, ITEM_SONG_LULLABY);
         func_80985F54(this);
@@ -923,7 +923,7 @@ void func_80986CFC(DemoIm* this, PlayState* play) {
 }
 
 void func_80986D40(DemoIm* this, PlayState* play) {
-    if (gSaveContext.sceneLayer == 6) {
+    if (GET_SCENELAYER == 6) {
         this->action = 19;
         this->drawConfig = 1;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {

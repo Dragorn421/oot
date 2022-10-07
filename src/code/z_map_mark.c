@@ -79,7 +79,7 @@ void MapMark_DrawForDungeon(PlayState* play) {
     MapMarkIconData* mapMarkIconData;
     MapMarkPoint* markPoint;
     MapMarkInfo* markInfo;
-    u16 dungeon = gSaveContext.mapIndex;
+    u16 dungeon = GET_MAPINDEX;
     s32 i;
     s32 rectLeft;
     s32 rectTop;

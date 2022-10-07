@@ -41,7 +41,7 @@ void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
     if (play2->sceneId == SCENE_SPOT00) {
         spaceSize = 1024000;
     } else if (play2->sceneId == SCENE_GANON_DEMO) {
-        if (gSaveContext.sceneLayer != 4) {
+        if (GET_SCENELAYER != 4) {
             spaceSize = 1177600;
         } else {
             spaceSize = 1024000;
@@ -187,9 +187,9 @@ void Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
         (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.data) + play->setupEntranceList[play->curSpawn].spawn;
     s16 linkObjectId;
 
-    play->linkAgeOnLoad = ((void)0, gSaveContext.save.linkAge);
+    play->linkAgeOnLoad = (GET_LINKAGE_VOID0);
 
-    linkObjectId = gLinkObjectIds[((void)0, gSaveContext.save.linkAge)];
+    linkObjectId = gLinkObjectIds[(GET_LINKAGE_VOID0)];
 
     gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
     Object_Spawn(&play->objectCtx, linkObjectId);
@@ -338,8 +338,7 @@ void Scene_CommandSkyboxDisables(PlayState* play, SceneCmd* cmd) {
 
 void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
-        gSaveContext.skyboxTime = gSaveContext.save.dayTime =
-            ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / ((f32)(24 * 60) / 0x10000);
+        SET_SKYBOXTIME(SET_DAYTIME(((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / ((f32)(24 * 60) / 0x10000)));
     }
 
     if (cmd->timeSettings.timeSpeed != 0xFF) {
@@ -348,27 +347,27 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
         play->envCtx.sceneTimeSpeed = 0;
     }
 
-    if (gSaveContext.sunsSongState == SUNSSONG_INACTIVE) {
+    if (GET_SUNSSONGSTATE == SUNSSONG_INACTIVE) {
         gTimeSpeed = play->envCtx.sceneTimeSpeed;
     }
 
-    play->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    play->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    play->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
+    play->envCtx.sunPos.x = -(Math_SinS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    play->envCtx.sunPos.y = (Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    play->envCtx.sunPos.z = (Math_CosS((GET_DAYTIME_VOID0) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
-    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) ||
-        (gSaveContext.save.entranceIndex == ENTR_SPOT06_8)) {
-        gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
+    if (((play->envCtx.sceneTimeSpeed == 0) && (GET_CUTSCENEINDEX < 0xFFF0)) ||
+        (GET_ENTRANCEINDEX == ENTR_SPOT06_8)) {
+        SET_SKYBOXTIME((GET_DAYTIME_VOID0));
 
-        if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
-            gSaveContext.skyboxTime = CLOCK_TIME(5, 0) + 1;
-        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(6, 30)) && (gSaveContext.skyboxTime <= CLOCK_TIME(8, 0))) {
-            gSaveContext.skyboxTime = CLOCK_TIME(8, 0) + 1;
-        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(16, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(17, 0))) {
-            gSaveContext.skyboxTime = CLOCK_TIME(17, 0) + 1;
-        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(18, 0) + 1) &&
-                   (gSaveContext.skyboxTime <= CLOCK_TIME(19, 0))) {
-            gSaveContext.skyboxTime = CLOCK_TIME(19, 0) + 1;
+        if ((GET_SKYBOXTIME > CLOCK_TIME(4, 0)) && (GET_SKYBOXTIME < CLOCK_TIME(6, 30))) {
+            SET_SKYBOXTIME(CLOCK_TIME(5, 0) + 1);
+        } else if ((GET_SKYBOXTIME >= CLOCK_TIME(6, 30)) && (GET_SKYBOXTIME <= CLOCK_TIME(8, 0))) {
+            SET_SKYBOXTIME(CLOCK_TIME(8, 0) + 1);
+        } else if ((GET_SKYBOXTIME >= CLOCK_TIME(16, 0)) && (GET_SKYBOXTIME <= CLOCK_TIME(17, 0))) {
+            SET_SKYBOXTIME(CLOCK_TIME(17, 0) + 1);
+        } else if ((GET_SKYBOXTIME >= CLOCK_TIME(18, 0) + 1) &&
+                   (GET_SKYBOXTIME <= CLOCK_TIME(19, 0))) {
+            SET_SKYBOXTIME(CLOCK_TIME(19, 0) + 1);
         }
     }
 }
@@ -396,7 +395,7 @@ void Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
     play->sequenceCtx.seqId = cmd->soundSettings.seqId;
     play->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
-    if (gSaveContext.seqId == (u8)NA_BGM_DISABLED) {
+    if (GET_SEQID == (u8)NA_BGM_DISABLED) {
         Audio_QueueSeqCmd(cmd->soundSettings.specId | 0xF0000000);
     }
 }
@@ -409,12 +408,12 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
     s32 pad;
     SceneCmd* altHeader;
 
-    osSyncPrintf("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.save.linkAge));
-    osSyncPrintf("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.save.cutsceneIndex));
-    osSyncPrintf("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
+    osSyncPrintf("\n[ZU]sceneset age    =[%X]", (GET_LINKAGE_VOID0));
+    osSyncPrintf("\n[ZU]sceneset time   =[%X]", (GET_CUTSCENEINDEX_VOID0));
+    osSyncPrintf("\n[ZU]sceneset counter=[%X]", (GET_SCENELAYER_VOID0));
 
-    if (gSaveContext.sceneLayer != 0) {
-        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
+    if (GET_SCENELAYER != 0) {
+        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[GET_SCENELAYER - 1];
 
         if (1) {}
 
@@ -425,11 +424,11 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
             // "Coughh! There is no specified dataaaaa!"
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
 
-            if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_NIGHT) {
+            if (GET_SCENELAYER == SCENE_LAYER_ADULT_NIGHT) {
                 // Due to the condition above, this is equivalent to accessing altHeaders[SCENE_LAYER_ADULT_DAY - 1]
                 altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(
                     cmd->altHeaders
-                        .data))[(gSaveContext.sceneLayer - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
+                        .data))[(GET_SCENELAYER - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
 
                 // "Using adult day data there!"
                 osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
@@ -451,20 +450,20 @@ void Scene_CommandCutsceneData(PlayState* play, SceneCmd* cmd) {
 // Camera & World Map Area
 void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
     R_SCENE_CAM_TYPE = cmd->miscSettings.sceneCamType;
-    gSaveContext.worldMapArea = cmd->miscSettings.area;
+    SET_WORLDMAPAREA(cmd->miscSettings.area);
 
     if ((play->sceneId == SCENE_SHOP1) || (play->sceneId == SCENE_SYATEKIJYOU)) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-            gSaveContext.worldMapArea = 1;
+            SET_WORLDMAPAREA(1);
         }
     }
 
     if (((play->sceneId >= SCENE_SPOT00) && (play->sceneId <= SCENE_GANON_TOU)) ||
         ((play->sceneId >= SCENE_ENTRA) && (play->sceneId <= SCENE_SHRINE_R))) {
-        if (gSaveContext.save.cutsceneIndex < 0xFFF0) {
-            gSaveContext.save.info.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
-            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.save.info.worldMapAreaData,
-                         gSaveContext.worldMapArea);
+        if (GET_CUTSCENEINDEX < 0xFFF0) {
+            SET_WORLDMAPAREADATA(GET_WORLDMAPAREADATA | (gBitFlags[GET_WORLDMAPAREA]));
+            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", GET_WORLDMAPAREADATA,
+                         GET_WORLDMAPAREA);
         }
     }
 }

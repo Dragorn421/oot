@@ -69,14 +69,14 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
             return;
         }
 
-        if ((gSaveContext.sceneLayer != 6) &&
-            ((gSaveContext.sceneLayer == 4) || (gSaveContext.sceneLayer == 5) || (!LINK_IS_ADULT && !IS_DAY))) {
+        if ((GET_SCENELAYER != 6) &&
+            ((GET_SCENELAYER == 4) || (GET_SCENELAYER == 5) || (!LINK_IS_ADULT && !IS_DAY))) {
             this->dyna.actor.shape.rot.x = -0x4000;
         } else {
             this->dyna.actor.shape.rot.x = 0;
         }
 
-        if (gSaveContext.sceneLayer != 6) {
+        if (GET_SCENELAYER != 6) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
                 CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 this->dyna.actor.shape.rot.x = -0x4000;
@@ -220,7 +220,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
                     func_8002DF54(play, &player->actor, 8);
                     play->nextEntranceIndex = ENTR_SPOT00_0;
-                    gSaveContext.nextCutsceneIndex = 0xFFF1;
+                    SET_NEXTCUTSCENEINDEX(0xFFF1);
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 3000.0f, 0x7530)) {
@@ -229,23 +229,23 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
             }
         }
 
-        if (gSaveContext.sceneLayer == 5) {
+        if (GET_SCENELAYER == 5) {
             u16 dayTime;
             s32 tmp;
 
             if (gTimeSpeed == 50) {
                 tmp = CLOCK_TIME(20, 0) + 1;
 
-                if (gSaveContext.save.dayTime > CLOCK_TIME(20, 0) + 1) {
+                if (GET_DAYTIME > CLOCK_TIME(20, 0) + 1) {
                     tmp = CLOCK_TIME(20, 0) + 1 + 0x10000;
                 }
 
-                gTimeSpeed = (tmp - gSaveContext.save.dayTime) * (1.0f / 350.0f);
+                gTimeSpeed = (tmp - GET_DAYTIME) * (1.0f / 350.0f);
             }
 
-            dayTime = gSaveContext.save.dayTime;
+            dayTime = GET_DAYTIME;
 
-            if ((dayTime > CLOCK_TIME(4, 0)) && (dayTime < CLOCK_TIME(4, 30)) && (gSaveContext.sceneLayer == 5)) {
+            if ((dayTime > CLOCK_TIME(4, 0)) && (dayTime < CLOCK_TIME(4, 30)) && (GET_SCENELAYER == 5)) {
                 gTimeSpeed = 0;
             }
         }
@@ -313,7 +313,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, PlayState* play) {
         thisx->child->child->world.pos.y = newPos.y;
         thisx->child->child->world.pos.z = newPos.z;
 
-        if (gSaveContext.sceneLayer != 12) {
+        if (GET_SCENELAYER != 12) {
             if (IS_CUTSCENE_LAYER || (!LINK_IS_ADULT && (thisx->shape.rot.x < -0x2000))) {
                 BgSpot00Hanebasi_DrawTorches(thisx, play);
             } else {

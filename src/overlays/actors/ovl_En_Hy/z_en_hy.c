@@ -432,8 +432,8 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
                 return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
             } else if (play->sceneId == SCENE_MARKET_DAY) {
                 return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
-            } else if (gSaveContext.dogIsLost) {
-                s16 followingDog = (gSaveContext.dogParams & 0xF00) >> 8;
+            } else if (GET_DOGISLOST) {
+                s16 followingDog = (GET_DOGPARAMS & 0xF00) >> 8;
 
                 if (followingDog != 0) {
                     this->unk_215 = false;
@@ -652,7 +652,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                     SET_INFTABLE(INFTABLE_CB);
                     break;
                 case 0x709E:
-                    gSaveContext.dogParams = 0;
+                    SET_DOGPARAMS(0);
                     break;
                 case 0x709F:
                     func_80A6F7CC(this, play, GET_INFTABLE(INFTABLE_191) ? GI_RUPEE_BLUE : GI_HEART_PIECE);
@@ -909,7 +909,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         }
 
         if (play->sceneId == SCENE_KAKARIKO) {
-            this->unk_330 = gSaveContext.save.info.eventChkInf[EVENTCHKINF_6B_INDEX];
+            this->unk_330 = GET_EVENTCHKINF_A0(EVENTCHKINF_6B_INDEX);
         }
 
         EnHy_InitSetProperties(this);
@@ -1055,14 +1055,14 @@ void func_80A71530(EnHy* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         switch (this->unkGetItemId) {
             case GI_HEART_PIECE:
-                gSaveContext.dogParams = 0;
-                gSaveContext.dogIsLost = false;
+                SET_DOGPARAMS(0);
+                SET_DOGISLOST(false);
                 SET_INFTABLE(INFTABLE_191);
                 break;
             case GI_RUPEE_BLUE:
                 Rupees_ChangeBy(5);
-                gSaveContext.dogParams = 0;
-                gSaveContext.dogIsLost = false;
+                SET_DOGPARAMS(0);
+                SET_DOGISLOST(false);
                 break;
         }
 
