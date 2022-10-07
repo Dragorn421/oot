@@ -241,7 +241,7 @@ u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment) {
         equipValue >>= gEquipShifts[equipment];
 
         SET_EQUIPS_EQUIPMENT(GET_EQUIPS_EQUIPMENT & (gEquipNegMasks[equipment]));
-        GET_INVENTORY_EQUIPMENT ^= OWNED_EQUIP_FLAG(equipment, equipValue - 1);
+        SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^ (OWNED_EQUIP_FLAG(equipment, equipValue - 1)));
 
         if (equipment == EQUIP_TYPE_TUNIC) {
             SET_EQUIPS_EQUIPMENT(GET_EQUIPS_EQUIPMENT | (EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4)));

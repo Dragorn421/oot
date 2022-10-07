@@ -3303,7 +3303,7 @@ void Message_Update(PlayState* play) {
                 msgCtx->textboxEndType = TEXTBOX_ENDTYPE_DEFAULT;
             }
             if ((s32)(GET_INVENTORY_QUESTITEMS & 0xF0000000) == (4 << QUEST_HEART_PIECE_COUNT)) {
-                GET_INVENTORY_QUESTITEMS ^= (4 << QUEST_HEART_PIECE_COUNT);
+                SET_INVENTORY_QUESTITEMS(GET_INVENTORY_QUESTITEMS ^ ((4 << QUEST_HEART_PIECE_COUNT)));
                 GET_HEALTHCAPACITY += 0x10;
                 GET_HEALTH += 0x10;
             }

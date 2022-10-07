@@ -578,28 +578,28 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
                     } else {
                         i = curSection - 0x34; // 0 <= i < 4
                         if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                            GET_INVENTORY_EQUIPMENT ^= OWNED_EQUIP_FLAG_ALT(i, 0);
+                            SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^ (OWNED_EQUIP_FLAG_ALT(i, 0)));
                         }
                         if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN)) {
-                            GET_INVENTORY_EQUIPMENT ^= OWNED_EQUIP_FLAG_ALT(i, 1);
+                            SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^ (OWNED_EQUIP_FLAG_ALT(i, 1)));
                         }
                         if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                            GET_INVENTORY_EQUIPMENT ^= OWNED_EQUIP_FLAG_ALT(i, 2);
+                            SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^ (OWNED_EQUIP_FLAG_ALT(i, 2)));
                         }
                         if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
-                            GET_INVENTORY_EQUIPMENT ^= OWNED_EQUIP_FLAG_ALT(i, 3);
+                            SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^ (OWNED_EQUIP_FLAG_ALT(i, 3)));
                         }
                     }
                 } else if (curSection < 0x44) {
                     i = curSection - 0x38;
                     if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                        GET_INVENTORY_DUNGEONITEMS_A0(i) ^= 4;
+                        SET_INVENTORY_DUNGEONITEMS_A0(i, GET_INVENTORY_DUNGEONITEMS_A0(i) ^ (4));
                     }
                     if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN)) {
-                        GET_INVENTORY_DUNGEONITEMS_A0(i) ^= 2;
+                        SET_INVENTORY_DUNGEONITEMS_A0(i, GET_INVENTORY_DUNGEONITEMS_A0(i) ^ (2));
                     }
                     if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                        GET_INVENTORY_DUNGEONITEMS_A0(i) ^= 1;
+                        SET_INVENTORY_DUNGEONITEMS_A0(i, GET_INVENTORY_DUNGEONITEMS_A0(i) ^ (1));
                     }
                 } else if (curSection == 0x5B) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
@@ -614,7 +614,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
                 } else if (curSection < 0x5C) {
                     i = curSection - 0x44;
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                        GET_INVENTORY_QUESTITEMS ^= gBitFlags[i];
+                        SET_INVENTORY_QUESTITEMS(GET_INVENTORY_QUESTITEMS ^ (gBitFlags[i]));
                     }
                 }
             }

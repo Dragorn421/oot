@@ -700,7 +700,7 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
                 SET_AUDIOSETTING(FS_AUDIO_SURROUND);
             }
         } else {
-            GET_ZTARGETSETTING ^= 1;
+            SET_ZTARGETSETTING(GET_ZTARGETSETTING ^ (1));
         }
     } else if (this->stickAdjX > 30) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -713,7 +713,7 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
                 SET_AUDIOSETTING(FS_AUDIO_STEREO);
             }
         } else {
-            GET_ZTARGETSETTING ^= 1;
+            SET_ZTARGETSETTING(GET_ZTARGETSETTING ^ (1));
         }
     }
 

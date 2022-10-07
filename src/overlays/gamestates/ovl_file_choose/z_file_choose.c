@@ -1510,7 +1510,7 @@ void FileSelect_LoadGame(GameState* thisx) {
         swordEquipValue =
             (gEquipMasks[EQUIP_TYPE_SWORD] & GET_EQUIPS_EQUIPMENT) >> (EQUIP_TYPE_SWORD * 4);
         SET_EQUIPS_EQUIPMENT(GET_EQUIPS_EQUIPMENT & (gEquipNegMasks[EQUIP_TYPE_SWORD]));
-        GET_INVENTORY_EQUIPMENT ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
+        SET_INVENTORY_EQUIPMENT(GET_INVENTORY_EQUIPMENT ^ (OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1)));
     }
 }
 
