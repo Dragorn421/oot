@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "assets/objects/object_bowl/object_bowl.h"
+#include "quake.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -121,7 +122,7 @@ void func_8086F464(BgBowlWall* this, PlayState* play) {
     Vec3f spA0 = D_8086FA78;
     Vec3f sp94 = D_8086FA84;
     Vec3f sp88;
-    s16 temp_v0;
+    s16 quakeIndex;
     s32 var_s0_2;
 
     var_s0 = false;
@@ -147,10 +148,10 @@ void func_8086F464(BgBowlWall* this, PlayState* play) {
             EffectSsHahen_SpawnBurst(play, &sp88, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
-        temp_v0 = Quake_Add(GET_ACTIVE_CAM(play), 1U);
-        Quake_SetSpeed(temp_v0, 0x7FFF);
-        Quake_SetQuakeValues(temp_v0, 0x12C, 0, 0, 0);
-        Quake_SetCountdown(temp_v0, 0x1E);
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
+        Quake_SetSpeed(quakeIndex, 0x7FFF);
+        Quake_SetPerturbations(quakeIndex, 300, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 30);
         this->unk182 = 0x14;
         this->actionFunc = func_8086F718;
     }

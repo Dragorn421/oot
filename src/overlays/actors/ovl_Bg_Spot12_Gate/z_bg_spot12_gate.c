@@ -6,6 +6,7 @@
 
 #include "z_bg_spot12_gate.h"
 #include "assets/objects/object_spot12_obj/object_spot12_obj.h"
+#include "quake.h"
 
 #define FLAGS 0
 
@@ -108,15 +109,17 @@ void func_808B317C(BgSpot12Gate* this) {
 
 void func_808B318C(BgSpot12Gate* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
-    s32 var;
+    s32 quakeIndex;
 
     Math_StepToF(&thisx->velocity.y, 1.6f, 0.03f);
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 200.0f, thisx->velocity.y)) {
         func_808B3274(this);
-        var = Quake_Add(GET_ACTIVE_CAM(play), 3);
-        Quake_SetSpeed(var, -0x3CB0);
-        Quake_SetQuakeValues(var, 3, 0, 0, 0);
-        Quake_SetCountdown(var, 0xC);
+
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+        Quake_SetSpeed(quakeIndex, -0x3CB0);
+        Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 12);
+
         Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
         func_8002F974(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);

@@ -1,6 +1,7 @@
 #include "z_bg_haka_huta.h"
 #include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "overlays/actors/ovl_En_Rd/z_en_rd.h"
+#include "quake.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -188,10 +189,10 @@ void func_8087D720(BgHakaHuta* this, PlayState* play) {
     this->unk168 += 1;
     if (this->unk168 == 6) {
         this->actionFunc = BgHakaHuta_DoNothing;
-        temp_v0 = Quake_Add(play->cameraPtrs[play->activeCamId], 3U);
+        temp_v0 = Quake_Request(play->cameraPtrs[play->activeCamId], QUAKE_TYPE_3);
         Quake_SetSpeed(temp_v0, 0x7530);
-        Quake_SetQuakeValues(temp_v0, 4, 0, 0, 0);
-        Quake_SetCountdown(temp_v0, 2);
+        Quake_SetPerturbations(temp_v0, 4, 0, 0, 0);
+        Quake_SetDuration(temp_v0, 2);
     } else if (this->unk168 == 0) {
         this->unk168 = 6;
         this->actionFunc = BgHakaHuta_DoNothing;

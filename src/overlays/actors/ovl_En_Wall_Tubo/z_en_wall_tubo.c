@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wall_tubo.h"
+#include "quake.h"
 #include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
@@ -91,11 +92,11 @@ void func_80B2EE9C(EnWallTubo* this, PlayState* play) {
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 this->unk150 = 0x3C;
                 EffectSsBomb2_SpawnLayered(play, &this->unk154, &sp40, &sp4C, 200, 40);
-                temp_v0 = Quake_Add(play->cameraPtrs[play->activeCamId], 1U);
+                temp_v0 = Quake_Request(play->cameraPtrs[play->activeCamId], QUAKE_TYPE_1);
                 sp32 = temp_v0;
                 Quake_SetSpeed(temp_v0, 0x7FFF);
-                Quake_SetQuakeValues(sp32, 0x64, 0, 0, 0);
-                Quake_SetCountdown(sp32, 0x64);
+                Quake_SetPerturbations(sp32, 0x64, 0, 0, 0);
+                Quake_SetDuration(sp32, 0x64);
                 this->unk14C = func_80B2F0B8;
                 return;
             }
