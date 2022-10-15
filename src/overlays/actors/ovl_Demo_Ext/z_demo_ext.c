@@ -47,15 +47,15 @@ void DemoExt_Init(Actor* thisx, PlayState* play) {
     this->texScrollStep[1] = 40;
     this->texScrollStep[2] = 5;
     this->texScrollStep[3] = 30;
-    this->unk170 = gGameInfo->data[0xA3C] + 0xFF;
-    this->unk174 = gGameInfo->data[0xA40] + 0xFF;
-    this->unk178.x = gGameInfo->data[0xA33] + 400.0f;
-    this->unk178.y = gGameInfo->data[0xA34] + 100.0f;
-    this->unk178.z = gGameInfo->data[0xA35] + 400.0f;
+    this->unk170 = gRegEditor->data[0xA3C] + 0xFF;
+    this->unk174 = gRegEditor->data[0xA40] + 0xFF;
+    this->unk178.x = gRegEditor->data[0xA33] + 400.0f;
+    this->unk178.y = gRegEditor->data[0xA34] + 100.0f;
+    this->unk178.z = gRegEditor->data[0xA35] + 400.0f;
 }
 
 void func_80977450(DemoExt* this) {
-    if (this->unk16C <= (gGameInfo->data[0xA43] + 40.0f - 15.0f)) {
+    if (this->unk16C <= (gRegEditor->data[0xA43] + 40.0f - 15.0f)) {
         Audio_PlaySfxGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4U,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
@@ -97,7 +97,7 @@ void func_80977590(DemoExt* this) {
 
 void func_809775A4(DemoExt* this) {
     this->unk16C += 1.0f;
-    if ((gGameInfo->data[0xA43] + 40.0f) <= this->unk16C) {
+    if ((gRegEditor->data[0xA43] + 40.0f) <= this->unk16C) {
         Actor_Kill(&this->actor);
     }
 }
@@ -142,7 +142,7 @@ void func_809776D0(DemoExt* this) {
     for (var_v0 = 3; var_v0 != 0; var_v0--) {
         texScrollPos[var_v0] += texScrollStep[var_v0];
     }
-    this->unk168 += (s16)(gGameInfo->data[0xA42] + 0x3E8);
+    this->unk168 += (s16)(gRegEditor->data[0xA42] + 0x3E8);
 }
 
 void func_8097771C(DemoExt* this) {
@@ -150,15 +150,15 @@ void func_8097771C(DemoExt* this) {
     f32 var_fv0;
 
     temp_v0 = &this->unk178;
-    var_fv0 = ((gGameInfo->data[0xA43] + 40.0f) - this->unk16C) / (gGameInfo->data[0xA43] + 40.0f);
+    var_fv0 = ((gRegEditor->data[0xA43] + 40.0f) - this->unk16C) / (gRegEditor->data[0xA43] + 40.0f);
     if (var_fv0 < 0.0f) {
         var_fv0 = 0.0f;
     }
-    this->unk170 = (s32)((u32)(gGameInfo->data[0xA3C] + 0xFF) * var_fv0);
-    this->unk174 = (s32)((u32)(gGameInfo->data[0xA40] + 0xFF) * var_fv0);
-    temp_v0->x = (gGameInfo->data[0xA33] + 400.0f) * var_fv0;
-    temp_v0->y = (gGameInfo->data[0xA34] + 100.0f) * var_fv0;
-    temp_v0->z = (gGameInfo->data[0xA35] + 400.0f) * var_fv0;
+    this->unk170 = (s32)((u32)(gRegEditor->data[0xA3C] + 0xFF) * var_fv0);
+    this->unk174 = (s32)((u32)(gRegEditor->data[0xA40] + 0xFF) * var_fv0);
+    temp_v0->x = (gRegEditor->data[0xA33] + 400.0f) * var_fv0;
+    temp_v0->y = (gRegEditor->data[0xA34] + 100.0f) * var_fv0;
+    temp_v0->z = (gRegEditor->data[0xA35] + 400.0f) * var_fv0;
 }
 
 void func_80977854(DemoExt* this, PlayState* play) {
@@ -205,15 +205,15 @@ void func_80977950(DemoExt* this, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
     Matrix_Push();
     Matrix_Scale(temp_v0->x, temp_v0->y, temp_v0->z, MTXMODE_APPLY);
-    Matrix_RotateZYX(gGameInfo->data[0xA30] + 0x4000, this->unk168, gGameInfo->data[0xA32], MTXMODE_APPLY);
-    Matrix_Translate(gGameInfo->data[0xA36], gGameInfo->data[0xA37], gGameInfo->data[0xA38], MTXMODE_APPLY);
+    Matrix_RotateZYX(gRegEditor->data[0xA30] + 0x4000, this->unk168, gRegEditor->data[0xA32], MTXMODE_APPLY);
+    Matrix_Translate(gRegEditor->data[0xA36], gRegEditor->data[0xA37], gRegEditor->data[0xA38], MTXMODE_APPLY);
     Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
     Matrix_Pop();
     Gfx_SetupDL_25Xlu(gfxCtx);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, gGameInfo->data[0xA41] + 0x80, gGameInfo->data[0xA39] + 0x8C,
-                    gGameInfo->data[0xA3A] + 0x50, gGameInfo->data[0xA3B] + 0x8C, this->unk170);
-    gDPSetEnvColor(POLY_XLU_DISP++, gGameInfo->data[0xA3D] + 0x5A, gGameInfo->data[0xA3E] + 0x32,
-                   gGameInfo->data[0xA3F] + 0x5F, this->unk174);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, gRegEditor->data[0xA41] + 0x80, gRegEditor->data[0xA39] + 0x8C,
+                    gRegEditor->data[0xA3A] + 0x50, gRegEditor->data[0xA3B] + 0x8C, this->unk170);
+    gDPSetEnvColor(POLY_XLU_DISP++, gRegEditor->data[0xA3D] + 0x5A, gRegEditor->data[0xA3E] + 0x32,
+                   gRegEditor->data[0xA3F] + 0x5F, this->unk174);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(gfxCtx, 0, texScrollPos[0], texScrollPos[1], 64, 64, 1, texScrollPos[2],
                                 texScrollPos[3], 64, 64));

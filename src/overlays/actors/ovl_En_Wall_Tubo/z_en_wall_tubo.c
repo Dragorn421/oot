@@ -83,9 +83,9 @@ void func_80B2EE9C(EnWallTubo* this, PlayState* play) {
             diff.x = var_v0->world.pos.x - this->actor.world.pos.x;
             diff.y = var_v0->world.pos.y - this->actor.world.pos.y;
             diff.z = var_v0->world.pos.z - this->actor.world.pos.z;
-            if (((fabsf(diff.x) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
-                ((fabsf(diff.y) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
-                ((fabsf(diff.z) < 40.0f) || (gGameInfo->data[0x962] != 0))) {
+            if (((fabsf(diff.x) < 40.0f) || (gRegEditor->data[0x962] != 0)) &&
+                ((fabsf(diff.y) < 40.0f) || (gRegEditor->data[0x962] != 0)) &&
+                ((fabsf(diff.z) < 40.0f) || (gRegEditor->data[0x962] != 0))) {
                 this->unk160->unk23E_arr[this->actor.params] = 1;
                 ((EnBomChu*)var_v0)->timer = 2;
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
@@ -141,7 +141,7 @@ void EnWallTubo_Update(Actor* thisx, PlayState* play) {
         this->unk150--;
     }
     this->unk14C(this, play);
-    if (gGameInfo->data[0x960] != 0) {
+    if (gRegEditor->data[0x960] != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 0, 255, 255, 4, play->state.gfxCtx);

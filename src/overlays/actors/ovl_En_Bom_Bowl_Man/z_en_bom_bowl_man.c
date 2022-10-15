@@ -134,7 +134,7 @@ void func_809C3A54(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
     if (sp1C == 30.0f) {
         this->unk22E = TEXT_STATE_EVENT;
-        if (GET_EVENTCHKINF(EVENTCHKINF_25) || (gGameInfo->data[0x962] != 0)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_25) || (gRegEditor->data[0x962] != 0)) {
             this->actor.textId = 0xBF;
         } else {
             this->actor.textId = 0x7058;
@@ -159,7 +159,7 @@ void func_809C3B50(EnBomBowlMan* this, PlayState* play) {
                          ANIMMODE_LOOP, -10.0f);
         this->unk238 = 3;
         this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
-        if (!GET_EVENTCHKINF(EVENTCHKINF_25) && (gGameInfo->data[0x962] == 0)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_25) && (gRegEditor->data[0x962] == 0)) {
             this->actionFunc = func_809C3C7C;
         } else {
             this->actor.textId = 0x18;
@@ -208,7 +208,7 @@ void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
     s16 relYawTowardsPlayerAbs;
 
     SkelAnime_Update(&this->unk14C);
-    if (gGameInfo->data[0x963] != 0) {
+    if (gRegEditor->data[0x963] != 0) {
         osSyncPrintf("\x1b[31m☆ game_play->bomchu_game_flag ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
         osSyncPrintf("\x1b[31m☆ 壁１の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[0]);
         osSyncPrintf("\x1b[31m☆ 壁２の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[1]);
@@ -373,8 +373,8 @@ void func_809C441C(EnBomBowlMan* this, PlayState* play) {
                 break;
         }
         this->unk230 = var_v1;
-        if (gGameInfo->data[0x967] != 0) {
-            this->unk230 = gGameInfo->data[0x967] - 1;
+        if (gRegEditor->data[0x967] != 0) {
+            this->unk230 = gRegEditor->data[0x967] - 1;
         }
         this->unk260 = (EnExItem*)Actor_SpawnAsChild(
             &play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, D_809C4A60[this->unk230].x + 148.0f,
@@ -408,8 +408,8 @@ void func_809C4664(EnBomBowlMan* this, PlayState* play) {
         Message_CloseTextbox(play);
         func_8005B1A4(play->cameraPtrs[play->activeCamId]);
         this->unk232 = 1;
-        if (gGameInfo->data[0x962] != 0) {
-            gGameInfo->data[0x962] = 0;
+        if (gRegEditor->data[0x962] != 0) {
+            gRegEditor->data[0x962] = 0;
         }
         osSyncPrintf("\x1b[33m☆ わー ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
         func_8002DF54(play, NULL, 7U);

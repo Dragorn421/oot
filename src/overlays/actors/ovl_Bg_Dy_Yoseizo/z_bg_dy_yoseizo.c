@@ -10,6 +10,7 @@
 #include "assets/objects/object_dy_obj/object_dy_obj.h"
 #include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
+#include "variables.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
@@ -213,7 +214,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
     } else {
         switch (this->unk2EC) {
             case 0:
-                if (!gSaveContext.isMagicAcquired || (gGameInfo->data[0x962] != 0)) {
+                if (!gSaveContext.isMagicAcquired || (gRegEditor->data[0x962] != 0)) {
                     osSyncPrintf("\x1b[32m ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;

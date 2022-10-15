@@ -2014,7 +2014,7 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zf.c", 3533);
     func_8002EBCC(&this->actor, play, 1);
-    gSPTexture(D_80B4A2F8, gGameInfo->data[0x360], gGameInfo->data[0x361], 0, G_TX_RENDERTILE, G_ON);
+    gSPTexture(D_80B4A2F8, gRegEditor->data[0x360], gRegEditor->data[0x361], 0, G_TX_RENDERTILE, G_ON);
     gSPSegment(POLY_OPA_DISP++, 8, D_80B4A2F8);
     if (this->unk404 == 255) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);

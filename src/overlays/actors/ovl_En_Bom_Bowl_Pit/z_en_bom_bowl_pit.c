@@ -66,9 +66,9 @@ void func_809C4E8C(EnBomBowlPit* this, PlayState* play) {
             diff.x = var_v1->world.pos.x - this->actor.world.pos.x;
             diff.y = var_v1->world.pos.y - this->actor.world.pos.y;
             diff.z = var_v1->world.pos.z - this->actor.world.pos.z;
-            if (((fabsf(diff.x) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
-                ((fabsf(diff.y) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
-                ((fabsf(diff.z) < 40.0f) || (gGameInfo->data[0x962] != 0))) {
+            if (((fabsf(diff.x) < 40.0f) || (gRegEditor->data[0x962] != 0)) &&
+                ((fabsf(diff.y) < 40.0f) || (gRegEditor->data[0x962] != 0)) &&
+                ((fabsf(diff.z) < 40.0f) || (gRegEditor->data[0x962] != 0))) {
                 sp24 = (EnBomChu*)var_v1;
                 func_8002DF54(play, NULL, 8U);
                 sp24->timer = 1;
