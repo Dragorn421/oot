@@ -575,7 +575,7 @@ s32 func_80AAB370(EnMd* this, PlayState* play) {
     if (temp_a2 == 0xFF00) {
         return 0;
     }
-    temp_a0 = &play->setupPathList[temp_a2 >> 8];
+    temp_a0 = &play->pathList[temp_a2 >> 8];
     temp_v0 = SEGMENTED_TO_VIRTUAL(temp_a0->points);
     temp_v0 += this->unk212;
     temp_fa0 = (f32)temp_v0->x - this->actor.world.pos.x;
@@ -600,7 +600,7 @@ s32 func_80AAB4DC(EnMd* this, PlayState* play) {
     if (temp_v1 == 0xFF00) {
         return 0;
     }
-    temp_a1 = &play->setupPathList[temp_v1 >> 8];
+    temp_a1 = &play->pathList[temp_v1 >> 8];
     temp_a3 = SEGMENTED_TO_VIRTUAL(temp_a1->points);
     temp_a3 += temp_a1->count - 1;
     this->actor.world.pos.x = temp_a3->x;

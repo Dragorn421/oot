@@ -80,7 +80,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
     PlayState* play = play2;
 
-    this->unk2EC = (s16)play->curSpawn;
+    this->unk2EC = (s16)play->spawn;
     if (this->unk2EC < 0) {
         this->unk2EC = 0;
     }
@@ -88,11 +88,11 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     this->unk30C = this->actor.world.pos.y + 40.0f;
     this->actor.focus.pos = this->actor.world.pos;
     if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->curSpawn);
+        osSyncPrintf("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim, this->unk194,
                            this->unk23C, 28);
     } else {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->curSpawn);
+        osSyncPrintf("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim, this->unk194,
                            this->unk23C, 28);
     }

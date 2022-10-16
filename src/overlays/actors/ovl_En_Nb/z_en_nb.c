@@ -128,7 +128,7 @@ void EnNb_UpdatePath(EnNb* this, PlayState* play) {
     s32 pad;
     s32 path;
 
-    pathList = play->setupPathList;
+    pathList = play->pathList;
 
     if (pathList != NULL) {
         path = EnNb_GetPath(this);
