@@ -31,7 +31,7 @@ void func_80B21EE8(EnTp* this);
 void func_80B21F18(EnTp* this, PlayState* play);
 void func_80B221E8(EnTp* this, PlayState* play);
 
-const ActorInit En_Tp_InitVars = {
+ActorInit En_Tp_InitVars = {
     ACTOR_EN_TP,
     ACTORCAT_ENEMY,
     FLAGS,

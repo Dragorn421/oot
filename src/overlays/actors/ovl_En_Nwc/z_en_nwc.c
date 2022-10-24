@@ -27,7 +27,7 @@ void EnNwc_Idle(EnNwc* this, PlayState* play);
 
 typedef enum { CHICK_NONE, CHICK_NORMAL } ChickTypes;
 
-const ActorInit En_Nwc_InitVars = {
+ActorInit En_Nwc_InitVars = {
     ACTOR_EN_NWC,
     ACTORCAT_PROP,
     FLAGS,

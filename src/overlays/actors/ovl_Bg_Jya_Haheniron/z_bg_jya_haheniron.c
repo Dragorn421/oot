@@ -23,7 +23,7 @@ void func_80898598(BgJyaHaheniron* this, PlayState* play);
 void func_8089861C(BgJyaHaheniron* this);
 void func_8089862C(BgJyaHaheniron* this, PlayState* play);
 
-const ActorInit Bg_Jya_Haheniron_InitVars = {
+ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
     ACTORCAT_PROP,
     FLAGS,

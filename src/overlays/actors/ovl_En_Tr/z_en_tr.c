@@ -22,7 +22,7 @@ void func_80B24038(EnTr* this, PlayState* play, s32 arg2);
 void func_80B24230(EnTr* this, PlayState* play, s32 arg2);
 void func_80B242B4(EnTr* this, PlayState* play, s32 arg2);
 
-const ActorInit En_Tr_InitVars = {
+ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
     ACTORCAT_NPC,
     FLAGS,

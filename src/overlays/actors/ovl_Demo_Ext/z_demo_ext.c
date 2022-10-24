@@ -25,7 +25,7 @@ static DemoExtDrawFunc sDrawFuncs[] = {
     func_80977944,
     func_80977950,
 };
-const ActorInit Demo_Ext_InitVars = {
+ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
     ACTORCAT_NPC,
     FLAGS,

@@ -16,7 +16,7 @@ void BgGndFiremeiro_Draw(Actor* thisx, PlayState* play);
 
 void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, PlayState* play);
 
-const ActorInit Bg_Gnd_Firemeiro_InitVars = {
+ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
     ACTORCAT_PROP,
     FLAGS,

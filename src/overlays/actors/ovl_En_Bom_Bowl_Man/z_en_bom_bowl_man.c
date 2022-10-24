@@ -27,7 +27,7 @@ void func_809C4318(EnBomBowlMan* this, PlayState* play);
 void func_809C441C(EnBomBowlMan* this, PlayState* play);
 void func_809C4664(EnBomBowlMan* this, PlayState* play);
 
-const ActorInit En_Bom_Bowl_Man_InitVars = {
+ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
     ACTORCAT_NPC,
     FLAGS,

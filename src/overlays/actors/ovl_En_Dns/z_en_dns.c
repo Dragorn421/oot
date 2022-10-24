@@ -57,7 +57,7 @@ typedef struct _struct_sAnimationInfo_0xC {
     /* 0x8 */ f32 unk8;
 } _struct_sAnimationInfo_0xC;
 
-const ActorInit En_Dns_InitVars = {
+ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
     ACTORCAT_BG,
     FLAGS,

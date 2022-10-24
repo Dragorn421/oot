@@ -85,7 +85,7 @@ static u8 sJointCopyFlags[] = {
     false, false, false, false, false, false, false, false, false, false, false, false, false,
 };
 
-const ActorInit En_Test_InitVars = {
+ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
     ACTORCAT_ENEMY,
     FLAGS,

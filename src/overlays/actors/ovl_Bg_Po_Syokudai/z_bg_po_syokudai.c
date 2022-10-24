@@ -27,7 +27,7 @@ static Color_RGBA8 D_808A899C[4] = {
     { 0x00, 0x96, 0x00, 0xFF },
 };
 
-const ActorInit Bg_Po_Syokudai_InitVars = {
+ActorInit Bg_Po_Syokudai_InitVars = {
     ACTOR_BG_PO_SYOKUDAI,
     ACTORCAT_PROP,
     FLAGS,

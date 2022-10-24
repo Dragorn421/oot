@@ -65,7 +65,7 @@ void DemoEffect_MoveGetItem(DemoEffect* this, PlayState* play, s32 csActionId, f
 extern TransformUpdateIndex D_06000050; // timewarpTransformUpdateIndex
 extern SkelCurveLimbList D_060012E8;    // timewarpLimbList
 
-const ActorInit Demo_Effect_InitVars = {
+ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
     ACTORCAT_BG,
     FLAGS,

@@ -24,7 +24,7 @@ void func_80BA0768(ObjTimeblock* this, PlayState* play);
 void func_80BA083C(ObjTimeblock* this);
 void func_80BA084C(ObjTimeblock* this, PlayState* play);
 
-const ActorInit Obj_Timeblock_InitVars = {
+ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
     ACTORCAT_ITEMACTION,
     FLAGS,

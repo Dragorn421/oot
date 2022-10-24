@@ -27,7 +27,7 @@ void func_809E80D8(EnDekubaba* this, PlayState* play);
 
 static Vec3f D_809E8EA0 = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit En_Dekubaba_InitVars = {
+ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
     ACTORCAT_ENEMY,
     FLAGS,

@@ -20,7 +20,7 @@ void func_80A34D68(Actor* thisx, PlayState* play);
 extern FlexSkeletonHeader D_600A458;
 extern AnimationHeader D_600B07C;
 
-const ActorInit En_Ge3_InitVars = {
+ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
     ACTORCAT_NPC,
     FLAGS,

@@ -27,7 +27,7 @@ void func_80B27654(EnVali* this, PlayState* play);
 void func_80B27710(EnVali* this, PlayState* play);
 void func_80B278A0(EnVali* this, PlayState* play);
 
-const ActorInit En_Vali_InitVars = {
+ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
     ACTORCAT_ENEMY,
     FLAGS,

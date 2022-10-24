@@ -84,7 +84,7 @@ static DamageTable D_80AFE078 = {
     },
 };
 
-const ActorInit En_Skb_InitVars = {
+ActorInit En_Skb_InitVars = {
     ACTOR_EN_SKB,
     ACTORCAT_ENEMY,
     FLAGS,

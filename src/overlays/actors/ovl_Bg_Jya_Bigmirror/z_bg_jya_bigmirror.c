@@ -16,7 +16,7 @@ void func_80893C68(BgJyaBigmirror* this, PlayState* play);
 
 static u8 D_80893ED0 = 0;
 
-const ActorInit Bg_Jya_Bigmirror_InitVars = {
+ActorInit Bg_Jya_Bigmirror_InitVars = {
     ACTOR_BG_JYA_BIGMIRROR,
     ACTORCAT_BG,
     FLAGS,

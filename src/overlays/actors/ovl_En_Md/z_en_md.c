@@ -21,7 +21,7 @@ void func_80AABD0C(EnMd* this, PlayState* play);
 extern AnimationHeader D_60002C8;
 extern SkeletonHeader D_6007FB8;
 
-const ActorInit En_Md_InitVars = {
+ActorInit En_Md_InitVars = {
     /**/ ACTOR_EN_MD,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
