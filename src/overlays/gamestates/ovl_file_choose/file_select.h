@@ -205,7 +205,7 @@ void FileSelect_StartNameEntry(GameState* thisx);
 void FileSelect_UpdateOptionsMenu(GameState* thisx);
 void FileSelect_StartOptions(GameState* thisx);
 
-void FileSelect_InitModeDraw(GameState* thisx);
+void FileSelect_InitModeDraw(UNUSED GameState* thisx);
 void FileSelect_ConfigModeDraw(GameState* thisx);
 void FileSelect_SelectModeDraw(GameState* thisx);
 

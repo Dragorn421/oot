@@ -102,7 +102,8 @@ INC        := -Iinclude -Isrc -Ibuild -I.
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-missing-braces
-build/src/overlays/%.o: CHECK_WARNINGS += -Wno-unused-parameter
+build/src/overlays/actors/%.o: CHECK_WARNINGS += -Wno-unused-parameter
+build/src/overlays/effects/%.o: CHECK_WARNINGS += -Wno-unused-parameter
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
