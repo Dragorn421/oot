@@ -34,24 +34,24 @@ ActorInit En_Tr_InitVars = {
     (ActorFunc)EnTr_Draw,
 };
 static AnimationHeader* D_80B24360[2] = {
-    &object_tr_Anim_003FC8,
-    &object_tr_Anim_001CDC,
+    &gKotakeKoumeStandingBroomOverRightShoulderAnim,
+    &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
 };
 static AnimationHeader* D_80B24368[2] = {
-    &object_tr_Anim_002BC4,
-    &object_tr_Anim_000BFC,
+    &gKotakeKoumeLookOverLeftShoulderAnim,
+    &gKotakeKoumeLookOverRightShoulderAnim,
 };
 static AnimationHeader* D_80B24370[2] = {
-    &object_tr_Anim_0035CC,
-    &object_tr_Anim_0013CC,
+    &gKotakeKoumeLookingOverLeftShoulderAnim,
+    &gKotakeKoumeLookingOverRightShoulderAnim,
 };
 static AnimationHeader* D_80B24378[2] = {
-    &object_tr_Anim_0049C8,
-    &object_tr_Anim_0049C8,
+    &gKotakeKoumeFlyAnim,
+    &gKotakeKoumeFlyAnim,
 };
 static AnimationHeader* D_80B24380[2] = {
-    &object_tr_Anim_012E1C,
-    &object_tr_Anim_012E1C,
+    &gKotakeKoumeCastMagicAnim,
+    &gKotakeKoumeCastMagicAnim,
 };
 static f32 D_80B24388[7] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
 static f32 D_80B243A4[7] = { 0.0f, 30.0f, 0.0f, -30.0f, 30.0f, -30.0f, 0.0f };
@@ -61,7 +61,11 @@ static Color_RGBA8 D_80B243C0[4] = {
     { 0xFF, 0xFF, 0xFF, 0xFF },
     { 0, 0, 0xFF, 0xFF },
 };
-static s32 D_80B243D0[3] = { 0x060086D8, 0x060094D8, 0x060098D8 };
+static s32 D_80B243D0[3] = {
+    gKotakeKoumeEyeOpenTex,
+    gKotakeKoumeEyeHalfTex,
+    gKotakeKoumeEyeClosedTex,
+};
 static Vec3f D_80B243DC = { 2300.0f, 0.0f, -600.0f };
 static Vec3f D_80B243E8 = { 0.0f, 0.0f, 0.0f };
 
@@ -79,18 +83,18 @@ void EnTr_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
     switch (this->actor.params) {
         case 0:
-            SkelAnime_InitFlex(play, &this->unk14C, &object_tr_Skel_011688, &object_tr_Anim_003FC8, this->unk190,
-                               this->unk232, 27);
-            Animation_PlayOnce(&this->unk14C, &object_tr_Anim_003FC8);
+            SkelAnime_InitFlex(play, &this->unk14C, &gKoumeSkel, &gKotakeKoumeStandingBroomOverRightShoulderAnim,
+                               this->unk190, this->unk232, KOTAKE_KOUME_LIMB_MAX);
+            Animation_PlayOnce(&this->unk14C, &gKotakeKoumeStandingBroomOverRightShoulderAnim);
             this->unk2E4 = NULL;
             EnTr_SetupAction(this, func_80B23A88);
             this->unk2D8 = 3;
             break;
 
         case 1:
-            SkelAnime_InitFlex(play, &this->unk14C, &object_tr_Skel_00C530, &object_tr_Anim_001CDC, this->unk190,
-                               this->unk232, 27);
-            Animation_PlayOnce(&this->unk14C, &object_tr_Anim_001CDC);
+            SkelAnime_InitFlex(play, &this->unk14C, &gKotakeSkel, &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
+                               this->unk190, this->unk232, KOTAKE_KOUME_LIMB_MAX);
+            Animation_PlayOnce(&this->unk14C, &gKotakeKoumeStandingBroomOverLeftShoulderAnim);
             this->unk2E4 = NULL;
             EnTr_SetupAction(this, func_80B23A88);
             this->unk2D8 = 2;
@@ -281,7 +285,7 @@ void func_80B23820(EnTr* this, PlayState* play) {
             this->unk2D6 = 0x22;
             func_80B242B4(this, play, this->unk2D8);
             EnTr_SetupAction(this, func_80B23690);
-            Animation_PlayLoop(&this->unk14C, &object_tr_Anim_0049C8);
+            Animation_PlayLoop(&this->unk14C, &gKotakeKoumeFlyAnim);
             this->unk2E4 = NULL;
             Actor_SetScale(&this->actor, 0.003f);
         }
@@ -335,7 +339,7 @@ void func_80B23A88(EnTr* this, PlayState* play) {
                 case 3:
                     func_80B242B4(this, play, this->unk2D8);
                     EnTr_SetupAction(this, func_80B22F28);
-                    Animation_PlayLoop(&this->unk14C, &object_tr_Anim_0049C8);
+                    Animation_PlayLoop(&this->unk14C, &gKotakeKoumeFlyAnim);
                     this->unk2E4 = NULL;
                     break;
 
@@ -346,7 +350,7 @@ void func_80B23A88(EnTr* this, PlayState* play) {
 
                 case 7:
                     EnTr_SetupAction(this, func_80B230D8);
-                    Animation_PlayLoop(&this->unk14C, &object_tr_Anim_0049C8);
+                    Animation_PlayLoop(&this->unk14C, &gKotakeKoumeFlyAnim);
                     this->unk2E4 = NULL;
                     if (this->actor.params != 0) {
                         this->unk2D6 = ((u8)temp_a3 * 0x400) + 0x8000;
@@ -367,17 +371,18 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (SkelAnime_Update(&this->unk14C)) {
         if (this->unk2E4 != NULL) {
-            if ((this->unk2E4 == &object_tr_Anim_0035CC) || (this->unk2E4 == &object_tr_Anim_0013CC)) {
+            if ((this->unk2E4 == &gKotakeKoumeLookingOverLeftShoulderAnim) ||
+                (this->unk2E4 == &gKotakeKoumeLookingOverRightShoulderAnim)) {
                 if (this->actor.params != 0) {
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
                 } else {
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
                 }
                 Animation_PlayLoop(&this->unk14C, this->unk2E4);
-            } else if (this->unk2E4 == &object_tr_Anim_0049C8) {
+            } else if (this->unk2E4 == &gKotakeKoumeFlyAnim) {
                 EnTr_SetupAction(this, func_80B22F28);
-                Animation_Change(&this->unk14C, &object_tr_Anim_0049C8, 1.0f, 0.0f,
-                                 Animation_GetLastFrame(&object_tr_Anim_0049C8), ANIMMODE_LOOP, -5.0f);
+                Animation_Change(&this->unk14C, &gKotakeKoumeFlyAnim, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&gKotakeKoumeFlyAnim), ANIMMODE_LOOP, -5.0f);
             } else {
                 Animation_PlayLoop(&this->unk14C, this->unk2E4);
             }
@@ -405,7 +410,7 @@ s32 EnTr_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Ve
     sp34 = D_80B243DC;
     sp28 = D_80B243E8;
     sp20 = this->actor.child;
-    if ((sp20 != NULL) && (arg1 == 0x13)) {
+    if ((sp20 != NULL) && (arg1 == KOTAKE_KOUME_LIMB_RIGHT_HAND)) {
         Matrix_MultVec3f(&sp34, &sp28);
         sp28.x -= 10.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)));
         sp28.z -= 10.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)));
