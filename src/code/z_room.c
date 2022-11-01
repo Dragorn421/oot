@@ -153,7 +153,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
             entryStartZ = projectedPos.z - roomShapeCullableEntry->boundsSphereRadius;
 
             // If the entry isn't fully beyond the rendered depth range
-            if (entryStartZ < play->lightCtx.fogFar) {
+            if (entryStartZ < play->lightCtx.zFar) {
 
                 // This entry will be rendered
                 insert->entry = roomShapeCullableEntry;
