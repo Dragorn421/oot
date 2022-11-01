@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 /**
  * Update the `actor`'s position based on the dynapoly actor identified by `bgId`.
