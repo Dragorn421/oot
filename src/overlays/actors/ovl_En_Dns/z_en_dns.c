@@ -2,6 +2,7 @@
 #include "functions.h"
 #include "z64collision_check.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
+#include "z64item.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
@@ -100,16 +101,16 @@ static char* D_809F0424[] = {
     "デクの実持てる数を増やす", // EN_DNS_TYPE_DEKU_NUTS_CAPACITY
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoDekuNuts = {
-    20, 5, GI_NUTS_5_2, EnDns_CheckPurchase_DekuNuts, EnDns_ConcludePurchase_DekuNuts,
+    20, 5, GI_DEKU_NUTS_5_2, EnDns_CheckPurchase_DekuNuts, EnDns_ConcludePurchase_DekuNuts,
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoDekuSticks = {
-    15, 1, GI_STICKS_1, EnDns_CheckPurchase_DekuSticks, EnDns_ConcludePurchase_Generic,
+    15, 1, GI_DEKU_STICKS_1, EnDns_CheckPurchase_DekuSticks, EnDns_ConcludePurchase_Generic,
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoHeartPiece = {
     10, 1, GI_HEART_PIECE, EnDns_CheckPurchase_Generic, EnDns_ConcludePurchase_HeartPiece,
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoDekuSeeds = {
-    40, 30, GI_SEEDS_30, EnDns_CheckPurchase_DekuSeeds, EnDns_ConcludePurchase_Generic,
+    40, 30, GI_DEKU_SEEDS_30, EnDns_CheckPurchase_DekuSeeds, EnDns_ConcludePurchase_Generic,
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoDekuShield = {
     50, 1, GI_SHIELD_DEKU, EnDns_CheckPurchase_DekuShield, EnDns_ConcludePurchase_Generic,
@@ -118,19 +119,19 @@ static EnDnsPurchaseInfo sEnDnsPurchaseInfoBombs = {
     40, 5, GI_BOMBS_5, EnDns_CheckPurchase_Bombs, EnDns_ConcludePurchase_Bombs,
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoArrows = {
-    70, 20, GI_ARROWS_LARGE, EnDns_CheckPurchase_Arrows, EnDns_ConcludePurchase_Arrows,
+    70, 20, GI_ARROWS_30, EnDns_CheckPurchase_Arrows, EnDns_ConcludePurchase_Arrows,
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoRedPotion = {
-    40, 1, GI_POTION_RED, EnDns_CheckPurchase_Potion, EnDns_ConcludePurchase_Generic,
+    40, 1, GI_BOTTLE_POTION_RED, EnDns_CheckPurchase_Potion, EnDns_ConcludePurchase_Generic,
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoGreenPotion = {
-    40, 1, GI_POTION_GREEN, EnDns_CheckPurchase_Potion, EnDns_ConcludePurchase_Generic,
+    40, 1, GI_BOTTLE_POTION_GREEN, EnDns_CheckPurchase_Potion, EnDns_ConcludePurchase_Generic,
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoDekuSticksCapacity = {
-    40, 1, GI_STICK_UPGRADE_20, EnDns_CheckPurchase_Generic, EnDns_ConcludePurchase_DekuSticksCapacity,
+    40, 1, GI_DEKU_STICK_UPGRADE_20, EnDns_CheckPurchase_Generic, EnDns_ConcludePurchase_DekuSticksCapacity,
 };
 static EnDnsPurchaseInfo sEnDnsPurchaseInfoDekuNutsCapacity = {
-    40, 1, GI_NUT_UPGRADE_30, EnDns_CheckPurchase_Generic, EnDns_ConcludePurchase_DekuNutsCapacity,
+    40, 1, GI_DEKU_NUT_UPGRADE_30, EnDns_CheckPurchase_Generic, EnDns_ConcludePurchase_DekuNutsCapacity,
 };
 static EnDnsPurchaseInfo* sEnDnsPurchaseInfos[] = {
     &sEnDnsPurchaseInfoDekuNuts,           // EN_DNS_TYPE_DEKU_NUTS
@@ -210,26 +211,26 @@ void EnDns_ChangeAnim(EnDns* this, u8 arg1) {
 }
 
 u32 EnDns_CheckPurchase_DekuNuts(EnDns* this) {
-    if ((CUR_CAPACITY(UPG_NUTS) != 0) && (AMMO(ITEM_NUT) >= (s32)CUR_CAPACITY(UPG_NUTS))) {
+    if ((CUR_CAPACITY(UPG_DEKU_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= (s32)CUR_CAPACITY(UPG_DEKU_NUTS))) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
     if (gSaveContext.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
-    if (Item_CheckObtainability(ITEM_NUT) == ITEM_NONE) {
+    if (Item_CheckObtainability(ITEM_DEKU_NUT) == ITEM_NONE) {
         return EN_DNS_UNK8RESULT_OK_ALT;
     }
     return EN_DNS_UNK8RESULT_OK;
 }
 
 u32 EnDns_CheckPurchase_DekuSticks(EnDns* this) {
-    if ((CUR_CAPACITY(UPG_STICKS) != 0) && (AMMO(ITEM_STICK) >= (s32)CUR_CAPACITY(UPG_STICKS))) {
+    if ((CUR_CAPACITY(UPG_DEKU_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= (s32)CUR_CAPACITY(UPG_DEKU_STICKS))) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
     if (gSaveContext.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
-    if (Item_CheckObtainability(ITEM_STICK) == ITEM_NONE) {
+    if (Item_CheckObtainability(ITEM_DEKU_STICK) == ITEM_NONE) {
         return EN_DNS_UNK8RESULT_OK_ALT;
     }
     return EN_DNS_UNK8RESULT_OK;
@@ -252,7 +253,7 @@ u32 EnDns_CheckPurchase_DekuSeeds(EnDns* this) {
     if (gSaveContext.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
-    if (Item_CheckObtainability(ITEM_SEEDS) == ITEM_NONE) {
+    if (Item_CheckObtainability(ITEM_DEKU_SEEDS) == ITEM_NONE) {
         return EN_DNS_UNK8RESULT_OK_ALT;
     }
     return EN_DNS_UNK8RESULT_OK;
@@ -393,16 +394,16 @@ void func_809EFC9C(EnDns* this, PlayState* play) {
 
 void EnDns_OfferItem(EnDns* this, PlayState* play) {
     if (this->actor.params == EN_DNS_TYPE_DEKU_STICKS_CAPACITY) {
-        if (CUR_UPG_VALUE(UPG_STICKS) < 2) {
-            func_8002F434(&this->actor, play, GI_STICK_UPGRADE_20, 130.0f, 100.0f);
+        if (CUR_UPG_VALUE(UPG_DEKU_STICKS) < 2) {
+            func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, play, GI_STICK_UPGRADE_30, 130.0f, 100.0f);
+            func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
     } else if (this->actor.params == EN_DNS_TYPE_DEKU_NUTS_CAPACITY) {
-        if (CUR_UPG_VALUE(UPG_NUTS) < 2) {
-            func_8002F434(&this->actor, play, GI_NUT_UPGRADE_30, 130.0f, 100.0f);
+        if (CUR_UPG_VALUE(UPG_DEKU_NUTS) < 2) {
+            func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, play, GI_NUT_UPGRADE_40, 130.0f, 100.0f);
+            func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_40, 130.0f, 100.0f);
         }
     } else {
         func_8002F434(&this->actor, play, this->unk2C0->gid, 130.0f, 100.0f);
