@@ -3213,7 +3213,7 @@ void Interface_Draw(PlayState* play) {
         Minimap_Draw(play);
 
         if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
-            func_8002C124(&play->actorCtx.targetCtx, play); // Draw Z-Target
+            TargetContext_Draw___(&play->actorCtx.targetCtx, play); // Draw Z-Target
         }
 
         Gfx_SetupDL_39Overlay(play->state.gfxCtx);

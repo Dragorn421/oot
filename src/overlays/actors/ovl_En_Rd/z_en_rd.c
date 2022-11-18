@@ -362,7 +362,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
                 if (!(this->rdFlags & 0x80)) {
                     player->actor.freezeTimer = 40;
                     func_8008EEAC(play, &this->actor);
-                    GET_PLAYER(play)->unk_684 = &this->actor;
+                    GET_PLAYER(play)->nextTargetActor_684_ = &this->actor;
                     Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
                 }
 
