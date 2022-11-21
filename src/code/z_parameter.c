@@ -1811,10 +1811,13 @@ u8 Item_Give(PlayState* play, u8 item) {
     return temp;
 }
 
+/**
+ * @returns `ITEM_NONE` if the provided `item` is not already owned or can be obtained
+ */
 u8 Item_CheckObtainability(u8 item) {
     s16 i;
     s16 slot = SLOT(item);
-    s32 temp;
+    s32 slotBottle1;
 
     if (item >= ITEM_DEKU_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
@@ -1911,22 +1914,22 @@ u8 Item_CheckObtainability(u8 item) {
     } else if (item == ITEM_BOTTLE_EMPTY) {
         return ITEM_NONE;
     } else if (((item >= ITEM_BOTTLE_POTION_RED) && (item <= ITEM_BOTTLE_POE)) || (item == ITEM_MILK)) {
-        temp = SLOT(item);
+        slotBottle1 = SLOT(item);
 
         if ((item != ITEM_BOTTLE_MILK_FULL) && (item != ITEM_BOTTLE_RUTOS_LETTER)) {
             if (item == ITEM_MILK) {
                 item = ITEM_BOTTLE_MILK_FULL;
-                temp = SLOT(item);
+                slotBottle1 = SLOT(item);
             }
 
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE_EMPTY) {
+                if (gSaveContext.inventory.items[slotBottle1 + i] == ITEM_BOTTLE_EMPTY) {
                     return ITEM_NONE;
                 }
             }
         } else {
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[temp + i] == ITEM_NONE) {
+                if (gSaveContext.inventory.items[slotBottle1 + i] == ITEM_NONE) {
                     return ITEM_NONE;
                 }
             }
