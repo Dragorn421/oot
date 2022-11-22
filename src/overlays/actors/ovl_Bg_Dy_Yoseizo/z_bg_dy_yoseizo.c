@@ -367,7 +367,7 @@ void func_808736A4(BgDyYoseizo* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk2EE == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        Interface_ChangeAlpha(5U);
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE);
         this->actionFunc = func_80873780;
     }
     func_80872C58(this, play);
@@ -659,7 +659,7 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
                 case 0:
                     gSaveContext.isMagicAcquired = 1;
                     gSaveContext.magicFillTarget = 0x30;
-                    Interface_ChangeAlpha(9U);
+                    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
 
                 case 1:
@@ -669,12 +669,12 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
                     gSaveContext.isDoubleMagicAcquired = 1;
                     gSaveContext.magicFillTarget = 0x60;
                     gSaveContext.magicLevel = 0;
-                    Interface_ChangeAlpha(9U);
+                    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
 
                 case 2:
                     gSaveContext.isDoubleDefenseAcquired = 1;
-                    Interface_ChangeAlpha(9U);
+                    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
             }
             if (this->unk2E6 == 0) {
@@ -708,7 +708,7 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
                     }
                     this->unk300 = 1;
                     gSaveContext.healthAccumulator = 0x140;
-                    Interface_ChangeAlpha(9U);
+                    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= D_808754C0[var_v1];
                     Item_Give(play, D_808754C8[var_v1]);
                 }
