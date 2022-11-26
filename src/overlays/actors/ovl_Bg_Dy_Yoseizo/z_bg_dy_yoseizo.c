@@ -87,7 +87,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     this->unk310 = this->actor.world.pos.y;
     this->unk30C = this->actor.world.pos.y + 40.0f;
     this->actor.focus.pos = this->actor.world.pos;
-    if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+    if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         osSyncPrintf("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim, this->unk194,
                            this->unk23C, 28);
@@ -133,7 +133,7 @@ void func_80872960(BgDyYoseizo* this, PlayState* play, s16 arg2) {
                 var_s2 = 0x32;
                 var_s1 = arg2;
                 spAC.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
-                if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+                if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                     spAC.y = this->actor.world.pos.y + temp_fs0 + 50.0f + (temp_fs0 * 0.1f * (Rand_ZeroOne() - 0.5f));
                     spAC.z = this->actor.world.pos.z + 30.0f;
                 } else {
@@ -169,7 +169,7 @@ void func_80872C58(BgDyYoseizo* this, PlayState* play) {
 void func_80872D20(BgDyYoseizo* this, PlayState* play) {
     if (Flags_GetSwitch(play, 0x38)) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-        if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             if (!gSaveContext.isMagicAcquired && (this->unk2EC != 0)) {
                 Actor_Kill(&this->actor);
                 return;
@@ -191,7 +191,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
     func_8002DF54(play, &this->actor, 1U);
     osSyncPrintf("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", play->msgCtx.ocarinaMode);
     var_v1 = 0;
-    if (play->sceneId != SCENE_DAIYOUSEI_IZUMI) {
+    if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         switch (this->unk2EC) {
             case 0:
                 if (!GET_ITEMGETINF(ITEMGETINF_18)) {
@@ -240,7 +240,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
     }
     if (var_v1 != 0) {
         if (!IS_CUTSCENE_LAYER) {
-            if (play->sceneId != SCENE_DAIYOUSEI_IZUMI) {
+            if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 switch (this->unk2EC) {
                     case 0:
                         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
@@ -279,7 +279,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
         this->actionFunc = func_80873EA4;
     } else {
         play->envCtx.lightSettingOverride = 2;
-        if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             OnePointCutscene_Init(play, 8603, -99, NULL, CAM_ID_MAIN);
         } else {
             OnePointCutscene_Init(play, 8604, -99, NULL, CAM_ID_MAIN);
@@ -291,7 +291,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
 }
 
 void func_8087328C(BgDyYoseizo* this, PlayState* play) {
-    if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+    if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
         Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
                          -10.0f);
@@ -343,7 +343,7 @@ void func_808734DC(BgDyYoseizo* this, PlayState* play) {
 
 void func_8087358C(BgDyYoseizo* this, PlayState* play) {
     func_8002DF54(play, &this->actor, 1U);
-    if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+    if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
         Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
     } else {
@@ -375,7 +375,7 @@ void func_808736A4(BgDyYoseizo* this, PlayState* play) {
 }
 
 void func_80873780(BgDyYoseizo* this, PlayState* play) {
-    if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+    if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
         Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
                          -10.0f);
@@ -404,7 +404,7 @@ void func_80873868(BgDyYoseizo* this, PlayState* play) {
     }
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk32C <= temp_fv1) && (this->unk2FC == 0)) {
-        if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
             Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
                              -10.0f);
@@ -419,7 +419,7 @@ void func_80873868(BgDyYoseizo* this, PlayState* play) {
             vec.x = player->actor.world.pos.x;
             vec.y = player->actor.world.pos.y + 200.0f;
             vec.z = player->actor.world.pos.z;
-            if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+            if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 var_v0 = 0;
             } else {
                 var_v0 = 1;
@@ -476,7 +476,7 @@ void func_80873B3C(BgDyYoseizo* this, PlayState* play) {
 }
 
 void func_80873C14(BgDyYoseizo* this, PlayState* play) {
-    if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+    if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairyJewelFountainSpinShrinkAnim);
         Animation_Change(&this->skelAnime, &gGreatFairyJewelFountainSpinShrinkAnim, 1.0f, 0.0f, this->unk32C,
                          ANIMMODE_ONCE, -10.0f);
@@ -536,7 +536,7 @@ void func_80873EA4(BgDyYoseizo* this, PlayState* play) {
         this->actor.draw = BgDyYoseizo_Draw;
         func_8002DF54(play, &this->actor, 1U);
         this->unk2FE = 0;
-        if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             this->unk32C = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
             Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->unk32C,
                              ANIMMODE_ONCE, -10.0f);
@@ -575,7 +575,7 @@ void func_80873FD8(BgDyYoseizo* this, PlayState* play) {
     } else {
         SkelAnime_Update(&this->skelAnime);
         if ((this->unk32C <= temp_fv0) && (this->unk2FC == 0)) {
-            if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+            if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
                 Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
                                  -10.0f);
@@ -589,7 +589,7 @@ void func_80873FD8(BgDyYoseizo* this, PlayState* play) {
         if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL) &&
             (play->csCtx.npcActions[0]->action == 3)) {
             this->unk2FE = this->unk2FC = 0;
-            if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+            if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 this->unk32C = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
                 Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->unk32C,
                                  ANIMMODE_ONCE, -10.0f);
@@ -622,7 +622,7 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
     }
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk32C <= temp_fv1_sp5C) && (this->unk2FC == 0)) {
-        if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
             Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
                              -10.0f);
@@ -639,7 +639,7 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
     }
     if ((play->csCtx.npcActions[0]->action >= 4) && (play->csCtx.npcActions[0]->action < 7)) {
         var_v1 = play->csCtx.npcActions[0]->action - 4;
-        if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             var_v1 += 1;
             func_80872960(this, play, var_v1);
         } else if (this->unk2E4 == 0) {
@@ -652,7 +652,7 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
     } else {
         func_80872960(this, play, 0);
     }
-    if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+    if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         if ((play->csCtx.npcActions[0]->action >= 0xA) && (play->csCtx.npcActions[0]->action < 0xD)) {
             var_v1 = play->csCtx.npcActions[0]->action - 0xA;
             switch (var_v1) {
@@ -686,7 +686,7 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
             }
         }
     }
-    if (play->sceneId != SCENE_DAIYOUSEI_IZUMI) {
+    if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         if ((play->csCtx.npcActions[0]->action >= 0xE) && (play->csCtx.npcActions[0]->action < 0x11)) {
             var_v1 = play->csCtx.npcActions[0]->action - 0xE;
             if (this->unk300 == 0) {
@@ -724,13 +724,13 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
             }
         }
     }
-    if ((play->sceneId != SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.npcActions[0]->action == 0x11)) {
+    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.npcActions[0]->action == 0x11)) {
         if (this->unk344 != NULL) {
             Actor_Kill(&this->unk344->actor);
             this->unk344 = NULL;
         }
     }
-    if ((play->sceneId == SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.npcActions[0]->action == 0x12)) {
+    if ((play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.npcActions[0]->action == 0x12)) {
         this->unk2E5 = 1;
     }
     if (this->unk2E5 != 0) {
@@ -766,7 +766,7 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     this->actionFunc(this, play);
     if (play->csCtx.state != CS_STATE_IDLE) {
         var_v1 = 0;
-        if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
+        if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             if ((play->csCtx.frames == 32) || (play->csCtx.frames == 291) || (play->csCtx.frames == 426) ||
                 (play->csCtx.frames == 851)) {
                 var_v1 = 1;
