@@ -2186,6 +2186,11 @@ void Actor_FaultPrint(Actor* actor, char* command) {
 void Actor_Draw(PlayState* play, Actor* actor) {
     FaultClient faultClient;
     Lights* lights;
+    Vec3f offset;
+
+    offset.x = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+    offset.y = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+    offset.z = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
 
     Fault_AddClient(&faultClient, Actor_FaultPrint, actor, "Actor_draw");
 
@@ -2197,13 +2202,14 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     Lights_Draw(lights, play->state.gfxCtx);
 
     if (actor->flags & ACTOR_FLAG_IGNORE_QUAKE) {
-        Matrix_SetTranslateRotateYXZ(actor->world.pos.x + play->mainCamera.quakeOffset.x,
-                                     actor->world.pos.y +
-                                         ((actor->shape.yOffset * actor->scale.y) + play->mainCamera.quakeOffset.y),
-                                     actor->world.pos.z + play->mainCamera.quakeOffset.z, &actor->shape.rot);
+        Matrix_SetTranslateRotateYXZ(
+            actor->world.pos.x + play->mainCamera.quakeOffset.x + offset.x,
+            actor->world.pos.y + ((actor->shape.yOffset * actor->scale.y) + play->mainCamera.quakeOffset.y) + offset.y,
+            actor->world.pos.z + play->mainCamera.quakeOffset.z + offset.z, &actor->shape.rot);
     } else {
-        Matrix_SetTranslateRotateYXZ(actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
-                                     actor->world.pos.z, &actor->shape.rot);
+        Matrix_SetTranslateRotateYXZ(actor->world.pos.x + offset.x,
+                                     actor->world.pos.y + (actor->shape.yOffset * actor->scale.y) + offset.y,
+                                     actor->world.pos.z + offset.z, &actor->shape.rot);
     }
 
     Matrix_Scale(actor->scale.x, actor->scale.y, actor->scale.z, MTXMODE_APPLY);

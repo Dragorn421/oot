@@ -31,10 +31,20 @@ void (*sRoomDrawHandlers[ROOM_SHAPE_TYPE_MAX])(PlayState* play, Room* room, u32 
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
 }
 
+void Drago_RipDL(Gfx* p) {
+    while (_SHIFTR(p->words.w0, 24, 8) != G_ENDDL) {
+        if ((p->words.w0 & 0xFF000000) == (G_SETCOMBINE << 24)) {
+            p->words.w1 = *(u32*)&gDragoVibeFac;
+        }
+        p++;
+    }
+}
+
 void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
     s32 i;
     RoomShapeNormal* roomShape;
     RoomShapeDListsEntry* entry;
+    Vec3f offset;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 193);
 
@@ -54,17 +64,35 @@ void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
 
     roomShape = &room->roomShape->normal;
     entry = SEGMENTED_TO_VIRTUAL(roomShape->entries);
+    Matrix_Push();
     for (i = 0; i < roomShape->numEntries; i++) {
         if ((flags & ROOM_DRAW_OPA) && (entry->opa != NULL)) {
+            offset.x = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+            offset.y = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+            offset.z = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+            Matrix_Translate(offset.x, offset.y, offset.z, MTXMODE_NEW);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, __FILE__, __LINE__),
+                      G_MTX_MODELVIEW | G_MTX_LOAD);
+
+            Drago_RipDL(SEGMENTED_TO_VIRTUAL(entry->opa));
             gSPDisplayList(POLY_OPA_DISP++, entry->opa);
         }
 
         if ((flags & ROOM_DRAW_XLU) && (entry->xlu != NULL)) {
+            offset.x = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+            offset.y = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+            offset.z = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+            Matrix_Translate(offset.x, offset.y, offset.z, MTXMODE_NEW);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, __FILE__, __LINE__),
+                      G_MTX_MODELVIEW | G_MTX_LOAD);
+
+            Drago_RipDL(SEGMENTED_TO_VIRTUAL(entry->xlu));
             gSPDisplayList(POLY_XLU_DISP++, entry->xlu);
         }
 
         entry++;
     }
+    Matrix_Pop();
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 239);
 }
@@ -109,6 +137,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     RoomShapeCullableEntry* roomShapeCullableEntries;
     RoomShapeCullableEntry* roomShapeCullableEntryIter;
     f32 entryBoundsNearZ;
+    Vec3f offset;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
 
@@ -234,6 +263,14 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
             if (flags & ROOM_DRAW_OPA) {
                 displayList = roomShapeCullableEntry->opa;
                 if (displayList != NULL) {
+                    offset.x = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+                    offset.y = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+                    offset.z = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+                    Matrix_Translate(offset.x, offset.y, offset.z, MTXMODE_NEW);
+                    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, __FILE__, __LINE__),
+                              G_MTX_MODELVIEW | G_MTX_LOAD);
+
+                    Drago_RipDL(SEGMENTED_TO_VIRTUAL(displayList));
                     gSPDisplayList(POLY_OPA_DISP++, displayList);
                 }
             }
@@ -241,6 +278,14 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
             if (flags & ROOM_DRAW_XLU) {
                 displayList = roomShapeCullableEntry->xlu;
                 if (displayList != NULL) {
+                    offset.x = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+                    offset.y = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+                    offset.z = (Rand_ZeroFloat(2) - 1) * gDragoVibeFac;
+                    Matrix_Translate(offset.x, offset.y, offset.z, MTXMODE_NEW);
+                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, __FILE__, __LINE__),
+                              G_MTX_MODELVIEW | G_MTX_LOAD);
+
+                    Drago_RipDL(SEGMENTED_TO_VIRTUAL(displayList));
                     gSPDisplayList(POLY_XLU_DISP++, displayList);
                 }
             }

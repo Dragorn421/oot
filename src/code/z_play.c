@@ -214,6 +214,8 @@ void Play_Destroy(GameState* thisx) {
     Fault_RemoveClient(&D_801614B8);
 }
 
+f32 gDragoVibeFac;
+
 void Play_Init(GameState* thisx) {
     PlayState* this = (PlayState*)thisx;
     GraphicsContext* gfxCtx = this->state.gfxCtx;
@@ -225,6 +227,8 @@ void Play_Init(GameState* thisx) {
     s32 i;
     u8 baseSceneLayer;
     s32 pad[2];
+
+    gDragoVibeFac = 0;
 
     if (gSaveContext.entranceIndex == ENTR_LOAD_OPENING) {
         gSaveContext.entranceIndex = 0;
@@ -448,6 +452,8 @@ void Play_Update(PlayState* this) {
     Input* input;
     u32 i;
     s32 pad2;
+
+    gDragoVibeFac = GET_PLAYER(this)->actor.speedXZ * 5 + 2;
 
     input = this->state.input;
 

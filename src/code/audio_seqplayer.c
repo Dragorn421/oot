@@ -1743,8 +1743,8 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     }
 
     seqPlayer->scriptCounter++;
-    seqPlayer->tempoAcc += seqPlayer->tempo;
-    seqPlayer->tempoAcc += (s16)seqPlayer->unk_0C;
+    seqPlayer->tempoAcc +=
+        CLAMP_MAX((gDragoVibeFac + 5) / 40 * gAudioCtx.tempoInternalToExternal, gAudioCtx.tempoInternalToExternal);
 
     if (seqPlayer->tempoAcc < gAudioCtx.tempoInternalToExternal) {
         return;

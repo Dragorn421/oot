@@ -4,6 +4,8 @@
 #include "z64.h"
 #include "segment_symbols.h"
 
+extern f32 gDragoVibeFac;
+
 extern Mtx D_01000000;
 
 extern u32 osTvType;
