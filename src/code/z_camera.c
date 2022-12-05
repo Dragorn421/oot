@@ -7306,7 +7306,7 @@ s32 Camera_UpdateWater(Camera* camera) {
     Player* player = camera->player;
     s16 prevBgId;
 
-    if (!(camera->stateFlags & CAM_STATE_1) || sCameraSettings[camera->setting].unk_00 & 0x40000000) {
+    if (!(camera->stateFlags & CAM_STATE_1) || (sCameraSettings[camera->setting].infoField & SETTING_INFO_FLAG_30)) {
         return 0;
     }
 
@@ -7859,7 +7859,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
         return -1;
     }
 
-    if (!((sCameraSettings[camera->setting].unk_00 & 0x3FFFFFFF) & (1 << mode))) {
+    if (!SETTING_INFO_IS_VALID_MODE(sCameraSettings[camera->setting].infoField, mode)) {
         if (mode == CAM_MODE_FIRSTPERSON) {
             osSyncPrintf("camera: error sound\n");
             func_80078884(NA_SE_SY_ERROR);
@@ -7982,7 +7982,7 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
         osSyncPrintf("+=+=+=+ recive asking -> %s (%s)\n", sCameraModeNames[mode],
                      sCameraSettingNames[camera->setting]);
     }
-    if (!(sCameraSettings[camera->setting].validModes & (1 << mode))) {
+    if (!SETTING_INFO_IS_VALID_MODE(sCameraSettings[camera->setting].infoField, mode)) {
         return 0;
     } else if (mode == camera->mode) {
         return -1;
@@ -7993,8 +7993,8 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
 
 s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
     if (camera->behaviorFlags & CAM_BEHAVIOR_SETTING_1) {
-        if ((u32)((u32)(sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
-            (u32)((u32)(sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
+        if (SETTING_INFO_GET_0F00_0000(sCameraSettings[camera->setting].infoField) >=
+            SETTING_INFO_GET_0F00_0000(sCameraSettings[setting].infoField)) {
             camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_2;
             return -2;
         }
@@ -8026,7 +8026,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
     camera->stateFlags |= (CAM_STATE_2 | CAM_STATE_3);
     camera->stateFlags &= ~(CAM_STATE_3 | CAM_STATE_12);
 
-    if (!(sCameraSettings[camera->setting].unk_00 & 0x40000000)) {
+    if (!(sCameraSettings[camera->setting].infoField & SETTING_INFO_FLAG_30)) {
         camera->prevSetting = camera->setting;
     }
 
@@ -8035,7 +8035,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
         camera->bgCamIndex = camera->prevBgCamIndex;
         camera->prevBgCamIndex = -1;
     } else if (!(flags & 4)) {
-        if (!(sCameraSettings[camera->setting].unk_00 & 0x40000000)) {
+        if (!(sCameraSettings[camera->setting].infoField & SETTING_INFO_FLAG_30)) {
             camera->prevBgCamIndex = camera->bgCamIndex;
         }
         camera->bgCamIndex = -1;
@@ -8070,7 +8070,7 @@ s32 Camera_ChangeBgCamIndex(Camera* camera, s32 bgCamIndex) {
         newCameraSetting = Camera_GetBgCamSetting(camera, bgCamIndex);
         camera->behaviorFlags |= CAM_BEHAVIOR_BG_2;
         settingChangeSuccessful = Camera_ChangeSettingFlags(camera, newCameraSetting, 5) >= 0;
-        if (settingChangeSuccessful || sCameraSettings[camera->setting].unk_00 & 0x80000000) {
+        if (settingChangeSuccessful || (sCameraSettings[camera->setting].infoField & SETTING_INFO_FLAG_31)) {
             camera->bgCamIndex = bgCamIndex;
             camera->behaviorFlags |= CAM_BEHAVIOR_BG_1;
             Camera_CopyDataToRegs(camera, camera->mode);

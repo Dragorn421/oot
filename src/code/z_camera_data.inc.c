@@ -12,15 +12,16 @@ typedef struct {
     CameraModeValue* values;
 } CameraMode;
 
+#define SETTING_INFO_FLAG_31 (1 << 31)
+#define SETTING_INFO_FLAG_30 (1 << 30)
+#define SETTING_INFO_GET_0F00_0000(infoField) (((infoField)&0x0F000000) >> 24)
+//! @note The mask used in this macro is 0x3FFFFFFF but probably should be 0x00FFFFFF
+#define SETTING_INFO_IS_VALID_MODE(infoField, mode) (((infoField)&0x3FFFFFFF) & (1 << (mode)))
+
+#define SETTING_INFO_0F00_0000(field0F00_0000) (((field0F00_0000)&0xF) << 24)
+
 typedef struct {
-    union {
-        u32 unk_00;
-        struct {
-            u32 unk_bit0 : 1;
-            u32 unk_bit1 : 1;
-            u32 validModes : 30;
-        };
-    };
+    u32 infoField;
     CameraMode* cameraModes;
 } CameraSetting;
 
@@ -1474,6 +1475,7 @@ CameraModeValue sNormal4ModeTalkData[] = {
 #define CAM_SETTING_MODE_ENTRY(func, data) \
     { func, ARRAY_COUNT(data), data }
 
+#define CAM_VALID_MODES_SET_NORMAL0 0x1FFFFF
 CameraMode sCamSetNormal0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetNormal0ModeNormalData),          // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1498,6 +1500,7 @@ CameraMode sCamSetNormal0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_NORMAL1 0x1FFFFF
 CameraMode sCamSetNormal1Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetNormal1ModeNormalData),          // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal1ModeTargetData),          // CAM_MODE_TARGET
@@ -1522,6 +1525,7 @@ CameraMode sCamSetNormal1Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_DUNGEON0 0x1FFFFF
 CameraMode sCamSetDungeon0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetDungeon0ModeNormalData),         // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetDungeon0ModeTargetData),         // CAM_MODE_TARGET
@@ -1546,6 +1550,7 @@ CameraMode sCamSetDungeon0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_DUNGEON1 0x1FFFFF
 CameraMode sCamSetDungeon1Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetDungeon1ModeNormalData),         // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetDungeon0ModeTargetData),         // CAM_MODE_TARGET
@@ -1570,6 +1575,7 @@ CameraMode sCamSetDungeon1Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_NORMAL3 0x0FF7FF
 CameraMode sCamSetNormal3Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_JUMP3, sSetNormal3ModeNormalData),       // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal3ModeTargetData),       // CAM_MODE_TARGET
@@ -1593,6 +1599,7 @@ CameraMode sCamSetNormal3Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModePushPullData),     // CAM_MODE_PUSHPULL
 };
 
+#define CAM_VALID_MODES_SET_HORSE 0x00018F
 CameraMode sCamSetHorseModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM3, sSetHorseModeNormalData),       // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM3, sSetHorseModeTargetData),       // CAM_MODE_TARGET
@@ -1605,6 +1612,7 @@ CameraMode sCamSetHorseModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SUBJ3, sSetNormal0ModeBowArrowZData),  // CAM_MODE_BOWARROWZ
 };
 
+#define CAM_VALID_MODES_SET_BOSS_GOHMA 0x1FFFFF
 CameraMode sCamSetBossGohmaModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossGohmaModeNormalData),        // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1629,6 +1637,7 @@ CameraMode sCamSetBossGohmaModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_DODONGO 0x1FFFFF
 CameraMode sCamSetBossDodongoModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossDodongoModeNormalData),      // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1653,6 +1662,7 @@ CameraMode sCamSetBossDodongoModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_BARINADE 0x1FFFFF
 CameraMode sCamSetBossBarinadeModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossBarinadeModeNormalData),     // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1677,6 +1687,7 @@ CameraMode sCamSetBossBarinadeModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_PHANTOM_GANON 0x1FFFFF
 CameraMode sCamSetBossPhantomGanonModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossPhantomGanonModeNormalData), // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1701,6 +1712,7 @@ CameraMode sCamSetBossPhantomGanonModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_VOLVAGIA 0x1FFFFF
 CameraMode sCamSetBossVolvagiaModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossVolvagiaModeNormalData),     // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1725,6 +1737,7 @@ CameraMode sCamSetBossVolvagiaModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_BONGO 0x1FFFFF
 CameraMode sCamSetBossBongoModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossBongoModeNormalData),        // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1749,6 +1762,7 @@ CameraMode sCamSetBossBongoModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_MORPHA 0x1FFFFF
 CameraMode sCamSetBossMorphaModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossMorphaModeNormalData),       // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1773,6 +1787,7 @@ CameraMode sCamSetBossMorphaModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_TWINROVA_PLATFORM 0x1FFFFF
 CameraMode sCamSetBossTwinrovaPlatformModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossTwinrovaPlatformModeNormalData), // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),              // CAM_MODE_TARGET
@@ -1797,6 +1812,7 @@ CameraMode sCamSetBossTwinrovaPlatformModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData),     // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_TWINROVA_FLOOR 0x1FFFFF
 CameraMode sCamSetBossTwinrovaFloorModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossTwinrovaFloorModeNormalData), // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),           // CAM_MODE_TARGET
@@ -1821,6 +1837,7 @@ CameraMode sCamSetBossTwinrovaFloorModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData),  // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_GANONDORF 0x1FFFFF
 CameraMode sCamSetBossGanondorfModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossGanondorfModeNormalData),    // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1845,6 +1862,7 @@ CameraMode sCamSetBossGanondorfModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BOSS_GANON 0x1FFFFF
 CameraMode sCamSetBossGanonModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBossGanonModeNormalData),        // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1869,6 +1887,7 @@ CameraMode sCamSetBossGanonModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_TOWER_CLIMB 0x1FFFFF
 CameraMode sCamSetTowerClimbModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM2, sSetTowerClimbModeNormalData),       // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1893,6 +1912,7 @@ CameraMode sCamSetTowerClimbModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_TOWER_UNUSED 0x1FFFFF
 CameraMode sCamSetTowerUnusedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM2, sSetTowerUnusedModeNormalData),      // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -1917,6 +1937,7 @@ CameraMode sCamSetTowerUnusedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_MARKET_BALCONY 0x00000D
 CameraMode sCamSetMarketBalconyModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD1, sSetMarketBalconyModeNormalData),       // CAM_MODE_NORMAL
     { CAM_FUNC_NONE, 0, NULL },                                                    // CAM_MODE_TARGET
@@ -1924,18 +1945,22 @@ CameraMode sCamSetMarketBalconyModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD1, sSetMarketBalconyModeTalkData),         // CAM_MODE_TALK
 };
 
+#define CAM_VALID_MODES_SET_CHU_BOWLING 0x000001
 CameraMode sCamSetChuBowlingModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD1, sSetChuBowlingModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_PIVOT_CRAWLSPACE 0x000001
 CameraMode sCamSetPivotCrawlspaceModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD2, sSetPivotCrawlspaceModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_PIVOT_SHOP_BROWSING 0x000001
 CameraMode sCamSetPivotShopBrowsingModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_DATA4, sSetPivotShopBrowsingModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_PIVOT_IN_FRONT 0x1E1FFF
 CameraMode sCamSetPivotInFrontModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD4, sSetPivotInFrontAndFromSideModeNormalData), // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),                 // CAM_MODE_TARGET
@@ -1960,6 +1985,7 @@ CameraMode sCamSetPivotInFrontModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData),        // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_PREREND_FIXED 0x00000D
 CameraMode sCamSetPreRendFixedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD3, sDataOnlyNullFlags),                   // CAM_MODE_NORMAL
     { CAM_FUNC_NONE, 0, NULL },                                                   // CAM_MODE_TARGET
@@ -1967,6 +1993,7 @@ CameraMode sCamSetPreRendFixedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD3, sSetPrerendFixedModeFollowTargetData), // CAM_MODE_TALK
 };
 
+#define CAM_VALID_MODES_SET_PREREND_PIVOT 0x00000D
 CameraMode sCamSetPreRendPivotModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ7, sSetPrerendPivotModeNormalData),       // CAM_MODE_NORMAL
     { CAM_FUNC_NONE, 0, NULL },                                                   // CAM_MODE_TARGET
@@ -1974,56 +2001,69 @@ CameraMode sCamSetPreRendPivotModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP0, sSetPrerendPivotModeTalkData),         // CAM_MODE_TALK
 };
 
+#define CAM_VALID_MODES_SET_PREREND_SIDE_SCROLL 0x000001
 CameraMode sCamSetPreRendSideScrollModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SPEC6, sDataOnlyNullFlags), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_DOOR0 0x000001
 CameraMode sCamSetDoor0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ3, sSetDoor0ModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_DOORC 0x000003
 CameraMode sCamSetDoorCModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SPEC9, sSetDoorCModeNormalData), // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SPEC9, sSetDoorCModeTargetData), // CAM_MODE_TARGET
 };
 
+#define CAM_VALID_MODES_SET_CRAWLSPACE 0x000001
 CameraMode sCamSetCrawlspaceModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SUBJ4, sSetCrawlspaceModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_START0 0x000001
 CameraMode sCamSetStart0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ0, sDataOnlyNullFlags), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_START1 0x000001
 CameraMode sCamSetStart1Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ0, sSetStart1ModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_FREE0 0x000001
 CameraMode sCamSetFree0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ6, sSetFree0ModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_FREE2 0x000001
 CameraMode sCamSetFree1Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ6, sSetFree1ModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_PIVOT_CORNER 0x000001
 CameraMode sCamSetPivotCornerModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD2, sSetPivotCornerModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_PIVOT_WATER_SURFACE 0x000003
 CameraMode sCamSetPivotDivingModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ2, sSetPivotWaterSurfaceModeNormalData), // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ2, sSetPivotWaterSurfaceModeTargetData), // CAM_MODE_TARGET
 };
 
+#define CAM_VALID_MODES_SET_CS_0 0x000001
 CameraMode sCamSetCs0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_DEMO1, sDataOnlyInterfaceField), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_CS_TWISTED_HALLWAY 0x000001
 CameraMode sCamSetCsTwistedHallwayModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_DEMO2, sDataOnlyInterfaceField), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_FOREST_BIRDS_EYE 0x000009
 CameraMode sCamSetForestBirdsEyeModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetForestBirdsEyeModeNormalData), // CAM_MODE_NORMAL
     { CAM_FUNC_NONE, 0, NULL },                                               // CAM_MODE_TARGET
@@ -2031,22 +2071,27 @@ CameraMode sCamSetForestBirdsEyeModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA3, sSetForestBirdsEyeModeTalkData),   // CAM_MODE_TALK
 };
 
+#define CAM_VALID_MODES_SET_SLOW_CHEST_CS 0x000001
 CameraMode sCamSetSlowChestCsModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_DEMO3, sSetSlowChestCsModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_ITEM_UNUSED 0x000001
 CameraMode sCamSetItemUnusedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_DEMO4, sSetSlowChestCsModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_CS_3 0x000001
 CameraMode sCamSetCs3Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_DEMO9, sSetCs3ModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_CS_ATTENTION 0x000001
 CameraMode sCamSetCsAttentionModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_DEMO5, sDataOnlyInterfaceField), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_BEAN_GENERIC 0x1FFFFF
 CameraMode sCamSetBeanGenericModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBeanGenericModeNormalData),      // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetBeanGenericModeTargetData),      // CAM_MODE_TARGET
@@ -2071,6 +2116,7 @@ CameraMode sCamSetBeanGenericModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_BEAN_LOST_WOODS 0x1FFFFF
 CameraMode sCamSetBeanLostWoodsModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBeanLostWoodsModeNormalData),    // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetBeanLostWoodsModeTargetData),    // CAM_MODE_TARGET
@@ -2095,30 +2141,37 @@ CameraMode sCamSetBeanLostWoodsModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_SCENE_UNUSED 0x000001
 CameraMode sCamSetSceneUnusedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SPEC9, sSetSceneUnusedModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_SCENE_TRANSITION 0x000001
 CameraMode sCamSetSceneTransitionModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ2, sSetSceneTransitionModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_ELEVATOR_PLATFORM 0x000001
 CameraMode sCamSetElevatorPlatformModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SPEC7, sDataOnlyNullFlags), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_FIRE_STAIRCASE 0x000001
 CameraMode sCamSetFireStaircaseModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SPEC4, sDataOnlyInterfaceField), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_FOREST_UNUSED 0x000001
 CameraMode sCamSetForestUnusedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ5, sDataOnlyInterfaceField), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_FOREST_DEFEAT_POE 0x000001
 CameraMode sCamSetForestDefeatPoeModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_DEMO6, sDataOnlyInterfaceField), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_BIG_OCTO 0x1FFFFF
 CameraMode sCamSetBigOctoModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetBigOctoModeNormalData),          // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetDungeon0ModeTargetData),         // CAM_MODE_TARGET
@@ -2143,6 +2196,7 @@ CameraMode sCamSetBigOctoModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_MEADOW_BIRDS_EYE 0x000033
 CameraMode sCamSetMeadowBirdsEyeModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetMeadowBirdsEyeModeNormalData), // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetMeadowBirdsEyeModeTargetData), // CAM_MODE_TARGET
@@ -2152,6 +2206,7 @@ CameraMode sCamSetMeadowBirdsEyeModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetMeadowBirdsEyeModeClimbData),  // CAM_MODE_CLIMB
 };
 
+#define CAM_VALID_MODES_SET_MEADOW_UNUSED 0x000033
 CameraMode sCamSetMeadowUnusedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetMeadowUnusedModeNormalData), // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetMeadowUnusedModeTargetData), // CAM_MODE_TARGET
@@ -2161,6 +2216,7 @@ CameraMode sCamSetMeadowUnusedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetMeadowUnusedModeClimbData),  // CAM_MODE_CLIMB
 };
 
+#define CAM_VALID_MODES_SET_FIRE_BIRDS_EYE 0x000033
 CameraMode sCamSetFireBirdsEyeModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetFireBirdsEyeModeNormalData), // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetFireBirdsEyeModeTargetData), // CAM_MODE_TARGET
@@ -2170,14 +2226,17 @@ CameraMode sCamSetFireBirdsEyeModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetFireBirdsEyeModeClimbData),  // CAM_MODE_CLIMB
 };
 
+#define CAM_VALID_MODES_SET_TURN_AROUND 0x000001
 CameraMode sCamSetTurnAroundModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP4, sSetTurnAroundModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_PIVOT_VERTICAL 0x000001
 CameraMode sCamSetPivotVerticalModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SPEC0, sSetPivotVerticalModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_NORMAL2 0x1FFFFF
 CameraMode sCamSetNorm2Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetNormal2and4ModeNormalData),      // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -2202,6 +2261,7 @@ CameraMode sCamSetNorm2Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_FISHING 0x01E05F
 CameraMode sCamSetFishingModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetFishingModeNormalData),       // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetFishingModeTargetData),       // CAM_MODE_TARGET
@@ -2222,10 +2282,12 @@ CameraMode sCamSetFishingModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_JUMP1, sSetFishingModeFreeFallData),     // CAM_MODE_FREEFALL
 };
 
+#define CAM_VALID_MODES_SET_CS_C 0x000001
 CameraMode sCamSetCsCModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ9, sSetCsCModeNormalData), // CAM_MODE_NORMAL
 };
 
+#define CAM_VALID_MODES_SET_JABU_TENTACLE 0x1FFFFF
 CameraMode sCamSetJabuTentacleModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetJabuTentacleModeNormalData),     // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -2250,6 +2312,7 @@ CameraMode sCamSetJabuTentacleModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_DUNGEON2 0x1FFFFF
 CameraMode sCamSetDungeon2Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetDungeon2ModeNormalData),         // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetDungeon2ModeTargetData),         // CAM_MODE_TARGET
@@ -2274,6 +2337,7 @@ CameraMode sCamSetDungeon2Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_DIRECTED_YAW 0x1FFFFF
 CameraMode sCamSetDirectedYawModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetDirectedYawModeNormalData),       // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),           // CAM_MODE_TARGET
@@ -2298,6 +2362,7 @@ CameraMode sCamSetDirectedYawModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData),  // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_PIVOT_FROM_SIDE 0x000ECD
 CameraMode sCamSetPivotFromSideModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD4, sSetPivotInFrontAndFromSideModeNormalData), // CAM_MODE_NORMAL
     { CAM_FUNC_NONE, 0, NULL },                                                        // CAM_MODE_TARGET
@@ -2313,6 +2378,7 @@ CameraMode sCamSetPivotFromSideModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SUBJ3, sSetNormal0ModeSlingshotData),              // CAM_MODE_SLINGSHOT
 };
 
+#define CAM_VALID_MODES_SET_NORMAL4 0x1FFFFF
 CameraMode sCamSetNormal4Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetNormal2and4ModeNormalData),      // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeTargetData),          // CAM_MODE_TARGET
@@ -2337,73 +2403,339 @@ CameraMode sCamSetNormal4Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeFollowBoomerangData), // CAM_MODE_FOLLOWBOOMERANG
 };
 
+#define CAM_VALID_MODES_SET_NONE 0x000000
+
 CameraSetting sCameraSettings[] = {
-    { { 0x00000000 }, NULL },                             // CAM_SET_NONE
-    { { 0x051FFFFF }, sCamSetNormal0Modes },              // CAM_SET_NORMAL0
-    { { 0x051FFFFF }, sCamSetNormal1Modes },              // CAM_SET_NORMAL1
-    { { 0x051FFFFF }, sCamSetDungeon0Modes },             // CAM_SET_DUNGEON0
-    { { 0x051FFFFF }, sCamSetDungeon1Modes },             // CAM_SET_DUNGEON1
-    { { 0x050FF7FF }, sCamSetNormal3Modes },              // CAM_SET_NORMAL3
-    { { 0x8500018F }, sCamSetHorseModes },                // CAM_SET_HORSE
-    { { 0x051FFFFF }, sCamSetBossGohmaModes },            // CAM_SET_BOSS_GOHMA
-    { { 0x051FFFFF }, sCamSetBossDodongoModes },          // CAM_SET_BOSS_DODONGO
-    { { 0x051FFFFF }, sCamSetBossBarinadeModes },         // CAM_SET_BOSS_BARINADE
-    { { 0x051FFFFF }, sCamSetBossPhantomGanonModes },     // CAM_SET_BOSS_PHANTOM_GANON
-    { { 0x051FFFFF }, sCamSetBossVolvagiaModes },         // CAM_SET_BOSS_VOLVAGIA
-    { { 0x051FFFFF }, sCamSetBossBongoModes },            // CAM_SET_BOSS_BONGO
-    { { 0x051FFFFF }, sCamSetBossMorphaModes },           // CAM_SET_BOSS_MORPHA
-    { { 0x051FFFFF }, sCamSetBossTwinrovaPlatformModes }, // CAM_SET_BOSS_TWINROVA_PLATFORM
-    { { 0x051FFFFF }, sCamSetBossTwinrovaFloorModes },    // CAM_SET_BOSS_TWINROVA_FLOOR
-    { { 0x051FFFFF }, sCamSetBossGanondorfModes },        // CAM_SET_BOSS_GANONDORF
-    { { 0x051FFFFF }, sCamSetBossGanonModes },            // CAM_SET_BOSS_GANON
-    { { 0x851FFFFF }, sCamSetTowerClimbModes },           // CAM_SET_TOWER_CLIMB
-    { { 0x851FFFFF }, sCamSetTowerUnusedModes },          // CAM_SET_TOWER_UNUSED
-    { { 0x8500000D }, sCamSetMarketBalconyModes },        // CAM_SET_MARKET_BALCONY
-    { { 0x85000001 }, sCamSetChuBowlingModes },           // CAM_SET_CHU_BOWLING
-    { { 0x85000001 }, sCamSetPivotCrawlspaceModes },      // CAM_SET_PIVOT_CRAWLSPACE
-    { { 0x85000001 }, sCamSetPivotShopBrowsingModes },    // CAM_SET_PIVOT_SHOP_BROWSING
-    { { 0x851E1FFF }, sCamSetPivotInFrontModes },         // CAM_SET_PIVOT_IN_FRONT
-    { { 0x8C00000D }, sCamSetPreRendFixedModes },         // CAM_SET_PREREND_FIXED
-    { { 0x8C00000D }, sCamSetPreRendPivotModes },         // CAM_SET_PREREND_PIVOT
-    { { 0x8C000001 }, sCamSetPreRendSideScrollModes },    // CAM_SET_PREREND_SIDE_SCROLL
-    { { 0xC5000001 }, sCamSetDoor0Modes },                // CAM_SET_DOOR0
-    { { 0xC5000003 }, sCamSetDoorCModes },                // CAM_SET_DOORC
-    { { 0xC5000001 }, sCamSetCrawlspaceModes },           // CAM_SET_CRAWLSPACE
-    { { 0xC5000001 }, sCamSetStart0Modes },               // CAM_SET_START0
-    { { 0xC5000001 }, sCamSetStart1Modes },               // CAM_SET_START1
-    { { 0x05000001 }, sCamSetFree0Modes },                // CAM_SET_FREE0
-    { { 0x05000001 }, sCamSetFree1Modes },                // CAM_SET_FREE2
-    { { 0x85000001 }, sCamSetPivotCornerModes },          // CAM_SET_PIVOT_CORNER
-    { { 0x05000003 }, sCamSetPivotDivingModes },          // CAM_SET_PIVOT_WATER_SURFACE
-    { { 0xCE000001 }, sCamSetCs0Modes },                  // CAM_SET_CS_0
-    { { 0x4E000001 }, sCamSetCsTwistedHallwayModes },     // CAM_SET_CS_TWISTED_HALLWAY
-    { { 0x05000009 }, sCamSetForestBirdsEyeModes },       // CAM_SET_FOREST_BIRDS_EYE
-    { { 0x45000001 }, sCamSetSlowChestCsModes },          // CAM_SET_SLOW_CHEST_CS
-    { { 0x45000001 }, sCamSetItemUnusedModes },           // CAM_SET_ITEM_UNUSED
-    { { 0x45000001 }, sCamSetCs3Modes },                  // CAM_SET_CS_3
-    { { 0x45000001 }, sCamSetCsAttentionModes },          // CAM_SET_CS_ATTENTION
-    { { 0x451FFFFF }, sCamSetBeanGenericModes },          // CAM_SET_BEAN_GENERIC
-    { { 0x451FFFFF }, sCamSetBeanLostWoodsModes },        // CAM_SET_BEAN_LOST_WOODS
-    { { 0xC5000001 }, sCamSetSceneUnusedModes },          // CAM_SET_SCENE_UNUSED
-    { { 0x45000001 }, sCamSetSceneTransitionModes },      // CAM_SET_SCENE_TRANSITION
-    { { 0x05000001 }, sCamSetElevatorPlatformModes },     // CAM_SET_ELEVATOR_PLATFORM
-    { { 0x45000001 }, sCamSetFireStaircaseModes },        // CAM_SET_FIRE_STAIRCASE
-    { { 0x45000001 }, sCamSetForestUnusedModes },         // CAM_SET_FOREST_UNUSED
-    { { 0x45000001 }, sCamSetForestDefeatPoeModes },      // CAM_SET_FOREST_DEFEAT_POE
-    { { 0x451FFFFF }, sCamSetBigOctoModes },              // CAM_SET_BIG_OCTO
-    { { 0x05000033 }, sCamSetMeadowBirdsEyeModes },       // CAM_SET_MEADOW_BIRDS_EYE
-    { { 0x05000033 }, sCamSetMeadowUnusedModes },         // CAM_SET_MEADOW_UNUSED
-    { { 0x05000033 }, sCamSetFireBirdsEyeModes },         // CAM_SET_FIRE_BIRDS_EYE
-    { { 0x4A000001 }, sCamSetTurnAroundModes },           // CAM_SET_TURN_AROUND
-    { { 0x05000001 }, sCamSetPivotVerticalModes },        // CAM_SET_PIVOT_VERTICAL
-    { { 0x051FFFFF }, sCamSetNorm2Modes },                // CAM_SET_NORMAL2
-    { { 0x0501E05F }, sCamSetFishingModes },              // CAM_SET_FISHING
-    { { 0x45000001 }, sCamSetCsCModes },                  // CAM_SET_CS_C
-    { { 0x051FFFFF }, sCamSetJabuTentacleModes },         // CAM_SET_JABU_TENTACLE
-    { { 0x051FFFFF }, sCamSetDungeon2Modes },             // CAM_SET_DUNGEON2
-    { { 0x051FFFFF }, sCamSetDirectedYawModes },          // CAM_SET_DIRECTED_YAW
-    { { 0xC5000ECD }, sCamSetPivotFromSideModes },        // CAM_SET_PIVOT_FROM_SIDE
-    { { 0x051FFFFF }, sCamSetNormal4Modes },              // CAM_SET_NORMAL4
+    // CAM_SET_NONE
+    {
+        SETTING_INFO_0F00_0000(0) | CAM_VALID_MODES_SET_NONE,
+        NULL,
+    },
+    // CAM_SET_NORMAL0
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_NORMAL0,
+        sCamSetNormal0Modes,
+    },
+    // CAM_SET_NORMAL1
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_NORMAL1,
+        sCamSetNormal1Modes,
+    },
+    // CAM_SET_DUNGEON0
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_DUNGEON0,
+        sCamSetDungeon0Modes,
+    },
+    // CAM_SET_DUNGEON1
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_DUNGEON1,
+        sCamSetDungeon1Modes,
+    },
+    // CAM_SET_NORMAL3
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_NORMAL3,
+        sCamSetNormal3Modes,
+    },
+    // CAM_SET_HORSE
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_HORSE,
+        sCamSetHorseModes,
+    },
+    // CAM_SET_BOSS_GOHMA
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_GOHMA,
+        sCamSetBossGohmaModes,
+    },
+    // CAM_SET_BOSS_DODONGO
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_DODONGO,
+        sCamSetBossDodongoModes,
+    },
+    // CAM_SET_BOSS_BARINADE
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_BARINADE,
+        sCamSetBossBarinadeModes,
+    },
+    // CAM_SET_BOSS_PHANTOM_GANON
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_PHANTOM_GANON,
+        sCamSetBossPhantomGanonModes,
+    },
+    // CAM_SET_BOSS_VOLVAGIA
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_VOLVAGIA,
+        sCamSetBossVolvagiaModes,
+    },
+    // CAM_SET_BOSS_BONGO
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_BONGO,
+        sCamSetBossBongoModes,
+    },
+    // CAM_SET_BOSS_MORPHA
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_MORPHA,
+        sCamSetBossMorphaModes,
+    },
+    // CAM_SET_BOSS_TWINROVA_PLATFORM
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_TWINROVA_PLATFORM,
+        sCamSetBossTwinrovaPlatformModes,
+    },
+    // CAM_SET_BOSS_TWINROVA_FLOOR
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_TWINROVA_FLOOR,
+        sCamSetBossTwinrovaFloorModes,
+    },
+    // CAM_SET_BOSS_GANONDORF
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_GANONDORF,
+        sCamSetBossGanondorfModes,
+    },
+    // CAM_SET_BOSS_GANON
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BOSS_GANON,
+        sCamSetBossGanonModes,
+    },
+    // CAM_SET_TOWER_CLIMB
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_TOWER_CLIMB,
+        sCamSetTowerClimbModes,
+    },
+    // CAM_SET_TOWER_UNUSED
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_TOWER_UNUSED,
+        sCamSetTowerUnusedModes,
+    },
+    // CAM_SET_MARKET_BALCONY
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_MARKET_BALCONY,
+        sCamSetMarketBalconyModes,
+    },
+    // CAM_SET_CHU_BOWLING
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_CHU_BOWLING,
+        sCamSetChuBowlingModes,
+    },
+    // CAM_SET_PIVOT_CRAWLSPACE
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_PIVOT_CRAWLSPACE,
+        sCamSetPivotCrawlspaceModes,
+    },
+    // CAM_SET_PIVOT_SHOP_BROWSING
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_PIVOT_SHOP_BROWSING,
+        sCamSetPivotShopBrowsingModes,
+    },
+    // CAM_SET_PIVOT_IN_FRONT
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_PIVOT_IN_FRONT,
+        sCamSetPivotInFrontModes,
+    },
+    // CAM_SET_PREREND_FIXED
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(12) | CAM_VALID_MODES_SET_PREREND_FIXED,
+        sCamSetPreRendFixedModes,
+    },
+    // CAM_SET_PREREND_PIVOT
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(12) | CAM_VALID_MODES_SET_PREREND_PIVOT,
+        sCamSetPreRendPivotModes,
+    },
+    // CAM_SET_PREREND_SIDE_SCROLL
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(12) | CAM_VALID_MODES_SET_PREREND_SIDE_SCROLL,
+        sCamSetPreRendSideScrollModes,
+    },
+    // CAM_SET_DOOR0
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_DOOR0,
+        sCamSetDoor0Modes,
+    },
+    // CAM_SET_DOORC
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_DOORC,
+        sCamSetDoorCModes,
+    },
+    // CAM_SET_CRAWLSPACE
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_CRAWLSPACE,
+        sCamSetCrawlspaceModes,
+    },
+    // CAM_SET_START0
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_START0,
+        sCamSetStart0Modes,
+    },
+    // CAM_SET_START1
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_START1,
+        sCamSetStart1Modes,
+    },
+    // CAM_SET_FREE0
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_FREE0,
+        sCamSetFree0Modes,
+    },
+    // CAM_SET_FREE2
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_FREE2,
+        sCamSetFree1Modes,
+    },
+    // CAM_SET_PIVOT_CORNER
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_PIVOT_CORNER,
+        sCamSetPivotCornerModes,
+    },
+    // CAM_SET_PIVOT_WATER_SURFACE
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_PIVOT_WATER_SURFACE,
+        sCamSetPivotDivingModes,
+    },
+    // CAM_SET_CS_0
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(14) | CAM_VALID_MODES_SET_CS_0,
+        sCamSetCs0Modes,
+    },
+    // CAM_SET_CS_TWISTED_HALLWAY
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(14) | CAM_VALID_MODES_SET_CS_TWISTED_HALLWAY,
+        sCamSetCsTwistedHallwayModes,
+    },
+    // CAM_SET_FOREST_BIRDS_EYE
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_FOREST_BIRDS_EYE,
+        sCamSetForestBirdsEyeModes,
+    },
+    // CAM_SET_SLOW_CHEST_CS
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_SLOW_CHEST_CS,
+        sCamSetSlowChestCsModes,
+    },
+    // CAM_SET_ITEM_UNUSED
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_ITEM_UNUSED,
+        sCamSetItemUnusedModes,
+    },
+    // CAM_SET_CS_3
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_CS_3,
+        sCamSetCs3Modes,
+    },
+    // CAM_SET_CS_ATTENTION
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_CS_ATTENTION,
+        sCamSetCsAttentionModes,
+    },
+    // CAM_SET_BEAN_GENERIC
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BEAN_GENERIC,
+        sCamSetBeanGenericModes,
+    },
+    // CAM_SET_BEAN_LOST_WOODS
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BEAN_LOST_WOODS,
+        sCamSetBeanLostWoodsModes,
+    },
+    // CAM_SET_SCENE_UNUSED
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_SCENE_UNUSED,
+        sCamSetSceneUnusedModes,
+    },
+    // CAM_SET_SCENE_TRANSITION
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_SCENE_TRANSITION,
+        sCamSetSceneTransitionModes,
+    },
+    // CAM_SET_ELEVATOR_PLATFORM
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_ELEVATOR_PLATFORM,
+        sCamSetElevatorPlatformModes,
+    },
+    // CAM_SET_FIRE_STAIRCASE
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_FIRE_STAIRCASE,
+        sCamSetFireStaircaseModes,
+    },
+    // CAM_SET_FOREST_UNUSED
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_FOREST_UNUSED,
+        sCamSetForestUnusedModes,
+    },
+    // CAM_SET_FOREST_DEFEAT_POE
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_FOREST_DEFEAT_POE,
+        sCamSetForestDefeatPoeModes,
+    },
+    // CAM_SET_BIG_OCTO
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_BIG_OCTO,
+        sCamSetBigOctoModes,
+    },
+    // CAM_SET_MEADOW_BIRDS_EYE
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_MEADOW_BIRDS_EYE,
+        sCamSetMeadowBirdsEyeModes,
+    },
+    // CAM_SET_MEADOW_UNUSED
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_MEADOW_UNUSED,
+        sCamSetMeadowUnusedModes,
+    },
+    // CAM_SET_FIRE_BIRDS_EYE
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_FIRE_BIRDS_EYE,
+        sCamSetFireBirdsEyeModes,
+    },
+    // CAM_SET_TURN_AROUND
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(10) | CAM_VALID_MODES_SET_TURN_AROUND,
+        sCamSetTurnAroundModes,
+    },
+    // CAM_SET_PIVOT_VERTICAL
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_PIVOT_VERTICAL,
+        sCamSetPivotVerticalModes,
+    },
+    // CAM_SET_NORMAL2
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_NORMAL2,
+        sCamSetNorm2Modes,
+    },
+    // CAM_SET_FISHING
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_FISHING,
+        sCamSetFishingModes,
+    },
+    // CAM_SET_CS_C
+    {
+        SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_CS_C,
+        sCamSetCsCModes,
+    },
+    // CAM_SET_JABU_TENTACLE
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_JABU_TENTACLE,
+        sCamSetJabuTentacleModes,
+    },
+    // CAM_SET_DUNGEON2
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_DUNGEON2,
+        sCamSetDungeon2Modes,
+    },
+    // CAM_SET_DIRECTED_YAW
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_DIRECTED_YAW,
+        sCamSetDirectedYawModes,
+    },
+    // CAM_SET_PIVOT_FROM_SIDE
+    {
+        SETTING_INFO_FLAG_31 | SETTING_INFO_FLAG_30 | SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_PIVOT_FROM_SIDE,
+        sCamSetPivotFromSideModes,
+    },
+    // CAM_SET_NORMAL4
+    {
+        SETTING_INFO_0F00_0000(5) | CAM_VALID_MODES_SET_NORMAL4,
+        sCamSetNormal4Modes,
+    },
 };
 
 s32 Camera_Normal0(Camera* camera);
