@@ -21,7 +21,11 @@ f32 fmodf(f32 x, f32 y) {
     if (y == 0.0f) {
         return 0.0f;
     }
+#ifndef AVOID_UB
     n = x / y;
 
     return x - (n * y);
+#else
+    return x - (truncf(x/y) * y);
+#endif
 }
