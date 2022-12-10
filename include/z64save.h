@@ -164,6 +164,16 @@ typedef enum {
 #define ENV_HAZARD_TEXT_TRIGGER_HOTROOM (1 << 0)
 #define ENV_HAZARD_TEXT_TRIGGER_UNDERWATER (1 << 1)
 
+#define CUTSCENE_INDEX_0 0 // none
+#define CUTSCENE_INDEX_8000 0x8000 // also none
+#define CUTSCENE_INDEX_FFFD 0xFFFD // used by z_demo as a trigger?
+#define CUTSCENE_INDEX_FFFF 0xFFFF // also used by z_demo as a trigger?
+#define NEXT_CUTSCENE_INDEX_FFEF 0xFFEF // none
+#define CUTSCENE_INDEX(i) (0xFFF0 | (i))
+#define CUTSCENE_INDEX_FIRST CUTSCENE_INDEX(0)
+#define IS_CUTSCENE_INDEX_SET (gSaveContext.cutsceneIndex >= CUTSCENE_INDEX_FIRST)
+#define GET_CUTSCENE_INDEX(cutsceneIndex) ((cutsceneIndex) & 0xF)
+
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
     /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child (see enum `LinkAge`)

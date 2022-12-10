@@ -359,7 +359,7 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     }
 
     if ((GET_EVENTCHKINF(EVENTCHKINF_16) && (DREG(53) != 0)) ||
-        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
+        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.cutsceneIndex == CUTSCENE_INDEX(1)))) {
         func_80A6A4DC(this);
     } else {
         this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);

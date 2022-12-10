@@ -11,7 +11,7 @@ void TitleSetup_SetupTitleScreen(TitleSetupState* this) {
     this->state.running = false;
     gSaveContext.linkAge = LINK_AGE_ADULT;
     Sram_InitDebugSave();
-    gSaveContext.cutsceneIndex = 0xFFF3;
+    gSaveContext.cutsceneIndex = CUTSCENE_INDEX(3);
     gSaveContext.sceneLayer = 7;
     SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }

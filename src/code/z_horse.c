@@ -174,21 +174,22 @@ void func_8006D684(PlayState* play, Player* player) {
         }
     } else {
         static struct_8011F9B8 D_8011F9B8[] = {
-            { SCENE_GERUDOS_FORTRESS, 0xFFF0, { 3600, 1413, 360 }, 0x8001, 8 },
-            { SCENE_LON_LON_RANCH, 0xFFF0, { -250, 1, -1580 }, 0x4000, 6 },
-            { SCENE_LON_LON_RANCH, 0xFFF1, { 0, 0, 0 }, 0x0000, 5 },
-            { SCENE_LON_LON_RANCH, 0xFFF5, { 0, 0, 0 }, 0x0000, 7 },
-            { SCENE_HYRULE_FIELD, 0xFFF3, { -2961, 313, 7700 }, 0x0000, 7 },
-            { SCENE_HYRULE_FIELD, 0xFFF4, { -1900, 313, 7015 }, 0x0000, 7 },
-            { SCENE_HYRULE_FIELD, 0xFFF5, { -4043, 313, 6933 }, 0x0000, 7 },
-            { SCENE_HYRULE_FIELD, 0xFFF6, { -4043, 313, 6933 }, 0x0000, 7 },
+            { SCENE_GERUDOS_FORTRESS, CUTSCENE_INDEX(0), { 3600, 1413, 360 }, 0x8001, 8 },
+            { SCENE_LON_LON_RANCH, CUTSCENE_INDEX(0), { -250, 1, -1580 }, 0x4000, 6 },
+            { SCENE_LON_LON_RANCH, CUTSCENE_INDEX(1), { 0, 0, 0 }, 0x0000, 5 },
+            { SCENE_LON_LON_RANCH, CUTSCENE_INDEX(5), { 0, 0, 0 }, 0x0000, 7 },
+            { SCENE_HYRULE_FIELD, CUTSCENE_INDEX(3), { -2961, 313, 7700 }, 0x0000, 7 },
+            { SCENE_HYRULE_FIELD, CUTSCENE_INDEX(4), { -1900, 313, 7015 }, 0x0000, 7 },
+            { SCENE_HYRULE_FIELD, CUTSCENE_INDEX(5), { -4043, 313, 6933 }, 0x0000, 7 },
+            { SCENE_HYRULE_FIELD, CUTSCENE_INDEX(6), { -4043, 313, 6933 }, 0x0000, 7 },
         };
 
         for (i = 0; i < ARRAY_COUNT(D_8011F9B8); i++) {
             if ((play->sceneId == D_8011F9B8[i].sceneId) &&
                 (((void)0, gSaveContext.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {
                 if (D_8011F9B8[i].type == 7) {
-                    if ((play->sceneId == SCENE_LON_LON_RANCH) && (((void)0, gSaveContext.cutsceneIndex) == 0xFFF1)) {
+                    if ((play->sceneId == SCENE_LON_LON_RANCH) &&
+                        (((void)0, gSaveContext.cutsceneIndex) == CUTSCENE_INDEX(1))) {
                         D_8011F9B8[i].pos.x = player->actor.world.pos.x;
                         D_8011F9B8[i].pos.y = player->actor.world.pos.y;
                         D_8011F9B8[i].pos.z = player->actor.world.pos.z;

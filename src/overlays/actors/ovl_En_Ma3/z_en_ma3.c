@@ -120,7 +120,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
                 play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
-                gSaveContext.nextCutsceneIndex = 0xFFF0;
+                gSaveContext.nextCutsceneIndex = CUTSCENE_INDEX(0);
                 play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 SET_EVENTINF(EVENTINF_HORSES_0A);

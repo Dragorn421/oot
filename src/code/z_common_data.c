@@ -12,7 +12,7 @@ void SaveContext_Init(void) {
     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
     gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
-    gSaveContext.nextCutsceneIndex = 0xFFEF;
+    gSaveContext.nextCutsceneIndex = NEXT_CUTSCENE_INDEX_FFEF;
     gSaveContext.cutsceneTrigger = 0;
     gSaveContext.chamberCutsceneNum = 0;
     gSaveContext.nextDayTime = NEXT_TIME_NONE;

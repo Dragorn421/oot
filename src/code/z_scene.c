@@ -355,7 +355,7 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     play->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
     play->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
-    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
+    if (((play->envCtx.sceneTimeSpeed == 0) && !IS_CUTSCENE_INDEX_SET) ||
         (gSaveContext.entranceIndex == ENTR_LAKE_HYLIA_8)) {
         gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
 
@@ -460,7 +460,7 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
 
     if (((play->sceneId >= SCENE_HYRULE_FIELD) && (play->sceneId <= SCENE_OUTSIDE_GANONS_CASTLE)) ||
         ((play->sceneId >= SCENE_MARKET_ENTRANCE_DAY) && (play->sceneId <= SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS))) {
-        if (gSaveContext.cutsceneIndex < 0xFFF0) {
+        if (!IS_CUTSCENE_INDEX_SET) {
             gSaveContext.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
             osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.worldMapAreaData,
                          gSaveContext.worldMapArea);

@@ -9704,7 +9704,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
     initMode = (thisx->params & 0xF00) >> 8;
     if ((initMode == 5) || (initMode == 6)) {
-        if (gSaveContext.cutsceneIndex >= 0xFFF0) {
+        if (IS_CUTSCENE_INDEX_SET) {
             initMode = 13;
         }
     }
@@ -12445,7 +12445,7 @@ s32 func_8084DFF4(PlayState* play, Player* this) {
             if (this->getItemId == GI_SILVER_GAUNTLETS) {
                 play->nextEntranceIndex = ENTR_DESERT_COLOSSUS_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
-                gSaveContext.nextCutsceneIndex = 0xFFF1;
+                gSaveContext.nextCutsceneIndex = CUTSCENE_INDEX(1);
                 play->transitionType = TRANS_TYPE_SANDSTORM_END;
                 this->stateFlags1 &= ~PLAYER_STATE1_29;
                 func_80852FFC(play, NULL, 8);
