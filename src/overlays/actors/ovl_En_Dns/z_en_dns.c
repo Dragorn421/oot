@@ -395,18 +395,18 @@ void func_809EFC9C(EnDns* this, PlayState* play) {
 void EnDns_OfferItem(EnDns* this, PlayState* play) {
     if (this->actor.params == EN_DNS_TYPE_DEKU_STICKS_CAPACITY) {
         if (CUR_UPG_VALUE(UPG_DEKU_STICKS) < 2) {
-            func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
     } else if (this->actor.params == EN_DNS_TYPE_DEKU_NUTS_CAPACITY) {
         if (CUR_UPG_VALUE(UPG_DEKU_NUTS) < 2) {
-            func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_40, 130.0f, 100.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_DEKU_NUT_UPGRADE_40, 130.0f, 100.0f);
         }
     } else {
-        func_8002F434(&this->actor, play, this->unk2C0->gid, 130.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, this->unk2C0->gid, 130.0f, 100.0f);
     }
 }
 

@@ -207,7 +207,7 @@ void EnIceHono_CapturableFlame(EnIceHono* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
     } else if (EnIceHono_LinkCloseAndFacing(this, play)) {
-        func_8002F434(&this->actor, play, 0x7E, 60.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MAX, 60.0f, 100.0f);
     }
 
     if (this->actor.xzDistToPlayer < 200.0f) {

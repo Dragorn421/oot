@@ -658,7 +658,7 @@ void func_80A16C68(EnFish* this, PlayState* play) {
                 func_80A15374(this);
             }
         } else if (func_80A15688(this, play) != 0) {
-            func_8002F434(&this->actor, play, 0x7E, 80.0f, 20.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_MAX, 80.0f, 20.0f);
         }
     }
 }

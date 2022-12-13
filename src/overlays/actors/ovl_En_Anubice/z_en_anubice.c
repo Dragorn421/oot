@@ -333,7 +333,7 @@ void EnAnubice_Die(EnAnubice* this, PlayState* play) {
     fireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
     fireEffectPos.y += this->actor.world.pos.y + Rand_CenteredFloat(40.0f);
     fireEffectPos.z += this->actor.world.pos.z + Rand_CenteredFloat(30.0f);
-    Actor_SetColorFilter(&this->actor, 0x4000, 0x80, 0, 8);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 0x80, COLORFILTER_BUFFLAG_OPA, 8);
     EffectSsEnFire_SpawnVec3f(play, &this->actor, &fireEffectPos, 100, 0, 0, -1);
 
     if (this->animLastFrame <= curFrame && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {

@@ -6,6 +6,7 @@
 
 #include "z_en_tp.h"
 #include "assets/objects/object_tp/object_tp.h"
+#include "z64actor.h"
 
 #define FLAGS 0
 
@@ -506,9 +507,11 @@ void func_80B221E8(EnTp* this, PlayState* play) {
                     this->actor.freezeTimer = 80;
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     if (var_s2 != 0) {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                     } else {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 80);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                             80);
                     }
                 }
                 var_s0 = (EnTp*)this->actor.parent;
@@ -518,9 +521,11 @@ void func_80B221E8(EnTp* this, PlayState* play) {
                         var_s0->actor.freezeTimer = 80;
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         if (var_s2 != 0) {
-                            Actor_SetColorFilter(&var_s0->actor, 0, 0xFF, 0, 80);
+                            Actor_SetColorFilter(&var_s0->actor, COLORFILTER_COLORFLAG_BLUE, 255,
+                                                 COLORFILTER_BUFFLAG_OPA, 80);
                         } else {
-                            Actor_SetColorFilter(&var_s0->actor, 0, 0xFF, 0x2000, 80);
+                            Actor_SetColorFilter(&var_s0->actor, COLORFILTER_COLORFLAG_BLUE, 255,
+                                                 COLORFILTER_BUFFLAG_XLU, 80);
                         }
                     }
                     var_s0 = (EnTp*)var_s0->actor.parent;
@@ -531,9 +536,11 @@ void func_80B221E8(EnTp* this, PlayState* play) {
                     if (var_s4 != 0) {
                         var_s0_2->actor.freezeTimer = 80;
                         if (var_s2 != 0) {
-                            Actor_SetColorFilter(&var_s0_2->actor, 0, 0xFF, 0, 80);
+                            Actor_SetColorFilter(&var_s0_2->actor, COLORFILTER_COLORFLAG_BLUE, 255,
+                                                 COLORFILTER_BUFFLAG_OPA, 80);
                         } else {
-                            Actor_SetColorFilter(&var_s0_2->actor, 0, 0xFF, 0x2000, 80);
+                            Actor_SetColorFilter(&var_s0_2->actor, COLORFILTER_COLORFLAG_BLUE, 255,
+                                                 COLORFILTER_BUFFLAG_XLU, 80);
                         }
                     }
                     var_s0_2 = (EnTp*)var_s0_2->actor.child;

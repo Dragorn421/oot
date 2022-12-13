@@ -299,9 +299,9 @@ void func_809E60A8(EnDekubaba* this, s32 arg1) {
     this->unk238.base.acFlags &= ~AC_ON;
     Actor_SetScale(&this->actor, this->unk230 * 0.01f);
     if (arg1 == 2) {
-        Actor_SetColorFilter(&this->actor, 0, 155, 0, 62);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 155, COLORFILTER_BUFFLAG_OPA, 62);
     } else {
-        Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 42);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 42);
     }
     this->unk1C0 = func_809E78DC;
 }
@@ -351,7 +351,7 @@ void func_809E63EC(EnDekubaba* this) {
     this->unk1CA_arr[2] = -0x5000;
     this->unk1CA_arr[1] = -0x4800;
     func_809E5A38(this);
-    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 35);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 35);
     this->unk238.base.acFlags &= ~AC_ON;
     this->unk1C0 = func_809E7A88;
 }
@@ -852,7 +852,7 @@ void func_809E80D8(EnDekubaba* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play) || (this->unk1C6 == 0)) {
         Actor_Kill(&this->actor);
     } else {
-        func_8002F554(&this->actor, play, GI_DEKU_STICKS_1);
+        Actor_OfferGetItemNearby(&this->actor, play, GI_DEKU_STICKS_1);
     }
 }
 

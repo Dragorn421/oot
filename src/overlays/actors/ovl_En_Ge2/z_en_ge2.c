@@ -413,7 +413,7 @@ void func_80A33A0C(EnGe2* this, PlayState* play) {
         this->actor.parent = NULL;
         this->unk308 = func_80A33930;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -422,7 +422,7 @@ void func_80A33A6C(EnGe2* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->unk308 = func_80A33A0C;
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -508,7 +508,10 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         if (this->unk14C.base.acFlags & AC_HIT) {
             if ((this->unk14C.info.acHitInfo != NULL) &&
                 (this->unk14C.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
-                Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x190);
+                //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the
+                //! colorfilter.
+                //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
                 this->actor.update = func_80A3402C;
                 return;
             }

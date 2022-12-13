@@ -179,7 +179,7 @@ void func_809BFC48(EnBili* this) {
     this->unk1D4.base.acFlags &= ~AC_ON;
     this->actor.flags |= ACTOR_FLAG_4;
     this->actor.speedXZ = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0x2000, 0x14);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 20);
     this->unk190 = func_809C06E0;
 }
 
@@ -195,7 +195,7 @@ void func_809BFD18(EnBili* this) {
     this->unk1D4.info.bumper.effect = 0;
     this->actor.gravity = -1.0f;
     this->actor.speedXZ = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 0x96, 0x2000, 0x50);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk190 = func_809C0980;
@@ -218,7 +218,7 @@ void func_809BFD94(EnBili* this, PlayState* play) {
                                        (Rand_ZeroOne() * 0.2f) + 0.7f);
     }
     this->actor.speedXZ = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 0x96, 0x2000, 0xA);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 10);
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk1D4.base.acFlags &= ~AC_ON;
     this->unk196 = 0x12C;
@@ -492,7 +492,7 @@ void func_809C0A70(EnBili* this, PlayState* play) {
                 }
             } else if (this->actor.colChkInfo.damageEffect == 0xF) {
                 if (this->unk190 != func_809C0980) {
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0x2000, 0xA);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 10);
                     if (this->actor.colChkInfo.health == 0) {
                         this->actor.params = 1;
                     }

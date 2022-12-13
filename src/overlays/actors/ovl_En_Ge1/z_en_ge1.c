@@ -456,7 +456,7 @@ void func_80A3196C(EnGe1* this, PlayState* play) {
         var_a2 = 0x3E;
     }
     //! @bug var_a2 may be used uninitialized
-    func_8002F434(&this->actor, play, var_a2, 10000.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, var_a2, 10000.0f, 50.0f);
 }
 
 void func_80A31A5C(EnGe1* this, PlayState* play) {
@@ -479,7 +479,7 @@ void func_80A31A5C(EnGe1* this, PlayState* play) {
         var_a2 = 0x3E;
     }
     //! @bug var_a2 may be used uninitialized
-    func_8002F434(&this->actor, play, var_a2, 10000.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, var_a2, 10000.0f, 50.0f);
 }
 
 void func_80A31B20(EnGe1* this, PlayState* play) {

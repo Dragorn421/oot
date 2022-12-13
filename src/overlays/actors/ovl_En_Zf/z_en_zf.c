@@ -1808,13 +1808,13 @@ void func_80B490B4(EnZf* this, PlayState* play) {
             Actor_SetDropFlag(&this->actor, &this->unk418.info, false);
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
                 if (this->unk3DC != 0xE) {
-                    Actor_SetColorFilter(&this->actor, 0, 120, 0, 80);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
                     func_80B47050(this);
                 }
             } else {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_CRY);
-                Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 8);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     var_a3 = 0x40;
                     func_80B48CEC(this);

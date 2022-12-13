@@ -660,7 +660,7 @@ void func_80A0329C(EnElf* this, PlayState* play) {
         }
 
         if (!(this->fairyFlags & FAIRY_FLAG_BIG)) {
-            func_8002F434(&this->actor, play, GI_MAX, 80.0f, 60.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_MAX, 80.0f, 60.0f);
         }
     }
 }

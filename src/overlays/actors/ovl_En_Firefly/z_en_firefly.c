@@ -153,7 +153,7 @@ void func_80A133A0_Setup(EnFirefly* this) {
     Animation_Change(&this->skelAnime, &gKeeseFlyAnim, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= ACTOR_FLAG_4;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x28);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 40);
     this->actionFunc = func_80A13C98_Action;
 }
 
@@ -194,7 +194,7 @@ void func_80A1350C_Setup(EnFirefly* this) {
 
 void func_80A13538_Setup(EnFirefly* this) {
     this->unk1BA_timer = 80;
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
     this->unk1B8 = 0;
     this->actor.velocity.y = 0.0f;
     this->skelAnime.playSpeed = 3.0f;
@@ -209,7 +209,7 @@ void func_80A135A8_Setup(EnFirefly* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_4;
     this->unk1B8 = 0;
     this->actor.speedXZ = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xFF);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 255);
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_DEAD);
     for (var_s0 = 0; var_s0 < 8; var_s0++) {
         sp78.x = this->actor.world.pos.x + ((var_s0 & 1) ? 7.0f : -7.0f);

@@ -144,7 +144,7 @@ void func_80A34AA0(EnGe3* this, PlayState* play) {
         this->actor.parent = NULL;
         this->unk310 = func_80A34A20;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -153,7 +153,7 @@ void func_80A34B00(EnGe3* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->unk310 = func_80A34AA0;
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 

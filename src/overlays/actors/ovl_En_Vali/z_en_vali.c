@@ -196,7 +196,7 @@ void func_80B26B18(EnVali* this) {
 
 void func_80B26B4C(EnVali* this) {
     Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_000854, -5.0f);
-    Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
     this->actor.params = 0;
     this->unk3FC.base.acFlags &= ~AC_ON;
     this->unk190 = func_80B273D0;
@@ -210,7 +210,7 @@ void func_80B26BBC(EnVali* this) {
 void func_80B26BF8(EnVali* this) {
     this->unk196 = 2;
     this->unk3FC.base.acFlags &= ~AC_ON;
-    Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
     this->unk190 = func_80B27464;
 }
 
@@ -237,7 +237,7 @@ void func_80B26D54(EnVali* this) {
     Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_000710, 10.0f);
     this->unk196 = 0x50;
     this->actor.velocity.y = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 80);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
     this->unk3FC.info.bumper.effect = 0;
     Audio_PlayActorSfx2(&this->actor, 0x389EU);
     this->unk190 = func_80B27654;
@@ -246,7 +246,7 @@ void func_80B26D54(EnVali* this) {
 
 void func_80B26DE0(EnVali* this) {
     this->actor.velocity.y = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 36);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 36);
     this->unk3FC.base.acFlags &= ~AC_ON;
     this->unk196 = 0x24;
     this->unk190 = func_80B27710;
@@ -486,7 +486,7 @@ void func_80B2790C(EnVali* this, PlayState* play) {
             } else {
                 if (this->actor.colChkInfo.damageEffect == 0xF) {
                     if (this->unk190 != func_80B27654) {
-                        Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
                         this->actor.params = 1;
                         func_80B26B18(this);
                     } else {

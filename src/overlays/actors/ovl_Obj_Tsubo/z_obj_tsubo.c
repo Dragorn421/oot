@@ -267,7 +267,7 @@ void func_80BA15BC(ObjTsubo* this, PlayState* play) {
         if (this->actor.xzDistToPlayer < 100.0f) {
             temp_v0 = this->actor.yawTowardsPlayer - GET_PLAYER(play)->actor.world.rot.y;
             if (ABS(temp_v0) > 0x5555) {
-                func_8002F434(&this->actor, play, GI_NONE, 30.0f, 30.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_NONE, 30.0f, 30.0f);
             }
         }
     }

@@ -173,7 +173,7 @@ void func_809C54A8(EnBomBowlPit* this, PlayState* play) {
     }
     player->stateFlags1 &= ~PLAYER_STATE1_29;
     this->actor.parent = NULL;
-    func_8002F434(&this->actor, play, this->unk160, 2000.0f, 1000.0f);
+    Actor_OfferGetItem(&this->actor, play, this->unk160, 2000.0f, 1000.0f);
     player->stateFlags1 |= PLAYER_STATE1_29;
     this->unk14C = func_809C55B0;
 }
@@ -183,7 +183,7 @@ void func_809C55B0(EnBomBowlPit* this, PlayState* play) {
         this->unk14C = func_809C5608;
         return;
     }
-    func_8002F434(&this->actor, play, this->unk160, 2000.0f, 1000.0f);
+    Actor_OfferGetItem(&this->actor, play, this->unk160, 2000.0f, 1000.0f);
 }
 
 void func_809C5608(EnBomBowlPit* this, PlayState* play) {
