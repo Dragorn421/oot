@@ -267,7 +267,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play) {
         if (Message_ShouldAdvance(play)) {
             Message_CloseTextbox(play);
             SET_INFTABLE(INFTABLE_6C);
-            func_8002DF54(play, NULL, 8);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             this->actionFunc = func_80A56A50;
         }
     }
@@ -286,7 +286,7 @@ void func_80A56ACC(EnHeishi4* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_288 <= currentFrame) {
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actionFunc = func_80A5673C;
     }
 }

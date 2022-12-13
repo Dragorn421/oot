@@ -240,7 +240,7 @@ void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
         this->unk23C = 1;
         Message_StartTextbox(play, this->actor.textId, NULL);
         if (this->unk244 == 2) {
-            func_8002DF54(play, NULL, 8U);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         }
         this->actionFunc = func_809C4040;
     } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
@@ -281,7 +281,7 @@ void func_809C4040(EnBomBowlMan* this, PlayState* play) {
                         Message_ContinueTextbox(play, this->actor.textId);
                         this->unk22E = TEXT_STATE_EVENT;
                         OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
-                        func_8002DF54(play, NULL, 8U);
+                        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
                         this->actionFunc = func_809C4318;
                     }
                 } else {
@@ -315,11 +315,11 @@ void func_809C41FC(EnBomBowlMan* this, PlayState* play) {
             Message_ContinueTextbox(play, this->actor.textId);
             this->unk22E = TEXT_STATE_EVENT;
             OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
-            func_8002DF54(play, NULL, 8U);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             this->actionFunc = func_809C4318;
         } else {
             if (this->unk244 == 2) {
-                func_8002DF54(play, NULL, 7U);
+                func_8002DF54(play, NULL, PLAYER_CSMODE_7);
             }
             this->actionFunc = func_809C3D40;
         }
@@ -412,7 +412,7 @@ void func_809C4664(EnBomBowlMan* this, PlayState* play) {
             gRegEditor->data[0x962] = 0;
         }
         osSyncPrintf("\x1b[33m☆ わー ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
-        func_8002DF54(play, NULL, 7U);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actionFunc = func_809C3D40;
     }
 }

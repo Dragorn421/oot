@@ -441,7 +441,7 @@ void func_80A33B7C(EnGe2* this, PlayState* play) {
     this->unk2F4 |= 8;
     this->actor.speedXZ = 0.0f;
     func_80A32BD0(this, 4);
-    func_8002DF54(play, &this->actor, 0x5FU);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
     func_80078884(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
