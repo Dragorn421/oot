@@ -13,6 +13,8 @@
 
 typedef void (*EnIkDrawFunc)(struct EnIk*, PlayState*);
 
+#define IK_SCALE 0.012f
+
 #define ARMOR_BROKEN (1 << 0)
 
 typedef enum {
@@ -218,11 +220,13 @@ void EnIk_InitImpl(Actor* thisx, PlayState* play) {
     this->switchFlag = IK_GET_SWITCH_FLAG(thisx);
     thisx->params = IK_GET_ARMOR_TYPE(thisx);
 
+    this->tpCharge = 0.0f;
+
     if (thisx->params == IK_TYPE_NABOORU) {
         thisx->colChkInfo.health += 20;
         thisx->naviEnemyId = NAVI_ENEMY_IRON_KNUCKLE_NABOORU;
     } else {
-        Actor_SetScale(thisx, 0.012f);
+        Actor_SetScale(thisx, IK_SCALE);
         thisx->naviEnemyId = NAVI_ENEMY_IRON_KNUCKLE;
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_ENEMY);
     }
@@ -436,20 +440,62 @@ void EnIk_WalkOrRun(EnIk* this, PlayState* play) {
 
 void EnIk_SetupVerticalAttack(EnIk* this) {
     f32 endFrame = Animation_GetLastFrame(&gIronKnuckleVerticalAttackAnim);
+    f32 speed = 1.5f;
+
+    if (this->actor.params == IK_TYPE_TP) {
+        speed = 1.1f;
+    }
 
     this->unk_2FF = 1;
     this->unk_2F8 = 6;
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &gIronKnuckleVerticalAttackAnim, 1.5f, 0.0f, endFrame, ANIMMODE_ONCE, -4.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleVerticalAttackAnim, speed, 0.0f, endFrame, ANIMMODE_ONCE, -4.0f);
     EnIk_SetupAction(this, EnIk_VerticalAttack);
 }
 
 void EnIk_VerticalAttack(EnIk* this, PlayState* play) {
     Vec3f sparksPos;
 
-    if (this->skelAnime.curFrame == 15.0f) {
+    if (this->actor.params == IK_TYPE_TP) {
+        f32 f;
+
+        f = 1.0f - ABS(15.0f - this->skelAnime.curFrame) / 15.0f;
+        f = CLAMP(f, 0.0f, 1.0f);
+        f = f * f;
+        this->tpCharge = f;
+
+        if (f >= 0.5f && this->skelAnime.curFrame < 15.0f) {
+            f32 lerp = (f - 0.5f) / (1.0f - 0.5f);
+
+            this->actor.scale.x = this->actor.scale.z = LERP(IK_SCALE, 0.3f * IK_SCALE, lerp);
+            this->actor.scale.y = LERP(IK_SCALE, 2.0f * IK_SCALE, lerp);
+        }
+
+        osSyncPrintf("curFrame = %f\n", this->skelAnime.curFrame);
+
+        if (Animation_OnFrame(&this->skelAnime, 15.0f)) {
+            Vec3f tpOffset = { 0, 0, -60.0f };
+            Vec3f* playerPos = &GET_PLAYER(play)->actor.world.pos;
+
+            osSyncPrintf("Animation_OnFrame(&this->skelAnime, 15.0f)\n");
+
+            Matrix_Push();
+
+            Matrix_Translate(playerPos->x, playerPos->y, playerPos->z, MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_APPLY);
+
+            Matrix_MultVec3f(&tpOffset, &this->actor.world.pos);
+
+            Matrix_Pop();
+
+            Actor_SetScale(&this->actor, IK_SCALE);
+            this->skelAnime.playSpeed = 1.4f;
+        }
+    }
+
+    if (Animation_OnFrame(&this->skelAnime, 15.0f)) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
-    } else if (this->skelAnime.curFrame == 21.0f) {
+    } else if (Animation_OnFrame(&this->skelAnime, 21.0f)) {
         sparksPos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sparksPos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sparksPos.y = this->actor.world.pos.y;
@@ -1021,6 +1067,30 @@ void EnIk_DrawEnemy(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimEnvColors(play->state.gfxCtx, 55, 65, 55, 0, 0, 0));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimEnvColors(play->state.gfxCtx, 205, 165, 75, 25, 20, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimEnvColors(play->state.gfxCtx, 205, 165, 75, 25, 20, 0));
+    } else if (this->actor.params == IK_TYPE_TP) {
+        f32 f = this->tpCharge;
+        f32 cf = 1.0f - f;
+
+        gSPSegment(POLY_OPA_DISP++, 0x08,
+                   EnIk_SetPrimEnvColors(play->state.gfxCtx,
+                                         // prim
+                                         255, 255 * cf, 255 * cf,
+                                         // env
+                                         180, 180 * cf, 180 * cf));
+        gSPSegment(POLY_OPA_DISP++, 0x09,
+                   EnIk_SetPrimEnvColors(play->state.gfxCtx,
+                                         // prim
+                                         225, 205 * cf, 115 * cf,
+                                         // env
+                                         25 + 200 * f, 20 + 200 * f, 0 + 200 * f));
+        gSPSegment(POLY_OPA_DISP++, 0x0A,
+                   EnIk_SetPrimEnvColors(play->state.gfxCtx,
+                                         // prim
+                                         225, 205 * cf, 115 * cf,
+                                         // env
+                                         25 + 200 * f, 20 + 200 * f, 0 + 200 * f));
+
+        Math_ApproachZeroF(&this->tpCharge, 0.5f, 0.1f);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimEnvColors(play->state.gfxCtx, 255, 255, 255, 180, 180, 180));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimEnvColors(play->state.gfxCtx, 225, 205, 115, 25, 20, 0));
@@ -1519,7 +1589,7 @@ void EnIk_ChangeToEnemy(EnIk* this, PlayState* play) {
     this->actor.draw = EnIk_DrawEnemy;
     this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
     SET_EVENTCHKINF(EVENTCHKINF_3B);
-    Actor_SetScale(&this->actor, 0.012f);
+    Actor_SetScale(&this->actor, IK_SCALE);
     EnIk_SetupIdle(this);
 }
 

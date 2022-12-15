@@ -16,7 +16,8 @@ typedef enum {
     /* 0 */ IK_TYPE_NABOORU,
     /* 1 */ IK_TYPE_SILVER,
     /* 2 */ IK_TYPE_BLACK,
-    /* 3 */ IK_TYPE_WHITE
+    /* 3 */ IK_TYPE_WHITE,
+    IK_TYPE_TP
 } EnIkType;
 
 typedef enum {
@@ -116,6 +117,7 @@ typedef struct EnIk {
     /* 0x04D0 */ u32 npcAction;
     /* 0x04D4 */ s32 isAxeSummoned;
     /* 0x04D8 */ char unk_4D8[0x04];
+    f32 tpCharge;
 } EnIk; // size = 0x04DC
 
 #endif
