@@ -232,6 +232,13 @@ void TransitionTile_UpdateDynamic(TransitionTile* this) {
     f32 diffY;
     f32 scale;
 
+    Matrix_Push();
+    Matrix_Mult(&gMtxFClear, MTXMODE_NEW);
+
+    Matrix_Translate(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0, MTXMODE_APPLY);
+    Matrix_RotateZ(this->fac * M_PI, MTXMODE_APPLY);
+    Matrix_Translate(-SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, 0, MTXMODE_APPLY);
+
     for (col = 0; col < this->cols + 1; col++) {
         for (row = 0; row < this->rows + 1; row++) {
             if (0) {
@@ -247,19 +254,25 @@ void TransitionTile_UpdateDynamic(TransitionTile* this) {
                 }
             } else {
                 f32 x, y, tx, ty, fac;
+                Vec3f src, dest;
 
                 x = row * 32;
                 y = col * 32;
-                tx = SCREEN_WIDTH - row * 32;
-                ty = SCREEN_HEIGHT - col * 32;
 
-                fac = this->fac;
+                src.x = x;
+                src.y = y;
+                src.z = 0.0f;
+                Matrix_MultVec3f(&src, &dest);
+                tx = dest.x;
+                ty = dest.y;
 
-                VTXDATA(row, col)->x = LERP(x, tx, fac);
-                VTXDATA(row, col)->y = LERP(y, ty, fac);
+                VTXDATA(row, col)->x = tx;
+                VTXDATA(row, col)->y = ty;
             }
         }
     }
+
+    Matrix_Pop();
 }
 
 void TransitionTile_Update(TransitionTile* this) {
