@@ -61,7 +61,8 @@ void KaleidoScopeCall_Update(PlayState* play) {
             if (Letterbox_GetSize() == 0) {
                 R_HREG_MODE = HREG_MODE_UCODE_DISAS;
                 R_UCODE_DISAS_LOG_MODE = 3;
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
+                gTransitionTileState = TRANS_TILE_SETUP;
+                // R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
                 pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
                 pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
@@ -69,14 +70,15 @@ void KaleidoScopeCall_Update(PlayState* play) {
         } else if (pauseCtx->state == PAUSE_STATE_8) {
             R_HREG_MODE = HREG_MODE_UCODE_DISAS;
             R_UCODE_DISAS_LOG_MODE = 3;
-            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
+            gTransitionTileState = TRANS_TILE_SETUP;
+            // R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
             pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_9
         } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) || (pauseCtx->state == PAUSE_STATE_9)) {
             osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_BG_PRERENDER_STATE);
 
-            if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) {
+            if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE || gTransitionTileState >= TRANS_TILE_PROCESS) {
                 pauseCtx->state++; // PAUSE_STATE_INIT or PAUSE_STATE_10
             }
         } else if (pauseCtx->state != PAUSE_STATE_OFF) {
@@ -118,7 +120,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 void KaleidoScopeCall_Draw(PlayState* play) {
     KaleidoMgrOverlay* kaleidoScopeOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE];
 
-    if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) {
+    if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE || gTransitionTileState >= TRANS_TILE_PROCESS) {
         if (((play->pauseCtx.state >= PAUSE_STATE_OPENING_1) && (play->pauseCtx.state <= PAUSE_STATE_SAVE_PROMPT)
              /* PAUSE_STATE_OPENING_1, PAUSE_STATE_OPENING_2, PAUSE_STATE_MAIN, PAUSE_STATE_SAVE_PROMPT */) ||
             ((play->pauseCtx.state >= PAUSE_STATE_11) && (play->pauseCtx.state <= PAUSE_STATE_CLOSING)

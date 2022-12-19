@@ -3471,7 +3471,7 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepA;
     s32 pad;
 
-    if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) &&
+    if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE || gTransitionTileState >= TRANS_TILE_PROCESS) &&
         (((pauseCtx->state >= PAUSE_STATE_OPENING_1) && (pauseCtx->state <= PAUSE_STATE_SAVE_PROMPT)
           /* PAUSE_STATE_OPENING_1, PAUSE_STATE_OPENING_2, PAUSE_STATE_MAIN, PAUSE_STATE_SAVE_PROMPT */
           ) ||
@@ -4404,7 +4404,8 @@ void KaleidoScope_Update(PlayState* play) {
                     interfaceCtx->unk_244 = 255;
                     pauseCtx->state = PAUSE_STATE_OFF;
                     R_UPDATE_RATE = 3;
-                    R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
+                    Play_DestroyTransitionTile(play);
+                    // R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
                     func_800981B8(&play->objectCtx);
                     func_800418D0(&play->colCtx, play);
                     if (pauseCtx->promptChoice == 0) {
@@ -4462,7 +4463,8 @@ void KaleidoScope_Update(PlayState* play) {
         case PAUSE_STATE_UNPAUSE:
             pauseCtx->state = PAUSE_STATE_OFF;
             R_UPDATE_RATE = 3;
-            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
+            Play_DestroyTransitionTile(play);
+            // R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
 
             func_800981B8(&play->objectCtx);
             func_800418D0(&play->colCtx, play);

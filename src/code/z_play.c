@@ -443,6 +443,11 @@ void Play_Init(GameState* thisx) {
     }
 }
 
+void Play_DestroyTransitionTile(PlayState* this) {
+    TransitionTile_Destroy(&sTransitionTile);
+    gTransitionTileState = TRANS_TILE_OFF;
+}
+
 void Play_Update(PlayState* this) {
     s32 pad1;
     s32 isPaused;
@@ -498,7 +503,7 @@ void Play_Update(PlayState* this) {
                     } else {
                         sTransitionTile.zBuffer = (u16*)gZBuffer;
                         gTransitionTileState = TRANS_TILE_PROCESS;
-                        R_UPDATE_RATE = 1;
+                        //R_UPDATE_RATE = 1;
                     }
                     break;
 
@@ -838,7 +843,9 @@ void Play_Update(PlayState* this) {
 
         PLAY_LOG(3533);
 
-        if (1 && (gTransitionTileState != TRANS_TILE_PROCESS)) {
+        if (1
+            //&& (gTransitionTileState != TRANS_TILE_PROCESS)
+        ) {
             PLAY_LOG(3542);
 
             if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (this->msgCtx.msgMode == MSGMODE_NONE) &&
