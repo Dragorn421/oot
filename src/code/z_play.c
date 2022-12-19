@@ -443,6 +443,10 @@ void Play_Init(GameState* thisx) {
     }
 }
 
+void Play_SetTransitionTileFac(PlayState* this, f32 fac) {
+    sTransitionTile.fac = fac;
+}
+
 void Play_DestroyTransitionTile(PlayState* this) {
     TransitionTile_Destroy(&sTransitionTile);
     gTransitionTileState = TRANS_TILE_OFF;

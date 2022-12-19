@@ -28,6 +28,7 @@ typedef struct {
     /* 0x98 */ Mtx unk_98;
     /* 0xD8 */ Gfx* gfx; // "gfxtbl"
     /* 0xDC */ u16* zBuffer;
+    f32 fac;
 } TransitionTile; // size = 0xE0
 
 typedef struct {

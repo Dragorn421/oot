@@ -3292,6 +3292,8 @@ void KaleidoScope_GrayOutTextureRGBA32(u32* texture, u16 pixelCount) {
 void KaleidoScope_UpdateOpening(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
 
+    Play_SetTransitionTileFac(play, (f32)pauseCtx->switchPageTimer / (f32)(4 * 16 * ZREG(47)));
+
     pauseCtx->eye.x += sPageSwitchEyeDx[pauseCtx->nextPageMode] * ZREG(46);
     pauseCtx->eye.z += sPageSwitchEyeDz[pauseCtx->nextPageMode] * ZREG(46);
     pauseCtx->switchPageTimer += 4 * ZREG(46);
@@ -3888,6 +3890,9 @@ void KaleidoScope_Update(PlayState* play) {
             break;
 
         case PAUSE_STATE_MAIN:
+
+            Play_SetTransitionTileFac(play, 1.0f);
+
             switch (pauseCtx->mainState) {
                 case PAUSE_MAIN_STATE_IDLE:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
@@ -4441,6 +4446,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (pauseCtx->itemPageRoll != 160.0f) {
                 pauseCtx->itemPageRoll = pauseCtx->equipPageRoll = pauseCtx->mapPageRoll = pauseCtx->questPageRoll +=
                     160.0f / R_PAUSE_UI_ANIMS_DURATION;
+                Play_SetTransitionTileFac(play, 1.0f - pauseCtx->itemPageRoll / 160.0f);
                 pauseCtx->infoPanelOffsetY -= 40 / R_PAUSE_UI_ANIMS_DURATION;
                 interfaceCtx->startAlpha -= 255 / R_PAUSE_UI_ANIMS_DURATION;
                 R_PAUSE_CURSOR_LEFT_X -= R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;

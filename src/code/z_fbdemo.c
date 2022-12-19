@@ -210,7 +210,7 @@ void TransitionTile_SetVtx(TransitionTile* this) {
 void TransitionTile_Draw(TransitionTile* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
 
-    gSPDisplayList(gfx++, sTransTileSetupDL);
+    gSPDisplayList(gfx++, D_8012AFB0);
     TransitionTile_SetVtx(this);
     gSPMatrix(gfx++, &this->projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPMatrix(gfx++, &this->modelView, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -223,6 +223,8 @@ void TransitionTile_Draw(TransitionTile* this, Gfx** gfxP) {
     *gfxP = gfx;
 }
 
+#define VTXDATA(r, c) (this->vtxData + r + c * (this->rows + 1))
+
 void TransitionTile_UpdateDynamic(TransitionTile* this) {
     s32 col;
     s32 row;
@@ -232,15 +234,29 @@ void TransitionTile_UpdateDynamic(TransitionTile* this) {
 
     for (col = 0; col < this->cols + 1; col++) {
         for (row = 0; row < this->rows + 1; row++) {
-            diffX = (this->vtxData + row + col * (this->rows + 1))->x - (this->vtxData + 5 + 4 * (this->rows + 1))->x;
-            diffY = (this->vtxData + row + col * (this->rows + 1))->y - (this->vtxData + 5 + 4 * (this->rows + 1))->y;
-            scale = (SQ(diffX) + SQ(diffY)) / 100.0f;
-            if (scale != 0.0f) {
-                if (scale < 1.0f) {
-                    scale = 1.0f;
+            if (0) {
+                diffX = VTXDATA(row, col)->x - VTXDATA(5, 4)->x;
+                diffY = VTXDATA(row, col)->y - VTXDATA(5, 4)->y;
+                scale = (SQ(diffX) + SQ(diffY)) / 100.0f;
+                if (scale != 0.0f) {
+                    if (scale < 1.0f) {
+                        scale = 1.0f;
+                    }
+                    VTXDATA(row, col)->x -= diffX / scale;
+                    VTXDATA(row, col)->y -= diffY / scale;
                 }
-                (this->vtxData + row + col * (this->rows + 1))->x -= diffX / scale;
-                (this->vtxData + row + col * (this->rows + 1))->y -= diffY / scale;
+            } else {
+                f32 x, y, tx, ty, fac;
+
+                x = row * 32;
+                y = col * 32;
+                tx = SCREEN_WIDTH - row * 32;
+                ty = SCREEN_HEIGHT - col * 32;
+
+                fac = this->fac;
+
+                VTXDATA(row, col)->x = LERP(x, tx, fac);
+                VTXDATA(row, col)->y = LERP(y, ty, fac);
             }
         }
     }
