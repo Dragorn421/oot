@@ -104,7 +104,7 @@ void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, PlayState* play) {
 
 void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, PlayState* play) {
     if (this->timer-- == 0) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
         this->actionFunc = BgMizuShutter_Move;
     }
 }
@@ -128,7 +128,7 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play) {
             (this->dyna.actor.world.pos.y == this->closedPos.y) &&
             (this->dyna.actor.world.pos.z == this->closedPos.z)) {
             Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             this->actionFunc = BgMizuShutter_WaitForSwitch;
         }
     }
@@ -139,7 +139,7 @@ void BgMizuShutter_WaitForTimer(BgMizuShutter* this, PlayState* play) {
         this->timer--;
         func_8002F994(&this->dyna.actor, this->timer);
         if (this->timer == 0) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_CLOSE);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_CLOSE);
             Flags_UnsetSwitch(play, (u16)this->dyna.actor.params & 0x3F);
             this->actionFunc = BgMizuShutter_Move;
         }

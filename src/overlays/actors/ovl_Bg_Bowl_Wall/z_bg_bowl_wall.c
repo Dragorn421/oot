@@ -146,7 +146,7 @@ void func_8086F464(BgBowlWall* this, PlayState* play) {
             EffectSsBomb2_SpawnLayered(play, &sp88, &sp94, &spA0, 100, 30);
             sp88.y = -50.0f;
             EffectSsHahen_SpawnBurst(play, &sp88, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
         Quake_SetSpeed(quakeIndex, 0x7FFF);

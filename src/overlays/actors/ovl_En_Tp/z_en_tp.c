@@ -231,7 +231,7 @@ void func_80B21454(EnTp* this) {
             var_v0 = var_v0->child;
         }
         this->unk15A = 0xD;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TAIL_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
     this->unk14C = 1;
     func_80B20DE0(this, func_80B214CC);
@@ -505,7 +505,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
             } else {
                 if (var_s4 != 0) {
                     this->actor.freezeTimer = 80;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     if (var_s2 != 0) {
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
                                              80);
@@ -519,7 +519,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
                     var_s0->unk174.base.acFlags &= ~AC_HIT;
                     if (var_s4 != 0) {
                         var_s0->actor.freezeTimer = 80;
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         if (var_s2 != 0) {
                             Actor_SetColorFilter(&var_s0->actor, COLORFILTER_COLORFLAG_BLUE, 255,
                                                  COLORFILTER_BUFFLAG_OPA, 80);

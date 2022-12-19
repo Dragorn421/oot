@@ -196,7 +196,7 @@ void func_809BFD18(EnBili* this) {
     this->actor.gravity = -1.0f;
     this->actor.speedXZ = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk190 = func_809C0980;
 }
@@ -344,7 +344,7 @@ void func_809C04B4(EnBili* this, PlayState* play) {
     sp2C = SkelAnime_Update(&this->unk14C);
     sp28 = this->unk14C.curFrame;
     if (Animation_OnFrame(&this->unk14C, 9.0f)) {
-        Audio_PlayActorSfx2(&this->actor, 0x3899U);
+        Actor_PlaySfx(&this->actor, 0x3899U);
     }
     if (sp28 > 9.0f) {
         Math_ApproachF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.yDistToPlayer + 100.0f, 0.5f,
@@ -454,7 +454,7 @@ void func_809C0980(EnBili* this, PlayState* play) {
         this->unk196--;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
     }
     if (this->unk196 == 0) {
         func_809BF9BC(this);
@@ -482,7 +482,7 @@ void func_809C0A70(EnBili* this, PlayState* play) {
         Actor_SetDropFlag(&this->actor, &this->unk1D4.info, true);
         if ((((this->actor.colChkInfo.damageEffect != 0)) || (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIRI_DEAD);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             }
@@ -533,7 +533,7 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
             (((this->unk190 == func_809C0174)) || (this->unk190 == func_809C0600) || (this->unk190 == func_809C0570) ||
              (this->unk190 == func_809C067C))) {
             if (this->unk195 != 0) {
-                Audio_PlayActorSfx2(&this->actor, 0x3898U);
+                Actor_PlaySfx(&this->actor, 0x3898U);
                 this->unk195 = 0;
             } else {
                 this->unk195 = 1;

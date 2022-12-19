@@ -123,7 +123,7 @@ void func_808922B8(BgIceTurara* this, PlayState* play) {
         this->unk168 -= 1;
     }
     if (!(this->unk168 % 4)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_SWING);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ICE_SWING);
     }
     if (this->unk168 == 0) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;

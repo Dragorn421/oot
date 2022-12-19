@@ -360,7 +360,7 @@ void func_80A87D94(EnJj* this, PlayState* play) {
             break;
     }
     if (this->unk30A & 1) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
         if (this->unk308 >= -0x1450) {
             this->unk308 -= 0x66;
         }
@@ -388,7 +388,7 @@ void EnJj_Update(Actor* thisx, PlayState* play) {
     } else {
         this->unk2FC(this, play);
         if (this->unk164.curFrame == 41.0f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
     func_80A87B1C(this);

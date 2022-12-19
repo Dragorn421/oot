@@ -284,7 +284,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
         } else {
             OnePointCutscene_Init(play, 8604, -99, NULL, CAM_ID_MAIN);
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
         this->actor.draw = BgDyYoseizo_Draw;
         this->actionFunc = func_8087328C;
     }
@@ -300,7 +300,7 @@ void func_8087328C(BgDyYoseizo* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->unk32C,
                          ANIMMODE_ONCE, -10.0f);
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_VO_FR_LAUGH_0);
+    Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
     func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
     this->actionFunc = func_80873380;
 }
@@ -383,7 +383,7 @@ void func_80873780(BgDyYoseizo* this, PlayState* play) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairyAnim_005810);
         Animation_Change(&this->skelAnime, &gGreatFairyAnim_005810, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_VO_FR_SMILE_0);
+    Actor_PlaySfx(&this->actor, NA_SE_VO_FR_SMILE_0);
     this->unk2F6 = 1;
     this->actionFunc = func_80873868;
 }
@@ -488,8 +488,8 @@ void func_80873C14(BgDyYoseizo* this, PlayState* play) {
     this->unk2E8 = 5;
     this->unk318 = 0.0f;
     this->unk314 = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_VO_FR_LAUGH_0);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_GREAT_FAIRY_VANISH);
+    Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_GREAT_FAIRY_VANISH);
     this->actionFunc = func_80873D14;
 }
 
@@ -545,7 +545,7 @@ void func_80873EA4(BgDyYoseizo* this, PlayState* play) {
             Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->unk32C,
                              ANIMMODE_ONCE, -10.0f);
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
         this->actionFunc = func_80873FD8;
     }
 }
@@ -784,10 +784,10 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
             }
         }
         if (var_v1 == 1) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_FR_SMILE_0);
+            Actor_PlaySfx(&this->actor, NA_SE_VO_FR_SMILE_0);
         }
         if (var_v1 == 2) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_FR_LAUGH_0);
+            Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
         }
     }
     if ((this->unk2F8 == 0) && (this->actionFunc != func_80873868)) {
@@ -885,7 +885,7 @@ void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, PlayState* play) {
                 effect->unk10.y += effect->unk1C.y;
                 effect->unk10.z += effect->unk1C.z;
             } else {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_HEALING - SFX_FLAG);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_HEALING - SFX_FLAG);
                 sp94 = player->actor.world.pos;
                 sp94.y = player->actor.world.pos.y - 150.0f;
                 sp94.z = player->actor.world.pos.z - 50.0f;

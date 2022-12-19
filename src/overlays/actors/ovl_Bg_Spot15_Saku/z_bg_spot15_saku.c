@@ -66,10 +66,10 @@ void func_808B4930(BgSpot15Saku* this, PlayState* play) {
 void func_808B4978(BgSpot15Saku* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
     if (!this->unk_17C) {
-        Audio_PlayActorSfx2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        Actor_PlaySfx(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->world.pos.z -= 2.0f;
         if (thisx->world.pos.z < 2660.0f) {
-            Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+            Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_17C = 0x1E;
             this->actionFunc = func_808B4A04;
         }

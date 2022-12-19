@@ -138,7 +138,7 @@ void func_80B22F28(EnTr* this, PlayState* play) {
                     Actor_SetScale(&this->actor, 0.01f);
                     EnTr_SetupAction(this, func_80B234D4);
                     this->unk2D6 = 0x18;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DEAD2);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DEAD2);
                     break;
 
                 case 6:
@@ -150,7 +150,7 @@ void func_80B22F28(EnTr* this, PlayState* play) {
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_6K, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                        this->actor.params + 9);
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_MASIC1);
                     break;
 
                 default:
@@ -245,7 +245,7 @@ void func_80B234D4(EnTr* this, PlayState* play) {
         this->actor.draw = NULL;
     }
     if (this->unk2D6 == 4) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLE_DOWN);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLE_DOWN);
     }
     if (this->unk2D6 > 0) {
         this->unk2D6--;
@@ -281,7 +281,7 @@ void func_80B23820(EnTr* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         temp_v0 = play->csCtx.npcActions[this->unk2D8];
         if ((temp_v0 != NULL) && (((temp_v0->action == 3)) || (temp_v0->action == 5))) {
-            Audio_PlayActorSfx2(&this->actor, 0x390DU);
+            Actor_PlaySfx(&this->actor, 0x390DU);
             this->unk2D6 = 0x22;
             func_80B242B4(this, play, this->unk2D8);
             EnTr_SetupAction(this, func_80B23690);
@@ -374,9 +374,9 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
             if ((this->unk2E4 == &gKotakeKoumeLookingOverLeftShoulderAnim) ||
                 (this->unk2E4 == &gKotakeKoumeLookingOverRightShoulderAnim)) {
                 if (this->actor.params != 0) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
                 } else {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
                 }
                 Animation_PlayLoop(&this->unk14C, this->unk2E4);
             } else if (this->unk2E4 == &gKotakeKoumeFlyAnim) {

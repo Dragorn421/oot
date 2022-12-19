@@ -120,7 +120,7 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play) {
         Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
         Quake_SetDuration(quakeIndex, 12);
 
-        Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+        Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
         func_8002F974(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }

@@ -151,7 +151,7 @@ void func_80A133A0_Setup(EnFirefly* this) {
     this->unk1BA_timer = 0x28;
     this->actor.velocity.y = 0.0f;
     Animation_Change(&this->skelAnime, &gKeeseFlyAnim, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= ACTOR_FLAG_4;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 40);
     this->actionFunc = func_80A13C98_Action;
@@ -198,7 +198,7 @@ void func_80A13538_Setup(EnFirefly* this) {
     this->unk1B8 = 0;
     this->actor.velocity.y = 0.0f;
     this->skelAnime.playSpeed = 3.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_80A141F0_Action;
 }
 
@@ -210,7 +210,7 @@ void func_80A135A8_Setup(EnFirefly* this, PlayState* play) {
     this->unk1B8 = 0;
     this->actor.speedXZ = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 255);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_DEAD);
     for (var_s0 = 0; var_s0 < 8; var_s0++) {
         sp78.x = this->actor.world.pos.x + ((var_s0 & 1) ? 7.0f : -7.0f);
         sp78.y = this->actor.world.pos.y + ((var_s0 & 2) ? 7.0f : -7.0f);
@@ -591,7 +591,7 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_ATTACK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_ATTACK);
         if (this->unk1B9 != 0) {
             func_80A13070_Unignite_(this);
         }
@@ -623,7 +623,7 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if (Animation_OnFrame(&this->skelAnime, 5.0f) != 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_FLY);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_FLY);
         }
     }
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

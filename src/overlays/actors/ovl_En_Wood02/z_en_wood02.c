@@ -294,7 +294,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
     if (thisx->params < EN_WOOD_02_TYPE_11) {
         if (this->unk158.base.acFlags & AC_HIT) {
             this->unk158.base.acFlags &= ~AC_HIT;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
         if (this->actor.home.rot.y != 0) {
             sp58 = this->actor.world.pos;
@@ -313,7 +313,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
                 if ((this->actor.params == EN_WOOD_02_TYPE_6) || (this->actor.params == EN_WOOD_02_TYPE_7)) {
                     var_v1_sp44_or_sp50 = EN_WOOD_02_TYPE_24;
                 }
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TREE_SWING);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);
                 for (var_s0 = 3; var_s0 >= 0; var_s0--) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_WOOD02, sp58.x, sp58.y, sp58.z, 0,
                                 (s16)(s32)Rand_CenteredFloat(65535.0f), 0, var_v1_sp44_or_sp50);
@@ -338,7 +338,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
                 Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, (this->unk14C * 0x10) | 0x8000);
             }
             this->unk14C = -21;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TREE_SWING);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);
         }
     } else {
         this->unk14C += 1;
