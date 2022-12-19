@@ -233,11 +233,6 @@ void TransitionTile_UpdateDynamic(TransitionTile* this) {
     f32 scale;
 
     Matrix_Push();
-    Matrix_Mult(&gMtxFClear, MTXMODE_NEW);
-
-    Matrix_Translate(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0, MTXMODE_APPLY);
-    Matrix_RotateZ(this->fac * M_PI, MTXMODE_APPLY);
-    Matrix_Translate(-SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, 0, MTXMODE_APPLY);
 
     for (col = 0; col < this->cols + 1; col++) {
         for (row = 0; row < this->rows + 1; row++) {
@@ -255,6 +250,9 @@ void TransitionTile_UpdateDynamic(TransitionTile* this) {
             } else {
                 f32 x, y, tx, ty, fac;
                 Vec3f src, dest;
+                f32 angle;
+
+                fac = this->fac;
 
                 x = row * 32;
                 y = col * 32;
@@ -262,6 +260,24 @@ void TransitionTile_UpdateDynamic(TransitionTile* this) {
                 src.x = x;
                 src.y = y;
                 src.z = 0.0f;
+
+                {
+                    Vec3f zero = { 0, 0, 0 };
+                    Vec3f center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0 };
+                    f32 dist;
+                    f32 distWeight = fac;
+
+                    dist = Math_Vec3f_DistXYZ(&center, &src) / Math_Vec3f_DistXYZ(&center, &zero);
+
+                    angle = fac * LERP(1.0f, 1 - Math_PowF(1 - dist, 2), distWeight) * M_PI;
+                }
+
+                Matrix_Mult(&gMtxFClear, MTXMODE_NEW);
+
+                Matrix_Translate(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0, MTXMODE_APPLY);
+                Matrix_RotateZ(angle, MTXMODE_APPLY);
+                Matrix_Translate(-SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, 0, MTXMODE_APPLY);
+
                 Matrix_MultVec3f(&src, &dest);
                 tx = dest.x;
                 ty = dest.y;
