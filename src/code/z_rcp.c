@@ -1471,7 +1471,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
 
     if ((R_PAUSE_BG_PRERENDER_STATE <= PAUSE_BG_PRERENDER_DRAW)
         /* PAUSE_BG_PRERENDER_OFF, PAUSE_BG_PRERENDER_DRAW */
-        && (gTrnsnUnkState < 2)) {
+        && (gTransitionTileState <= TRANS_TILE_SETUP)) {
         s32 letterboxSize = Letterbox_GetSize();
 
         if (R_HREG_MODE == HREG_MODE_SETUP_FRAME) {
