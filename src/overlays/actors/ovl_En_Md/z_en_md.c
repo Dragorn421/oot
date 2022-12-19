@@ -447,7 +447,7 @@ u16 func_80AAAE94(PlayState* play, Actor* thisx) {
     }
 }
 
-s16 func_80AAAF04(PlayState* play, Actor* thisx) {
+s16 EnMd_UpdateTalkState(PlayState* play, Actor* thisx) {
     switch (func_80AAAC78(thisx, play)) {
         case TEXT_STATE_NONE:
         case TEXT_STATE_DONE_HAS_NEXT:
@@ -490,7 +490,8 @@ s16 func_80AAAF04(PlayState* play, Actor* thisx) {
 }
 
 s32 func_80AAB03C(EnMd* this, PlayState* play) {
-    if ((play->sceneId == SCENE_KOKIRI_FOREST) && !GET_EVENTCHKINF(EVENTCHKINF_1C) && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if ((play->sceneId == SCENE_KOKIRI_FOREST) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
+        !GET_EVENTCHKINF(EVENTCHKINF_40)) {
         return 1;
     } else if ((play->sceneId == SCENE_MIDOS_HOUSE) &&
                ((gSaveContext.eventChkInf[1] & 0x1000) || (gSaveContext.eventChkInf[4] & 1)) && !LINK_IS_ADULT) {
@@ -560,7 +561,7 @@ void func_80AAB158(EnMd* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     if ((this->unk190 != func_80AABC10) && (var_v1_real != 0)) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unk194.dim.radius + 30.0f,
-                          func_80AAAE94, func_80AAAF04);
+                          func_80AAAE94, EnMd_UpdateTalkState);
     }
 }
 
@@ -792,19 +793,19 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
 
 s32 func_80AABEF0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnMd* this = (EnMd*)thisx;
-    Vec3s sp2C;
+    Vec3s limbRot;
 
     if (limbIndex == ENMD_LIMB_HEAD) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, 1U);
-        sp2C = this->interactInfo.headRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, 1U);
     }
     if (limbIndex == ENMD_LIMB_TORSO) {
-        sp2C = this->interactInfo.torsoRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
-        Matrix_RotateY(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
     }
     if ((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM) ||
         (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
