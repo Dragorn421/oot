@@ -1213,7 +1213,7 @@ void TransitionTile_Destroy(TransitionTile* this);
 TransitionTile* TransitionTile_Init(TransitionTile* this, s32 rows, s32 cols);
 void TransitionTile_Draw(TransitionTile* this, Gfx** gfxP);
 void TransitionTile_UpdateDynamic(TransitionTile* this);
-void TransitionTile_UpdateStatic(TransitionTile* this);
+void TransitionTile_Update(TransitionTile* this);
 void TransitionTriforce_Start(void* thisx);
 void* TransitionTriforce_Init(void* thisx);
 void TransitionTriforce_Destroy(void* thisx);

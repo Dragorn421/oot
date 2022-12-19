@@ -246,7 +246,8 @@ void TransitionTile_UpdateDynamic(TransitionTile* this) {
     }
 }
 
-void TransitionTile_UpdateStatic(TransitionTile* this) {
+void TransitionTile_Update(TransitionTile* this) {
+    TransitionTile_UpdateDynamic(this);
 }
 
 s32 func_800B23F0(TransitionTile* this) {

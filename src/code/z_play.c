@@ -508,7 +508,7 @@ void Play_Update(PlayState* this) {
                     break;
 
                 case TRANS_TILE_PROCESS:
-                    TransitionTile_UpdateStatic(&sTransitionTile);
+                    TransitionTile_Update(&sTransitionTile);
                     break;
 
                 default:
