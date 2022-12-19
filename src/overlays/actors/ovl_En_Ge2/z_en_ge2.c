@@ -480,7 +480,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, PlayState* play) {
     this->stateFlags |= GE2_STATE_CAPTURING;
     this->actor.speedXZ = 0.0f;
     EnGe2_ChangeAction(this, GE2_ACTION_CAPTURETURN);
-    func_8002DF54(play, &this->actor, 95);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
     func_80078884(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
@@ -567,7 +567,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
     } else {
         this->actionFunc(this, play);
 
@@ -613,7 +613,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 
