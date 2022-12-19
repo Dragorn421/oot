@@ -497,7 +497,7 @@ void Play_Update(PlayState* this) {
         if (gTransitionTileState != TRANS_TILE_OFF) {
             switch (gTransitionTileState) {
                 case TRANS_TILE_INIT:
-                    if (TransitionTile_Init(&sTransitionTile, 10, 7) == NULL) {
+                    if (TransitionTile_Init(&sTransitionTile, 10, 8) == NULL) {
                         osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
                         gTransitionTileState = TRANS_TILE_OFF;
                     } else {
