@@ -729,7 +729,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
             if (sp2C->stateFlags2 & PLAYER_STATE2_24) {
                 sp2C->stateFlags2 |= PLAYER_STATE2_25;
                 sp2C->unk_6A8 = &this->actor;
-                func_8010BD58(play, OCARINA_ACTION_CHECK_SARIA);
+                Message_StartOcarina(play, OCARINA_ACTION_CHECK_SARIA);
                 this->unk190 = func_80AABC10;
             } else if (this->actor.xzDistToPlayer < (30.0f + (f32)this->unk194.dim.radius)) {
                 sp2C->stateFlags2 |= PLAYER_STATE2_23;

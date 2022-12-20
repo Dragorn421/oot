@@ -166,7 +166,7 @@ s32 func_80BA040C(ObjTimeblock* this, PlayState* play) {
     temp_v1 = GET_PLAYER(play);
     if (func_80BA032C(this, play) != 0) {
         if (temp_v1->stateFlags2 & PLAYER_STATE2_24) {
-            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
+            Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->unk168 = func_80BA0480;
         } else {
             temp_v1->stateFlags2 |= PLAYER_STATE2_23;
