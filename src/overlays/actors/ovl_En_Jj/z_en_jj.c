@@ -320,7 +320,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
         return;
     }
     func_80A87800(this, func_80A87EF0);
-    play->csCtx.segment = D_80A88164;
+    play->csCtx.script = D_80A88164;
     gSaveContext.cutsceneTrigger = 1;
     DynaPoly_DisableCollision(play, &play->colCtx.dyna, temp_v1->dyna.bgId);
     func_8005B1A4(play->cameraPtrs[play->activeCamId]);
@@ -329,7 +329,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
 }
 
 void func_80A87D94(EnJj* this, PlayState* play) {
-    switch (play->csCtx.npcActions[2]->action) {
+    switch (play->csCtx.actorCues[2]->id) {
         case 1:
             if (this->unk30A & 2) {
                 this->unk30E = 0;
@@ -383,7 +383,7 @@ void func_80A87F44(Actor* thisx, PlayState* play) {
 void EnJj_Update(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[2] != NULL)) {
         func_80A87D94(this, play);
     } else {
         this->unk2FC(this, play);

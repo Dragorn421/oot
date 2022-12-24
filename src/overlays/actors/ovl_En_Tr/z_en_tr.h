@@ -46,7 +46,7 @@ typedef struct EnTr {
     /* 0x232 */ Vec3s unk232[KOTAKE_KOUME_LIMB_MAX];
     /* 0x2D4 */ s16 unk2D4;
     /* 0x2D6 */ u16 unk2D6;
-    /* 0x2D8 */ s16 unk2D8;
+    /* 0x2D8 */ s16 cueChannel;
     /* 0x2DA */ char pad2DA[2];
     /* 0x2DC */ EnTrActionFunc actionFunc;
     /* 0x2E0 */ s16 unk2E0;

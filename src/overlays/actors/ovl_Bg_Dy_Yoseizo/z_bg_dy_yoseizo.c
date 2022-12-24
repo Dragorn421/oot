@@ -243,34 +243,34 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
             if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 switch (this->unk2EC) {
                     case 0:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 1:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 2:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
             } else {
                 switch (this->unk2EC) {
                     case 0:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 1:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
                     case 2:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenseCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenseCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
@@ -531,8 +531,8 @@ void func_80873E04(BgDyYoseizo* this, PlayState* play) {
 }
 
 void func_80873EA4(BgDyYoseizo* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL) &&
-        (play->csCtx.npcActions[0]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL) &&
+        (play->csCtx.actorCues[0]->id == 2)) {
         this->actor.draw = BgDyYoseizo_Draw;
         func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
         this->unk2FE = 0;
@@ -586,8 +586,8 @@ void func_80873FD8(BgDyYoseizo* this, PlayState* play) {
             }
             this->unk2FC = 1;
         }
-        if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL) &&
-            (play->csCtx.npcActions[0]->action == 3)) {
+        if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL) &&
+            (play->csCtx.actorCues[0]->id == 3)) {
             this->unk2FE = this->unk2FC = 0;
             if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 this->unk32C = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
@@ -633,12 +633,12 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
         }
         this->unk2FC = 1;
     }
-    if (play->csCtx.npcActions[0]->action == 0xD) {
+    if (play->csCtx.actorCues[0]->id == 0xD) {
         this->actionFunc = func_80873C14;
         return;
     }
-    if ((play->csCtx.npcActions[0]->action >= 4) && (play->csCtx.npcActions[0]->action < 7)) {
-        var_v1 = play->csCtx.npcActions[0]->action - 4;
+    if ((play->csCtx.actorCues[0]->id >= 4) && (play->csCtx.actorCues[0]->id < 7)) {
+        var_v1 = play->csCtx.actorCues[0]->id - 4;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             var_v1 += 1;
             func_80872960(this, play, var_v1);
@@ -653,8 +653,8 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
         func_80872960(this, play, 0);
     }
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        if ((play->csCtx.npcActions[0]->action >= 0xA) && (play->csCtx.npcActions[0]->action < 0xD)) {
-            var_v1 = play->csCtx.npcActions[0]->action - 0xA;
+        if ((play->csCtx.actorCues[0]->id >= 0xA) && (play->csCtx.actorCues[0]->id < 0xD)) {
+            var_v1 = play->csCtx.actorCues[0]->id - 0xA;
             switch (var_v1) {
                 case 0:
                     gSaveContext.isMagicAcquired = 1;
@@ -687,8 +687,8 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
         }
     }
     if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        if ((play->csCtx.npcActions[0]->action >= 0xE) && (play->csCtx.npcActions[0]->action < 0x11)) {
-            var_v1 = play->csCtx.npcActions[0]->action - 0xE;
+        if ((play->csCtx.actorCues[0]->id >= 0xE) && (play->csCtx.actorCues[0]->id < 0x11)) {
+            var_v1 = play->csCtx.actorCues[0]->id - 0xE;
             if (this->unk300 == 0) {
                 var_fv1.x = player->actor.world.pos.x;
                 if (LINK_IS_ADULT) {
@@ -724,13 +724,13 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
             }
         }
     }
-    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.npcActions[0]->action == 0x11)) {
+    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id == 0x11)) {
         if (this->unk344 != NULL) {
             Actor_Kill(&this->unk344->actor);
             this->unk344 = NULL;
         }
     }
-    if ((play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.npcActions[0]->action == 0x12)) {
+    if ((play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id == 0x12)) {
         this->unk2E5 = 1;
     }
     if (this->unk2E5 != 0) {
@@ -738,9 +738,9 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
             gSaveContext.inventory.defenseHearts += 1;
         }
     }
-    if ((play->csCtx.npcActions[0]->action >= 0x13) && (play->csCtx.npcActions[0]->action < 0x16) &&
+    if ((play->csCtx.actorCues[0]->id >= 0x13) && (play->csCtx.actorCues[0]->id < 0x16) &&
         (this->unk304 == 0)) {
-        var_v1 = play->csCtx.npcActions[0]->action - 0xB;
+        var_v1 = play->csCtx.actorCues[0]->id - 0xB;
         Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x, player->actor.world.pos.y,
                     player->actor.world.pos.z, 0, 0, 0, var_v1);
         this->unk304 = 1;
@@ -767,19 +767,19 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         var_v1 = 0;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-            if ((play->csCtx.frames == 32) || (play->csCtx.frames == 291) || (play->csCtx.frames == 426) ||
-                (play->csCtx.frames == 851)) {
+            if ((play->csCtx.curFrame == 32) || (play->csCtx.curFrame == 291) || (play->csCtx.curFrame == 426) ||
+                (play->csCtx.curFrame == 851)) {
                 var_v1 = 1;
             }
-            if (play->csCtx.frames == 101) {
+            if (play->csCtx.curFrame == 101) {
                 var_v1 = 2;
             }
         } else {
-            if ((play->csCtx.frames == 35) || (play->csCtx.frames == 181) || (play->csCtx.frames == 462) ||
-                (play->csCtx.frames == 795)) {
+            if ((play->csCtx.curFrame == 35) || (play->csCtx.curFrame == 181) || (play->csCtx.curFrame == 462) ||
+                (play->csCtx.curFrame == 795)) {
                 var_v1 = 1;
             }
-            if (play->csCtx.frames == 90) {
+            if (play->csCtx.curFrame == 90) {
                 var_v1 = 2;
             }
         }

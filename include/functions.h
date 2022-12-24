@@ -765,14 +765,14 @@ DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, 
                                         f32 scaleY, f32 scaleZ, u8 red, u8 green, u8 blue, u8 alpha, s16 type,
                                         GraphicsContext* gfxCtx);
 void DebugDisplay_DrawObjects(PlayState* play);
-void func_8006450C(PlayState* play, CutsceneContext* csCtx);
-void func_80064520(PlayState* play, CutsceneContext* csCtx);
-void func_80064534(PlayState* play, CutsceneContext* csCtx);
-void func_80064558(PlayState* play, CutsceneContext* csCtx);
-void func_800645A0(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_InitContext(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_StartManual(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_StopManual(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_UpdateManual(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx);
 void Cutscene_HandleEntranceTriggers(PlayState* play);
 void Cutscene_HandleConditionalTriggers(PlayState* play);
-void Cutscene_SetSegment(PlayState* play, void* segment);
+void Cutscene_SetScript(PlayState* play, void* script);
 void* MemCopy(void* dest, void* src, s32 size);
 void GetItem_Draw(PlayState* play, s16 drawId);
 void SfxSource_InitAll(PlayState* play);
@@ -781,10 +781,10 @@ void SfxSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 dura
 u16 QuestHint_GetSariaTextId(PlayState* play);
 u16 QuestHint_GetNaviTextId(PlayState* play);
 u16 Text_GetFaceReaction(PlayState* play, u32 reactionSet);
-void Flags_UnsetAllEnv(PlayState* play);
-void Flags_SetEnv(PlayState* play, s16 flag);
-void Flags_UnsetEnv(PlayState* play, s16 flag);
-s32 Flags_GetEnv(PlayState* play, s16 flag);
+void CutsceneFlags_UnsetAll(PlayState* play);
+void CutsceneFlags_Set(PlayState* play, s16 flag);
+void CutsceneFlags_Unset(PlayState* play, s16 flag);
+s32 CutsceneFlags_Get(PlayState* play, s16 flag);
 f32 func_8006C5A8(f32 target, TransformData* transData, s32 refIdx);
 void SkelCurve_Clear(SkelAnimeCurve* skelCurve);
 s32 SkelCurve_Init(PlayState* play, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
@@ -1669,7 +1669,7 @@ OcarinaStaff* AudioOcarina_GetPlayingStaff(void);
 OcarinaStaff* AudioOcarina_GetPlaybackStaff(void);
 void AudioOcarina_MemoryGameInit(u8 minigameRound);
 s32 AudioOcarina_MemoryGameNextNote(void);
-void AudioOcarina_PlayLongScarecrowAfterCredits(void);
+void AudioOcarina_PlayLongScarecrowSong(void);
 void AudioDebug_Draw(GfxPrint* printer);
 void AudioDebug_ScrPrt(const char* str, u16 num);
 void func_800F3054(void);

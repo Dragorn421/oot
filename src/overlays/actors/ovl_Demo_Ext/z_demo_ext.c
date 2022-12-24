@@ -1,5 +1,6 @@
 #include "z_demo_ext.h"
 #include "assets/objects/object_fhg/object_fhg.h"
+#include "z64cutscene.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -61,9 +62,9 @@ void func_80977450(DemoExt* this) {
     }
 }
 
-CsCmdActorAction* func_809774D8(PlayState* play, s32 arg1) {
+CsCmdActorCue* func_809774D8(PlayState* play, s32 arg1) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[arg1];
+        return play->csCtx.actorCues[arg1];
     }
     return NULL;
 }
@@ -74,7 +75,7 @@ void func_809774FC(DemoExt* this) {
 }
 
 void func_80977508(DemoExt* this, PlayState* play) {
-    CsCmdActorAction* temp_v0;
+    CsCmdActorCue* temp_v0;
     s16 temp_v1;
 
     temp_v0 = func_809774D8(play, 5);
@@ -103,14 +104,14 @@ void func_809775A4(DemoExt* this) {
 }
 
 void func_80977610(DemoExt* this, PlayState* play) {
-    CsCmdActorAction* temp_v0;
+    CsCmdActorCue* temp_v0;
     s32 temp_a2;
     s32 v;
 
     temp_v0 = func_809774D8(play, 5);
     if (temp_v0 != NULL) {
-        temp_a2 = temp_v0->action;
-        v = this->unk154;
+        temp_a2 = temp_v0->id;
+        v = this->cueId;
         if (temp_a2 != v) {
             switch (temp_a2) {
                 case 1:
@@ -129,7 +130,7 @@ void func_80977610(DemoExt* this, PlayState* play) {
                     osSyncPrintf("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
-            this->unk154 = temp_a2;
+            this->cueId = temp_a2;
         }
     }
 }

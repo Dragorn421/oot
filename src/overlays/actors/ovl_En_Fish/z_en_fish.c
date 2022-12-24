@@ -582,13 +582,13 @@ void func_80A169C8(EnFish* this, PlayState* play) {
 void func_80A16A64(EnFish* this, PlayState* play) {
     f32 temp_fv0;
     s32 pad;
-    CsCmdActorAction* sp4C;
+    CsCmdActorCue* sp4C;
     Vec3f sp40;
     Vec3f sp34;
     s32 pad2;
     s32 sp2C;
 
-    sp4C = play->csCtx.npcActions[1];
+    sp4C = play->csCtx.actorCues[1];
     if (sp4C == NULL) {
         if (1) {}
         osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
@@ -599,7 +599,7 @@ void func_80A16A64(EnFish* this, PlayState* play) {
     }
     this->unk24C += 0x111;
     this->unk24E += 0x500;
-    switch (sp4C->action) {
+    switch (sp4C->id) {
         case 1:
             func_80A16898(this, play);
             break;
@@ -624,7 +624,7 @@ void func_80A16A64(EnFish* this, PlayState* play) {
     sp34.x = sp4C->endPos.x;
     sp34.y = sp4C->endPos.y;
     sp34.z = sp4C->endPos.z;
-    temp_fv0 = Environment_LerpWeight(sp4C->endFrame, sp4C->startFrame, play->csCtx.frames);
+    temp_fv0 = Environment_LerpWeight(sp4C->endFrame, sp4C->startFrame, play->csCtx.curFrame);
     this->actor.world.pos.x = ((sp34.x - sp40.x) * temp_fv0) + sp40.x;
     this->actor.world.pos.y = ((sp34.y - sp40.y) * temp_fv0) + sp40.y + D_80A17014;
     this->actor.world.pos.z = ((sp34.z - sp40.z) * temp_fv0) + sp40.z;
@@ -690,7 +690,7 @@ void EnFish_Update(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
     if ((D_80A17010 == NULL) && (this->actor.params == 0) && (play->csCtx.state != CS_STATE_IDLE) &&
-        (play->csCtx.npcActions[1] != NULL)) {
+        (play->csCtx.actorCues[1] != NULL)) {
         func_80A153AC(this);
     }
     if ((D_80A17010 != NULL) && (D_80A17010 == this)) {
