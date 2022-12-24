@@ -188,7 +188,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     this->unk2BB = 1;
     this->unk2BC = 1;
     this->unk2BD = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
     this->unk2C0 = sEnDnsPurchaseInfos[this->actor.params];

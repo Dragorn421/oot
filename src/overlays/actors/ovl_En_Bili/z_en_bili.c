@@ -109,7 +109,7 @@ void EnBili_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_809BF9BC(EnBili* this) {
-    this->actor.speedXZ = 0.7f;
+    this->actor.speed = 0.7f;
     this->unk1D4.info.bumper.effect = 1;
     this->unk196 = 0x20;
     this->unk1D4.base.atFlags |= AT_ON;
@@ -125,7 +125,7 @@ void func_809BFA14(EnBili* this) {
     this->unk196 = 0x19;
     this->actor.velocity.y = 6.0f;
     this->actor.gravity = -0.3f;
-    this->actor.speedXZ = 3.0f;
+    this->actor.speed = 3.0f;
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk190 = func_809C0260;
 }
@@ -134,7 +134,7 @@ void func_809BFA8C(EnBili* this) {
     Animation_PlayLoop(&this->unk14C, &object_bl_Anim_000024);
     this->unk196 = 0xA;
     this->unk190 = func_809C02B8;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = -1.0f;
 }
 
@@ -142,19 +142,19 @@ void func_809BFAE8(EnBili* this) {
     Animation_PlayOnce(&this->unk14C, &object_bl_Anim_000064);
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk190 = func_809C04B4;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
 }
 
 void func_809BFB40(EnBili* this) {
-    this->actor.speedXZ = 1.2f;
+    this->actor.speed = 1.2f;
     this->unk190 = func_809C0570;
 }
 
 void func_809BFB5C(EnBili* this) {
     Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
     this->unk196 = 0x60;
-    this->actor.speedXZ = 0.9f;
+    this->actor.speed = 0.9f;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->unk1D4.base.atFlags |= 1;
     this->unk190 = func_809C0600;
@@ -167,7 +167,7 @@ void func_809BFBC4(EnBili* this) {
     this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->unk1D4.base.ac->prevPos) + 0x8000;
     this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->unk1D4.base.ac->prevPos);
     this->unk190 = func_809C067C;
-    this->actor.speedXZ = 5.0f;
+    this->actor.speed = 5.0f;
 }
 
 void func_809BFC48(EnBili* this) {
@@ -178,7 +178,7 @@ void func_809BFC48(EnBili* this) {
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk1D4.base.acFlags &= ~AC_ON;
     this->actor.flags |= ACTOR_FLAG_4;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 20);
     this->unk190 = func_809C06E0;
 }
@@ -187,14 +187,14 @@ void func_809BFCE8(EnBili* this) {
     this->unk196 = 0x12;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk190 = func_809C0754;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void func_809BFD18(EnBili* this) {
     this->unk196 = 0x50;
     this->unk1D4.info.bumper.effect = 0;
     this->actor.gravity = -1.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->unk1D4.base.atFlags &= ~AT_ON;
@@ -217,7 +217,7 @@ void func_809BFD94(EnBili* this, PlayState* play) {
         EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &sp80, 150, 150, 150, 250, 235, 245, 255,
                                        (Rand_ZeroOne() * 0.2f) + 0.7f);
     }
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 10);
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk1D4.base.acFlags &= ~AC_ON;
@@ -384,7 +384,7 @@ void func_809C0600(EnBili* this, PlayState* play) {
 
 void func_809C067C(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if (Math_StepToF(&this->actor.speedXZ, 0.0f, 0.3f) != 0) {
+    if (Math_StepToF(&this->actor.speed, 0.0f, 0.3f) != 0) {
         this->actor.world.rot.y += 0x8000;
         func_809BF9BC(this);
     }

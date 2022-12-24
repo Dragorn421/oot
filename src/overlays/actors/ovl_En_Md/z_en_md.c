@@ -720,7 +720,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
         this->unk212 = 1;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->unk190 = func_80AABD0C;
-        this->actor.speedXZ = 1.5f;
+        this->actor.speed = 1.5f;
     } else {
         if (this->unk14C.animation == &gMidoHandsOnHipsIdleAnim) {
             func_80034F54(play, this->unk214, this->unk236, ENMD_LIMB_MAX);
@@ -770,7 +770,7 @@ void func_80AABD0C(EnMd* this, PlayState* play) {
     } else {
         func_80AAA92C(this, 0xB);
         this->unk14C.playSpeed = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.home.pos = this->actor.world.pos;
         this->unk190 = func_80AAB8F8;
     }

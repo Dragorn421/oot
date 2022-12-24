@@ -297,8 +297,8 @@ void func_80A9BAD8(EnKusa* this, PlayState* play) {
     if (Actor_HasNoParent(&this->actor, play)) {
         this->actor.room = play->roomCtx.curRoom.num;
         EnKusa_SetupFall(this);
-        this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-        this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+        this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+        this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
         this->actor.colChkInfo.mass = 240;
         this->actor.gravity = -0.1f;
         EnKusa_UpdateVelY(this);

@@ -385,7 +385,7 @@ void func_80B3455C(EnWf* this) {
     Animation_MorphToLoop(&this->unk188, &D_600A4AC, -4.0f);
     this->unk2D4 = 6;
     this->unk2E8 = (Rand_ZeroOne() * 10.0f) + 2.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     func_80B33CB0(this, func_80B345E4);
 }
@@ -476,13 +476,13 @@ void func_80B3487C(EnWf* this, PlayState* play) {
             sp50_real = 150.0f;
         }
         if (this->actor.xzDistToPlayer <= (50.0f + sp50_real)) {
-            Math_SmoothStepToF(&this->actor.speedXZ, -8.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, -8.0f, 1.0f, 1.5f, 0.0f);
         } else if (this->actor.xzDistToPlayer > (65.0f + sp50_real)) {
-            Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 8.0f, 1.0f, 1.5f, 0.0f);
         } else {
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 6.65f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 6.65f, 0.0f);
         }
-        this->unk188.playSpeed = this->actor.speedXZ * 0.175f;
+        this->unk188.playSpeed = this->actor.speed * 0.175f;
         var_v0_real = sp48_real->actor.shape.rot.y - this->actor.shape.rot.y;
         if (var_v0_real < 0) {
             var_v0_real *= -1;
@@ -586,8 +586,8 @@ void func_80B34F28(EnWf* this) {
     } else {
         this->unk2FE = -0x3E80;
     }
-    this->actor.speedXZ = 6.0f;
-    this->unk188.playSpeed = this->actor.speedXZ * 0.175f;
+    this->actor.speed = 6.0f;
+    this->unk188.playSpeed = this->actor.speed * 0.175f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->unk2E8 = (Rand_ZeroOne() * 30.0f) + 30.0f;
     this->unk2D4 = 0xB;
@@ -612,7 +612,7 @@ void func_80B35024(EnWf* this, PlayState* play) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         sp56_real = player->actor.shape.rot.y + this->unk2FE + 0x8000;
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y)) {
+            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y)) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 var_v0_2_real = (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->unk2FE;
             } else {
@@ -636,8 +636,8 @@ void func_80B35024(EnWf* this, PlayState* play) {
             this->actor.world.pos.x += Math_SinS(this->actor.shape.rot.y) * this->unk2EC;
             this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->unk2EC;
         }
-        if (ABS(this->unk2EC) < ABS(this->actor.speedXZ)) {
-            this->unk188.playSpeed = this->actor.speedXZ * 0.175f;
+        if (ABS(this->unk2EC) < ABS(this->actor.speed)) {
+            this->unk188.playSpeed = this->actor.speed * 0.175f;
         } else {
             this->unk188.playSpeed = this->unk2EC * 0.175f;
         }
@@ -678,7 +678,7 @@ void func_80B35540(EnWf* this) {
     this->unk2FA = 0;
     this->unk2E8 = 7;
     this->unk188.endFrame = 20.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     func_80B33CB0(this, func_80B355BC);
 }
 
@@ -693,7 +693,7 @@ void func_80B355BC(EnWf* this, PlayState* play) {
     var_a2_sp3C = (s32)this->unk188.curFrame;
     sp42 = ABS(sp42);
     sp40 = ABS(sp40);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     if (((var_a2_sp3C >= 9) && (var_a2_sp3C <= 12)) || ((var_a2_sp3C >= 17) && (var_a2_sp3C <= 19))) {
         if (this->unk2F8 == 0) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_WOLFOS_ATTACK);
@@ -800,7 +800,7 @@ void func_80B35B94(EnWf* this) {
     this->unk2E8 = 0;
     this->unk300 = 1;
     this->unk2D4 = 5;
-    this->actor.speedXZ = -6.0f;
+    this->actor.speed = -6.0f;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     func_80B33CB0(this, func_80B35C10);
@@ -824,7 +824,7 @@ void func_80B35C10(EnWf* this, PlayState* play) {
 
 void func_80B35D18(EnWf* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     Animation_PlayOnceSetSpeed(&this->unk188, &D_6009B20, 0.0f);
@@ -834,11 +834,11 @@ void func_80B35D18(EnWf* this) {
 
 void func_80B35D90(EnWf* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (this->actor.speedXZ < 0.0f) {
-            this->actor.speedXZ += 0.05f;
+        if (this->actor.speed < 0.0f) {
+            this->actor.speed += 0.05f;
         }
         this->unk300 = 0;
     }
@@ -855,7 +855,7 @@ void func_80B35E4C(EnWf* this) {
     Animation_MorphToPlayOnce(&this->unk188, &D_6009B20, -4.0f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->unk300 = 0;
-        this->actor.speedXZ = -4.0f;
+        this->actor.speed = -4.0f;
     } else {
         this->unk300 = 1;
     }
@@ -870,11 +870,11 @@ void func_80B35EE4(EnWf* this, PlayState* play) {
     s16 var_v1;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (this->actor.speedXZ < 0.0f) {
-            this->actor.speedXZ += 0.05f;
+        if (this->actor.speed < 0.0f) {
+            this->actor.speed += 0.05f;
         }
         this->unk300 = 0;
     }
@@ -908,7 +908,7 @@ void func_80B360E8(EnWf* this) {
     this->unk2E8 = 0;
     this->unk300 = 0;
     this->unk2D4 = 4;
-    this->actor.speedXZ = 6.5f;
+    this->actor.speed = 6.5f;
     this->actor.velocity.y = 15.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -926,7 +926,7 @@ void func_80B361A0(EnWf* this, PlayState* play) {
         this->actor.shape.rot.x = 0;
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.velocity.y = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
         if (!Actor_OtherIsTargeted(play, &this->actor)) {
             func_80B35540(this);
@@ -943,7 +943,7 @@ void func_80B36288(EnWf* this) {
     if (this->unk2F8 != 0) {
         this->unk2F8 = -1;
     }
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->unk2D4 = 7;
     this->unk2E8 = 0xA;
     Animation_Change(&this->unk188, &D_6004CA4, 0.0f, 0.0f, temp_fv1, ANIMMODE_ONCE_INTERP, -4.0f);
@@ -1016,8 +1016,8 @@ void func_80B365A8(EnWf* this, PlayState* play) {
     } else {
         this->unk2FE = -0x3E80;
     }
-    this->actor.speedXZ = 6.0f;
-    this->unk188.playSpeed = this->actor.speedXZ * 0.175f;
+    this->actor.speed = 6.0f;
+    this->unk188.playSpeed = this->actor.speed * 0.175f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->unk2EC = 0.0f;
     this->unk2E8 = (Rand_ZeroOne() * 10.0f) + 5.0f;
@@ -1041,7 +1041,7 @@ void func_80B36740(EnWf* this, PlayState* play) {
     sp58_real = 0.0f;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->unk2FE, 1, 0xBB8, 1);
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y)) {
+        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             var_v0_probreal = (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->unk2FE;
         } else {
@@ -1066,8 +1066,8 @@ void func_80B36740(EnWf* this, PlayState* play) {
         this->actor.world.pos.x += Math_SinS(this->actor.shape.rot.y) * this->unk2EC;
         this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->unk2EC;
     }
-    if (ABS(this->unk2EC) < ABS(this->actor.speedXZ)) {
-        this->unk188.playSpeed = this->actor.speedXZ * 0.175f;
+    if (ABS(this->unk2EC) < ABS(this->actor.speed)) {
+        this->unk188.playSpeed = this->actor.speed * 0.175f;
     } else {
         this->unk188.playSpeed = this->unk2EC * 0.175f;
     }
@@ -1114,7 +1114,7 @@ void func_80B36C8C(EnWf* this) {
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->unk300 = 0;
-        this->actor.speedXZ = -6.0f;
+        this->actor.speed = -6.0f;
     } else {
         this->unk300 = 1;
     }
@@ -1131,10 +1131,10 @@ void func_80B36D3C(EnWf* this, PlayState* play) {
     Vec3f sp7C;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
         this->unk300 = 0;
     }
     if (SkelAnime_Update(&this->unk188)) {
@@ -1364,7 +1364,7 @@ s32 func_80B37830(PlayState* play, EnWf* this) {
             this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
             if ((ABS(temp_a2_sp22) < 0x2000) || (ABS(temp_a2_sp22) >= 0x6000)) {
                 func_80B365A8(this, play);
-                this->actor.speedXZ *= 2.0f;
+                this->actor.speed *= 2.0f;
             } else if (ABS(temp_a2_sp22) < 0x5FFF) {
                 func_80B35B94(this);
             }

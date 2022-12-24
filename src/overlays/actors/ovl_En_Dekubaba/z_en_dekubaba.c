@@ -312,7 +312,7 @@ void func_809E6170(EnDekubaba* this) {
     this->actor.gravity = -0.8f;
     this->actor.velocity.y = 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
-    this->actor.speedXZ = this->unk230 * 3.0f;
+    this->actor.speed = this->unk230 * 3.0f;
     this->unk238.base.acFlags &= ~AC_ON;
     this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->unk1C0 = func_809E7BB0;
@@ -787,7 +787,7 @@ void func_809E7BB0(EnDekubaba* this, PlayState* play) {
     f32 temp_fs1;
     f32 temp_fs2;
 
-    Math_StepToF(&this->actor.speedXZ, 0.0f, this->unk230 * 0.1f);
+    Math_StepToF(&this->actor.speed, 0.0f, this->unk230 * 0.1f);
     if (this->unk1C6 == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
         Math_ScaledStepToS(&this->unk1CA_arr[0], 0x4800, 0x71C);
@@ -797,7 +797,7 @@ void func_809E7BB0(EnDekubaba* this, PlayState* play) {
         if ((this->actor.scale.x > 0.005f) && ((((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) != 0)) ||
                                                (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
                                      this->unk230 * 5.0f, 15, -1, 10, NULL);

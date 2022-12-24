@@ -165,7 +165,7 @@ void func_80B210B0(EnTp* this, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_0;
         }
         if (this->unk1D4->unk150 != 0) {
-            this->actor.speedXZ = this->unk160 = this->actor.velocity.y = this->unk168 = 0.0f;
+            this->actor.speed = this->unk160 = this->actor.velocity.y = this->unk168 = 0.0f;
             if (this->actor.world.pos.y < this->unk1D4->actor.home.pos.y) {
                 this->actor.flags &= ~ACTOR_FLAG_0;
             }
@@ -209,7 +209,7 @@ void func_80B212C0(EnTp* this, PlayState* play) {
     }
     this->actor.world.pos.y += Math_CosF(this->unk168) * (2.0f + this->unk170);
     this->unk168 += 0.2f;
-    Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
     this->unk15A -= 1;
     if (this->unk15A != 0) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
@@ -308,9 +308,9 @@ void func_80B219A8(EnTp* this, PlayState* play) {
     Player* player;
 
     player = GET_PLAYER(play);
-    Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->unk16C, 1.0f,
-                       this->actor.speedXZ * 0.25f, 0.0f);
+                       this->actor.speed * 0.25f, 0.0f);
     Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     if (this->unk174.base.atFlags & AT_HIT) {
@@ -325,7 +325,7 @@ void func_80B219A8(EnTp* this, PlayState* play) {
     if (Math_CosF(this->unk168) == 0.0f) {
         this->unk170 = Rand_ZeroOne() * 4.0f;
     }
-    this->actor.world.pos.y += Math_CosF(this->unk168) * ((this->actor.speedXZ * 0.25f) + this->unk170);
+    this->actor.world.pos.y += Math_CosF(this->unk168) * ((this->actor.speed * 0.25f) + this->unk170);
     this->actor.world.rot.y += this->unk164;
     this->unk168 += 0.2f;
     if (this->unk15A != 0) {
@@ -345,7 +345,7 @@ void func_80B21B90(EnTp* this) {
     this->actor.shape.rot.x = -0x4000;
     this->unk15A = 0x3C;
     this->unk15C = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     func_80B20DE0(this, func_80B21BDC);
 }
 
@@ -429,13 +429,13 @@ void func_80B21F18(EnTp* this, PlayState* play) {
             if (this->actor.shape.rot.x != -0x4000) {
                 this->unk15A = 0x50;
                 this->actor.velocity.y = 0.0f;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 this->actor.world.pos = this->actor.home.pos;
                 this->actor.shape.rot.x = -0x4000;
                 var_v0 = (EnTp*)this->actor.child;
                 while (var_v0 != NULL) {
                     var_v0->actor.velocity.y = 0.0f;
-                    var_v0->actor.speedXZ = 0.0f;
+                    var_v0->actor.speed = 0.0f;
                     var_v0->actor.world.pos = this->actor.home.pos;
                     var_v0->actor.world.pos.y = this->actor.home.pos.y - 80.0f;
                     var_v0 = (EnTp*)var_v0->actor.child;
@@ -450,7 +450,7 @@ void func_80B21F18(EnTp* this, PlayState* play) {
         if (this->unk160 != 0) {
             this->unk160 -= 0xF;
         }
-        this->actor.speedXZ = 2.0f * Math_CosS(this->actor.shape.rot.x);
+        this->actor.speed = 2.0f * Math_CosS(this->actor.shape.rot.x);
         this->actor.velocity.y = Math_SinS(this->actor.shape.rot.x) * -2.0f;
         if ((this->actor.world.pos.y - this->actor.floorHeight) < 20.0f) {
             sp44 = 1;
@@ -576,7 +576,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 15.0f, 10.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
-        if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+        if ((this->actor.speed != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             v = this->actor.wallYaw - this->actor.world.rot.y;
             if (ABS(v) > 0x4000) {
                 if (v >= 0) {

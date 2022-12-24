@@ -405,7 +405,7 @@ void EnGeldB_SetupReady(EnGeldB* this) {
     Animation_MorphToLoop(&this->skelAnime, &gGerudoRedNeutralAnim, -4.0f);
     this->action = GELDB_READY;
     this->timer = Rand_ZeroOne() * 10.0f + 5.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnGeldB_SetupAction(this, EnGeldB_Ready);
 }
@@ -487,13 +487,13 @@ void EnGeldB_Advance(EnGeldB* this, PlayState* play) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if (this->actor.xzDistToPlayer <= 40.0f) {
-            Math_SmoothStepToF(&this->actor.speedXZ, -8.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, -8.0f, 1.0f, 1.5f, 0.0f);
         } else if (this->actor.xzDistToPlayer > 55.0f) {
-            Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 8.0f, 1.0f, 1.5f, 0.0f);
         } else {
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 6.65f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 6.65f, 0.0f);
         }
-        this->skelAnime.playSpeed = this->actor.speedXZ / 8.0f;
+        this->skelAnime.playSpeed = this->actor.speed / 8.0f;
         facingAngletoLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
         facingAngletoLink = ABS(facingAngletoLink);
         if ((this->actor.xzDistToPlayer < 150.0f) && (player->meleeWeaponState != 0) && (facingAngletoLink >= 0x1F40)) {
@@ -559,7 +559,7 @@ void EnGeldB_SetupRollForward(EnGeldB* this) {
     this->invisible = true;
     this->action = GELDB_ROLL_FORWARD;
     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-    this->actor.speedXZ = 10.0f;
+    this->actor.speed = 10.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     EnGeldB_SetupAction(this, EnGeldB_RollForward);
 }
@@ -570,7 +570,7 @@ void EnGeldB_RollForward(EnGeldB* this, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         this->invisible = false;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         if (!Actor_IsFacingPlayer(&this->actor, 0x1554)) {
             EnGeldB_SetupReady(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
@@ -630,9 +630,9 @@ void EnGeldB_SetupCircle(EnGeldB* this) {
     f32 lastFrame = Animation_GetLastFrame(&gGerudoRedSidestepAnim);
 
     Animation_Change(&this->skelAnime, &gGerudoRedSidestepAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, 0.0f);
-    this->actor.speedXZ = Rand_CenteredFloat(12.0f);
+    this->actor.speed = Rand_CenteredFloat(12.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->skelAnime.playSpeed = -this->actor.speedXZ * 0.5f;
+    this->skelAnime.playSpeed = -this->actor.speed * 0.5f;
     this->timer = Rand_ZeroOne() * 30.0f + 30.0f;
     this->action = GELDB_CIRCLE;
     this->approachRate = 0.0f;
@@ -653,35 +653,35 @@ void EnGeldB_Circle(EnGeldB* this, PlayState* play) {
         this->actor.world.rot.y = this->actor.shape.rot.y + 0x3A98;
         angleBehindLink = player->actor.shape.rot.y + 0x8000;
         if (Math_SinS(angleBehindLink - this->actor.shape.rot.y) >= 0.0f) {
-            this->actor.speedXZ -= 0.25f;
-            if (this->actor.speedXZ < -8.0f) {
-                this->actor.speedXZ = -8.0f;
+            this->actor.speed -= 0.25f;
+            if (this->actor.speed < -8.0f) {
+                this->actor.speed = -8.0f;
             }
         } else if (Math_SinS(angleBehindLink - this->actor.shape.rot.y) < 0.0f) {
-            this->actor.speedXZ += 0.25f;
-            if (this->actor.speedXZ > 8.0f) {
-                this->actor.speedXZ = 8.0f;
+            this->actor.speed += 0.25f;
+            if (this->actor.speed > 8.0f) {
+                this->actor.speed = 8.0f;
             }
         }
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
+            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3E80)) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-                if (this->actor.speedXZ >= 0.0f) {
+                if (this->actor.speed >= 0.0f) {
                     phi_v1 = this->actor.shape.rot.y + 0x3E80;
                 } else {
                     phi_v1 = this->actor.shape.rot.y - 0x3E80;
                 }
                 phi_v1 = this->actor.wallYaw - phi_v1;
             } else {
-                this->actor.speedXZ *= -0.8f;
+                this->actor.speed *= -0.8f;
                 phi_v1 = 0;
             }
             if (ABS(phi_v1) > 0x4000) {
-                this->actor.speedXZ *= -0.8f;
-                if (this->actor.speedXZ < 0.0f) {
-                    this->actor.speedXZ -= 0.5f;
+                this->actor.speed *= -0.8f;
+                if (this->actor.speed < 0.0f) {
+                    this->actor.speed -= 0.5f;
                 } else {
-                    this->actor.speedXZ += 0.5f;
+                    this->actor.speed += 0.5f;
                 }
             }
         }
@@ -696,8 +696,8 @@ void EnGeldB_Circle(EnGeldB* this, PlayState* play) {
             this->actor.world.pos.x += Math_SinS(this->actor.shape.rot.y) * this->approachRate;
             this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->approachRate;
         }
-        if (ABS(this->approachRate) < ABS(this->actor.speedXZ)) {
-            this->skelAnime.playSpeed = -this->actor.speedXZ * 0.5f;
+        if (ABS(this->approachRate) < ABS(this->actor.speed)) {
+            this->skelAnime.playSpeed = -this->actor.speed * 0.5f;
         } else {
             this->skelAnime.playSpeed = -this->approachRate * 0.5f;
         }
@@ -737,15 +737,15 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gGerudoRedSidestepAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, 0.0f);
     sp3E = player->actor.shape.rot.y;
     if (Math_SinS(sp3E - this->actor.shape.rot.y) > 0.0f) {
-        this->actor.speedXZ = -10.0f;
+        this->actor.speed = -10.0f;
     } else if (Math_SinS(sp3E - this->actor.shape.rot.y) < 0.0f) {
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
     } else if (Rand_ZeroOne() > 0.5f) {
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
     } else {
-        this->actor.speedXZ = -10.0f;
+        this->actor.speed = -10.0f;
     }
-    this->skelAnime.playSpeed = -this->actor.speedXZ * 0.5f;
+    this->skelAnime.playSpeed = -this->actor.speed * 0.5f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->timer = 6;
     this->approachRate = 0.0f;
@@ -764,16 +764,16 @@ void EnGeldB_SpinDodge(EnGeldB* this, PlayState* play) {
 
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x3A98;
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
+        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3E80)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-            if (this->actor.speedXZ >= 0.0f) {
+            if (this->actor.speed >= 0.0f) {
                 phi_v1 = this->actor.shape.rot.y + 0x3E80;
             } else {
                 phi_v1 = this->actor.shape.rot.y - 0x3E80;
             }
             phi_v1 = this->actor.wallYaw - phi_v1;
         } else {
-            this->actor.speedXZ *= -0.8f;
+            this->actor.speed *= -0.8f;
             phi_v1 = 0;
         }
         if (ABS(phi_v1) > 0x4000) {
@@ -792,8 +792,8 @@ void EnGeldB_SpinDodge(EnGeldB* this, PlayState* play) {
         this->actor.world.pos.x += Math_SinS(this->actor.yawTowardsPlayer) * this->approachRate;
         this->actor.world.pos.z += Math_CosS(this->actor.yawTowardsPlayer) * this->approachRate;
     }
-    if (ABS(this->approachRate) < ABS(this->actor.speedXZ)) {
-        this->skelAnime.playSpeed = -this->actor.speedXZ * 0.5f;
+    if (ABS(this->approachRate) < ABS(this->actor.speed)) {
+        this->skelAnime.playSpeed = -this->actor.speed * 0.5f;
     } else {
         this->skelAnime.playSpeed = -this->approachRate * 0.5f;
     }
@@ -823,7 +823,7 @@ void EnGeldB_SpinDodge(EnGeldB* this, PlayState* play) {
             }
         }
     } else {
-        if (this->actor.speedXZ >= 0.0f) {
+        if (this->actor.speed >= 0.0f) {
             this->actor.shape.rot.y += 0x4000;
         } else {
             this->actor.shape.rot.y -= 0x4000;
@@ -836,7 +836,7 @@ void EnGeldB_SetupSlash(EnGeldB* this) {
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->action = GELDB_SLASH;
     this->spinAttackState = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
     EnGeldB_SetupAction(this, EnGeldB_Slash);
 }
@@ -849,7 +849,7 @@ void EnGeldB_Slash(EnGeldB* this, PlayState* play) {
     angleFacingLink = ABS(angleFacingLink);
     angleToLink = ABS(angleToLink);
 
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     if ((s32)this->skelAnime.curFrame == 1) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_GERUDOFT_ATTACK);
         this->swordState = 1;
@@ -895,7 +895,7 @@ void EnGeldB_SetupSpinAttack(EnGeldB* this) {
     this->swordCollider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
     this->action = GELDB_SPIN_ATTACK;
     this->spinAttackState = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnGeldB_SetupAction(this, EnGeldB_SpinAttack);
 }
 
@@ -917,7 +917,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, PlayState* play) {
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_24);
                 Message_StartTextbox(play, 0x6003, &this->actor);
                 this->timer = 30;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_YOUNG_LAUGH);
                 return;
             }
@@ -929,10 +929,10 @@ void EnGeldB_SpinAttack(EnGeldB* this, PlayState* play) {
         Actor_SpawnFloorDustRing(play, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
         Actor_SpawnFloorDustRing(play, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
         this->swordState = 1;
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         Actor_PlaySfx(&this->actor, NA_SE_EN_GERUDOFT_ATTACK);
     } else if ((s32)this->skelAnime.curFrame == 21) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     } else if ((s32)this->skelAnime.curFrame == 24) {
         this->swordState = -1;
     }
@@ -975,7 +975,7 @@ void EnGeldB_SetupRollBack(EnGeldB* this) {
     this->timer = 0;
     this->invisible = true;
     this->action = GELDB_ROLL_BACK;
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     EnGeldB_SetupAction(this, EnGeldB_RollBack);
@@ -999,7 +999,7 @@ void EnGeldB_RollBack(EnGeldB* this, PlayState* play) {
 
 void EnGeldB_SetupStunned(EnGeldB* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     if ((this->damageEffect != GELDB_DMG_FREEZE) || (this->action == GELDB_SPIN_ATTACK)) {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &gGerudoRedDamageAnim, 0.0f);
@@ -1014,11 +1014,11 @@ void EnGeldB_SetupStunned(EnGeldB* this) {
 
 void EnGeldB_Stunned(EnGeldB* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (this->actor.speedXZ < 0.0f) {
-            this->actor.speedXZ += 0.05f;
+        if (this->actor.speed < 0.0f) {
+            this->actor.speed += 0.05f;
         }
         this->invisible = false;
     }
@@ -1035,7 +1035,7 @@ void EnGeldB_SetupDamaged(EnGeldB* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gGerudoRedDamageAnim, -4.0f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->invisible = false;
-        this->actor.speedXZ = -4.0f;
+        this->actor.speed = -4.0f;
     } else {
         this->invisible = true;
     }
@@ -1050,11 +1050,11 @@ void EnGeldB_Damaged(EnGeldB* this, PlayState* play) {
     s16 angleToWall;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (this->actor.speedXZ < 0.0f) {
-            this->actor.speedXZ += 0.05f;
+        if (this->actor.speed < 0.0f) {
+            this->actor.speed += 0.05f;
         }
         this->invisible = false;
     }
@@ -1083,7 +1083,7 @@ void EnGeldB_SetupJump(EnGeldB* this) {
     this->timer = 0;
     this->invisible = false;
     this->action = GELDB_JUMP;
-    this->actor.speedXZ = 6.5f;
+    this->actor.speed = 6.5f;
     this->actor.velocity.y = 15.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -1100,7 +1100,7 @@ void EnGeldB_Jump(EnGeldB* this, PlayState* play) {
         (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.x = 0;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
         if (!Actor_OtherIsTargeted(play, &this->actor)) {
@@ -1117,7 +1117,7 @@ void EnGeldB_SetupBlock(EnGeldB* this) {
     if (this->swordState != 0) {
         this->swordState = -1;
     }
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->action = GELDB_BLOCK;
     this->timer = (s32)Rand_CenteredFloat(10.0f) + 10;
     Animation_Change(&this->skelAnime, &gGerudoRedBlockAnim, 0.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
@@ -1187,13 +1187,13 @@ void EnGeldB_SetupSidestep(EnGeldB* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     playerRotY = player->actor.shape.rot.y;
     if (Math_SinS(playerRotY - this->actor.shape.rot.y) > 0.0f) {
-        this->actor.speedXZ = -6.0f;
+        this->actor.speed = -6.0f;
     } else if (Math_SinS(playerRotY - this->actor.shape.rot.y) < 0.0f) {
-        this->actor.speedXZ = 6.0f;
+        this->actor.speed = 6.0f;
     } else {
-        this->actor.speedXZ = Rand_CenteredFloat(12.0f);
+        this->actor.speed = Rand_CenteredFloat(12.0f);
     }
-    this->skelAnime.playSpeed = -this->actor.speedXZ * 0.5f;
+    this->skelAnime.playSpeed = -this->actor.speed * 0.5f;
     this->approachRate = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = Rand_ZeroOne() * 10.0f + 5.0f;
@@ -1212,34 +1212,34 @@ void EnGeldB_Sidestep(EnGeldB* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 1);
     behindLinkAngle = player->actor.shape.rot.y + 0x8000;
     if (Math_SinS(behindLinkAngle - this->actor.shape.rot.y) > 0.0f) {
-        this->actor.speedXZ += 0.125f;
+        this->actor.speed += 0.125f;
     } else if (Math_SinS(behindLinkAngle - this->actor.shape.rot.y) <= 0.0f) {
-        this->actor.speedXZ -= 0.125f;
+        this->actor.speed -= 0.125f;
     }
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
+        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3E80)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-            if (this->actor.speedXZ >= 0.0f) {
+            if (this->actor.speed >= 0.0f) {
                 phi_v1 = this->actor.shape.rot.y + 0x3E80;
             } else {
                 phi_v1 = this->actor.shape.rot.y - 0x3E80;
             }
             phi_v1 = this->actor.wallYaw - phi_v1;
         } else {
-            this->actor.speedXZ *= -0.8f;
+            this->actor.speed *= -0.8f;
             phi_v1 = 0;
         }
         if (ABS(phi_v1) > 0x4000) {
-            this->actor.speedXZ *= -0.8f;
-            if (this->actor.speedXZ < 0.0f) {
-                this->actor.speedXZ -= 0.5f;
+            this->actor.speed *= -0.8f;
+            if (this->actor.speed < 0.0f) {
+                this->actor.speed -= 0.5f;
             } else {
-                this->actor.speedXZ += 0.5f;
+                this->actor.speed += 0.5f;
             }
         }
     }
-    if (this->actor.speedXZ >= 0.0f) {
+    if (this->actor.speed >= 0.0f) {
         this->actor.world.rot.y = this->actor.shape.rot.y + 0x3E80;
     } else {
         this->actor.world.rot.y = this->actor.shape.rot.y - 0x3E80;
@@ -1255,8 +1255,8 @@ void EnGeldB_Sidestep(EnGeldB* this, PlayState* play) {
         this->actor.world.pos.x += Math_SinS(this->actor.shape.rot.y) * this->approachRate;
         this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->approachRate;
     }
-    if (ABS(this->approachRate) < ABS(this->actor.speedXZ)) {
-        this->skelAnime.playSpeed = -this->actor.speedXZ * 0.5f;
+    if (ABS(this->approachRate) < ABS(this->actor.speed)) {
+        this->skelAnime.playSpeed = -this->actor.speed * 0.5f;
     } else {
         this->skelAnime.playSpeed = -this->approachRate * 0.5f;
     }
@@ -1312,7 +1312,7 @@ void EnGeldB_SetupDefeated(EnGeldB* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->invisible = false;
-        this->actor.speedXZ = -6.0f;
+        this->actor.speed = -6.0f;
     } else {
         this->invisible = true;
     }
@@ -1324,10 +1324,10 @@ void EnGeldB_SetupDefeated(EnGeldB* this) {
 
 void EnGeldB_Defeated(EnGeldB* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
         this->invisible = false;
     }
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1379,7 +1379,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
                         key = Item_DropCollectible(play, &this->actor.world.pos, this->keyFlag | ITEM00_SMALL_KEY);
                         if (key != NULL) {
                             key->actor.world.rot.y = Math_Vec3f_Yaw(&key->actor.world.pos, &this->actor.home.pos);
-                            key->actor.speedXZ = 6.0f;
+                            key->actor.speed = 6.0f;
                             Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
@@ -1632,7 +1632,7 @@ s32 EnGeldB_DodgeRanged(PlayState* play, EnGeldB* this) {
             this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
             if ((ABS(angleToFacing) < 0x2000) || (ABS(angleToFacing) > 0x5FFF)) {
                 EnGeldB_SetupSidestep(this, play);
-                this->actor.speedXZ *= 3.0f;
+                this->actor.speed *= 3.0f;
             } else if (ABS(angleToFacing) < 0x5FFF) {
                 EnGeldB_SetupRollBack(this);
             }

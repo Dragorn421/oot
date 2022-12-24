@@ -213,8 +213,8 @@ void func_80A157A4(EnFish* this) {
 
 void func_80A157FC(EnFish* this, PlayState* play) {
     func_80A155D0(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.05f, 0.3f, 0.0f);
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.4f) + 0.8f, 2.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.05f, 0.3f, 0.0f);
+    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.4f) + 0.8f, 2.0f);
     SkelAnime_Update(&this->unk1AC);
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->unk248 <= 0) {
@@ -239,7 +239,7 @@ void func_80A15944(EnFish* this, PlayState* play) {
     s32 pad;
 
     func_80A155D0(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.08f, 0.4f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 1.8f, 0.08f, 0.4f, 0.0f);
     if ((func_80A15280(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) || (this->unk248 < 4)) {
         Math_StepToAngleS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
                           0xBB8);
@@ -250,7 +250,7 @@ void func_80A15944(EnFish* this, PlayState* play) {
         }
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 0.8f, 4.0f);
+    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
     SkelAnime_Update(&this->unk1AC);
     if (this->unk248 <= 0) {
         func_80A157A4(this);
@@ -279,7 +279,7 @@ void func_80A15B2C(EnFish* this, PlayState* play) {
 
     func_80A155D0(this);
     sp34 = func_80A15774(this, play);
-    Math_SmoothStepToF(&this->actor.speedXZ, 4.2f, 0.08f, 1.4f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 4.2f, 0.08f, 1.4f, 0.0f);
     if (func_80A15280(&this->actor.world.pos, &this->actor.home.pos) > SQ(160.0f)) {
         var_a1 = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         Math_StepToAngleS(&this->actor.world.rot.y, var_a1, 0xBB8);
@@ -304,7 +304,7 @@ void func_80A15B2C(EnFish* this, PlayState* play) {
         }
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 0.8f, 4.0f);
+    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
     SkelAnime_Update(&this->unk1AC);
     if ((this->unk248 <= 0) || !sp34) {
         func_80A157A4(this);
@@ -332,7 +332,7 @@ void func_80A15D68(EnFish* this, PlayState* play) {
 
     sp48 = GET_PLAYER(play);
     func_80A155D0(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 1.8f, 0.1f, 0.5f, 0.0f);
     if (func_80A15280(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) {
         v = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         Math_StepToAngleS(&this->actor.world.rot.y, v, 0xBB8);
@@ -349,7 +349,7 @@ void func_80A15D68(EnFish* this, PlayState* play) {
         Math_StepToAngleS(&this->actor.world.rot.y, v, 0xBB8);
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 0.8f, 4.0f);
+    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
     SkelAnime_Update(&this->unk1AC);
     if (this->unk248 <= 0) {
         func_80A157A4(this);
@@ -367,7 +367,7 @@ void func_80A15F24(EnFish* this) {
 }
 
 void func_80A15F84(EnFish* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 0.1f, 0.0f);
     Math_StepToAngleS(&this->actor.world.rot.x, 0x4000, 0x64);
     Math_StepToAngleS(&this->actor.world.rot.z, -0x4000, 0x64);
     this->actor.shape.rot.x = this->actor.world.rot.x;
@@ -425,7 +425,7 @@ void func_80A16200(EnFish* this, PlayState* play) {
     s16 temp_v0_sp42;
 
     temp_v0_sp42 = play->state.frames; // unk9E;
-    Math_SmoothStepToF(&this->actor.speedXZ, Rand_ZeroOne() * 0.2f, 0.1f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, Rand_ZeroOne() * 0.2f, 0.1f, 0.1f, 0.0f);
     temp_ft1 = (s16)(s32)((s16)((((temp_v0_sp42 >> 5) & 2) | ((temp_v0_sp42 >> 2) & 1)) * 0x800) * 0.3f);
     if (temp_v0_sp42 & 4) {
         temp_ft1 = temp_ft1 * -1;
@@ -468,10 +468,10 @@ void func_80A163DC(EnFish* this) {
 void func_80A16450(EnFish* this, PlayState* play) {
     s32 pad;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 2.8f, 0.1f, 0.4f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 2.8f, 0.1f, 0.4f, 0.0f);
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
         this->actor.home.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
-        this->actor.speedXZ *= 0.5f;
+        this->actor.speed *= 0.5f;
     }
     Math_StepToAngleS(&this->actor.world.rot.x, 0, 0x5DC);
     Math_StepToAngleS(&this->actor.world.rot.y, this->actor.home.rot.y, 0xBB8);
@@ -485,7 +485,7 @@ void func_80A16450(EnFish* this, PlayState* play) {
     if (this->unk248 < 0x64) {
         Actor_SetScale(&this->actor, this->actor.scale.x * 0.982f);
     }
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 1.0f, 4.0f);
+    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 1.0f, 4.0f);
     SkelAnime_Update(&this->unk1AC);
     if (this->unk248 <= 0) {
         Actor_Kill(&this->actor);
@@ -524,7 +524,7 @@ void func_80A16670(EnFish* this, PlayState* play) {
         }
     }
     func_80A155D0(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, var_v0_sp4C->unk0, var_v0_sp4C->unk4, var_v0_sp4C->unk8, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, var_v0_sp4C->unk0, var_v0_sp4C->unk4, var_v0_sp4C->unk8, 0.0f);
     sp44 = 0.0f;
     if (func_80A15280(&this->actor.world.pos, &this->actor.home.pos) > SQ(15.0f)) {
         if (!Math_ScaledStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
@@ -536,7 +536,7 @@ void func_80A16670(EnFish* this, PlayState* play) {
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
     //! @bug swapped min and max clamp bounds
-    this->unk1AC.playSpeed = CLAMP((this->actor.speedXZ * 1.2f) + 0.2f + sp44, 1.5f, 0.5);
+    this->unk1AC.playSpeed = CLAMP((this->actor.speed * 1.2f) + 0.2f + sp44, 1.5f, 0.5);
     SkelAnime_Update(&this->unk1AC);
     if (this->unk248 <= 0) {
         this->unk248 = Rand_S16Offset(5, 0x50);

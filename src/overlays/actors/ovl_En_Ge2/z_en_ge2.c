@@ -231,7 +231,7 @@ void func_80A331A0(EnGe2* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->actor.xzDistToPlayer < 50.0f) {
         func_80A32BD0(this, 6);
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     if (this->unk305 > 0) {
         this->unk305--;
@@ -255,7 +255,7 @@ void func_80A332D4(EnGe2* this, PlayState* play) {
     if (this->actor.world.rot.y == this->actor.yawTowardsPlayer) {
         func_80A32BD0(this, 5);
         this->unk305 = 0x32;
-        this->actor.speedXZ = 4.0f;
+        this->actor.speed = 4.0f;
     }
 }
 
@@ -276,7 +276,7 @@ void func_80A3334C(EnGe2* this, PlayState* play) {
 void func_80A33444(EnGe2* this, PlayState* play) {
     s32 temp_v0_2;
 
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     if (this->unk2F4 & 0x10) {
         this->unk2F4 &= ~0x10;
     } else {
@@ -308,7 +308,7 @@ void func_80A33444(EnGe2* this, PlayState* play) {
 void func_80A3354C(EnGe2* this, PlayState* play) {
     s32 temp_v0;
 
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     temp_v0 = func_80A32ECC(play, this);
     if (temp_v0 != 0) {
         func_80A32BD0(this, 2);
@@ -329,7 +329,7 @@ void func_80A33600(EnGe2* this, PlayState* play) {
 
     temp_v0 = func_80A32ECC(play, this);
     if (temp_v0 != 0) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         func_80A32BD0(this, 2);
         this->unk305 = 0x64;
         this->unk306 = temp_v0;
@@ -338,10 +338,10 @@ void func_80A33600(EnGe2* this, PlayState* play) {
         this->unk302 = 0;
         this->unk2F6 += 0x8000;
         func_80A32BD0(this, 1);
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     } else {
         this->unk302 += 1;
-        this->actor.speedXZ = 2.0f;
+        this->actor.speed = 2.0f;
     }
 }
 
@@ -439,7 +439,7 @@ void func_80A33AFC(EnGe2* this, PlayState* play) {
 
 void func_80A33B7C(EnGe2* this, PlayState* play) {
     this->unk2F4 |= 8;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     func_80A32BD0(this, 4);
     func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
     func_80078884(NA_SE_SY_FOUND);
@@ -475,7 +475,7 @@ void func_80A33D10(Actor* thisx, PlayState* play) {
     this->unk308(this, play);
     if (Actor_ProcessTalkRequest(thisx, play)) {
         if ((thisx->params & 0xFF) == 0) {
-            thisx->speedXZ = 0.0f;
+            thisx->speed = 0.0f;
             func_80A32BD0(this, 8);
         }
         this->unk308 = func_80A33930;
@@ -518,7 +518,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
             func_80A32BD0(this, 3);
             this->unk305 = 0x64;
             this->unk2F4 |= 4;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
         } else {
             this->unk308(this, play);
@@ -555,7 +555,7 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
         func_80A32BD0(this, 3);
         this->unk305 = 0x64;
         this->unk2F4 = (u16)(this->unk2F4 | 4);
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk14C.base);

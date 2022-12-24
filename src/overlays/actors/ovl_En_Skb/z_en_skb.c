@@ -214,7 +214,7 @@ void EnSkb_SetupDespawn(EnSkb* this) {
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->setColliderAT = false;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     func_80AFC9A0(this, EnSkb_Despawn);
 }
@@ -235,7 +235,7 @@ void EnSkb_SetupWalkForward(EnSkb* this) {
                      Animation_GetLastFrame(&object_skb_0047E0_Anim), ANIMMODE_LOOP, -4.0f);
     this->actionState = SKB_BEHAVIOR_WALKING;
     this->headlessYawOffset = 0;
-    this->actor.speedXZ = this->actor.scale.y * 160.0f;
+    this->actor.speed = this->actor.scale.y * 160.0f;
     func_80AFC9A0(this, EnSkb_WalkForward);
 }
 
@@ -274,7 +274,7 @@ void EnSkb_SetupAttack(EnSkb* this) {
                      Animation_GetLastFrame(&object_skb_000460_Anim), ANIMMODE_ONCE_INTERP, 4.0f);
     this->unk2A4.base.atFlags &= ~AT_BOUNCED;
     this->actionState = SKB_BEHAVIOR_ATTACKING;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     func_80AFC9A0(this, EnSkb_Attack);
 }
 
@@ -314,7 +314,7 @@ void EnSkb_Recoil(EnSkb* this, PlayState* play) {
 
 void func_80AFD540(EnSkb* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->setColliderAT = false;
@@ -326,11 +326,11 @@ void EnSkb_Stunned(EnSkb* this, PlayState* play) {
     f32 temp_fv0;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (this->actor.speedXZ < 0.0f) {
-            this->actor.speedXZ += 0.05f;
+        if (this->actor.speed < 0.0f) {
+            this->actor.speed += 0.05f;
         }
     }
     if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
@@ -345,7 +345,7 @@ void EnSkb_Stunned(EnSkb* this, PlayState* play) {
 void EnSkb_SetupTakeDamage(EnSkb* this) {
     Animation_MorphToPlayOnce(&this->unk14C, &object_skb_000D98_Anim, -4.0f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->actor.speedXZ = -4.0f;
+        this->actor.speed = -4.0f;
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_DAMAGE);
@@ -362,11 +362,11 @@ void EnSkb_TakeDamage(EnSkb* this, PlayState* play) {
             this->breakFlags = *new_var | 2;
         }
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-            if (this->actor.speedXZ < 0.0f) {
-                this->actor.speedXZ += 0.05f;
+            if (this->actor.speed < 0.0f) {
+                this->actor.speed += 0.05f;
             }
         }
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x1194, 0);
@@ -380,7 +380,7 @@ void EnSkb_SetupDeath(EnSkb* this, PlayState* play) {
     Animation_MorphToPlayOnce(&this->unk14C, &object_skb_0009DC_Anim, -4.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->actor.speedXZ = -6.0f;
+        this->actor.speed = -6.0f;
     }
     this->actionState = SKB_BEHAVIOR_DYING;
     this->actor.flags &= ~ACTOR_FLAG_0;

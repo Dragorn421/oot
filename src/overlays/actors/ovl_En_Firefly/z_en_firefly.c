@@ -135,7 +135,7 @@ void func_80A132F4_Setup(EnFirefly* this) {
     s32 var_v0;
 
     this->unk1BA_timer = Rand_S16Offset(0x46, 0x64);
-    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 1.5f;
+    this->actor.speed = (Rand_ZeroOne() * 1.5f) + 1.5f;
     Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
     if (this->unk310_homeY < this->actor.world.pos.y) {
         var_v0 = 0xC00;
@@ -160,7 +160,7 @@ void func_80A133A0_Setup(EnFirefly* this) {
 void func_80A13444_Setup(EnFirefly* this) {
     this->unk1BA_timer = 0xF;
     this->actionFunc = func_80A13D68_Action;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void func_80A13464_Setup(EnFirefly* this) {
@@ -168,7 +168,7 @@ void func_80A13464_Setup(EnFirefly* this) {
     this->unk1BA_timer = 18;
     this->actionFunc = func_80A13FF4_Action;
     this->skelAnime.playSpeed = 1.0f;
-    this->actor.speedXZ = 2.5f;
+    this->actor.speed = 2.5f;
 }
 
 void func_80A1349C_Setup(EnFirefly* this) {
@@ -208,7 +208,7 @@ void func_80A135A8_Setup(EnFirefly* this, PlayState* play) {
 
     this->actor.flags |= ACTOR_FLAG_4;
     this->unk1B8 = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 255);
     Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_DEAD);
     for (var_s0 = 0; var_s0 < 8; var_s0++) {
@@ -224,7 +224,7 @@ void func_80A135A8_Setup(EnFirefly* this, PlayState* play) {
 void func_80A13744_Setup_Perched_(EnFirefly* this) {
     this->unk1BA_timer = 1;
     this->actionFunc = func_80A142F4_Action_Perched_;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void func_80A13764_Setup_SwoopOnPlayer(EnFirefly* this) {
@@ -232,7 +232,7 @@ void func_80A13764_Setup_SwoopOnPlayer(EnFirefly* this) {
     this->skelAnime.playSpeed = 3.0f;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->unk1BA_timer = 50;
-    this->actor.speedXZ = 3.0f;
+    this->actor.speed = 3.0f;
     this->actionFunc = func_80A143B4_Action_SwoopOnPlayer;
 }
 
@@ -251,7 +251,7 @@ s32 func_80A1379C_HoneInOnHomeIfPlayerFar_(EnFirefly* this, PlayState* play) {
         } else {
             temp_fv1 = temp_fv0 * 0.05f;
             if (temp_fv1 < 1.0f) {
-                this->actor.speedXZ *= temp_fv1;
+                this->actor.speed *= temp_fv1;
             }
             Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                                0x300);
@@ -312,7 +312,7 @@ void func_80A13A08_Action(EnFirefly* this, PlayState* play) {
         this->unk1BA_timer--;
     }
     sp3C = Animation_OnFrame(&this->skelAnime, 0.0f);
-    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 1.5f;
+    this->actor.speed = (Rand_ZeroOne() * 1.5f) + 1.5f;
     if ((this->unk1B9 != 0) || (this->actor.params == 4) ||
         (!func_80A1379C_HoneInOnHomeIfPlayerFar_(this, play) && !func_80A138B8_HoneInOnLitTorch(this, play))) {
         if (sp3C != 0) {
@@ -358,7 +358,7 @@ void func_80A13C98_Action(EnFirefly* this, PlayState* play) {
     }
     this->actor.colorFilterTimer = 40;
     SkelAnime_Update(&this->skelAnime);
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     if (this->actor.flags & ACTOR_FLAG_15) {
         this->actor.colorFilterTimer = 40;
     } else {
@@ -394,7 +394,7 @@ void func_80A13DE4_Action(EnFirefly* this, PlayState* play) {
     if (this->unk1BA_timer != 0) {
         this->unk1BA_timer--;
     }
-    Math_StepToF(&this->actor.speedXZ, 4.0f, 0.5f);
+    Math_StepToF(&this->actor.speed, 4.0f, 0.5f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
@@ -433,7 +433,7 @@ void func_80A13FF4_Action(EnFirefly* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x100);
     Math_StepToF(&this->actor.velocity.y, 0.0f, 0.4f);
-    if (Math_StepToF(&this->actor.speedXZ, 0.0f, 0.15f) != 0) {
+    if (Math_StepToF(&this->actor.speed, 0.0f, 0.15f) != 0) {
         if (this->unk1BA_timer != 0) {
             this->unk1BA_timer--;
         }
@@ -453,7 +453,7 @@ void func_80A14088_Action(EnFirefly* this, PlayState* play) {
         (this->unk1BA_timer == 0)) {
         func_80A132F4_Setup(this);
     } else {
-        Math_StepToF(&this->actor.speedXZ, 3.0f, 0.3f);
+        Math_StepToF(&this->actor.speed, 3.0f, 0.3f);
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->unk1BC_targetRotX = 0x954;
         } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->unk310_homeY < this->actor.world.pos.y)) {
@@ -473,7 +473,7 @@ void func_80A14088_Action(EnFirefly* this, PlayState* play) {
 
 void func_80A141F0_Action(EnFirefly* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1554, 0x100);
     if (this->unk1BA_timer != 0) {
         this->unk1BA_timer--;
