@@ -436,10 +436,10 @@ void EnCrow_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc != func_809E10A8) {
         if (this->actor.colChkInfo.health != 0) {
             height = 20.0f * scale;
-            func_8002D97C(&this->actor);
+            Actor_MoveXYZ(&this->actor);
         } else {
             height = 0.0f;
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
         }
         Actor_UpdateBgCheckInfo(play, &this->actor, 12.0f * scale, 25.0f * scale, 50.0f * scale,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);

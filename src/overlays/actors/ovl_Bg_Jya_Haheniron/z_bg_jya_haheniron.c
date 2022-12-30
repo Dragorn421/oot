@@ -123,7 +123,7 @@ void func_8089843C(BgJyaHaheniron* this) {
 void func_8089844C(BgJyaHaheniron* this, PlayState* play) {
     Vec3f sp2C;
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 8.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
@@ -149,7 +149,7 @@ void func_80898588(BgJyaHaheniron* this) {
 
 void func_80898598(BgJyaHaheniron* this, PlayState* play) {
     if (this->unk1B0 >= 8) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
     } else if (this->unk1B0 >= 0x11) {
         func_80898114(play, &this->actor.world.pos, &D_808987A0);
         Actor_Kill(&this->actor);

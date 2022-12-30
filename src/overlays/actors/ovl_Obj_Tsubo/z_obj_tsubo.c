@@ -286,7 +286,7 @@ void func_80BA180C(ObjTsubo* this, PlayState* play) {
         this->actor.room = play->roomCtx.curRoom.num;
         func_80BA188C(this);
         func_80BA0DC0(this);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 15.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     }
@@ -319,7 +319,7 @@ void func_80BA1958(ObjTsubo* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         func_80BA0DC0(this);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Math_StepToS(&D_80BA1B54, D_80BA1B50, 0x64);
         Math_StepToS(&D_80BA1B5C, D_80BA1B58, 0x64);
         this->actor.shape.rot.x += D_80BA1B54;

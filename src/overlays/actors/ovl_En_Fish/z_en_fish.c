@@ -642,7 +642,7 @@ void func_80A16C68(EnFish* this, PlayState* play) {
         this->actor.child = NULL;
     }
     if ((this->unk244 == NULL) || (this->unk244(this, play), (this->actor.update != NULL))) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         if (this->unk250 != 0) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 17.5f, 4.0f, 0.0f, this->unk250);
         }
@@ -674,7 +674,7 @@ void func_80A16DEC(EnFish* this, PlayState* play) {
         this->actor.child = NULL;
     }
     if ((this->unk244 == NULL) || (this->unk244(this, play), (this->actor.update != NULL))) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         if (this->unk24A == 0x14) {
             this->actor.draw = EnFish_Draw;
         } else if (this->unk24A == 0) {

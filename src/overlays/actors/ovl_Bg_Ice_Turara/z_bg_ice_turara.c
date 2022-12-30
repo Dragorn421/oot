@@ -166,7 +166,7 @@ void func_80892424(BgIceTurara* this, PlayState* play) {
             Actor_Kill(&this->dyna.actor);
         }
     } else {
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
         this->dyna.actor.world.pos.y += 40.0f;
         Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->dyna.actor.world.pos.y -= 40.0f;

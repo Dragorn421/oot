@@ -483,7 +483,7 @@ void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel) {
     Math_StepToF(&this->actor.velocity.x, sp28.x, 1.0f);
     Math_StepToF(&this->actor.velocity.y, sp28.y, 1.0f);
     Math_StepToF(&this->actor.velocity.z, sp28.z, 1.0f);
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
 }
 
 void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel) {

@@ -796,13 +796,13 @@ void func_80AEC40C(EnRu1* this) {
         thisx->speed = (kREG(3) * 0.01f) + 2.7f;
     }
     thisx->velocity.y = -1.0f;
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
 }
 
 void func_80AEC4CC(EnRu1* this) {
     Actor* thisx = &this->actor;
     thisx->velocity.y = -1.0f;
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
 }
 
 void func_80AEC4F4(EnRu1* this) {
@@ -818,7 +818,7 @@ void func_80AEC4F4(EnRu1* this) {
         *speedXZ = 0.0f;
         thisx->velocity.y = -((kREG(4) * 0.01f) + 13.0f);
     }
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
 }
 
 s32 func_80AEC5FC(EnRu1* this, PlayState* play) {
@@ -1440,7 +1440,7 @@ void func_80AEDEF4(EnRu1* this, PlayState* play) {
 void func_80AEDFF4(EnRu1* this, PlayState* play) {
     func_80AEDB30(this, play);
     func_80AEDEF4(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 }
 
 void func_80AEE02C(EnRu1* this) {
@@ -1482,7 +1482,7 @@ void func_80AEE050(EnRu1* this) {
             }
             this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
             this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
-            func_8002D7EC(this);
+            Actor_UpdatePos(this);
         }
     } else {
         if (this->unk_350 == 1) {
@@ -1753,7 +1753,7 @@ void func_80AEECF0(EnRu1* this, PlayState* play) {
 void func_80AEED58(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     func_80AEAECC(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEEAC8(this, play);

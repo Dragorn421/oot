@@ -942,7 +942,7 @@ void EnDekubaba_Update(Actor* thisx, PlayState* play) {
     func_809E8140(this, play);
     this->unk1C0(this, play);
     if (this->unk1C0 == func_809E7BB0) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->unk230 * 15.0f, 10.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     } else {

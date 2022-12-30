@@ -184,7 +184,7 @@ void func_80A34C40(EnGe3* this, PlayState* play) {
 }
 
 void func_80A34CE4(EnGe3* this, PlayState* play) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     if (DECR(this->unk2FE) == 0) {
         this->unk2FE = Rand_S16Offset(0x3C, 0x3C);
     }

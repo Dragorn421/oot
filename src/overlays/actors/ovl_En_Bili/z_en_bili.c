@@ -540,9 +540,9 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
             }
         }
         if (this->unk190 == func_809C067C) {
-            func_8002D97C(&this->actor);
+            Actor_MoveXYZ(&this->actor);
         } else {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
         }
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, this->unk1D4.dim.radius, this->unk1D4.dim.height,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);

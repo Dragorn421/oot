@@ -64,7 +64,7 @@ void BgPushbox_UpdateImpl(BgPushbox* this, PlayState* play) {
     thisx->speed = (thisx->speed < -1.0f) ? -1.0f : ((thisx->speed > 1.0f) ? 1.0f : thisx->speed);
     Math_StepToF(&thisx->speed, 0.0f, 0.2f);
     thisx->world.rot.y = this->dyna.unk_158;
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 40.0f, 40.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);

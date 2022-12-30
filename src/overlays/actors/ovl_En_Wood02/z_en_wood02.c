@@ -344,7 +344,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
         this->unk14C += 1;
         Math_ApproachF(&this->actor.velocity.x, 0.0f, 1.0f, 0.049999997f);
         Math_ApproachF(&this->actor.velocity.z, 0.0f, 1.0f, 0.049999997f);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         this->actor.shape.rot.z = (s16)(s32)(Math_SinS((s16)(this->unk14C * 0xBB8)) * 16384.0f);
         this->unk14E[0] -= 1;
         if (this->unk14E[0] == 0) {

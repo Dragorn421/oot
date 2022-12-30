@@ -303,7 +303,7 @@ void func_80A9BAD8(EnKusa* this, PlayState* play) {
         this->actor.gravity = -0.1f;
         EnKusa_UpdateVelY(this);
         EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.005f);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
                                     UPDBGCHECKINFO_FLAG_7);
@@ -362,7 +362,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
     this->actor.shape.rot.x += rotSpeedX;
     this->actor.shape.rot.y += rotSpeedY;
     EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.05f);
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
                                 UPDBGCHECKINFO_FLAG_7);

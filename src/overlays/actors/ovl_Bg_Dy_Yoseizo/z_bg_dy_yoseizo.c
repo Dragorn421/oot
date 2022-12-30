@@ -799,7 +799,7 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
             this->unk2F8 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
         }
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     this->unk328 = this->unk308 * 7500.0f;
     Actor_SetFocus(&this->actor, this->unk328);
     this->actor.focus.pos.y = this->unk328;

@@ -1215,7 +1215,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
 
     func_80B37038(this, play);
     if (this->actor.colChkInfo.damageEffect != 6) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 32.0f, 30.0f, 60.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);

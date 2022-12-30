@@ -603,12 +603,12 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
     this->actionFunc(this, play);
     if (!(this->actor.flags & ACTOR_FLAG_15)) {
         if ((this->actor.colChkInfo.health == 0) || ((this->actionFunc == func_80A141F0_Action))) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
         } else {
             if (this->actionFunc != func_80A13FF4_Action) {
                 this->actor.world.rot.x = 0x1554 - this->actor.shape.rot.x;
             }
-            func_8002D97C(&this->actor);
+            Actor_MoveXYZ(&this->actor);
         }
     }
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 15.0f,

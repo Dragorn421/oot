@@ -289,7 +289,7 @@ void func_80B217FC(EnTp* this) {
 }
 
 void func_80B21900(EnTp* this, PlayState* play) {
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     this->unk15E -= 0x14;
     if (this->unk15E < 0x14) {
         this->unk15E = 0;
@@ -571,7 +571,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     }
     this->unk154(this, play);
     if (this->actor.params < 0) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         if (this->unk14C != 9) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 15.0f, 10.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);

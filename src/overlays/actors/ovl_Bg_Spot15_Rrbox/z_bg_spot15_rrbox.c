@@ -312,7 +312,7 @@ void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 
-    Actor_MoveForward(actor);
+    Actor_MoveXZGravity(actor);
 
     if (actor->world.pos.y <= -31990.0f) {
         osSyncPrintf("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 599,
