@@ -2817,7 +2817,7 @@ void BossVa_Door(BossVa* this, PlayState* play) {
 #define BARITC_W_MAX 300
 #define BARITC_H_MIN 1
 #define BARITC_H_MAX 100
-u8 sBariTCGeneratedTex[BARITC_H_MAX * BARITC_W_MAX];
+u8 sBariTCGeneratedTexs[4][BARITC_H_MAX * BARITC_W_MAX];
 
 #endif
 
@@ -2840,7 +2840,7 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
         static int sBariTCpattern = 4;
 
         if (play->state.input[0].press.button & BTN_DRIGHT) {
-            play->actorCtx.titleCtx.width++;
+            play->actorCtx.titleCtx.width+=2;
         }
         if (play->state.input[0].press.button & BTN_DLEFT) {
             play->actorCtx.titleCtx.width--;
@@ -2862,6 +2862,7 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
             int w = play->actorCtx.titleCtx.width;
             int h = play->actorCtx.titleCtx.height;
             int x, y;
+            u8* tex = sBariTCGeneratedTexs[(play->state.frames + 2) % 4];
 
 #define GPACK_IA8(i, a) (_SHIFTL(i, 4, 4) | _SHIFTL(a, 0, 4))
 
@@ -2903,12 +2904,12 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
                             sBariTCpattern = 0;
                             break;
                     }
-                    sBariTCGeneratedTex[y * w + x] = GPACK_IA8(i, a);
+                    tex[y * w + x] = GPACK_IA8(i, a);
                 }
             }
         }
 
-        play->actorCtx.titleCtx.texture = sBariTCGeneratedTex;
+        play->actorCtx.titleCtx.texture = sBariTCGeneratedTexs[(play->state.frames + 0) % 4];
     }
 #endif
 
