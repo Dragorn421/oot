@@ -48,6 +48,15 @@
 #include "tha.h"
 #include "thga.h"
 
+
+// for testing purposes, 1 makes Barinade's title card show up immediately and not disappear, 0 to disable
+#define BARINADE_TITLECARD_ALWAYS_ON 1
+// for testing purposes, 1 makes Barinade's title card resizable with dpad (generating a dummy one, change style with A)
+#define BARINADE_TITLECARD_GENERATE 1
+// for testing purposes, 1 makes Barinade passive
+#define BARINADE_PASSIVE 1
+
+
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
 

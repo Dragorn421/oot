@@ -705,49 +705,51 @@ void TitleCard_Update(PlayState* play, TitleCardContext* titleCtx) {
 
 void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
     s32 width;
-    s32 height;
     s32 unused;
     s32 titleX;
     s32 doubleWidth;
     s32 titleY;
     s32 titleSecondY;
     s32 textureLanguageOffset;
+    s32 bytesLeft;
+    s32 fragBytes;
+    s32 fragHeight;
+    uintptr_t texPtr;
 
     if (titleCtx->alpha != 0) {
         width = titleCtx->width;
-        height = titleCtx->height;
+        bytesLeft = width * titleCtx->height;
         titleX = (titleCtx->x * 4) - (width * 2);
-        titleY = (titleCtx->y * 4) - (height * 2);
+        titleY = (titleCtx->y * 4) - (titleCtx->height * 2);
         doubleWidth = width * 2;
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2824);
 
-        textureLanguageOffset = width * height * gSaveContext.language;
-        height = (width * height > 0x1000) ? 0x1000 / width : height;
-        titleSecondY = titleY + (height * 4);
+        textureLanguageOffset = width * titleCtx->height * gSaveContext.language;
+        texPtr = (uintptr_t)titleCtx->texture + textureLanguageOffset;
 
         OVERLAY_DISP = Gfx_SetupDL_52NoCD(OVERLAY_DISP);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset, G_IM_FMT_IA, G_IM_SIZ_8b,
-                            width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        while (bytesLeft > 0) {
+            fragBytes = CLAMP_MAX(bytesLeft, TMEM_SIZE);
+            fragHeight = fragBytes / width;
+            fragBytes = fragHeight * width;
 
-        gSPTextureRectangle(OVERLAY_DISP++, titleX, titleY, ((doubleWidth * 2) + titleX) - 4, titleY + (height * 4) - 1,
-                            G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            osSyncPrintf("bytesLeft=%d fragHeight=%d fragBytes=%d\n", bytesLeft, fragHeight, fragBytes);
 
-        height = titleCtx->height - height;
+            gDPLoadTextureBlock(OVERLAY_DISP++, texPtr, G_IM_FMT_IA, G_IM_SIZ_8b, width, fragHeight, 0,
+                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                G_TX_NOLOD, G_TX_NOLOD);
 
-        // If texture is bigger than 0x1000, display the rest
-        if (height > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset + 0x1000, G_IM_FMT_IA,
-                                G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
-                                G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            gSPTextureRectangle(OVERLAY_DISP++, titleX, titleY, ((doubleWidth * 2) + titleX), titleY + (fragHeight * 4),
+                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
-            gSPTextureRectangle(OVERLAY_DISP++, titleX, titleSecondY, ((doubleWidth * 2) + titleX) - 4,
-                                titleSecondY + (height * 4) - 1, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            bytesLeft -= fragBytes;
+            texPtr += fragBytes;
+            titleY += fragHeight * (1 << 2);
         }
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 2880);

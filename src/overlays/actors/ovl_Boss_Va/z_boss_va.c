@@ -784,6 +784,12 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             player->actor.world.rot.y = player->actor.shape.rot.y = 0x7FFF;
             sCsState++;
+
+#if BARINADE_TITLECARD_ALWAYS_ON
+            TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gBarinadeTitleCardTex), 0xA0,
+                                   0xB4, 0x80, 0x28);
+#endif
+
             break;
         case INTRO_LOOK_DOOR:
             Cutscene_StartManual(play, &play->csCtx);
@@ -972,10 +978,12 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 sSubCamAtNext.y = 140.0f;
                 sSubCamAtNext.z = -200.0f;
 
+#if !BARINADE_TITLECARD_ALWAYS_ON
                 if (!GET_EVENTCHKINF(EVENTCHKINF_76)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gBarinadeTitleCardTex),
                                            0xA0, 0xB4, 0x80, 0x28);
                 }
+#endif
 
                 if (Rand_ZeroOne() < 0.1f) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
@@ -1056,6 +1064,10 @@ void BossVa_SetupBodyPhase1(BossVa* this) {
 
 void BossVa_BodyPhase1(BossVa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
+
+#if BARINADE_PASSIVE
+    return; // Make barinade passive (no attacks)
+#endif
 
     this->unk_1B0 += 0xCE4;
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
@@ -2799,6 +2811,16 @@ void BossVa_Door(BossVa* this, PlayState* play) {
     }
 }
 
+#if BARINADE_TITLECARD_GENERATE
+
+#define BARITC_W_MIN 1
+#define BARITC_W_MAX 300
+#define BARITC_H_MIN 1
+#define BARITC_H_MAX 100
+u8 sBariTCGeneratedTex[BARITC_H_MAX * BARITC_W_MAX];
+
+#endif
+
 void BossVa_Update(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BossVa* this = (BossVa*)thisx;
@@ -2806,6 +2828,89 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
     s32 i;
 
     this->actionFunc(this, play);
+
+#if BARINADE_TITLECARD_ALWAYS_ON
+    // make the title card never go away
+    play->actorCtx.titleCtx.durationTimer = 10;
+#endif
+
+#if BARINADE_TITLECARD_GENERATE
+    // The BossVa actor is made of multiple actors, only run once (here for the main body)
+    if (thisx->params == BOSSVA_BODY) {
+        static int sBariTCpattern = 4;
+
+        if (play->state.input[0].press.button & BTN_DRIGHT) {
+            play->actorCtx.titleCtx.width++;
+        }
+        if (play->state.input[0].press.button & BTN_DLEFT) {
+            play->actorCtx.titleCtx.width--;
+        }
+        play->actorCtx.titleCtx.width = CLAMP(play->actorCtx.titleCtx.width, BARITC_W_MIN, BARITC_W_MAX);
+        if (play->state.input[0].press.button & BTN_DDOWN) {
+            play->actorCtx.titleCtx.height++;
+        }
+        if (play->state.input[0].press.button & BTN_DUP) {
+            play->actorCtx.titleCtx.height--;
+        }
+        play->actorCtx.titleCtx.height = CLAMP(play->actorCtx.titleCtx.height, BARITC_H_MIN, BARITC_H_MAX);
+
+        if (play->state.input[0].press.button & BTN_A) {
+            sBariTCpattern++;
+        }
+
+        {
+            int w = play->actorCtx.titleCtx.width;
+            int h = play->actorCtx.titleCtx.height;
+            int x, y;
+
+#define GPACK_IA8(i, a) (_SHIFTL(i, 4, 4) | _SHIFTL(a, 0, 4))
+
+            for (y = 0; y < h; y++) {
+                for (x = 0; x < w; x++) {
+                    int i, a;
+                    switch (sBariTCpattern) {
+                        case 0:
+                            i = (f32)x / (f32)w + (f32)y / (f32)h < 1.0f ? 0x0 : 0xF;
+                            a = 0xF;
+                            break;
+                        case 1:
+                            i = (x + y) % 2 == 0 ? 0x0 : 0xF;
+                            a = 0xF;
+                            break;
+                        case 2:
+                            i = (x / 2 + y / 2) % 2 == 0 ? 0x0 : 0xF;
+                            a = 0xF;
+                            break;
+                        case 3:
+                            // ok with h = 40 w = 144, 152, 200
+                            i = (x / 4 + y / 4) % 2 == 0 ? 0x0 : 0xF;
+                            a = 0xF;
+                            break;
+                        case 4:
+                            i = x == 0 || y == 0 || x == w - 1 || y == h - 1 ? 0x0 : 0xF;
+                            a = 0xF;
+                            break;
+                        case 5:
+                            i = 0xF * x / (w - 1);
+                            a = 0xF;
+                            break;
+                        case 6:
+                            i = 0xF * x / (w - 1);
+                            a = 0xF * y / (h - 1);
+                            break;
+                        default:
+                            i = a = 0;
+                            sBariTCpattern = 0;
+                            break;
+                    }
+                    sBariTCGeneratedTex[y * w + x] = GPACK_IA8(i, a);
+                }
+            }
+        }
+
+        play->actorCtx.titleCtx.texture = sBariTCGeneratedTex;
+    }
+#endif
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
@@ -3164,6 +3269,39 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     Color_RGBA8 unused = { 250, 250, 230, 200 };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4542);
+
+#if BARINADE_TITLECARD_GENERATE
+    {
+        int w = play->actorCtx.titleCtx.width;
+        int h = play->actorCtx.titleCtx.height;
+
+        {
+            GfxPrint printer;
+            Gfx* gfx;
+
+            OPEN_DISPS(play->state.gfxCtx, __FILE__, __LINE__);
+
+            gfx = POLY_OPA_DISP + 1;
+            gSPDisplayList(OVERLAY_DISP++, gfx);
+
+            GfxPrint_Init(&printer);
+            GfxPrint_Open(&printer, gfx);
+
+            GfxPrint_SetColor(&printer, 255, 0, 255, 255);
+            GfxPrint_SetPos(&printer, 10, 10);
+            GfxPrint_Printf(&printer, "WxH = %dx%d", w, h);
+
+            gfx = GfxPrint_Close(&printer);
+            GfxPrint_Destroy(&printer);
+
+            gSPEndDisplayList(gfx++);
+            gSPBranchList(POLY_OPA_DISP, gfx);
+            POLY_OPA_DISP = gfx;
+
+            CLOSE_DISPS(play->state.gfxCtx, __FILE__, __LINE__);
+        }
+    }
+#endif
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     paramsPtr = &this->actor.params;
