@@ -30,6 +30,10 @@ UNK_TYPE D_8012D1F4 = 0; // unused
 
 Input* D_8012D1F8 = NULL;
 
+#if OOT_DEBUG
+static FaultAddrConvClient sActorFaultAddrConvClient;
+#endif
+
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
 // This macro prints the number "1" with a file and line number if R_ENABLE_PLAY_LOGS is enabled.
@@ -249,9 +253,54 @@ void Play_Destroy(GameState* thisx) {
 #endif
 
 #if OOT_DEBUG
+    Fault_RemoveAddrConvClient(&sActorFaultAddrConvClient);
     Fault_RemoveClient(&D_801614B8);
 #endif
 }
+
+#if OOT_DEBUG
+uintptr_t Actor_FaultAddrConv(uintptr_t addr, void* arg) {
+    int actor_id;
+    int n_matches = 0;
+    uintptr_t latest_match;
+
+    // Loop over the actor overlay table
+    for (actor_id = 0; actor_id < ACTOR_ID_MAX; actor_id++) {
+        ActorOverlay* ovlEntry = &gActorOverlayTable[actor_id];
+
+        // If the overlay is currently loaded in memory
+        if (ovlEntry->loadedRamAddr != NULL) {
+
+            uintptr_t loadedRamAddr = (uintptr_t)ovlEntry->loadedRamAddr;
+
+            uintptr_t vramStart = (uintptr_t)ovlEntry->vramStart;
+            uintptr_t vramEnd = (uintptr_t)ovlEntry->vramEnd;
+
+            uintptr_t ramStart = loadedRamAddr;
+            uintptr_t ramEnd = loadedRamAddr + (vramEnd - vramStart);
+
+            // If the input ram address `addr` falls within the ram range of the overlay
+            if (ramStart <= addr && addr < ramEnd) {
+                // Compute the vram equivalent of the input ram address
+                uintptr_t addr_vram = addr - loadedRamAddr + vramStart;
+
+                n_matches += 1;
+                latest_match = addr_vram;
+            }
+        }
+    }
+
+    // If exactly one overlay matches return the translated vram address
+    if (n_matches == 1) {
+        return latest_match;
+    }
+    // otherwise if 0 matches then nothing was found
+    // or if 2+ matches then something is wrong, don't report an address
+    else {
+        return 0;
+    }
+}
+#endif
 
 void Play_Init(GameState* thisx) {
     PlayState* this = (PlayState*)thisx;
@@ -467,6 +516,12 @@ void Play_Init(GameState* thisx) {
 #endif
 
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
+
+#if OOT_DEBUG
+    // Allows filling the (VPC) column in the crash handler when the cpu faults inside actor overlays.
+    // That VPC address can then be looked up directly in the map file or with sym_info.py
+    Fault_AddAddrConvClient(&sActorFaultAddrConvClient, Actor_FaultAddrConv, NULL);
+#endif
 
     // Busyloop until the room loads
     while (!Room_ProcessRoomRequest(this, &this->roomCtx)) {
