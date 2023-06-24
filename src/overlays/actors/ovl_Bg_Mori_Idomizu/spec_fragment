@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Mori_Idomizu"
-    include "build/src/overlays/actors/ovl_Bg_Mori_Idomizu/z_bg_mori_idomizu.o"
-    include "build/src/overlays/actors/ovl_Bg_Mori_Idomizu/ovl_Bg_Mori_Idomizu_reloc.o"
-endseg

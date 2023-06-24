@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Ydan_Maruta"
-    include "build/src/overlays/actors/ovl_Bg_Ydan_Maruta/z_bg_ydan_maruta.o"
-    include "build/src/overlays/actors/ovl_Bg_Ydan_Maruta/ovl_Bg_Ydan_Maruta_reloc.o"
-endseg

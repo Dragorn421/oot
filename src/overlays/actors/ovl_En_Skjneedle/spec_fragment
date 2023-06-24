@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Skjneedle"
-    include "build/src/overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.o"
-    include "build/src/overlays/actors/ovl_En_Skjneedle/ovl_En_Skjneedle_reloc.o"
-endseg

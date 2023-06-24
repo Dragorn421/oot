@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Obj_Ice_Poly"
-    include "build/src/overlays/actors/ovl_Obj_Ice_Poly/z_obj_ice_poly.o"
-    include "build/src/overlays/actors/ovl_Obj_Ice_Poly/ovl_Obj_Ice_Poly_reloc.o"
-endseg

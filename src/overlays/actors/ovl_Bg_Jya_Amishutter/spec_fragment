@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Jya_Amishutter"
-    include "build/src/overlays/actors/ovl_Bg_Jya_Amishutter/z_bg_jya_amishutter.o"
-    include "build/src/overlays/actors/ovl_Bg_Jya_Amishutter/ovl_Bg_Jya_Amishutter_reloc.o"
-endseg

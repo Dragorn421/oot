@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Hintnuts"
-    include "build/src/overlays/actors/ovl_En_Hintnuts/z_en_hintnuts.o"
-    include "build/src/overlays/actors/ovl_En_Hintnuts/ovl_En_Hintnuts_reloc.o"
-endseg

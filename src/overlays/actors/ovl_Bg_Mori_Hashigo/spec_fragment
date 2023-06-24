@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Mori_Hashigo"
-    include "build/src/overlays/actors/ovl_Bg_Mori_Hashigo/z_bg_mori_hashigo.o"
-    include "build/src/overlays/actors/ovl_Bg_Mori_Hashigo/ovl_Bg_Mori_Hashigo_reloc.o"
-endseg

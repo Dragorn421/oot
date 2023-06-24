@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Haka"
-    include "build/src/overlays/actors/ovl_Bg_Haka/z_bg_haka.o"
-    include "build/src/overlays/actors/ovl_Bg_Haka/ovl_Bg_Haka_reloc.o"
-endseg

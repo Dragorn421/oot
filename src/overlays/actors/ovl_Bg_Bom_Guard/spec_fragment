@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Bom_Guard"
-    include "build/src/overlays/actors/ovl_Bg_Bom_Guard/z_bg_bom_guard.o"
-    include "build/src/overlays/actors/ovl_Bg_Bom_Guard/ovl_Bg_Bom_Guard_reloc.o"
-endseg

@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Obj_Blockstop"
-    include "build/src/overlays/actors/ovl_Obj_Blockstop/z_obj_blockstop.o"
-    include "build/src/overlays/actors/ovl_Obj_Blockstop/ovl_Obj_Blockstop_reloc.o"
-endseg

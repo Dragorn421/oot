@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Obj_Lightswitch"
-    include "build/src/overlays/actors/ovl_Obj_Lightswitch/z_obj_lightswitch.o"
-    include "build/src/overlays/actors/ovl_Obj_Lightswitch/ovl_Obj_Lightswitch_reloc.o"
-endseg

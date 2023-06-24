@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Spot01_Idosoko"
-    include "build/src/overlays/actors/ovl_Bg_Spot01_Idosoko/z_bg_spot01_idosoko.o"
-    include "build/src/overlays/actors/ovl_Bg_Spot01_Idosoko/ovl_Bg_Spot01_Idosoko_reloc.o"
-endseg

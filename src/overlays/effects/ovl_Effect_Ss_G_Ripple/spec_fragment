@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Effect_Ss_G_Ripple"
-    include "build/src/overlays/effects/ovl_Effect_Ss_G_Ripple/z_eff_ss_g_ripple.o"
-    include "build/src/overlays/effects/ovl_Effect_Ss_G_Ripple/ovl_Effect_Ss_G_Ripple_reloc.o"
-endseg

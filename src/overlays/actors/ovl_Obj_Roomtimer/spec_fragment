@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Obj_Roomtimer"
-    include "build/src/overlays/actors/ovl_Obj_Roomtimer/z_obj_roomtimer.o"
-    include "build/src/overlays/actors/ovl_Obj_Roomtimer/ovl_Obj_Roomtimer_reloc.o"
-endseg

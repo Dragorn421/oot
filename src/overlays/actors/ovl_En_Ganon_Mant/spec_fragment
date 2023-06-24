@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Ganon_Mant"
-    include "build/src/overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.o"
-    include "build/src/overlays/actors/ovl_En_Ganon_Mant/ovl_En_Ganon_Mant_reloc.o"
-endseg

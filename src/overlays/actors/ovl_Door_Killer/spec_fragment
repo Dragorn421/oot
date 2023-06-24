@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Door_Killer"
-    include "build/src/overlays/actors/ovl_Door_Killer/z_door_killer.o"
-    include "build/src/overlays/actors/ovl_Door_Killer/ovl_Door_Killer_reloc.o"
-endseg

@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Anubice_Tag"
-    include "build/src/overlays/actors/ovl_En_Anubice_Tag/z_en_anubice_tag.o"
-    include "build/src/overlays/actors/ovl_En_Anubice_Tag/ovl_En_Anubice_Tag_reloc.o"
-endseg

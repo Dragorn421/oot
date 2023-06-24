@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Boss_Fd"
-    include "build/src/overlays/actors/ovl_Boss_Fd/z_boss_fd.o"
-    include "build/src/overlays/actors/ovl_Boss_Fd/ovl_Boss_Fd_reloc.o"
-endseg

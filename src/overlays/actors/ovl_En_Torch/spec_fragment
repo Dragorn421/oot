@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Torch"
-    include "build/src/overlays/actors/ovl_En_Torch/z_en_torch.o"
-    include "build/src/overlays/actors/ovl_En_Torch/ovl_En_Torch_reloc.o"
-endseg

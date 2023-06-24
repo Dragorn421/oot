@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Obj_Hamishi"
-    include "build/src/overlays/actors/ovl_Obj_Hamishi/z_obj_hamishi.o"
-    include "build/src/overlays/actors/ovl_Obj_Hamishi/ovl_Obj_Hamishi_reloc.o"
-endseg

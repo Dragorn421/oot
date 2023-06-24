@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Am"
-    include "build/src/overlays/actors/ovl_En_Am/z_en_am.o"
-    include "build/src/overlays/actors/ovl_En_Am/ovl_En_Am_reloc.o"
-endseg

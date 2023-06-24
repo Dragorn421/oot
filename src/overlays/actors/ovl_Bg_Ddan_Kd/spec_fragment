@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Ddan_Kd"
-    include "build/src/overlays/actors/ovl_Bg_Ddan_Kd/z_bg_ddan_kd.o"
-    include "build/src/overlays/actors/ovl_Bg_Ddan_Kd/ovl_Bg_Ddan_Kd_reloc.o"
-endseg

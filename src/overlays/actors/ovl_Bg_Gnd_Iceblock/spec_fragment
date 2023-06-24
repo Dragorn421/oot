@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Gnd_Iceblock"
-    include "build/src/overlays/actors/ovl_Bg_Gnd_Iceblock/z_bg_gnd_iceblock.o"
-    include "build/src/overlays/actors/ovl_Bg_Gnd_Iceblock/ovl_Bg_Gnd_Iceblock_reloc.o"
-endseg

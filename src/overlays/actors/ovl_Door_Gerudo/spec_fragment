@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Door_Gerudo"
-    include "build/src/overlays/actors/ovl_Door_Gerudo/z_door_gerudo.o"
-    include "build/src/overlays/actors/ovl_Door_Gerudo/ovl_Door_Gerudo_reloc.o"
-endseg

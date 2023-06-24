@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Hidan_Firewall"
-    include "build/src/overlays/actors/ovl_Bg_Hidan_Firewall/z_bg_hidan_firewall.o"
-    include "build/src/overlays/actors/ovl_Bg_Hidan_Firewall/ovl_Bg_Hidan_Firewall_reloc.o"
-endseg

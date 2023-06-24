@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Clear_Tag"
-    include "build/src/overlays/actors/ovl_En_Clear_Tag/z_en_clear_tag.o"
-    include "build/src/overlays/actors/ovl_En_Clear_Tag/ovl_En_Clear_Tag_reloc.o"
-endseg

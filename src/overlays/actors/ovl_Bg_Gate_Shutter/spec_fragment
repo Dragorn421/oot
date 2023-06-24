@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Gate_Shutter"
-    include "build/src/overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.o"
-    include "build/src/overlays/actors/ovl_Bg_Gate_Shutter/ovl_Bg_Gate_Shutter_reloc.o"
-endseg

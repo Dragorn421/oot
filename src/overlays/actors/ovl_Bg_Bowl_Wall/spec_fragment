@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Bowl_Wall"
-    include "build/src/overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.o"
-    include "build/src/overlays/actors/ovl_Bg_Bowl_Wall/ovl_Bg_Bowl_Wall_reloc.o"
-endseg

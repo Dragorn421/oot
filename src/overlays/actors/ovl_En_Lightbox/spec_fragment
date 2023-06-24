@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Lightbox"
-    include "build/src/overlays/actors/ovl_En_Lightbox/z_en_lightbox.o"
-    include "build/src/overlays/actors/ovl_En_Lightbox/ovl_En_Lightbox_reloc.o"
-endseg

@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Po_Relay"
-    include "build/src/overlays/actors/ovl_En_Po_Relay/z_en_po_relay.o"
-    include "build/src/overlays/actors/ovl_En_Po_Relay/ovl_En_Po_Relay_reloc.o"
-endseg

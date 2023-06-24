@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Spot12_Gate"
-    include "build/src/overlays/actors/ovl_Bg_Spot12_Gate/z_bg_spot12_gate.o"
-    include "build/src/overlays/actors/ovl_Bg_Spot12_Gate/ovl_Bg_Spot12_Gate_reloc.o"
-endseg

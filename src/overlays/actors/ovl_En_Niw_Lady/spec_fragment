@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Niw_Lady"
-    include "build/src/overlays/actors/ovl_En_Niw_Lady/z_en_niw_lady.o"
-    include "build/src/overlays/actors/ovl_En_Niw_Lady/ovl_En_Niw_Lady_reloc.o"
-endseg

@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Stream"
-    include "build/src/overlays/actors/ovl_En_Stream/z_en_stream.o"
-    include "build/src/overlays/actors/ovl_En_Stream/ovl_En_Stream_reloc.o"
-endseg

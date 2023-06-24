@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Spot16_Doughnut"
-    include "build/src/overlays/actors/ovl_Bg_Spot16_Doughnut/z_bg_spot16_doughnut.o"
-    include "build/src/overlays/actors/ovl_Bg_Spot16_Doughnut/ovl_Bg_Spot16_Doughnut_reloc.o"
-endseg

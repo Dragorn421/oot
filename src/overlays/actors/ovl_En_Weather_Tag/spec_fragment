@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Weather_Tag"
-    include "build/src/overlays/actors/ovl_En_Weather_Tag/z_en_weather_tag.o"
-    include "build/src/overlays/actors/ovl_En_Weather_Tag/ovl_En_Weather_Tag_reloc.o"
-endseg

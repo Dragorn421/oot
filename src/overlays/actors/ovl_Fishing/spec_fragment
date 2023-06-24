@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Fishing"
-    include "build/src/overlays/actors/ovl_Fishing/z_fishing.o"
-    include "build/src/overlays/actors/ovl_Fishing/ovl_Fishing_reloc.o"
-endseg

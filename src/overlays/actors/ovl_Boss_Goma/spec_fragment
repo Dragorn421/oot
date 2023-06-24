@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Boss_Goma"
-    include "build/src/overlays/actors/ovl_Boss_Goma/z_boss_goma.o"
-    include "build/src/overlays/actors/ovl_Boss_Goma/ovl_Boss_Goma_reloc.o"
-endseg

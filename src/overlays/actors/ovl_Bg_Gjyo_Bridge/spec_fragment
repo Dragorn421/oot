@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Gjyo_Bridge"
-    include "build/src/overlays/actors/ovl_Bg_Gjyo_Bridge/z_bg_gjyo_bridge.o"
-    include "build/src/overlays/actors/ovl_Bg_Gjyo_Bridge/ovl_Bg_Gjyo_Bridge_reloc.o"
-endseg

@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_River_Sound"
-    include "build/src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.o"
-    include "build/src/overlays/actors/ovl_En_River_Sound/ovl_En_River_Sound_reloc.o"
-endseg

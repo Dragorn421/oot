@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Wallmas"
-    include "build/src/overlays/actors/ovl_En_Wallmas/z_en_wallmas.o"
-    include "build/src/overlays/actors/ovl_En_Wallmas/ovl_En_Wallmas_reloc.o"
-endseg

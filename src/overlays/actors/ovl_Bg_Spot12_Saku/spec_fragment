@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Spot12_Saku"
-    include "build/src/overlays/actors/ovl_Bg_Spot12_Saku/z_bg_spot12_saku.o"
-    include "build/src/overlays/actors/ovl_Bg_Spot12_Saku/ovl_Bg_Spot12_Saku_reloc.o"
-endseg

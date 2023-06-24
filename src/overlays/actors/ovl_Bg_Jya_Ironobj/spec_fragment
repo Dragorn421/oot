@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Jya_Ironobj"
-    include "build/src/overlays/actors/ovl_Bg_Jya_Ironobj/z_bg_jya_ironobj.o"
-    include "build/src/overlays/actors/ovl_Bg_Jya_Ironobj/ovl_Bg_Jya_Ironobj_reloc.o"
-endseg

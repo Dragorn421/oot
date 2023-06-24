@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Dnt_Jiji"
-    include "build/src/overlays/actors/ovl_En_Dnt_Jiji/z_en_dnt_jiji.o"
-    include "build/src/overlays/actors/ovl_En_Dnt_Jiji/ovl_En_Dnt_Jiji_reloc.o"
-endseg

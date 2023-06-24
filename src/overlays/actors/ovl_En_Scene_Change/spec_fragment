@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Scene_Change"
-    include "build/src/overlays/actors/ovl_En_Scene_Change/z_en_scene_change.o"
-    include "build/src/overlays/actors/ovl_En_Scene_Change/ovl_En_Scene_Change_reloc.o"
-endseg

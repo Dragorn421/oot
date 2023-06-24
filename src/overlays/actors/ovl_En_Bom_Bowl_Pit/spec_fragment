@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Bom_Bowl_Pit"
-    include "build/src/overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.o"
-    include "build/src/overlays/actors/ovl_En_Bom_Bowl_Pit/ovl_En_Bom_Bowl_Pit_reloc.o"
-endseg

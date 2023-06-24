@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Nutsball"
-    include "build/src/overlays/actors/ovl_En_Nutsball/z_en_nutsball.o"
-    include "build/src/overlays/actors/ovl_En_Nutsball/ovl_En_Nutsball_reloc.o"
-endseg

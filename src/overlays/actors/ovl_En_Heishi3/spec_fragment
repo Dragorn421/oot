@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Heishi3"
-    include "build/src/overlays/actors/ovl_En_Heishi3/z_en_heishi3.o"
-    include "build/src/overlays/actors/ovl_En_Heishi3/ovl_En_Heishi3_reloc.o"
-endseg

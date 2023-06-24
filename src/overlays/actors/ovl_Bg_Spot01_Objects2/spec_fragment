@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Spot01_Objects2"
-    include "build/src/overlays/actors/ovl_Bg_Spot01_Objects2/z_bg_spot01_objects2.o"
-    include "build/src/overlays/actors/ovl_Bg_Spot01_Objects2/ovl_Bg_Spot01_Objects2_reloc.o"
-endseg

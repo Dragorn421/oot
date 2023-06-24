@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Jya_Haheniron"
-    include "build/src/overlays/actors/ovl_Bg_Jya_Haheniron/z_bg_jya_haheniron.o"
-    include "build/src/overlays/actors/ovl_Bg_Jya_Haheniron/ovl_Bg_Jya_Haheniron_reloc.o"
-endseg

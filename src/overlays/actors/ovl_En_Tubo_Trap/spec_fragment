@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Tubo_Trap"
-    include "build/src/overlays/actors/ovl_En_Tubo_Trap/z_en_tubo_trap.o"
-    include "build/src/overlays/actors/ovl_En_Tubo_Trap/ovl_En_Tubo_Trap_reloc.o"
-endseg

@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Arrow_Light"
-    include "build/src/overlays/actors/ovl_Arrow_Light/z_arrow_light.o"
-    include "build/src/overlays/actors/ovl_Arrow_Light/ovl_Arrow_Light_reloc.o"
-endseg

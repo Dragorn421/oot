@@ -293,11 +293,18 @@ $(O_FILES): | asset_files
 
 .PHONY: o_files asset_files
 
--include build/$(SPEC).d
+# Dependencies of the spec file (the included spec_part and spec_fragment files)
+stdout := $(shell cpp -I. $(CPPFLAGS) -MM -MG -MT build/$(SPEC) $(SPEC) > build/$(SPEC).d)
+ifneq ($(stdout),)
+  $(error $(stdout))
+endif
+include build/$(SPEC).d
 
-build/$(SPEC): $(SPEC)
-	$(CPP) -I. $(CPPFLAGS) -M -MF build/$(SPEC).d -MM -MT build/spec $<
+build/$(SPEC):
 	$(CPP) -I. $(CPPFLAGS) $< -o $@
+
+build/src/overlays/%/spec_fragment:
+	python3 tools/generate_spec_fragment_overlay.py $@
 
 build/ldscript.txt: build/$(SPEC)
 	$(MKLDSCRIPT) $< $@

@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Honotrap"
-    include "build/src/overlays/actors/ovl_En_Honotrap/z_en_honotrap.o"
-    include "build/src/overlays/actors/ovl_En_Honotrap/ovl_En_Honotrap_reloc.o"
-endseg

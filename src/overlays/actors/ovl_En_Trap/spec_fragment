@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_En_Trap"
-    include "build/src/overlays/actors/ovl_En_Trap/z_en_trap.o"
-    include "build/src/overlays/actors/ovl_En_Trap/ovl_En_Trap_reloc.o"
-endseg

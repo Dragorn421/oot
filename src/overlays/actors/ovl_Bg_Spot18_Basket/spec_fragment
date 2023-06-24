@@ -1,5 +1,0 @@
-beginseg
-    name "ovl_Bg_Spot18_Basket"
-    include "build/src/overlays/actors/ovl_Bg_Spot18_Basket/z_bg_spot18_basket.o"
-    include "build/src/overlays/actors/ovl_Bg_Spot18_Basket/ovl_Bg_Spot18_Basket_reloc.o"
-endseg
