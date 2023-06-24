@@ -35,7 +35,7 @@
  *  - End Screen
  *      This page informs you that there are no more pages to display.
  *
- * To navigate the pages, START and A may be used to advance to the next page, and L toggles whether to
+ * To navigate the pages, DPad-Right and A may be used to advance to the next page, and L toggles whether to
  * automatically scroll to the next page after some time has passed.
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
