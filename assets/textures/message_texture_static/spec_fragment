@@ -1,0 +1,6 @@
+beginseg
+    name "message_texture_static"
+    romalign 0x1000
+    include "build/assets/textures/message_texture_static/message_texture_static.o"
+    number 9
+endseg

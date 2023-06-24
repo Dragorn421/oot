@@ -242,6 +242,9 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
 
     struct Segment *currSeg = NULL;
 
+    bool nextSegAddressIsSet = false;
+    uint32_t nextSegAddress = 0;
+
     // iterate over lines
     while (line[0] != 0)
     {
@@ -273,9 +276,20 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
                 case STMT_beginseg:
                     currSeg = add_segment(segments, segment_count);
                     currSeg->includes = NULL;
+
+                    if (nextSegAddressIsSet) {
+                        currSeg->fields |= 1 << STMT_address;
+                        currSeg->address = nextSegAddress;
+                        nextSegAddressIsSet = false;
+                    }
                     break;
                 case STMT_endseg:
                     util_fatal_error("line %i: '%s' outside of a segment definition", lineNum, stmtName);
+                    break;
+                case STMT_address:
+                    if (!parse_number(args, &nextSegAddress))
+                        util_fatal_error("line %i: expected number after 'address'", lineNum);
+                    nextSegAddressIsSet = true;
                     break;
                 default:
                     fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
@@ -299,8 +313,12 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
  */
 bool get_single_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName) {
     bool insideSegment = false;
+    bool skipSegment = false;
     int lineNum = 1;
     char *line = spec;
+
+    bool nextSegAddressIsSet = false;
+    uint32_t nextSegAddress = 0;
 
     memset(dstSegment, 0, sizeof(struct Segment));
 
@@ -313,24 +331,48 @@ bool get_single_segment_by_name(struct Segment* dstSegment, char *spec, const ch
             char *args = token_split(stmtName);
             STMTId stmt = get_stmt_id_by_stmt_name(stmtName, lineNum);
 
-            if (insideSegment) {
+            if (insideSegment && !skipSegment) {
                 bool segmentEnded = parse_segment_statement(dstSegment, stmt, args, lineNum);
 
                 if (stmt == STMT_name) {
                     if (strcmp(segmentName, dstSegment->name) != 0) {
                         // Not the segment we are looking for
-                        insideSegment = false;
+                        skipSegment = true;
                     }
                 } else if (segmentEnded) {
                     return true;
                 }
             } else {
-                if (stmt == STMT_beginseg) {
+                switch (stmt) {
+                case STMT_beginseg:
                     insideSegment = true;
+                    skipSegment = false;
                     if (dstSegment->includes != NULL) {
                         free(dstSegment->includes);
                     }
                     memset(dstSegment, 0, sizeof(struct Segment));
+
+                    if (nextSegAddressIsSet) {
+                        dstSegment->fields |= 1 << STMT_address;
+                        dstSegment->address = nextSegAddress;
+                        nextSegAddressIsSet = false;
+                    }
+                    break;
+                case STMT_endseg:
+                    insideSegment = false;
+                    break;
+                case STMT_address:
+                    if(!insideSegment) {
+                        if (!parse_number(args, &nextSegAddress))
+                            util_fatal_error("line %i: expected number after 'address'", lineNum);
+                        nextSegAddressIsSet = true;
+                    }
+                    break;
+                default:
+                    if(!insideSegment) {
+                        fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
+                    }
+                    break;
                 }
             }
         }

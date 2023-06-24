@@ -1,0 +1,6 @@
+beginseg
+    name "icon_item_field_static"
+    romalign 0x1000
+    include "build/assets/textures/icon_item_field_static/icon_item_field_static.o"
+    number 12
+endseg

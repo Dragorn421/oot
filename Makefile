@@ -174,7 +174,7 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
-OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
+OVL_RELOC_FILES := $(shell python3 tools/list_reloc_files.py)
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
@@ -293,8 +293,24 @@ $(O_FILES): | asset_files
 
 .PHONY: o_files asset_files
 
-build/$(SPEC): $(SPEC)
-	$(CPP) $(CPPFLAGS) $< > $@
+# Dependencies of the spec file (the included spec_part and spec_fragment files)
+stdout := $(shell cpp -I. $(CPPFLAGS) -MM -MG -MT build/$(SPEC) $(SPEC) > build/$(SPEC).d)
+ifneq ($(stdout),)
+  $(error $(stdout))
+endif
+include build/$(SPEC).d
+
+build/$(SPEC):
+	$(CPP) -I. $(CPPFLAGS) $< -o $@
+
+build/src/overlays/%/spec_fragment:
+	python3 tools/generate_spec_fragment_overlay.py $@
+
+build/assets/objects/%/spec_fragment:
+	python3 tools/generate_spec_fragment_object.py $@
+
+build/assets/scenes/%/spec_fragment:
+	python3 tools/generate_spec_fragment_map.py $@
 
 build/ldscript.txt: build/$(SPEC)
 	$(MKLDSCRIPT) $< $@

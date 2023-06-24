@@ -1,0 +1,6 @@
+beginseg
+    name "nintendo_rogo_static"
+    romalign 0x1000
+    include "build/assets/textures/nintendo_rogo_static/nintendo_rogo_static.o"
+    number 1
+endseg
