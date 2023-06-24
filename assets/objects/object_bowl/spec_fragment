@@ -1,6 +1,0 @@
-beginseg
-    name "object_bowl"
-    romalign 0x1000
-    include "build/assets/objects/object_bowl/object_bowl.o"
-    number 6
-endseg

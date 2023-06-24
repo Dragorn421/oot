@@ -1,6 +1,0 @@
-beginseg
-    name "object_tite"
-    romalign 0x1000
-    include "build/assets/objects/object_tite/object_tite.o"
-    number 6
-endseg

@@ -1,6 +1,0 @@
-beginseg
-    name "object_mjin_ice"
-    romalign 0x1000
-    include "build/assets/objects/object_mjin_ice/object_mjin_ice.o"
-    number 6
-endseg

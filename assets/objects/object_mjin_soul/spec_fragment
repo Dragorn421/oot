@@ -1,6 +1,0 @@
-beginseg
-    name "object_mjin_soul"
-    romalign 0x1000
-    include "build/assets/objects/object_mjin_soul/object_mjin_soul.o"
-    number 6
-endseg

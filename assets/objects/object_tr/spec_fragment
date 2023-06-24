@@ -1,6 +1,0 @@
-beginseg
-    name "object_tr"
-    romalign 0x1000
-    include "build/assets/objects/object_tr/object_tr.o"
-    number 6
-endseg

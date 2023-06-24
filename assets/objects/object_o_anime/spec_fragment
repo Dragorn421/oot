@@ -1,6 +1,0 @@
-beginseg
-    name "object_o_anime"
-    romalign 0x1000
-    include "build/assets/objects/object_o_anime/object_o_anime.o"
-    number 6
-endseg

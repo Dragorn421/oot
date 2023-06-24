@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_liquid"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_liquid/object_gi_liquid.o"
-    number 6
-endseg

@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_boomerang"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_boomerang/object_gi_boomerang.o"
-    number 6
-endseg

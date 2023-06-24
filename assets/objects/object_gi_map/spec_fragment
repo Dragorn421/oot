@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_map"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_map/object_gi_map.o"
-    number 6
-endseg

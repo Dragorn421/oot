@@ -1,6 +1,0 @@
-beginseg
-    name "object_efc_doughnut"
-    romalign 0x1000
-    include "build/assets/objects/object_efc_doughnut/object_efc_doughnut.o"
-    number 6
-endseg

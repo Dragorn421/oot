@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_egg"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_egg/object_gi_egg.o"
-    number 6
-endseg

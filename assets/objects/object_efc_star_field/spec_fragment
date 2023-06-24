@@ -1,6 +1,0 @@
-beginseg
-    name "object_efc_star_field"
-    romalign 0x1000
-    include "build/assets/objects/object_efc_star_field/object_efc_star_field.o"
-    number 6
-endseg

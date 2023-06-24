@@ -1,6 +1,0 @@
-beginseg
-    name "object_spot02_objects"
-    romalign 0x1000
-    include "build/assets/objects/object_spot02_objects/object_spot02_objects.o"
-    number 6
-endseg

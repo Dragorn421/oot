@@ -1,6 +1,0 @@
-beginseg
-    name "object_horse_ganon"
-    romalign 0x1000
-    include "build/assets/objects/object_horse_ganon/object_horse_ganon.o"
-    number 6
-endseg

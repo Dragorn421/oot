@@ -1,6 +1,0 @@
-beginseg
-    name "object_im"
-    romalign 0x1000
-    include "build/assets/objects/object_im/object_im.o"
-    number 6
-endseg

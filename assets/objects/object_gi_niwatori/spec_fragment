@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_niwatori"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_niwatori/object_gi_niwatori.o"
-    number 6
-endseg

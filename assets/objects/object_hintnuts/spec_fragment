@@ -1,6 +1,0 @@
-beginseg
-    name "object_hintnuts"
-    romalign 0x1000
-    include "build/assets/objects/object_hintnuts/object_hintnuts.o"
-    number 6
-endseg

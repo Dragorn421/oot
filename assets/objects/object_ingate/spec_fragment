@@ -1,6 +1,0 @@
-beginseg
-    name "object_ingate"
-    romalign 0x1000
-    include "build/assets/objects/object_ingate/object_ingate.o"
-    number 6
-endseg

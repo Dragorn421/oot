@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_milk"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_milk/object_gi_milk.o"
-    number 6
-endseg

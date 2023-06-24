@@ -1,6 +1,0 @@
-beginseg
-    name "object_ossan"
-    romalign 0x1000
-    include "build/assets/objects/object_ossan/object_ossan.o"
-    number 6
-endseg

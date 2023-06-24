@@ -1,6 +1,0 @@
-beginseg
-    name "object_kanban"
-    romalign 0x1000
-    include "build/assets/objects/object_kanban/object_kanban.o"
-    number 6
-endseg

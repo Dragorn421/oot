@@ -1,6 +1,0 @@
-beginseg
-    name "object_yabusame_point"
-    romalign 0x1000
-    include "build/assets/objects/object_yabusame_point/object_yabusame_point.o"
-    number 6
-endseg

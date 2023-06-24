@@ -1,6 +1,0 @@
-beginseg
-    name "object_oB1"
-    romalign 0x1000
-    include "build/assets/objects/object_oB1/object_oB1.o"
-    number 6
-endseg

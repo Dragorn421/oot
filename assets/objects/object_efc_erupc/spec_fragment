@@ -1,6 +1,0 @@
-beginseg
-    name "object_efc_erupc"
-    romalign 0x1000
-    include "build/assets/objects/object_efc_erupc/object_efc_erupc.o"
-    number 6
-endseg

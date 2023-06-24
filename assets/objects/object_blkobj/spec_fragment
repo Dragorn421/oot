@@ -1,6 +1,0 @@
-beginseg
-    name "object_blkobj"
-    romalign 0x1000
-    include "build/assets/objects/object_blkobj/object_blkobj.o"
-    number 6
-endseg

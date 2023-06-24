@@ -1,6 +1,0 @@
-beginseg
-    name "object_demo_tre_lgt"
-    romalign 0x1000
-    include "build/assets/objects/object_demo_tre_lgt/object_demo_tre_lgt.o"
-    number 6
-endseg

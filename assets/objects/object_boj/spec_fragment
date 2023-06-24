@@ -1,6 +1,0 @@
-beginseg
-    name "object_boj"
-    romalign 0x1000
-    include "build/assets/objects/object_boj/object_boj.o"
-    number 6
-endseg

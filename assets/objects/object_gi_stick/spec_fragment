@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_stick"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_stick/object_gi_stick.o"
-    number 6
-endseg

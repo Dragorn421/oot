@@ -1,6 +1,0 @@
-beginseg
-    name "object_lightswitch"
-    romalign 0x1000
-    include "build/assets/objects/object_lightswitch/object_lightswitch.o"
-    number 6
-endseg

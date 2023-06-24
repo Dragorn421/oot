@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_m_arrow"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_m_arrow/object_gi_m_arrow.o"
-    number 6
-endseg

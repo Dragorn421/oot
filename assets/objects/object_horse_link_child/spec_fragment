@@ -1,6 +1,0 @@
-beginseg
-    name "object_horse_link_child"
-    romalign 0x1000
-    include "build/assets/objects/object_horse_link_child/object_horse_link_child.o"
-    number 6
-endseg

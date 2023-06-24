@@ -1,6 +1,0 @@
-beginseg
-    name "object_reeba"
-    romalign 0x1000
-    include "build/assets/objects/object_reeba/object_reeba.o"
-    number 6
-endseg

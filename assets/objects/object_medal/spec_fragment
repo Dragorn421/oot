@@ -1,6 +1,0 @@
-beginseg
-    name "object_medal"
-    romalign 0x1000
-    include "build/assets/objects/object_medal/object_medal.o"
-    number 6
-endseg

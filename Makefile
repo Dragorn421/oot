@@ -306,6 +306,9 @@ build/$(SPEC):
 build/src/overlays/%/spec_fragment:
 	python3 tools/generate_spec_fragment_overlay.py $@
 
+build/assets/objects/%/spec_fragment:
+	python3 tools/generate_spec_fragment_object.py $@
+
 build/ldscript.txt: build/$(SPEC)
 	$(MKLDSCRIPT) $< $@
 

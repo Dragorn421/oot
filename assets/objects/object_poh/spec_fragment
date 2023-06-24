@@ -1,6 +1,0 @@
-beginseg
-    name "object_poh"
-    romalign 0x1000
-    include "build/assets/objects/object_poh/object_poh.o"
-    number 6
-endseg

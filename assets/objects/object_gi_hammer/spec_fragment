@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_hammer"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_hammer/object_gi_hammer.o"
-    number 6
-endseg

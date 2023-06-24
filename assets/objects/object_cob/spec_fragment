@@ -1,6 +1,0 @@
-beginseg
-    name "object_cob"
-    romalign 0x1000
-    include "build/assets/objects/object_cob/object_cob.o"
-    number 6
-endseg

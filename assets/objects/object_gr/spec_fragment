@@ -1,6 +1,0 @@
-beginseg
-    name "object_gr"
-    romalign 0x1000
-    include "build/assets/objects/object_gr/object_gr.o"
-    number 6
-endseg

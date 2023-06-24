@@ -1,6 +1,0 @@
-beginseg
-    name "object_hni"
-    romalign 0x1000
-    include "build/assets/objects/object_hni/object_hni.o"
-    number 6
-endseg

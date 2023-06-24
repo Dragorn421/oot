@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_shield_3"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_shield_3/object_gi_shield_3.o"
-    number 6
-endseg

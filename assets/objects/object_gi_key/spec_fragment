@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_key"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_key/object_gi_key.o"
-    number 6
-endseg

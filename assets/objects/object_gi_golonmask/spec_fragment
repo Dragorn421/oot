@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_golonmask"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_golonmask/object_gi_golonmask.o"
-    number 6
-endseg

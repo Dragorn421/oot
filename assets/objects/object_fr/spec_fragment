@@ -1,6 +1,0 @@
-beginseg
-    name "object_fr"
-    romalign 0x1000
-    include "build/assets/objects/object_fr/object_fr.o"
-    number 6
-endseg

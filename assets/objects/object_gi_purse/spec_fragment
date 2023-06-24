@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_purse"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_purse/object_gi_purse.o"
-    number 6
-endseg

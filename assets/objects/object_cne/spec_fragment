@@ -1,6 +1,0 @@
-beginseg
-    name "object_cne"
-    romalign 0x1000
-    include "build/assets/objects/object_cne/object_cne.o"
-    number 6
-endseg

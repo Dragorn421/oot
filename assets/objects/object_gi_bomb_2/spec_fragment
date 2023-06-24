@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_bomb_2"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_bomb_2/object_gi_bomb_2.o"
-    number 6
-endseg

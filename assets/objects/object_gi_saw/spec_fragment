@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_saw"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_saw/object_gi_saw.o"
-    number 6
-endseg

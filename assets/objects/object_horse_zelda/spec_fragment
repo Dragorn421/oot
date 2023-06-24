@@ -1,6 +1,0 @@
-beginseg
-    name "object_horse_zelda"
-    romalign 0x1000
-    include "build/assets/objects/object_horse_zelda/object_horse_zelda.o"
-    number 6
-endseg

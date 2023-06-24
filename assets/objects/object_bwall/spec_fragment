@@ -1,6 +1,0 @@
-beginseg
-    name "object_bwall"
-    romalign 0x1000
-    include "build/assets/objects/object_bwall/object_bwall.o"
-    number 6
-endseg

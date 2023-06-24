@@ -1,6 +1,0 @@
-beginseg
-    name "object_gndd"
-    romalign 0x1000
-    include "build/assets/objects/object_gndd/object_gndd.o"
-    number 6
-endseg

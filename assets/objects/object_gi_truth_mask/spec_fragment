@@ -1,6 +1,0 @@
-beginseg
-    name "object_gi_truth_mask"
-    romalign 0x1000
-    include "build/assets/objects/object_gi_truth_mask/object_gi_truth_mask.o"
-    number 6
-endseg
