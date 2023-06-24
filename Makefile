@@ -174,7 +174,7 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
-OVL_RELOC_FILES := $(shell $(CPP) -I. $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
+OVL_RELOC_FILES := $(shell python3 tools/list_reloc_files.py)
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
