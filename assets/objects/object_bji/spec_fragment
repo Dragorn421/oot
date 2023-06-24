@@ -1,0 +1,6 @@
+beginseg
+    name "object_bji"
+    romalign 0x1000
+    include "build/assets/objects/object_bji/object_bji.o"
+    number 6
+endseg

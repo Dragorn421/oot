@@ -1,0 +1,6 @@
+beginseg
+    name "map_grand_static"
+    romalign 0x1000
+    include "build/assets/textures/map_grand_static/map_grand_static.o"
+    number 11
+endseg

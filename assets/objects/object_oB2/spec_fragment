@@ -1,0 +1,6 @@
+beginseg
+    name "object_oB2"
+    romalign 0x1000
+    include "build/assets/objects/object_oB2/object_oB2.o"
+    number 6
+endseg

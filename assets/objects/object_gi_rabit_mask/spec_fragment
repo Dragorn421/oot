@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_rabit_mask"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_rabit_mask/object_gi_rabit_mask.o"
+    number 6
+endseg

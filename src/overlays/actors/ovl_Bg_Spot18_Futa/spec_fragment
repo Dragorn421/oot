@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Spot18_Futa"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Futa/z_bg_spot18_futa.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Futa/ovl_Bg_Spot18_Futa_reloc.o"
+endseg

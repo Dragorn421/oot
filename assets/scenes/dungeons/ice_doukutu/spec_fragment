@@ -1,0 +1,78 @@
+beginseg
+    name "ice_doukutu_scene"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.o"
+    number 2
+endseg
+beginseg
+    name "ice_doukutu_room_0"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_0.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_1"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_1.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_2"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_2.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_3"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_3.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_4"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_4.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_5"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_5.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_6"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_6.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_7"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_7.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_8"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_8.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_9"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_9.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_10"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_10.o"
+    number 3
+endseg
+beginseg
+    name "ice_doukutu_room_11"
+    romalign 0x1000
+    include "build/assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_11.o"
+    number 3
+endseg

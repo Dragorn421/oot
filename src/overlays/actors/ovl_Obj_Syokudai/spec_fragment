@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Obj_Syokudai"
+    include "build/src/overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.o"
+    include "build/src/overlays/actors/ovl_Obj_Syokudai/ovl_Obj_Syokudai_reloc.o"
+endseg

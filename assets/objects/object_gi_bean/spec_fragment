@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_bean"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_bean/object_gi_bean.o"
+    number 6
+endseg

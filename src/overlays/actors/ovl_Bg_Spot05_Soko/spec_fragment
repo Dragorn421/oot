@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Spot05_Soko"
+    include "build/src/overlays/actors/ovl_Bg_Spot05_Soko/z_bg_spot05_soko.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot05_Soko/ovl_Bg_Spot05_Soko_reloc.o"
+endseg

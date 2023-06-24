@@ -1,0 +1,6 @@
+beginseg
+    name "object_bombiwa"
+    romalign 0x1000
+    include "build/assets/objects/object_bombiwa/object_bombiwa.o"
+    number 6
+endseg

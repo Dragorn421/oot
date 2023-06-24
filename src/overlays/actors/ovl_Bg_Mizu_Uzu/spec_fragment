@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Mizu_Uzu"
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Uzu/z_bg_mizu_uzu.o"
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Uzu/ovl_Bg_Mizu_Uzu_reloc.o"
+endseg

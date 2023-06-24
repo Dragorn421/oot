@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_En_Viewer"
+    include "build/src/overlays/actors/ovl_En_Viewer/z_en_viewer.o"
+    include "build/src/overlays/actors/ovl_En_Viewer/ovl_En_Viewer_reloc.o"
+endseg

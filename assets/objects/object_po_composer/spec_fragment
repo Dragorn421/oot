@@ -1,0 +1,6 @@
+beginseg
+    name "object_po_composer"
+    romalign 0x1000
+    include "build/assets/objects/object_po_composer/object_po_composer.o"
+    number 6
+endseg

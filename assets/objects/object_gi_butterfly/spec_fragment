@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_butterfly"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_butterfly/object_gi_butterfly.o"
+    number 6
+endseg

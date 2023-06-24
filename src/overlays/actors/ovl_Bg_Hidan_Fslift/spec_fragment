@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Hidan_Fslift"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Fslift/z_bg_hidan_fslift.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Fslift/ovl_Bg_Hidan_Fslift_reloc.o"
+endseg

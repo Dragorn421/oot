@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Item_B_Heart"
+    include "build/src/overlays/actors/ovl_Item_B_Heart/z_item_b_heart.o"
+    include "build/src/overlays/actors/ovl_Item_B_Heart/ovl_Item_B_Heart_reloc.o"
+endseg

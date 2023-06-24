@@ -1,0 +1,6 @@
+beginseg
+    name "object_wf"
+    romalign 0x1000
+    include "build/assets/objects/object_wf/object_wf.o"
+    number 6
+endseg

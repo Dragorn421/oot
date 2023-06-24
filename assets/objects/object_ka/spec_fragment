@@ -1,0 +1,6 @@
+beginseg
+    name "object_ka"
+    romalign 0x1000
+    include "build/assets/objects/object_ka/object_ka.o"
+    number 6
+endseg

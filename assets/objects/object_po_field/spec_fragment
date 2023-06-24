@@ -1,0 +1,6 @@
+beginseg
+    name "object_po_field"
+    romalign 0x1000
+    include "build/assets/objects/object_po_field/object_po_field.o"
+    number 6
+endseg

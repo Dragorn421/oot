@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Door_Toki"
+    include "build/src/overlays/actors/ovl_Door_Toki/z_door_toki.o"
+    include "build/src/overlays/actors/ovl_Door_Toki/ovl_Door_Toki_reloc.o"
+endseg

@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Hidan_Rsekizou"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Rsekizou/z_bg_hidan_rsekizou.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Rsekizou/ovl_Bg_Hidan_Rsekizou_reloc.o"
+endseg

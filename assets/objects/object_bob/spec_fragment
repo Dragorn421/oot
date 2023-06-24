@@ -1,0 +1,6 @@
+beginseg
+    name "object_bob"
+    romalign 0x1000
+    include "build/assets/objects/object_bob/object_bob.o"
+    number 6
+endseg

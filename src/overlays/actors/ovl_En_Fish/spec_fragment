@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_En_Fish"
+    include "build/src/overlays/actors/ovl_En_Fish/z_en_fish.o"
+    include "build/src/overlays/actors/ovl_En_Fish/ovl_En_Fish_reloc.o"
+endseg

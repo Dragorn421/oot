@@ -1,0 +1,6 @@
+beginseg
+    name "object_efc_flash"
+    romalign 0x1000
+    include "build/assets/objects/object_efc_flash/object_efc_flash.o"
+    number 6
+endseg

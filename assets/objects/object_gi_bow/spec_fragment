@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_bow"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_bow/object_gi_bow.o"
+    number 6
+endseg

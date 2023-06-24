@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_En_Po_Field"
+    include "build/src/overlays/actors/ovl_En_Po_Field/z_en_po_field.o"
+    include "build/src/overlays/actors/ovl_En_Po_Field/ovl_En_Po_Field_reloc.o"
+endseg

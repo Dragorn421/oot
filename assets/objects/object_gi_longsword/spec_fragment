@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_longsword"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_longsword/object_gi_longsword.o"
+    number 6
+endseg

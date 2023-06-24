@@ -1,0 +1,6 @@
+beginseg
+    name "object_ma2"
+    romalign 0x1000
+    include "build/assets/objects/object_ma2/object_ma2.o"
+    number 6
+endseg

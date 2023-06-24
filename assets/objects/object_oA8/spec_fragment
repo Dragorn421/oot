@@ -1,0 +1,6 @@
+beginseg
+    name "object_oA8"
+    romalign 0x1000
+    include "build/assets/objects/object_oA8/object_oA8.o"
+    number 6
+endseg

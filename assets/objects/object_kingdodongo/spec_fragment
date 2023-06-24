@@ -1,0 +1,6 @@
+beginseg
+    name "object_kingdodongo"
+    romalign 0x1000
+    include "build/assets/objects/object_kingdodongo/object_kingdodongo.o"
+    number 6
+endseg

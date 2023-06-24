@@ -1,0 +1,6 @@
+beginseg
+    name "object_fa"
+    romalign 0x1000
+    include "build/assets/objects/object_fa/object_fa.o"
+    number 6
+endseg

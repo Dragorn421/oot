@@ -1,0 +1,6 @@
+beginseg
+    name "object_ahg"
+    romalign 0x1000
+    include "build/assets/objects/object_ahg/object_ahg.o"
+    number 6
+endseg

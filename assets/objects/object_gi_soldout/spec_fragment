@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_soldout"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_soldout/object_gi_soldout.o"
+    number 6
+endseg

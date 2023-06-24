@@ -1,0 +1,6 @@
+beginseg
+    name "object_mori_hineri1a"
+    romalign 0x1000
+    include "build/assets/objects/object_mori_hineri1a/object_mori_hineri1a.o"
+    number 6
+endseg

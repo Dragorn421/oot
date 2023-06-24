@@ -1,0 +1,6 @@
+beginseg
+    name "object_spot00_break"
+    romalign 0x1000
+    include "build/assets/objects/object_spot00_break/object_spot00_break.o"
+    number 6
+endseg

@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Mizu_Movebg"
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/z_bg_mizu_movebg.o"
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/ovl_Bg_Mizu_Movebg_reloc.o"
+endseg

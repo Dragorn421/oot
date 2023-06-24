@@ -1,0 +1,6 @@
+beginseg
+    name "object_tsubo"
+    romalign 0x1000
+    include "build/assets/objects/object_tsubo/object_tsubo.o"
+    number 6
+endseg

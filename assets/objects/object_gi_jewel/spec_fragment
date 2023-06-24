@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_jewel"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_jewel/object_gi_jewel.o"
+    number 6
+endseg

@@ -1,0 +1,6 @@
+beginseg
+    name "object_pu_box"
+    romalign 0x1000
+    include "build/assets/objects/object_pu_box/object_pu_box.o"
+    number 6
+endseg

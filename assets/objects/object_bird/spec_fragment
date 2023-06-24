@@ -1,0 +1,6 @@
+beginseg
+    name "object_bird"
+    romalign 0x1000
+    include "build/assets/objects/object_bird/object_bird.o"
+    number 6
+endseg

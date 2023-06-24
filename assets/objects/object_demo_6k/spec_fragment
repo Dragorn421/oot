@@ -1,0 +1,6 @@
+beginseg
+    name "object_demo_6k"
+    romalign 0x1000
+    include "build/assets/objects/object_demo_6k/object_demo_6k.o"
+    number 6
+endseg

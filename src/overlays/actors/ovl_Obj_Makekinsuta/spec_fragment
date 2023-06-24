@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Obj_Makekinsuta"
+    include "build/src/overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.o"
+    include "build/src/overlays/actors/ovl_Obj_Makekinsuta/ovl_Obj_Makekinsuta_reloc.o"
+endseg

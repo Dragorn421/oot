@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Jya_Zurerukabe"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Zurerukabe/z_bg_jya_zurerukabe.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Zurerukabe/ovl_Bg_Jya_Zurerukabe_reloc.o"
+endseg

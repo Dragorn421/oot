@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Pushbox"
+    include "build/src/overlays/actors/ovl_Bg_Pushbox/z_bg_pushbox.o"
+    include "build/src/overlays/actors/ovl_Bg_Pushbox/ovl_Bg_Pushbox_reloc.o"
+endseg

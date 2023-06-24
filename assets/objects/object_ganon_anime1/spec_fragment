@@ -1,0 +1,6 @@
+beginseg
+    name "object_ganon_anime1"
+    romalign 0x1000
+    include "build/assets/objects/object_ganon_anime1/object_ganon_anime1.o"
+    number 6
+endseg

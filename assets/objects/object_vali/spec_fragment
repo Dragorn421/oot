@@ -1,0 +1,6 @@
+beginseg
+    name "object_vali"
+    romalign 0x1000
+    include "build/assets/objects/object_vali/object_vali.o"
+    number 6
+endseg

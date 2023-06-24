@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_ticketstone"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_ticketstone/object_gi_ticketstone.o"
+    number 6
+endseg

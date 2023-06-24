@@ -1,0 +1,6 @@
+beginseg
+    name "object_gm"
+    romalign 0x1000
+    include "build/assets/objects/object_gm/object_gm.o"
+    number 6
+endseg

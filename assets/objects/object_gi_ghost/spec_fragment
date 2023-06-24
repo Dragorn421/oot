@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_ghost"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_ghost/object_gi_ghost.o"
+    number 6
+endseg

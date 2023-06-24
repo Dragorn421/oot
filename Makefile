@@ -174,7 +174,7 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
-OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
+OVL_RELOC_FILES := $(shell $(CPP) -I. $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
@@ -293,8 +293,11 @@ $(O_FILES): | asset_files
 
 .PHONY: o_files asset_files
 
+-include build/$(SPEC).d
+
 build/$(SPEC): $(SPEC)
-	$(CPP) $(CPPFLAGS) $< > $@
+	$(CPP) -I. $(CPPFLAGS) -M -MF build/$(SPEC).d -MM -MT build/spec $<
+	$(CPP) -I. $(CPPFLAGS) $< -o $@
 
 build/ldscript.txt: build/$(SPEC)
 	$(MKLDSCRIPT) $< $@

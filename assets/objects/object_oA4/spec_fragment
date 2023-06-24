@@ -1,0 +1,6 @@
+beginseg
+    name "object_oA4"
+    romalign 0x1000
+    include "build/assets/objects/object_oA4/object_oA4.o"
+    number 6
+endseg

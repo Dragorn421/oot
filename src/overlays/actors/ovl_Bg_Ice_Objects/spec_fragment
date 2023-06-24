@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Ice_Objects"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Objects/z_bg_ice_objects.o"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Objects/ovl_Bg_Ice_Objects_reloc.o"
+endseg

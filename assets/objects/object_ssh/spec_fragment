@@ -1,0 +1,6 @@
+beginseg
+    name "object_ssh"
+    romalign 0x1000
+    include "build/assets/objects/object_ssh/object_ssh.o"
+    number 6
+endseg

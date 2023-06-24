@@ -1,0 +1,6 @@
+beginseg
+    name "object_b_heart"
+    romalign 0x1000
+    include "build/assets/objects/object_b_heart/object_b_heart.o"
+    number 6
+endseg

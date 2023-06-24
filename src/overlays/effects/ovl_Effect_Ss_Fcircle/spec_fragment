@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Effect_Ss_Fcircle"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Fcircle/ovl_Effect_Ss_Fcircle_reloc.o"
+endseg

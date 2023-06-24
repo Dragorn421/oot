@@ -1,0 +1,30 @@
+beginseg
+    name "spot18_scene"
+    romalign 0x1000
+    include "build/assets/scenes/overworld/spot18/spot18_scene.o"
+    number 2
+endseg
+beginseg
+    name "spot18_room_0"
+    romalign 0x1000
+    include "build/assets/scenes/overworld/spot18/spot18_room_0.o"
+    number 3
+endseg
+beginseg
+    name "spot18_room_1"
+    romalign 0x1000
+    include "build/assets/scenes/overworld/spot18/spot18_room_1.o"
+    number 3
+endseg
+beginseg
+    name "spot18_room_2"
+    romalign 0x1000
+    include "build/assets/scenes/overworld/spot18/spot18_room_2.o"
+    number 3
+endseg
+beginseg
+    name "spot18_room_3"
+    romalign 0x1000
+    include "build/assets/scenes/overworld/spot18/spot18_room_3.o"
+    number 3
+endseg

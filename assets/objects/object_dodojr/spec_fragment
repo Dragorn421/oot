@@ -1,0 +1,6 @@
+beginseg
+    name "object_dodojr"
+    romalign 0x1000
+    include "build/assets/objects/object_dodojr/object_dodojr.o"
+    number 6
+endseg

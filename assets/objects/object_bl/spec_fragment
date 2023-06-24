@@ -1,0 +1,6 @@
+beginseg
+    name "object_bl"
+    romalign 0x1000
+    include "build/assets/objects/object_bl/object_bl.o"
+    number 6
+endseg

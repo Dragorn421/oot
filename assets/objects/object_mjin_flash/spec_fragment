@@ -1,0 +1,6 @@
+beginseg
+    name "object_mjin_flash"
+    romalign 0x1000
+    include "build/assets/objects/object_mjin_flash/object_mjin_flash.o"
+    number 6
+endseg

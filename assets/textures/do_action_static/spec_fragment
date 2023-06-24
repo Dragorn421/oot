@@ -1,0 +1,6 @@
+beginseg
+    name "do_action_static"
+    romalign 0x1000
+    include "build/assets/textures/do_action_static/do_action_static.o"
+    number 7
+endseg

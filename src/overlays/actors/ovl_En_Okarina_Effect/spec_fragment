@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_En_Okarina_Effect"
+    include "build/src/overlays/actors/ovl_En_Okarina_Effect/z_en_okarina_effect.o"
+    include "build/src/overlays/actors/ovl_En_Okarina_Effect/ovl_En_Okarina_Effect_reloc.o"
+endseg

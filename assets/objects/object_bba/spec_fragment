@@ -1,0 +1,6 @@
+beginseg
+    name "object_bba"
+    romalign 0x1000
+    include "build/assets/objects/object_bba/object_bba.o"
+    number 6
+endseg

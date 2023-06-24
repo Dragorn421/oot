@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Eff_Dust"
+    include "build/src/overlays/actors/ovl_Eff_Dust/z_eff_dust.o"
+    include "build/src/overlays/actors/ovl_Eff_Dust/ovl_Eff_Dust_reloc.o"
+endseg

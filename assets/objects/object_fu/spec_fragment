@@ -1,0 +1,6 @@
+beginseg
+    name "object_fu"
+    romalign 0x1000
+    include "build/assets/objects/object_fu/object_fu.o"
+    number 6
+endseg

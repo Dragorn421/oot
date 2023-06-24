@@ -1,0 +1,6 @@
+beginseg
+    name "object_rs"
+    romalign 0x1000
+    include "build/assets/objects/object_rs/object_rs.o"
+    number 6
+endseg

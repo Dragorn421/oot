@@ -1,0 +1,6 @@
+beginseg
+    name "object_rl"
+    romalign 0x1000
+    include "build/assets/objects/object_rl/object_rl.o"
+    number 6
+endseg

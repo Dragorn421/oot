@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Haka_Megane"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Megane/z_bg_haka_megane.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Megane/ovl_Bg_Haka_Megane_reloc.o"
+endseg

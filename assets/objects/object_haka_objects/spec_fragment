@@ -1,0 +1,6 @@
+beginseg
+    name "object_haka_objects"
+    romalign 0x1000
+    include "build/assets/objects/object_haka_objects/object_haka_objects.o"
+    number 6
+endseg

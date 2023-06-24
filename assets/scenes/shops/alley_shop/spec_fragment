@@ -1,0 +1,12 @@
+beginseg
+    name "alley_shop_scene"
+    romalign 0x1000
+    include "build/assets/scenes/shops/alley_shop/alley_shop_scene.o"
+    number 2
+endseg
+beginseg
+    name "alley_shop_room_0"
+    romalign 0x1000
+    include "build/assets/scenes/shops/alley_shop/alley_shop_room_0.o"
+    number 3
+endseg

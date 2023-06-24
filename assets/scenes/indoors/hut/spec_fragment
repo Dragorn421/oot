@@ -1,0 +1,12 @@
+beginseg
+    name "hut_scene"
+    romalign 0x1000
+    include "build/assets/scenes/indoors/hut/hut_scene.o"
+    number 2
+endseg
+beginseg
+    name "hut_room_0"
+    romalign 0x1000
+    include "build/assets/scenes/indoors/hut/hut_room_0.o"
+    number 3
+endseg

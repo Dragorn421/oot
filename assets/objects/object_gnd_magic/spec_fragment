@@ -1,0 +1,6 @@
+beginseg
+    name "object_gnd_magic"
+    romalign 0x1000
+    include "build/assets/objects/object_gnd_magic/object_gnd_magic.o"
+    number 6
+endseg

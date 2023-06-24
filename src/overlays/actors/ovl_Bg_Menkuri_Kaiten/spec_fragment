@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Menkuri_Kaiten"
+    include "build/src/overlays/actors/ovl_Bg_Menkuri_Kaiten/z_bg_menkuri_kaiten.o"
+    include "build/src/overlays/actors/ovl_Bg_Menkuri_Kaiten/ovl_Bg_Menkuri_Kaiten_reloc.o"
+endseg

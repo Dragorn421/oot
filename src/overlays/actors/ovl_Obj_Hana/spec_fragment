@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Obj_Hana"
+    include "build/src/overlays/actors/ovl_Obj_Hana/z_obj_hana.o"
+    include "build/src/overlays/actors/ovl_Obj_Hana/ovl_Obj_Hana_reloc.o"
+endseg

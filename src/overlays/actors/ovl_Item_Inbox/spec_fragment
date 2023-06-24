@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Item_Inbox"
+    include "build/src/overlays/actors/ovl_Item_Inbox/z_item_inbox.o"
+    include "build/src/overlays/actors/ovl_Item_Inbox/ovl_Item_Inbox_reloc.o"
+endseg

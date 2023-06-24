@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Spot08_Iceblock"
+    include "build/src/overlays/actors/ovl_Bg_Spot08_Iceblock/z_bg_spot08_iceblock.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot08_Iceblock/ovl_Bg_Spot08_Iceblock_reloc.o"
+endseg

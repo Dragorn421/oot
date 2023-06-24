@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Jya_Bombchuiwa"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Bombchuiwa/z_bg_jya_bombchuiwa.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Bombchuiwa/ovl_Bg_Jya_Bombchuiwa_reloc.o"
+endseg

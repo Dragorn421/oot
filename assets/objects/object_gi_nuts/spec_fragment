@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_nuts"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_nuts/object_gi_nuts.o"
+    number 6
+endseg

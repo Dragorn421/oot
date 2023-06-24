@@ -1,0 +1,6 @@
+beginseg
+    name "object_gi_seed"
+    romalign 0x1000
+    include "build/assets/objects/object_gi_seed/object_gi_seed.o"
+    number 6
+endseg

@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Boss_Sst"
+    include "build/src/overlays/actors/ovl_Boss_Sst/z_boss_sst.o"
+    include "build/src/overlays/actors/ovl_Boss_Sst/ovl_Boss_Sst_reloc.o"
+endseg

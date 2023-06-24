@@ -1,0 +1,6 @@
+beginseg
+    name "object_relay_objects"
+    romalign 0x1000
+    include "build/assets/objects/object_relay_objects/object_relay_objects.o"
+    number 6
+endseg

@@ -1,0 +1,6 @@
+beginseg
+    name "object_mk"
+    romalign 0x1000
+    include "build/assets/objects/object_mk/object_mk.o"
+    number 6
+endseg

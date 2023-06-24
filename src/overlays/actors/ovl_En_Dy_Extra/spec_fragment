@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_En_Dy_Extra"
+    include "build/src/overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.o"
+    include "build/src/overlays/actors/ovl_En_Dy_Extra/ovl_En_Dy_Extra_reloc.o"
+endseg

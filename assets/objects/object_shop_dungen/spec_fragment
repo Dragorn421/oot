@@ -1,0 +1,6 @@
+beginseg
+    name "object_shop_dungen"
+    romalign 0x1000
+    include "build/assets/objects/object_shop_dungen/object_shop_dungen.o"
+    number 6
+endseg

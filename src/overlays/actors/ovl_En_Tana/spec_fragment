@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_En_Tana"
+    include "build/src/overlays/actors/ovl_En_Tana/z_en_tana.o"
+    include "build/src/overlays/actors/ovl_En_Tana/ovl_En_Tana_reloc.o"
+endseg

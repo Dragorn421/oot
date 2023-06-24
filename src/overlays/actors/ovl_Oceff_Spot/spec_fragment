@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Oceff_Spot"
+    include "build/src/overlays/actors/ovl_Oceff_Spot/z_oceff_spot.o"
+    include "build/src/overlays/actors/ovl_Oceff_Spot/ovl_Oceff_Spot_reloc.o"
+endseg

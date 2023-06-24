@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Boss_Dodongo"
+    include "build/src/overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.o"
+    include "build/src/overlays/actors/ovl_Boss_Dodongo/ovl_Boss_Dodongo_reloc.o"
+endseg

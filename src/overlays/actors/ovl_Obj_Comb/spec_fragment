@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Obj_Comb"
+    include "build/src/overlays/actors/ovl_Obj_Comb/z_obj_comb.o"
+    include "build/src/overlays/actors/ovl_Obj_Comb/ovl_Obj_Comb_reloc.o"
+endseg

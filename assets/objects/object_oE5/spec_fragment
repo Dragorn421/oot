@@ -1,0 +1,6 @@
+beginseg
+    name "object_oE5"
+    romalign 0x1000
+    include "build/assets/objects/object_oE5/object_oE5.o"
+    number 6
+endseg

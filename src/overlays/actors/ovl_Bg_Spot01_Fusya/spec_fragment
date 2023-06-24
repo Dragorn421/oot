@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Spot01_Fusya"
+    include "build/src/overlays/actors/ovl_Bg_Spot01_Fusya/z_bg_spot01_fusya.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot01_Fusya/ovl_Bg_Spot01_Fusya_reloc.o"
+endseg

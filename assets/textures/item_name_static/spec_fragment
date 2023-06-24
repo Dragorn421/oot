@@ -1,0 +1,6 @@
+beginseg
+    name "item_name_static"
+    romalign 0x1000
+    include "build/assets/textures/item_name_static/item_name_static.o"
+    number 10
+endseg

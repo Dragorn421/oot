@@ -1,0 +1,6 @@
+beginseg
+    name "object_door_killer"
+    romalign 0x1000
+    include "build/assets/objects/object_door_killer/object_door_killer.o"
+    number 6
+endseg

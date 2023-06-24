@@ -1,0 +1,6 @@
+beginseg
+    name "object_mjin_dark"
+    romalign 0x1000
+    include "build/assets/objects/object_mjin_dark/object_mjin_dark.o"
+    number 6
+endseg

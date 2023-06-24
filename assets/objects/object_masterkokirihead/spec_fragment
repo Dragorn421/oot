@@ -1,0 +1,6 @@
+beginseg
+    name "object_masterkokirihead"
+    romalign 0x1000
+    include "build/assets/objects/object_masterkokirihead/object_masterkokirihead.o"
+    number 6
+endseg

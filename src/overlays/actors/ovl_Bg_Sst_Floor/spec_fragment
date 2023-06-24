@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Sst_Floor"
+    include "build/src/overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.o"
+    include "build/src/overlays/actors/ovl_Bg_Sst_Floor/ovl_Bg_Sst_Floor_reloc.o"
+endseg

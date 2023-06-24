@@ -1,0 +1,6 @@
+beginseg
+    name "object_lightbox"
+    romalign 0x1000
+    include "build/assets/objects/object_lightbox/object_lightbox.o"
+    number 6
+endseg

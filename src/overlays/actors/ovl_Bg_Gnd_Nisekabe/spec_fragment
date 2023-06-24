@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Gnd_Nisekabe"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Nisekabe/z_bg_gnd_nisekabe.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Nisekabe/ovl_Bg_Gnd_Nisekabe_reloc.o"
+endseg

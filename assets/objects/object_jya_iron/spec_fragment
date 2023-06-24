@@ -1,0 +1,6 @@
+beginseg
+    name "object_jya_iron"
+    romalign 0x1000
+    include "build/assets/objects/object_jya_iron/object_jya_iron.o"
+    number 6
+endseg

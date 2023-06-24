@@ -1,0 +1,6 @@
+beginseg
+    name "object_syokudai"
+    romalign 0x1000
+    include "build/assets/objects/object_syokudai/object_syokudai.o"
+    number 6
+endseg

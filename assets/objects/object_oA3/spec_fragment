@@ -1,0 +1,6 @@
+beginseg
+    name "object_oA3"
+    romalign 0x1000
+    include "build/assets/objects/object_oA3/object_oA3.o"
+    number 6
+endseg

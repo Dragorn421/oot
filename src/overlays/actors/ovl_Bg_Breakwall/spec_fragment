@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Breakwall"
+    include "build/src/overlays/actors/ovl_Bg_Breakwall/z_bg_breakwall.o"
+    include "build/src/overlays/actors/ovl_Bg_Breakwall/ovl_Bg_Breakwall_reloc.o"
+endseg

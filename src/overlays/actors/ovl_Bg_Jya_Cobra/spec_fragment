@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Jya_Cobra"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra_reloc.o"
+endseg

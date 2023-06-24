@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Haka_Gate"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Gate/z_bg_haka_gate.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Gate/ovl_Bg_Haka_Gate_reloc.o"
+endseg

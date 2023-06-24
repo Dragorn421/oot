@@ -1,0 +1,6 @@
+beginseg
+    name "object_bigokuta"
+    romalign 0x1000
+    include "build/assets/objects/object_bigokuta/object_bigokuta.o"
+    number 6
+endseg

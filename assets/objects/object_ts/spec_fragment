@@ -1,0 +1,6 @@
+beginseg
+    name "object_ts"
+    romalign 0x1000
+    include "build/assets/objects/object_ts/object_ts.o"
+    number 6
+endseg

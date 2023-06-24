@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Spot00_Break"
+    include "build/src/overlays/actors/ovl_Bg_Spot00_Break/z_bg_spot00_break.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot00_Break/ovl_Bg_Spot00_Break_reloc.o"
+endseg

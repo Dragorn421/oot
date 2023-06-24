@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Jya_Kanaami"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Kanaami/z_bg_jya_kanaami.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Kanaami/ovl_Bg_Jya_Kanaami_reloc.o"
+endseg

@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Obj_Elevator"
+    include "build/src/overlays/actors/ovl_Obj_Elevator/z_obj_elevator.o"
+    include "build/src/overlays/actors/ovl_Obj_Elevator/ovl_Obj_Elevator_reloc.o"
+endseg

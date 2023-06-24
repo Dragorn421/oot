@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Gnd_Soulmeiro"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/z_bg_gnd_soulmeiro.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/ovl_Bg_Gnd_Soulmeiro_reloc.o"
+endseg

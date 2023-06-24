@@ -1,0 +1,6 @@
+beginseg
+    name "object_stream"
+    romalign 0x1000
+    include "build/assets/objects/object_stream/object_stream.o"
+    number 6
+endseg

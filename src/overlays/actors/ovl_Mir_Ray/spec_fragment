@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Mir_Ray"
+    include "build/src/overlays/actors/ovl_Mir_Ray/z_mir_ray.o"
+    include "build/src/overlays/actors/ovl_Mir_Ray/ovl_Mir_Ray_reloc.o"
+endseg

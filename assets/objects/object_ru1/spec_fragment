@@ -1,0 +1,6 @@
+beginseg
+    name "object_ru1"
+    romalign 0x1000
+    include "build/assets/objects/object_ru1/object_ru1.o"
+    number 6
+endseg

@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Demo_Go"
+    include "build/src/overlays/actors/ovl_Demo_Go/z_demo_go.o"
+    include "build/src/overlays/actors/ovl_Demo_Go/ovl_Demo_Go_reloc.o"
+endseg

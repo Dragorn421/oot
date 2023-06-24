@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Magic_Wind"
+    include "build/src/overlays/actors/ovl_Magic_Wind/z_magic_wind.o"
+    include "build/src/overlays/actors/ovl_Magic_Wind/ovl_Magic_Wind_reloc.o"
+endseg

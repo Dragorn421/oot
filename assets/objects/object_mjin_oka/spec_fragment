@@ -1,0 +1,6 @@
+beginseg
+    name "object_mjin_oka"
+    romalign 0x1000
+    include "build/assets/objects/object_mjin_oka/object_mjin_oka.o"
+    number 6
+endseg

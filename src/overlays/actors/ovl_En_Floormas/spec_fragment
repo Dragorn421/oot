@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_En_Floormas"
+    include "build/src/overlays/actors/ovl_En_Floormas/z_en_floormas.o"
+    include "build/src/overlays/actors/ovl_En_Floormas/ovl_En_Floormas_reloc.o"
+endseg

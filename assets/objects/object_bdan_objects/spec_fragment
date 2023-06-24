@@ -1,0 +1,6 @@
+beginseg
+    name "object_bdan_objects"
+    romalign 0x1000
+    include "build/assets/objects/object_bdan_objects/object_bdan_objects.o"
+    number 6
+endseg

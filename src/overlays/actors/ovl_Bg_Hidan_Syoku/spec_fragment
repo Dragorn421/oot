@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Bg_Hidan_Syoku"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Syoku/z_bg_hidan_syoku.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Syoku/ovl_Bg_Hidan_Syoku_reloc.o"
+endseg

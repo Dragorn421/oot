@@ -1,0 +1,5 @@
+beginseg
+    name "ovl_Effect_Ss_Fire_Tail"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Fire_Tail/z_eff_ss_fire_tail.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Fire_Tail/ovl_Effect_Ss_Fire_Tail_reloc.o"
+endseg
