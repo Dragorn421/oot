@@ -1,3 +1,4 @@
+address 0x80800000
 #include "src/overlays/gamestates/ovl_title/spec_fragment"
 #include "src/overlays/gamestates/ovl_select/spec_fragment"
 #include "src/overlays/gamestates/ovl_opening/spec_fragment"
