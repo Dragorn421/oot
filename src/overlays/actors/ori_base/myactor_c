@@ -1,0 +1,61 @@
+// SPDX-License-Identifier: CC0-1.0
+
+#include "xxx_actorname_xxx.h"
+
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+
+void MyActorSystemName_Init(Actor* thisx, PlayState* play);
+void MyActorSystemName_Destroy(Actor* thisx, PlayState* play);
+void MyActorSystemName_Update(Actor* thisx, PlayState* play);
+void MyActorSystemName_Draw(Actor* thisx, PlayState* play);
+
+const ActorInit xxx_actorname_xxx_InitVars = {
+    ACTOR_MYACTORSYSTEMNAME,
+    ACTORCAT_MISC,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(MyActorSystemName),
+    (ActorFunc)MyActorSystemName_Init,
+    (ActorFunc)MyActorSystemName_Destroy,
+    (ActorFunc)MyActorSystemName_Update,
+    (ActorFunc)MyActorSystemName_Draw,
+};
+
+void MyActorSystemName_Init(Actor* thisx, PlayState* play) {
+    MyActorSystemName* this = (MyActorSystemName*)thisx;
+}
+
+void MyActorSystemName_Destroy(Actor* thisx, PlayState* play) {
+    MyActorSystemName* this = (MyActorSystemName*)thisx;
+}
+
+void MyActorSystemName_Update(Actor* thisx, PlayState* play) {
+    MyActorSystemName* this = (MyActorSystemName*)thisx;
+}
+
+void MyActorSystemName_Draw(Actor* thisx, PlayState* play) {
+    MyActorSystemName* this = (MyActorSystemName*)thisx;
+    GfxPrint printer;
+    Gfx* gfx;
+
+    OPEN_DISPS(play->state.gfxCtx, __FILE__, __LINE__);
+
+    gfx = POLY_OPA_DISP + 1;
+    gSPDisplayList(OVERLAY_DISP++, gfx);
+
+    GfxPrint_Init(&printer);
+    GfxPrint_Open(&printer, gfx);
+
+    GfxPrint_SetColor(&printer, 255, 0, 255, 255);
+    GfxPrint_SetPos(&printer, 10, 10);
+    GfxPrint_Printf(&printer, "Hello from %s %d", __FILE__, __LINE__);
+
+    gfx = GfxPrint_Close(&printer);
+    GfxPrint_Destroy(&printer);
+
+    gSPEndDisplayList(gfx++);
+    gSPBranchList(POLY_OPA_DISP, gfx);
+    POLY_OPA_DISP = gfx;
+
+    CLOSE_DISPS(play->state.gfxCtx, __FILE__, __LINE__);
+}

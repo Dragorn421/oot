@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: CC0-1.0
+
+#ifndef MYCUSTOMACTOR_H
+#define MYCUSTOMACTOR_H
+
+#include "ultra64.h"
+#include "global.h"
+
+typedef struct MyActorSystemName {
+    Actor actor;
+} MyActorSystemName;
+
+#endif

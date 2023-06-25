@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: CC0-1.0
+
+(this process hasn't been entirely tested)
+
+0) Copy this folder and rename it to xxx_actorname_xxx
+
+1) Rename myactor_c/_h to xxx_actorname_xxx.c/.h
+
+2) Add DEFINE_ACTOR_REAL(xxx_actorname_xxx, ACTOR_MYACTORSYSTEMNAME, ACTOROVL_ALLOC_NORMAL) to actor_table.h
+
+3) Add in src/overlays/spec_part:
+
+#include "build/src/overlays/actors/xxx_actorname_xxx/spec_fragment"
+
+4) Replace MyActorSystemName with Xxx, MYACTORSYSTEMNAME with XXX
+
+5) Delete this file
