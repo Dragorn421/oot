@@ -1428,4 +1428,7 @@ typedef struct {
 #define ROM_FILE_UNSET \
     { 0 }
 
+// for the maps to have definitions for actor params macros
+#include "src/overlays/actors/ori_pensivenemy/ori_pensivenemy.h"
+
 #endif

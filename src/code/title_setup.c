@@ -16,7 +16,7 @@ void Setup_InitImpl(SetupState* this) {
     // Set age, time and entrance
     gSaveContext.linkAge = LINK_AGE_ADULT;
     gSaveContext.dayTime = CLOCK_TIME(12, 0);
-    gSaveContext.entranceIndex = ENTR_HYRULE_FIELD_0;
+    gSaveContext.entranceIndex = ENTR_HANDPUSHPLAYGROUND_0;
 
     gSaveContext.respawnFlag = 0;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_LOAD_OPENING;

@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: CC0-1.0
 
+#define PENSIVENEMY_GFXPRINT_ACTIVE_BY_DEFAULT false
+
 #include "ori_pensivenemy.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -43,7 +45,7 @@ const ActorInit ori_pensivenemy_InitVars = {
 
 static Pensivenemy* sGfxPrintOwner = NULL;
 static int sGfxPrintOwnerNextDirection = 1; // 1=next -1=prev
-static bool sGfxPrintActive = true;
+static bool sGfxPrintActive = PENSIVENEMY_GFXPRINT_ACTIVE_BY_DEFAULT;
 struct {
     s16 view;
     f32 pushEffectiveness;

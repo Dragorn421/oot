@@ -375,7 +375,7 @@ void Play_Init(GameState* thisx) {
         gSaveContext.sceneLayer == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
-        osSyncPrintf("出戻り？\n"); // "Return?"
+        osSyncPrintf("出戻り？\n");                 // "Return?"
     }
 
     Cutscene_HandleEntranceTriggers(this);
@@ -504,7 +504,7 @@ void Play_Update(PlayState* this) {
 
     input = this->state.input;
 
-    if (input[0].press.button & BTN_A) {
+    if (input[0].press.button & BTN_DRIGHT) {
         Player* player = GET_PLAYER(this);
         Actor_Spawn(&this->actorCtx, this, ACTOR_ORI_PENSIVENEMY, player->actor.world.pos.x,
                     player->actor.world.pos.y + 50.0f, player->actor.world.pos.z, 0, 0, 0,

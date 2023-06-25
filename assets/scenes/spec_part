@@ -108,3 +108,4 @@
 #include "build/assets/scenes/misc/kinsuta/spec_fragment"
 #include "build/assets/scenes/dungeons/ganontikasonogo/spec_fragment"
 #include "build/assets/scenes/test_levels/test01/spec_fragment"
+#include "assets/original/handpushplayground/spec_fragment"

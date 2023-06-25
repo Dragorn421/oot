@@ -1,0 +1,14 @@
+beginseg
+    name "handpushplayground_scene"
+    include "build/assets/original/handpushplayground/exported/handpushplayground/handpushplayground_scene_main.o"
+    include "build/assets/original/handpushplayground/exported/handpushplayground/handpushplayground_scene_col.o"
+    number 2
+endseg
+
+beginseg
+    name "handpushplayground_room_0"
+    include "build/assets/original/handpushplayground/exported/handpushplayground/handpushplayground_room_0_main.o"
+    include "build/assets/original/handpushplayground/exported/handpushplayground/handpushplayground_room_0_model.o"
+    include "build/assets/original/handpushplayground/exported/handpushplayground/handpushplayground_room_0_model_info.o"
+    number 3
+endseg
