@@ -468,3 +468,4 @@ address 0x80800000
 #include "build/src/overlays/actors/ovl_Oceff_Wipe3/spec_fragment"
 #include "build/src/overlays/actors/ovl_Oceff_Wipe4/spec_fragment"
 #include "build/src/overlays/actors/ovl_Shot_Sun/spec_fragment"
+#include "build/src/overlays/actors/ori_pensivenemy/spec_fragment"

@@ -399,6 +399,7 @@ typedef enum {
 #define DEFINE_ACTOR(_0, enum, _2, _3) enum,
 #define DEFINE_ACTOR_INTERNAL(_0, enum, _2, _3) enum,
 #define DEFINE_ACTOR_UNSET(enum) enum,
+#define DEFINE_ACTOR_REAL(name, _1, _2) DEFINE_ACTOR(name, _1, _2, #name)
 
 typedef enum {
     #include "tables/actor_table.h"
@@ -408,6 +409,7 @@ typedef enum {
 #undef DEFINE_ACTOR
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
+#undef DEFINE_ACTOR_REAL
 
 typedef enum {
     DOORLOCK_NORMAL,

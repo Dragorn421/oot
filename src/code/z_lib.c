@@ -65,8 +65,26 @@ s32 Math_ScaledStepToS(s16* pValue, s16 target, s16 step) {
 }
 
 /**
- * Changes pValue by step towards target, setting it equal when the target is reached.
- * Returns true when target is reached, false otherwise.
+ * Step `*pValue` to `target` in in/de-crements of `step`
+ * Assume the values are binang (wrapping)
+ * @returns true when target is reached
+ */
+s32 Math_StepToBinang(s16* pValue, s16 target, s16 step) {
+    s16 diff = (s16)(target - *pValue);
+
+    step = CLAMP_MAX(step, ABS(diff));
+    if ((s16)(target - *pValue) > 0) {
+        *pValue += step;
+    } else {
+        *pValue -= step;
+    }
+
+    return *pValue == target;
+}
+
+/**
+ * Step `*pValue` to `target` in in/de-crements of `step`
+ * @returns true when target is reached
  */
 s32 Math_StepToS(s16* pValue, s16 target, s16 step) {
     if (step != 0) {
@@ -249,12 +267,18 @@ void Math_Vec3s_ToVec3f(Vec3f* dest, Vec3s* src) {
     dest->z = src->z;
 }
 
+/**
+ * dest = a + b
+ */
 void Math_Vec3f_Sum(Vec3f* a, Vec3f* b, Vec3f* dest) {
     dest->x = a->x + b->x;
     dest->y = a->y + b->y;
     dest->z = a->z + b->z;
 }
 
+/**
+ * dest = a - b
+ */
 void Math_Vec3f_Diff(Vec3f* a, Vec3f* b, Vec3f* dest) {
     dest->x = a->x - b->x;
     dest->y = a->y - b->y;
@@ -267,6 +291,9 @@ void Math_Vec3s_DiffToVec3f(Vec3f* dest, Vec3s* a, Vec3s* b) {
     dest->z = a->z - b->z;
 }
 
+/**
+ * vec *= scaleF
+ */
 void Math_Vec3f_Scale(Vec3f* vec, f32 scaleF) {
     vec->x *= scaleF;
     vec->y *= scaleF;
@@ -526,8 +553,10 @@ f32 Math_SmoothStepToDegF(f32* pValue, f32 target, f32 fraction, f32 step, f32 m
 }
 
 /**
- * Changes pValue by step towards target. If this step is more than 1/scale of the remaining distance, step by that
- * instead, with a minimum step of minStep. Returns remaining distance to target.
+ * Step `*pValue` to `target` in in/de-crements of `step`.
+ * When getting close to the target, step by ((remaining distance) / `scale`) instead,
+ * down to a minimum step of `minStep`.
+ * @returns remaining distance to target
  */
 s16 Math_SmoothStepToS(s16* pValue, s16 target, s16 scale, s16 step, s16 minStep) {
     s16 stepSize = 0;

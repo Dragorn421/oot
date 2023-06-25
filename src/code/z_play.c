@@ -493,6 +493,8 @@ void Play_Init(GameState* thisx) {
     }
 }
 
+#include "src/overlays/actors/ori_pensivenemy/ori_pensivenemy.h"
+
 void Play_Update(PlayState* this) {
     s32 pad1;
     s32 sp80;
@@ -501,6 +503,13 @@ void Play_Update(PlayState* this) {
     s32 pad2;
 
     input = this->state.input;
+
+    if (input[0].press.button & BTN_A) {
+        Player* player = GET_PLAYER(this);
+        Actor_Spawn(&this->actorCtx, this, ACTOR_ORI_PENSIVENEMY, player->actor.world.pos.x,
+                    player->actor.world.pos.y + 50.0f, player->actor.world.pos.z, 0, 0, 0,
+                    PENSIVEENEMY_PARAMS(PENSIVENEMY_FACE, 0));
+    }
 
     if ((SREG(1) < 0) || (DREG(0) != 0)) {
         SREG(1) = 0;

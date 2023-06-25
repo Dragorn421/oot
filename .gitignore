@@ -54,3 +54,9 @@ graphs/
 
 # Per-user configuration
 .python-version
+
+# open office "locks"
+.~lock.*
+
+# blender backup saves
+*.blend1

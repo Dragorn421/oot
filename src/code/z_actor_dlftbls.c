@@ -4,23 +4,29 @@
 #define DEFINE_ACTOR(name, _1, _2, _3) DECLARE_OVERLAY_SEGMENT(name)
 #define DEFINE_ACTOR_INTERNAL(_0, _1, _2, _3)
 #define DEFINE_ACTOR_UNSET(_0)
+#define DEFINE_ACTOR_REAL(name, _1, _2) \
+    DECLARE_SEGMENT(name)       \
+    DECLARE_ROM_SEGMENT(name)
 
 #include "tables/actor_table.h"
 
 #undef DEFINE_ACTOR
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
+#undef DEFINE_ACTOR_REAL
 
 // Init Vars declarations (also used in the table below)
 #define DEFINE_ACTOR(name, _1, _2, _3) extern ActorInit name##_InitVars;
 #define DEFINE_ACTOR_INTERNAL(name, _1, _2, _3) extern ActorInit name##_InitVars;
 #define DEFINE_ACTOR_UNSET(_0)
+#define DEFINE_ACTOR_REAL(name, _1, _2) DEFINE_ACTOR(name, _1, _2, #name)
 
 #include "tables/actor_table.h"
 
 #undef DEFINE_ACTOR
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
+#undef DEFINE_ACTOR_REAL
 
 // Actor Overlay Table definition
 #define DEFINE_ACTOR(name, _1, allocType, nameString) \
@@ -39,6 +45,17 @@
 
 #define DEFINE_ACTOR_UNSET(_0) { 0 },
 
+#define DEFINE_ACTOR_REAL(name, _1, allocType) \
+    { (uintptr_t)_##name##SegmentRomStart,        \
+      (uintptr_t)_##name##SegmentRomEnd,          \
+      _##name##SegmentStart,                      \
+      _##name##SegmentEnd,                        \
+      NULL,                                           \
+      &name##_InitVars,                               \
+      #name,                                     \
+      allocType,                                      \
+      0 },
+
 ActorOverlay gActorOverlayTable[] = {
 #include "tables/actor_table.h"
 };
@@ -46,6 +63,7 @@ ActorOverlay gActorOverlayTable[] = {
 #undef DEFINE_ACTOR
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
+#undef DEFINE_ACTOR_REAL
 
 s32 gMaxActorId = 0;
 

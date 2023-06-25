@@ -48,6 +48,9 @@
 #include "tha.h"
 #include "thga.h"
 
+#define N_FPS (20)
+#define SECONDS_TO_FRAMES(seconds) (int)((seconds) * N_FPS)
+
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
 
