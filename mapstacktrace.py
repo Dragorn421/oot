@@ -5,7 +5,7 @@ import re
 import subprocess
 
 """
-$  | head
+$ mips-linux-gnu-nm zelda_ocarina_mq_dbg.elf -fbsd --no-sort | head
 00001010 t .clear_bss
 ffffffff800024f0 t mainloop
 ffffffff80002524 t read_comp
@@ -81,4 +81,4 @@ for line in inp_lines:
             hex(search_addr_ini - search_addr),
         )
     else:
-        ...
+        print(line)
