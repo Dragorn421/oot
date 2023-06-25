@@ -1,0 +1,7 @@
+extern u64 gPensivenemyRaisedHandDL_raised_hand_64x64_ci4[];
+extern u64 gPensivenemyRaisedHandDL_raised_hand_64x64_pal_rgba16[];
+extern Vtx gPensivenemyRaisedHandDL_gPensivenemyRaisedHandDL_mesh_layer_Opaque_vtx_cull[8];
+extern Vtx gPensivenemyRaisedHandDL_gPensivenemyRaisedHandDL_mesh_layer_Opaque_vtx_0[4];
+extern Gfx gPensivenemyRaisedHandDL_gPensivenemyRaisedHandDL_mesh_layer_Opaque_tri_0[];
+extern Gfx mat_gPensivenemyRaisedHandDL_raised_hand_layerOpaque[];
+extern Gfx gPensivenemyRaisedHandDL[];

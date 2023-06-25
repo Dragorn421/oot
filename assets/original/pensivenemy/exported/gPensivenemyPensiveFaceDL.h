@@ -1,0 +1,7 @@
+extern u64 gPensivenemyPensiveFaceDL_pensive_32x64_xmirror_ci8[];
+extern u64 gPensivenemyPensiveFaceDL_pensive_32x64_xmirror_pal_rgba16[];
+extern Vtx gPensivenemyPensiveFaceDL_gPensivenemyPensiveFaceDL_mesh_layer_Opaque_vtx_cull[8];
+extern Vtx gPensivenemyPensiveFaceDL_gPensivenemyPensiveFaceDL_mesh_layer_Opaque_vtx_0[4];
+extern Gfx gPensivenemyPensiveFaceDL_gPensivenemyPensiveFaceDL_mesh_layer_Opaque_tri_0[];
+extern Gfx mat_gPensivenemyPensiveFaceDL_pensive_layerOpaque[];
+extern Gfx gPensivenemyPensiveFaceDL[];
