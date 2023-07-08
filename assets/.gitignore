@@ -5,3 +5,6 @@
 *.cfg
 *.vtx.inc
 *.dlist.inc
+
+# Do not gitignore the above under original/
+!original/**

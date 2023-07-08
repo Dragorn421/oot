@@ -153,12 +153,12 @@ ELF := $(ROM:.z64=.elf)
 SPEC := spec
 
 ifeq ($(COMPILER),ido)
-SRC_DIRS := $(shell find src -type d -not -path src/gcc_fix)
+SRC_DIRS := $(shell find src assets/original -type d -not -path src/gcc_fix)
 else
-SRC_DIRS := $(shell find src -type d)
+SRC_DIRS := $(shell find src assets/original -type d)
 endif
 
-ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/text")
+ASSET_BIN_DIRS := $(foreach dir,code misc objects overlays scenes textures,$(shell find assets/$(dir) -type d))
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
