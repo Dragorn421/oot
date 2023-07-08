@@ -73,6 +73,7 @@ void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
     objectCtx->spaceEnd = (void*)((s32)objectCtx->spaceStart + spaceSize);
 
     objectCtx->mainKeepIndex = Object_Spawn(objectCtx, OBJECT_GAMEPLAY_KEEP);
+    Object_Spawn(objectCtx, OBJECT_MY_OBJECT); // hack
     gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->status[objectCtx->mainKeepIndex].segment);
 }
 

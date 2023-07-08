@@ -6050,6 +6050,13 @@ beginseg
 endseg
 
 beginseg
+    name "my_object"
+    romalign 0x1000
+    include "build/assets/original/my_object/my_object.o"
+    number 6
+endseg
+
+beginseg
     name "g_pn_01"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_01.o"

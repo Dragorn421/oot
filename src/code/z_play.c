@@ -1293,6 +1293,38 @@ void Play_Draw(PlayState* this) {
 
     Camera_Finish(GET_ACTIVE_CAM(this));
 
+    {
+        PlayState* play = this;
+        GfxPrint printer;
+        Gfx* gfx;
+        int object_slot_my_object = Object_GetIndex(&play->objectCtx, OBJECT_MY_OBJECT);
+
+        OPEN_DISPS(play->state.gfxCtx, __FILE__, __LINE__);
+
+        gfx = POLY_OPA_DISP + 1;
+        gSPDisplayList(OVERLAY_DISP++, gfx);
+
+        GfxPrint_Init(&printer);
+        GfxPrint_Open(&printer, gfx);
+
+        GfxPrint_SetColor(&printer, 255, 0, 255, 255);
+        GfxPrint_SetPos(&printer, 0, 10);
+        GfxPrint_Printf(&printer, " object_slot_my_object = %d\n", object_slot_my_object);
+        if (object_slot_my_object >= 0) {
+            int data = *(int*)play->objectCtx.status[object_slot_my_object].segment;
+            GfxPrint_Printf(&printer, " data = 0x%08X\n", data);
+        }
+
+        gfx = GfxPrint_Close(&printer);
+        GfxPrint_Destroy(&printer);
+
+        gSPEndDisplayList(gfx++);
+        gSPBranchList(POLY_OPA_DISP, gfx);
+        POLY_OPA_DISP = gfx;
+
+        CLOSE_DISPS(play->state.gfxCtx, __FILE__, __LINE__);
+    }
+
     CLOSE_DISPS(gfxCtx, "../z_play.c", 4508);
 }
 
