@@ -494,7 +494,8 @@ s32 func_80AAB03C(EnMd* this, PlayState* play) {
         !GET_EVENTCHKINF(EVENTCHKINF_40)) {
         return 1;
     } else if ((play->sceneId == SCENE_MIDOS_HOUSE) &&
-               ((gSaveContext.eventChkInf[1] & 0x1000) || (gSaveContext.eventChkInf[4] & 1)) && !LINK_IS_ADULT) {
+               ((gSaveContext.save.info.eventChkInf[1] & 0x1000) || (gSaveContext.save.info.eventChkInf[4] & 1)) &&
+               !LINK_IS_ADULT) {
         return 1;
     } else if (play->sceneId == SCENE_LOST_WOODS) {
         return 1;
@@ -552,7 +553,7 @@ void func_80AAB158(EnMd* this, PlayState* play) {
         trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
         this->interactInfo.trackPos = temp_a2->actor.world.pos;
-        if (gSaveContext.linkAge > 0) {
+        if (gSaveContext.save.linkAge > 0) {
             this->interactInfo.yOffset = 0.0f;
         } else {
             this->interactInfo.yOffset = -18.0f;

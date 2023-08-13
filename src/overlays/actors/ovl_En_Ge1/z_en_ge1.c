@@ -316,7 +316,7 @@ void func_80A313E0(EnGe1* this, PlayState* play) {
         Message_CloseTextbox(play);
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.rupees < 10) {
+                if (gSaveContext.save.info.playerData.rupees < 10) {
                     Message_ContinueTextbox(play, 0x6016U);
                     this->unk2B4 = func_80A313A0;
                 } else {
@@ -343,7 +343,7 @@ void func_80A314D0(EnGe1* this, PlayState* play) {
 }
 
 void func_80A31514(EnGe1* this, PlayState* play) {
-    if (gBitFlags[0x16] & gSaveContext.inventory.questItems) {
+    if (gBitFlags[0x16] & gSaveContext.save.info.inventory.questItems) {
         func_80A30C70(this, play, 0x6014U, 100.0f, func_80A313E0);
     } else {
         func_80A30C70(this, play, 0x6013U, 100.0f, func_80A314D0);
@@ -511,7 +511,7 @@ void func_80A31BE8(EnGe1* this, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_16;
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.rupees < 20) {
+                if (gSaveContext.save.info.playerData.rupees < 20) {
                     Message_ContinueTextbox(play, 0x85);
                     this->unk2B4 = func_80A31B7C;
                 } else {
@@ -568,10 +568,10 @@ void func_80A31E2C(EnGe1* this, PlayState* play) {
     LogUtils_LogThreadId("../z_en_ge1.c", 0x457);
     // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
     // see the other occurrence of this for more details.
-    osSyncPrintf("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.highScores[0]);
+    osSyncPrintf("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.save.info.highScores[0]);
     this->actor.flags |= ACTOR_FLAG_16;
-    if (gSaveContext.highScores[0] < gSaveContext.minigameScore) {
-        gSaveContext.highScores[0] = gSaveContext.minigameScore;
+    if (gSaveContext.save.info.highScores[0] < gSaveContext.minigameScore) {
+        gSaveContext.save.info.highScores[0] = gSaveContext.minigameScore;
     }
     if (gSaveContext.minigameScore < 1000) {
         this->actor.textId = 0x6045;

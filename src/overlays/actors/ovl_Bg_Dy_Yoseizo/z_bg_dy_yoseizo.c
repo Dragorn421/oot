@@ -170,12 +170,12 @@ void func_80872D20(BgDyYoseizo* this, PlayState* play) {
     if (Flags_GetSwitch(play, 0x38)) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-            if (!gSaveContext.isMagicAcquired && (this->unk2EC != 0)) {
+            if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->unk2EC != 0)) {
                 Actor_Kill(&this->actor);
                 return;
             }
         } else {
-            if (!gSaveContext.isMagicAcquired) {
+            if (!gSaveContext.save.info.playerData.isMagicAcquired) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -214,7 +214,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
     } else {
         switch (this->unk2EC) {
             case 0:
-                if (!gSaveContext.isMagicAcquired || (gRegEditor->data[0x962] != 0)) {
+                if (!gSaveContext.save.info.playerData.isMagicAcquired || (gRegEditor->data[0x962] != 0)) {
                     osSyncPrintf("\x1b[32m ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;
@@ -222,7 +222,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
                 break;
 
             case 1:
-                if (!gSaveContext.isDoubleMagicAcquired) {
+                if (!gSaveContext.save.info.playerData.isDoubleMagicAcquired) {
                     osSyncPrintf("\x1b[33m ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;
@@ -230,7 +230,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
                 break;
 
             case 2:
-                if (!gSaveContext.isDoubleDefenseAcquired) {
+                if (!gSaveContext.save.info.playerData.isDoubleDefenseAcquired) {
                     osSyncPrintf("\x1b[35m ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;
@@ -439,7 +439,8 @@ void func_80873868(BgDyYoseizo* this, PlayState* play) {
         Magic_Fill(play);
         this->unk306 = 0xC8;
     }
-    if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.magicCapacity)) ||
+    if (((gSaveContext.save.info.playerData.healthCapacity == gSaveContext.save.info.playerData.health) &&
+         (gSaveContext.save.info.playerData.magic == gSaveContext.magicCapacity)) ||
         (this->unk306 == 1)) {
         this->unk302--;
         if (this->unk302 == 0x5A) {
@@ -657,23 +658,23 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
             var_v1 = play->csCtx.actorCues[0]->id - 0xA;
             switch (var_v1) {
                 case 0:
-                    gSaveContext.isMagicAcquired = 1;
+                    gSaveContext.save.info.playerData.isMagicAcquired = 1;
                     gSaveContext.magicFillTarget = 0x30;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
 
                 case 1:
-                    if (gSaveContext.isMagicAcquired == 0) {
-                        gSaveContext.isMagicAcquired = 1;
+                    if (gSaveContext.save.info.playerData.isMagicAcquired == 0) {
+                        gSaveContext.save.info.playerData.isMagicAcquired = 1;
                     }
-                    gSaveContext.isDoubleMagicAcquired = 1;
+                    gSaveContext.save.info.playerData.isDoubleMagicAcquired = 1;
                     gSaveContext.magicFillTarget = 0x60;
-                    gSaveContext.magicLevel = 0;
+                    gSaveContext.save.info.playerData.magicLevel = 0;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
 
                 case 2:
-                    gSaveContext.isDoubleDefenseAcquired = 1;
+                    gSaveContext.save.info.playerData.isDoubleDefenseAcquired = 1;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
             }
@@ -701,15 +702,15 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
                     (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, var_fv1.x,
                                                   var_fv1.y, var_fv1.z, 0, 0, 0, D_808754B8[var_v1]);
                 if (this->unk344 != NULL) {
-                    if (!gSaveContext.isMagicAcquired) {
-                        gSaveContext.isMagicAcquired = true;
+                    if (!gSaveContext.save.info.playerData.isMagicAcquired) {
+                        gSaveContext.save.info.playerData.isMagicAcquired = true;
                     } else {
                         Magic_Fill(play);
                     }
                     this->unk300 = 1;
                     gSaveContext.healthAccumulator = 0x140;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
-                    gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= D_808754C0[var_v1];
+                    gSaveContext.save.info.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= D_808754C0[var_v1];
                     Item_Give(play, D_808754C8[var_v1]);
                 }
             } else {
@@ -734,12 +735,11 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
         this->unk2E5 = 1;
     }
     if (this->unk2E5 != 0) {
-        if (gSaveContext.inventory.defenseHearts < 20) {
-            gSaveContext.inventory.defenseHearts += 1;
+        if (gSaveContext.save.info.inventory.defenseHearts < 20) {
+            gSaveContext.save.info.inventory.defenseHearts += 1;
         }
     }
-    if ((play->csCtx.actorCues[0]->id >= 0x13) && (play->csCtx.actorCues[0]->id < 0x16) &&
-        (this->unk304 == 0)) {
+    if ((play->csCtx.actorCues[0]->id >= 0x13) && (play->csCtx.actorCues[0]->id < 0x16) && (this->unk304 == 0)) {
         var_v1 = play->csCtx.actorCues[0]->id - 0xB;
         Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x, player->actor.world.pos.y,
                     player->actor.world.pos.z, 0, 0, 0, var_v1);

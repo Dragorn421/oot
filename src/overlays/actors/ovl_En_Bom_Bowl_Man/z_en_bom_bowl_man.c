@@ -264,7 +264,7 @@ void func_809C4040(EnBomBowlMan* this, PlayState* play) {
         Message_CloseTextbox(play);
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.rupees >= 0x1E) {
+                if (gSaveContext.save.info.playerData.rupees >= 0x1E) {
                     Rupees_ChangeBy(-0x1E);
                     this->unk23E_arr[1] = 0;
                     this->unk_258 = 1;

@@ -128,7 +128,7 @@ void EnMs_Talk(EnMs* this, PlayState* play) {
         if (Message_ShouldAdvance(play)) {
             switch (play->msgCtx.choiceIndex) {
                 case 0: // yes
-                    if (gSaveContext.rupees < sPrices[BEANS_BOUGHT]) {
+                    if (gSaveContext.save.info.playerData.rupees < sPrices[BEANS_BOUGHT]) {
                         Message_ContinueTextbox(play, 0x4069); // not enough rupees text
                         return;
                     }
@@ -173,7 +173,7 @@ void EnMs_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);
 
-    if (gSaveContext.entranceIndex == ENTR_LON_LON_RANCH_0 &&
+    if (gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_0 &&
         gSaveContext.sceneLayer == 8) { // ride carpet if in credits
         Actor_MoveXZGravity(&this->actor);
         osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);

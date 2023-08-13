@@ -87,7 +87,7 @@ void func_808BA018(BgTokiHikari* this, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0xFC),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    if (gSaveContext.linkAge == 0) {
+    if (gSaveContext.save.linkAge == 0) {
         gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_008190);
     } else {
         gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007E20);

@@ -214,7 +214,7 @@ u32 EnDns_CheckPurchase_DekuNuts(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= (s32)CUR_CAPACITY(UPG_DEKU_NUTS))) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
-    if (gSaveContext.rupees < this->unk2C0->price) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_DEKU_NUT) == ITEM_NONE) {
@@ -227,7 +227,7 @@ u32 EnDns_CheckPurchase_DekuSticks(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= (s32)CUR_CAPACITY(UPG_DEKU_STICKS))) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
-    if (gSaveContext.rupees < this->unk2C0->price) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_DEKU_STICK) == ITEM_NONE) {
@@ -237,7 +237,7 @@ u32 EnDns_CheckPurchase_DekuSticks(EnDns* this) {
 }
 
 u32 EnDns_CheckPurchase_Generic(EnDns* this) {
-    if (gSaveContext.rupees < this->unk2C0->price) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
     return EN_DNS_UNK8RESULT_OK;
@@ -250,7 +250,7 @@ u32 EnDns_CheckPurchase_DekuSeeds(EnDns* this) {
     if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
-    if (gSaveContext.rupees < this->unk2C0->price) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_DEKU_SEEDS) == ITEM_NONE) {
@@ -263,7 +263,7 @@ u32 EnDns_CheckPurchase_DekuShield(EnDns* this) {
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, EQUIP_INV_SHIELD_DEKU)) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
-    if (gSaveContext.rupees < this->unk2C0->price) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
     return EN_DNS_UNK8RESULT_OK;
@@ -276,7 +276,7 @@ u32 EnDns_CheckPurchase_Bombs(EnDns* this) {
     if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
-    if (gSaveContext.rupees < this->unk2C0->price) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
     return EN_DNS_UNK8RESULT_OK;
@@ -289,7 +289,7 @@ u32 EnDns_CheckPurchase_Arrows(EnDns* this) {
     if (AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
-    if (gSaveContext.rupees < this->unk2C0->price) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
     return EN_DNS_UNK8RESULT_OK;
@@ -299,7 +299,7 @@ u32 EnDns_CheckPurchase_Potion(EnDns* this) {
     if (!Inventory_HasEmptyBottle()) {
         return EN_DNS_UNK8RESULT_ALREADY_FULL;
     }
-    if (gSaveContext.rupees < this->unk2C0->price) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk2C0->price) {
         return EN_DNS_UNK8RESULT_NOT_ENOUGH_RUPEES;
     }
     return EN_DNS_UNK8RESULT_OK;

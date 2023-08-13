@@ -200,7 +200,7 @@ s32 func_80A32F74(PlayState* play, EnGe2* this, Vec3f* arg2, s16 arg3, f32 arg4)
 }
 
 s32 func_80A330A0(void) {
-    if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
+    if (CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
                            (EVENTCHKINF_CARPENTERS_FREE_MASK_ALL | 0xF0),
                        EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)) {
         return 1;
