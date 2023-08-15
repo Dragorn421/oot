@@ -52,9 +52,9 @@ void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
         if (dynaActor != NULL && dynaActor->id == ACTOR_OBJ_OSHIHIKI) {
             if ((dynaActor->params & 0x000F) == PUSHBLOCK_HUGE_START_ON ||
                 (dynaActor->params & 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
-                func_80078884(NA_SE_SY_CORRECT_CHIME);
+                Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             } else {
-                func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             }
 
             Flags_SetSwitch(play, this->actor.params);

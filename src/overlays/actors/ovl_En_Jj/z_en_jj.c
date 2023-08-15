@@ -325,7 +325,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
     DynaPoly_DisableCollision(play, &play->colCtx.dyna, temp_v1->dyna.bgId);
     func_8005B1A4(play->cameraPtrs[play->activeCamId]);
     SET_EVENTCHKINF(EVENTCHKINF_3A);
-    func_80078884(NA_SE_SY_CORRECT_CHIME);
+    Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 }
 
 void func_80A87D94(EnJj* this, PlayState* play) {

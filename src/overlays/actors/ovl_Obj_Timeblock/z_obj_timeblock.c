@@ -241,7 +241,7 @@ void func_80BA0524(ObjTimeblock* this, PlayState* play) {
     }
     this->unk178 = var_v1;
     if (this->unk16C == 0x32) {
-        func_80078884(0x4807U);
+        Sfx_PlaySfxCentered(0x4807U);
     }
 }
 
@@ -285,7 +285,7 @@ void func_80BA0768(ObjTimeblock* this, PlayState* play) {
     }
     func_80BA06AC(this, play);
     if (this->unk16C == 0x32) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
     if ((this->unk178 == 0) && (this->unk16C <= 0)) {
         func_80BA083C(this);

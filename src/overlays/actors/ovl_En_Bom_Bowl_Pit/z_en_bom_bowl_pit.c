@@ -99,7 +99,7 @@ void func_809C4E8C(EnBomBowlPit* this, PlayState* play) {
                 this->actor.textId = 0xF;
                 Message_StartTextbox(play, this->actor.textId, NULL);
                 this->unk154 = 5;
-                func_80078884(0x28D3U);
+                Sfx_PlaySfxCentered(0x28D3U);
                 func_8002DF54(play, NULL, PLAYER_CSMODE_8);
                 this->unk164 = 1;
                 this->unk14C = func_809C5184;

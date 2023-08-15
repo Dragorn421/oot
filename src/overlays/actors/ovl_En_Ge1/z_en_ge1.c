@@ -203,7 +203,7 @@ void func_80A30EE8(EnGe1* this, PlayState* play) {
     this->unk2AF = 0x1E;
     this->unk2B4 = func_80A30E08;
     func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
-    func_80078884(NA_SE_SY_FOUND);
+    Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000U, &this->actor);
 }
 

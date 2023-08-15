@@ -89,7 +89,7 @@ void func_80B2EE9C(EnWallTubo* this, PlayState* play) {
                 ((fabsf(diff.z) < 40.0f) || (gRegEditor->data[0x962] != 0))) {
                 this->unk160->unk23E_arr[this->actor.params] = 1;
                 ((EnBomChu*)var_v0)->timer = 2;
-                func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 this->unk150 = 0x3C;
                 EffectSsBomb2_SpawnLayered(play, &this->unk154, &sp40, &sp4C, 200, 40);
                 temp_v0 = Quake_Request(play->cameraPtrs[play->activeCamId], QUAKE_TYPE_1);
