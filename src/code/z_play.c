@@ -454,6 +454,11 @@ void Play_Update(PlayState* this) {
 
     input = this->state.input;
 
+    if (input[0].press.button & BTN_A) {
+        Vec3f p = GET_PLAYER(this)->actor.world.pos;
+        Actor_Spawn(&this->actorCtx, this, ACTOR_EN_VALI, p.x, p.y + 20.0f, p.z, 0, 0, 0, -1);
+    }
+
     if ((SREG(1) < 0) || (DREG(0) != 0)) {
         SREG(1) = 0;
         ZeldaArena_Display();

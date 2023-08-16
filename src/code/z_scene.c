@@ -74,6 +74,8 @@ void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
 
     objectCtx->mainKeepIndex = Object_Spawn(objectCtx, OBJECT_GAMEPLAY_KEEP);
     gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->status[objectCtx->mainKeepIndex].segment);
+
+    Object_Spawn(objectCtx, OBJECT_VALI);
 }
 
 void Object_UpdateBank(ObjectContext* objectCtx) {
