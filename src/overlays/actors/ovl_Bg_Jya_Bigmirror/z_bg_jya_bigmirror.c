@@ -117,10 +117,10 @@ void func_8089399C(BgJyaBigmirror* this2, PlayState* play) {
     s32 var_v0;
     s32 sp74[3];
     BgJyaBigmirror* this = this2;
-    s32 temp_v0;
+    s32 mirRayObjectSlot;
 
-    temp_v0 = Object_GetIndex(&play->objectCtx, OBJECT_MIR_RAY);
-    if ((temp_v0 < 0) || ((temp_v0 != this->unk16C))) {
+    mirRayObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MIR_RAY);
+    if ((mirRayObjectSlot < 0) || ((mirRayObjectSlot != this->mirRayObjectSlot))) {
         this->unk160[2] = NULL;
         this->unk160[1] = NULL;
         this->unk160[0] = NULL;
@@ -137,7 +137,7 @@ void func_8089399C(BgJyaBigmirror* this2, PlayState* play) {
 
         for (var_s1 = 0; var_s1 < 3; var_s1++) {
             if (sp74[var_s1] != 0) {
-                if ((this->unk160[var_s1] == NULL) && (Object_IsLoaded(&play->objectCtx, temp_v0) != 0)) {
+                if ((this->unk160[var_s1] == NULL) && (Object_IsLoaded(&play->objectCtx, mirRayObjectSlot) != 0)) {
                     this->unk160[var_s1] =
                         Actor_Spawn(&play->actorCtx, play, 0xB7, D_80893F28[var_s1].x, D_80893F28[var_s1].y,
                                     D_80893F28[var_s1].z, 0, 0, 0, D_80893F20[var_s1]);
@@ -153,7 +153,7 @@ void func_8089399C(BgJyaBigmirror* this2, PlayState* play) {
             }
         }
     }
-    this->unk16C = temp_v0;
+    this->mirRayObjectSlot = mirRayObjectSlot;
 }
 
 void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
@@ -169,7 +169,7 @@ void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
     this->actor.room = -1;
     D_80893ED0 = 1;
     this->unk15D = 1;
-    this->unk16C = -1;
+    this->mirRayObjectSlot = -1;
     osSyncPrintf("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);
 }
 

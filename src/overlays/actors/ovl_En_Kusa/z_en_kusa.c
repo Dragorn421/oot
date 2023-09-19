@@ -10,8 +10,8 @@ void EnKusa_Init(Actor* thisx, PlayState* play);
 void EnKusa_Destroy(Actor* thisx, PlayState* play2);
 void EnKusa_Update(Actor* thisx, PlayState* play);
 
-void EnKusa_SetupWaitObject(EnKusa* this);
-void EnKusa_WaitObject(EnKusa* this, PlayState* play);
+void EnKusa_SetupWaitForObject(EnKusa* this);
+void EnKusa_WaitForObject(EnKusa* this, PlayState* play);
 void EnKusa_SetupMain(EnKusa* this);
 void EnKusa_Main(EnKusa* this, PlayState* play);
 void func_80A9BA98(EnKusa* this);
@@ -212,13 +212,13 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->unk19E = Object_GetIndex(&play->objectCtx, D_80A9C200[this->actor.params & 3]);
-    if (this->unk19E < 0) {
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, D_80A9C200[this->actor.params & 3]);
+    if (this->requiredObjectSlot < 0) {
         osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_en_kusa.c", 0x231);
         Actor_Kill(&this->actor);
         return;
     }
-    EnKusa_SetupWaitObject(this);
+    EnKusa_SetupWaitForObject(this);
 }
 
 void EnKusa_Destroy(Actor* thisx, PlayState* play2) {
@@ -228,19 +228,19 @@ void EnKusa_Destroy(Actor* thisx, PlayState* play2) {
     Collider_DestroyCylinder(play, &this->unk150);
 }
 
-void EnKusa_SetupWaitObject(EnKusa* this) {
-    func_80A9AFA0(this, EnKusa_WaitObject);
+void EnKusa_SetupWaitForObject(EnKusa* this) {
+    func_80A9AFA0(this, EnKusa_WaitForObject);
 }
 
-void EnKusa_WaitObject(EnKusa* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->unk19E)) {
+void EnKusa_WaitForObject(EnKusa* this, PlayState* play) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
             EnKusa_SetupCut(this);
         } else {
             EnKusa_SetupMain(this);
         }
         this->actor.draw = func_80A9C164;
-        this->actor.objBankIndex = this->unk19E;
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }

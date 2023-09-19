@@ -19,7 +19,7 @@ typedef struct EnKusa {
     /* 0x14C */ EnKusaActionFunc actionFunc;
     /* 0x150 */ ColliderCylinder unk150;
     /* 0x19C */ s16 unk19C;
-    /* 0x19E */ s8 unk19E;
+    /* 0x19E */ s8 requiredObjectSlot;
     /* 0x19F */ char pad19F[1];
 } EnKusa; // size = 0x1A0
 

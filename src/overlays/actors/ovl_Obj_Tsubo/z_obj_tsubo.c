@@ -129,8 +129,8 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
     if (func_80BA0DF4(this, play) == 0) {
         Actor_Kill(&this->actor);
     } else {
-        this->unk19C = Object_GetIndex(&play->objectCtx, D_80BA1B80[(this->actor.params >> 8) & 1]);
-        if (this->unk19C < 0) {
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, D_80BA1B80[(this->actor.params >> 8) & 1]);
+        if (this->requiredObjectSlot < 0) {
             osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c",
                          410);
             Actor_Kill(&this->actor);
@@ -224,9 +224,9 @@ void func_80BA152C(ObjTsubo* this) {
 }
 
 void func_80BA153C(ObjTsubo* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->unk19C)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->actor.draw = func_80BA1B0C;
-        this->actor.objBankIndex = this->unk19C;
+        this->actor.objectSlot = this->requiredObjectSlot;
         func_80BA15AC(this);
         this->actor.flags &= ~ACTOR_FLAG_4;
     }

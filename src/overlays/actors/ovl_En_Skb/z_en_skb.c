@@ -516,9 +516,9 @@ void func_80AFDF24(PlayState* arg0, s32 arg1, Gfx** arg2, Vec3s* arg3, void* thi
 
     Collider_UpdateSpheres(arg1, &this->unk2A4);
     if ((this->breakFlags ^ 1) == 0) {
-        BodyBreak_SetInfo(&this->bodyBreak, arg1, 11, 12, 18, arg2, BODYBREAK_OBJECT_DEFAULT);
+        BodyBreak_SetInfo(&this->bodyBreak, arg1, 11, 12, 18, arg2, BODYBREAK_OBJECT_SLOT_DEFAULT);
     } else if ((this->breakFlags ^ (this->breakFlags | 4)) == 0) {
-        BodyBreak_SetInfo(&this->bodyBreak, arg1, 0, 18, 18, arg2, BODYBREAK_OBJECT_DEFAULT);
+        BodyBreak_SetInfo(&this->bodyBreak, arg1, 0, 18, 18, arg2, BODYBREAK_OBJECT_SLOT_DEFAULT);
     }
 }
 
