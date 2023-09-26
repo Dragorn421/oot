@@ -70,7 +70,7 @@ void func_809C4E8C(EnBomBowlPit* this, PlayState* play) {
                 ((fabsf(diff.y) < 40.0f) || (gRegEditor->data[0x962] != 0)) &&
                 ((fabsf(diff.z) < 40.0f) || (gRegEditor->data[0x962] != 0))) {
                 sp24 = (EnBomChu*)var_v1;
-                func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+                func_8002DF54(play, NULL, PLAYER_CSACTION_8);
                 sp24->timer = 1;
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -100,7 +100,7 @@ void func_809C4E8C(EnBomBowlPit* this, PlayState* play) {
                 Message_StartTextbox(play, this->actor.textId, NULL);
                 this->unk154 = 5;
                 Sfx_PlaySfxCentered(0x28D3U);
-                func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+                func_8002DF54(play, NULL, PLAYER_CSACTION_8);
                 this->unk164 = 1;
                 this->unk14C = func_809C5184;
                 return;
@@ -158,7 +158,7 @@ void func_809C53F0(EnBomBowlPit* this, PlayState* play) {
         }
         Play_ClearCamera(play, this->subCamId);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_8);
         this->unk14C = func_809C54A8;
     }
 }
@@ -166,7 +166,7 @@ void func_809C53F0(EnBomBowlPit* this, PlayState* play) {
 void func_809C54A8(EnBomBowlPit* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+    func_8002DF54(play, NULL, PLAYER_CSACTION_7);
     this->unk160 = D_809C56E0[this->unk15A];
     if ((this->unk160 == GI_BOMB_BAG_30) && (CUR_CAPACITY(1) == 30)) {
         this->unk160 = GI_BOMB_BAG_40;

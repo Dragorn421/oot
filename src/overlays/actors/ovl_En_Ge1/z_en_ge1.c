@@ -202,7 +202,7 @@ void func_80A30E08(EnGe1* this, PlayState* play) {
 void func_80A30EE8(EnGe1* this, PlayState* play) {
     this->unk2AF = 0x1E;
     this->unk2B4 = func_80A30E08;
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_95);
     Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000U, &this->actor);
 }
@@ -523,7 +523,7 @@ void func_80A31BE8(EnGe1* this, PlayState* play) {
                     SET_EVENTINF(EVENTINF_HORSES_08);
                     SET_EVENTCHKINF(EVENTCHKINF_68);
                     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
-                        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+                        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
                     } else {
                         temp_v0_2 = Actor_FindNearby(play, &player->actor, ACTOR_EN_HORSE, 1U, 1200.0f);
                         player->actor.freezeTimer = 0x4B0;

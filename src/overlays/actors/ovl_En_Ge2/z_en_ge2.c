@@ -441,7 +441,7 @@ void func_80A33B7C(EnGe2* this, PlayState* play) {
     this->unk2F4 |= 8;
     this->actor.speed = 0.0f;
     func_80A32BD0(this, 4);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_95);
     Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
