@@ -598,7 +598,7 @@ void EnMb_Stunned(EnMb* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->actionVar2 = 200;
+        player->av2.actionVar2 = 200;
         func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
         this->attack = ENMB_ATTACK_NONE;
     }
@@ -715,7 +715,7 @@ void EnMb_SpearPatrolEndCharge(EnMb* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->actionVar2 = 200;
+        player->av2.actionVar2 = 200;
         func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
     }
 
@@ -930,7 +930,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
         hasHitPlayer = true;
         player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f +
                                     Math_CosS(this->actor.shape.rot.y) * 89.0f;
-        player->actionVar2 = 0;
+        player->av2.actionVar2 = 0;
         player->actor.speed = 0.0f;
         player->actor.velocity.y = 0.0f;
     }
@@ -941,7 +941,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
             if (player->stateFlags2 & PLAYER_STATE2_7) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-                player->actionVar2 = 200;
+                player->av2.actionVar2 = 200;
                 func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
             }
         }
@@ -999,7 +999,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
         hasHitPlayer = true;
         player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f +
                                     Math_CosS(this->actor.shape.rot.y) * 89.0f;
-        player->actionVar2 = 0;
+        player->av2.actionVar2 = 0;
         player->actor.speed = 0.0f;
         player->actor.velocity.y = 0.0f;
     }
@@ -1010,7 +1010,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
             if (player->stateFlags2 & PLAYER_STATE2_7) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-                player->actionVar2 = 200;
+                player->av2.actionVar2 = 200;
                 func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
             }
             this->attack = ENMB_ATTACK_NONE;
@@ -1292,7 +1292,7 @@ void EnMb_SpearDead(EnMb* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->actionVar2 = 200;
+        player->av2.actionVar2 = 200;
         func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
         this->attack = ENMB_ATTACK_NONE;
     }
@@ -1375,7 +1375,7 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
             if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-                player->actionVar2 = 200;
+                player->av2.actionVar2 = 200;
                 func_8002F71C(play, &this->actor, 6.0f, this->actor.world.rot.y, 6.0f);
             }
             this->damageEffect = this->actor.colChkInfo.damageEffect;
