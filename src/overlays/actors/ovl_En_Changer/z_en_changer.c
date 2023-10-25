@@ -73,7 +73,7 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
                 return;
             }
-            new_var_someParams = ((gSaveContext.itemGetInf[1] & 0x800) ? 0xB : 0xC) & 0xFF;
+            new_var_someParams = ((gSaveContext.save.info.itemGetInf[1] & 0x800) ? 0xB : 0xC) & 0xFF;
             Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA, 20.0f, 20.0f, -2500.0f, 0, 0, 0,
                         ((sTreasureFlags[5] & 0x1F) << 8) + new_var_someParams);
             osSyncPrintf("\x1b[33m☆☆☆☆☆ 中央宝発生(ＧＲＥＡＴ) ☆☆☆☆☆ %x\n\x1b[m", sp6A_finalChestParams);
