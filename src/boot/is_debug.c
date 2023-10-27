@@ -34,7 +34,7 @@ void rmonPrintf(const char* fmt, ...) {
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
 }
 
-void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
+void* is_proutSyncPrintf(void* arg, const char* str, size_t count) {
     u32 data;
     s32 pos;
     s32 start;
