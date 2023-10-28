@@ -162,7 +162,7 @@ void func_80A34B90(EnGe3* this, PlayState* play) {
         this->unk310 = func_80A34B00;
     } else {
         if (!(this->unk30C & 4)) {
-            func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
             this->unk30C |= 4;
         }
         this->actor.textId = 0x6004;

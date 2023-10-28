@@ -180,7 +180,7 @@ void func_80872D20(BgDyYoseizo* this, PlayState* play) {
                 return;
             }
         }
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->actionFunc = func_80872DE4;
     }
 }
@@ -188,7 +188,7 @@ void func_80872D20(BgDyYoseizo* this, PlayState* play) {
 void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
     s32 var_v1;
 
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     osSyncPrintf("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", play->msgCtx.ocarinaMode);
     var_v1 = 0;
     if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
@@ -301,12 +301,12 @@ void func_8087328C(BgDyYoseizo* this, PlayState* play) {
                          ANIMMODE_ONCE, -10.0f);
     }
     Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     this->actionFunc = func_80873380;
 }
 
 void func_80873380(BgDyYoseizo* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     Math_ApproachF(&this->actor.world.pos.y, this->unk30C, this->unk314, 100.0f);
     Math_ApproachF(&this->unk308, 0.035f, this->unk318, 0.005f);
     Math_ApproachF(&this->unk314, 0.8f, 0.1f, 0.02f);
@@ -331,7 +331,7 @@ void func_808734DC(BgDyYoseizo* this, PlayState* play) {
     f32 sp1C;
 
     sp1C = this->skelAnime.curFrame;
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     if ((this->unk32C * 1273.0f) <= this->unk324) {
         this->unk324 = 0.0f;
     }
@@ -342,7 +342,7 @@ void func_808734DC(BgDyYoseizo* this, PlayState* play) {
 }
 
 void func_8087358C(BgDyYoseizo* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
         Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
@@ -359,7 +359,7 @@ void func_8087358C(BgDyYoseizo* this, PlayState* play) {
 }
 
 void func_808736A4(BgDyYoseizo* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     this->unk324 = this->skelAnime.curFrame * 1273.0f;
     if (this->unk324 >= (this->unk32C * 1273.0f)) {
         this->unk324 = 0.0f;
@@ -515,7 +515,7 @@ void func_80873E04(BgDyYoseizo* this, PlayState* play) {
     Actor* var_a0;
 
     if (this->unk2E8 == 0) {
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
         play->envCtx.lightSettingOverride = 0;
         var_a0 = play->actorCtx.actorLists[ACTORCAT_PROP].head;
         while (var_a0 != NULL) {
@@ -535,7 +535,7 @@ void func_80873EA4(BgDyYoseizo* this, PlayState* play) {
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL) &&
         (play->csCtx.actorCues[0]->id == 2)) {
         this->actor.draw = BgDyYoseizo_Draw;
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->unk2FE = 0;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             this->unk32C = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
