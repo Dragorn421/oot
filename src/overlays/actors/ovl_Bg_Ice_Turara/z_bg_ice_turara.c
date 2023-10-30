@@ -27,15 +27,15 @@ static ColliderCylinderInit D_80892620 = {
     { 0xD, 0x78, 0, { 0, 0, 0 } },
 };
 ActorInit Bg_Ice_Turara_InitVars = {
-    ACTOR_BG_ICE_TURARA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceTurara),
-    (ActorFunc)BgIceTurara_Init,
-    (ActorFunc)BgIceTurara_Destroy,
-    (ActorFunc)BgIceTurara_Update,
-    (ActorFunc)BgIceTurara_Draw,
+    /**/ ACTOR_BG_ICE_TURARA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceTurara),
+    /**/ BgIceTurara_Init,
+    /**/ BgIceTurara_Destroy,
+    /**/ BgIceTurara_Update,
+    /**/ BgIceTurara_Draw,
 };
 static InitChainEntry D_8089266C[] = {
     ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),

@@ -32,15 +32,15 @@ static s16 rotSpeedX = 0;
 static s16 rotSpeedYtarget = 0;
 static s16 rotSpeedY = 0;
 ActorInit En_Kusa_InitVars = {
-    ACTOR_EN_KUSA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnKusa),
-    (ActorFunc)EnKusa_Init,
-    (ActorFunc)EnKusa_Destroy,
-    (ActorFunc)EnKusa_Update,
-    NULL,
+    /**/ ACTOR_EN_KUSA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnKusa),
+    /**/ EnKusa_Init,
+    /**/ EnKusa_Destroy,
+    /**/ EnKusa_Update,
+    /**/ NULL,
 };
 static s16 D_80A9C200[4] = {
     OBJECT_GAMEPLAY_FIELD_KEEP,

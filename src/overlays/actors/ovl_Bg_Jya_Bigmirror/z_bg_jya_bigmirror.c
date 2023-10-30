@@ -17,15 +17,15 @@ void func_80893C68(BgJyaBigmirror* this, PlayState* play);
 static u8 D_80893ED0 = 0;
 
 ActorInit Bg_Jya_Bigmirror_InitVars = {
-    ACTOR_BG_JYA_BIGMIRROR,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaBigmirror),
-    (ActorFunc)BgJyaBigmirror_Init,
-    (ActorFunc)BgJyaBigmirror_Destroy,
-    (ActorFunc)BgJyaBigmirror_Update,
-    (ActorFunc)BgJyaBigmirror_Draw,
+    /**/ ACTOR_BG_JYA_BIGMIRROR,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaBigmirror),
+    /**/ BgJyaBigmirror_Init,
+    /**/ BgJyaBigmirror_Destroy,
+    /**/ BgJyaBigmirror_Update,
+    /**/ BgJyaBigmirror_Draw,
 };
 
 typedef struct struct_80893EF4 {

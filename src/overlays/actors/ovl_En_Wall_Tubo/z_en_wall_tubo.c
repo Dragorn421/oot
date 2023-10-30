@@ -21,15 +21,15 @@ void func_80B2EE9C(EnWallTubo* this, PlayState* play);
 void func_80B2F0B8(EnWallTubo* this, PlayState* play);
 
 ActorInit En_Wall_Tubo_InitVars = {
-    ACTOR_EN_WALL_TUBO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnWallTubo),
-    (ActorFunc)EnWallTubo_Init,
-    (ActorFunc)EnWallTubo_Destroy,
-    (ActorFunc)EnWallTubo_Update,
-    NULL,
+    /**/ ACTOR_EN_WALL_TUBO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnWallTubo),
+    /**/ EnWallTubo_Init,
+    /**/ EnWallTubo_Destroy,
+    /**/ EnWallTubo_Update,
+    /**/ NULL,
 };
 Vec3f D_80B2F340 = { 0.0f, 0.1f, 0.0f };
 Vec3f D_80B2F34C = { 0.0f, 0.0f, 0.0f };

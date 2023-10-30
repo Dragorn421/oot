@@ -21,15 +21,15 @@ void func_80A87EF0(EnJj* this, PlayState* play);
 void func_80A87F44(Actor* thisx, PlayState* play);
 
 ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
 
 static s32 sPad = 0;

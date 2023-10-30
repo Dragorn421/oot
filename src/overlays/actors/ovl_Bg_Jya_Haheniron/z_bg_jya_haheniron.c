@@ -24,15 +24,15 @@ void func_8089861C(BgJyaHaheniron* this);
 void func_8089862C(BgJyaHaheniron* this, PlayState* play);
 
 ActorInit Bg_Jya_Haheniron_InitVars = {
-    ACTOR_BG_JYA_HAHENIRON,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_JYA_IRON,
-    sizeof(BgJyaHaheniron),
-    (ActorFunc)BgJyaHaheniron_Init,
-    (ActorFunc)BgJyaHaheniron_Destroy,
-    (ActorFunc)BgJyaHaheniron_Update,
-    (ActorFunc)BgJyaHaheniron_Draw,
+    /**/ ACTOR_BG_JYA_HAHENIRON,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_IRON,
+    /**/ sizeof(BgJyaHaheniron),
+    /**/ BgJyaHaheniron_Init,
+    /**/ BgJyaHaheniron_Destroy,
+    /**/ BgJyaHaheniron_Update,
+    /**/ BgJyaHaheniron_Draw,
 };
 static ColliderJntSphElementInit D_80898740[1] = {
     {

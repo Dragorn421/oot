@@ -21,15 +21,15 @@ extern FlexSkeletonHeader D_600A458;
 extern AnimationHeader D_600B07C;
 
 ActorInit En_Ge3_InitVars = {
-    ACTOR_EN_GE3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GELDB,
-    sizeof(EnGe3),
-    (ActorFunc)EnGe3_Init,
-    (ActorFunc)EnGe3_Destroy,
-    (ActorFunc)EnGe3_Update,
-    (ActorFunc)EnGe3_Draw,
+    /**/ ACTOR_EN_GE3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GELDB,
+    /**/ sizeof(EnGe3),
+    /**/ EnGe3_Init,
+    /**/ EnGe3_Destroy,
+    /**/ EnGe3_Update,
+    /**/ EnGe3_Draw,
 };
 
 static ColliderCylinderInit D_80A35190 = {

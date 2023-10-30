@@ -24,15 +24,15 @@ extern Gfx D_6000700[];
 extern Gfx D_6007E20[];
 
 ActorInit En_Wood02_InitVars = {
-    ACTOR_EN_WOOD02,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_WOOD02,
-    sizeof(EnWood02),
-    (ActorFunc)EnWood02_Init,
-    (ActorFunc)EnWood02_Destroy,
-    (ActorFunc)EnWood02_Update,
-    (ActorFunc)EnWood02_Draw,
+    /**/ ACTOR_EN_WOOD02,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_WOOD02,
+    /**/ sizeof(EnWood02),
+    /**/ EnWood02_Init,
+    /**/ EnWood02_Destroy,
+    /**/ EnWood02_Update,
+    /**/ EnWood02_Draw,
 };
 static ColliderCylinderInit D_80B3BF00 = {
     { 0xD, 0, 0xD, 0x39, 0x10, 1 },

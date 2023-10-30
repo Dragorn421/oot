@@ -28,15 +28,15 @@ void func_809C441C(EnBomBowlMan* this, PlayState* play);
 void func_809C4664(EnBomBowlMan* this, PlayState* play);
 
 ActorInit En_Bom_Bowl_Man_InitVars = {
-    ACTOR_EN_BOM_BOWL_MAN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_BG,
-    sizeof(EnBomBowlMan),
-    (ActorFunc)EnBomBowlMan_Init,
-    (ActorFunc)EnBomBowlMan_Destroy,
-    (ActorFunc)EnBomBowlMan_Update,
-    (ActorFunc)EnBomBowlMan_Draw,
+    /**/ ACTOR_EN_BOM_BOWL_MAN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_BG,
+    /**/ sizeof(EnBomBowlMan),
+    /**/ EnBomBowlMan_Init,
+    /**/ EnBomBowlMan_Destroy,
+    /**/ EnBomBowlMan_Update,
+    /**/ EnBomBowlMan_Draw,
 };
 
 typedef struct struct_809C4A10 {

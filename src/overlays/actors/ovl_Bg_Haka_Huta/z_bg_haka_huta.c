@@ -18,15 +18,15 @@ void func_8087D720(BgHakaHuta* this, PlayState* play);
 void BgHakaHuta_DoNothing(BgHakaHuta* this, PlayState* play);
 
 ActorInit Bg_Haka_Huta_InitVars = {
-    ACTOR_BG_HAKA_HUTA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKACH_OBJECTS,
-    sizeof(BgHakaHuta),
-    (ActorFunc)BgHakaHuta_Init,
-    (ActorFunc)BgHakaHuta_Destroy,
-    (ActorFunc)BgHakaHuta_Update,
-    (ActorFunc)BgHakaHuta_Draw,
+    /**/ ACTOR_BG_HAKA_HUTA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKACH_OBJECTS,
+    /**/ sizeof(BgHakaHuta),
+    /**/ BgHakaHuta_Init,
+    /**/ BgHakaHuta_Destroy,
+    /**/ BgHakaHuta_Update,
+    /**/ BgHakaHuta_Draw,
 };
 static InitChainEntry D_8087D940[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

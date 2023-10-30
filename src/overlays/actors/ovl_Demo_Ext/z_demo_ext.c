@@ -27,15 +27,15 @@ static DemoExtDrawFunc sDrawFuncs[] = {
     func_80977950,
 };
 ActorInit Demo_Ext_InitVars = {
-    ACTOR_DEMO_EXT,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_FHG,
-    sizeof(DemoExt),
-    (ActorFunc)DemoExt_Init,
-    (ActorFunc)DemoExt_Destroy,
-    (ActorFunc)DemoExt_Update,
-    (ActorFunc)DemoExt_Draw,
+    /**/ ACTOR_DEMO_EXT,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_FHG,
+    /**/ sizeof(DemoExt),
+    /**/ DemoExt_Init,
+    /**/ DemoExt_Destroy,
+    /**/ DemoExt_Update,
+    /**/ DemoExt_Draw,
 };
 
 void DemoExt_Destroy(Actor* thisx, PlayState* play) {

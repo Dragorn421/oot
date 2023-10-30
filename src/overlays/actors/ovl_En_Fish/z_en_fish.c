@@ -71,15 +71,15 @@ static ColliderJntSphInit D_80A17040 = {
 };
 
 ActorInit En_Fish_InitVars = {
-    ACTOR_EN_FISH,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnFish),
-    (ActorFunc)EnFish_Init,
-    (ActorFunc)EnFish_Destroy,
-    (ActorFunc)EnFish_Update,
-    (ActorFunc)EnFish_Draw,
+    /**/ ACTOR_EN_FISH,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnFish),
+    /**/ EnFish_Init,
+    /**/ EnFish_Destroy,
+    /**/ EnFish_Update,
+    /**/ EnFish_Draw,
 };
 
 static InitChainEntry D_80A17070[4] = {

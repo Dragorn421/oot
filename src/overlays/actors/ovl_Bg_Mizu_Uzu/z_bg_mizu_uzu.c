@@ -15,15 +15,15 @@ void BgMizuUzu_Update(Actor* thisx, PlayState* play);
 void BgMizuUzu_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Mizu_Uzu_InitVars = {
-    ACTOR_BG_MIZU_UZU,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuUzu),
-    (ActorFunc)BgMizuUzu_Init,
-    (ActorFunc)BgMizuUzu_Destroy,
-    (ActorFunc)BgMizuUzu_Update,
-    (ActorFunc)BgMizuUzu_Draw,
+    /**/ ACTOR_BG_MIZU_UZU,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuUzu),
+    /**/ BgMizuUzu_Init,
+    /**/ BgMizuUzu_Destroy,
+    /**/ BgMizuUzu_Update,
+    /**/ BgMizuUzu_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

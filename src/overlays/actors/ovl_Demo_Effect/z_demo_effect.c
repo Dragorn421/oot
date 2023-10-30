@@ -66,15 +66,15 @@ extern TransformUpdateIndex D_06000050; // timewarpTransformUpdateIndex
 extern SkelCurveLimbList D_060012E8;    // timewarpLimbList
 
 ActorInit Demo_Effect_InitVars = {
-    ACTOR_DEMO_EFFECT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DemoEffect),
-    (ActorFunc)DemoEffect_Init,
-    (ActorFunc)DemoEffect_Destroy,
-    (ActorFunc)DemoEffect_Update,
-    NULL,
+    /**/ ACTOR_DEMO_EFFECT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DemoEffect),
+    /**/ DemoEffect_Init,
+    /**/ DemoEffect_Destroy,
+    /**/ DemoEffect_Update,
+    /**/ NULL,
 };
 
 // This variable assures only one jewel will play SFX

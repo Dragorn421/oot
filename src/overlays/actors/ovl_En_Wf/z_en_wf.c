@@ -159,15 +159,15 @@ static DamageTable D_80B37A88 = {
 };
 
 ActorInit En_Wf_InitVars = {
-    ACTOR_EN_WF,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_WF,
-    sizeof(EnWf),
-    (ActorFunc)EnWf_Init,
-    (ActorFunc)EnWf_Destroy,
-    (ActorFunc)EnWf_Update,
-    (ActorFunc)EnWf_Draw,
+    /**/ ACTOR_EN_WF,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_WF,
+    /**/ sizeof(EnWf),
+    /**/ EnWf_Init,
+    /**/ EnWf_Destroy,
+    /**/ EnWf_Update,
+    /**/ EnWf_Draw,
 };
 
 static InitChainEntry D_80B37AC8[2] = {

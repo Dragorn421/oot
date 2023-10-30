@@ -33,15 +33,15 @@ void func_80B21F18(EnTp* this, PlayState* play);
 void func_80B221E8(EnTp* this, PlayState* play);
 
 ActorInit En_Tp_InitVars = {
-    ACTOR_EN_TP,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_TP,
-    sizeof(EnTp),
-    (ActorFunc)EnTp_Init,
-    (ActorFunc)EnTp_Destroy,
-    (ActorFunc)EnTp_Update,
-    (ActorFunc)EnTp_Draw,
+    /**/ ACTOR_EN_TP,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_TP,
+    /**/ sizeof(EnTp),
+    /**/ EnTp_Init,
+    /**/ EnTp_Destroy,
+    /**/ EnTp_Update,
+    /**/ EnTp_Draw,
 };
 
 static ColliderJntSphElementInit D_80B22A90[1] = {

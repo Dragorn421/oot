@@ -28,15 +28,15 @@ static Color_RGBA8 D_808A899C[4] = {
 };
 
 ActorInit Bg_Po_Syokudai_InitVars = {
-    ACTOR_BG_PO_SYOKUDAI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SYOKUDAI,
-    sizeof(BgPoSyokudai),
-    (ActorFunc)BgPoSyokudai_Init,
-    (ActorFunc)BgPoSyokudai_Destroy,
-    (ActorFunc)BgPoSyokudai_Update,
-    (ActorFunc)BgPoSyokudai_Draw,
+    /**/ ACTOR_BG_PO_SYOKUDAI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SYOKUDAI,
+    /**/ sizeof(BgPoSyokudai),
+    /**/ BgPoSyokudai_Init,
+    /**/ BgPoSyokudai_Destroy,
+    /**/ BgPoSyokudai_Update,
+    /**/ BgPoSyokudai_Draw,
 };
 
 static InitChainEntry D_808A89CC[] = {

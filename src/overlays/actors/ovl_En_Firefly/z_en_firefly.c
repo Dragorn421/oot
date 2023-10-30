@@ -22,15 +22,15 @@ void func_80A143B4_Action_SwoopOnPlayer(EnFirefly*, PlayState*);
 void EnFirefly_DrawXlu(Actor*, PlayState*);
 
 ActorInit En_Firefly_InitVars = {
-    ACTOR_EN_FIREFLY,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FIREFLY,
-    sizeof(EnFirefly),
-    (ActorFunc)EnFirefly_Init,
-    (ActorFunc)EnFirefly_Destroy,
-    (ActorFunc)EnFirefly_Update,
-    (ActorFunc)EnFirefly_DrawOpa,
+    /**/ ACTOR_EN_FIREFLY,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FIREFLY,
+    /**/ sizeof(EnFirefly),
+    /**/ EnFirefly_Init,
+    /**/ EnFirefly_Destroy,
+    /**/ EnFirefly_Update,
+    /**/ EnFirefly_DrawOpa,
 };
 static ColliderJntSphElementInit D_80A14F30 = {
     { 0, { 0xFFCFFFFF, 1, 8 }, { 0xFFCFFFFF, 0, 0 }, 9, 1, 1 },

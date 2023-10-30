@@ -23,15 +23,15 @@ void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 arg2);
 void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 arg2);
 
 ActorInit En_Tr_InitVars = {
-    ACTOR_EN_TR,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TR,
-    sizeof(EnTr),
-    (ActorFunc)EnTr_Init,
-    (ActorFunc)EnTr_Destroy,
-    (ActorFunc)EnTr_Update,
-    (ActorFunc)EnTr_Draw,
+    /**/ ACTOR_EN_TR,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TR,
+    /**/ sizeof(EnTr),
+    /**/ EnTr_Init,
+    /**/ EnTr_Destroy,
+    /**/ EnTr_Update,
+    /**/ EnTr_Draw,
 };
 static AnimationHeader* D_80B24360[2] = {
     &gKotakeKoumeStandingBroomOverRightShoulderAnim,

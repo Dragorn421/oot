@@ -24,15 +24,15 @@ void func_8086F718(BgBowlWall* this, PlayState* play);
 void func_8086F7F8(BgBowlWall* this, PlayState* play);
 
 ActorInit Bg_Bowl_Wall_InitVars = {
-    ACTOR_BG_BOWL_WALL,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_BOWL,
-    sizeof(BgBowlWall),
-    (ActorFunc)BgBowlWall_Init,
-    (ActorFunc)BgBowlWall_Destroy,
-    (ActorFunc)BgBowlWall_Update,
-    (ActorFunc)BgBowlWall_Draw,
+    /**/ ACTOR_BG_BOWL_WALL,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_BOWL,
+    /**/ sizeof(BgBowlWall),
+    /**/ BgBowlWall_Init,
+    /**/ BgBowlWall_Destroy,
+    /**/ BgBowlWall_Update,
+    /**/ BgBowlWall_Draw,
 };
 Vec3f D_8086FA40[4] = {
     { 0.0f, 210.0f, -20.0f },

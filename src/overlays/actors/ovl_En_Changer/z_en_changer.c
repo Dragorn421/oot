@@ -12,15 +12,15 @@ void func_809D2D70(EnChanger* this, PlayState* play);
 void func_809D2F74(EnChanger* this, PlayState* play);
 
 ActorInit En_Changer_InitVars = {
-    ACTOR_EN_CHANGER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnChanger),
-    (ActorFunc)EnChanger_Init,
-    (ActorFunc)EnChanger_Destroy,
-    (ActorFunc)EnChanger_Update,
-    NULL,
+    /**/ ACTOR_EN_CHANGER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnChanger),
+    /**/ EnChanger_Init,
+    /**/ EnChanger_Destroy,
+    /**/ EnChanger_Update,
+    /**/ NULL,
 };
 static Vec3f sLeftChestPositions[6] = {
     { 0.0f, 0.0f, 0.0f },         { -100.0f, 20.0f, -245.0f },  { -100.0f, 20.0f, -685.0f },

@@ -28,15 +28,15 @@ void func_809E80D8(EnDekubaba* this, PlayState* play);
 static Vec3f D_809E8EA0 = { 0.0f, 0.0f, 0.0f };
 
 ActorInit En_Dekubaba_InitVars = {
-    ACTOR_EN_DEKUBABA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_DEKUBABA,
-    sizeof(EnDekubaba),
-    (ActorFunc)EnDekubaba_Init,
-    (ActorFunc)EnDekubaba_Destroy,
-    (ActorFunc)EnDekubaba_Update,
-    (ActorFunc)EnDekubaba_Draw,
+    /**/ ACTOR_EN_DEKUBABA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_DEKUBABA,
+    /**/ sizeof(EnDekubaba),
+    /**/ EnDekubaba_Init,
+    /**/ EnDekubaba_Destroy,
+    /**/ EnDekubaba_Update,
+    /**/ EnDekubaba_Draw,
 };
 
 static ColliderJntSphElementInit D_809E8ECC[7] = {

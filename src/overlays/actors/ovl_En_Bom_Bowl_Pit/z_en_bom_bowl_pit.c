@@ -23,15 +23,15 @@ static s32 D_809C56E0[5] = {
 };
 
 ActorInit En_Bom_Bowl_Pit_InitVars = {
-    ACTOR_EN_BOM_BOWL_PIT,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnBomBowlPit),
-    (ActorFunc)EnBomBowlPit_Init,
-    (ActorFunc)EnBomBowlPit_Destroy,
-    (ActorFunc)EnBomBowlPit_Update,
-    NULL,
+    /**/ ACTOR_EN_BOM_BOWL_PIT,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnBomBowlPit),
+    /**/ EnBomBowlPit_Init,
+    /**/ EnBomBowlPit_Destroy,
+    /**/ EnBomBowlPit_Update,
+    /**/ NULL,
 };
 
 void EnBomBowlPit_Init(Actor* thisx, PlayState* play) {

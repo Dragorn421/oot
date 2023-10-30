@@ -17,15 +17,15 @@ void BgGndFiremeiro_Draw(Actor* thisx, PlayState* play);
 void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, PlayState* play);
 
 ActorInit Bg_Gnd_Firemeiro_InitVars = {
-    ACTOR_BG_GND_FIREMEIRO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndFiremeiro),
-    (ActorFunc)BgGndFiremeiro_Init,
-    (ActorFunc)BgGndFiremeiro_Destroy,
-    (ActorFunc)BgGndFiremeiro_Update,
-    (ActorFunc)BgGndFiremeiro_Draw,
+    /**/ ACTOR_BG_GND_FIREMEIRO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndFiremeiro),
+    /**/ BgGndFiremeiro_Init,
+    /**/ BgGndFiremeiro_Destroy,
+    /**/ BgGndFiremeiro_Update,
+    /**/ BgGndFiremeiro_Draw,
 };
 
 void BgGndFiremeiro_Init(Actor* thisx, PlayState* play2) {

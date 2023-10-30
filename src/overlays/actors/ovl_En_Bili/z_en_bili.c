@@ -39,15 +39,15 @@ void func_809C1240(EnBili* this, f32 arg1, Vec3f* arg2);
 s32 EnBili_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx, Gfx** gfx);
 
 ActorInit En_Bili_InitVars = {
-    ACTOR_EN_BILI,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BL,
-    sizeof(EnBili),
-    (ActorFunc)EnBili_Init,
-    (ActorFunc)EnBili_Destroy,
-    (ActorFunc)EnBili_Update,
-    (ActorFunc)EnBili_Draw,
+    /**/ ACTOR_EN_BILI,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BL,
+    /**/ sizeof(EnBili),
+    /**/ EnBili_Init,
+    /**/ EnBili_Destroy,
+    /**/ EnBili_Update,
+    /**/ EnBili_Draw,
 };
 
 static ColliderCylinderInit D_809C1640 = {

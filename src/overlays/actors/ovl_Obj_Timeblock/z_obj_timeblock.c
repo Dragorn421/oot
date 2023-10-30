@@ -25,15 +25,15 @@ void func_80BA083C(ObjTimeblock* this);
 void func_80BA084C(ObjTimeblock* this, PlayState* play);
 
 ActorInit Obj_Timeblock_InitVars = {
-    ACTOR_OBJ_TIMEBLOCK,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_TIMEBLOCK,
-    sizeof(ObjTimeblock),
-    (ActorFunc)ObjTimeblock_Init,
-    (ActorFunc)ObjTimeblock_Destroy,
-    (ActorFunc)ObjTimeblock_Update,
-    (ActorFunc)ObjTimeblock_Draw,
+    /**/ ACTOR_OBJ_TIMEBLOCK,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_TIMEBLOCK,
+    /**/ sizeof(ObjTimeblock),
+    /**/ ObjTimeblock_Init,
+    /**/ ObjTimeblock_Destroy,
+    /**/ ObjTimeblock_Update,
+    /**/ ObjTimeblock_Draw,
 };
 typedef struct struct_80BA0AF0 {
     f32 unk0;
