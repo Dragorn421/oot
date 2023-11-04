@@ -2344,6 +2344,126 @@ static s16 sVtxMapWorldAreaHeight[] = {
     0,  // WORLD_MAP_AREA_GANONS_CASTLE
 };
 
+// https://www.programmingalgorithms.com/algorithm/hsv-to-rgb/c/
+
+struct RGB {
+    unsigned char R;
+    unsigned char G;
+    unsigned char B;
+};
+
+struct HSV {
+    double H;
+    double S;
+    double V;
+};
+
+struct RGB HSVToRGB(struct HSV hsv) {
+    double r = 0, g = 0, b = 0;
+
+    if (hsv.S == 0) {
+        r = hsv.V;
+        g = hsv.V;
+        b = hsv.V;
+    } else {
+        int i;
+        double f, p, q, t;
+
+        if (hsv.H == 360)
+            hsv.H = 0;
+        else
+            hsv.H = hsv.H / 60;
+
+        i = (int)trunc(hsv.H);
+        f = hsv.H - i;
+
+        p = hsv.V * (1.0 - hsv.S);
+        q = hsv.V * (1.0 - (hsv.S * f));
+        t = hsv.V * (1.0 - (hsv.S * (1.0 - f)));
+
+        switch (i) {
+            case 0:
+                r = hsv.V;
+                g = t;
+                b = p;
+                break;
+
+            case 1:
+                r = q;
+                g = hsv.V;
+                b = p;
+                break;
+
+            case 2:
+                r = p;
+                g = hsv.V;
+                b = t;
+                break;
+
+            case 3:
+                r = p;
+                g = q;
+                b = hsv.V;
+                break;
+
+            case 4:
+                r = t;
+                g = p;
+                b = hsv.V;
+                break;
+
+            default:
+                r = hsv.V;
+                g = p;
+                b = q;
+                break;
+        }
+    }
+
+    {
+        struct RGB rgb;
+        rgb.R = r * 255;
+        rgb.G = g * 255;
+        rgb.B = b * 255;
+
+        return rgb;
+    }
+}
+
+f32 fmodf(f32 x, f32 y);
+
+struct RGB my_color_func(float t, float x, float y) {
+    struct HSV hsv;
+    struct RGB rgb;
+    float tc, c, s;
+
+#if MY_COLOR_FUNC_PRINT
+    osSyncPrintf("my_color_func(t=%f, x=%f, y=%f)\n", t, x, y);
+#endif
+
+    tc = Math_CosF(t / 50);
+    c = Math_CosF((1 + 0.1 * tc) * t / 50);
+    s = Math_SinF((1 + 0.15 * tc) * t / 50);
+
+    hsv.H = fmodf(t / 28 * 360 + (x * c + y * s) / 4 * 360, 360);
+    hsv.S = 1.0;
+    hsv.V = 1.0;
+
+#if MY_COLOR_FUNC_PRINT
+    osSyncPrintf("    hsv = { %f, %f, %f }\n", hsv.H, hsv.S, hsv.V);
+#endif
+
+    rgb = HSVToRGB(hsv);
+
+#if MY_COLOR_FUNC_PRINT
+    osSyncPrintf("    rgb = { %d, %d, %d }\n", (int)rgb.R, (int)rgb.G, (int)rgb.B);
+#endif
+
+    return rgb;
+}
+
+static unsigned int my_counter = 0;
+
 s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 numQuads) {
     static s16 sTradeQuestVtxOffsetY__ = 0;
     static s16 sTradeQuestVtxOffsetTimer__ = 1;
@@ -2359,6 +2479,7 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
     s16 i;
     s16 j;
     s16 bufI;
+    struct RGB rgb_tl, rgb_tr, rgb_bl, rgb_br;
 
     // Vertices for KaleidoScope_DrawPageSections
 
@@ -2392,17 +2513,42 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
 
             vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = PAGE_BG_QUAD_TEX_HEIGHT * (1 << 5);
 
-            vtx[bufI + 0].v.cn[0] = vtx[bufI + 2].v.cn[0] = sPageBgColorRed_[vtxPage][j + 0];
+            {
+                float t = my_counter;
+                float x = j, y = i;
 
-            vtx[bufI + 0].v.cn[1] = vtx[bufI + 2].v.cn[1] = sPageBgColorGreen_[vtxPage][j + 0];
+                rgb_tl = my_color_func(t, x, y);
+                rgb_tr = my_color_func(t, x + 1, y);
+                rgb_bl = my_color_func(t, x, y + 1);
+                rgb_br = my_color_func(t, x + 1, y + 1);
+            }
+            if (0) {
+                // for testing if I got top/bottom left/right correct
+                struct RGB RED = { 255, 0, 0 }, GREEN = { 0, 255, 0 }, BLUE = { 0, 0, 255 }, WHITE = { 255, 255, 255 };
 
-            vtx[bufI + 0].v.cn[2] = vtx[bufI + 2].v.cn[2] = sPageBgColorBlue_[vtxPage][j + 0];
+                memcpy(&rgb_tl, &RED, sizeof(struct RGB));
+                memcpy(&rgb_tr, &GREEN, sizeof(struct RGB));
+                memcpy(&rgb_bl, &BLUE, sizeof(struct RGB));
+                memcpy(&rgb_br, &WHITE, sizeof(struct RGB));
+            }
 
-            vtx[bufI + 1].v.cn[0] = vtx[bufI + 3].v.cn[0] = sPageBgColorRed_[vtxPage][j + 1];
+            // counterclockwise traversal order: 0,2,3,1 (as used in KaleidoScope_DrawPageSections)
 
-            vtx[bufI + 1].v.cn[1] = vtx[bufI + 3].v.cn[1] = sPageBgColorGreen_[vtxPage][j + 1];
+            vtx[bufI + 0].v.cn[0] = rgb_tl.R;
+            vtx[bufI + 0].v.cn[1] = rgb_tl.G;
+            vtx[bufI + 0].v.cn[2] = rgb_tl.B;
 
-            vtx[bufI + 1].v.cn[2] = vtx[bufI + 3].v.cn[2] = sPageBgColorBlue_[vtxPage][j + 1];
+            vtx[bufI + 2].v.cn[0] = rgb_bl.R;
+            vtx[bufI + 2].v.cn[1] = rgb_bl.G;
+            vtx[bufI + 2].v.cn[2] = rgb_bl.B;
+
+            vtx[bufI + 3].v.cn[0] = rgb_br.R;
+            vtx[bufI + 3].v.cn[1] = rgb_br.G;
+            vtx[bufI + 3].v.cn[2] = rgb_br.B;
+
+            vtx[bufI + 1].v.cn[0] = rgb_tr.R;
+            vtx[bufI + 1].v.cn[1] = rgb_tr.G;
+            vtx[bufI + 1].v.cn[2] = rgb_tr.B;
 
             vtx[bufI + 0].v.cn[3] = vtx[bufI + 2].v.cn[3] = vtx[bufI + 1].v.cn[3] = vtx[bufI + 3].v.cn[3] =
                 pauseCtx->alpha;
@@ -3471,6 +3617,8 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepB;
     s16 stepA;
     s32 pad;
+
+    my_counter++;
 
     if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) &&
         (((pauseCtx->state >= PAUSE_STATE_OPENING_1) && (pauseCtx->state <= PAUSE_STATE_SAVE_PROMPT)
