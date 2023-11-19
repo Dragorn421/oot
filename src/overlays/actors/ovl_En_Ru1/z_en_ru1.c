@@ -1511,17 +1511,17 @@ void func_80AEE050(EnRu1* this) {
 s32 func_80AEE264(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
-    if (!Actor_ProcessTalkRequest(thisx, play)) {
+    if (!Actor_TalkOfferAccepted(thisx, play)) {
         thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         if (GET_INFTABLE(INFTABLE_143)) {
             thisx->textId = 0x404E;
-            func_8002F2F4(thisx, play);
+            Actor_OfferTalkNearColChkInfoCylinder(thisx, play);
         } else if (GET_INFTABLE(INFTABLE_142)) {
             thisx->textId = 0x404D;
-            func_8002F2F4(thisx, play);
+            Actor_OfferTalkNearColChkInfoCylinder(thisx, play);
         } else {
             thisx->textId = 0x404C;
-            func_8002F2F4(thisx, play);
+            Actor_OfferTalkNearColChkInfoCylinder(thisx, play);
         }
         return false;
     }
@@ -2157,13 +2157,13 @@ void func_80AEFD38(EnRu1* this, PlayState* play) {
 s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
-    if (!Actor_ProcessTalkRequest(thisx, play)) {
+    if (!Actor_TalkOfferAccepted(thisx, play)) {
         thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         thisx->textId = Text_GetFaceReaction(play, 0x1F);
         if (thisx->textId == 0) {
             thisx->textId = 0x402C;
         }
-        func_8002F2F4(thisx, play);
+        Actor_OfferTalkNearColChkInfoCylinder(thisx, play);
         return false;
     }
     return true;

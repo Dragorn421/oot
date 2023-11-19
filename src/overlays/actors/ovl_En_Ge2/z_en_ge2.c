@@ -427,12 +427,12 @@ void func_80A33A6C(EnGe2* this, PlayState* play) {
 }
 
 void func_80A33AFC(EnGe2* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk308 = func_80A33A6C;
     } else {
         this->actor.textId = 0x6004;
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F1C4(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
+        Actor_OfferTalkExchange(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     func_80A3381C(this, play);
 }
@@ -473,7 +473,7 @@ void func_80A33D10(Actor* thisx, PlayState* play) {
 
     func_80A33BE8(this, play);
     this->unk308(this, play);
-    if (Actor_ProcessTalkRequest(thisx, play)) {
+    if (Actor_TalkOfferAccepted(thisx, play)) {
         if ((thisx->params & 0xFF) == 0) {
             thisx->speed = 0.0f;
             func_80A32BD0(this, 8);
@@ -483,7 +483,7 @@ void func_80A33D10(Actor* thisx, PlayState* play) {
     } else {
         thisx->textId = 0x6005;
         if (thisx->xzDistToPlayer < 100.0f) {
-            func_8002F2CC(thisx, play, 100.0f);
+            Actor_OfferTalk(thisx, play, 100.0f);
         }
     }
     func_80A33C8C(this, play);

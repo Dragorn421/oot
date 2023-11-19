@@ -148,7 +148,7 @@ void EnGe1_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 func_80A30C70(EnGe1* this, PlayState* play, u16 arg2, f32 arg3, EnGe1ActionFunc arg4) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk2B4 = arg4;
         this->unk2B8 = func_80A323EC;
         this->unk2AC &= ~4;
@@ -159,7 +159,7 @@ s32 func_80A30C70(EnGe1* this, PlayState* play, u16 arg2, f32 arg3, EnGe1ActionF
     } else {
         this->actor.textId = arg2;
         if (this->actor.xzDistToPlayer < arg3) {
-            func_8002F2CC(&this->actor, play, arg3);
+            Actor_OfferTalk(&this->actor, play, arg3);
         }
         return 0;
     }
@@ -483,11 +483,11 @@ void func_80A31A5C(EnGe1* this, PlayState* play) {
 }
 
 void func_80A31B20(EnGe1* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk2B4 = func_80A31A5C;
         this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
-        func_8002F2CC(&this->actor, play, 200.0f);
+        Actor_OfferTalk(&this->actor, play, 200.0f);
     }
 }
 
@@ -551,11 +551,11 @@ void func_80A31D88(EnGe1* this, PlayState* play) {
 }
 
 void func_80A31DE4(EnGe1* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk2B4 = func_80A31D88;
         return;
     }
-    func_8002F2CC(&this->actor, play, 300.0f);
+    Actor_OfferTalk(&this->actor, play, 300.0f);
 }
 
 void func_80A31E2C(EnGe1* this, PlayState* play) {

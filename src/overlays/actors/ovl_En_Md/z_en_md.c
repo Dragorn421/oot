@@ -750,7 +750,7 @@ void func_80AABC10(EnMd* this, PlayState* play) {
         Audio_PlaySfxGeneral(0x4802U, &gSfxDefaultPos, 4U, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultReverb);
         this->actor.textId = 0x1067;
-        func_8002F2CC(&this->actor, play, (f32)this->unk194.dim.radius + 30.0f);
+        Actor_OfferTalk(&this->actor, play, (f32)this->unk194.dim.radius + 30.0f);
         this->unk190 = func_80AAB948;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {

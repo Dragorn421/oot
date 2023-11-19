@@ -100,13 +100,13 @@ void func_809C38A8_WaitTalk(EnBomBowlMan* this, PlayState* play) {
     s16 relYawTowardsPlayerAbs;
 
     SkelAnime_Update(&this->unk14C);
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_809C395C;
     } else {
         relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         relYawTowardsPlayerAbs = ABS(relYawTowardsPlayer);
         if (!(this->actor.xzDistToPlayer > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
-            func_8002F2CC(&this->actor, play, 120.0f);
+            Actor_OfferTalk(&this->actor, play, 120.0f);
         }
     }
 }
@@ -172,10 +172,10 @@ void func_809C3B50(EnBomBowlMan* this, PlayState* play) {
 
 void func_809C3C7C(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_809C3CD4;
     } else {
-        func_8002F2CC(&this->actor, play, 120.0f);
+        Actor_OfferTalk(&this->actor, play, 120.0f);
     }
 }
 
@@ -243,7 +243,7 @@ void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         }
         this->actionFunc = func_809C4040;
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->unk_258 == 0) {
             this->actionFunc = func_809C4040;
         } else {
@@ -253,7 +253,7 @@ void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
         relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         relYawTowardsPlayerAbs = ABS(relYawTowardsPlayer);
         if (!(this->actor.xzDistToPlayer > 120.0f) && (relYawTowardsPlayerAbs < 0x4300)) {
-            func_8002F2CC(&this->actor, play, 120.0f);
+            Actor_OfferTalk(&this->actor, play, 120.0f);
         }
     }
 }

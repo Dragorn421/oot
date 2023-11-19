@@ -330,7 +330,7 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x7D0, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk268 = func_809EFC9C;
     } else {
         if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.isTargeted != 0)) {
@@ -339,7 +339,7 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_16;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
     }
 }
