@@ -14,9 +14,9 @@ void BgHidanFslift_Destroy(Actor* thisx, PlayState* play);
 void BgHidanFslift_Update(Actor* thisx, PlayState* play);
 void BgHidanFslift_Draw(Actor* thisx, PlayState* play);
 
-void func_80886FCC(BgHidanFslift* this, PlayState* play);
-void func_8088706C(BgHidanFslift* this, PlayState* play);
-void func_808870D8(BgHidanFslift* this, PlayState* play);
+void BgHidanFslift_Idle(BgHidanFslift* this, PlayState* play);
+void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play);
+void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play);
 
 ActorInit Bg_Hidan_Fslift_InitVars = {
     /**/ ACTOR_BG_HIDAN_FSLIFT,
@@ -52,10 +52,10 @@ void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(thisx);
         return;
     }
-    this->actionFunc = func_80886FCC;
+    this->actionFunc = BgHidanFslift_Idle;
 }
 
-void func_80886F24(BgHidanFslift* this) {
+void BgHidanFslift_SetHookshotTargetPos(BgHidanFslift* this) {
     Actor* thisx = &this->dyna.actor;
 
     if (thisx->child != NULL && thisx->child->update != NULL) {
@@ -73,60 +73,60 @@ void BgHidanFslift_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_80886FB4(BgHidanFslift* this) {
+void BgHidanFslift_SetupIdle(BgHidanFslift* this) {
     this->unk_168 = 0x28;
-    this->actionFunc = func_80886FCC;
+    this->actionFunc = BgHidanFslift_Idle;
 }
 
-void func_80886FCC(BgHidanFslift* this, PlayState* play) {
-    s32 heightBool;
+void BgHidanFslift_Idle(BgHidanFslift* this, PlayState* play) {
+    s32 nearHomePos;
     Actor* thisx = &this->dyna.actor;
 
     DECR(this->unk_168);
 
     if (this->unk_168 == 0) {
-        heightBool = false;
+        nearHomePos = false;
         if ((thisx->world.pos.y - thisx->home.pos.y) < 0.5f) {
-            heightBool = true;
+            nearHomePos = true;
         }
         if (DynaPolyActor_IsPlayerAbove(thisx)) {
-            if (heightBool) {
-                this->actionFunc = func_808870D8;
+            if (nearHomePos) {
+                this->actionFunc = BgHidanFslift_Ascend;
                 return;
             }
         }
-        if (!heightBool) {
-            this->actionFunc = func_8088706C;
+        if (!nearHomePos) {
+            this->actionFunc = BgHidanFslift_Descend;
         }
     }
 }
 
-void func_8088706C(BgHidanFslift* this, PlayState* play) {
+void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 4.0f)) {
         Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
-        func_80886FB4(this);
+        BgHidanFslift_SetupIdle(this);
     } else {
         func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
-    func_80886F24(this);
+    BgHidanFslift_SetHookshotTargetPos(this);
 }
 
-void func_808870D8(BgHidanFslift* this, PlayState* play) {
+void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (DynaPolyActor_IsPlayerAbove(thisx)) {
         if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 790.0f, 4.0f)) {
             Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
-            func_80886FB4(this);
+            BgHidanFslift_SetupIdle(this);
         } else {
             func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
         }
     } else {
-        func_80886FB4(this);
+        BgHidanFslift_SetupIdle(this);
     }
-    func_80886F24(this);
+    BgHidanFslift_SetHookshotTargetPos(this);
 }
 
 void BgHidanFslift_Update(Actor* thisx, PlayState* play) {
@@ -134,15 +134,15 @@ void BgHidanFslift_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
     if (DynaPolyActor_IsPlayerOnTop(thisx)) {
-        if (this->unk_16A == 0) {
-            this->unk_16A = 3;
+        if (this->cameraSetting == CAM_SET_NONE) {
+            this->cameraSetting = CAM_SET_DUNGEON0;
         }
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
     } else if (DynaPolyActor_IsPlayerOnTop(thisx) == 0) {
-        if (this->unk_16A != 0) {
+        if (this->cameraSetting != CAM_SET_NONE) {
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }
-        this->unk_16A = 0;
+        this->cameraSetting = CAM_SET_NONE;
     }
 }
 
