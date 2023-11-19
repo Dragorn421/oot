@@ -671,7 +671,7 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
             if (this->unk_2C2 % 6 == 3) {
                 player = GET_PLAYER(play);
                 osSyncPrintf("うおりゃー！ \n");
-                func_8005B1A4(GET_ACTIVE_CAM(play));
+                Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;
                 player->actor.world.pos.z = 180.0f;
@@ -682,7 +682,7 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
     this->unk_2C3 = dialogState;
     if (Message_GetState(msgCtx) == TEXT_STATE_CLOSING) {
         this->action = 18;
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
     }
 }
 

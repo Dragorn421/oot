@@ -243,7 +243,7 @@ void func_8086C29C(BgBdanObjects* this, PlayState* play) {
         BgBdanObjects_SetContactRu1(this, 4);
         this->unk_16A = 0xA;
         this->actionFunc = func_8086C55C;
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
     }
 }
 
@@ -358,12 +358,12 @@ void func_8086C874(BgBdanObjects* this, PlayState* play) {
     if (this->switchFlag == 0) {
         if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
             this->cameraSetting = play->cameraPtrs[CAM_ID_MAIN]->setting;
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
-            Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_2);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
+            Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
             this->switchFlag = 10;
         }
     } else {
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
         if (!DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
             if (this->switchFlag != 0) {
                 this->switchFlag -= 1;
@@ -371,8 +371,8 @@ void func_8086C874(BgBdanObjects* this, PlayState* play) {
         }
         if (this->switchFlag == 0) {
             if (1) {}
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], (s16)this->cameraSetting);
-            Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_2);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], (s16)this->cameraSetting);
+            Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
         }
     }
     this->dyna.actor.world.pos.y =

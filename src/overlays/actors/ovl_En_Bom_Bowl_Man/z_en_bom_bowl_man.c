@@ -406,7 +406,7 @@ void func_809C4664(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        func_8005B1A4(play->cameraPtrs[play->activeCamId]);
+        Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
         this->unk232 = 1;
         if (gRegEditor->data[0x962] != 0) {
             gRegEditor->data[0x962] = 0;

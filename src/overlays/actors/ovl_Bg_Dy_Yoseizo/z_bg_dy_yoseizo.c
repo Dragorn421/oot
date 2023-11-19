@@ -470,7 +470,7 @@ void func_80873B3C(BgDyYoseizo* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->unk2F6 = 0;
         this->actionFunc = func_80873C14;
-        func_8005B1A4(play->cameraPtrs[play->activeCamId]);
+        Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
     }
     func_80872C58(this, play);
     func_80872960(this, play, 0);

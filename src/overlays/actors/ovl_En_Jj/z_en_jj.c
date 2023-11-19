@@ -323,7 +323,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
     play->csCtx.script = D_80A88164;
     gSaveContext.cutsceneTrigger = 1;
     DynaPoly_DisableCollision(play, &play->colCtx.dyna, temp_v1->dyna.bgId);
-    func_8005B1A4(play->cameraPtrs[play->activeCamId]);
+    Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
     SET_EVENTCHKINF(EVENTCHKINF_3A);
     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 }
