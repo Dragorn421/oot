@@ -110,9 +110,9 @@ void BgZg_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
-        thisx->scale.x = thisx->scale.x * 1.3f;
-        thisx->scale.z = thisx->scale.z * 1.3f;
-        thisx->scale.y = thisx->scale.y * 1.2f;
+        thisx->scale.x *= 1.3f;
+        thisx->scale.z *= 1.3f;
+        thisx->scale.y *= 1.2f;
     }
 
     this->action = 0;
