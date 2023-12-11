@@ -1,0 +1,15 @@
+libyaz0>=0.5
+mapfile-parser>=2.3.0,<3.0.0
+rabbitizer>=1.0.0,<2.0.0
+spimdisasm>=1.19.0,<2.0.0
+
+# asm-differ
+argcomplete
+colorama
+cxxfilt
+python-Levenshtein
+watchdog
+
+# decomp-permuter
+pycparser
+toml
