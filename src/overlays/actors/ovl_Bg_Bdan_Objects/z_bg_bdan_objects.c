@@ -10,27 +10,38 @@
 
 #define FLAGS ACTOR_FLAG_4
 
+typedef enum {
+    JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0 = 0,
+    JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1 = 3,
+    JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
+} BgBdanObjectsPropertyGetter;
+typedef enum {
+    JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1 = 1,
+    JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON0 = 2,
+    JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
+} BgBdanObjectsPropertySetter;
+
 void BgBdanObjects_Init(Actor* thisx, PlayState* play);
 void BgBdanObjects_Destroy(Actor* thisx, PlayState* play);
 void BgBdanObjects_Update(Actor* thisx, PlayState* play);
 void BgBdanObjects_Draw(Actor* thisx, PlayState* play);
 
-void func_8086C054(BgBdanObjects* this, PlayState* play);
-void func_8086C1A0(BgBdanObjects* this, PlayState* play);
-void func_8086C29C(BgBdanObjects* this, PlayState* play);
-void func_8086C55C(BgBdanObjects* this, PlayState* play);
-void func_8086C5BC(BgBdanObjects* this, PlayState* play);
-void func_8086C618(BgBdanObjects* this, PlayState* play);
-void func_8086C6EC(BgBdanObjects* this, PlayState* play);
-void func_8086C76C(BgBdanObjects* this, PlayState* play);
-void func_8086C7D0(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_PauseBeforeDescending(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_WaitForBigOctoToStartBattle(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_BattleInProgress(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_SinkToFloorHeight(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_WaitForPlayerInRange(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_DoNothing(BgBdanObjects* this, PlayState* play);
-void func_8086C874(BgBdanObjects* this, PlayState* play);
-void func_8086C9A8(BgBdanObjects* this, PlayState* play);
-void func_8086C9F0(BgBdanObjects* this, PlayState* play);
-void func_8086CABC(BgBdanObjects* this, PlayState* play);
-void func_8086CB10(BgBdanObjects* this, PlayState* play);
-void func_8086CB8C(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_WaitForSwitch(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_ChangeWaterBoxLevel(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_FallToLowerPos(BgBdanObjects* this, PlayState* play);
 
 ActorInit Bg_Bdan_Objects_InitVars = {
     /**/ ACTOR_BG_BDAN_OBJECTS,
@@ -75,13 +86,13 @@ static Gfx* sDLists[] = {
     gJabuFallingPlatformDL,
 };
 
-s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
+s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
-        case 0:
+        case JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0:
             return this->cameraSetting == CAM_SET_NORMAL0;
-        case 4:
+        case JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
             return GET_INFTABLE(INFTABLE_146);
-        case 3:
+        case JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
             osSyncPrintf("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n");
@@ -89,15 +100,15 @@ s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
     }
 }
 
-void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
+void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
-        case 1:
+        case JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1:
             this->cameraSetting = CAM_SET_NORMAL1;
             break;
-        case 2:
+        case JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON0:
             this->cameraSetting = CAM_SET_DUNGEON0;
             break;
-        case 4:
+        case JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
             SET_INFTABLE(INFTABLE_146);
             break;
         default:
@@ -112,51 +123,51 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(this, sInitChain);
     DynaPolyActor_Init(this, DYNA_TRANSFORM_POS);
-    this->switchFlag = (thisx->params >> 8) & 0x3F;
+    this->var.switchFlag = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
-    if (thisx->params == 2) {
+    if (thisx->params == JABU_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
         thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
         play->colCtx.colHeader->waterBoxes[7].ySurface = thisx->world.pos.y;
-        this->actionFunc = func_8086C9A8;
+        this->actionFunc = BgBdanObjects_WaitForSwitch;
         return;
     }
-    if (thisx->params == 0) {
+    if (thisx->params == JABU_OBJECTS_TYPE_BIG_OCTO_PLATFORM) {
         CollisionHeader_GetVirtual(&gJabuBigOctoPlatformCol, &colHeader);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, this, &sCylinderInit);
         thisx->world.pos.y = (f32)(thisx->world.pos.y + -79.0f);
         if (Flags_GetClear(play, thisx->room)) {
-            Flags_SetSwitch(play, this->switchFlag);
-            this->actionFunc = func_8086C6EC;
+            Flags_SetSwitch(play, this->var.switchFlag);
+            this->actionFunc = BgBdanObjects_SinkToFloorHeight;
         } else {
-            if (BgBdanObjects_GetContactRu1(this, 4)) {
+            if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE)) {
                 if (Actor_SpawnAsChild(&play->actorCtx, this, play, ACTOR_EN_BIGOKUTA, thisx->home.pos.x,
                                        thisx->home.pos.y, thisx->home.pos.z, 0, thisx->shape.rot.y + 0x8000, 0,
                                        3) != NULL) {
                     thisx->child->world.pos.z = thisx->child->home.pos.z + 263.0f;
                 }
                 thisx->world.rot.y = 0;
-                this->actionFunc = func_8086C618;
+                this->actionFunc = BgBdanObjects_OctoPlatform_BattleInProgress;
                 thisx->world.pos.y = thisx->home.pos.y + -70.0f;
             } else {
-                Flags_SetSwitch(play, this->switchFlag);
+                Flags_SetSwitch(play, this->var.switchFlag);
                 this->unk_16A = 0;
-                this->actionFunc = func_8086C054;
+                this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene;
             }
         }
     } else {
-        if (thisx->params == 1) {
+        if (thisx->params == JABU_OBJECTS_TYPE_SMALL_AUTO_ELEVATOR) {
             CollisionHeader_GetVirtual(&gJabuElevatorCol, &colHeader);
             this->unk_16A = 0x200;
-            this->switchFlag = 0;
-            this->actionFunc = func_8086C874;
-        } else {
+            this->var.camChangeTimer = 0;
+            this->actionFunc = BgBdanObjects_ElevatorOscillate;
+        } else { // JABU_OBJECTS_TYPE_FALLING_PLATFORM
             CollisionHeader_GetVirtual(&gJabuLoweringPlatformCol, &colHeader);
-            if (Flags_GetSwitch(play, this->switchFlag)) {
+            if (Flags_GetSwitch(play, this->var.switchFlag)) {
                 this->actionFunc = BgBdanObjects_DoNothing;
                 thisx->world.pos.y = thisx->home.pos.y - 400.0f;
             } else {
-                this->actionFunc = func_8086CB10;
+                this->actionFunc = BgBdanObjects_WaitForPlayerOnTop;
             }
         }
     }
@@ -167,17 +178,21 @@ void BgBdanObjects_Destroy(Actor* thisx, PlayState* play) {
     BgBdanObjects* this = (BgBdanObjects*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if (thisx->params == 0) {
+    if (thisx->params == JABU_OBJECTS_TYPE_BIG_OCTO_PLATFORM) {
         Collider_DestroyCylinder(play, &this->collider);
     }
 }
 
-void func_8086C054(BgBdanObjects* this, PlayState* play) {
+/**
+ * This actor will never escape this actionFunc on its own. It relies on
+ * En_Ru1 (Ruto) to change its cameraSetting to NORMAL0, which allows the
+ * state machine to proceed.
+ */
+void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-
-    if (BgBdanObjects_GetContactRu1(this, 0)) {
+    if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
-            BgBdanObjects_SetContactRu1(this, 1);
+            BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1);
             this->unk_16A = 0x14;
             OnePointCutscene_Init(play, 3070, -99, &this->dyna.actor, CAM_ID_MAIN);
             player->actor.world.pos.x = -1130.0f;
@@ -191,25 +206,25 @@ void func_8086C054(BgBdanObjects* this, PlayState* play) {
                 this->unk_16A -= 1;
             }
             if (this->unk_16A == 0) {
-                this->actionFunc = func_8086C1A0;
+                this->actionFunc = BgBdanObjects_OctoPlatform_RaiseToUpperPosition;
             }
         }
     }
 
-    if (!Play_InCsMode(play) && !BgBdanObjects_GetContactRu1(this, 0)) {
+    if (!Play_InCsMode(play) && !BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + -79.0f;
     } else {
         this->dyna.actor.world.pos.y = (this->dyna.actor.home.pos.y + -79.0f) - 5.0f;
     }
 }
 
-void func_8086C1A0(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play) {
     if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 500.0f, 0.5f, 7.5f, 1.0f) <
         0.1f) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
-        this->actionFunc = func_8086C29C;
+        this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene;
         this->unk_16A = 0x1E;
-        BgBdanObjects_SetContactRu1(this, 2);
+        BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON0);
         Rumble_Request(0.0f, 255, 20, 150);
     } else {
         if (this->unk_16A != 0) {
@@ -223,7 +238,11 @@ void func_8086C1A0(BgBdanObjects* this, PlayState* play) {
     }
 }
 
-void func_8086C29C(BgBdanObjects* this, PlayState* play) {
+/**
+ * Again, this actionFunc is inescapable until En_Ru1 (Ruto) sets this
+ * actor's cameraSetting to DUNGEON1.
+ */
+void BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene(BgBdanObjects* this, PlayState* play) {
     s32 quakeIndex;
 
     if (this->unk_16A != 0) {
@@ -236,18 +255,18 @@ void func_8086C29C(BgBdanObjects* this, PlayState* play) {
         }
     }
 
-    if (BgBdanObjects_GetContactRu1(this, 3)) {
+    if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1)) {
         Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_BIGOKUTA, this->dyna.actor.world.pos.x,
                            this->dyna.actor.world.pos.y + 140.0f, this->dyna.actor.world.pos.z, 0,
                            this->dyna.actor.shape.rot.y + 0x8000, 0, 0);
-        BgBdanObjects_SetContactRu1(this, 4);
+        BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE);
         this->unk_16A = 0xA;
-        this->actionFunc = func_8086C55C;
+        this->actionFunc = BgBdanObjects_OctoPlatform_PauseBeforeDescending;
         Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
     }
 }
 
-void func_8086C3D8(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_DescendWithBigOcto(BgBdanObjects* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     this->dyna.actor.velocity.y += 0.5f;
@@ -257,7 +276,7 @@ void func_8086C3D8(BgBdanObjects* this, PlayState* play) {
         this->unk_16A = 0x3C;
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 140.0f;
-        this->actionFunc = func_8086C5BC;
+        this->actionFunc = BgBdanObjects_OctoPlatform_WaitForBigOctoToStartBattle;
         OnePointCutscene_Init(play, 3080, -99, this->dyna.actor.child, CAM_ID_MAIN);
         player->actor.world.pos.x = -1130.0f;
         player->actor.world.pos.y = -1025.0f;
@@ -280,25 +299,25 @@ void func_8086C3D8(BgBdanObjects* this, PlayState* play) {
     }
 }
 
-void func_8086C55C(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_PauseBeforeDescending(BgBdanObjects* this, PlayState* play) {
     this->unk_16A -= 1;
 
     if (this->unk_16A == 0) {
-        Flags_UnsetSwitch(play, this->switchFlag);
+        Flags_UnsetSwitch(play, this->var.switchFlag);
     } else if (this->unk_16A == -0x28) {
         this->unk_16A = 0;
-        this->actionFunc = func_8086C3D8;
+        this->actionFunc = BgBdanObjects_OctoPlatform_DescendWithBigOcto;
     }
 }
 
-void func_8086C5BC(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_WaitForBigOctoToStartBattle(BgBdanObjects* this, PlayState* play) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
     if (this->unk_16A == 0) {
         if (this->dyna.actor.child != NULL) {
             if (this->dyna.actor.child->params == 2) {
-                this->actionFunc = func_8086C618;
+                this->actionFunc = BgBdanObjects_OctoPlatform_BattleInProgress;
             } else if (this->dyna.actor.child->params == 0) {
                 this->dyna.actor.child->params = 1;
             }
@@ -306,39 +325,40 @@ void func_8086C5BC(BgBdanObjects* this, PlayState* play) {
     }
 }
 
-void func_8086C618(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_BattleInProgress(BgBdanObjects* this, PlayState* play) {
     Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     if (Flags_GetClear(play, this->dyna.actor.room)) {
-        Flags_SetSwitch(play, this->switchFlag);
+        Flags_SetSwitch(play, this->var.switchFlag);
         this->dyna.actor.home.rot.y = (s16)(this->dyna.actor.shape.rot.y + 0x2000) & 0xC000;
-        this->actionFunc = func_8086C6EC;
+        this->actionFunc = BgBdanObjects_SinkToFloorHeight;
     } else {
         this->dyna.actor.shape.rot.y += this->dyna.actor.world.rot.y;
-        func_800F436C(&this->dyna.actor.projectedPos, 0x2063, ABS(this->dyna.actor.world.rot.y) / 512.0f);
+        func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_ROLL_STAND - SFX_FLAG,
+                      ABS(this->dyna.actor.world.rot.y) / 512.0f);
     }
 }
 
-void func_8086C6EC(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_SinkToFloorHeight(BgBdanObjects* this, PlayState* play) {
     s32 cond = Math_ScaledStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.home.rot.y, 0x200);
 
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + -125.0f, 3.0f)) {
         if (cond) {
-            this->actionFunc = func_8086C76C;
+            this->actionFunc = BgBdanObjects_WaitForPlayerInRange;
         }
     }
 }
 
-void func_8086C76C(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_WaitForPlayerInRange(BgBdanObjects* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
         if (this->dyna.actor.xzDistToPlayer < 120.0f) {
-            this->actionFunc = func_8086C7D0;
+            this->actionFunc = BgBdanObjects_RaiseToUpperPosition;
             OnePointCutscene_Init(play, 3090, -99, &this->dyna.actor, CAM_ID_MAIN);
         }
     }
 }
 
-void func_8086C7D0(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play) {
     if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 965.0f, 0.5f, 15.0f, 0.2f) <
         0.01f) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
@@ -351,25 +371,25 @@ void func_8086C7D0(BgBdanObjects* this, PlayState* play) {
 void BgBdanObjects_DoNothing(BgBdanObjects* this, PlayState* play) {
 }
 
-void func_8086C874(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
-    if (this->switchFlag == 0) {
+    if (this->var.camChangeTimer == 0) {
         if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
             this->cameraSetting = play->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
             Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
-            this->switchFlag = 10;
+            this->var.camChangeTimer = 10;
         }
     } else {
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
         if (!DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
-            if (this->switchFlag != 0) {
-                this->switchFlag -= 1;
+            if (this->var.camChangeTimer != 0) {
+                this->var.camChangeTimer -= 1;
             }
         }
-        if (this->switchFlag == 0) {
+        if (this->var.camChangeTimer == 0) {
             if (1) {}
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], (s16)this->cameraSetting);
             Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
@@ -382,50 +402,50 @@ void func_8086C874(BgBdanObjects* this, PlayState* play) {
     }
 }
 
-void func_8086C9A8(BgBdanObjects* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->switchFlag)) {
+void BgBdanObjects_WaitForSwitch(BgBdanObjects* this, PlayState* play) {
+    if (Flags_GetSwitch(play, this->var.switchFlag)) {
         this->unk_16A = 0x64;
-        this->actionFunc = func_8086C9F0;
+        this->actionFunc = BgBdanObjects_ChangeWaterBoxLevel;
     }
 }
 
-void func_8086C9F0(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_ChangeWaterBoxLevel(BgBdanObjects* this, PlayState* play) {
     if (this->unk_16A == 0) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 0.5f)) {
-            Flags_UnsetSwitch(play, this->switchFlag);
-            this->actionFunc = func_8086C9A8;
+            Flags_UnsetSwitch(play, this->var.switchFlag);
+            this->actionFunc = BgBdanObjects_WaitForSwitch;
         }
         func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 75.0f, 0.5f)) {
-            this->actionFunc = func_8086CABC;
+            this->actionFunc = BgBdanObjects_WaitForTimerExpired;
         }
         func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
     play->colCtx.colHeader->waterBoxes[7].ySurface = this->dyna.actor.world.pos.y;
 }
 
-void func_8086CABC(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
     func_8002F994(&this->dyna.actor, this->unk_16A);
     if (this->unk_16A == 0) {
-        this->actionFunc = func_8086C9F0;
+        this->actionFunc = BgBdanObjects_ChangeWaterBoxLevel;
     }
 }
 
-void func_8086CB10(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
-        Flags_SetSwitch(play, this->switchFlag);
+        Flags_SetSwitch(play, this->var.switchFlag);
         this->unk_16A = 0x32;
-        this->actionFunc = func_8086CB8C;
+        this->actionFunc = BgBdanObjects_FallToLowerPos;
         this->dyna.actor.home.pos.y -= 200.0f;
         OnePointCutscene_Init(play, 3100, 51, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 
-void func_8086CB8C(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_FallToLowerPos(BgBdanObjects* this, PlayState* play) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
@@ -450,15 +470,15 @@ void BgBdanObjects_Update(Actor* thisx, PlayState* play) {
 void BgBdanObjects_Draw(Actor* thisx, PlayState* play) {
     BgBdanObjects* this = (BgBdanObjects*)thisx;
 
-    if (thisx->params == 0) {
-        if (this->actionFunc == func_8086C054) {
+    if (thisx->params == JABU_OBJECTS_TYPE_BIG_OCTO_PLATFORM) {
+        if (this->actionFunc == BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene) {
             if (((thisx->home.pos.y + -79.0f) - 5.0f) < thisx->world.pos.y) {
                 Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
             }
         }
     }
 
-    if (thisx->params == 2) {
+    if (thisx->params == JABU_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
         Gfx_DrawDListXlu(play, gJabuWaterDL);
     } else {
         Gfx_DrawDListOpa(play, sDLists[thisx->params]);
