@@ -101,10 +101,10 @@ u16 EnKz_GetTextIdAdult(PlayState* play, EnKz* this) {
 }
 
 u16 EnKz_GetTextId(PlayState* play, EnKz* this) {
-    u16 reactionText = Text_GetFaceReaction(play, 0x1E);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KING_ZORA);
 
-    if (reactionText != 0) {
-        return reactionText;
+    if (textId != 0) {
+        return textId;
     }
 
     if (LINK_IS_ADULT) {

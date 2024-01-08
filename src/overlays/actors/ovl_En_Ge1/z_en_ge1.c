@@ -262,13 +262,13 @@ void func_80A310C4(EnGe1* this, PlayState* play) {
 }
 
 void func_80A3118C(EnGe1* this, PlayState* play) {
-    u16 temp_v0;
+    u16 textId;
 
-    temp_v0 = Text_GetFaceReaction(play, 0x22U);
-    if (temp_v0 == 0) {
-        temp_v0 = 0x6019;
+    textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GERUDO_WHITE);
+    if (textId == 0) {
+        textId = 0x6019;
     }
-    func_80A30C70(this, play, temp_v0, 100.0f, func_80A31000);
+    func_80A30C70(this, play, textId, 100.0f, func_80A31000);
 }
 
 void func_80A311E0(EnGe1* this, PlayState* play) {
@@ -409,13 +409,12 @@ void func_80A3183C(EnGe1* this, PlayState* play) {
 }
 
 void func_80A31880(EnGe1* this, PlayState* play) {
-    u16 temp_v0;
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GERUDO_WHITE);
 
-    temp_v0 = Text_GetFaceReaction(play, 0x22);
-    if (temp_v0 == 0) {
-        temp_v0 = 0x6069;
+    if (textId == 0) {
+        textId = 0x6069;
     }
-    if (func_80A30C70(this, play, temp_v0, 100.0f, func_80A3183C) != 0) {
+    if (func_80A30C70(this, play, textId, 100.0f, func_80A3183C) != 0) {
         this->unk2B8 = func_80A323B0;
         this->unk2B0 = &object_ge1_00A498_Anim;
         Animation_Change(&this->unk198, &object_ge1_00A498_Anim, 1.0f, 0.0f,

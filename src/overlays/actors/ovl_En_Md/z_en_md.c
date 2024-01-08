@@ -381,11 +381,11 @@ s16 func_80AAAC78(Actor* thisx, PlayState* play) {
 }
 
 u16 func_80AAACF8(PlayState* play, EnMd* this) {
-    u16 temp_v0;
+    u16 textId;
 
-    temp_v0 = Text_GetFaceReaction(play, 0x11);
-    if (temp_v0 != 0) {
-        return temp_v0;
+    textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MIDO);
+    if (textId != 0) {
+        return textId;
     }
     this->unk208 = 0;
     this->unk209 = TEXT_STATE_NONE;

@@ -2159,7 +2159,7 @@ s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
 
     if (!Actor_TalkOfferAccepted(thisx, play)) {
         thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-        thisx->textId = Text_GetFaceReaction(play, 0x1F);
+        thisx->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUTO);
         if (thisx->textId == 0) {
             thisx->textId = 0x402C;
         }
