@@ -99,12 +99,12 @@ ifeq ($(ORIG_COMPILER),1)
   CC_OLD    = $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
 endif
 
-AS         := $(MIPS_BINUTILS_PREFIX)as
-LD         := $(MIPS_BINUTILS_PREFIX)ld
-OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
-OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR   := 
-EMU_FLAGS  := 
+AS      := $(MIPS_BINUTILS_PREFIX)as
+LD      := $(MIPS_BINUTILS_PREFIX)ld
+OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
+OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
+
+N64_EMULATOR ?= 
 
 INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I.
 
@@ -293,10 +293,10 @@ setup:
 
 resources: $(ASSET_FILES_OUT)
 run: $(ROM)
-ifeq ($(EMULATOR),)
-	$(error Emulator path not set. Set EMULATOR in the Makefile or define it as an environment variable)
+ifeq ($(N64_EMULATOR),)
+	$(error Emulator path not set. Set N64_EMULATOR in the Makefile or define it as an environment variable)
 endif
-	$(EMULATOR) $(EMU_FLAGS) $<
+	$(N64_EMULATOR) $<
 
 .PHONY: all clean setup run distclean assetclean
 
