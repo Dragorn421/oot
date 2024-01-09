@@ -202,7 +202,7 @@ void BgBowlWall_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x8,
                Gfx_TexScroll(play->state.gfxCtx, 0, (new_var2 = play->state.frames) * -2, 16, 16));
     gDPPipeSync(POLY_OPA_DISP++);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_bowl_wall.c", 453),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_bowl_wall.c", 453),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gBowlingRound1WallDL);

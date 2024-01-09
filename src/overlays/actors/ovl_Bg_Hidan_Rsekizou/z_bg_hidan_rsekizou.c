@@ -159,7 +159,7 @@ Gfx* func_8088C70C(GraphicsContext** arg0, BgHidanRsekizou* arg1, s16 arg2, MtxF
     arg3->mf[3][1] = arg1->dyna.actor.world.pos.y + 30.0f + (0.70f * var_fa1);
     arg3->mf[3][2] = (temp_fv1 * var_fa0) + arg1->dyna.actor.world.pos.z;
     gSPMatrix(arg5++,
-              Matrix_MtxFToMtx(Matrix_CheckFloats(arg3, "../z_bg_hidan_rsekizou.c", 543), Graph_Alloc(*arg0, 0x40U)),
+              Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(arg3, "../z_bg_hidan_rsekizou.c", 543), GRAPH_ALLOC(*arg0, 0x40U)),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(arg5++, gFireTempleFireballDL);
     return arg5;
@@ -173,7 +173,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 564);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gFireTempleSpinningFlamethrowerDL);
     Matrix_MtxFCopy(&sp5C, &gMtxFClear);

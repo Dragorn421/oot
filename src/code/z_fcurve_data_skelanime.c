@@ -19,8 +19,8 @@ s32 SkelCurve_Init(PlayState* play, SkelAnimeCurve* skelCurve, SkelCurveLimbList
     skelCurve->limbCount = limbList->limbCount;
     skelCurve->limbList = SEGMENTED_TO_VIRTUAL(limbList->limbs);
 
-    skelCurve->transforms = ZeldaArena_MallocDebug(sizeof(*skelCurve->transforms) * skelCurve->limbCount,
-                                                   "../z_fcurve_data_skelanime.c", 125);
+    skelCurve->transforms =
+        ZELDA_ARENA_MALLOC(sizeof(*skelCurve->transforms) * skelCurve->limbCount, "../z_fcurve_data_skelanime.c", 125);
     ASSERT(skelCurve->transforms != NULL, "this->now_joint != NULL", "../z_fcurve_data_skelanime.c", 127);
     skelCurve->animCurFrame = 0.0f;
     return 1;
@@ -28,7 +28,7 @@ s32 SkelCurve_Init(PlayState* play, SkelAnimeCurve* skelCurve, SkelCurveLimbList
 
 void SkelCurve_Destroy(PlayState* play, SkelAnimeCurve* skelCurve) {
     if (skelCurve->transforms != NULL) {
-        ZeldaArena_FreeDebug(skelCurve->transforms, "../z_fcurve_data_skelanime.c", 146);
+        ZELDA_ARENA_FREE(skelCurve->transforms, "../z_fcurve_data_skelanime.c", 146);
     }
 }
 
@@ -127,7 +127,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelAnimeCurve* skelCurv
 
             dList = limb->dList[0];
             if (dList != NULL) {
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 321),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 321),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
@@ -136,13 +136,13 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelAnimeCurve* skelCurv
 
             dList = limb->dList[0];
             if (dList != NULL) {
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 332),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 332),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
             dList = limb->dList[1];
             if (dList != NULL) {
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 338),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 338),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, dList);
             }

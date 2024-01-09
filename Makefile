@@ -55,7 +55,8 @@ PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
 
 MAKE = make
-CPPFLAGS += -P
+CFLAGS += -DOOT_DEBUG
+CPPFLAGS += -DOOT_DEBUG -P
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows

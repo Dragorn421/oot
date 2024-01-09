@@ -208,7 +208,7 @@ void func_80977950(DemoExt* this, PlayState* play) {
     Matrix_Scale(temp_v0->x, temp_v0->y, temp_v0->z, MTXMODE_APPLY);
     Matrix_RotateZYX(gRegEditor->data[0xA30] + 0x4000, this->unk168, gRegEditor->data[0xA32], MTXMODE_APPLY);
     Matrix_Translate(gRegEditor->data[0xA36], gRegEditor->data[0xA37], gRegEditor->data[0xA38], MTXMODE_APPLY);
-    Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
+    MATRIX_TO_MTX(mtx, "../z_demo_ext.c", 476);
     Matrix_Pop();
     Gfx_SetupDL_25Xlu(gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, gRegEditor->data[0xA41] + 0x80, gRegEditor->data[0xA39] + 0x8C,

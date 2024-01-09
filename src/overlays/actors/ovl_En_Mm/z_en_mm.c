@@ -529,10 +529,10 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             Vec3s sp50;
             Mtx* mtx2;
 
-            mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 2);
+            mtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 2);
 
             Matrix_Put(&this->unk_208);
-            mtx2 = Matrix_NewMtx(play->state.gfxCtx, "../z_en_mm.c", 1111);
+            mtx2 = MATRIX_NEW(play->state.gfxCtx, "../z_en_mm.c", 1111);
 
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
@@ -543,14 +543,14 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             sp50.z = -13450;
 
             Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp50);
-            Matrix_ToMtx(mtx++, "../z_en_mm.c", 1124);
+            MATRIX_TO_MTX(mtx++, "../z_en_mm.c", 1124);
 
             sp50.x = -994;
             sp50.y = -3518;
             sp50.z = -13450;
 
             Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp50);
-            Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
+            MATRIX_TO_MTX(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);

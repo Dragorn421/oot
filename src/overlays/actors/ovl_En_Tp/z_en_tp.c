@@ -628,7 +628,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
         temp_v0 = this->actor.params;
         if ((temp_v0 < 0) || (temp_v0 == 0xC)) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tp.c", 0x5B3),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_tp.c", 0x5B3),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, object_tp_0008D0_DL);
             Matrix_Translate(0.0f, 0.0f, 8.0f, 1U);
@@ -643,7 +643,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(object_tp_000C68_Tex));
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tp.c", 0x5C8),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_tp.c", 0x5C8),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_tp_000000_DL);
         }

@@ -391,12 +391,12 @@ void EnWood02_Draw(Actor* thisx, PlayState* play) {
         if (D_80B3BF70[this->unk154 & 0xF] != NULL) {
             Gfx_DrawDListOpa(play, D_80B3BF54[this->unk154 & 0xF]);
             gDPSetEnvColor(POLY_XLU_DISP++, r, g, b, 0);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 808),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 808),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_80B3BF70[this->unk154 & 0xF]);
         } else {
             Gfx_SetupDL_25Xlu(gfxCtx);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 814),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 814),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_80B3BF54[this->unk154 & 0xF]);
         }

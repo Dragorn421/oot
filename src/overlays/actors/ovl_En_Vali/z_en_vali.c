@@ -686,22 +686,22 @@ void func_80B28344(EnVali* this, PlayState* play) {
     sp74 = this->unk14C.curFrame;
     func_80B27E38(this, sp74, &sp68);
     Matrix_Scale(sp68.x, sp68.y, sp68.z, 1U);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vali.c", 1436),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1436),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_002610);
     Matrix_Put(&sp80);
     Matrix_RotateY(BINANG_TO_RAD(-this->actor.shape.rot.y), MTXMODE_APPLY);
     sp7C = Math_CosS(this->actor.shape.rot.y);
     sp78 = Math_SinS(this->actor.shape.rot.y);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vali.c", 1446),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_002740);
     Matrix_Translate((506.0f * sp7C) + (372.0f * sp78), 1114.0f, (372.0f * sp7C) - (506.0f * sp78), MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vali.c", 1455),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1455),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_002740);
     Matrix_Translate((-964.0f * sp7C) - (804.0f * sp78), -108.0f, (-804.0f * sp7C) + (964.0f * sp78), MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vali.c", 1463),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1463),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_002740);
     Matrix_Put(&sp80);
@@ -710,7 +710,7 @@ void func_80B28344(EnVali* this, PlayState* play) {
     sp68.x = 1.0f;
     func_80B27C1C(this, sp74, &sp68);
     Matrix_Scale(sp68.x, sp68.y, sp68.z, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vali.c", 1471),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1471),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_0027D8);
     Matrix_Put(&sp80);

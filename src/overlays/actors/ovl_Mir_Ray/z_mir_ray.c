@@ -573,7 +573,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
             OPEN_DISPS(play->state.gfxCtx, "../z_mir_ray.c", 966);
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_Scale(1.0f, 1.0f, this->lightReflectionFactor * 5.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_mir_ray.c", 972),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 150,
                             (u8)(s32)(this->lightReflectionFactor * 100.0f));
@@ -597,7 +597,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
                                      MTXMODE_NEW);
                     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
                     Matrix_Mult(&sp7C[i].reflectionTransform, MTXMODE_APPLY);
-                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_mir_ray.c", 1006),
+                    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_mir_ray.c", 1006),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 150, sp7C[0].unk50);
