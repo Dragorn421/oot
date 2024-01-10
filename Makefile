@@ -221,7 +221,12 @@ CFLAGS += $(CPP_DEFINES)
 CPPFLAGS += $(CPP_DEFINES)
 
 ifeq ($(COMPILER),gcc)
-  OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
+  # Use -g instead of -ggdb if not using gdb
+  # Use -ggdb3 to include macros in the debug information
+  # Use -Og instead of -Os to optimize less, making debugging easier
+  # For learning about using gdb with OoT64 see:
+  # https://github.com/Dragorn421/z64-romhack-tutorials/blob/master/debugging/gdb/index.md
+  OPTFLAGS := -Os -ggdb -ffast-math -fno-unsafe-math-optimizations
 endif
 
 GBI_DEFINES := -DF3DEX_GBI_2
