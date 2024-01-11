@@ -25,6 +25,7 @@ extern struct IrqMgr gIrqMgr;
 #include "fault.h"
 #include "gfx.h"
 #include "idle.h"
+#include "moreram.h"
 #include "padmgr.h"
 #include "prenmi_buff.h"
 #include "printf.h"
@@ -121,6 +122,9 @@ void Main(void* arg) {
     Runtime_Init((void*)systemHeapStart, gSystemHeapSize);
 
 #if DEBUG_FEATURES
+#if USE_8MiB_RAM
+    // Don't initialize the debug heap, which is only used by the debug camera (see gDebugCamEnabled)
+#else
     {
         void* debugHeapStart;
         u32 debugHeapSize;
@@ -136,6 +140,7 @@ void Main(void* arg) {
         PRINTF("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
         DebugArena_Init(debugHeapStart, debugHeapSize);
     }
+#endif
 #endif
 
     Regs_Init();
