@@ -1,5 +1,6 @@
 #include "array_count.h"
 #include "avoid_ub.h"
+#include "moreram.h"
 #include "printf.h"
 #include "regs.h"
 #include "romfile.h"
@@ -76,6 +77,11 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     u32 spaceSize;
     s32 i;
 
+#if USE_8MiB_RAM
+    // Allocate more memory for the object space
+    // Note: you may be able to request more than 2MiB here
+    spaceSize = 2 * 1024 * 1024;
+#else
     if (play2->sceneId == SCENE_HYRULE_FIELD) {
         spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else if (play2->sceneId == SCENE_GANON_BOSS) {
@@ -93,6 +99,7 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     } else {
         spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     }
+#endif
 
     objectCtx->numEntries = objectCtx->numPersistentEntries = 0;
     objectCtx->mainKeepSlot = objectCtx->subKeepSlot = 0;
