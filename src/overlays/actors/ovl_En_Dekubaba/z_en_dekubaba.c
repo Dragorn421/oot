@@ -207,7 +207,7 @@ void func_809E5A38(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
-        this->unk238.elements[i].info.bumperFlags &= ~BUMP_ON;
+        this->unk238.elements[i].base.bumperFlags &= ~BUMP_ON;
     }
 }
 
@@ -241,7 +241,7 @@ void func_809E5D28(EnDekubaba* this) {
                      Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), ANIMMODE_ONCE, 0.0f);
     this->unk1C6 = 0xF;
     for (i = 2; i < 7; i++) {
-        this->unk238.elements[i].info.ocElemFlags |= 1;
+        this->unk238.elements[i].base.ocElemFlags |= 1;
     }
     this->unk238.base.colType = COLTYPE_HIT6;
     this->unk238.base.acFlags &= ~AC_HARD;
@@ -256,7 +256,7 @@ void func_809E5E58(EnDekubaba* this) {
                      Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), 0.0f, ANIMMODE_ONCE, -3.0f);
     this->unk1C6 = 0xF;
     for (i = 2; i < 7; i++) {
-        this->unk238.elements[i].info.ocElemFlags &= ~1;
+        this->unk238.elements[i].base.ocElemFlags &= ~1;
     }
     this->unk1C0 = func_809E6A04;
 }
@@ -329,7 +329,7 @@ void func_809E6264(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
-        this->unk238.elements[i].info.bumperFlags |= BUMP_ON;
+        this->unk238.elements[i].base.bumperFlags |= BUMP_ON;
     }
     if (this->unk1C6 == 1) {
         Animation_Change(&this->unk17C, &object_dekubaba_Anim_0002B8, 4.0f, 0.0f,

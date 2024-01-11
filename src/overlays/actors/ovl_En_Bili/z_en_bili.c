@@ -110,7 +110,7 @@ void EnBili_Destroy(Actor* thisx, PlayState* play) {
 
 void func_809BF9BC(EnBili* this) {
     this->actor.speed = 0.7f;
-    this->unk1D4.info.bumper.effect = 1;
+    this->unk1D4.elem.bumper.effect = 1;
     this->unk196 = 0x20;
     this->unk1D4.base.atFlags |= AT_ON;
     this->unk1D4.base.acFlags |= AC_ON;
@@ -192,7 +192,7 @@ void func_809BFCE8(EnBili* this) {
 
 void func_809BFD18(EnBili* this) {
     this->unk196 = 0x50;
-    this->unk1D4.info.bumper.effect = 0;
+    this->unk1D4.elem.bumper.effect = 0;
     this->actor.gravity = -1.0f;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);
@@ -479,7 +479,7 @@ void func_809C09E0(EnBili* this, PlayState* play) {
 void func_809C0A70(EnBili* this, PlayState* play) {
     if ((this->actor.colChkInfo.health != 0) && (this->unk1D4.base.acFlags & AC_HIT)) {
         this->unk1D4.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->unk1D4.info, true);
+        Actor_SetDropFlag(&this->actor, &this->unk1D4.elem, true);
         if ((((this->actor.colChkInfo.damageEffect != 0)) || (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_DEAD);
@@ -510,7 +510,7 @@ void func_809C0A70(EnBili* this, PlayState* play) {
             } else {
                 func_809BFC48(this);
             }
-            if (this->unk1D4.info.acHitInfo->toucher.dmgFlags & DMG_ARROW) {
+            if (this->unk1D4.elem.acHitElem->toucher.dmgFlags & DMG_ARROW) {
                 this->actor.flags |= ACTOR_FLAG_4;
             }
         }

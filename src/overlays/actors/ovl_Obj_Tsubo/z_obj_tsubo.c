@@ -249,7 +249,7 @@ void func_80BA15BC(ObjTsubo* this, PlayState* play) {
         func_80BA0D60(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->unk150.base.acFlags & AC_HIT) &&
-               (this->unk150.info.acHitInfo->toucher.dmgFlags &
+               (this->unk150.elem.acHitElem->toucher.dmgFlags &
                 (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         func_80BA100C(this, play);
         func_80BA0D60(this, play);

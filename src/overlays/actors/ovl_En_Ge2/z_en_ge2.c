@@ -506,8 +506,8 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         this->unk308(this, play);
     } else {
         if (this->unk14C.base.acFlags & AC_HIT) {
-            if ((this->unk14C.info.acHitInfo != NULL) &&
-                (this->unk14C.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
+            if ((this->unk14C.elem.acHitElem != NULL) &&
+                (this->unk14C.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
                 //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the
                 //! colorfilter.
                 //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
@@ -550,7 +550,7 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if ((this->unk14C.base.acFlags & AC_HIT) &&
-        (((this->unk14C.info.acHitInfo == NULL)) || !(this->unk14C.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT))) {
+        (((this->unk14C.elem.acHitElem == NULL)) || !(this->unk14C.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT))) {
         this->actor.colorFilterTimer = 0;
         func_80A32BD0(this, 3);
         this->unk305 = 0x64;

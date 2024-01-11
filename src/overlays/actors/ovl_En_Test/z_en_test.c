@@ -863,7 +863,7 @@ void EnTest_SetupSlashDown(EnTest* this) {
     this->unk_7C8 = 0x10;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashDown);
-    this->swordCollider.info.toucher.damage = 16;
+    this->swordCollider.elem.toucher.damage = 16;
 
     if (this->unk_7DE != 0) {
         this->unk_7DE = 3;
@@ -960,7 +960,7 @@ void EnTest_SetupSlashUp(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &D_0600BE4C);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x11;
-    this->swordCollider.info.toucher.damage = 16;
+    this->swordCollider.elem.toucher.damage = 16;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashUp);
 
@@ -1049,7 +1049,7 @@ void EnTest_SetupJumpslash(EnTest* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     EnTest_SetupAction(this, EnTest_Jumpslash);
-    this->swordCollider.info.toucher.damage = 32;
+    this->swordCollider.elem.toucher.damage = 32;
 
     if (this->unk_7DE != 0) {
         this->unk_7DE = 3;
@@ -1635,7 +1635,7 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
             }
             this->unk_7DC = player->unk_845;
             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, false);
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
             if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||

@@ -58,7 +58,7 @@ static Vec3f D_80A14FC8 = { 0.0f, 0.0f, 0.0f };
 
 void func_80A13070_Unignite_(EnFirefly* this) {
     this->actor.params += 2;
-    this->collider.elements->info.toucher.effect = 0;
+    this->collider.elements->base.toucher.effect = 0;
     this->unk1B8 = 0;
     this->unk1B9 = 0;
     this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
@@ -70,7 +70,7 @@ void func_80A13098_Ignite_(EnFirefly* this) {
     } else {
         this->actor.params -= 2;
     }
-    this->collider.elements->info.toucher.effect = 1;
+    this->collider.elements->base.toucher.effect = 1;
     this->unk1B8 = 1;
     this->unk1B9 = 1;
     this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
@@ -109,10 +109,10 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = func_80A13A08_Action;
         }
         if (this->actor.params == 4) {
-            this->collider.elements->info.toucher.effect = 2;
+            this->collider.elements->base.toucher.effect = 2;
             this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
-            this->collider.elements->info.toucher.effect = 0;
+            this->collider.elements->base.toucher.effect = 0;
             this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
         this->unk310_homeY = this->actor.home.pos.y + 100.0f;
@@ -546,7 +546,7 @@ void func_80A1448C_SpawnFireEffects(EnFirefly* this, PlayState* play) {
 void func_80A1450C_ReactToAC(EnFirefly* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements->info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements->base, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);

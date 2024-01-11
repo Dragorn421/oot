@@ -683,7 +683,7 @@ void func_80A75C38(EnIk* this, PlayState* play) {
     }
     sp38 = this->actor.world.pos;
     sp38.y += 50.0f;
-    Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
+    Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
     this->unk_2FD = this->actor.colChkInfo.damageEffect;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
 

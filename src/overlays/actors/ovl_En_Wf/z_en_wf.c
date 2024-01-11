@@ -213,7 +213,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     } else {
         SkelAnime_InitFlex(play, &this->unk188, &D_6003BC0, &D_600A4AC, this->unk1CC, this->unk250, 22);
         Actor_SetScale(&this->actor, 0.01f);
-        this->unk304.elements[0].info.toucher.damage = this->unk304.elements[1].info.toucher.damage = 8;
+        this->unk304.elements[0].base.toucher.damage = this->unk304.elements[1].base.toucher.damage = 8;
         this->actor.naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }
     func_80B34380(this);
@@ -1185,7 +1185,7 @@ void func_80B37038(EnWf* this, PlayState* play) {
         this->unk470.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 6) {
             this->unk2E6 = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->unk424.info, true);
+            Actor_SetDropFlag(&this->actor, &this->unk424.elem, true);
             this->unk2F8 = 0;
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
                 if (this->unk2D4 != 0xF) {

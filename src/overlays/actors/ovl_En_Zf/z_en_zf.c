@@ -1805,7 +1805,7 @@ void func_80B490B4(EnZf* this, PlayState* play) {
         if ((((this->actor.params < 0)) || (D_80B4A1B4 != this->actor.params)) &&
             ((this->actor.colChkInfo.damageEffect != 6))) {
             this->unk410 = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->unk418.info, false);
+            Actor_SetDropFlag(&this->actor, &this->unk418.elem, false);
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
                 if (this->unk3DC != 0xE) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);

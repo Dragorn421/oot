@@ -424,7 +424,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
         this->unk2A4.base.acFlags &= ~AC_HIT;
         if (((this->actor.colChkInfo.damageEffect != 6))) {
             this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->unk2A4.elements[1].info, true);
+            Actor_SetDropFlag(&this->actor, &this->unk2A4.elements[1].base, true);
             this->setColliderAT = false;
             if (this->actor.colChkInfo.damageEffect == 1) {
                 if (this->actionState != SKB_BEHAVIOR_STUNNED) {
