@@ -8168,6 +8168,9 @@ Vec3s Camera_Update(Camera* camera) {
     }
 
 #if OOT_DEBUG
+#if USE_8MiB_RAM
+    // Prevent enabling debug cam, which relies on the debug heap that we didn't initialize
+#else
     // enable/disable debug cam
     if (CAMERA_CHECK_BTN(&D_8015BD7C->state.input[2], BTN_START)) {
         gDebugCamEnabled ^= 1;
@@ -8190,6 +8193,7 @@ Vec3s Camera_Update(Camera* camera) {
     }
 
     OREG(0) &= ~8;
+#endif
 #endif
 
     if (camera->status == CAM_STAT_UNK3) {

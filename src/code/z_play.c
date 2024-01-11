@@ -325,7 +325,22 @@ void Play_Init(GameState* thisx) {
     SystemArena_Display();
 #endif
 
+#if USE_8MiB_RAM
+    // Request to allocate more memory in the GameState arena, which is used in the play state to allocate memory
+    // initially, during Play_Init. While the play state is running, allocations use the ZeldaArena (see below).
+    // This is mainly to be able to bump up the space size in Object_InitContext.
+    // Another big consumer of memory in the GameState arena is collision, cf BgCheck_Allocate.
+    // A lot of other systems allocate memory from the GameState arena, cf GAME_STATE_ALLOC uses, but it's mostly
+    // constant amounts that don't scale with map size.
+    // The unused memory in the GameState arena once all other allocations are done is used for initializing the
+    // ZeldaArena, cf the ZeldaArena_Init call below.
+    // For uses of ZeldaArena, see ZELDA_ARENA_MALLOC uses. It is mostly about spawning actors.
+
+    // Note: you may be able to request more than 4MiB here, I don't quite know
+    GameState_Realloc(&this->state, 4 * 1024 * 1024);
+#else
     GameState_Realloc(&this->state, 0x1D4790);
+#endif
 
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_10 != NULL)) {

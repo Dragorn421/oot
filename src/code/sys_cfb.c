@@ -10,6 +10,10 @@ void SysCfb_Init(s32 n64dd) {
     uintptr_t tmpFbEnd;
 
     if (osMemSize >= 0x800000) {
+#if USE_8MiB_RAM
+        // Put the framebuffers at the end of the 8 MiB of ram
+        sSysCfbEnd = K0BASE + 0x800000;
+#else
         PRINTF(T("８Ｍバイト以上のメモリが搭載されています\n", "8MB or more memory is installed\n"));
         tmpFbEnd = 0x8044BE80;
         if (n64dd == 1) {
@@ -28,6 +32,7 @@ void SysCfb_Init(s32 n64dd) {
             sSysCfbEnd = 0x80400000;
 #endif
         }
+#endif
     } else if (osMemSize >= 0x400000) {
         PRINTF("RAM4M mode\n");
         sSysCfbEnd = 0x80400000;
