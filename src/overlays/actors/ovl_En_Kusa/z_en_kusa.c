@@ -94,9 +94,9 @@ s32 func_80A9AFAC(EnKusa* this, PlayState* play, f32 arg2) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return 1;
     } else {
-        osSyncPrintf("\x1b[43;30m");
-        osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
-        osSyncPrintf("\x1b[m");
+        PRINTF("\x1b[43;30m");
+        PRINTF("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
+        PRINTF("\x1b[m");
         return 0;
     }
 }
@@ -214,7 +214,7 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
     }
     this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, D_80A9C200[this->actor.params & 3]);
     if (this->requiredObjectSlot < 0) {
-        osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_en_kusa.c", 0x231);
+        PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_en_kusa.c", 0x231);
         Actor_Kill(&this->actor);
         return;
     }

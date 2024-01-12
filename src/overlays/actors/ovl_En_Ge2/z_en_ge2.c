@@ -523,11 +523,11 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         } else {
             this->unk308(this, play);
             if (func_80A32F74(play, this, &this->actor.focus.pos, this->actor.shape.rot.y, this->unk2FC) != 0) {
-                osSyncPrintf("\x1b[32m発見!!!!!!!!!!!!\n\x1b[m");
+                PRINTF("\x1b[32m発見!!!!!!!!!!!!\n\x1b[m");
                 func_80A33B7C(this, play);
             }
             if (((this->actor.params & 0xFF) == 1) && (this->actor.xzDistToPlayer < 100.0f)) {
-                osSyncPrintf("\x1b[32m発見!!!!!!!!!!!!\n\x1b[m");
+                PRINTF("\x1b[32m発見!!!!!!!!!!!!\n\x1b[m");
                 func_80A33B7C(this, play);
             }
         }

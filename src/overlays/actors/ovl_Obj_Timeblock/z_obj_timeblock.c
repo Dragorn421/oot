@@ -132,7 +132,7 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     } else {
         func_80BA083C(this);
     }
-    osSyncPrintf("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n",
+    PRINTF("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n",
                  this->dyna.actor.params & 0xFFFF, this->unk177, this->dyna.actor.home.rot.z & 7,
                  (this->dyna.actor.params >> 0xB) & 7, (this->dyna.actor.params >> 0xA) & 1);
 }
@@ -210,7 +210,7 @@ void func_80BA0524(ObjTimeblock* this, PlayState* play) {
         func_80BA0058(this, play);
         this->unk16C = 0xA0;
         OnePointCutscene_Attention(play, &this->dyna.actor);
-        osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", play->state.frames);
+        PRINTF("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", play->state.frames);
         this->unk170 = 0xC;
         if (this->unk177 == 0) {
             this->dyna.actor.params ^= 0x8000;
@@ -280,7 +280,7 @@ void func_80BA0768(ObjTimeblock* this, PlayState* play) {
         func_80BA0058(this, play);
         this->unk16C = 0xA0;
         OnePointCutscene_Attention(play, &this->dyna.actor);
-        osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", play->state.frames);
+        PRINTF("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", play->state.frames);
         func_80BA00CC(play, this->dyna.actor.params & 0x3F);
     }
     func_80BA06AC(this, play);

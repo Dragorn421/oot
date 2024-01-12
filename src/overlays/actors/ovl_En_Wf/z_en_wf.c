@@ -245,9 +245,9 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
             if (temp_v1->unk152 > 0) {
                 temp_v1->unk152 -= 1;
             }
-            osSyncPrintf("\n\n");
-            osSyncPrintf("\x1b[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n\x1b[m", temp_v1->unk152);
-            osSyncPrintf("\n\n");
+            PRINTF("\n\n");
+            PRINTF("\x1b[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n\x1b[m", temp_v1->unk152);
+            PRINTF("\n\n");
         }
     }
 }

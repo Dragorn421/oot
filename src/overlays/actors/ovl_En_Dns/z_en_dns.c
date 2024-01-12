@@ -145,14 +145,14 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
     if (DNS_GET_TYPE(&this->actor) < 0) {
-        osSyncPrintf("\x1b[31m引数エラー（売りナッツ）[ arg_data = %d ]\x1b[m\n", this->actor.params);
+        PRINTF("\x1b[31m引数エラー（売りナッツ）[ arg_data = %d ]\x1b[m\n", this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
     if ((DNS_GET_TYPE(&this->actor) == DNS_TYPE_ARROWS_30) && (LINK_AGE_IN_YEARS == 5)) {
         this->actor.params = DNS_TYPE_DEKU_SEEDS_30;
     }
-    osSyncPrintf("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
+    PRINTF("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
     Actor_ProcessInitChain(&this->actor, D_809F052C);
     SkelAnime_InitFlex(play, &this->unk14C, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim, this->unk190,
                        this->unk1FC, 0x12);

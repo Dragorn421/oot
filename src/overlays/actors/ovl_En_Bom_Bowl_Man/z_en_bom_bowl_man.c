@@ -64,8 +64,8 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->unk14C, &object_bg_006EB0_Skel, &object_bg_000710_Anim, &this->unk190,
                        &this->unk1D2, 0xB);
-    osSyncPrintf("\x1b[32m☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n\x1b[m");
-    osSyncPrintf("\x1b[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
+    PRINTF("\x1b[32m☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n\x1b[m");
+    PRINTF("\x1b[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
     this->unk248 = this->actor.world.pos;
     this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
@@ -209,23 +209,23 @@ void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
 
     SkelAnime_Update(&this->unk14C);
     if (gRegEditor->data[0x963] != 0) {
-        osSyncPrintf("\x1b[31m☆ game_play->bomchu_game_flag ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
-        osSyncPrintf("\x1b[31m☆ 壁１の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[0]);
-        osSyncPrintf("\x1b[31m☆ 壁２の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[1]);
-        osSyncPrintf("\x1b[31m☆ 穴情報\t     ☆ %d\n\x1b[m", this->unk25C->unk164);
-        osSyncPrintf("\n\n");
+        PRINTF("\x1b[31m☆ game_play->bomchu_game_flag ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
+        PRINTF("\x1b[31m☆ 壁１の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[0]);
+        PRINTF("\x1b[31m☆ 壁２の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[1]);
+        PRINTF("\x1b[31m☆ 穴情報\t     ☆ %d\n\x1b[m", this->unk25C->unk164);
+        PRINTF("\n\n");
     }
     this->unk244 = 0;
     if (this->unk25C != NULL) {
         if ((this->unk23E_arr[0] != 1) && (this->unk23E_arr[1] != 1) && (this->unk25C->unk164 == 2)) {
             this->unk244 = 1;
             this->unk25C->unk164 = 0U;
-            osSyncPrintf("\x1b[35m☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n\x1b[m");
+            PRINTF("\x1b[35m☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n\x1b[m");
         }
         if ((play->bombchuBowlingStatus == -1) && (play->actorCtx.actorLists[3].length == 0) &&
             (this->unk25C->unk164 == 0) && (this->unk23E_arr[0] != 1) && (this->unk23E_arr[1] != 1)) {
             this->unk244 = 2;
-            osSyncPrintf("\x1b[35m☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n\x1b[m");
+            PRINTF("\x1b[35m☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n\x1b[m");
         }
     }
     if (this->unk244 != 0) {
@@ -411,7 +411,7 @@ void func_809C4664(EnBomBowlMan* this, PlayState* play) {
         if (gRegEditor->data[0x962] != 0) {
             gRegEditor->data[0x962] = 0;
         }
-        osSyncPrintf("\x1b[33m☆ わー ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
+        PRINTF("\x1b[33m☆ わー ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = func_809C3D40;
     }

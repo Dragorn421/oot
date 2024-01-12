@@ -59,8 +59,8 @@ void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     }
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp28);
     this->unk168 = this->dyna.actor.world.pos;
-    osSyncPrintf("\n\n");
-    osSyncPrintf("\x1b[32m ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n\x1b[m", this->dyna.actor.params);
+    PRINTF("\n\n");
+    PRINTF("\x1b[32m ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n\x1b[m", this->dyna.actor.params);
     this->actionFunc = func_8086F260;
     this->dyna.actor.scale.z = 1.0f;
     this->dyna.actor.scale.y = 1.0f;
@@ -82,7 +82,7 @@ void func_8086F260(BgBowlWall* this, PlayState* play) {
     if (params != 0) {
         params += (s16)Rand_ZeroFloat(2.99f);
         this->dyna.actor.shape.rot.z = this->dyna.actor.world.rot.z = D_8086FA70[params];
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
     }
     this->unk174.x = D_8086FA40[params].x + this->dyna.actor.world.pos.x;
     this->unk174.y = D_8086FA40[params].y + this->dyna.actor.world.pos.y;

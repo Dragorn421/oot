@@ -77,7 +77,7 @@ void func_80893750(BgJyaBigmirror* this2, PlayState* play) {
                     this->unk15C &= ~D_80893F1C[i];
                 }
                 if (new_var->unk0->update == NULL) {
-                    osSyncPrintf("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
+                    PRINTF("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
                 }
             } else {
                 new_var->unk0 =
@@ -85,7 +85,7 @@ void func_80893750(BgJyaBigmirror* this2, PlayState* play) {
                                        new_var2->unk0.y, new_var2->unk0.z, 0, new_var->unk4, 0, new_var2->unkC);
                 this->actor.child = NULL;
                 if (new_var->unk0 == NULL) {
-                    osSyncPrintf("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
+                    PRINTF("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
                 }
             }
         }
@@ -142,7 +142,7 @@ void func_8089399C(BgJyaBigmirror* this2, PlayState* play) {
                         Actor_Spawn(&play->actorCtx, play, 0xB7, D_80893F28[var_s1].x, D_80893F28[var_s1].y,
                                     D_80893F28[var_s1].z, 0, 0, 0, D_80893F20[var_s1]);
                     if (this->unk160[var_s1] == NULL) {
-                        osSyncPrintf("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
+                        PRINTF("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
                     }
                 }
             } else {
@@ -170,7 +170,7 @@ void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
     D_80893ED0 = 1;
     this->unk15D = 1;
     this->mirRayObjectSlot = -1;
-    osSyncPrintf("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);
 }
 
 void BgJyaBigmirror_Destroy(Actor* thisx, PlayState* play) {

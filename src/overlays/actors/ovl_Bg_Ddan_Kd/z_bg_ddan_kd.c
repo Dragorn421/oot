@@ -100,7 +100,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play) {
 
     explosive = Actor_GetCollidedExplosive(play, &this->collider);
     if (explosive != NULL) {
-        osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
+        PRINTF("dam    %d\n", this->dyna.actor.colChkInfo.damage);
         explosive->params = 2;
     }
 

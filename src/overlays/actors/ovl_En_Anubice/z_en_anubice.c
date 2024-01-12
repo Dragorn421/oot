@@ -124,9 +124,9 @@ void EnAnubice_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     SkelAnime_Init(play, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable, 16);
 
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "☆☆☆☆☆ Anubis occurence ☆☆☆☆☆"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n" VT_RST);
 
     this->actor.naviEnemyId = NAVI_ENEMY_ANUBIS;
 
@@ -175,8 +175,8 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, PlayState* play) {
                 } else {
                     this->flameCircles[flameCirclesFound] = (BgHidanCurtain*)currentProp;
                     // "☆☆☆☆☆ How many fires? ☆☆☆☆☆"
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n" VT_RST, flameCirclesFound);
-                    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n" VT_RST,
+                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n" VT_RST, flameCirclesFound);
+                    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n" VT_RST,
                                  this->flameCircles[flameCirclesFound]);
                     if (flameCirclesFound < 4) {
                         flameCirclesFound++;

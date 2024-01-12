@@ -104,7 +104,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
 
         case 0x5:
             if (LINK_IS_ADULT) {
-                osSyncPrintf("\x1b[36m谷底 ゲルド 撤退 \n\x1b[m");
+                PRINTF("\x1b[36m谷底 ゲルド 撤退 \n\x1b[m");
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -119,7 +119,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
             }
             this->actor.targetMode = 3;
             this->unk2AE = 0;
-            osSyncPrintf("\x1b[36mやぶさめ ゲルド EVENT_INF(0) = %x\n\x1b[m", gSaveContext.eventInf[0]);
+            PRINTF("\x1b[36mやぶさめ ゲルド EVENT_INF(0) = %x\n\x1b[m", gSaveContext.eventInf[0]);
             if (GET_EVENTINF(EVENTINF_HORSES_08)) {
                 this->unk2B4 = func_80A31E2C;
             } else if (func_80A30DCC() != 0) {
@@ -560,14 +560,14 @@ void func_80A31DE4(EnGe1* this, PlayState* play) {
 void func_80A31E2C(EnGe1* this, PlayState* play) {
     CLEAR_EVENTINF(EVENTINF_HORSES_08);
     LogUtils_LogThreadId("../z_en_ge1.c", 0x456);
-    osSyncPrintf("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
+    PRINTF("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
     if (1) {}
     if (1) {}
     if (1) {}
     LogUtils_LogThreadId("../z_en_ge1.c", 0x457);
     // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
     // see the other occurrence of this for more details.
-    osSyncPrintf("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.save.info.highScores[0]);
+    PRINTF("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.save.info.highScores[0]);
     this->actor.flags |= ACTOR_FLAG_16;
     if (gSaveContext.save.info.highScores[0] < gSaveContext.minigameScore) {
         gSaveContext.save.info.highScores[0] = gSaveContext.minigameScore;

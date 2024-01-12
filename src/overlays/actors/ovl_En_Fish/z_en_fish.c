@@ -381,9 +381,9 @@ void func_80A15F84(EnFish* this, PlayState* play) {
         func_80A163DC(this);
     } else if ((this->unk248 <= 0) && (this->actor.params == 0) &&
                (this->actor.floorHeight < (BGCHECK_Y_MIN + 10.0f))) {
-        osSyncPrintf("\x1b[43;30m");
-        osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
-        osSyncPrintf("\x1b[m");
+        PRINTF("\x1b[43;30m");
+        PRINTF("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
+        PRINTF("\x1b[m");
         Actor_Kill(&this->actor);
     }
 }
@@ -591,7 +591,7 @@ void func_80A16A64(EnFish* this, PlayState* play) {
     sp4C = play->csCtx.actorCues[1];
     if (sp4C == NULL) {
         if (1) {}
-        osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
+        PRINTF("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
                      1169, this->actor.params);
         func_80A15444(this);
         Actor_Kill(&this->actor);
@@ -609,13 +609,13 @@ void func_80A16A64(EnFish* this, PlayState* play) {
             break;
 
         case 3:
-            osSyncPrintf("デモ魚消滅\n");
+            PRINTF("デモ魚消滅\n");
             func_80A15444(this);
             Actor_Kill(&this->actor);
             return;
 
         default:
-            osSyncPrintf("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200, this->actor.params);
+            PRINTF("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200, this->actor.params);
             break;
     }
     sp40.x = sp4C->startPos.x;

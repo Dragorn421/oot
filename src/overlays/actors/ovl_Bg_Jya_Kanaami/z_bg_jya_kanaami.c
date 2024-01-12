@@ -49,7 +49,7 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, PlayState* play, CollisionHea
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
     if (this->bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
                      this->actor.id, this->actor.params);
     }
 }
@@ -64,7 +64,7 @@ void BgJyaKanaami_Init(Actor* thisx, PlayState* play) {
     } else {
         func_80899880(this);
     }
-    osSyncPrintf("(jya 金網)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF("(jya 金網)(arg_data 0x%04x)\n", this->actor.params);
 }
 
 void BgJyaKanaami_Destroy(Actor* thisx, PlayState* play) {

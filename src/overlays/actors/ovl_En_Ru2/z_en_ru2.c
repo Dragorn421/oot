@@ -551,7 +551,7 @@ void func_80AF3564(EnRu2* this, PlayState* play) {
                     func_80AF34F0(this);
                     break;
                 default:
-                    osSyncPrintf("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
             this->cueId = nextCueId;
@@ -666,11 +666,11 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
 
     if (dialogState == TEXT_STATE_DONE_FADING) {
         if (this->unk_2C3 != TEXT_STATE_DONE_FADING) {
-            osSyncPrintf("おれが小松だ！ \n");
+            PRINTF("おれが小松だ！ \n");
             this->unk_2C2++;
             if (this->unk_2C2 % 6 == 3) {
                 player = GET_PLAYER(play);
-                osSyncPrintf("うおりゃー！ \n");
+                PRINTF("うおりゃー！ \n");
                 Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;
@@ -753,7 +753,7 @@ void EnRu2_Update(Actor* thisx, PlayState* play) {
     EnRu2* this = (EnRu2*)thisx;
 
     if (this->action < 0 || this->action >= 20 || sActionFuncs[this->action] == 0) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -812,7 +812,7 @@ void EnRu2_Draw(Actor* thisx, PlayState* play) {
     EnRu2* this = (EnRu2*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

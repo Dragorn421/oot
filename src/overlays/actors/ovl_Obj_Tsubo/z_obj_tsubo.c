@@ -107,7 +107,7 @@ s32 func_80BA0DF4(ObjTsubo* this, PlayState* play) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return 1;
     } else {
-        osSyncPrintf("地面に付着失敗\n");
+        PRINTF("地面に付着失敗\n");
         return 0;
     }
 }
@@ -131,12 +131,12 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
     } else {
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, D_80BA1B80[(this->actor.params >> 8) & 1]);
         if (this->requiredObjectSlot < 0) {
-            osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c",
+            PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c",
                          410);
             Actor_Kill(&this->actor);
         } else {
             func_80BA152C(this);
-            osSyncPrintf("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
+            PRINTF("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
         }
     }
 }

@@ -188,10 +188,10 @@ void func_809C55B0(EnBomBowlPit* this, PlayState* play) {
 
 void func_809C5608(EnBomBowlPit* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n\x1b[m");
+        PRINTF("\x1b[32m☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n\x1b[m");
         if (this->unk160 == GI_HEART_PIECE) {
             gSaveContext.healthAccumulator = 0x140;
-            osSyncPrintf("\x1b[32m☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n\x1b[m");
+            PRINTF("\x1b[32m☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n\x1b[m");
         }
         this->unk156 = 0;
         this->unk164 = 2;

@@ -88,11 +88,11 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     this->unk30C = this->actor.world.pos.y + 40.0f;
     this->actor.focus.pos = this->actor.world.pos;
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
+        PRINTF("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim, this->unk194,
                            this->unk23C, 28);
     } else {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
+        PRINTF("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim, this->unk194,
                            this->unk23C, 28);
     }
@@ -189,7 +189,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
     s32 var_v1;
 
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
-    osSyncPrintf("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", play->msgCtx.ocarinaMode);
+    PRINTF("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", play->msgCtx.ocarinaMode);
     var_v1 = 0;
     if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         switch (this->unk2EC) {
@@ -215,7 +215,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
         switch (this->unk2EC) {
             case 0:
                 if (!gSaveContext.save.info.playerData.isMagicAcquired || (gRegEditor->data[0x962] != 0)) {
-                    osSyncPrintf("\x1b[32m ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n\x1b[m");
+                    PRINTF("\x1b[32m ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;
                 }
@@ -223,7 +223,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
 
             case 1:
                 if (!gSaveContext.save.info.playerData.isDoubleMagicAcquired) {
-                    osSyncPrintf("\x1b[33m ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n\x1b[m");
+                    PRINTF("\x1b[33m ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;
                 }
@@ -231,7 +231,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
 
             case 2:
                 if (!gSaveContext.save.info.playerData.isDoubleDefenseAcquired) {
-                    osSyncPrintf("\x1b[35m ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n\x1b[m");
+                    PRINTF("\x1b[35m ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n\x1b[m");
                     var_v1 = 1;
                     this->unk2EA = 1;
                 }

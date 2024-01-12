@@ -39,8 +39,8 @@ Vec3f D_80B2F364 = { 0.0f, 0.0f, 0.0f };
 void EnWallTubo_Init(Actor* thisx, PlayState* play) {
     EnWallTubo* this = (EnWallTubo*)thisx;
 
-    osSyncPrintf("\n\n");
-    osSyncPrintf("\x1b[33m☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n\x1b[m");
+    PRINTF("\n\n");
+    PRINTF("\x1b[33m☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n\x1b[m");
     this->unk164 = this->actor.world.pos;
     this->unk14C = func_80B2EE5C;
 }
@@ -125,11 +125,11 @@ void func_80B2F0B8(EnWallTubo* this, PlayState* play) {
         temp_v0 = this->actor.parent;
         if ((temp_v0 != NULL) && (temp_v0->update != NULL)) {
             ((BgBowlWall*)temp_v0)->unk180 = 1;
-            osSyncPrintf("\x1b[32m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
-            osSyncPrintf("\x1b[33m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
-            osSyncPrintf("\x1b[34m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
-            osSyncPrintf("\x1b[35m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
-            osSyncPrintf("\x1b[36m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            PRINTF("\x1b[32m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            PRINTF("\x1b[33m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            PRINTF("\x1b[34m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            PRINTF("\x1b[35m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            PRINTF("\x1b[36m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
         }
         Actor_Kill(&this->actor);
     }
