@@ -86,7 +86,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->collider, &this->actor, &D_80A14F54, this->colliderElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80A14F6C, &D_80A14F64);
     if (this->actor.params & 0x8000) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
         thisx->draw = EnFirefly_DrawXlu;
         this->actor.params &= 0x7FFF;
     }
