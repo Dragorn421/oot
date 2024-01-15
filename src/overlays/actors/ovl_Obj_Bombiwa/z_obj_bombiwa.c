@@ -72,6 +72,11 @@ void ObjBombiwa_InitCollision(Actor* thisx, PlayState* play) {
 }
 
 void ObjBombiwa_Init(Actor* thisx, PlayState* play) {
+    ObjBombiwa* this = (ObjBombiwa*)thisx;
+
+    this->isTalking = false;
+    this->actor.textId = 0x0408; // see assets/text/message_data.h
+
     Actor_ProcessInitChain(thisx, sInitChain);
     ObjBombiwa_InitCollision(thisx, play);
     if ((Flags_GetSwitch(play, thisx->params & 0x3F) != 0)) {
@@ -123,6 +128,22 @@ void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play) {
 void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
     ObjBombiwa* this = (ObjBombiwa*)thisx;
     s32 pad;
+
+    if (this->isTalking) {
+        if (Actor_TextboxIsClosing(&this->actor, play)) {
+            this->isTalking = false;
+        } else {
+            this->actor.shape.rot.y += 0x10000 / 20;
+        }
+    } else {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
+            this->isTalking = true;
+        } else {
+            f32 maxTalkDistance = 200.0f;
+
+            Actor_OfferTalk(&this->actor, play, maxTalkDistance);
+        }
+    }
 
     if ((func_80033684(play, &this->actor) != NULL) ||
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HAMMER))) {
