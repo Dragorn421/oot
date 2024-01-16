@@ -412,7 +412,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     PRINTF("init 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
 
     startTime = endTime;
-    LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1088);
+    LOG_UTILS_CHECK_NULL_POINTER("this->cleanup", gameState->destroy, "../game.c", 1088);
     func_800ACE70(&D_801664F0);
     func_800AD920(&D_80166500);
     VisMono_Init(&sMonoColors);
@@ -437,7 +437,7 @@ void GameState_Destroy(GameState* gameState) {
     AudioMgr_StopAllSfx();
     func_800F3054();
     osRecvMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
-    LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1139);
+    LOG_UTILS_CHECK_NULL_POINTER("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {
         gameState->destroy(gameState);
     }
