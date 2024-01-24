@@ -127,6 +127,7 @@ static const char *const stmtNames[] =
     [STMT_after]     = "after",
     [STMT_align]     = "align",
     [STMT_beginseg]  = "beginseg",
+    [STMT_compress]  = "compress",
     [STMT_endseg]    = "endseg",
     [STMT_entry]     = "entry",
     [STMT_flags]     = "flags",
@@ -238,6 +239,9 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
                  case STMT_increment:
                     if (!parse_number(args, &currSeg->increment))
                         util_fatal_error("line %i: expected number after 'increment'", lineNum);
+                    break;
+                case STMT_compress:
+                    currSeg->compress = true;
                     break;
                 case STMT_pad_text:
                     currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;

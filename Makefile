@@ -17,6 +17,8 @@ COMPILER := ido
 # Target game version. Currently only the following version is supported:
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 VERSION := gc-eu-mq-dbg
+# Number of threads to compress with
+N_THREADS := $(shell nproc)
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -103,6 +105,7 @@ AS      := $(MIPS_BINUTILS_PREFIX)as
 LD      := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
+NM      := $(MIPS_BINUTILS_PREFIX)nm
 
 N64_EMULATOR ?= 
 
@@ -118,6 +121,7 @@ ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
 SPEC_LS_SEG := tools/spec_ls_seg
+PYTHON     ?= python3
 
 # Command to replace path variables in the spec file. We can't use the C
 # preprocessor for this because it won't substitute inside string literals.
@@ -158,6 +162,7 @@ endif
 #### Files ####
 
 # ROM image
+ROMC := oot-$(VERSION)-compressed.z64
 ROM := oot-$(VERSION).z64
 ELF := $(ROM:.z64=.elf)
 # description of ROM segments
@@ -181,9 +186,10 @@ UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 # source files
 C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c)))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
+BASEROM_BIN_FILES := $(wildcard baseroms/$(VERSION)/segments/*)
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
-                 $(foreach f,$(wildcard baserom/*),$(BUILD_DIR)/$f.o)
+                 $(foreach f,$(BASEROM_BIN_FILES),$(BUILD_DIR)/baserom/$(notdir $f).o)
 
 RELOC_O_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
 
@@ -241,11 +247,11 @@ $(BUILD_DIR)/src/libultra/rmon/%.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
-$(BUILD_DIR)/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/overlays/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/boot/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/code/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/overlays/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
-$(BUILD_DIR)/assets/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/assets/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 else
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/%.o: CC := $(CC) -fexec-charset=euc-jp
@@ -253,14 +259,25 @@ endif
 
 #### Main Targets ###
 
-all: $(ROM)
-ifeq ($(COMPARE),1)
+rom: $(ROM)
+ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
-	@md5sum -c checksum.md5
+	@md5sum -c baseroms/$(VERSION)/checksum.md5
+endif
+
+compressed: $(ROMC)
+ifneq ($(COMPARE),0)
+	@md5sum $(ROMC)
+	@md5sum -c baseroms/$(VERSION)/checksum-compressed.md5
 endif
 
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
+
+$(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
+# note: $(BUILD_DIR)/compress_ranges.txt should only be used for nonmatching builds. it works by chance for matching builds too though
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dma-range `./tools/dmadata_range.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
+	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(RELOC_O_FILES) $(BUILD_DIR)/ldscript.txt $(BUILD_DIR)/undefined_syms.txt
 	$(LD) -T $(BUILD_DIR)/undefined_syms.txt -T $(BUILD_DIR)/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(BUILD_DIR)/z64.map -o $@
@@ -275,7 +292,7 @@ $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $(BUILD_DIR)/undefined_syms.txt
 
 clean:
-	$(RM) -r $(ROM) $(ELF) $(BUILD_DIR)
+	$(RM) -r $(ROMC) $(ROM) $(ELF) $(BUILD_DIR)
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
@@ -284,14 +301,14 @@ assetclean:
 	$(RM) -r .extracted-assets.json
 
 distclean: clean assetclean
-	$(RM) -r baserom/
+	$(RM) -r baseroms/$(VERSION)/segments
 	$(MAKE) -C tools distclean
 
 setup:
 	$(MAKE) -C tools -j
-	python3 fixbaserom.py
-	python3 extract_baserom.py
-	python3 extract_assets.py
+	$(PYTHON) tools/decompress_baserom.py $(VERSION)
+	$(PYTHON) extract_baserom.py
+	$(PYTHON) extract_assets.py
 
 resources: $(ASSET_FILES_OUT)
 run: $(ROM)
@@ -304,14 +321,14 @@ endif
 
 #### Various Recipes ####
 
-$(BUILD_DIR)/baserom/%.o: baserom/%
+$(BUILD_DIR)/baserom/%.o: baseroms/$(VERSION)/segments/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
 	iconv --from UTF-8 --to EUC-JP $< | $(AS) $(ASFLAGS) -o $@
 
 $(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
-	python3 tools/msgenc.py assets/text/charmap.txt $< $@
+	$(PYTHON) tools/msgenc.py assets/text/charmap.txt $< $@
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
@@ -328,8 +345,8 @@ $(BUILD_DIR)/assets/%.o: assets/%.c
 $(BUILD_DIR)/src/%.o: src/%.s
 	$(CPP) $(CPPFLAGS) -I include $< | $(AS) $(ASFLAGS) -o $@
 
-$(BUILD_DIR)/dmadata_table_spec.h: $(BUILD_DIR)/$(SPEC)
-	$(MKDMADATA) $< $@
+$(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)/$(SPEC)
+	$(MKDMADATA) $< $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt
 
 # Dependencies for files that may include the dmadata header automatically generated from the spec file
 $(BUILD_DIR)/src/boot/z_std_dma.o: $(BUILD_DIR)/dmadata_table_spec.h
@@ -360,13 +377,13 @@ $(BUILD_DIR)/src/%.o: src/%.c
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/%.inc.c: %.png
@@ -379,3 +396,6 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
 
 -include $(DEP_FILES)
+
+# Print target for debugging
+print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true

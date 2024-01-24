@@ -81,13 +81,15 @@ The build process has the following package requirements:
 * build-essential
 * binutils-mips-linux-gnu
 * python3
+* python3-pip
+* python3-venv
 * libpng-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
+sudo apt-get install git build-essential binutils-mips-linux-gnu python3 python3-pip python3-venv libpng-dev
 ```
 
 If you are using GCC as the compiler for Ocarina of Time, you will also need:
@@ -102,12 +104,37 @@ Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, 
 git clone https://github.com/zeldaret/oot.git
 ```
 
-#### 3. Prepare a base ROM
+#### 3. Install python dependencies
 
-Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
-Rename the file to "baserom_original.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
+The build process has a few python packages required that are located in `requirements.txt`.
 
-#### 4. Setup the ROM and build process
+It is recommended to set up a virtual environment for python to contain all dependencies. To create a virtual environment:
+
+```bash
+python3 -m venv .venv
+```
+
+To start using the virtual environment in your current terminal run:
+
+```bash
+. .venv/bin/activate
+```
+
+Keep in mind that for each new terminal session, you will need to **activate** the Python virtual environment again. That is, run the above `. .venv/bin/activate` command.
+
+Now you can install the Python dependencies, to do so run:
+
+```bash
+python3 -m pip install -U -r requirements.txt
+```
+
+#### 4. Prepare a base ROM
+
+Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder.
+
+Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
+
+#### 5. Setup the ROM and build process
 
 Setup and extract everything from your ROM with the following command:
 
@@ -115,10 +142,10 @@ Setup and extract everything from your ROM with the following command:
 make setup
 ```
 
-This will generate a new ROM called "baserom.z64" that will have the overdump removed and the header patched.
+This will generate a new ROM "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64" that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
-#### 5. Build the ROM
+#### 6. Build the ROM
 
 Run make to build the ROM.
 Make sure your path to the project is not too long, otherwise this process may error.
@@ -172,7 +199,7 @@ dos2unix fixle.sh
 
 To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and setup based on your system.
 
-You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](#2-clone-the-repository) and [3](#3-prepare-a-base-rom) of the Linux instructions).
+You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](#2-clone-the-repository) and [4](#4-prepare-a-base-rom) of the Linux instructions).
 
 #### 2. Create the Docker image
 
@@ -192,7 +219,7 @@ docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/
 
 #### 4. Setup and Build the ROM
 
-Once inside the container, you can follow steps [4](#4-setup-the-rom-and-build-process) and [5](#5-build-the-rom) of the Linux instructions to setup and build the ROM, or run any other command you need.
+Once inside the container, you can follow steps [3](#3-install-python-dependencies) and [5](#5-setup-the-rom-and-build-process) onwards of the Linux instructions to setup and build the ROM, or run any other command you need.
 
 ## Contributing
 
