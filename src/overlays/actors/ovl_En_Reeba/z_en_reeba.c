@@ -141,8 +141,8 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, this->actor.shape.yOffset, ActorShadow_DrawCircle, 0.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     Actor_UpdateBgCheckInfo(play, &this->actor, 35.0f, 60.0f, 60.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
 
     surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
@@ -235,8 +235,8 @@ void EnReeba_Surface(EnReeba* this, PlayState* play) {
                 case 2:
                 case 3:
                     this->actor.world.rot.y =
-                        this->actor.yawTowardsPlayer +
-                        (player->actor.shape.rot.y - this->actor.yawTowardsPlayer) * (playerSpeedXZ * 0.15f);
+                        this->actor.yawTowardsPlayer
+                        + (player->actor.shape.rot.y - this->actor.yawTowardsPlayer) * (playerSpeedXZ * 0.15f);
                     break;
                 case 4:
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer - (800.0f * playerSpeedXZ);
@@ -268,8 +268,8 @@ void EnReeba_Move(EnReeba* this, PlayState* play) {
     if ((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) {
         this->actor.speed = 0.0f;
         this->actionfunc = EnReeba_SetupSink;
-    } else if ((this->moveTimer == 0) || (this->actor.xzDistToPlayer < 30.0f) ||
-               (this->actor.xzDistToPlayer > 400.0f) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+    } else if ((this->moveTimer == 0) || (this->actor.xzDistToPlayer < 30.0f) || (this->actor.xzDistToPlayer > 400.0f)
+               || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = EnReeba_SetupSink;
     } else if (this->sfxTimer == 0) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_MOVE);
@@ -296,8 +296,8 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
 
     surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
-    if (((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) || (this->actor.xzDistToPlayer > 400.0f) ||
-        (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+    if (((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) || (this->actor.xzDistToPlayer > 400.0f)
+        || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = EnReeba_SetupSink;
     } else {
         if ((this->actor.xzDistToPlayer < 70.0f) && (this->bigLeeverTimer == 0)) {
@@ -628,8 +628,8 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
 
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 35.0f, 60.0f, 60.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
 
     if (this->collider.base.atFlags & AT_BOUNCED) {
         this->collider.base.atFlags &= ~AT_BOUNCED;
@@ -645,8 +645,8 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        if ((this->collider.base.at == &player->actor) && this->type == LEEVER_TYPE_SMALL &&
-            (this->actionfunc != EnReeba_Sink)) {
+        if ((this->collider.base.at == &player->actor) && this->type == LEEVER_TYPE_SMALL
+            && (this->actionfunc != EnReeba_Sink)) {
             this->actionfunc = EnReeba_SetupSink;
         }
     }
@@ -661,8 +661,8 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    if ((this->actor.shape.yOffset >= -700.0f) && (this->actor.colChkInfo.health > 0) &&
-        (this->actionfunc != EnReeba_Sink)) {
+    if ((this->actor.shape.yOffset >= -700.0f) && (this->actor.colChkInfo.health > 0)
+        && (this->actionfunc != EnReeba_Sink)) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 
         if (!(this->actor.shape.yOffset < 0.0f)) {

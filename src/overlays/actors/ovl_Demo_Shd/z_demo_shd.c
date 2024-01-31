@@ -47,8 +47,8 @@ void DemoShd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80991298(DemoShd* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL) ||
-        (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[1] != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL)
+        || (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[1] != NULL)) {
         if (play->csCtx.curFrame == 800) {
             Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_BONGO_EMERGES);
         }

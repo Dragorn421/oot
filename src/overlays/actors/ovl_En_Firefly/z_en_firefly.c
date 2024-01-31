@@ -374,8 +374,8 @@ void EnFirefly_FlyIdle(EnFirefly* this, PlayState* play) {
     }
     skelanimeUpdated = Animation_OnFrame(&this->skelAnime, 0.0f);
     this->actor.speed = (Rand_ZeroOne() * 1.5f) + 1.5f;
-    if (this->onFire || (this->actor.params == KEESE_ICE_FLY) ||
-        ((EnFirefly_ReturnToPerch(this, play) == 0) && (EnFirefly_SeekTorch(this, play) == 0))) {
+    if (this->onFire || (this->actor.params == KEESE_ICE_FLY)
+        || ((EnFirefly_ReturnToPerch(this, play) == 0) && (EnFirefly_SeekTorch(this, play) == 0))) {
         if (skelanimeUpdated) {
             rand = Rand_ZeroOne();
             if (rand < 0.5f) {
@@ -399,8 +399,8 @@ void EnFirefly_FlyIdle(EnFirefly* this, PlayState* play) {
         } else {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->targetPitch = 0x954;
-            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) ||
-                       (this->maxAltitude < this->actor.world.pos.y)) {
+            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING)
+                       || (this->maxAltitude < this->actor.world.pos.y)) {
                 this->targetPitch = 0x2154;
             }
         }
@@ -512,9 +512,9 @@ void EnFirefly_FlyAway(EnFirefly* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
-    if (((fabsf(this->actor.world.pos.y - this->maxAltitude) < 10.0f) &&
-         (Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) < 20.0f)) ||
-        (this->timer == 0)) {
+    if (((fabsf(this->actor.world.pos.y - this->maxAltitude) < 10.0f)
+         && (Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) < 20.0f))
+        || (this->timer == 0)) {
         EnFirefly_SetupFlyIdle(this);
         return;
     }

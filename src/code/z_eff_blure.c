@@ -273,8 +273,8 @@ void EffectBlure_UpdateFlags(EffectBlureElement* elem) {
         Math_Vec3s_DiffToVec3f(&sp4C, &next->p1, &elem->p1);
         Math_Vec3s_DiffToVec3f(&sp40, &next->p2, &elem->p2);
 
-        if (Math3D_CosOut(&sp64, &sp4C, &sp34) || Math3D_CosOut(&sp58, &sp40, &sp30) ||
-            Math3D_CosOut(&sp4C, &sp40, &sp2C)) {
+        if (Math3D_CosOut(&sp64, &sp4C, &sp34) || Math3D_CosOut(&sp58, &sp40, &sp30)
+            || Math3D_CosOut(&sp4C, &sp40, &sp2C)) {
             elem->flags &= ~3;
             elem->flags |= 0;
         } else if ((sp34 <= -0.5f) || (sp30 <= -0.5f) || (sp2C <= 0.7071f)) { // cos(45 degrees)
@@ -686,10 +686,10 @@ void EffectBlure_DrawSmooth(EffectBlure* this2, GraphicsContext* gfxCtx) {
         if ((elem->state == 0) || ((elem + 1)->state == 0)) {
             continue;
         }
-        if ((((elem->flags & 3) == 0) && (((elem + 1)->flags & 3) == 0)) ||
-            (((elem->flags & 3) == 2) && (((elem + 1)->flags & 3) == 0)) ||
-            (((elem->flags & 3) == 0) && (((elem + 1)->flags & 3) == 2)) ||
-            (((elem->flags & 3) == 2) && (((elem + 1)->flags & 3) == 2))) {
+        if ((((elem->flags & 3) == 0) && (((elem + 1)->flags & 3) == 0))
+            || (((elem->flags & 3) == 2) && (((elem + 1)->flags & 3) == 0))
+            || (((elem->flags & 3) == 0) && (((elem + 1)->flags & 3) == 2))
+            || (((elem->flags & 3) == 2) && (((elem + 1)->flags & 3) == 2))) {
             EffectBlure_DrawElemNoInterpolation(this, elem, i, gfxCtx);
         } else {
             EffectBlure_DrawElemHermiteInterpolation(this, elem, i, gfxCtx);

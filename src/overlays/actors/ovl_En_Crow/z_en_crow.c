@@ -240,8 +240,8 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
         this->aimRotY = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     }
 
-    if ((Math_SmoothStepToS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && skelanimeUpdated &&
-        (Rand_ZeroOne() < 0.1f)) {
+    if ((Math_SmoothStepToS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && skelanimeUpdated
+        && (Rand_ZeroOne() < 0.1f)) {
         var = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos) - this->actor.shape.rot.y;
         if (var > 0) {
             this->aimRotY += 0x1000 + (0x1000 * Rand_ZeroOne());
@@ -259,8 +259,8 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
         this->aimRotX = 0x800 + (Rand_ZeroOne() * 0x800);
     }
 
-    if ((Math_SmoothStepToS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && skelanimeUpdated &&
-        (Rand_ZeroOne() < 0.1f)) {
+    if ((Math_SmoothStepToS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && skelanimeUpdated
+        && (Rand_ZeroOne() < 0.1f)) {
         if (this->actor.home.pos.y < this->actor.world.pos.y) {
             this->aimRotX -= (0x400 * Rand_ZeroOne()) + 0x400;
         } else {
@@ -276,8 +276,8 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
-    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & PLAYER_STATE1_23) &&
-        (this->actor.yDistToWater < -40.0f) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & PLAYER_STATE1_23)
+        && (this->actor.yDistToWater < -40.0f) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
         EnCrow_SetupDiveAttack(this);
     }
 }
@@ -312,9 +312,9 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 4, 0xC00);
     }
 
-    if ((this->timer == 0) || (Player_GetMask(play) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & AT_HIT) ||
-        (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
-        (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
+    if ((this->timer == 0) || (Player_GetMask(play) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & AT_HIT)
+        || (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL))
+        || (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
             Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_ATTACK);

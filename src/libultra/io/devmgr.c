@@ -18,8 +18,8 @@ void __osDevMgrMain(void* arg) {
     while (true) {
         osRecvMesg(dm->cmdQueue, (OSMesg*)&ioMesg, OS_MESG_BLOCK);
 
-        if ((ioMesg->piHandle != NULL) && (ioMesg->piHandle->type == DEVICE_TYPE_64DD) &&
-            ((ioMesg->piHandle->transferInfo.cmdType == 0) || (ioMesg->piHandle->transferInfo.cmdType == 1))) {
+        if ((ioMesg->piHandle != NULL) && (ioMesg->piHandle->type == DEVICE_TYPE_64DD)
+            && ((ioMesg->piHandle->transferInfo.cmdType == 0) || (ioMesg->piHandle->transferInfo.cmdType == 1))) {
             __OSBlockInfo* blockInfo;
             __OSTranxInfo* info;
 

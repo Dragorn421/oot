@@ -731,10 +731,10 @@ void func_80A5475C(EnHeishi2* this, PlayState* play) {
         }
     }
 
-    if (((this->type != 2) && (this->type != 5)) ||
-        ((yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)),
-          !(this->actor.xzDistToPlayer > 120.0f)) &&
-         (yawDiff < 0x4300))) {
+    if (((this->type != 2) && (this->type != 5))
+        || ((yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)),
+             !(this->actor.xzDistToPlayer > 120.0f))
+            && (yawDiff < 0x4300))) {
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
 }
@@ -787,8 +787,8 @@ void EnHeishi2_Update(Actor* thisx, PlayState* play) {
             break;
         default:
             Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 30.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                        UPDBGCHECKINFO_FLAG_4);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                        | UPDBGCHECKINFO_FLAG_4);
             Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             break;

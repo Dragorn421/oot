@@ -231,8 +231,8 @@ void EnDivingGame_Talk(EnDivingGame* this, PlayState* play) {
 
 void EnDivingGame_HandlePlayChoice(EnDivingGame* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk_292 == Message_GetState(&play->msgCtx) &&
-        Message_ShouldAdvance(play)) { // Did the player select an answer?
+    if (this->unk_292 == Message_GetState(&play->msgCtx)
+        && Message_ShouldAdvance(play)) { // Did the player select an answer?
         switch (play->msgCtx.choiceIndex) {
             case 0: // Yes
                 if (gSaveContext.save.info.playerData.rupees >= 20) {
@@ -367,12 +367,13 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, PlayState* play) {
             this->allRupeesThrown = true;
         }
     }
-    if (this->subCamTimer == 0 || ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 2.0f) &&
-                                   (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 2.0f) &&
-                                   (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 2.0f) &&
-                                   (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 2.0f) &&
-                                   (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 2.0f) &&
-                                   (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 2.0f))) {
+    if (this->subCamTimer == 0
+        || ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 2.0f)
+            && (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 2.0f)
+            && (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 2.0f)
+            && (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 2.0f)
+            && (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 2.0f)
+            && (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 2.0f))) {
         if (this->unk_2A2 != 0) {
             this->subCamTimer = 70;
             this->unk_2A2 = 2;
@@ -532,8 +533,8 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
     }
     this->unk_290++;
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 60.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }

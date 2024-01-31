@@ -124,9 +124,8 @@ void BgMoriElevator_Destroy(Actor* thisx, PlayState* play) {
 }
 
 int BgMoriElevator_IsPlayerRiding(BgMoriElevator* this, PlayState* play) {
-    return ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
-            !(this->unk_170 & DYNA_INTERACT_PLAYER_ON_TOP) &&
-            ((GET_PLAYER(play)->actor.world.pos.y - this->dyna.actor.world.pos.y) < 80.0f));
+    return ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) && !(this->unk_170 & DYNA_INTERACT_PLAYER_ON_TOP)
+            && ((GET_PLAYER(play)->actor.world.pos.y - this->dyna.actor.world.pos.y) < 80.0f));
 }
 
 void BgMoriElevator_SetupWaitAfterInit(BgMoriElevator* this) {
@@ -210,12 +209,12 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, PlayState* play) {
     } else if ((play->roomCtx.curRoom.num == 17) && (-275.0f < this->dyna.actor.world.pos.y)) {
         this->targetY = -779.0f;
         BgMoriElevator_StopMovement(this);
-    } else if ((play->roomCtx.curRoom.num == 2) && Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) &&
-               (this->unk_16C == 0)) {
+    } else if ((play->roomCtx.curRoom.num == 2) && Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)
+               && (this->unk_16C == 0)) {
         this->targetY = 73.0f;
         func_808A1C30(this);
-    } else if ((play->roomCtx.curRoom.num == 2) && !Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) &&
-               (this->unk_16C != 0)) {
+    } else if ((play->roomCtx.curRoom.num == 2) && !Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)
+               && (this->unk_16C != 0)) {
         this->targetY = 233.0f;
         func_808A1CF4(this, play);
     }

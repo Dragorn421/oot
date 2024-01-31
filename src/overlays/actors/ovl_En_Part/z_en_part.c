@@ -109,8 +109,8 @@ void func_80ACE13C(EnPart* this, PlayState* play) {
 
     if ((this->actor.params == 12) || (this->actor.params == 13)) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 15.0f, 0.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
 
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.world.pos.y <= this->actor.floorHeight)) {
             this->action = 4;
@@ -141,8 +141,8 @@ void func_80ACE13C(EnPart* this, PlayState* play) {
             case 4:
                 for (i = 7; i >= 0; i--) {
                     pos.x = this->actor.world.pos.x + Rand_CenteredFloat(60.0f);
-                    pos.y = this->actor.world.pos.y + this->actor.shape.yOffset * this->actor.scale.y +
-                            Rand_CenteredFloat(50.0f);
+                    pos.y = this->actor.world.pos.y + this->actor.shape.yOffset * this->actor.scale.y
+                          + Rand_CenteredFloat(50.0f);
                     pos.z = this->actor.world.pos.z + Rand_CenteredFloat(60.0f);
                     velocity.y = Rand_ZeroOne() + 1.0f;
                     EffectSsDtBubble_SpawnColorProfile(play, &pos, &velocity, &accel, Rand_S16Offset(80, 100), 25, 0,

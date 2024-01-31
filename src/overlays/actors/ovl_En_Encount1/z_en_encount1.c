@@ -105,8 +105,8 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
     this->outOfRangeTimer = 0;
     spawnPos = this->actor.world.pos;
 
-    if ((this->timer == 0) && (play->csCtx.state == CS_STATE_IDLE) && (this->curNumSpawn <= this->maxCurSpawns) &&
-        (this->curNumSpawn < 5)) {
+    if ((this->timer == 0) && (play->csCtx.state == CS_STATE_IDLE) && (this->curNumSpawn <= this->maxCurSpawns)
+        && (this->curNumSpawn < 5)) {
         floorType = SurfaceType_GetFloorType(&play->colCtx, player->actor.floorPoly, player->actor.floorBgId);
         if ((floorType != FLOOR_TYPE_4) && (floorType != FLOOR_TYPE_7) && (floorType != FLOOR_TYPE_12)) {
             this->numLeeverSpawns = 0;
@@ -183,8 +183,8 @@ void EnEncount1_SpawnTektites(EnEncount1* this, PlayState* play) {
 
     if (this->timer == 0) {
         this->timer = 10;
-        if ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f) ||
-            (this->actor.xzDistToPlayer > this->spawnRange)) {
+        if ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f)
+            || (this->actor.xzDistToPlayer > this->spawnRange)) {
             this->outOfRangeTimer++;
         } else {
             this->outOfRangeTimer = 0;
@@ -198,7 +198,8 @@ void EnEncount1_SpawnTektites(EnEncount1* this, PlayState* play) {
                 }
                 spawnPos.y = floorY;
                 if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_TITE, spawnPos.x, spawnPos.y,
-                                       spawnPos.z, 0, 0, 0, TEKTITE_RED) != NULL) {
+                                       spawnPos.z, 0, 0, 0, TEKTITE_RED)
+                    != NULL) {
                     this->curNumSpawn++;
                     this->totalNumSpawn++;
                 } else {
@@ -226,8 +227,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
     f32 floorY;
 
     if (play->sceneId != SCENE_HYRULE_FIELD) {
-        if ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f) ||
-            (this->actor.xzDistToPlayer > this->spawnRange)) {
+        if ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f)
+            || (this->actor.xzDistToPlayer > this->spawnRange)) {
             this->outOfRangeTimer++;
             return;
         }
@@ -241,8 +242,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
     if ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
         while ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
             if (play->sceneId == SCENE_HYRULE_FIELD) {
-                if ((player->floorSfxOffset == SURFACE_SFX_OFFSET_DIRT) || (player->actor.floorBgId != BGCHECK_SCENE) ||
-                    !(player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (player->stateFlags1 & PLAYER_STATE1_27)) {
+                if ((player->floorSfxOffset == SURFACE_SFX_OFFSET_DIRT) || (player->actor.floorBgId != BGCHECK_SCENE)
+                    || !(player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (player->stateFlags1 & PLAYER_STATE1_27)) {
 
                     this->fieldSpawnTimer = 60;
                     break;
@@ -270,8 +271,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
-                if ((player->actor.yDistToWater != BGCHECK_Y_MIN) &&
-                    (floorY < (player->actor.world.pos.y - player->actor.yDistToWater))) {
+                if ((player->actor.yDistToWater != BGCHECK_Y_MIN)
+                    && (floorY < (player->actor.world.pos.y - player->actor.yDistToWater))) {
                     break;
                 }
                 spawnPos.y = floorY;
@@ -293,7 +294,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 this->killCount++;
             }
             if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, spawnId, spawnPos.x, spawnPos.y, spawnPos.z, 0,
-                                   0, 0, spawnParams) != NULL) {
+                                   0, 0, spawnParams)
+                != NULL) {
                 this->curNumSpawn++;
                 if (this->curNumSpawn >= this->maxCurSpawns) {
                     this->fieldSpawnTimer = 100;

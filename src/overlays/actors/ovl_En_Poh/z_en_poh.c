@@ -424,8 +424,8 @@ void EnPoh_Talk(EnPoh* this, PlayState* play) {
             this->actor.textId = 0x5000;
         } else if (!Flags_GetSwitch(play, 0xA) && !Flags_GetSwitch(play, 0xB)) {
             this->actor.textId = 0x500F;
-        } else if ((this->actor.params == EN_POH_FLAT && Flags_GetSwitch(play, 0xA)) ||
-                   (this->actor.params == EN_POH_SHARP && Flags_GetSwitch(play, 0xB))) {
+        } else if ((this->actor.params == EN_POH_FLAT && Flags_GetSwitch(play, 0xA))
+                   || (this->actor.params == EN_POH_SHARP && Flags_GetSwitch(play, 0xB))) {
             this->actor.textId = 0x5013;
         } else {
             this->actor.textId = 0x5012;
@@ -534,8 +534,8 @@ void func_80ADEC9C(EnPoh* this, PlayState* play) {
     EnPoh_MoveTowardsPlayerHeight(this, play);
     if (this->actor.xzDistToPlayer > 280.0f) {
         EnPoh_SetupIdle(this);
-    } else if (this->unk_198 == 0 && this->actor.xzDistToPlayer < 140.0f &&
-               !Player_IsFacingActor(&this->actor, 0x2AAA, play)) {
+    } else if (this->unk_198 == 0 && this->actor.xzDistToPlayer < 140.0f
+               && !Player_IsFacingActor(&this->actor, 0x2AAA, play)) {
         EnPoh_SetupAttack(this);
     }
     if (this->lightColor.a == 255) {
@@ -877,8 +877,8 @@ void func_80AE032C(EnPoh* this, PlayState* play) {
 }
 
 void EnPoh_UpdateVisibility(EnPoh* this) {
-    if (this->actionFunc != EnPoh_Appear && this->actionFunc != EnPoh_Disappear && this->actionFunc != func_80ADEF38 &&
-        this->actionFunc != EnPoh_ComposerAppear) {
+    if (this->actionFunc != EnPoh_Appear && this->actionFunc != EnPoh_Disappear && this->actionFunc != func_80ADEF38
+        && this->actionFunc != EnPoh_ComposerAppear) {
         if (this->visibilityTimer != 0) {
             this->visibilityTimer--;
         }
@@ -889,15 +889,15 @@ void EnPoh_UpdateVisibility(EnPoh* this) {
             } else {
                 this->unk_194 = 0;
             }
-            if ((this->unk_194 == 20 || this->visibilityTimer == 0) &&
-                (this->actionFunc == func_80ADEAC4 || this->actionFunc == EnPoh_Idle ||
-                 this->actionFunc == func_80ADEC9C || this->actionFunc == func_80ADF894 ||
-                 this->actionFunc == func_80ADF5E0)) {
+            if ((this->unk_194 == 20 || this->visibilityTimer == 0)
+                && (this->actionFunc == func_80ADEAC4 || this->actionFunc == EnPoh_Idle
+                    || this->actionFunc == func_80ADEC9C || this->actionFunc == func_80ADF894
+                    || this->actionFunc == func_80ADF5E0)) {
                 EnPoh_SetupDisappear(this);
             }
-        } else if (this->lightColor.a == 0 && this->visibilityTimer == 0 &&
-                   (this->actionFunc == func_80ADEAC4 || this->actionFunc == EnPoh_Idle ||
-                    this->actionFunc == func_80ADEC9C || this->actionFunc == func_80ADF5E0)) {
+        } else if (this->lightColor.a == 0 && this->visibilityTimer == 0
+                   && (this->actionFunc == func_80ADEAC4 || this->actionFunc == EnPoh_Idle
+                       || this->actionFunc == func_80ADEC9C || this->actionFunc == func_80ADF5E0)) {
             EnPoh_SetupAppear(this);
         }
     }
@@ -968,8 +968,8 @@ void func_80AE067C(EnPoh* this) {
 void func_80AE089C(EnPoh* this) {
     f32 rand;
 
-    if ((this->actionFunc == func_80ADEF38 || this->actionFunc == EnPoh_ComposerAppear) &&
-        this->skelAnime.curFrame < 12.0f) {
+    if ((this->actionFunc == func_80ADEF38 || this->actionFunc == EnPoh_ComposerAppear)
+        && this->skelAnime.curFrame < 12.0f) {
         this->envColor.r = this->envColor.g = this->envColor.b = (s16)(this->skelAnime.curFrame * 16.66f) + 55;
         this->envColor.a = this->skelAnime.curFrame * (100.0f / 6.0f);
     } else {
@@ -1026,8 +1026,8 @@ s32 EnPoh_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
                            Gfx** gfxP) {
     EnPoh* this = (EnPoh*)thisx;
 
-    if ((this->lightColor.a == 0 || limbIndex == this->info->unk_6) ||
-        (this->actionFunc == func_80ADF15C && this->unk_198 >= 2)) {
+    if ((this->lightColor.a == 0 || limbIndex == this->info->unk_6)
+        || (this->actionFunc == func_80ADF15C && this->unk_198 >= 2)) {
         *dList = NULL;
     } else if (this->actor.params == EN_POH_FLAT && limbIndex == 0xA) {
         // Replace Sharp's head with Flat's

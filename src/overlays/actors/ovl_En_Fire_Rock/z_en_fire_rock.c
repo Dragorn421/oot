@@ -175,8 +175,8 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
     switch (this->type) {
         case FIRE_ROCK_SPAWNED_FALLING1:
             if (player->actor.world.pos.y < this->actor.world.pos.y) {
-                if ((player->actor.world.pos.x > -700.0f) || (player->actor.world.pos.x < 100.0f) ||
-                    (player->actor.world.pos.z > -1290.0f) || (player->actor.world.pos.z < -3880.0f)) {
+                if ((player->actor.world.pos.x > -700.0f) || (player->actor.world.pos.x < 100.0f)
+                    || (player->actor.world.pos.z > -1290.0f) || (player->actor.world.pos.z < -3880.0f)) {
                     Math_ApproachF(&this->actor.world.pos.x, player->actor.world.pos.x, 1.0f, 10.0f);
                     Math_ApproachF(&this->actor.world.pos.z, player->actor.world.pos.z, 1.0f, 10.0f);
                 }
@@ -346,8 +346,8 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
 
         setCollision = false;
         if (this->actionFunc != EnFireRock_SpawnMoreBrokenPieces) {
-            if ((this->type == FIRE_ROCK_SPAWNED_FALLING1) || (this->type == FIRE_ROCK_SPAWNED_FALLING2) ||
-                (this->type == FIRE_ROCK_BROKEN_PIECE1)) {
+            if ((this->type == FIRE_ROCK_SPAWNED_FALLING1) || (this->type == FIRE_ROCK_SPAWNED_FALLING2)
+                || (this->type == FIRE_ROCK_BROKEN_PIECE1)) {
                 if (this->collider.base.atFlags & AT_BOUNCED) {
                     this->collider.base.atFlags &= ~AT_BOUNCED;
                     Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);

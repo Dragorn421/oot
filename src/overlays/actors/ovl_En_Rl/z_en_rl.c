@@ -120,9 +120,9 @@ void func_80AE7590(EnRl* this, PlayState* play) {
     Vec3f pos;
     s16 sceneId = play->sceneId;
 
-    if ((gSaveContext.sceneLayer == 4) && (sceneId == SCENE_CHAMBER_OF_THE_SAGES) &&
-        (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL) &&
-        (play->csCtx.actorCues[6]->id == 2) && !this->lightMedallionGiven) {
+    if ((gSaveContext.sceneLayer == 4) && (sceneId == SCENE_CHAMBER_OF_THE_SAGES)
+        && (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL)
+        && (play->csCtx.actorCues[6]->id == 2) && !this->lightMedallionGiven) {
         player = GET_PLAYER(play);
         pos.x = player->actor.world.pos.x;
         pos.y = player->actor.world.pos.y + 80.0f;

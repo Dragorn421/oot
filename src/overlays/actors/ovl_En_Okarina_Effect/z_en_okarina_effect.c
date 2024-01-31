@@ -36,8 +36,8 @@ void EnOkarinaEffect_Destroy(Actor* thisx, PlayState* play) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
-    if ((gWeatherMode != WEATHER_MODE_RAIN) && (gWeatherMode != WEATHER_MODE_HEAVY_RAIN) &&
-        (play->envCtx.stormRequest == STORM_REQUEST_START)) {
+    if ((gWeatherMode != WEATHER_MODE_RAIN) && (gWeatherMode != WEATHER_MODE_HEAVY_RAIN)
+        && (play->envCtx.stormRequest == STORM_REQUEST_START)) {
         play->envCtx.stormRequest = STORM_REQUEST_STOP;
         Environment_StopStormNatureAmbience(play);
     }
@@ -72,10 +72,10 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, PlayState* play) {
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
     CutsceneFlags_Unset(play, 5);
 
-    if (((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->gameOverCtx.state == GAMEOVER_INACTIVE) &&
-         (play->msgCtx.msgLength == 0) && (!FrameAdvance_IsEnabled(play)) &&
-         ((play->transitionMode == TRANS_MODE_OFF) || (gSaveContext.gameMode != GAMEMODE_NORMAL))) ||
-        (this->timer >= 250)) {
+    if (((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->gameOverCtx.state == GAMEOVER_INACTIVE)
+         && (play->msgCtx.msgLength == 0) && (!FrameAdvance_IsEnabled(play))
+         && ((play->transitionMode == TRANS_MODE_OFF) || (gSaveContext.gameMode != GAMEMODE_NORMAL)))
+        || (this->timer >= 250)) {
         if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || play->envCtx.lightConfig != 1) {
             this->timer--;
         }

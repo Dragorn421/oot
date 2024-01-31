@@ -558,8 +558,8 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, PlayState* play) {
         this->actor.colChkInfo.health = 0;
         this->colQuad.base.acFlags &= ~AC_BOUNCED;
         EnPeehat_SetStateAttackRecoil(this);
-    } else if ((this->colQuad.base.atFlags & AT_HIT) || (this->colCylinder.base.acFlags & AC_HIT) ||
-               (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    } else if ((this->colQuad.base.atFlags & AT_HIT) || (this->colCylinder.base.acFlags & AC_HIT)
+               || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         Player* player = GET_PLAYER(play);
         this->colQuad.base.atFlags &= ~AT_HIT;
         if (!(this->colCylinder.base.acFlags & AC_HIT) && &player->actor == this->colQuad.base.at) {
@@ -820,8 +820,8 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, PlayState* play) {
             this->actor.scale.x -= 0.0015f;
             Actor_SetScale(&this->actor, this->actor.scale.x);
         }
-        if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 88.5f, 1.0f, 3.0f, 0.0f) == 0.0f &&
-            this->actor.world.pos.y - this->actor.floorHeight < 59.0f) {
+        if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 88.5f, 1.0f, 3.0f, 0.0f) == 0.0f
+            && this->actor.world.pos.y - this->actor.floorHeight < 59.0f) {
             Vec3f pos = this->actor.world.pos;
             pos.y = this->actor.floorHeight;
             func_80033480(play, &pos, 80.0f, 1, 150, 100, 1);
@@ -881,8 +881,8 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, PlayState* play) {
     } else if (this->colJntSph.base.acFlags & AC_HIT) {
         this->colJntSph.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->colJntSph, true);
-        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_NUT ||
-            this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
+        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_NUT
+            || this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
             return;
         }
         if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_HOOKSHOT) {
@@ -969,8 +969,8 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
             }
         }
     }
-    if (this->state == PEAHAT_STATE_15 || this->state == PEAHAT_STATE_SEEK_PLAYER || this->state == PEAHAT_STATE_FLY ||
-        this->state == PEAHAT_STATE_RETURN_HOME || this->state == PEAHAT_STATE_EXPLODE) {
+    if (this->state == PEAHAT_STATE_15 || this->state == PEAHAT_STATE_SEEK_PLAYER || this->state == PEAHAT_STATE_FLY
+        || this->state == PEAHAT_STATE_RETURN_HOME || this->state == PEAHAT_STATE_EXPLODE) {
         if (thisx->params != PEAHAT_TYPE_FLYING) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->colQuad.base);
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->colQuad.base);
@@ -984,7 +984,8 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
                 Vec3f* posB = &this->bladeTip[i];
 
                 if (BgCheck_EntityLineTest1(&play->colCtx, &thisx->world.pos, posB, &posResult, &poly, true, true,
-                                            false, true, &bgId) == true) {
+                                            false, true, &bgId)
+                    == true) {
                     func_80033480(play, &posResult, 0.0f, 1, 300, 150, 1);
                     EnPeehat_SpawnDust(play, this, &posResult, 0.0f, 3, 1.05f, 1.5f);
                 }
@@ -1004,8 +1005,9 @@ s32 EnPeehat_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
     if (limbIndex == 4) {
         rot->x = -this->bladeRot;
     }
-    if (limbIndex == 3 || (limbIndex == 23 && (this->state == PEAHAT_STATE_DYING || this->state == PEAHAT_STATE_3 ||
-                                               this->state == PEAHAT_STATE_4))) {
+    if (limbIndex == 3
+        || (limbIndex == 23
+            && (this->state == PEAHAT_STATE_DYING || this->state == PEAHAT_STATE_3 || this->state == PEAHAT_STATE_4))) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_peehat.c", 1946);
         Matrix_Push();
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);

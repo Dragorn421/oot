@@ -165,12 +165,12 @@ void Regs_UpdateEditor(Input* input) {
 
     dPadInputCur = input->cur.button & (BTN_DUP | BTN_DLEFT | BTN_DRIGHT | BTN_DDOWN);
 
-    if (CHECK_BTN_ALL(input->cur.button, BTN_L) || CHECK_BTN_ALL(input->cur.button, BTN_R) ||
-        CHECK_BTN_ALL(input->cur.button, BTN_START)) {
+    if (CHECK_BTN_ALL(input->cur.button, BTN_L) || CHECK_BTN_ALL(input->cur.button, BTN_R)
+        || CHECK_BTN_ALL(input->cur.button, BTN_START)) {
 
         for (i = 0; i < REG_GROUPS; i++) {
-            if (CHECK_BTN_ALL(input->cur.button, sRegGroupInputCombos[i].hold) &&
-                CHECK_BTN_ALL(input->press.button, sRegGroupInputCombos[i].press)) {
+            if (CHECK_BTN_ALL(input->cur.button, sRegGroupInputCombos[i].hold)
+                && CHECK_BTN_ALL(input->press.button, sRegGroupInputCombos[i].press)) {
                 break;
             }
         }

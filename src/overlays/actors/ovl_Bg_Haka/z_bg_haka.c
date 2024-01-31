@@ -76,8 +76,8 @@ void func_8087B7E8(BgHaka* this, PlayState* play) {
                 this->dyna.actor.params = 100;
                 this->actionFunc = func_8087BAE4;
             }
-        } else if (0.0f < this->dyna.unk_150 ||
-                   (play->sceneId == SCENE_LAKE_HYLIA && !LINK_IS_ADULT && !Flags_GetSwitch(play, 0x23))) {
+        } else if (0.0f < this->dyna.unk_150
+                   || (play->sceneId == SCENE_LAKE_HYLIA && !LINK_IS_ADULT && !Flags_GetSwitch(play, 0x23))) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~PLAYER_STATE2_4;
         } else {

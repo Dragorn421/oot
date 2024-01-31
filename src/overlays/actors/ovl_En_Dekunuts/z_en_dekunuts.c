@@ -262,9 +262,8 @@ void EnDekunuts_Wait(EnDekunuts* this, PlayState* play) {
             EnDekunuts_SetupStand(this);
         }
     }
-    if (hasSlowPlaybackSpeed &&
-        ((this->actor.xzDistToPlayer > 160.0f) && (fabsf(this->actor.yDistToPlayer) < 120.0f)) &&
-        ((this->animFlagAndTimer == 0) || (this->actor.xzDistToPlayer < 480.0f))) {
+    if (hasSlowPlaybackSpeed && ((this->actor.xzDistToPlayer > 160.0f) && (fabsf(this->actor.yDistToPlayer) < 120.0f))
+        && ((this->animFlagAndTimer == 0) || (this->actor.xzDistToPlayer < 480.0f))) {
         this->skelAnime.playSpeed = 1.0f;
     }
 }
@@ -309,7 +308,8 @@ void EnDekunuts_ThrowNut(EnDekunuts* this, PlayState* play) {
         spawnPos.y = this->actor.world.pos.y + 12.0f;
         spawnPos.z = this->actor.world.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, spawnPos.x, spawnPos.y, spawnPos.z,
-                        this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 0) != NULL) {
+                        this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 0)
+            != NULL) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     } else if ((this->animFlagAndTimer > 1) && Animation_OnFrame(&this->skelAnime, 12.0f)) {
@@ -379,8 +379,8 @@ void EnDekunuts_Run(EnDekunuts* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
-    if ((this->runAwayCount == 0) && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f &&
-        fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
+    if ((this->runAwayCount == 0) && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f
+        && fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actor.speed = 0.0f;
         EnDekunuts_SetupBurrow(this);
@@ -477,8 +477,8 @@ void EnDekunuts_Update(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->collider.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

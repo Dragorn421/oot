@@ -356,7 +356,8 @@ void func_808B561C(BgSpot16Bombstone* this, PlayState* play) {
     world = &this->actor.world;
     for (index = 0; index < ARRAY_COUNT(D_808B6088); index++) {
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_BG_SPOT16_BOMBSTONE, world->pos.x, world->pos.y, world->pos.z, 0,
-                        0, 0, D_808B6088[index]) == NULL) {
+                        0, 0, D_808B6088[index])
+            == NULL) {
             break;
         }
     }
@@ -369,8 +370,8 @@ void func_808B56BC(BgSpot16Bombstone* this, PlayState* play) {
     s32 yawDiff;
     s32 absYawDiff;
 
-    if (this->actor.xzDistToPlayer < 130.0f && this->actor.yDistToPlayer < 160.0f &&
-        this->actor.yDistToPlayer >= -10.0f) {
+    if (this->actor.xzDistToPlayer < 130.0f && this->actor.yDistToPlayer < 160.0f
+        && this->actor.yDistToPlayer >= -10.0f) {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
@@ -402,10 +403,10 @@ void func_808B57E0(BgSpot16Bombstone* this, PlayState* play) {
     if (sPlayerBomb != NULL) {
         if (sPlayerBomb->actor.update == NULL) {
             sPlayerBomb = NULL;
-        } else if (sTimer <= 0 && sPlayerBomb->actor.world.pos.y < 1400.0f &&
-                   Math3D_Dist1DSq(sPlayerBomb->actor.world.pos.x + 1579.0f, sPlayerBomb->actor.world.pos.z + 790.0f) <
-                       SQ(400.0f) &&
-                   sPlayerBomb->actor.params == 0) {
+        } else if (sTimer <= 0 && sPlayerBomb->actor.world.pos.y < 1400.0f
+                   && Math3D_Dist1DSq(sPlayerBomb->actor.world.pos.x + 1579.0f, sPlayerBomb->actor.world.pos.z + 790.0f)
+                          < SQ(400.0f)
+                   && sPlayerBomb->actor.params == 0) {
             currentBomb = sPlayerBomb;
             if (currentBomb->timer > 0) {
                 sTimer = currentBomb->timer + 20;
@@ -414,8 +415,8 @@ void func_808B57E0(BgSpot16Bombstone* this, PlayState* play) {
         }
     } else if (player->stateFlags1 & PLAYER_STATE1_11) {
         playerHeldActor = player->heldActor;
-        if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE &&
-            playerHeldActor->id == ACTOR_EN_BOMBF) {
+        if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE
+            && playerHeldActor->id == ACTOR_EN_BOMBF) {
             sPlayerBomb = (EnBombf*)playerHeldActor;
         }
     }
@@ -508,8 +509,8 @@ void func_808B5B6C(BgSpot16Bombstone* this, PlayState* play) {
         return;
     }
 
-    if ((actor->bgCheckFlags & BGCHECKFLAG_WALL) ||
-        ((actor->bgCheckFlags & BGCHECKFLAG_GROUND) && actor->velocity.y < 0.0f)) {
+    if ((actor->bgCheckFlags & BGCHECKFLAG_WALL)
+        || ((actor->bgCheckFlags & BGCHECKFLAG_GROUND) && actor->velocity.y < 0.0f)) {
         BgSpot16Bombstone_SpawnFragments(this, play);
         BgSpot16Bombstone_SpawnDust(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &actor->world.pos, 20, NA_SE_EV_ROCK_BROKEN);

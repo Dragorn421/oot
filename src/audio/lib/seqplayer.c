@@ -569,8 +569,8 @@ void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer) {
         Audio_SeqLayerNoteDecay(layer);
     }
 
-    if (PORTAMENTO_MODE(layer->portamento) == PORTAMENTO_MODE_1 ||
-        PORTAMENTO_MODE(layer->portamento) == PORTAMENTO_MODE_2) {
+    if (PORTAMENTO_MODE(layer->portamento) == PORTAMENTO_MODE_1
+        || PORTAMENTO_MODE(layer->portamento) == PORTAMENTO_MODE_2) {
         layer->portamento.mode = PORTAMENTO_MODE_OFF;
     }
     layer->notePropertiesNeedInit = true;
@@ -579,8 +579,8 @@ void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer) {
 s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameTunedSample) {
     Note* note;
 
-    if (!layer->stopSomething && layer->tunedSample != NULL &&
-        layer->tunedSample->sample->codec == CODEC_S16_INMEMORY && layer->tunedSample->sample->medium != MEDIUM_RAM) {
+    if (!layer->stopSomething && layer->tunedSample != NULL && layer->tunedSample->sample->codec == CODEC_S16_INMEMORY
+        && layer->tunedSample->sample->medium != MEDIUM_RAM) {
         layer->stopSomething = true;
         return PROCESS_SCRIPT_END;
     }
@@ -589,8 +589,8 @@ s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameTunedSampl
         return 0;
     }
 
-    if (layer->continuousNotes == true && layer->note != NULL && layer->bit3 && sameTunedSample == true &&
-        layer->note->playbackState.parentLayer == layer) {
+    if (layer->continuousNotes == true && layer->note != NULL && layer->bit3 && sameTunedSample == true
+        && layer->note->playbackState.parentLayer == layer) {
         if (layer->tunedSample == NULL) {
             Audio_InitSyntheticWave(layer->note, layer);
         }
@@ -699,8 +699,8 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
                     }
                 } else {
                     // Instrument
-                    if ((layer->instOrWave = AudioSeq_GetInstrument(channel, cmd, &layer->instrument, &layer->adsr)) ==
-                        0) {
+                    if ((layer->instOrWave = AudioSeq_GetInstrument(channel, cmd, &layer->instrument, &layer->adsr))
+                        == 0) {
                         layer->instOrWave = 0xFF;
                     }
                 }
@@ -1077,8 +1077,8 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
         }
     }
 
-    if ((seqPlayer->muted && (channel->muteBehavior & (MUTE_BEHAVIOR_STOP_NOTES | MUTE_BEHAVIOR_4))) ||
-        channel->stopSomething2) {
+    if ((seqPlayer->muted && (channel->muteBehavior & (MUTE_BEHAVIOR_STOP_NOTES | MUTE_BEHAVIOR_4)))
+        || channel->stopSomething2) {
         layer->stopSomething = true;
         return PROCESS_SCRIPT_END;
     }
@@ -1136,8 +1136,8 @@ void AudioSeq_SetInstrument(SequenceChannel* channel, u8 instId) {
         channel->instrument = (Instrument*)2; // invalid pointer, never dereferenced
     } else {
         // Instruments
-        if ((channel->instOrWave = AudioSeq_GetInstrument(channel, instId, &channel->instrument, &channel->adsr)) ==
-            0) {
+        if ((channel->instOrWave = AudioSeq_GetInstrument(channel, instId, &channel->instrument, &channel->adsr))
+            == 0) {
             channel->hasInstrument = false;
             return;
         }
@@ -1665,13 +1665,14 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
             case 0x10:
                 if (lowBits < 8) {
                     channel->soundScriptIO[lowBits] = SEQ_IO_VAL_NONE;
-                    if (AudioLoad_SlowLoadSample(channel->fontId, scriptState->value,
-                                                 &channel->soundScriptIO[lowBits]) == -1) {}
+                    if (AudioLoad_SlowLoadSample(channel->fontId, scriptState->value, &channel->soundScriptIO[lowBits])
+                        == -1) {}
                 } else {
                     lowBits -= 8;
                     channel->soundScriptIO[lowBits] = SEQ_IO_VAL_NONE;
                     if (AudioLoad_SlowLoadSample(channel->fontId, channel->unk_22 + 0x100,
-                                                 &channel->soundScriptIO[lowBits]) == -1) {}
+                                                 &channel->soundScriptIO[lowBits])
+                        == -1) {}
                 }
                 break;
 

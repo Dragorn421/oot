@@ -241,11 +241,11 @@ void BgHakaSgami_Spin(BgHakaSgami* this, PlayState* play) {
         elementInit = &sTrisInit.elements[i];
 
         for (j = 0; j < 3; j++) {
-            scytheVertices[j].x = this->actor.world.pos.x + elementInit->dim.vtx[j].z * actorRotYSin +
-                                  elementInit->dim.vtx[j].x * actorRotYCos;
+            scytheVertices[j].x = this->actor.world.pos.x + elementInit->dim.vtx[j].z * actorRotYSin
+                                + elementInit->dim.vtx[j].x * actorRotYCos;
             scytheVertices[j].y = this->actor.world.pos.y + elementInit->dim.vtx[j].y;
-            scytheVertices[j].z = this->actor.world.pos.z + elementInit->dim.vtx[j].z * actorRotYCos -
-                                  elementInit->dim.vtx[j].x * actorRotYSin;
+            scytheVertices[j].z = this->actor.world.pos.z + elementInit->dim.vtx[j].z * actorRotYCos
+                                - elementInit->dim.vtx[j].x * actorRotYSin;
         }
 
         Collider_SetTrisVertices(&this->colliderScythe, i, &scytheVertices[0], &scytheVertices[1], &scytheVertices[2]);
@@ -260,16 +260,16 @@ void BgHakaSgami_Spin(BgHakaSgami* this, PlayState* play) {
     }
 
     if ((this->unk_151 == 0) || play->actorCtx.lensActive) {
-        scytheVertices[0].x = this->actor.world.pos.x + blureEffectVertices1[this->actor.params].z * actorRotYSin +
-                              blureEffectVertices1[this->actor.params].x * actorRotYCos;
+        scytheVertices[0].x = this->actor.world.pos.x + blureEffectVertices1[this->actor.params].z * actorRotYSin
+                            + blureEffectVertices1[this->actor.params].x * actorRotYCos;
         scytheVertices[0].y = this->actor.world.pos.y + blureEffectVertices1[this->actor.params].y;
-        scytheVertices[0].z = this->actor.world.pos.z + blureEffectVertices1[this->actor.params].z * actorRotYCos -
-                              blureEffectVertices1[this->actor.params].x * actorRotYSin;
-        scytheVertices[1].x = this->actor.world.pos.x + blureEffectVertices2[this->actor.params].z * actorRotYSin +
-                              blureEffectVertices2[this->actor.params].x * actorRotYCos;
+        scytheVertices[0].z = this->actor.world.pos.z + blureEffectVertices1[this->actor.params].z * actorRotYCos
+                            - blureEffectVertices1[this->actor.params].x * actorRotYSin;
+        scytheVertices[1].x = this->actor.world.pos.x + blureEffectVertices2[this->actor.params].z * actorRotYSin
+                            + blureEffectVertices2[this->actor.params].x * actorRotYCos;
         scytheVertices[1].y = this->actor.world.pos.y + blureEffectVertices2[this->actor.params].y;
-        scytheVertices[1].z = this->actor.world.pos.z + blureEffectVertices2[this->actor.params].z * actorRotYCos -
-                              blureEffectVertices2[this->actor.params].x * actorRotYSin;
+        scytheVertices[1].z = this->actor.world.pos.z + blureEffectVertices2[this->actor.params].z * actorRotYCos
+                            - blureEffectVertices2[this->actor.params].x * actorRotYSin;
         EffectBlure_AddVertex(Effect_GetByIndex(this->blureEffectIndex[0]), &scytheVertices[0], &scytheVertices[1]);
 
         for (j = 0; j < 2; j++) {
@@ -289,8 +289,8 @@ void BgHakaSgami_Update(Actor* thisx, PlayState* play) {
     BgHakaSgami* this = (BgHakaSgami*)thisx;
     Player* player = GET_PLAYER(play);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
-        (this->actionFunc == BgHakaSgami_SetupSpin)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))
+        || (this->actionFunc == BgHakaSgami_SetupSpin)) {
         this->actionFunc(this, play);
     }
 }

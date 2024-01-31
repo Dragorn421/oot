@@ -145,8 +145,8 @@ void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play) {
             Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->fairySpawnerState = SPAWNER_OCARINA_PLAYING;
         } else if (this->fairySpawnerState == SPAWNER_OCARINA_PLAYING && play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
-            if ((params == 0x40 && play->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS) ||
-                (params == 0x41 && play->msgCtx.lastPlayedSong == OCARINA_SONG_STORMS)) {
+            if ((params == 0x40 && play->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS)
+                || (params == 0x41 && play->msgCtx.lastPlayedSong == OCARINA_SONG_STORMS)) {
                 this->actionFunc = ShotSun_TriggerFairy;
                 OnePointCutscene_Attention(play, &this->actor);
                 this->timer = 0;
@@ -186,8 +186,8 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
         }
         Actor_Kill(&this->actor);
     } else {
-        if (!(this->actor.xzDistToPlayer > 120.0f) && gSaveContext.save.dayTime >= CLOCK_TIME(6, 30) &&
-            gSaveContext.save.dayTime < CLOCK_TIME(7, 30)) {
+        if (!(this->actor.xzDistToPlayer > 120.0f) && gSaveContext.save.dayTime >= CLOCK_TIME(6, 30)
+            && gSaveContext.save.dayTime < CLOCK_TIME(7, 30)) {
             cylinderPos.x = player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + play->envCtx.sunPos.x * (1.0f / 6.0f);
             cylinderPos.y =
                 player->bodyPartsPos[PLAYER_BODYPART_HEAD].y - 30.0f + play->envCtx.sunPos.y * (1.0f / 6.0f);

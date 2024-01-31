@@ -363,10 +363,10 @@ void BossGanon_Init(Actor* thisx, PlayState* play2) {
             BossGanon_SetupIntroCutscene(this, play);
             this->organAlpha = 255;
         } else {
-            cond = Flags_GetSwitch(play, 0x37) &&
-                   ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
-                    (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
-                    (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE));
+            cond = Flags_GetSwitch(play, 0x37)
+                && ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR)
+                    || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR)
+                    || (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE));
 
             if (!cond) {
                 BossGanon_SetupTowerCutscene(this, play);
@@ -1204,8 +1204,8 @@ void BossGanon_ShatterWindows(u8 windowShatterState) {
 
     for (i = 0; i < 2048; i++) {
         if ((tex1[i] != 0) && (Rand_ZeroOne() < 0.03f)) {
-            if ((((u8*)gGanondorfWindowShatterTemplateTex)[i] == 0) ||
-                (windowShatterState == GDF_WINDOW_SHATTER_FULL)) {
+            if ((((u8*)gGanondorfWindowShatterTemplateTex)[i] == 0)
+                || (windowShatterState == GDF_WINDOW_SHATTER_FULL)) {
                 tex1[i] = tex2[i] = 1;
             }
         }
@@ -1320,8 +1320,8 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
             this->csCamAt.y = this->unk_1FC.y + 30.0f - 10.0f;
             this->csCamAt.z = this->unk_1FC.z;
 
-            if ((this->fwork[GDF_FWORK_1] > 100.0f) && (this->csTimer > 100) &&
-                (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE)) {
+            if ((this->fwork[GDF_FWORK_1] > 100.0f) && (this->csTimer > 100)
+                && (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE)) {
                 Animation_MorphToPlayOnce(&this->skelAnime, &gGanondorfVomitStartAnim, 0.0f);
                 this->fwork[GDF_FWORK_1] = Animation_GetLastFrame(&gGanondorfVomitStartAnim);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GANON_TOKETU);
@@ -2200,8 +2200,8 @@ void BossGanon_Wait(BossGanon* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((this->unk_1C2 == 0) && !(player->actor.world.pos.y < 0.0f)) {
-        if (!(player->stateFlags1 & PLAYER_STATE1_13) && (fabsf(player->actor.world.pos.x) < 110.0f) &&
-            (fabsf(player->actor.world.pos.z) < 110.0f)) {
+        if (!(player->stateFlags1 & PLAYER_STATE1_13) && (fabsf(player->actor.world.pos.x) < 110.0f)
+            && (fabsf(player->actor.world.pos.z) < 110.0f)) {
             BossGanon_SetupPoundFloor(this, play);
         } else if ((this->timers[0] == 0) && !(player->stateFlags1 & PLAYER_STATE1_13)) {
             this->timers[0] = (s16)Rand_ZeroFloat(30.0f) + 30;
@@ -2869,8 +2869,8 @@ void BossGanon_Update(Actor* thisx, PlayState* play2) {
         if (this->unk_2D4 == 0) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 
-            if ((this->actionFunc != BossGanon_HitByLightBall) && (this->actionFunc != BossGanon_Vulnerable) &&
-                (this->actionFunc != BossGanon_Damaged)) {
+            if ((this->actionFunc != BossGanon_HitByLightBall) && (this->actionFunc != BossGanon_Vulnerable)
+                && (this->actionFunc != BossGanon_Damaged)) {
                 CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             }
         }
@@ -3921,10 +3921,10 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
 
         switch (this->unk_1C2) {
             case 0:
-                if ((player->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE) &&
-                    (ABS((s16)(player->actor.shape.rot.y - (s16)(ganondorf->actor.yawTowardsPlayer + 0x8000))) <
-                     0x2000) &&
-                    (sqrtf(SQ(xDistFromLink) + SQ(yDistFromLink) + SQ(zDistFromLink)) <= 25.0f)) {
+                if ((player->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE)
+                    && (ABS((s16)(player->actor.shape.rot.y - (s16)(ganondorf->actor.yawTowardsPlayer + 0x8000)))
+                        < 0x2000)
+                    && (sqrtf(SQ(xDistFromLink) + SQ(yDistFromLink) + SQ(zDistFromLink)) <= 25.0f)) {
                     hitWithBottle = true;
                 } else {
                     hitWithBottle = false;
@@ -3997,8 +3997,8 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
                 if ((ganondorf->actionFunc == BossGanon_PlayTennis) && (ganondorf->unk_1C2 == 1)) {
                     minReflectDist = (this->actor.speed >= 19.0f) ? 250.0f : 170.0f;
 
-                    if (sqrtf(SQ(xDistFromGanondorf) + SQ(yDistFromGanondorf) + SQ(zDistFromGanondorf)) <
-                        minReflectDist) {
+                    if (sqrtf(SQ(xDistFromGanondorf) + SQ(yDistFromGanondorf) + SQ(zDistFromGanondorf))
+                        < minReflectDist) {
                         ganondorf->startVolley = true;
                         this->timers[0] = 8;
                         this->unk_1C2 = 2;
@@ -4057,8 +4057,8 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
         }
 
-        if ((fabsf(this->actor.world.pos.x) > 465.0f) || (this->actor.world.pos.y > 500.0f) ||
-            (fabsf(this->actor.world.pos.z) > 465.0f)) {
+        if ((fabsf(this->actor.world.pos.x) > 465.0f) || (this->actor.world.pos.y > 500.0f)
+            || (fabsf(this->actor.world.pos.z) > 465.0f)) {
             spBA = 4;
         }
 
@@ -4379,8 +4379,8 @@ void func_808E2544(Actor* thisx, PlayState* play) {
             this->fwork[1] = 255.0f;
             this->unk_1F0 = player->actor.world.pos;
             new_var = this->unk_1F0.x - this->actor.world.pos.x;
-            this->actor.shape.rot.y = RAD_TO_BINANG(Math_FAtan2F(new_var, this->unk_1F0.z - this->actor.world.pos.z)) +
-                                      (this->actor.params << 0xD) - 0x20C000;
+            this->actor.shape.rot.y = RAD_TO_BINANG(Math_FAtan2F(new_var, this->unk_1F0.z - this->actor.world.pos.z))
+                                    + (this->actor.params << 0xD) - 0x20C000;
             FALLTHROUGH;
         case 11:
             if (this->timers[0] != 0) {
@@ -4403,8 +4403,8 @@ void func_808E2544(Actor* thisx, PlayState* play) {
             this->actor.world.rot.x = (Math_CosS(this->unk_1A2 * 0x3400) * sp84 * 0.1f) + this->actor.shape.rot.x;
             this->actor.world.rot.y = (Math_SinS(this->unk_1A2 * 0x1A00) * sp84) + this->actor.shape.rot.y;
 
-            if ((player->meleeWeaponState != 0) && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
-                (this->actor.xzDistToPlayer < 80.0f)) {
+            if ((player->meleeWeaponState != 0) && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H)
+                && (this->actor.xzDistToPlayer < 80.0f)) {
                 this->unk_1C2 = 0xC;
                 this->actor.speed = -30.0f;
                 Actor_UpdateVelocityXYZ(&this->actor);
@@ -4511,9 +4511,8 @@ void func_808E2544(Actor* thisx, PlayState* play) {
     if (this->unk_1C2 >= 0xB) {
         xzDist = (this->unk_1C2 == 0xC) ? -65.0f : 0.0f;
 
-        if ((fabsf(this->actor.world.pos.x) > (465.0f + xzDist)) ||
-            (fabsf(this->actor.world.pos.z) > (465.0f + xzDist)) || (this->actor.world.pos.y < 0.0f) ||
-            (this->actor.world.pos.y > 450.0f)) {
+        if ((fabsf(this->actor.world.pos.x) > (465.0f + xzDist)) || (fabsf(this->actor.world.pos.z) > (465.0f + xzDist))
+            || (this->actor.world.pos.y < 0.0f) || (this->actor.world.pos.y > 450.0f)) {
             this->unk_1C2 = 1;
             this->actor.speed = 0.0f;
             numEffects = 10;

@@ -57,8 +57,8 @@ void BgMizuShutter_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(sCollisionHeaders[BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if ((BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor) == BGMIZUSHUTTER_SMALL) ||
-        (BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor) == BGMIZUSHUTTER_LARGE)) {
+    if ((BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor) == BGMIZUSHUTTER_SMALL)
+        || (BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor) == BGMIZUSHUTTER_LARGE)) {
         this->closedPos = this->dyna.actor.world.pos;
         this->timer = 0;
         this->timerMax = BGMIZUSHUTTER_TIMER_PARAM(&this->dyna.actor) * 20;
@@ -115,8 +115,8 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play) {
         Math_SmoothStepToF(&this->dyna.actor.world.pos.x, this->openPos.x, 1.0f, 4.0f, 0.1f);
         Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->openPos.y, 1.0f, 4.0f, 0.1f);
         Math_SmoothStepToF(&this->dyna.actor.world.pos.z, this->openPos.z, 1.0f, 4.0f, 0.1f);
-        if ((this->dyna.actor.world.pos.x == this->openPos.x) && (this->dyna.actor.world.pos.y == this->openPos.y) &&
-            (this->dyna.actor.world.pos.z == this->openPos.z)) {
+        if ((this->dyna.actor.world.pos.x == this->openPos.x) && (this->dyna.actor.world.pos.y == this->openPos.y)
+            && (this->dyna.actor.world.pos.z == this->openPos.z)) {
             this->timer = this->timerMax;
             this->actionFunc = BgMizuShutter_WaitForTimer;
         }
@@ -125,9 +125,8 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play) {
         Math_SmoothStepToF(&this->dyna.actor.world.pos.x, this->closedPos.x, 1.0f, this->maxSpeed, 0.1f);
         Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->closedPos.y, 1.0f, this->maxSpeed, 0.1f);
         Math_SmoothStepToF(&this->dyna.actor.world.pos.z, this->closedPos.z, 1.0f, this->maxSpeed, 0.1f);
-        if ((this->dyna.actor.world.pos.x == this->closedPos.x) &&
-            (this->dyna.actor.world.pos.y == this->closedPos.y) &&
-            (this->dyna.actor.world.pos.z == this->closedPos.z)) {
+        if ((this->dyna.actor.world.pos.x == this->closedPos.x) && (this->dyna.actor.world.pos.y == this->closedPos.y)
+            && (this->dyna.actor.world.pos.z == this->closedPos.z)) {
             Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             this->actionFunc = BgMizuShutter_WaitForSwitch;

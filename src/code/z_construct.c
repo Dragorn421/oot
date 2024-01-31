@@ -116,10 +116,9 @@ void Interface_Init(PlayState* play) {
 
     PRINTF("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));
 
-    if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) ||
-        (gSaveContext.timerState == TIMER_STATE_DOWN_TICK) ||
-        (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_TICK) ||
-        (gSaveContext.subTimerState == SUBTIMER_STATE_UP_TICK)) {
+    if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) || (gSaveContext.timerState == TIMER_STATE_DOWN_TICK)
+        || (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_TICK)
+        || (gSaveContext.subTimerState == SUBTIMER_STATE_UP_TICK)) {
         PRINTF("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
 
         if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
@@ -130,8 +129,8 @@ void Interface_Init(PlayState* play) {
             }
         }
 
-        if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) ||
-            (gSaveContext.timerState == TIMER_STATE_DOWN_TICK)) {
+        if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK)
+            || (gSaveContext.timerState == TIMER_STATE_DOWN_TICK)) {
             timerId = TIMER_ID_MAIN;
         } else {
             timerId = TIMER_ID_SUB;

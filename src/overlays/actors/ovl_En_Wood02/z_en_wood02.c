@@ -104,11 +104,11 @@ s32 EnWood02_SpawnZoneCheck(EnWood02* this, PlayState* play, Vec3f* pos) {
 
     phi_f12 = ((this->actor.projectedW == 0.0f) ? 1000.0f : fabsf(1.0f / this->actor.projectedW));
 
-    if ((-this->actor.uncullZoneScale < this->actor.projectedPos.z) &&
-        (this->actor.projectedPos.z < (this->actor.uncullZoneForward + this->actor.uncullZoneScale)) &&
-        (((fabsf(this->actor.projectedPos.x) - this->actor.uncullZoneScale) * phi_f12) < 1.0f) &&
-        (((this->actor.projectedPos.y + this->actor.uncullZoneDownward) * phi_f12) > -1.0f) &&
-        (((this->actor.projectedPos.y - this->actor.uncullZoneScale) * phi_f12) < 1.0f)) {
+    if ((-this->actor.uncullZoneScale < this->actor.projectedPos.z)
+        && (this->actor.projectedPos.z < (this->actor.uncullZoneForward + this->actor.uncullZoneScale))
+        && (((fabsf(this->actor.projectedPos.x) - this->actor.uncullZoneScale) * phi_f12) < 1.0f)
+        && (((this->actor.projectedPos.y + this->actor.uncullZoneDownward) * phi_f12) > -1.0f)
+        && (((this->actor.projectedPos.y - this->actor.uncullZoneScale) * phi_f12) < 1.0f)) {
         return true;
     }
     return false;
@@ -357,8 +357,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
             if (this->unk_14C >= -1) {
                 leavesParams = WOOD_LEAF_GREEN;
 
-                if ((this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNER) ||
-                    (this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNED)) {
+                if ((this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNER)
+                    || (this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNED)) {
                     leavesParams = WOOD_LEAF_YELLOW;
                 }
                 Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);
@@ -381,10 +381,10 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
         Player* player = GET_PLAYER(play);
 
         if (this->unk_14C >= -1) {
-            if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0) &&
-                 (player->speedXZ != 0.0f)) ||
-                ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0) &&
-                 (player->rideActor->speed != 0.0f))) {
+            if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0)
+                 && (player->speedXZ != 0.0f))
+                || ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0)
+                    && (player->rideActor->speed != 0.0f))) {
                 if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
                     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
                                                ((this->unk_14C << 4) | 0x8000));
@@ -426,13 +426,13 @@ void EnWood02_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_en_wood02.c", 775);
     type = this->actor.params;
 
-    if ((type == WOOD_TREE_OVAL_GREEN_SPAWNER) || (type == WOOD_TREE_OVAL_GREEN_SPAWNED) ||
-        (type == WOOD_TREE_OVAL_GREEN) || (type == WOOD_LEAF_GREEN)) {
+    if ((type == WOOD_TREE_OVAL_GREEN_SPAWNER) || (type == WOOD_TREE_OVAL_GREEN_SPAWNED)
+        || (type == WOOD_TREE_OVAL_GREEN) || (type == WOOD_LEAF_GREEN)) {
         red = 50;
         green = 170;
         blue = 70;
-    } else if ((type == WOOD_TREE_OVAL_YELLOW_SPAWNER) || (type == WOOD_TREE_OVAL_YELLOW_SPAWNED) ||
-               (type == WOOD_LEAF_YELLOW)) {
+    } else if ((type == WOOD_TREE_OVAL_YELLOW_SPAWNER) || (type == WOOD_TREE_OVAL_YELLOW_SPAWNED)
+               || (type == WOOD_LEAF_YELLOW)) {
         red = 180;
         green = 155;
         blue = 0;

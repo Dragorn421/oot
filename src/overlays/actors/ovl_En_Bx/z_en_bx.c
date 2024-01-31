@@ -135,17 +135,17 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
     s16 tmp32;
     s32 tmp33;
 
-    if ((thisx->xzDistToPlayer <= 70.0f) || (this->collider.base.atFlags & AT_HIT) ||
-        (this->collider.base.acFlags & AC_HIT) || (this->colliderQuad.base.atFlags & AT_HIT)) {
-        if ((thisx->xzDistToPlayer <= 70.0f) || (&player->actor == this->collider.base.at) ||
-            (&player->actor == this->collider.base.ac) || (&player->actor == this->colliderQuad.base.at)) {
+    if ((thisx->xzDistToPlayer <= 70.0f) || (this->collider.base.atFlags & AT_HIT)
+        || (this->collider.base.acFlags & AC_HIT) || (this->colliderQuad.base.atFlags & AT_HIT)) {
+        if ((thisx->xzDistToPlayer <= 70.0f) || (&player->actor == this->collider.base.at)
+            || (&player->actor == this->collider.base.ac) || (&player->actor == this->colliderQuad.base.at)) {
             tmp33 = player->invincibilityTimer & 0xFF;
             tmp32 = thisx->world.rot.y;
             if (!(thisx->params & 0x80)) {
                 tmp32 = thisx->yawTowardsPlayer;
             }
-            if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac) &&
-                (&player->actor != this->colliderQuad.base.at) && (player->invincibilityTimer <= 0)) {
+            if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac)
+                && (&player->actor != this->colliderQuad.base.at) && (player->invincibilityTimer <= 0)) {
                 if (player->invincibilityTimer < -39) {
                     player->invincibilityTimer = 0;
                 } else {

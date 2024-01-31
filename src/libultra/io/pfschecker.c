@@ -2,9 +2,9 @@
 #include "global.h"
 #include "ultra64/pfs.h"
 
-#define CHECK_IPAGE(p)                                                                                      \
-    (((p).ipage >= pfs->inodeStartPage) && ((p).inode_t.bank < pfs->banks) && ((p).inode_t.page >= 0x01) && \
-     ((p).inode_t.page < 0x80))
+#define CHECK_IPAGE(p)                                                                                   \
+    (((p).ipage >= pfs->inodeStartPage) && ((p).inode_t.bank < pfs->banks) && ((p).inode_t.page >= 0x01) \
+     && ((p).inode_t.page < 0x80))
 
 s32 osPfsChecker(OSPfs* pfs) {
     s32 j;
@@ -82,8 +82,8 @@ s32 osPfsChecker(OSPfs* pfs) {
             return ret;
         }
 
-        if ((tempDir.company_code != 0) && (tempDir.game_code != 0) &&
-            (tempDir.start_page.ipage >= (u16)pfs->inodeStartPage)) { // cast required
+        if ((tempDir.company_code != 0) && (tempDir.game_code != 0)
+            && (tempDir.start_page.ipage >= (u16)pfs->inodeStartPage)) { // cast required
             nextNodeInFile[j].ipage = tempDir.start_page.ipage;
         } else {
             nextNodeInFile[j].ipage = 0;
@@ -104,8 +104,8 @@ s32 osPfsChecker(OSPfs* pfs) {
         }
 
         for (j = 0; j < pfs->dir_size; j++) {
-            while (nextNodeInFile[j].inode_t.bank == bank &&
-                   nextNodeInFile[j].ipage >= (u16)pfs->inodeStartPage) { // cast required
+            while (nextNodeInFile[j].inode_t.bank == bank
+                   && nextNodeInFile[j].ipage >= (u16)pfs->inodeStartPage) { // cast required
                 u8 val;
                 val = nextNodeInFile[j].inode_t.page;
                 nextNodeInFile[j] = checkedInode.inodePage[val] = tempInode.inodePage[val];
@@ -149,8 +149,8 @@ s32 func_80105788(OSPfs* pfs, __OSInodeCache* cache) {
         for (i = offset; i < PFS_INODE_SIZE_PER_PAGE; i++) {
             tpage = tempInode.inodePage[i];
             if ((tpage.ipage >= pfs->inodeStartPage) && (tpage.inode_t.bank != bank)) {
-                n = ((tpage.inode_t.page & 0x7F) / PFS_SECTOR_SIZE) +
-                    PFS_SECTOR_PER_BANK * (tpage.inode_t.bank % PFS_BANK_LAPPED_BY);
+                n = ((tpage.inode_t.page & 0x7F) / PFS_SECTOR_SIZE)
+                  + PFS_SECTOR_PER_BANK * (tpage.inode_t.bank % PFS_BANK_LAPPED_BY);
                 cache->map[n] |= (1 << (bank % PFS_BANK_LAPPED_BY));
             }
         }

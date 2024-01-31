@@ -470,8 +470,8 @@ void DemoIk_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     DemoIk* this = (DemoIk*)thisx;
 
-    if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
-        sActionFuncs[this->actionMode] == NULL) {
+    if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs)
+        || sActionFuncs[this->actionMode] == NULL) {
         // "The main mode is strange"
         PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

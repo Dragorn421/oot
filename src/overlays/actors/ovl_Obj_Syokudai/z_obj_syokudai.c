@@ -141,8 +141,8 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
         torchCount = 24;
     }
     if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterSurface,
-                                &dummy) &&
-        ((waterSurface - this->actor.world.pos.y) > 52.0f)) {
+                                &dummy)
+        && ((waterSurface - this->actor.world.pos.y) > 52.0f)) {
         this->litTimer = 0;
         if (torchType == 1) {
             Flags_UnsetSwitch(play, switchFlag);
@@ -203,8 +203,9 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
                     this->litTimer = 50 * litTimeScale + 100;
                 }
-            } else if ((torchType != 0) && (((interactionType > 0) && (dmgFlags & DMG_FIRE)) ||
-                                            ((interactionType < 0) && (player->unk_860 != 0)))) {
+            } else if ((torchType != 0)
+                       && (((interactionType > 0) && (dmgFlags & DMG_FIRE))
+                           || ((interactionType < 0) && (player->unk_860 != 0)))) {
 
                 if ((interactionType < 0) && (player->unk_860 < 200)) {
                     player->unk_860 = 200;

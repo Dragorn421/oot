@@ -60,8 +60,8 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
             break;
         }
 
-        if ((mapMarkData->markType == PAUSE_MAP_MARK_BOSS) && (play->sceneId >= SCENE_DEKU_TREE_BOSS) &&
-            (play->sceneId <= SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR)) {
+        if ((mapMarkData->markType == PAUSE_MAP_MARK_BOSS) && (play->sceneId >= SCENE_DEKU_TREE_BOSS)
+            && (play->sceneId <= SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR)) {
             if (gBossMarkState == 0) {
                 Math_ApproachF(&gBossMarkScale, 1.5f, 1.0f, 0.041f);
                 if (gBossMarkScale == 1.5f) {

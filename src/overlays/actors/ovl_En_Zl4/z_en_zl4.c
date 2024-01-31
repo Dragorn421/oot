@@ -336,21 +336,20 @@ s32 EnZl4_SetupFromLegendCs(EnZl4* this, PlayState* play) {
 }
 
 s32 EnZl4_InMovingAnim(EnZl4* this) {
-    if ((this->skelAnime.animation == &gChildZeldaAnim_01B874) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_01BCF0) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_0125E4) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_012E58) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_015F14) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_0169B4) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_016D08) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_01805C) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_01A2FC) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_01AAE0) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_01CE08) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_018898) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_01910C) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_00F0A4) ||
-        (this->skelAnime.animation == &gChildZeldaAnim_00F894)) {
+    if ((this->skelAnime.animation == &gChildZeldaAnim_01B874) || (this->skelAnime.animation == &gChildZeldaAnim_01BCF0)
+        || (this->skelAnime.animation == &gChildZeldaAnim_0125E4)
+        || (this->skelAnime.animation == &gChildZeldaAnim_012E58)
+        || (this->skelAnime.animation == &gChildZeldaAnim_015F14)
+        || (this->skelAnime.animation == &gChildZeldaAnim_0169B4)
+        || (this->skelAnime.animation == &gChildZeldaAnim_016D08)
+        || (this->skelAnime.animation == &gChildZeldaAnim_01805C)
+        || (this->skelAnime.animation == &gChildZeldaAnim_01A2FC)
+        || (this->skelAnime.animation == &gChildZeldaAnim_01AAE0)
+        || (this->skelAnime.animation == &gChildZeldaAnim_01CE08)
+        || (this->skelAnime.animation == &gChildZeldaAnim_018898)
+        || (this->skelAnime.animation == &gChildZeldaAnim_01910C)
+        || (this->skelAnime.animation == &gChildZeldaAnim_00F0A4)
+        || (this->skelAnime.animation == &gChildZeldaAnim_00F894)) {
         return true;
     }
     return false;

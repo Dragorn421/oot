@@ -910,11 +910,11 @@ void func_808FF898(BossGanon2* this, PlayState* play) {
             if (actor->id == ACTOR_DEMO_GJ) {
                 DemoGj* gj = (DemoGj*)actor;
 
-                if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
-                    ((actor->params & 0xFF) == 0x16)) {
-                    if (SQ(this->unk_218.x - gj->dyna.actor.world.pos.x) +
-                            SQ(this->unk_218.z - gj->dyna.actor.world.pos.z) <
-                        SQ(100.0f)) {
+                if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11)
+                    || ((actor->params & 0xFF) == 0x16)) {
+                    if (SQ(this->unk_218.x - gj->dyna.actor.world.pos.x)
+                            + SQ(this->unk_218.z - gj->dyna.actor.world.pos.z)
+                        < SQ(100.0f)) {
                         s32 pad;
                         Vec3f sp28;
 
@@ -951,11 +951,11 @@ s32 func_808FFA24(BossGanon2* this, PlayState* play) {
         if (actor->id == ACTOR_DEMO_GJ) {
             DemoGj* gj = (DemoGj*)actor;
 
-            if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
-                ((actor->params & 0xFF) == 0x16)) {
-                if (SQ(this->actor.world.pos.x - gj->dyna.actor.world.pos.x) +
-                        SQ(this->actor.world.pos.z - gj->dyna.actor.world.pos.z) <
-                    SQ(200.0f)) {
+            if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11)
+                || ((actor->params & 0xFF) == 0x16)) {
+                if (SQ(this->actor.world.pos.x - gj->dyna.actor.world.pos.x)
+                        + SQ(this->actor.world.pos.z - gj->dyna.actor.world.pos.z)
+                    < SQ(200.0f)) {
                     return true;
                 }
             }
@@ -1026,8 +1026,8 @@ void func_808FFC84(BossGanon2* this) {
 }
 
 void func_808FFCFC(BossGanon2* this, PlayState* play) {
-    if (this->actor.xzDistToPlayer < 150.0f &&
-        ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2800) {
+    if (this->actor.xzDistToPlayer < 150.0f
+        && ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2800) {
         this->unk_311 = false;
         func_80900580(this, play);
         Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
@@ -1236,12 +1236,12 @@ void func_80900650(BossGanon2* this, PlayState* play) {
     }
 
     if (this->unk_311 == 0) {
-        if (((this->unk_198 - 4.0f) < this->skelAnime.curFrame) &&
-            (this->skelAnime.curFrame < (this->unk_198 + 6.0f))) {
+        if (((this->unk_198 - 4.0f) < this->skelAnime.curFrame)
+            && (this->skelAnime.curFrame < (this->unk_198 + 6.0f))) {
             this->unk_312 = 1;
         }
-    } else if ((((this->unk_198 - 4.0f) + 4.0f) < this->skelAnime.curFrame) &&
-               (this->skelAnime.curFrame < (this->unk_198 + 6.0f))) {
+    } else if ((((this->unk_198 - 4.0f) + 4.0f) < this->skelAnime.curFrame)
+               && (this->skelAnime.curFrame < (this->unk_198 + 6.0f))) {
         this->unk_312 = 2;
     }
 
@@ -1635,8 +1635,8 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             temp_f14 = this->unk_1B8.x - player->actor.world.pos.x;
             temp_f12 = this->unk_1B8.z - player->actor.world.pos.z;
             temp_a0_2 = Math_Atan2S(temp_f12, temp_f14) - player->actor.shape.rot.y;
-            if ((ABS(temp_a0_2) < 0x2000) && (sqrtf(SQ(temp_f14) + SQ(temp_f12)) < 70.0f) &&
-                (player->meleeWeaponState != 0) && (player->heldItemAction == PLAYER_IA_SWORD_MASTER)) {
+            if ((ABS(temp_a0_2) < 0x2000) && (sqrtf(SQ(temp_f14) + SQ(temp_f12)) < 70.0f)
+                && (player->meleeWeaponState != 0) && (player->heldItemAction == PLAYER_IA_SWORD_MASTER)) {
                 Cutscene_StartManual(play, &play->csCtx);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1902,8 +1902,8 @@ void BossGanon2_CollisionCheck(BossGanon2* this, PlayState* play) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
                     Actor_PlaySfx(&this->actor, NA_SE_EN_MGANON_DAMAGE);
                     Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
-                } else if ((this->actionFunc == func_80900890) &&
-                           (acHitElem->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER))) {
+                } else if ((this->actionFunc == func_80900890)
+                           && (acHitElem->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER))) {
                     this->unk_316 = 60;
                     this->unk_342 = 5;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_MGANON_DAMAGE);
@@ -2030,8 +2030,8 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
         Math_ApproachF(&this->unk_360.x, 2000.0f, 0.1f, 100.0f);
         this->unk_370.y = 12000.0f;
         Math_ApproachF(&this->unk_370.x, 1500.0f, 0.1f, 100.0f);
-        if ((this->actionFunc == func_808FFEBC) || (this->actionFunc == func_808FFFE0) ||
-            (this->actionFunc == func_80900104)) {
+        if ((this->actionFunc == func_808FFEBC) || (this->actionFunc == func_808FFFE0)
+            || (this->actionFunc == func_80900104)) {
             Math_ApproachF(&this->unk_360.z, 1000.0f, 0.1f, 100.0f);
             Math_ApproachF(&this->unk_370.z, 1000.0f, 0.1f, 100.0f);
             Math_ApproachS(&this->unk_346, -0xFA0, 0xA, 0x64);
@@ -2532,8 +2532,8 @@ s32 BossGanon2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
         }
     }
 
-    if ((limbIndex == GANON_LIMB_LEFT_SWORD) || (limbIndex == GANON_LIMB_RIGHT_SWORD) ||
-        (limbIndex == GANON_LIMB_LEFT_HORN) || (limbIndex == GANON_LIMB_RIGHT_HORN)) {
+    if ((limbIndex == GANON_LIMB_LEFT_SWORD) || (limbIndex == GANON_LIMB_RIGHT_SWORD)
+        || (limbIndex == GANON_LIMB_LEFT_HORN) || (limbIndex == GANON_LIMB_RIGHT_HORN)) {
         *dList = NULL;
     }
 
@@ -2861,8 +2861,9 @@ void BossGanon2_UpdateEffects(BossGanon2* this, PlayState* play) {
                         }
                         effect->velocity.y = 0.0f;
                     }
-                    if ((SQ(player->actor.world.pos.x - effect->position.x) +
-                         SQ(player->actor.world.pos.z - effect->position.z)) < SQ(25.0f)) {
+                    if ((SQ(player->actor.world.pos.x - effect->position.x)
+                         + SQ(player->actor.world.pos.z - effect->position.z))
+                        < SQ(25.0f)) {
                         effect->type = 0;
                         this->unk_39C = 10;
                     }

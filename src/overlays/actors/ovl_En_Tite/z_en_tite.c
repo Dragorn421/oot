@@ -240,8 +240,8 @@ void EnTite_Idle(EnTite* this, PlayState* play) {
             this->actor.gravity = -1.0f;
         }
     }
-    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) &&
-        (this->actor.velocity.y <= 0.0f)) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))
+        && (this->actor.velocity.y <= 0.0f)) {
         this->actor.velocity.y = 0.0f;
     }
     if (this->vIdleTimer > 0) {
@@ -290,8 +290,8 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                 // Continue trajectory until tektite has negative velocity and has landed on ground/water surface
                 // Snap to ground/water surface, or if falling fast dip into the water and slow fall speed
                 this->actor.flags |= ACTOR_FLAG_24;
-                if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
-                    ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) {
+                if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))
+                    || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) {
                     if (this->actor.velocity.y <= 0.0f) {
                         this->vAttackState = TEKTITE_LANDED;
                         if ((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
@@ -423,8 +423,8 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
 void EnTite_SetupTurnTowardPlayer(EnTite* this) {
     Animation_PlayLoop(&this->skelAnime, &object_tite_Anim_000A14);
     this->action = TEKTITE_TURN_TOWARD_PLAYER;
-    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
-        ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))
+        || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) {
         if (this->actor.velocity.y <= 0.0f) {
             this->actor.gravity = 0.0f;
             this->actor.velocity.y = 0.0f;
@@ -438,9 +438,9 @@ void EnTite_TurnTowardPlayer(EnTite* this, PlayState* play) {
     s16 angleToPlayer;
     s16 turnVelocity;
 
-    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
-         ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) &&
-        (this->actor.velocity.y <= 0.0f)) {
+    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))
+         || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))
+        && (this->actor.velocity.y <= 0.0f)) {
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.speed = 0.0f;
@@ -522,8 +522,8 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         }
     }
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) ||
-        ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH)
+        || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH))) {
         if (this->vQueuedJumps != 0) {
             this->vQueuedJumps--;
         } else {
@@ -531,10 +531,10 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         }
     }
 
-    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
-         (this->actor.params == TEKTITE_BLUE &&
-          (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)))) &&
-        (this->actor.velocity.y <= 0.0f)) {
+    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))
+         || (this->actor.params == TEKTITE_BLUE
+             && (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH))))
+        && (this->actor.velocity.y <= 0.0f)) {
         // slightly turn toward player upon landing and snap to ground or water.
         this->actor.speed = 0.0f;
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4000, 0);
@@ -623,9 +623,9 @@ void EnTite_Recoil(EnTite* this, PlayState* play) {
 
     // Snap to ground or water surface upon landing
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
-    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
-         (this->actor.params == TEKTITE_BLUE && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) &&
-        (this->actor.velocity.y <= 0.0f)) {
+    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))
+         || (this->actor.params == TEKTITE_BLUE && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))
+        && (this->actor.velocity.y <= 0.0f)) {
         if ((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
             if (this->actor.floorHeight > BGCHECK_Y_MIN) {
                 this->actor.world.pos.y = this->actor.floorHeight;
@@ -653,18 +653,18 @@ void EnTite_Recoil(EnTite* this, PlayState* play) {
 
     // If player is far away, idle. Otherwise attack or move
     angleToPlayer = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
-    if ((this->actor.speed == 0.0f) &&
-        ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-         ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
+    if ((this->actor.speed == 0.0f)
+        && ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+            || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         this->collider.base.atFlags &= ~AT_HIT;
-        if ((this->actor.xzDistToPlayer > 300.0f) && (this->actor.yDistToPlayer > 80.0f) &&
-            (ABS(this->actor.shape.rot.x) < 4000) && (ABS(this->actor.shape.rot.z) < 4000) &&
-            ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-             ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
+        if ((this->actor.xzDistToPlayer > 300.0f) && (this->actor.yDistToPlayer > 80.0f)
+            && (ABS(this->actor.shape.rot.x) < 4000) && (ABS(this->actor.shape.rot.z) < 4000)
+            && ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+                || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
             EnTite_SetupIdle(this);
-        } else if ((this->actor.xzDistToPlayer < 180.0f) && (this->actor.yDistToPlayer <= 80.0f) &&
-                   (ABS(angleToPlayer) <= 6000)) {
+        } else if ((this->actor.xzDistToPlayer < 180.0f) && (this->actor.yDistToPlayer <= 80.0f)
+                   && (ABS(angleToPlayer) <= 6000)) {
             EnTite_SetupAttack(this);
         } else {
             EnTite_SetupMoveTowardPlayer(this);
@@ -694,9 +694,9 @@ void EnTite_Stunned(EnTite* this, PlayState* play) {
 
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     // Snap to ground or water
-    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
-         ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) &&
-        (this->actor.velocity.y <= 0.0f)) {
+    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))
+         || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))
+        && (this->actor.velocity.y <= 0.0f)) {
         if (((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) {
             if (this->actor.floorHeight > BGCHECK_Y_MIN) {
                 this->actor.world.pos.y = this->actor.floorHeight;
@@ -722,21 +722,21 @@ void EnTite_Stunned(EnTite* this, PlayState* play) {
     }
     // Decide on next action based on health, flip state and player distance
     angleToPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (((this->actor.colorFilterTimer == 0) && (this->actor.speed == 0.0f)) &&
-        ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-         ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
+    if (((this->actor.colorFilterTimer == 0) && (this->actor.speed == 0.0f))
+        && ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+            || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if (this->actor.colChkInfo.health == 0) {
             EnTite_SetupDeathCry(this);
         } else if (this->flipState == TEKTITE_FLIPPED) {
             EnTite_SetupFlipUpright(this);
-        } else if (((this->actor.xzDistToPlayer > 300.0f) && (this->actor.yDistToPlayer > 80.0f) &&
-                    (ABS(this->actor.shape.rot.x) < 4000) && (ABS(this->actor.shape.rot.z) < 4000)) &&
-                   ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-                    ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
+        } else if (((this->actor.xzDistToPlayer > 300.0f) && (this->actor.yDistToPlayer > 80.0f)
+                    && (ABS(this->actor.shape.rot.x) < 4000) && (ABS(this->actor.shape.rot.z) < 4000))
+                   && ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+                       || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
             EnTite_SetupIdle(this);
-        } else if ((this->actor.xzDistToPlayer < 180.0f) && (this->actor.yDistToPlayer <= 80.0f) &&
-                   (ABS(angleToPlayer) <= 6000)) {
+        } else if ((this->actor.xzDistToPlayer < 180.0f) && (this->actor.yDistToPlayer <= 80.0f)
+                   && (ABS(angleToPlayer) <= 6000)) {
             EnTite_SetupAttack(this);
         } else {
             EnTite_SetupMoveTowardPlayer(this);
@@ -880,8 +880,8 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
             }
         }
         // If hammer has recently hit the floor and player is close to tektite, flip over
-    } else if ((thisx->colChkInfo.health != 0) && (play->actorCtx.unk_02 != 0) && (thisx->xzDistToPlayer <= 400.0f) &&
-               (thisx->bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    } else if ((thisx->colChkInfo.health != 0) && (play->actorCtx.unk_02 != 0) && (thisx->xzDistToPlayer <= 400.0f)
+               && (thisx->bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->flipState == TEKTITE_FLIPPED) {
             EnTite_SetupFlipUpright(this);
         } else if ((this->action >= TEKTITE_IDLE) || (this->action >= TEKTITE_IDLE)) {
@@ -907,31 +907,31 @@ void EnTite_Update(Actor* thisx, PlayState* play) {
         // If on water, snap feet to surface and spawn ripples
         if ((this->actor.params == TEKTITE_BLUE) && (thisx->bgCheckFlags & BGCHECKFLAG_WATER)) {
             floorPoly = thisx->floorPoly;
-            if ((((play->gameplayFrames % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->backRightFootPos.x, this->backRightFootPos.z,
-                                         &waterSurfaceY, &waterBox)) &&
-                (this->backRightFootPos.y <= waterSurfaceY)) {
+            if ((((play->gameplayFrames % 8) == 0) || (thisx->velocity.y < 0.0f))
+                && (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->backRightFootPos.x, this->backRightFootPos.z,
+                                            &waterSurfaceY, &waterBox))
+                && (this->backRightFootPos.y <= waterSurfaceY)) {
                 this->backRightFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(play, &this->backRightFootPos, 0, 220, 0);
             }
-            if (((((play->gameplayFrames + 2) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->backLeftFootPos.x, this->backLeftFootPos.z,
-                                         &waterSurfaceY, &waterBox)) &&
-                (this->backLeftFootPos.y <= waterSurfaceY)) {
+            if (((((play->gameplayFrames + 2) % 8) == 0) || (thisx->velocity.y < 0.0f))
+                && (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->backLeftFootPos.x, this->backLeftFootPos.z,
+                                            &waterSurfaceY, &waterBox))
+                && (this->backLeftFootPos.y <= waterSurfaceY)) {
                 this->backLeftFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(play, &this->backLeftFootPos, 0, 220, 0);
             }
-            if (((((play->gameplayFrames + 4) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->frontLeftFootPos.x, this->frontLeftFootPos.z,
-                                         &waterSurfaceY, &waterBox)) &&
-                (this->frontLeftFootPos.y <= waterSurfaceY)) {
+            if (((((play->gameplayFrames + 4) % 8) == 0) || (thisx->velocity.y < 0.0f))
+                && (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->frontLeftFootPos.x, this->frontLeftFootPos.z,
+                                            &waterSurfaceY, &waterBox))
+                && (this->frontLeftFootPos.y <= waterSurfaceY)) {
                 this->frontLeftFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(play, &this->frontLeftFootPos, 0, 220, 0);
             }
-            if (((((play->gameplayFrames + 1) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->frontRightFootPos.x, this->frontRightFootPos.z,
-                                         &waterSurfaceY, &waterBox)) &&
-                (this->frontRightFootPos.y <= waterSurfaceY)) {
+            if (((((play->gameplayFrames + 1) % 8) == 0) || (thisx->velocity.y < 0.0f))
+                && (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->frontRightFootPos.x, this->frontRightFootPos.z,
+                                            &waterSurfaceY, &waterBox))
+                && (this->frontRightFootPos.y <= waterSurfaceY)) {
                 this->frontRightFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(play, &this->frontRightFootPos, 0, 220, 0);
             }

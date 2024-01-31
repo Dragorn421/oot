@@ -119,14 +119,14 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
     }
     switch (this->cutsceneState) {
         case INTRO_WAIT:
-            if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTER_X + 0.0f)) < 150.0f) &&
-                (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 0.0f)) < 150.0f)) {
+            if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTER_X + 0.0f)) < 150.0f)
+                && (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 0.0f)) < 150.0f)) {
                 this->cutsceneState = INTRO_READY;
             }
             break;
         case INTRO_READY:
-            if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTER_X + 0.0f)) < 100.0f) &&
-                (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 315.0f)) < 100.0f)) {
+            if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTER_X + 0.0f)) < 100.0f)
+                && (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 315.0f)) < 100.0f)) {
                 this->cutsceneState = INTRO_START;
                 if (GET_EVENTCHKINF(EVENTCHKINF_72)) {
                     this->timers[0] = 57;
@@ -363,8 +363,8 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             Math_ApproachF(&this->actor.world.pos.z, GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f, 1.0f,
                            this->subCamVelFactor * 10.0f);
             Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, 0.05f);
-            if ((fabsf(this->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f)) < 300.0f) &&
-                !this->spawnedWarp) {
+            if ((fabsf(this->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f)) < 300.0f)
+                && !this->spawnedWarp) {
                 this->spawnedWarp = true;
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FHG_FIRE, GND_BOSSROOM_CENTER_X + 0.0f,
                                    this->actor.world.pos.y + 50.0f, GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f, 0,
@@ -719,10 +719,10 @@ void EnfHG_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     POLY_OPA_DISP = ((bossGnd->work[GND_INVINC_TIMER] & 4) && (bossGnd->flyMode == GND_FLY_PAINTING))
-                        ? Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099)
-                        : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpColorFilterR, (u32)this->warpColorFilterG,
-                                     (u32)this->warpColorFilterB, 0, (s32)this->warpColorFilterUnk1 + 995,
-                                     (s32)this->warpColorFilterUnk2 + 1000);
+                      ? Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099)
+                      : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpColorFilterR, (u32)this->warpColorFilterG,
+                                   (u32)this->warpColorFilterB, 0, (s32)this->warpColorFilterUnk1 + 995,
+                                   (s32)this->warpColorFilterUnk2 + 1000);
     func_800A6330(&this->actor, play, &this->skin, EnfHG_PostDraw, SKIN_TRANSFORM_IS_FHG);
     POLY_OPA_DISP = Play_SetFog(play, POLY_OPA_DISP);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fhg.c", 2480);

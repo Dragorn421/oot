@@ -64,8 +64,8 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
     s32 randomIndex;
     s32 i;
 
-    textFlags = gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &
-                (EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
+    textFlags = gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX]
+              & (EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
     gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &=
         ~(EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
     randomIndex = (play->state.frames + (s32)(Rand_ZeroOne() * 5.0f)) % 5;
@@ -181,8 +181,8 @@ void EnMu_Update(Actor* thisx, PlayState* play) {
 s32 EnMu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnMu* this = (EnMu*)thisx;
 
-    if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7) || (limbIndex == 11) || (limbIndex == 12) ||
-        (limbIndex == 13) || (limbIndex == 14)) {
+    if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7) || (limbIndex == 11) || (limbIndex == 12)
+        || (limbIndex == 13) || (limbIndex == 14)) {
         rot->y += Math_SinS(this->unk_20A[limbIndex]) * 200.0f;
         rot->z += Math_CosS(this->unk_22A[limbIndex]) * 200.0f;
     }

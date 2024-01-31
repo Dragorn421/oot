@@ -130,8 +130,8 @@ void BgDyYoseizo_SpawnEffects(BgDyYoseizo* this, PlayState* play, s16 type) {
                 scale = 0.4f;
                 life = 90;
                 pos.x = this->actor.world.pos.x;
-                pos.y = this->actor.world.pos.y + spawnPosVariation +
-                        ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.5f));
+                pos.y = this->actor.world.pos.y + spawnPosVariation
+                      + ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.5f));
                 pos.z = this->actor.world.pos.z + 30.0f;
             } else {
                 life = 50;
@@ -140,12 +140,12 @@ void BgDyYoseizo_SpawnEffects(BgDyYoseizo* this, PlayState* play, s16 type) {
                 pos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
 
                 if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-                    pos.y = this->actor.world.pos.y + spawnPosVariation + 50.0f +
-                            ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
+                    pos.y = this->actor.world.pos.y + spawnPosVariation + 50.0f
+                          + ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
                     pos.z = this->actor.world.pos.z + 30.0f;
                 } else {
-                    pos.y = this->actor.world.pos.y + spawnPosVariation - 30.0f +
-                            ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
+                    pos.y = this->actor.world.pos.y + spawnPosVariation - 30.0f
+                          + ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
                     pos.z = this->actor.world.pos.z + 60.0f;
                 }
 
@@ -466,9 +466,9 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
         this->refillTimer = 200;
     }
 
-    if (((gSaveContext.save.info.playerData.healthCapacity == gSaveContext.save.info.playerData.health) &&
-         (gSaveContext.save.info.playerData.magic == gSaveContext.magicCapacity)) ||
-        (this->refillTimer == 1)) {
+    if (((gSaveContext.save.info.playerData.healthCapacity == gSaveContext.save.info.playerData.health)
+         && (gSaveContext.save.info.playerData.magic == gSaveContext.magicCapacity))
+        || (this->refillTimer == 1)) {
         this->healingTimer--;
         if (this->healingTimer == 90) {
             if (!this->givingSpell) {
@@ -628,8 +628,8 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, PlayState* play) {
             this->animationChanged = true;
         }
 
-        if ((play->csCtx.state != CS_STATE_IDLE) &&
-            ((play->csCtx.actorCues[0] != NULL) && (play->csCtx.actorCues[0]->id == 3))) {
+        if ((play->csCtx.state != CS_STATE_IDLE)
+            && ((play->csCtx.actorCues[0] != NULL) && (play->csCtx.actorCues[0]->id == 3))) {
             this->finishedSpinGrow = this->animationChanged = false;
             if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 this->frameCount = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
@@ -705,8 +705,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         BgDyYoseizo_SpawnEffects(this, play, 0);
     }
 
-    if ((play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id >= 10) &&
-        (play->csCtx.actorCues[0]->id < 13)) {
+    if ((play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id >= 10)
+        && (play->csCtx.actorCues[0]->id < 13)) {
         cueIdTemp = play->csCtx.actorCues[0]->id - 10;
 
         switch (cueIdTemp) {
@@ -741,8 +741,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id >= 14) &&
-        (play->csCtx.actorCues[0]->id < 17)) {
+    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id >= 14)
+        && (play->csCtx.actorCues[0]->id < 17)) {
         cueIdTemp = play->csCtx.actorCues[0]->id - 14;
 
         if (!this->itemSpawned) {
@@ -775,8 +775,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id == 17) &&
-        (this->item != NULL)) {
+    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id == 17)
+        && (this->item != NULL)) {
         Actor_Kill(&this->item->actor);
         this->item = NULL;
     }
@@ -822,16 +822,16 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         sfx = 0;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-            if ((play->csCtx.curFrame == 32) || (play->csCtx.curFrame == 291) || (play->csCtx.curFrame == 426) ||
-                (play->csCtx.curFrame == 851)) {
+            if ((play->csCtx.curFrame == 32) || (play->csCtx.curFrame == 291) || (play->csCtx.curFrame == 426)
+                || (play->csCtx.curFrame == 851)) {
                 sfx = 1;
             }
             if (play->csCtx.curFrame == 101) {
                 sfx = 2;
             }
         } else {
-            if ((play->csCtx.curFrame == 35) || (play->csCtx.curFrame == 181) || (play->csCtx.curFrame == 462) ||
-                (play->csCtx.curFrame == 795)) {
+            if ((play->csCtx.curFrame == 35) || (play->csCtx.curFrame == 181) || (play->csCtx.curFrame == 462)
+                || (play->csCtx.curFrame == 795)) {
                 sfx = 1;
             }
             if (play->csCtx.curFrame == 90) {

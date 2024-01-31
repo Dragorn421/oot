@@ -126,8 +126,8 @@ static AnimationInfo sAnimationInfo2[] = {
 s16 func_80AF5560(EnSa* this, PlayState* play) {
     s16 textState = Message_GetState(&play->msgCtx);
 
-    if (this->unk_209 == TEXT_STATE_AWAITING_NEXT || this->unk_209 == TEXT_STATE_EVENT ||
-        this->unk_209 == TEXT_STATE_CLOSING || this->unk_209 == TEXT_STATE_DONE_HAS_NEXT) {
+    if (this->unk_209 == TEXT_STATE_AWAITING_NEXT || this->unk_209 == TEXT_STATE_EVENT
+        || this->unk_209 == TEXT_STATE_CLOSING || this->unk_209 == TEXT_STATE_DONE_HAS_NEXT) {
         if (textState != this->unk_209) {
             this->unk_208++;
         }
@@ -215,9 +215,9 @@ s16 EnSa_UpdateTalkState(PlayState* play, Actor* thisx) {
 }
 
 void func_80AF57D8(EnSa* this, PlayState* play) {
-    if (play->sceneId != SCENE_SACRED_FOREST_MEADOW ||
-        ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 ||
-        this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+    if (play->sceneId != SCENE_SACRED_FOREST_MEADOW
+        || ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555
+        || this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                           EnSa_GetTextId, EnSa_UpdateTalkState);
     }
@@ -387,8 +387,8 @@ s32 func_80AF5DFC(EnSa* this, PlayState* play) {
             return 5;
         }
     }
-    if (play->sceneId == SCENE_SARIAS_HOUSE && !LINK_IS_ADULT &&
-        INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (play->sceneId == SCENE_SARIAS_HOUSE && !LINK_IS_ADULT && INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY
+        && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
         return 1;
     }
     if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && GET_EVENTCHKINF(EVENTCHKINF_40)) {
@@ -413,12 +413,12 @@ void func_80AF5F34(EnSa* this, PlayState* play) {
     if (play->sceneId == SCENE_SACRED_FOREST_MEADOW) {
         trackingMode = (this->skelAnime.animation == &gSariaPlayingOcarinaAnim) ? NPC_TRACKING_NONE : NPC_TRACKING_HEAD;
     }
-    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && this->actionFunc == func_80AF6448 &&
-        this->skelAnime.animation == &gSariaStopPlayingOcarinaAnim) {
+    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && this->actionFunc == func_80AF6448
+        && this->skelAnime.animation == &gSariaStopPlayingOcarinaAnim) {
         trackingMode = NPC_TRACKING_NONE;
     }
-    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && this->actionFunc == func_80AF68E4 &&
-        this->skelAnime.animation == &gSariaOcarinaToMouthAnim) {
+    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && this->actionFunc == func_80AF68E4
+        && this->skelAnime.animation == &gSariaOcarinaToMouthAnim) {
         trackingMode = NPC_TRACKING_NONE;
     }
     this->interactInfo.trackPos = player->actor.world.pos;
@@ -427,8 +427,8 @@ void func_80AF5F34(EnSa* this, PlayState* play) {
 }
 
 s32 func_80AF603C(EnSa* this) {
-    if (this->skelAnime.animation != &gSariaPlayingOcarinaAnim &&
-        this->skelAnime.animation != &gSariaOcarinaToMouthAnim) {
+    if (this->skelAnime.animation != &gSariaPlayingOcarinaAnim
+        && this->skelAnime.animation != &gSariaOcarinaToMouthAnim) {
         return 0;
     }
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
@@ -559,8 +559,8 @@ void func_80AF6448(EnSa* this, PlayState* play) {
                     }
                     break;
                 case 0x1031:
-                    if (this->unk_208 == 0 && this->unk_20B != 4 &&
-                        this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
+                    if (this->unk_208 == 0 && this->unk_20B != 4
+                        && this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
                         func_80AF5CD4(this, 4);
                         this->mouthIndex = 3;
                     }
@@ -574,8 +574,8 @@ void func_80AF6448(EnSa* this, PlayState* play) {
                     }
                     break;
                 case 0x1032:
-                    if (this->unk_208 == 0 && this->unk_20B != 4 &&
-                        this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
+                    if (this->unk_208 == 0 && this->unk_20B != 4
+                        && this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
                         func_80AF5CD4(this, 4);
                     }
                     break;
@@ -590,8 +590,8 @@ void func_80AF6448(EnSa* this, PlayState* play) {
                     }
                     break;
             }
-        } else if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) &&
-                   (GET_INFTABLE(INFTABLE_01) || GET_INFTABLE(INFTABLE_03))) {
+        } else if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)
+                   && (GET_INFTABLE(INFTABLE_01) || GET_INFTABLE(INFTABLE_03))) {
             if (this->unk_20B != 3) {
                 func_80AF5CD4(this, 3);
             }
@@ -730,8 +730,8 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->skelAnime.animation == &gSariaOcarinaToMouthAnim &&
-        this->skelAnime.curFrame >= Animation_GetLastFrame(&gSariaOcarinaToMouthAnim)) {
+    if (this->skelAnime.animation == &gSariaOcarinaToMouthAnim
+        && this->skelAnime.curFrame >= Animation_GetLastFrame(&gSariaOcarinaToMouthAnim)) {
         EnSa_ChangeAnim(this, ENSA_ANIM1_6);
     }
 

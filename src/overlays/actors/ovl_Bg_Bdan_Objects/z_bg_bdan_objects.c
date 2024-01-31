@@ -142,8 +142,8 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
         } else {
             if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE)) {
                 if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_BIGOKUTA, thisx->home.pos.x,
-                                       thisx->home.pos.y, thisx->home.pos.z, 0, thisx->shape.rot.y + 0x8000, 0,
-                                       3) != NULL) {
+                                       thisx->home.pos.y, thisx->home.pos.z, 0, thisx->shape.rot.y + 0x8000, 0, 3)
+                    != NULL) {
                     thisx->child->world.pos.z = thisx->child->home.pos.z + 263.0f;
                 }
                 thisx->world.rot.y = 0;
@@ -217,8 +217,8 @@ void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, 
 }
 
 void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play) {
-    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 500.0f, 0.5f, 7.5f, 1.0f) <
-        0.1f) {
+    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 500.0f, 0.5f, 7.5f, 1.0f)
+        < 0.1f) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene;
         this->timer = 30;
@@ -355,8 +355,8 @@ void BgBdanObjects_WaitForPlayerInRange(BgBdanObjects* this, PlayState* play) {
 }
 
 void BgBdanObjects_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play) {
-    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 965.0f, 0.5f, 15.0f, 0.2f) <
-        0.01f) {
+    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 965.0f, 0.5f, 15.0f, 0.2f)
+        < 0.01f) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = BgBdanObjects_DoNothing;
     } else {

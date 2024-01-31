@@ -679,8 +679,8 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
     switch (this->actionState) {
         case 0: // wait for the player to enter the room
             // entrance of the boss room
-            if (fabsf(player->actor.world.pos.x - 150.0f) < 60.0f &&
-                fabsf(player->actor.world.pos.z - 350.0f) < 60.0f) {
+            if (fabsf(player->actor.world.pos.x - 150.0f) < 60.0f
+                && fabsf(player->actor.world.pos.z - 350.0f) < 60.0f) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_70)) {
                     BossGoma_SetupEncounterState4(this, play);
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
@@ -774,8 +774,8 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             break;
 
         case 3: // wait for the player to look at Gohma
-            if (fabsf(this->actor.projectedPos.x) < 150.0f && fabsf(this->actor.projectedPos.y) < 250.0f &&
-                this->actor.projectedPos.z < 800.0f && this->actor.projectedPos.z > 0.0f) {
+            if (fabsf(this->actor.projectedPos.x) < 150.0f && fabsf(this->actor.projectedPos.y) < 250.0f
+                && this->actor.projectedPos.z < 800.0f && this->actor.projectedPos.z > 0.0f) {
                 this->lookedAtFrames++;
                 Math_ApproachZeroF(&this->actor.speed, 0.5f, 2.0f);
                 Math_ApproachS(&this->actor.world.rot.y,
@@ -1014,8 +1014,8 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
         }
     }
 
-    if (this->framesUntilNextAction < 1200 && this->framesUntilNextAction > 1100 &&
-        this->framesUntilNextAction % 8 == 0) {
+    if (this->framesUntilNextAction < 1200 && this->framesUntilNextAction > 1100
+        && this->framesUntilNextAction % 8 == 0) {
         EffectSsSibuki_SpawnBurst(play, &this->actor.focus.pos);
     }
 
@@ -1138,10 +1138,10 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
                 this->actionState = 3;
 
                 for (i = 0; i < 10000; i++) {
-                    if ((fabsf(childPos.x - player->actor.world.pos.x) < 100.0f &&
-                         fabsf(childPos.z - player->actor.world.pos.z) < 100.0f) ||
-                        (fabsf(childPos.x - this->actor.world.pos.x) < 150.0f &&
-                         fabsf(childPos.z - this->actor.world.pos.z) < 150.0f)) {
+                    if ((fabsf(childPos.x - player->actor.world.pos.x) < 100.0f
+                         && fabsf(childPos.z - player->actor.world.pos.z) < 100.0f)
+                        || (fabsf(childPos.x - this->actor.world.pos.x) < 150.0f
+                            && fabsf(childPos.z - this->actor.world.pos.z) < 150.0f)) {
                         childPos.x = Rand_CenteredFloat(400.0f) + -150.0f;
                         childPos.z = Rand_CenteredFloat(400.0f) + -350.0f;
                     } else {
@@ -1553,8 +1553,8 @@ void BossGoma_CeilingIdle(BossGoma* this, PlayState* play) {
         if (this->childrenGohmaState[0] == 0 && this->childrenGohmaState[1] == 0 && this->childrenGohmaState[2] == 0) {
             // if no child gohma has been spawned
             BossGoma_SetupCeilingPrepareSpawnGohmas(this);
-        } else if (this->childrenGohmaState[0] < 0 && this->childrenGohmaState[1] < 0 &&
-                   this->childrenGohmaState[2] < 0) {
+        } else if (this->childrenGohmaState[0] < 0 && this->childrenGohmaState[1] < 0
+                   && this->childrenGohmaState[2] < 0) {
             // if all children gohmas are dead
             BossGoma_SetupFallJump(this);
         } else {
@@ -1701,8 +1701,8 @@ void BossGoma_CeilingMoveToCenter(BossGoma* this, PlayState* play) {
     }
 
     // timer setup to 30-60
-    if (this->framesUntilNextAction == 0 && fabsf(-150.0f - this->actor.world.pos.x) < 100.0f &&
-        fabsf(-350.0f - this->actor.world.pos.z) < 100.0f) {
+    if (this->framesUntilNextAction == 0 && fabsf(-150.0f - this->actor.world.pos.x) < 100.0f
+        && fabsf(-350.0f - this->actor.world.pos.z) < 100.0f) {
         BossGoma_SetupCeilingIdle(this);
     }
 }
@@ -1810,16 +1810,16 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
         ColliderElement* acHitElem = this->collider.elements[0].base.acHitElem;
         s32 damage;
 
-        if (this->eyeClosedTimer == 0 && this->actionFunc != BossGoma_CeilingSpawnGohmas &&
-            (this->collider.elements[0].base.bumperFlags & BUMP_HIT)) {
+        if (this->eyeClosedTimer == 0 && this->actionFunc != BossGoma_CeilingSpawnGohmas
+            && (this->collider.elements[0].base.bumperFlags & BUMP_HIT)) {
             this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
 
-            if (this->actionFunc == BossGoma_CeilingMoveToCenter || this->actionFunc == BossGoma_CeilingIdle ||
-                this->actionFunc == BossGoma_CeilingPrepareSpawnGohmas) {
+            if (this->actionFunc == BossGoma_CeilingMoveToCenter || this->actionFunc == BossGoma_CeilingIdle
+                || this->actionFunc == BossGoma_CeilingPrepareSpawnGohmas) {
                 BossGoma_SetupFallStruckDown(this);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_DAM2);
-            } else if (this->actionFunc == BossGoma_FloorStunned &&
-                       (damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags)) != 0) {
+            } else if (this->actionFunc == BossGoma_FloorStunned
+                       && (damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags)) != 0) {
                 this->actor.colChkInfo.health -= damage;
 
                 if ((s8)this->actor.colChkInfo.health > 0) {
@@ -1832,8 +1832,8 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
                 }
 
                 this->invincibilityFrames = 10;
-            } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
-                       (acHitElem->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
+            } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0
+                       && (acHitElem->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_DAM2);
                 Audio_StopSfxById(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
@@ -1943,8 +1943,8 @@ void BossGoma_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 
-    if (this->actionFunc != BossGoma_FloorStunned && this->actionFunc != BossGoma_FloorDamaged &&
-        (this->actionFunc != BossGoma_FloorMain || this->timer == 0)) {
+    if (this->actionFunc != BossGoma_FloorStunned && this->actionFunc != BossGoma_FloorDamaged
+        && (this->actionFunc != BossGoma_FloorMain || this->timer == 0)) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 }

@@ -189,8 +189,8 @@ void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {
     if (this->dyna.actor.params != HAKA_TRAP_PROPELLER) {
         if (this->dyna.actor.params != HAKA_TRAP_GUILLOTINE_SLOW) {
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-            if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ||
-                (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
+            if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL)
+                || (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
                 Collider_DestroyTris(play, &this->colliderSpikes);
             }
         }
@@ -369,8 +369,8 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
         s32 bgId;
 
         yIntersect =
-            BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &vector) -
-            25.0f;
+            BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &vector)
+            - 25.0f;
         if (floorHeight < yIntersect) {
             floorHeight = yIntersect;
         }
@@ -434,8 +434,8 @@ void func_808809E4(BgHakaTrap* this, PlayState* play, s16 arg2) {
 
     func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.world.pos);
 
-    if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
-        (GET_PLAYER(play)->currentBoots != PLAYER_BOOTS_IRON)) {
+    if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f)
+        && (GET_PLAYER(play)->currentBoots != PLAYER_BOOTS_IRON)) {
         player->pushedSpeed = ((500.0f - sp18.z) * 0.06f + 5.0f) * arg2 * (1.0f / 0x3A00) * (2.0f / 3.0f);
         player->pushedYaw = this->dyna.actor.shape.rot.y;
     }

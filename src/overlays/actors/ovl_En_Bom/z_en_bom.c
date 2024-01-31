@@ -247,8 +247,8 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
     this->actionFunc(this, play);
 
     Actor_UpdateBgCheckInfo(play, thisx, 5.0f, 10.0f, 15.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
-                                UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2
+                                | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 
     if (thisx->params == BOMB_BODY) {
         if (this->timer < 63) {
@@ -267,8 +267,9 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
             func_8002829C(play, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
         }
 
-        if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
-                                                           (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
+        if ((this->bombCollider.base.acFlags & AC_HIT)
+            || ((this->bombCollider.base.ocFlags1 & OC1_HIT)
+                && (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
             this->timer = 0;
             thisx->shape.rot.z = 0;
         } else {

@@ -184,8 +184,8 @@ void func_809CD56C(EnButte* this) {
     static f32 D_809CE3E0[] = { 50.0f, 80.0f, 100.0f };
     static f32 D_809CE3EC[] = { 30.0f, 40.0f, 50.0f };
 
-    this->actor.shape.yOffset += Math_SinS(this->unk_25C) * D_809CE3E0[this->flightParamsIdx] +
-                                 Math_SinS(this->unk_25E) * D_809CE3EC[this->flightParamsIdx];
+    this->actor.shape.yOffset += Math_SinS(this->unk_25C) * D_809CE3E0[this->flightParamsIdx]
+                               + Math_SinS(this->unk_25E) * D_809CE3EC[this->flightParamsIdx];
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -2000.0f, 2000.0f);
 }
 
@@ -193,8 +193,8 @@ void func_809CD634(EnButte* this) {
     static f32 D_809CE3F8[] = { 15.0f, 20.0f, 25.0f };
     static f32 D_809CE404[] = { 7.5f, 10.0f, 12.5f };
 
-    this->actor.shape.yOffset += Math_SinS(this->unk_25C) * D_809CE3F8[this->flightParamsIdx] +
-                                 Math_SinS(this->unk_25E) * D_809CE404[this->flightParamsIdx];
+    this->actor.shape.yOffset += Math_SinS(this->unk_25C) * D_809CE3F8[this->flightParamsIdx]
+                               + Math_SinS(this->unk_25E) * D_809CE404[this->flightParamsIdx];
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -500.0f, 500.0f);
 }
 
@@ -259,8 +259,8 @@ void EnButte_FlyAround(EnButte* this, PlayState* play) {
 
     EnButte_Turn(this);
 
-    animSpeed = this->actor.speed / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
-                (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
+    animSpeed = this->actor.speed / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f
+              + (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
     this->skelAnime.playSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
     SkelAnime_Update(&this->skelAnime);
 
@@ -268,11 +268,12 @@ void EnButte_FlyAround(EnButte* this, PlayState* play) {
         EnButte_SelectFlightParams(this, &sFlyAroundParams[this->flightParamsIdx]);
     }
 
-    if (((this->actor.params & 1) == 1) && (player->heldItemAction == PLAYER_IA_DEKU_STICK) &&
-        (this->swordDownTimer <= 0) &&
-        ((Math3D_Dist2DSq(player->actor.world.pos.x, player->actor.world.pos.z, this->actor.home.pos.x,
-                          this->actor.home.pos.z) < SQ(120.0f)) ||
-         (this->actor.xzDistToPlayer < 60.0f))) {
+    if (((this->actor.params & 1) == 1) && (player->heldItemAction == PLAYER_IA_DEKU_STICK)
+        && (this->swordDownTimer <= 0)
+        && ((Math3D_Dist2DSq(player->actor.world.pos.x, player->actor.world.pos.z, this->actor.home.pos.x,
+                             this->actor.home.pos.z)
+             < SQ(120.0f))
+            || (this->actor.xzDistToPlayer < 60.0f))) {
         EnButte_SetupFollowLink(this);
         this->unk_257 = 2;
     } else if (this->actor.xzDistToPlayer < 120.0) {
@@ -322,8 +323,8 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
 
     EnButte_Turn(this);
 
-    animSpeed = this->actor.speed / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
-                (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
+    animSpeed = this->actor.speed / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f
+              + (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
     this->skelAnime.playSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
     SkelAnime_Update(&this->skelAnime);
 
@@ -334,8 +335,8 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
 
     distSqFromHome = Math3D_Dist2DSq(this->actor.world.pos.x, this->actor.world.pos.z, this->actor.home.pos.x,
                                      this->actor.home.pos.z);
-    if (!((player->heldItemAction == PLAYER_IA_DEKU_STICK) && (fabsf(player->actor.speed) < 1.8f) &&
-          (this->swordDownTimer <= 0) && (distSqFromHome < SQ(320.0f)))) {
+    if (!((player->heldItemAction == PLAYER_IA_DEKU_STICK) && (fabsf(player->actor.speed) < 1.8f)
+          && (this->swordDownTimer <= 0) && (distSqFromHome < SQ(320.0f)))) {
         EnButte_SetupFlyAround(this);
     } else if (distSqFromHome > SQ(240.0f)) {
         distSqFromSword = Math3D_Dist2DSq(player->meleeWeaponInfo[0].tip.x, player->meleeWeaponInfo[0].tip.z,

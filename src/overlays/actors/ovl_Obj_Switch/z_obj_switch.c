@@ -211,8 +211,8 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, PlayState* play, ColliderJntS
     Collider_InitJntSph(play, colliderJntSph);
     Collider_SetJntSph(play, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.items);
     Matrix_SetTranslateRotateYXZ(this->dyna.actor.world.pos.x,
-                                 this->dyna.actor.world.pos.y +
-                                     this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
+                                 this->dyna.actor.world.pos.y
+                                     + this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
                                  this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
     Matrix_Scale(this->dyna.actor.scale.x, this->dyna.actor.scale.y, this->dyna.actor.scale.z, MTXMODE_APPLY);
     Collider_UpdateSpheres(0, colliderJntSph);
@@ -401,8 +401,8 @@ void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
                 break;
 
             case OBJSWITCH_SUBTYPE_TOGGLE:
-                if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
-                    !(this->prevColFlags & DYNA_INTERACT_PLAYER_ON_TOP)) {
+                if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP)
+                    && !(this->prevColFlags & DYNA_INTERACT_PLAYER_ON_TOP)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
@@ -431,8 +431,8 @@ void ObjSwitch_FloorPressInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorPress(ObjSwitch* this, PlayState* play) {
-    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_HOLD_INVERTED || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
+    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_HOLD_INVERTED || !this->cooldownOn
+        || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y -= 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y <= 33.0f / 2000.0f) {
             ObjSwitch_FloorDownInit(this);
@@ -457,8 +457,8 @@ void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
-                !(this->prevColFlags & DYNA_INTERACT_PLAYER_ON_TOP)) {
+            if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP)
+                && !(this->prevColFlags & DYNA_INTERACT_PLAYER_ON_TOP)) {
                 ObjSwitch_FloorReleaseInit(this);
                 ObjSwitch_SetOff(this, play);
             }
@@ -490,8 +490,8 @@ void ObjSwitch_FloorReleaseInit(ObjSwitch* this) {
 void ObjSwitch_FloorRelease(ObjSwitch* this, PlayState* play) {
     s16 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
-    if (((subType != OBJSWITCH_SUBTYPE_TOGGLE) && (subType != OBJSWITCH_SUBTYPE_HOLD_INVERTED)) || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
+    if (((subType != OBJSWITCH_SUBTYPE_TOGGLE) && (subType != OBJSWITCH_SUBTYPE_HOLD_INVERTED)) || !this->cooldownOn
+        || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
 
         this->dyna.actor.scale.y += 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y >= 33.0f / 200.0f) {
@@ -590,8 +590,8 @@ void ObjSwitch_EyeOpeningInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeOpening(ObjSwitch* this, PlayState* play) {
-    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
+    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn
+        || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
 
         this->eyeTexIndex--;
         if (this->eyeTexIndex <= 0) {
@@ -620,8 +620,8 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_SYNC:
-            if (((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) ||
-                Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
+            if (((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0)
+                || Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
 
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
@@ -630,8 +630,8 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
-                this->disableAcTimer <= 0) {
+            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT)
+                && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
                 ObjSwitch_CrystalTurnOnInit(this);
@@ -674,8 +674,8 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
-                this->disableAcTimer <= 0) {
+            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT)
+                && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_CrystalTurnOffInit(this);
                 ObjSwitch_SetOff(this, play);
@@ -691,8 +691,8 @@ void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play) {
-    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
+    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn
+        || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOffInit(this);
         ObjSwitch_UpdateTwoTexScrollXY(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);

@@ -172,8 +172,8 @@ s32 func_808B8C90(BgSpot18Obj* this, PlayState* play) {
 }
 
 s32 func_808B8CC8(BgSpot18Obj* this, PlayState* play) {
-    if ((D_808B913C[this->dyna.actor.params & 0xF] != NULL) &&
-        (!D_808B913C[this->dyna.actor.params & 0xF](this, play))) {
+    if ((D_808B913C[this->dyna.actor.params & 0xF] != NULL)
+        && (!D_808B913C[this->dyna.actor.params & 0xF](this, play))) {
         return 0;
     }
     return 1;
@@ -251,7 +251,8 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
     func_808B8DDC(this, play);
 
     if (Math3D_Dist2DSq(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.x,
-                        this->dyna.actor.home.pos.z) >= SQ(80.0f)) {
+                        this->dyna.actor.home.pos.z)
+        >= SQ(80.0f)) {
         func_808B9030(this);
         this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;

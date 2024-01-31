@@ -274,10 +274,10 @@ void EnInsect_SlowDown(EnInsect* this, PlayState* play) {
         EnInsect_SetupCrawl(this);
     }
 
-    if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
-        ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
-         (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-         sDroppedCount >= 4)) {
+    if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0)
+        || ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED)
+            && (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+            && sDroppedCount >= 4)) {
         EnInsect_SetupDig(this);
     } else if ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         EnInsect_SetupWalkOnWater(this);
@@ -301,8 +301,8 @@ void EnInsect_Crawl(EnInsect* this, PlayState* play) {
 
     Math_SmoothStepToF(&this->actor.speed, 1.5f, 0.1f, 0.5f, 0.0f);
 
-    if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 1600.0f ||
-        (this->actionTimer < 4)) {
+    if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 1600.0f
+        || (this->actionTimer < 4)) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
     } else if (this->actor.child != NULL && &this->actor != this->actor.child) {
@@ -319,10 +319,10 @@ void EnInsect_Crawl(EnInsect* this, PlayState* play) {
         EnInsect_SetupSlowDown(this);
     }
 
-    if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
-        ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
-         (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-         sDroppedCount >= 4)) {
+    if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0)
+        || ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED)
+            && (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+            && sDroppedCount >= 4)) {
         EnInsect_SetupDig(this);
     } else if ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         EnInsect_SetupWalkOnWater(this);
@@ -446,8 +446,8 @@ void EnInsect_Dig(EnInsect* this, PlayState* play) {
     }
 
     if (this->actionTimer <= 0) {
-        if ((this->insectFlags & INSECT_FLAG_FOUND_SOIL) && this->soilActor != NULL &&
-            Math3D_Vec3fDistSq(&this->soilActor->actor.world.pos, &this->actor.world.pos) < SQ(8.0f)) {
+        if ((this->insectFlags & INSECT_FLAG_FOUND_SOIL) && this->soilActor != NULL
+            && Math3D_Vec3fDistSq(&this->soilActor->actor.world.pos, &this->actor.world.pos) < SQ(8.0f)) {
             this->soilActor->unk_152 = 1;
         }
         Actor_Kill(&this->actor);
@@ -506,9 +506,9 @@ void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
         EffectSsGRipple_Spawn(play, &ripplePoint, 40, 200, 8);
     }
 
-    if (this->actionTimer <= 0 || ((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
-        ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
-         (this->insectFlags & INSECT_FLAG_0) && sDroppedCount >= 4)) {
+    if (this->actionTimer <= 0 || ((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0)
+        || ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED)
+            && (this->insectFlags & INSECT_FLAG_0) && sDroppedCount >= 4)) {
         EnInsect_SetupDrown(this);
     } else if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         if (this->insectFlags & INSECT_FLAG_FOUND_SOIL) {
@@ -662,18 +662,18 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    if (!(this->insectFlags & INSECT_FLAG_DROPPED_HAS_LANDED) && (this->insectFlags & INSECT_FLAG_0) &&
-        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if (!(this->insectFlags & INSECT_FLAG_DROPPED_HAS_LANDED) && (this->insectFlags & INSECT_FLAG_0)
+        && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_MUSI_LAND);
         this->insectFlags |= INSECT_FLAG_DROPPED_HAS_LANDED;
     }
 
-    if (type == INSECT_TYPE_FIRST_DROPPED && (this->insectFlags & INSECT_FLAG_FOUND_SOIL) &&
-        !(this->insectFlags & INSECT_FLAG_7)) {
+    if (type == INSECT_TYPE_FIRST_DROPPED && (this->insectFlags & INSECT_FLAG_FOUND_SOIL)
+        && !(this->insectFlags & INSECT_FLAG_7)) {
         if (this->unk_32A >= 15) {
             if (this->soilActor != NULL) {
-                if (!(GET_GS_FLAGS(((this->soilActor->actor.params >> 8) & 0x1F) - 1) &
-                      (this->soilActor->actor.params & 0xFF))) {
+                if (!(GET_GS_FLAGS(((this->soilActor->actor.params >> 8) & 0x1F) - 1)
+                      & (this->soilActor->actor.params & 0xFF))) {
                     Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
@@ -688,9 +688,10 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
     } else if (this->insectFlags & INSECT_FLAG_FOUND_SOIL) {
         if (distanceSq < SQ(3.0f)) {
             EnInsect_SetupDig(this);
-        } else if (this->actionTimer <= 0 || this->lifeTimer <= 0 ||
-                   ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-                    sDroppedCount >= 4 && (type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED))) {
+        } else if (this->actionTimer <= 0 || this->lifeTimer <= 0
+                   || ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+                       && sDroppedCount >= 4
+                       && (type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED))) {
             EnInsect_SetupDig(this);
         } else {
             if (distanceSq < SQ(30.0f)) {
@@ -702,9 +703,9 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
         }
     } else if (sp50 != 0) {
         EnInsect_SetupSlowDown(this);
-    } else if ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
-               (this->insectFlags & INSECT_FLAG_0) && this->lifeTimer <= 0 && this->actionTimer <= 0 &&
-               this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
+    } else if ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED)
+               && (this->insectFlags & INSECT_FLAG_0) && this->lifeTimer <= 0 && this->actionTimer <= 0
+               && this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
         PRINTF(VT_COL(YELLOW, BLACK));
         // "BG missing? To do Actor_delete"
         PRINTF("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_mushi.c", 1197);
@@ -776,8 +777,8 @@ void EnInsect_Update(Actor* thisx, PlayState* play) {
                 CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             }
 
-            if (!(this->insectFlags & INSECT_FLAG_UNCATCHABLE) && sCaughtCount < 4 &&
-                EnInsect_InBottleRange(this, play) &&
+            if (!(this->insectFlags & INSECT_FLAG_UNCATCHABLE) && sCaughtCount < 4 && EnInsect_InBottleRange(this, play)
+                &&
                 // GI_MAX in this case allows the player to catch the actor in a bottle
                 Actor_OfferGetItem(&this->actor, play, GI_MAX, 60.0f, 30.0f)) {
                 sCaughtCount++;

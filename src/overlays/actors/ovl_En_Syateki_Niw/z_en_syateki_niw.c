@@ -228,8 +228,8 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
     f32 posXDiff;
     s16 animationType;
 
-    if (this->isFalling && (this->minigameType == SYATEKI_MINIGAME_ARCHERY) &&
-        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if (this->isFalling && (this->minigameType == SYATEKI_MINIGAME_ARCHERY)
+        && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->isFalling = false;
         this->actionFunc = EnSyatekiNiw_SetupArchery;
         return;
@@ -474,8 +474,8 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->actor.world.rot.y,
                        RAD_TO_BINANG(Math_FAtan2F(player->actor.world.pos.x - this->actor.world.pos.x,
-                                                  player->actor.world.pos.z - this->actor.world.pos.z)) +
-                           rotYTargetOffset,
+                                                  player->actor.world.pos.z - this->actor.world.pos.z))
+                           + rotYTargetOffset,
                        5, this->posRotStep.y, 0);
     Math_ApproachF(&this->posRotStep.y, 3000.0f, 1.0f, 500.0f);
     if (this->archeryAnimationType == 2) {
@@ -497,8 +497,8 @@ void EnSyatekiNiw_SetupRemove(EnSyatekiNiw* this, PlayState* play) {
 
     Actor_SetFocus(&this->actor, this->focusYOffset);
     Actor_GetScreenPos(play, &this->actor, &screenX, &screenY);
-    if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (screenX > 0) &&
-        (screenX < SCREEN_WIDTH) && (screenY > 0) && (screenY < SCREEN_HEIGHT)) {
+    if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (screenX > 0)
+        && (screenX < SCREEN_WIDTH) && (screenY > 0) && (screenY < SCREEN_HEIGHT)) {
         this->actor.speed = 5.0f;
         this->rotYFlip = Rand_ZeroFloat(1.99f);
         this->removeStateYaw = Rand_CenteredFloat(8000.0f) + -10000.0f;
@@ -517,8 +517,8 @@ void EnSyatekiNiw_Remove(EnSyatekiNiw* this, PlayState* play) {
 
     Actor_SetFocus(&this->actor, this->focusYOffset);
     Actor_GetScreenPos(play, &this->actor, &screenX, &screenY);
-    if ((this->movementTimer == 0) || (this->actor.projectedPos.z < -70.0f) || (screenX < 0) ||
-        (screenX > SCREEN_WIDTH) || (screenY < 0) || (screenY > SCREEN_HEIGHT)) {
+    if ((this->movementTimer == 0) || (this->actor.projectedPos.z < -70.0f) || (screenX < 0) || (screenX > SCREEN_WIDTH)
+        || (screenY < 0) || (screenY > SCREEN_HEIGHT)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -617,8 +617,8 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 60.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
 
     if (this->spawnFeathers) {
         for (i = 0; i < 20; i++) {

@@ -126,8 +126,8 @@ void Sched_HandlePreNMI(Scheduler* sc) {
             // audio and jpeg tasks end up in here
             LOG_TIME("(((u64)(now - audio_rsp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
                      OS_CYCLES_TO_USEC(now - sRSPAudioTimeStart), "../sched.c", 421);
-        } else if (OS_CYCLES_TO_USEC(now - sRSPGfxTimeStart) > 1000000 ||
-                   OS_CYCLES_TO_USEC(now - sRDPTimeStart) > 1000000) {
+        } else if (OS_CYCLES_TO_USEC(now - sRSPGfxTimeStart) > 1000000
+                   || OS_CYCLES_TO_USEC(now - sRDPTimeStart) > 1000000) {
             // More than 1 second since the RSP or RDP tasks began, halt the RSP and RDP
             RcpUtils_Reset();
             // Manually send RSP/RDP done messages to the scheduler interrupt queue if appropriate

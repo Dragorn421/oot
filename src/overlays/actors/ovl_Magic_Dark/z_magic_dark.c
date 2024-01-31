@@ -263,11 +263,11 @@ void MagicDark_OrbDraw(Actor* thisx, PlayState* play) {
         return;
     }
 
-    pos.x -= (this->actor.scale.x * 300.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))) *
-              Math_CosS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play))));
+    pos.x -= (this->actor.scale.x * 300.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)))
+              * Math_CosS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play))));
     pos.y -= (this->actor.scale.x * 300.0f * Math_SinS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play))));
-    pos.z -= (this->actor.scale.x * 300.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))) *
-              Math_CosS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play))));
+    pos.z -= (this->actor.scale.x * 300.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)))
+              * Math_CosS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play))));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_magic_dark.c", 619);
 

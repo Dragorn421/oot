@@ -365,20 +365,20 @@ void EnItem00_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_8001DFC8(EnItem00* this, PlayState* play) {
-    if ((this->actor.params <= ITEM00_RUPEE_RED) ||
-        ((this->actor.params == ITEM00_RECOVERY_HEART) && (this->despawnTimer < 0)) ||
-        (this->actor.params == ITEM00_HEART_PIECE)) {
+    if ((this->actor.params <= ITEM00_RUPEE_RED)
+        || ((this->actor.params == ITEM00_RECOVERY_HEART) && (this->despawnTimer < 0))
+        || (this->actor.params == ITEM00_HEART_PIECE)) {
         this->actor.shape.rot.y += 960;
     } else {
         if ((this->actor.params >= ITEM00_SHIELD_DEKU) && (this->actor.params != ITEM00_BOMBS_SPECIAL)) {
             if (this->despawnTimer == -1) {
-                if (Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x - 0x4000, 2, 3000, 1500) ==
-                    0) {
+                if (Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x - 0x4000, 2, 3000, 1500)
+                    == 0) {
                     this->despawnTimer = -2;
                 }
             } else {
-                if (Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x - 0x4000, 2, 3000, 1500) ==
-                    0) {
+                if (Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x - 0x4000, 2, 3000, 1500)
+                    == 0) {
                     this->despawnTimer = -1;
                 }
             }
@@ -393,15 +393,15 @@ void func_8001DFC8(EnItem00* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
 
     if (this->unk_154 == 0) {
-        if ((this->actor.params != ITEM00_SMALL_KEY) && (this->actor.params != ITEM00_HEART_PIECE) &&
-            (this->actor.params != ITEM00_HEART_CONTAINER)) {
+        if ((this->actor.params != ITEM00_SMALL_KEY) && (this->actor.params != ITEM00_HEART_PIECE)
+            && (this->actor.params != ITEM00_HEART_CONTAINER)) {
             this->unk_154 = -1;
         }
     }
 
     if (this->despawnTimer == 0) {
-        if ((this->actor.params != ITEM00_SMALL_KEY) && (this->actor.params != ITEM00_HEART_PIECE) &&
-            (this->actor.params != ITEM00_HEART_CONTAINER)) {
+        if ((this->actor.params != ITEM00_SMALL_KEY) && (this->actor.params != ITEM00_HEART_PIECE)
+            && (this->actor.params != ITEM00_HEART_CONTAINER)) {
             Actor_Kill(&this->actor);
         }
     }
@@ -563,9 +563,9 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
                     if (play->colCtx.dyna.bgActorFlags[i] & BGACTOR_IN_USE) {
                         dynaActor = play->colCtx.dyna.bgActors[i].actor;
                         if ((dynaActor != NULL) && (dynaActor->update != NULL)) {
-                            if ((dynaActor->world.pos.x != dynaActor->prevPos.x) ||
-                                (dynaActor->world.pos.y != dynaActor->prevPos.y) ||
-                                (dynaActor->world.pos.z != dynaActor->prevPos.z)) {
+                            if ((dynaActor->world.pos.x != dynaActor->prevPos.x)
+                                || (dynaActor->world.pos.y != dynaActor->prevPos.y)
+                                || (dynaActor->world.pos.z != dynaActor->prevPos.z)) {
                                 D_80157D94[0]++;
                                 break;
                             }
@@ -581,8 +581,8 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
 
         if (sp3A || D_80157D94[0]) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 15.0f, 15.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                        UPDBGCHECKINFO_FLAG_4);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                        | UPDBGCHECKINFO_FLAG_4);
 
             if (this->actor.floorHeight <= -10000.0f) {
                 Actor_Kill(&this->actor);
@@ -594,8 +594,8 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 
-    if ((this->actor.params == ITEM00_SHIELD_DEKU) || (this->actor.params == ITEM00_SHIELD_HYLIAN) ||
-        (this->actor.params == ITEM00_TUNIC_ZORA) || (this->actor.params == ITEM00_TUNIC_GORON)) {
+    if ((this->actor.params == ITEM00_SHIELD_DEKU) || (this->actor.params == ITEM00_SHIELD_HYLIAN)
+        || (this->actor.params == ITEM00_TUNIC_ZORA) || (this->actor.params == ITEM00_TUNIC_GORON)) {
         this->actor.shape.yOffset = Math_CosS(this->actor.shape.rot.x) * 37.0f;
         this->actor.shape.yOffset = ABS(this->actor.shape.yOffset);
     }
@@ -604,8 +604,8 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
         return;
     }
 
-    if (!((this->actor.xzDistToPlayer <= 30.0f) && (this->actor.yDistToPlayer >= -50.0f) &&
-          (this->actor.yDistToPlayer <= 50.0f))) {
+    if (!((this->actor.xzDistToPlayer <= 30.0f) && (this->actor.yDistToPlayer >= -50.0f)
+          && (this->actor.yDistToPlayer <= 50.0f))) {
         if (!Actor_HasParent(&this->actor, play)) {
             return;
         }
@@ -921,18 +921,18 @@ s16 func_8001F404(s16 dropId) {
     }
 
     // This is convoluted but it seems like it must be a single condition to match
-    if (((dropId == ITEM00_BOMBS_A || dropId == ITEM00_BOMBS_SPECIAL || dropId == ITEM00_BOMBS_B) &&
-         INV_CONTENT(ITEM_BOMB) == ITEM_NONE) ||
-        ((dropId == ITEM00_ARROWS_SMALL || dropId == ITEM00_ARROWS_MEDIUM || dropId == ITEM00_ARROWS_LARGE) &&
-         INV_CONTENT(ITEM_BOW) == ITEM_NONE) ||
-        ((dropId == ITEM00_MAGIC_LARGE || dropId == ITEM00_MAGIC_SMALL) &&
-         gSaveContext.save.info.playerData.magicLevel == 0) ||
-        ((dropId == ITEM00_SEEDS) && INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE)) {
+    if (((dropId == ITEM00_BOMBS_A || dropId == ITEM00_BOMBS_SPECIAL || dropId == ITEM00_BOMBS_B)
+         && INV_CONTENT(ITEM_BOMB) == ITEM_NONE)
+        || ((dropId == ITEM00_ARROWS_SMALL || dropId == ITEM00_ARROWS_MEDIUM || dropId == ITEM00_ARROWS_LARGE)
+            && INV_CONTENT(ITEM_BOW) == ITEM_NONE)
+        || ((dropId == ITEM00_MAGIC_LARGE || dropId == ITEM00_MAGIC_SMALL)
+            && gSaveContext.save.info.playerData.magicLevel == 0)
+        || ((dropId == ITEM00_SEEDS) && INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE)) {
         return -1;
     }
 
-    if (dropId == ITEM00_RECOVERY_HEART &&
-        gSaveContext.save.info.playerData.healthCapacity == gSaveContext.save.info.playerData.health) {
+    if (dropId == ITEM00_RECOVERY_HEART
+        && gSaveContext.save.info.playerData.healthCapacity == gSaveContext.save.info.playerData.health) {
         return ITEM00_RUPEE_GREEN;
     }
 
@@ -972,9 +972,9 @@ EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params) {
                 Actor_SetScale(&spawnedActor->actor, 0.0f);
                 EnItem00_SetupAction(spawnedActor, func_8001E304);
                 spawnedActor->despawnTimer = 220;
-                if ((spawnedActor->actor.params != ITEM00_SMALL_KEY) &&
-                    (spawnedActor->actor.params != ITEM00_HEART_PIECE) &&
-                    (spawnedActor->actor.params != ITEM00_HEART_CONTAINER)) {
+                if ((spawnedActor->actor.params != ITEM00_SMALL_KEY)
+                    && (spawnedActor->actor.params != ITEM00_HEART_PIECE)
+                    && (spawnedActor->actor.params != ITEM00_HEART_CONTAINER)) {
                     spawnedActor->actor.room = -1;
                 }
                 spawnedActor->actor.flags |= ACTOR_FLAG_4;
@@ -1077,13 +1077,14 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_RECOVERY_HEART;
-        } else if ((gSaveContext.save.info.playerData.magicLevel != 0) &&
-                   (gSaveContext.save.info.playerData.magic == 0)) { // Empty magic meter
+        } else if ((gSaveContext.save.info.playerData.magicLevel != 0)
+                   && (gSaveContext.save.info.playerData.magic == 0)) { // Empty magic meter
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_LARGE;
-        } else if ((gSaveContext.save.info.playerData.magicLevel != 0) &&
-                   (gSaveContext.save.info.playerData.magic <= (gSaveContext.save.info.playerData.magicLevel >> 1))) {
+        } else if ((gSaveContext.save.info.playerData.magicLevel != 0)
+                   && (gSaveContext.save.info.playerData.magic
+                       <= (gSaveContext.save.info.playerData.magicLevel >> 1))) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_SMALL;
@@ -1124,9 +1125,9 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
                         Actor_SetScale(&spawnedActor->actor, 0.0f);
                         EnItem00_SetupAction(spawnedActor, func_8001E304);
                         spawnedActor->actor.flags |= ACTOR_FLAG_4;
-                        if ((spawnedActor->actor.params != ITEM00_SMALL_KEY) &&
-                            (spawnedActor->actor.params != ITEM00_HEART_PIECE) &&
-                            (spawnedActor->actor.params != ITEM00_HEART_CONTAINER)) {
+                        if ((spawnedActor->actor.params != ITEM00_SMALL_KEY)
+                            && (spawnedActor->actor.params != ITEM00_HEART_PIECE)
+                            && (spawnedActor->actor.params != ITEM00_HEART_CONTAINER)) {
                             spawnedActor->actor.room = -1;
                         }
                         spawnedActor->despawnTimer = 220;

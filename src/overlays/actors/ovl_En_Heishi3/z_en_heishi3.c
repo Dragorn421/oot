@@ -127,8 +127,8 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, PlayState* play) {
             sightRange = 100.0f;
         }
     }
-    if ((this->actor.xzDistToPlayer < sightRange) &&
-        (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) && (sPlayerCaught == 0)) {
+    if ((this->actor.xzDistToPlayer < sightRange)
+        && (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) && (sPlayerCaught == 0)) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
@@ -145,9 +145,9 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     SkelAnime_Update(&this->skelAnime);
-    if ((player->actor.world.pos.x < -190.0f) && (player->actor.world.pos.x > -380.0f) &&
-        (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) &&
-        (player->actor.world.pos.z < 1020.0f) && (player->actor.world.pos.z > 700.0f) && (sPlayerCaught == 0)) {
+    if ((player->actor.world.pos.x < -190.0f) && (player->actor.world.pos.x > -380.0f)
+        && (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f)
+        && (player->actor.world.pos.z < 1020.0f) && (player->actor.world.pos.z > 700.0f) && (sPlayerCaught == 0)) {
         if (this->unk_278 == 1) {
             if (player->actor.world.pos.x < -290.0f) {
                 return;
@@ -199,8 +199,8 @@ void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, PlayState* play) {
 // This function initiates the respawn after the player gets caught.
 void func_80A55D00(EnHeishi3* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play) &&
-        (this->respawnFlag == 0)) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)
+        && (this->respawnFlag == 0)) {
         SET_EVENTCHKINF(EVENTCHKINF_4E);
         play->nextEntranceIndex = ENTR_HYRULE_CASTLE_4;
         play->transitionTrigger = TRANS_TRIGGER_START;

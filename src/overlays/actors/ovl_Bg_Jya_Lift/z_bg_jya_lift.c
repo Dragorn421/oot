@@ -137,9 +137,8 @@ void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
     }
     if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && !(this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE)) {
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
-    } else if (!(this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) &&
-               (this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE) &&
-               (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
+    } else if (!(this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && (this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE)
+               && (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
     this->unk_16B = this->dyna.interactFlags;

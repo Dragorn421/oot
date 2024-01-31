@@ -120,8 +120,8 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.parent;
 
     if (Player_HoldsHookshot(player)) {
-        if ((player->itemAction != player->heldItemAction) || (player->actor.flags & ACTOR_FLAG_TALK) ||
-            ((player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))) {
+        if ((player->itemAction != player->heldItemAction) || (player->actor.flags & ACTOR_FLAG_TALK)
+            || ((player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))) {
             this->timer = 0;
             ArmsHook_DetachHookFromActor(this);
             Math_Vec3f_Copy(&this->actor.world.pos, &player->unk_3C8);
@@ -168,8 +168,8 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
     func_8002F8F0(&player->actor, NA_SE_IT_HOOKSHOT_CHAIN - SFX_FLAG);
     ArmsHook_CheckForCancel(this);
 
-    if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
-        (this->collider.elem.atHitElem->elemType != ELEMTYPE_UNK4)) {
+    if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT)
+        && (this->collider.elem.atHitElem->elemType != ELEMTYPE_UNK4)) {
         touchedActor = this->collider.base.at;
         if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
             if (this->collider.elem.atHitElem->bumperFlags & BUMP_HOOKABLE) {
@@ -258,8 +258,8 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         sp60.y = this->unk_1F4.y - (this->unk_1E8.y - this->unk_1F4.y);
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
         if (BgCheck_EntityLineTest1(&play->colCtx, &sp60, &this->unk_1E8, &intersectPos, &poly, true, true, true, true,
-                                    &bgId) &&
-            !func_8002F9EC(play, &this->actor, poly, bgId, &intersectPos)) {
+                                    &bgId)
+            && !func_8002F9EC(play, &this->actor, poly, bgId, &intersectPos)) {
             polyNormalX = COLPOLY_GET_NORMAL(poly->normal.x);
             polyNormalZ = COLPOLY_GET_NORMAL(poly->normal.z);
             Math_Vec3f_Copy(&this->actor.world.pos, &intersectPos);

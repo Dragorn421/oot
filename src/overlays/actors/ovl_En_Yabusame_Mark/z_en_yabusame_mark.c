@@ -146,15 +146,15 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play) {
         distanceFromCenter.y = fabsf(sTargetPos[this->subTypeIndex].y - arrowHitPos.y);
         distanceFromCenter.z = fabsf(sTargetPos[this->subTypeIndex].z - arrowHitPos.z);
 
-        if (distanceFromCenter.x > scoreDistance100 || distanceFromCenter.y > scoreDistance100 ||
-            distanceFromCenter.z > scoreDistance100) {
+        if (distanceFromCenter.x > scoreDistance100 || distanceFromCenter.y > scoreDistance100
+            || distanceFromCenter.z > scoreDistance100) {
             scoreIndex = 1;
-            if (distanceFromCenter.x > scoreDistance60 || distanceFromCenter.y > scoreDistance60 ||
-                distanceFromCenter.z > scoreDistance60) {
+            if (distanceFromCenter.x > scoreDistance60 || distanceFromCenter.y > scoreDistance60
+                || distanceFromCenter.z > scoreDistance60) {
                 scoreIndex = 0;
             }
-            if (distanceFromCenter.x > scoreDistance30 || distanceFromCenter.y > scoreDistance30 ||
-                distanceFromCenter.z > scoreDistance30) {
+            if (distanceFromCenter.x > scoreDistance30 || distanceFromCenter.y > scoreDistance30
+                || distanceFromCenter.z > scoreDistance30) {
                 return;
             }
         }

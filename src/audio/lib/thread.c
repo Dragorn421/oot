@@ -59,8 +59,8 @@ AudioTask* func_800E5000(void) {
             D_801755D0();
         }
 
-        if ((gAudioCtx.totalTaskCount % gAudioCtx.audioBufferParameters.specUnk4) + 1 ==
-            gAudioCtx.audioBufferParameters.specUnk4) {
+        if ((gAudioCtx.totalTaskCount % gAudioCtx.audioBufferParameters.specUnk4) + 1
+            == gAudioCtx.audioBufferParameters.specUnk4) {
             return sWaitingAudioTask;
         } else {
             return NULL;
@@ -136,10 +136,10 @@ AudioTask* func_800E5000(void) {
     curAiBuffer = gAudioCtx.aiBuffers[index];
 
     gAudioCtx.aiBufLengths[index] =
-        (s16)((((gAudioCtx.audioBufferParameters.samplesPerFrameTarget - samplesRemainingInAi) +
-                EXTRA_BUFFERED_AI_SAMPLES_TARGET) &
-               ~0xF) +
-              SAMPLES_TO_OVERPRODUCE);
+        (s16)((((gAudioCtx.audioBufferParameters.samplesPerFrameTarget - samplesRemainingInAi)
+                + EXTRA_BUFFERED_AI_SAMPLES_TARGET)
+               & ~0xF)
+              + SAMPLES_TO_OVERPRODUCE);
     if (gAudioCtx.aiBufLengths[index] < gAudioCtx.audioBufferParameters.minAiBufferLength) {
         gAudioCtx.aiBufLengths[index] = gAudioCtx.audioBufferParameters.minAiBufferLength;
     }

@@ -324,8 +324,8 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
         this->timer--;
     }
 
-    if ((!this->bumpOn) && (!Actor_HasParent(thisx, play)) &&
-        ((thisx->xzDistToPlayer >= 20.0f) || (ABS(thisx->yDistToPlayer) >= 80.0f))) {
+    if ((!this->bumpOn) && (!Actor_HasParent(thisx, play))
+        && ((thisx->xzDistToPlayer >= 20.0f) || (ABS(thisx->yDistToPlayer) >= 80.0f))) {
         this->bumpOn = true;
     }
 
@@ -338,8 +338,8 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
     if (thisx->gravity != 0.0f) {
         DREG(6) = 1;
         Actor_UpdateBgCheckInfo(play, thisx, 5.0f, 10.0f, 0.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
-                                    UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2
+                                    | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
         DREG(6) = 0;
     }
 
@@ -360,15 +360,16 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
             Actor_MoveXZGravity(thisx);
             DREG(6) = 1;
             Actor_UpdateBgCheckInfo(play, thisx, 5.0f, 10.0f, 0.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
-                                        UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2
+                                        | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
             DREG(6) = 0;
             thisx->speed *= 0.7f;
             thisx->bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
 
-        if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
-                                                           (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
+        if ((this->bombCollider.base.acFlags & AC_HIT)
+            || ((this->bombCollider.base.ocFlags1 & OC1_HIT)
+                && (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
             this->isFuseEnabled = true;
             this->timer = 0;
         } else {

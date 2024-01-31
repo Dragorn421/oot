@@ -952,8 +952,8 @@ void EnSkj_WaitForSong(EnSkj* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     // Played a song thats not Saria's song
-    if (!GET_ITEMGETINF(ITEMGETINF_16) &&
-        ((play->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) || (play->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
+    if (!GET_ITEMGETINF(ITEMGETINF_16)
+        && ((play->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) || (play->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         Message_CloseTextbox(play);
         player->unk_6A8 = &this->actor;
@@ -1570,8 +1570,8 @@ void EnSkj_CleanupOcarinaGame(EnSkj* this, PlayState* play) {
         sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk_0 = 2;
     }
 
-    if ((sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk_0 == 2) &&
-        (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk_0 == 2)) {
+    if ((sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk_0 == 2)
+        && (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk_0 == 2)) {
         func_800F5C2C();
         Actor_Kill(&this->actor);
     }

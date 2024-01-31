@@ -155,8 +155,8 @@ void FaultDrawer_DrawChar(char c) {
     dataPtr = &fontData[0][(((c / 8) * 16) + ((c & 4) >> 2))];
     fb = sFaultDrawer.fb + (sFaultDrawer.w * cursorY) + cursorX;
 
-    if ((sFaultDrawer.xStart <= cursorX) && ((sFaultDrawer.charW + cursorX - 1) <= sFaultDrawer.xEnd) &&
-        (sFaultDrawer.yStart <= cursorY) && ((sFaultDrawer.charH + cursorY - 1) <= sFaultDrawer.yEnd)) {
+    if ((sFaultDrawer.xStart <= cursorX) && ((sFaultDrawer.charW + cursorX - 1) <= sFaultDrawer.xEnd)
+        && (sFaultDrawer.yStart <= cursorY) && ((sFaultDrawer.charH + cursorY - 1) <= sFaultDrawer.yEnd)) {
         for (y = 0; y < sFaultDrawer.charH; y++) {
             u32 mask = 0x10000000 << shift;
 

@@ -185,8 +185,8 @@ void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx) {
             gSaveContext.cutsceneTrigger = 1;
         }
 
-        if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER &&
-            !gDebugCamEnabled) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER
+            && !gDebugCamEnabled) {
             gUseCutsceneCam = true;
             gSaveContext.save.cutsceneIndex = 0xFFFD;
             gSaveContext.cutsceneTrigger = 1;
@@ -243,8 +243,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
     f32 lerp;
     u8 isFirstFrame = false;
 
-    if (!((csCtx->curFrame >= cmd->startFrame) &&
-          ((csCtx->curFrame < cmd->endFrame) || (cmd->endFrame == cmd->startFrame)))) {
+    if (!((csCtx->curFrame >= cmd->startFrame)
+          && ((csCtx->curFrame < cmd->endFrame) || (cmd->endFrame == cmd->startFrame)))) {
         return;
     }
 
@@ -428,11 +428,11 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
 
         case CS_MISC_SET_TIME_BASED_LIGHT_SETTING:
             if ((gSaveContext.save.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.save.dayTime >= CLOCK_TIME(6, 30))) {
-                if ((gSaveContext.save.dayTime >= CLOCK_TIME(6, 30)) &&
-                    (gSaveContext.save.dayTime < CLOCK_TIME(16, 0))) {
+                if ((gSaveContext.save.dayTime >= CLOCK_TIME(6, 30))
+                    && (gSaveContext.save.dayTime < CLOCK_TIME(16, 0))) {
                     play->envCtx.lightSettingOverride = 1;
-                } else if ((gSaveContext.save.dayTime >= CLOCK_TIME(16, 0)) &&
-                           (gSaveContext.save.dayTime <= CLOCK_TIME(18, 30))) {
+                } else if ((gSaveContext.save.dayTime >= CLOCK_TIME(16, 0))
+                           && (gSaveContext.save.dayTime <= CLOCK_TIME(18, 30))) {
                     play->envCtx.lightSettingOverride = 2;
                 } else {
                     play->envCtx.lightSettingOverride = 3;
@@ -556,20 +556,20 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
     Player* player = GET_PLAYER(play);
     s32 titleDemoSkipped = false;
 
-    if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS) &&
-        (play->sceneId != SCENE_HYRULE_FIELD) && (csCtx->curFrame > 20) &&
-        (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) ||
-         CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B) ||
-         CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)) &&
-        (gSaveContext.fileNum != 0xFEDC) && (play->transitionTrigger == TRANS_TRIGGER_OFF)) {
+    if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS)
+        && (play->sceneId != SCENE_HYRULE_FIELD) && (csCtx->curFrame > 20)
+        && (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A)
+            || CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B)
+            || CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START))
+        && (gSaveContext.fileNum != 0xFEDC) && (play->transitionTrigger == TRANS_TRIGGER_OFF)) {
         Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         titleDemoSkipped = true;
     }
 
-    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped ||
-        (OOT_DEBUG && (csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
-         (gSaveContext.fileNum != 0xFEDC))) {
+    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped
+        || (OOT_DEBUG && (csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)
+            && (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_RUN_UNSTOPPABLE;
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
@@ -1173,8 +1173,8 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 // all 3 are restored. This cutscene destination sends the player to the correct blue warp destination,
                 // unless all 3 dungeons have been cleared. In that case, the destination is the Temple of Time which
                 // plays a cutscene where the door opens.
-                if (GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
-                    GET_EVENTCHKINF(EVENTCHKINF_4A)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49)
+                    && GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                     play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_0;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.save.cutsceneIndex = 0xFFF3;
@@ -1351,9 +1351,9 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL:
-                if (Flags_GetEventChkInf(EVENTCHKINF_BB) && Flags_GetEventChkInf(EVENTCHKINF_BC) &&
-                    Flags_GetEventChkInf(EVENTCHKINF_BD) && Flags_GetEventChkInf(EVENTCHKINF_BE) &&
-                    Flags_GetEventChkInf(EVENTCHKINF_BF) && Flags_GetEventChkInf(EVENTCHKINF_AD)) {
+                if (Flags_GetEventChkInf(EVENTCHKINF_BB) && Flags_GetEventChkInf(EVENTCHKINF_BC)
+                    && Flags_GetEventChkInf(EVENTCHKINF_BD) && Flags_GetEventChkInf(EVENTCHKINF_BE)
+                    && Flags_GetEventChkInf(EVENTCHKINF_BF) && Flags_GetEventChkInf(EVENTCHKINF_AD)) {
                     play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
                     play->csCtx.curFrame = 0;
                     gSaveContext.cutsceneTrigger = 1;
@@ -1440,10 +1440,10 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
                     if ((lerp == 0.0f) && (gSaveContext.save.entranceIndex == ENTR_CHAMBER_OF_THE_SAGES_0)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    } else if ((lerp == 0.0f) &&
-                               ((gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) ||
-                                (gSaveContext.save.entranceIndex == ENTR_HYRULE_CASTLE_0) ||
-                                (gSaveContext.save.entranceIndex == ENTR_GREAT_FAIRYS_FOUNTAIN_SPELLS_0))) {
+                    } else if ((lerp == 0.0f)
+                               && ((gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0)
+                                   || (gSaveContext.save.entranceIndex == ENTR_HYRULE_CASTLE_0)
+                                   || (gSaveContext.save.entranceIndex == ENTR_GREAT_FAIRYS_FOUNTAIN_SPELLS_0))) {
                         Audio_PlaySfxGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else if ((lerp == 0.0f) && (play->sceneId == SCENE_INSIDE_GANONS_CASTLE)) {
@@ -1532,9 +1532,9 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
     script += sizeof(CsCmdCam);
     size = sizeof(CsCmdCam);
 
-    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((cmd->startFrame > csCtx->camEyeSplinePointsAppliedFrame) ||
-         (csCtx->camEyeSplinePointsAppliedFrame >= 0xF000))) {
+    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame)
+        && ((cmd->startFrame > csCtx->camEyeSplinePointsAppliedFrame)
+            || (csCtx->camEyeSplinePointsAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)script;
 
@@ -1572,8 +1572,8 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
     script += sizeof(CsCmdCam);
     size = sizeof(CsCmdCam);
 
-    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((cmd->startFrame > gCamAtSplinePointsAppliedFrame) || (gCamAtSplinePointsAppliedFrame >= 0xF000))) {
+    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame)
+        && ((cmd->startFrame > gCamAtSplinePointsAppliedFrame) || (gCamAtSplinePointsAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
         csCtx->camAtPoints = (CutsceneCameraPoint*)script;
 
@@ -1614,8 +1614,8 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u
     script += sizeof(CsCmdCam);
     size = sizeof(CsCmdCam);
 
-    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((cmd->startFrame > gCamEyePointAppliedFrame) || (gCamEyePointAppliedFrame >= 0xF000))) {
+    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame)
+        && ((cmd->startFrame > gCamEyePointAppliedFrame) || (gCamEyePointAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)script;
 
@@ -1662,8 +1662,8 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
     script += sizeof(CsCmdCam);
     size = sizeof(CsCmdCam);
 
-    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((cmd->startFrame > gCamAtPointAppliedFrame) || (gCamAtPointAppliedFrame >= 0xF000))) {
+    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame)
+        && ((cmd->startFrame > gCamAtPointAppliedFrame) || (gCamAtPointAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
         csCtx->camAtPoints = (CutsceneCameraPoint*)script;
 
@@ -1727,8 +1727,8 @@ void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdText* cmd) {
             endFrame = csCtx->curFrame;
             dialogState = Message_GetState(&play->msgCtx);
 
-            if ((dialogState != TEXT_STATE_CLOSING) && (dialogState != TEXT_STATE_NONE) &&
-                (dialogState != TEXT_STATE_SONG_DEMO_DONE) && (dialogState != TEXT_STATE_8)) {
+            if ((dialogState != TEXT_STATE_CLOSING) && (dialogState != TEXT_STATE_NONE)
+                && (dialogState != TEXT_STATE_SONG_DEMO_DONE) && (dialogState != TEXT_STATE_8)) {
                 csCtx->curFrame--;
 
                 if ((dialogState == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
@@ -1884,8 +1884,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->playerCue = (void*)script;
                     }
 
@@ -1917,8 +1917,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[0] = (void*)script;
                     }
 
@@ -1950,8 +1950,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[1] = (void*)script;
                     }
 
@@ -1979,8 +1979,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[2] = (void*)script;
                     }
 
@@ -2007,8 +2007,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[3] = (void*)script;
                     }
 
@@ -2031,8 +2031,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[4] = (void*)script;
                     }
 
@@ -2053,8 +2053,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[5] = (void*)script;
                     }
 
@@ -2076,8 +2076,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[6] = (void*)script;
                     }
 
@@ -2098,8 +2098,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[7] = (void*)script;
                     }
 
@@ -2114,8 +2114,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[8] = (void*)script;
                     }
 
@@ -2130,8 +2130,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = script;
 
-                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
-                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame)
+                        && (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[9] = (void*)script;
                     }
 
@@ -2358,10 +2358,10 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
             requiredAge = gSaveContext.save.linkAge;
         }
 
-        if ((gSaveContext.save.entranceIndex == entranceCutscene->entrance) &&
-            (!Flags_GetEventChkInf(entranceCutscene->flag) || (entranceCutscene->flag == EVENTCHKINF_EPONA_OBTAINED)) &&
-            (gSaveContext.save.cutsceneIndex < 0xFFF0) && ((u8)gSaveContext.save.linkAge == requiredAge) &&
-            (gSaveContext.respawnFlag <= 0)) {
+        if ((gSaveContext.save.entranceIndex == entranceCutscene->entrance)
+            && (!Flags_GetEventChkInf(entranceCutscene->flag) || (entranceCutscene->flag == EVENTCHKINF_EPONA_OBTAINED))
+            && (gSaveContext.save.cutsceneIndex < 0xFFF0) && ((u8)gSaveContext.save.linkAge == requiredAge)
+            && (gSaveContext.respawnFlag <= 0)) {
             Flags_SetEventChkInf(entranceCutscene->flag);
             Cutscene_SetScript(play, entranceCutscene->script);
             gSaveContext.cutsceneTrigger = 2;
@@ -2374,15 +2374,15 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
 void Cutscene_HandleConditionalTriggers(PlayState* play) {
     PRINTF("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
 
-    if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (gSaveContext.respawnFlag <= 0) &&
-        (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
+    if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (gSaveContext.respawnFlag <= 0)
+        && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
         if ((gSaveContext.save.entranceIndex == ENTR_DESERT_COLOSSUS_1) && !Flags_GetEventChkInf(EVENTCHKINF_AC)) {
             Flags_SetEventChkInf(EVENTCHKINF_AC);
             gSaveContext.save.entranceIndex = ENTR_DESERT_COLOSSUS_0;
             gSaveContext.save.cutsceneIndex = 0xFFF0;
-        } else if ((gSaveContext.save.entranceIndex == ENTR_KAKARIKO_VILLAGE_0) && LINK_IS_ADULT &&
-                   GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
-                   GET_EVENTCHKINF(EVENTCHKINF_4A) && !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
+        } else if ((gSaveContext.save.entranceIndex == ENTR_KAKARIKO_VILLAGE_0) && LINK_IS_ADULT
+                   && GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49)
+                   && GET_EVENTCHKINF(EVENTCHKINF_4A) && !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
             Flags_SetEventChkInf(EVENTCHKINF_AA);
             gSaveContext.save.cutsceneIndex = 0xFFF0;
         } else if ((gSaveContext.save.entranceIndex == ENTR_LOST_WOODS_9) && !Flags_GetEventChkInf(EVENTCHKINF_C1)) {
@@ -2390,14 +2390,14 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
             Item_Give(play, ITEM_OCARINA_FAIRY);
             gSaveContext.save.entranceIndex = ENTR_LOST_WOODS_0;
             gSaveContext.save.cutsceneIndex = 0xFFF0;
-        } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
-                   LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_C4) &&
-                   (gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_TEMPLE_OF_TIME)) {
+        } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) && LINK_IS_ADULT
+                   && !Flags_GetEventChkInf(EVENTCHKINF_C4)
+                   && (gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_TEMPLE_OF_TIME)) {
             Flags_SetEventChkInf(EVENTCHKINF_C4);
             gSaveContext.save.entranceIndex = ENTR_TEMPLE_OF_TIME_0;
             gSaveContext.save.cutsceneIndex = 0xFFF8;
-        } else if (!Flags_GetEventChkInf(EVENTCHKINF_C7) &&
-                   (gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GANON_BOSS)) {
+        } else if (!Flags_GetEventChkInf(EVENTCHKINF_C7)
+                   && (gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GANON_BOSS)) {
             Flags_SetEventChkInf(EVENTCHKINF_C7);
             gSaveContext.save.entranceIndex = ENTR_GANON_BOSS_0;
             gSaveContext.save.cutsceneIndex = 0xFFF0;

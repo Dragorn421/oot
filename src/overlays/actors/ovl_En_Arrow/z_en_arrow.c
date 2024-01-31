@@ -214,9 +214,9 @@ void EnArrow_CarryActor(EnArrow* this, PlayState* play) {
 
     Math_Vec3f_Diff(&this->actor.world.pos, &this->unk_210, &posDiffLastFrame);
 
-    temp_f12 = ((this->actor.world.pos.x - this->hitActor->world.pos.x) * posDiffLastFrame.x) +
-               ((this->actor.world.pos.y - this->hitActor->world.pos.y) * posDiffLastFrame.y) +
-               ((this->actor.world.pos.z - this->hitActor->world.pos.z) * posDiffLastFrame.z);
+    temp_f12 = ((this->actor.world.pos.x - this->hitActor->world.pos.x) * posDiffLastFrame.x)
+             + ((this->actor.world.pos.y - this->hitActor->world.pos.y) * posDiffLastFrame.y)
+             + ((this->actor.world.pos.z - this->hitActor->world.pos.z) * posDiffLastFrame.z);
 
     if (!(temp_f12 < 0.0f)) {
         scale = Math3D_Vec3fMagnitudeSq(&posDiffLastFrame);
@@ -258,8 +258,8 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
         this->actor.gravity = -0.4f;
     }
 
-    atTouched = (this->actor.params != ARROW_NORMAL_LIT) && (this->actor.params <= ARROW_SEED) &&
-                (this->collider.base.atFlags & AT_HIT);
+    atTouched = (this->actor.params != ARROW_NORMAL_LIT) && (this->actor.params <= ARROW_SEED)
+             && (this->collider.base.atFlags & AT_HIT);
 
     if (atTouched || this->touchedPoly) {
         if (this->actor.params >= ARROW_SEED) {
@@ -287,8 +287,8 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
             if (atTouched && (this->collider.elem.atHitElem->elemType != ELEMTYPE_UNK4)) {
                 hitActor = this->collider.base.at;
 
-                if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&
-                    (hitActor->flags & ACTOR_FLAG_14)) {
+                if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED)
+                    && (hitActor->flags & ACTOR_FLAG_14)) {
                     this->hitActor = hitActor;
                     EnArrow_CarryActor(this, play);
                     Math_Vec3f_Diff(&hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
@@ -389,8 +389,8 @@ void EnArrow_Update(Actor* thisx, PlayState* play) {
     EnArrow* this = (EnArrow*)thisx;
     Player* player = GET_PLAYER(play);
 
-    if (this->isCsNut || ((this->actor.params >= ARROW_NORMAL_LIT) && (player->unk_A73 != 0)) ||
-        !Player_InBlockingCsMode(play, player)) {
+    if (this->isCsNut || ((this->actor.params >= ARROW_NORMAL_LIT) && (player->unk_A73 != 0))
+        || !Player_InBlockingCsMode(play, player)) {
         this->actionFunc(this, play);
     }
 
@@ -433,9 +433,9 @@ void func_809B4800(EnArrow* this, PlayState* play) {
                 addBlureVertex &= func_80090480(play, &this->collider, &this->weaponInfo, &sp44, &sp38);
             } else {
                 if (addBlureVertex) {
-                    if ((sp44.x == this->weaponInfo.tip.x) && (sp44.y == this->weaponInfo.tip.y) &&
-                        (sp44.z == this->weaponInfo.tip.z) && (sp38.x == this->weaponInfo.base.x) &&
-                        (sp38.y == this->weaponInfo.base.y) && (sp38.z == this->weaponInfo.base.z)) {
+                    if ((sp44.x == this->weaponInfo.tip.x) && (sp44.y == this->weaponInfo.tip.y)
+                        && (sp44.z == this->weaponInfo.tip.z) && (sp38.x == this->weaponInfo.base.x)
+                        && (sp38.y == this->weaponInfo.base.y) && (sp38.z == this->weaponInfo.base.z)) {
                         addBlureVertex = false;
                     }
                 }

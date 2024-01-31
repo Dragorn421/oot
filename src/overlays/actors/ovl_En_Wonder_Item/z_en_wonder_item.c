@@ -312,7 +312,8 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HEISHI2, this->actor.world.pos.x, this->actor.world.pos.y,
-                        this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0, 9) != NULL) {
+                        this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0, 9)
+            != NULL) {
             // "Careless soldier spawned"
             PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" VT_RST);
         }
@@ -326,8 +327,8 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, PlayState* play) {
 void EnWonderItem_RollDrop(EnWonderItem* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((this->actor.xzDistToPlayer < 50.0f) && (player->invincibilityTimer < 0) &&
-        (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {
+    if ((this->actor.xzDistToPlayer < 50.0f) && (player->invincibilityTimer < 0)
+        && (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 30.0f)) {
         EnWonderItem_DropCollectible(this, play, true);
     }
 }

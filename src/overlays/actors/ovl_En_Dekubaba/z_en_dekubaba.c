@@ -471,8 +471,8 @@ void EnDekubaba_Wait(EnDekubaba* this, PlayState* play) {
     this->actor.world.pos.z = this->actor.home.pos.z;
     this->actor.world.pos.y = this->actor.home.pos.y + 14.0f * this->size;
 
-    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f * this->size) &&
-        (fabsf(this->actor.yDistToPlayer) < 30.0f * this->size)) {
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f * this->size)
+        && (fabsf(this->actor.yDistToPlayer) < 30.0f * this->size)) {
         EnDekubaba_SetupGrow(this);
     }
 }
@@ -506,19 +506,19 @@ void EnDekubaba_Grow(EnDekubaba* this, PlayState* play) {
         Math_ScaledStepToS(&this->stemSectionAngle[1], -0x5555, 0x38E);
         Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
 
-        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
-                             (headDistVertical -
-                              20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
-                                 Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
+        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))
+                           + (headDistVertical
+                              - 20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))
+                                 * Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     } else {
         Math_ScaledStepToS(&this->stemSectionAngle[0], -0xAAA, 0x38E);
         Math_ScaledStepToS(&this->stemSectionAngle[1], -0x31C7, 0x222);
         Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
 
-        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
-                             (headDistVertical -
-                              20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
-                                 Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
+        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))
+                           + (headDistVertical
+                              - 20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))
+                                 * Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     }
 
     if (this->timer < 10) {
@@ -573,19 +573,19 @@ void EnDekubaba_Retract(EnDekubaba* this, PlayState* play) {
         Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4000, 0x555);
         Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
 
-        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
-                             (headDistVertical -
-                              20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
-                                 Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
+        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))
+                           + (headDistVertical
+                              - 20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))
+                                 * Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     } else {
         Math_ScaledStepToS(&this->stemSectionAngle[0], -0x5555, 0x555);
         Math_ScaledStepToS(&this->stemSectionAngle[1], -0x5555, 0x333);
         Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
 
-        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
-                             (headDistVertical -
-                              20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
-                                 Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
+        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))
+                           + (headDistVertical
+                              - 20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))
+                                 * Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     }
 
     this->actor.world.pos.y = this->actor.home.pos.y + (headDistVertical * this->size);
@@ -603,16 +603,16 @@ void EnDekubaba_Retract(EnDekubaba* this, PlayState* play) {
 }
 
 void EnDekubaba_UpdateHeadPosition(EnDekubaba* this) {
-    f32 horizontalHeadShift = (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]) +
-                               Math_CosS(this->stemSectionAngle[2])) *
-                              20.0f;
+    f32 horizontalHeadShift = (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])
+                               + Math_CosS(this->stemSectionAngle[2]))
+                            * 20.0f;
 
     this->actor.world.pos.x =
         this->actor.home.pos.x + Math_SinS(this->actor.shape.rot.y) * (horizontalHeadShift * this->size);
-    this->actor.world.pos.y =
-        this->actor.home.pos.y - (Math_SinS(this->stemSectionAngle[0]) + Math_SinS(this->stemSectionAngle[1]) +
-                                  Math_SinS(this->stemSectionAngle[2])) *
-                                     20.0f * this->size;
+    this->actor.world.pos.y = this->actor.home.pos.y
+                            - (Math_SinS(this->stemSectionAngle[0]) + Math_SinS(this->stemSectionAngle[1])
+                               + Math_SinS(this->stemSectionAngle[2]))
+                                  * 20.0f * this->size;
     this->actor.world.pos.z =
         this->actor.home.pos.z + Math_CosS(this->actor.shape.rot.y) * (horizontalHeadShift * this->size);
 }
@@ -951,8 +951,9 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, PlayState* play) {
         EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
                                  this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
-        if ((this->actor.scale.x > 0.005f) &&
-            ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
+        if ((this->actor.scale.x > 0.005f)
+            && ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH)
+                || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speed = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
@@ -1034,14 +1035,15 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
 
-        if ((this->collider.base.colType != COLTYPE_HARD) &&
-            ((this->actor.colChkInfo.damageEffect != DEKUBABA_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0))) {
+        if ((this->collider.base.colType != COLTYPE_HARD)
+            && ((this->actor.colChkInfo.damageEffect != DEKUBABA_DMGEFF_NONE)
+                || (this->actor.colChkInfo.damage != 0))) {
 
             phi_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
 
             if (this->actionFunc != EnDekubaba_StunnedVertical) {
-                if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) ||
-                    (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_DEKUNUT)) {
+                if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG)
+                    || (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_DEKUNUT)) {
                     if (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) {
                         phi_s0 = this->actor.colChkInfo.health;
                     }
@@ -1056,8 +1058,8 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
                 } else {
                     EnDekubaba_SetupHit(this, 0);
                 }
-            } else if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) ||
-                       (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_SWORD)) {
+            } else if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG)
+                       || (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_SWORD)) {
                 if (phi_s0 > 0) {
                     EnDekubaba_SetupSway(this);
                 } else {
@@ -1082,9 +1084,9 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
         } else {
             return;
         }
-    } else if ((play->actorCtx.unk_02 != 0) && (this->collider.base.colType != COLTYPE_HARD) &&
-               (this->actionFunc != EnDekubaba_StunnedVertical) && (this->actionFunc != EnDekubaba_Hit) &&
-               (this->actor.colChkInfo.health != 0)) {
+    } else if ((play->actorCtx.unk_02 != 0) && (this->collider.base.colType != COLTYPE_HARD)
+               && (this->actionFunc != EnDekubaba_StunnedVertical) && (this->actionFunc != EnDekubaba_Hit)
+               && (this->actor.colChkInfo.health != 0)) {
         this->actor.colChkInfo.health--;
         this->actor.dropFlag = 0x00;
         EnDekubaba_SetupHit(this, 1);

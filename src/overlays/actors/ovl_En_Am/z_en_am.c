@@ -371,9 +371,9 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
     f32 sin;
     Player* player = GET_PLAYER(play);
 
-    if ((this->unk_258 != 0) ||
-        ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (this->hurtCollider.base.oc == &player->actor)) ||
-        (this->hurtCollider.base.acFlags & AC_HIT)) {
+    if ((this->unk_258 != 0)
+        || ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (this->hurtCollider.base.oc == &player->actor))
+        || (this->hurtCollider.base.acFlags & AC_HIT)) {
         this->hurtCollider.base.acFlags &= ~AC_HIT;
 
         if (this->textureBlend == 0) {
@@ -466,8 +466,8 @@ void EnAm_RotateToHome(EnAm* this, PlayState* play) {
  */
 void EnAm_RotateToInit(EnAm* this, PlayState* play) {
     if (this->skelAnime.curFrame == 8.0f) {
-        if ((this->dyna.actor.world.pos.x == this->dyna.actor.home.pos.x) &&
-            (this->dyna.actor.world.pos.z == this->dyna.actor.home.pos.z)) {
+        if ((this->dyna.actor.world.pos.x == this->dyna.actor.home.pos.x)
+            && (this->dyna.actor.world.pos.z == this->dyna.actor.home.pos.z)) {
             Math_SmoothStepToS(&this->dyna.actor.world.rot.y, this->dyna.actor.home.rot.y, 1, 0x1F40, 0);
         }
         this->unk_258 = 2;
@@ -628,9 +628,9 @@ void EnAm_Lunge(EnAm* this, PlayState* play) {
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
                 EnAm_SpawnEffects(this, play);
 
-                if (((Actor_WorldDistXZToPoint(&this->dyna.actor, &this->dyna.actor.home.pos) > 240.0f) ||
-                     (this->attackTimer == 0)) &&
-                    (this->deathTimer == 0)) {
+                if (((Actor_WorldDistXZToPoint(&this->dyna.actor, &this->dyna.actor.home.pos) > 240.0f)
+                     || (this->attackTimer == 0))
+                    && (this->deathTimer == 0)) {
                     EnAm_SetupRotateToHome(this);
                 }
             }
@@ -682,11 +682,11 @@ void EnAm_Statue(EnAm* this, PlayState* play) {
             moveDir = Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &this->hurtCollider.base.oc->world.pos) - temp158f;
         }
 
-        if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) ||
-            !(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-            !func_800435D8(play, &this->dyna, 0x14, (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f,
-                           0xA) ||
-            ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
+        if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0)
+            || !(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+            || !func_800435D8(play, &this->dyna, 0x14, (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f,
+                              0xA)
+            || ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
 
             this->unk_258 = 0;
             player->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_4 | PLAYER_STATE2_6 | PLAYER_STATE2_8);
@@ -753,8 +753,8 @@ void EnAm_Ricochet(EnAm* this, PlayState* play) {
         this->dyna.actor.speed += 0.5f;
     }
 
-    if ((this->dyna.actor.velocity.y <= 0.0f) &&
-        !EnAm_CanMove(this, play, this->dyna.actor.speed * 1.5f, this->dyna.actor.world.rot.y)) {
+    if ((this->dyna.actor.velocity.y <= 0.0f)
+        && !EnAm_CanMove(this, play, this->dyna.actor.speed * 1.5f, this->dyna.actor.world.rot.y)) {
         this->dyna.actor.speed = 0.0f;
     }
 
@@ -800,9 +800,9 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
                 this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
                 Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.elem, false);
 
-                if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
-                    (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
-                    (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_ICE)) {
+                if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT)
+                    || (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN)
+                    || (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_ICE)) {
                     if (this->behavior != AM_BEHAVIOR_STUNNED) {
                         EnAm_SetupStunned(this, play);
 
@@ -814,8 +814,8 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
                         sparkPos.y += 50.0f;
                         CollisionCheck_SpawnShieldParticlesMetal(play, &sparkPos);
                     }
-                } else if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_KILL) ||
-                           (this->behavior == AM_BEHAVIOR_STUNNED)) {
+                } else if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_KILL)
+                           || (this->behavior == AM_BEHAVIOR_STUNNED)) {
                     this->dyna.actor.colChkInfo.health = 0;
 
                     EnAm_SetupRecoilFromDamage(this, play);
@@ -887,8 +887,8 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
 
         Actor_MoveXZGravity(&this->dyna.actor);
         Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 20.0f, 28.0f, 80.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
     }
 
     Collider_UpdateCylinder(&this->dyna.actor, &this->hurtCollider);

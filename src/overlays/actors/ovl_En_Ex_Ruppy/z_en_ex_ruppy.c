@@ -212,8 +212,8 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, PlayState* play) {
     EnExRuppy_SpawnSparkles(this, play, 2, 0);
     Sfx_PlaySfxCentered(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
     divingGame = (EnDivingGame*)this->actor.parent;
-    if ((divingGame != NULL) && (divingGame->actor.update != NULL) &&
-        ((divingGame->unk_296 == 0) || (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) || (this->timer == 0))) {
+    if ((divingGame != NULL) && (divingGame->actor.update != NULL)
+        && ((divingGame->unk_296 == 0) || (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) || (this->timer == 0))) {
         this->invisible = true;
         this->actor.speed = 0.0f;
         this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;

@@ -243,8 +243,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 #define chan (gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[entry->channelIdx])
                     GfxPrint_SetPos(printer, 2 + sAudioIntInfoX, 5 + ind + sAudioIntInfoY);
                     if (sAudioIntInfoBankPage[k] == 1) {
-                        if ((entryIndex != 0xFF) &&
-                            ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
+                        if ((entryIndex != 0xFF)
+                            && ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %02X %04X %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, entry->sfxImportance,
                                             entry->sfxParams, entry->sfxId);
@@ -252,8 +252,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- -- ---- ----");
                         }
                     } else if (sAudioIntInfoBankPage[k] == 2) {
-                        if ((entryIndex != 0xFF) &&
-                            ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
+                        if ((entryIndex != 0xFF)
+                            && ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, (s32)(chan->volume * 127.1f),
                                             chan->newPan, entry->sfxId);
@@ -261,8 +261,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----");
                         }
                     } else if (sAudioIntInfoBankPage[k] == 3) {
-                        if ((entryIndex != 0xFF) &&
-                            ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
+                        if ((entryIndex != 0xFF)
+                            && ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, (s32)(chan->freqScale * 100.0f),
                                             chan->reverb, entry->sfxId);
@@ -270,8 +270,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----");
                         }
                     } else if (sAudioIntInfoBankPage[k] == 4) {
-                        if ((entryIndex != 0xFF) &&
-                            ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
+                        if ((entryIndex != 0xFF)
+                            && ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %04X", entryIndex, entry->sfxId);
                         } else {
                             GfxPrint_Printf(printer, "FF ----");
@@ -484,15 +484,15 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 GfxPrint_Printf(printer, "%d",
                                 (u8)(gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel]
                                          .channels[sAudioSubTrackInfoChannelSel]
-                                         ->volume *
-                                     127.1));
+                                         ->volume
+                                     * 127.1));
 
                 GfxPrint_SetPos(printer, 15, 12);
                 GfxPrint_Printf(printer, "%d",
                                 (u8)(gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel]
                                          .channels[sAudioSubTrackInfoChannelSel]
-                                         ->volumeScale *
-                                     127.1));
+                                         ->volumeScale
+                                     * 127.1));
 
                 GfxPrint_SetPos(printer, 15, 13);
                 GfxPrint_Printf(
@@ -540,22 +540,22 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 GfxPrint_Printf(printer, "%d",
                                 (u8)(gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel]
                                          .channels[sAudioSubTrackInfoChannelSel]
-                                         ->vibratoRateTarget /
-                                     32));
+                                         ->vibratoRateTarget
+                                     / 32));
 
                 GfxPrint_SetPos(printer, 15, 20);
                 GfxPrint_Printf(printer, "%d",
                                 (u8)(gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel]
                                          .channels[sAudioSubTrackInfoChannelSel]
-                                         ->vibratoExtentTarget /
-                                     8));
+                                         ->vibratoExtentTarget
+                                     / 8));
 
                 GfxPrint_SetPos(printer, 15, 21);
                 GfxPrint_Printf(printer, "%d",
                                 (u16)(gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel]
                                           .channels[sAudioSubTrackInfoChannelSel]
-                                          ->freqScale *
-                                      100));
+                                          ->freqScale
+                                      * 100));
             }
             break;
 
@@ -582,8 +582,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 8);
             GfxPrint_Printf(printer, "ST-SEQ %02Xseqs  (%05X / %06X)", gAudioCtx.seqCache.persistent.numEntries,
-                            gAudioCtx.seqCache.persistent.pool.curRamAddr -
-                                gAudioCtx.seqCache.persistent.pool.startRamAddr,
+                            gAudioCtx.seqCache.persistent.pool.curRamAddr
+                                - gAudioCtx.seqCache.persistent.pool.startRamAddr,
                             gAudioCtx.seqCache.persistent.pool.size);
 
             for (k = 0; (u32)k < gAudioCtx.seqCache.persistent.numEntries; k++) {
@@ -593,8 +593,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 10);
             GfxPrint_Printf(printer, "ST-BNK %02Xbanks (%05X / %06X)", gAudioCtx.fontCache.persistent.numEntries,
-                            gAudioCtx.fontCache.persistent.pool.curRamAddr -
-                                gAudioCtx.fontCache.persistent.pool.startRamAddr,
+                            gAudioCtx.fontCache.persistent.pool.curRamAddr
+                                - gAudioCtx.fontCache.persistent.pool.startRamAddr,
                             gAudioCtx.fontCache.persistent.pool.size);
 
             for (k = 0; (u32)k < gAudioCtx.fontCache.persistent.numEntries; k++) {
@@ -703,9 +703,10 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 AudioDebug_ToStringBinary(gSfxParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].params, 16));
 
             SETCOL(127, 255, 127);
-            digitStr[0] = (char)('0' + ((gSfxParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].params >>
-                                         (15 - sAudioSfxParamChgBitSel)) &
-                                        1));
+            digitStr[0] = (char)('0'
+                                 + ((gSfxParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].params
+                                     >> (15 - sAudioSfxParamChgBitSel))
+                                    & 1));
             GfxPrint_SetPos(printer, 12 + sAudioSfxParamChgBitSel, 6);
             GfxPrint_Printf(printer, "%s", digitStr);
 
@@ -1006,8 +1007,8 @@ void AudioDebug_ProcessInput_ScrPrt(void) {
         }
     }
 
-    D_801333F0 = sAudioScrPrtWork[3] + (sAudioScrPrtWork[4] * 2) + (sAudioScrPrtWork[5] * 4) +
-                 (sAudioScrPrtWork[6] * 8) + (sAudioScrPrtWork[7] * 0x10) + (sAudioScrPrtWork[8] * 0x20);
+    D_801333F0 = sAudioScrPrtWork[3] + (sAudioScrPrtWork[4] * 2) + (sAudioScrPrtWork[5] * 4) + (sAudioScrPrtWork[6] * 8)
+               + (sAudioScrPrtWork[7] * 0x10) + (sAudioScrPrtWork[8] * 0x20);
 }
 
 void AudioDebug_ProcessInput_SfxSwap(void) {
@@ -1079,14 +1080,14 @@ void AudioDebug_ProcessInput_SfxSwap(void) {
                 val = gAudioSfxSwapSource[sAudioSfxSwapSel] >> ((3 - sAudioSfxSwapNibbleSel) * 4);
                 val = (val + step) & 0xF;
                 gAudioSfxSwapSource[sAudioSfxSwapSel] =
-                    (gAudioSfxSwapSource[sAudioSfxSwapSel] & ((0xF << ((3 - sAudioSfxSwapNibbleSel) * 4)) ^ 0xFFFF)) +
-                    (val << ((3 - sAudioSfxSwapNibbleSel) * 4));
+                    (gAudioSfxSwapSource[sAudioSfxSwapSel] & ((0xF << ((3 - sAudioSfxSwapNibbleSel) * 4)) ^ 0xFFFF))
+                    + (val << ((3 - sAudioSfxSwapNibbleSel) * 4));
             } else {
                 val = gAudioSfxSwapTarget[sAudioSfxSwapSel] >> ((7 - sAudioSfxSwapNibbleSel) * 4);
                 val = (val + step) & 0xF;
                 gAudioSfxSwapTarget[sAudioSfxSwapSel] =
-                    (gAudioSfxSwapTarget[sAudioSfxSwapSel] & ((0xF << ((7 - sAudioSfxSwapNibbleSel) * 4)) ^ 0xFFFF)) +
-                    (val << ((7 - sAudioSfxSwapNibbleSel) * 4));
+                    (gAudioSfxSwapTarget[sAudioSfxSwapSel] & ((0xF << ((7 - sAudioSfxSwapNibbleSel) * 4)) ^ 0xFFFF))
+                    + (val << ((7 - sAudioSfxSwapNibbleSel) * 4));
             }
         }
 

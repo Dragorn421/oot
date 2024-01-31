@@ -86,8 +86,8 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-    if ((this->actor.params == FHGFIRE_LIGHTNING_SHOCK) || (this->actor.params == FHGFIRE_LIGHTNING_BURST) ||
-        (this->actor.params == FHGFIRE_ENERGY_BALL)) {
+    if ((this->actor.params == FHGFIRE_LIGHTNING_SHOCK) || (this->actor.params == FHGFIRE_LIGHTNING_BURST)
+        || (this->actor.params == FHGFIRE_ENERGY_BALL)) {
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     }
@@ -123,8 +123,8 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
         PRINTF("yari hikari ct 2\n");
         this->work[FHGFIRE_TIMER] = this->actor.world.rot.x;
         this->work[FHGFIRE_FIRE_MODE] = this->actor.world.rot.y;
-    } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT) ||
-               (this->actor.params == FHGFIRE_WARP_DEATH)) {
+    } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT)
+               || (this->actor.params == FHGFIRE_WARP_DEATH)) {
         Actor_SetScale(&this->actor, 7.0f);
         EnFhgFire_SetUpdate(this, EnFhgFire_PhantomWarp);
         if (this->actor.params == FHGFIRE_WARP_DEATH) {
@@ -166,8 +166,8 @@ void EnFhgFire_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     EnFhgFire* this = (EnFhgFire*)thisx;
 
-    if ((this->actor.params == FHGFIRE_LIGHTNING_SHOCK) || (this->actor.params == FHGFIRE_LIGHTNING_BURST) ||
-        (this->actor.params == FHGFIRE_ENERGY_BALL)) {
+    if ((this->actor.params == FHGFIRE_LIGHTNING_SHOCK) || (this->actor.params == FHGFIRE_LIGHTNING_BURST)
+        || (this->actor.params == FHGFIRE_ENERGY_BALL)) {
         Collider_DestroyCylinder(play, &this->collider);
     }
 
@@ -469,10 +469,10 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
         switch (this->work[FHGFIRE_FIRE_MODE]) {
             case FHGFIRE_LIGHT_GREEN:
                 canBottleReflect1 =
-                    ((player->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE) &&
-                     (ABS((s16)(player->actor.shape.rot.y - (s16)(bossGnd->actor.yawTowardsPlayer + 0x8000))) <
-                      0x2000) &&
-                     (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f))
+                    ((player->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE)
+                     && (ABS((s16)(player->actor.shape.rot.y - (s16)(bossGnd->actor.yawTowardsPlayer + 0x8000)))
+                         < 0x2000)
+                     && (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f))
                         ? true
                         : false;
                 if ((this->collider.base.acFlags & AC_HIT) || canBottleReflect1) {
@@ -592,8 +592,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
         if (this->work[FHGFIRE_FX_TIMER] == 0) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 50.0f, 50.0f, 100.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
-            if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL | BGCHECKFLAG_CEILING)) ||
-                killMode) {
+            if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL | BGCHECKFLAG_CEILING))
+                || killMode) {
                 u8 lightBallColor2 = FHGFLASH_LIGHTBALL_GREEN;
                 s16 i4;
                 Vec3f sp6C;
@@ -730,8 +730,8 @@ void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gPhantomEnergyBallDL);
-    } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT) ||
-               (this->actor.params == FHGFIRE_WARP_DEATH)) {
+    } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT)
+               || (this->actor.params == FHGFIRE_WARP_DEATH)) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (u8)this->fwork[FHGFIRE_WARP_ALPHA]);
         gDPSetEnvColor(POLY_XLU_DISP++, 90, 50, 95, (s8)(this->fwork[FHGFIRE_WARP_ALPHA] * 0.5f));

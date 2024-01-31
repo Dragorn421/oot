@@ -225,8 +225,8 @@ static DemoExtDrawFunc sDrawFuncs[] = {
 void DemoExt_Draw(Actor* thisx, PlayState* play) {
     DemoExt* this = (DemoExt*)thisx;
 
-    if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) ||
-        sDrawFuncs[this->drawMode] == NULL) {
+    if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX)
+        || sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is abnormal!"
         PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {

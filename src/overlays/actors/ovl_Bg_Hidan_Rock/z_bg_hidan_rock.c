@@ -251,9 +251,9 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
         }
 
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Actor_PlaySfx(&this->dyna.actor,
-                      NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(&play->colCtx, this->dyna.actor.floorPoly,
-                                                                      this->dyna.actor.floorBgId));
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_PL_WALK_GROUND
+                                             + SurfaceType_GetSfxOffset(&play->colCtx, this->dyna.actor.floorPoly,
+                                                                        this->dyna.actor.floorBgId));
     }
 
     this->unk_16C -= 0.5f;
@@ -300,10 +300,14 @@ void func_8088B990(BgHidanRock* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 
-    if ((this->type == 0 && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 1820.0f,
-                                                0.25f, 20.0f, 0.5f) < 0.1f)) ||
-        ((this->type != 0) && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 480.0,
-                                                  0.25f, 20.0f, 0.5f) < 0.1f))) {
+    if ((this->type == 0
+         && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 1820.0f, 0.25f, 20.0f,
+                                0.5f)
+             < 0.1f))
+        || ((this->type != 0)
+            && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 480.0, 0.25f, 20.0f,
+                                   0.5f)
+                < 0.1f))) {
         if (this->type == 0) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         }

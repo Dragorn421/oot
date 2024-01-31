@@ -128,7 +128,8 @@ void func_80B93E38(ObjHsblock* this) {
 void func_80B93E5C(ObjHsblock* this, PlayState* play) {
     Math_SmoothStepToF(&this->dyna.actor.velocity.y, 16.0f, 0.1f, 0.8f, 0.0f);
     if (fabsf(Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 0.3f,
-                                 this->dyna.actor.velocity.y, 0.3f)) < 0.001f) {
+                                 this->dyna.actor.velocity.y, 0.3f))
+        < 0.001f) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         func_80B93D90(this);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;

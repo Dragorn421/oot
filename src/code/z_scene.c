@@ -26,8 +26,8 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     PRINTF("num=%d adrs=%x end=%x\n", objectCtx->numEntries,
            (uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size, objectCtx->spaceEnd);
 
-    ASSERT(((objectCtx->numEntries < ARRAY_COUNT(objectCtx->slots)) &&
-            (((uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size) < (uintptr_t)objectCtx->spaceEnd)),
+    ASSERT(((objectCtx->numEntries < ARRAY_COUNT(objectCtx->slots))
+            && (((uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size) < (uintptr_t)objectCtx->spaceEnd)),
            "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
            "../z_scene.c", 142);
 
@@ -370,8 +370,8 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     play->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
     play->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
-    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) ||
-        (gSaveContext.save.entranceIndex == ENTR_LAKE_HYLIA_8)) {
+    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.save.cutsceneIndex < 0xFFF0))
+        || (gSaveContext.save.entranceIndex == ENTR_LAKE_HYLIA_8)) {
         gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
 
         if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
@@ -380,8 +380,8 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
             gSaveContext.skyboxTime = CLOCK_TIME(8, 0) + 1;
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(16, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(17, 0))) {
             gSaveContext.skyboxTime = CLOCK_TIME(17, 0) + 1;
-        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(18, 0) + 1) &&
-                   (gSaveContext.skyboxTime <= CLOCK_TIME(19, 0))) {
+        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(18, 0) + 1)
+                   && (gSaveContext.skyboxTime <= CLOCK_TIME(19, 0))) {
             gSaveContext.skyboxTime = CLOCK_TIME(19, 0) + 1;
         }
     }
@@ -473,8 +473,8 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
         }
     }
 
-    if (((play->sceneId >= SCENE_HYRULE_FIELD) && (play->sceneId <= SCENE_OUTSIDE_GANONS_CASTLE)) ||
-        ((play->sceneId >= SCENE_MARKET_ENTRANCE_DAY) && (play->sceneId <= SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS))) {
+    if (((play->sceneId >= SCENE_HYRULE_FIELD) && (play->sceneId <= SCENE_OUTSIDE_GANONS_CASTLE))
+        || ((play->sceneId >= SCENE_MARKET_ENTRANCE_DAY) && (play->sceneId <= SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS))) {
         if (gSaveContext.save.cutsceneIndex < 0xFFF0) {
             gSaveContext.save.info.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
             PRINTF("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.save.info.worldMapAreaData,

@@ -499,8 +499,9 @@ void func_809BDC08(EnBigokuta* this, PlayState* play) {
 
     phi_v1 = (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) - 180.0f) * (8.0f / 15);
     func_8002DBD0(&this->actor, &sp28, &player->actor.world.pos);
-    if (fabsf(sp28.x) > 263.0f || ((sp28.z > 0.0f) && !Actor_IsFacingPlayer(&this->actor, 0x1B00) &&
-                                   !Player_IsFacingActor(&this->actor, 0x2000, play))) {
+    if (fabsf(sp28.x) > 263.0f
+        || ((sp28.z > 0.0f) && !Actor_IsFacingPlayer(&this->actor, 0x1B00)
+            && !Player_IsFacingActor(&this->actor, 0x2000, play))) {
         phi_v1 -= 0x80;
         if (this->unk_196 != 0) {
             this->unk_196--;
@@ -580,8 +581,8 @@ void func_809BE058(EnBigokuta* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->cylinder[0].base.ocFlags1 & OC1_HIT) ||
-        (this->cylinder[1].base.ocFlags1 & OC1_HIT)) {
+    if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->cylinder[0].base.ocFlags1 & OC1_HIT)
+        || (this->cylinder[1].base.ocFlags1 & OC1_HIT)) {
         speedXZ = CLAMP_MIN(player->actor.speed, 1.0f);
         if (!(this->collider.base.ocFlags1 & OC1_HIT)) {
             this->cylinder[0].base.ocFlags1 &= ~OC1_HIT;
@@ -695,11 +696,11 @@ void func_809BE568(EnBigokuta* this) {
     f32 cos = Math_CosS(this->actor.shape.rot.y);
 
     this->collider.elements->dim.worldSphere.center.x =
-        (this->collider.elements->dim.modelSphere.center.z * sin) +
-        (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
+        (this->collider.elements->dim.modelSphere.center.z * sin)
+        + (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
     this->collider.elements->dim.worldSphere.center.z =
-        (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.center.z * cos)) -
-        (this->collider.elements->dim.modelSphere.center.x * sin);
+        (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.center.z * cos))
+        - (this->collider.elements->dim.modelSphere.center.x * sin);
     this->collider.elements->dim.worldSphere.center.y =
         this->collider.elements->dim.modelSphere.center.y + this->actor.world.pos.y;
 
@@ -716,8 +717,8 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
     s16 effectRot;
     s16 yawDiff;
 
-    if ((this->cylinder[0].base.atFlags & AT_HIT) || (this->cylinder[1].base.atFlags & AT_HIT) ||
-        (this->collider.base.atFlags & AT_HIT)) {
+    if ((this->cylinder[0].base.atFlags & AT_HIT) || (this->cylinder[1].base.atFlags & AT_HIT)
+        || (this->collider.base.atFlags & AT_HIT)) {
         this->cylinder[0].base.atFlags &= ~AT_HIT;
         this->cylinder[1].base.atFlags &= ~AT_HIT;
         this->collider.base.atFlags &= ~AT_HIT;
@@ -874,8 +875,8 @@ void EnBigokuta_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
         if (this->unk_196 & 1) {
-            if ((this->actionFunc == func_809BE180 && this->unk_196 >= 8) ||
-                (this->actionFunc == func_809BE26C && this->unk_196 >= 10)) {
+            if ((this->actionFunc == func_809BE180 && this->unk_196 >= 8)
+                || (this->actionFunc == func_809BE26C && this->unk_196 >= 10)) {
                 f32 rotX = Rand_ZeroOne() * (M_PI * 2.0f);
                 f32 rotY = Rand_ZeroOne() * (M_PI * 2.0f);
 

@@ -800,8 +800,8 @@ s32 BossTw_BeamHitPlayerCheck(BossTw* this, PlayState* play) {
     Matrix_RotateY(-this->beamYaw, MTXMODE_APPLY);
     Matrix_MultVec3f(&offset, &beamDistFromPlayer);
 
-    if (fabsf(beamDistFromPlayer.x) < 20.0f && fabsf(beamDistFromPlayer.y) < 50.0f && beamDistFromPlayer.z > 100.0f &&
-        beamDistFromPlayer.z <= this->beamDist) {
+    if (fabsf(beamDistFromPlayer.x) < 20.0f && fabsf(beamDistFromPlayer.y) < 50.0f && beamDistFromPlayer.z > 100.0f
+        && beamDistFromPlayer.z <= this->beamDist) {
         if (sTwinrovaPtr->timers[2] == 0) {
             sTwinrovaPtr->timers[2] = 150;
             this->beamDist = sqrtf(SQ(offset.x) + SQ(offset.y) + SQ(offset.z));
@@ -837,9 +837,9 @@ s32 BossTw_CheckBeamReflection(BossTw* this, PlayState* play) {
     Vec3f vec;
     Player* player = GET_PLAYER(play);
 
-    if (player->stateFlags1 & PLAYER_STATE1_22 &&
-        (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) < 0x2000 &&
-        (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) > -0x2000) {
+    if (player->stateFlags1 & PLAYER_STATE1_22
+        && (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) < 0x2000
+        && (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) > -0x2000) {
         // player is shielding and facing angles are less than 45 degrees in either direction
         offset.x = 0.0f;
         offset.y = 0.0f;
@@ -905,8 +905,8 @@ s32 BossTw_BeamReflHitCheck(BossTw* this, Vec3f* pos) {
     Matrix_RotateY(-this->beamReflectionYaw, MTXMODE_APPLY);
     Matrix_MultVec3f(&offset, &beamDistFromTarget);
 
-    if (fabsf(beamDistFromTarget.x) < 50.0f && fabsf(beamDistFromTarget.y) < 50.0f && beamDistFromTarget.z > 100.0f &&
-        beamDistFromTarget.z <= this->beamReflectionDist) {
+    if (fabsf(beamDistFromTarget.x) < 50.0f && fabsf(beamDistFromTarget.y) < 50.0f && beamDistFromTarget.z > 100.0f
+        && beamDistFromTarget.z <= this->beamReflectionDist) {
         this->beamReflectionDist = sqrtf(SQ(offset.x) + SQ(offset.y) + SQ(offset.z)) * 1.1f;
         return true;
     } else {
@@ -924,16 +924,16 @@ f32 BossTw_GetFloorY(Vec3f* pos) {
         return 35.0f;
     }
 
-    if (fabsf(pos->x) < 110.0f && ((fabsf(pos->z - 600.0f) < 110.0f) || (fabsf(pos->z + 600.0f) < 110.0f)) &&
-        (pos->y < 230.0f)) {
+    if (fabsf(pos->x) < 110.0f && ((fabsf(pos->z - 600.0f) < 110.0f) || (fabsf(pos->z + 600.0f) < 110.0f))
+        && (pos->y < 230.0f)) {
         if (pos->y > 190.0f) {
             return 230.0f;
         }
         return 35.0f;
     }
 
-    if (fabsf(pos->z) < 110.0f && ((fabsf(pos->x - 600.0f) < 110.0f) || (fabsf(pos->x + 600.0f) < 110.0f)) &&
-        (pos->y < 230.0f)) {
+    if (fabsf(pos->z) < 110.0f && ((fabsf(pos->x - 600.0f) < 110.0f) || (fabsf(pos->x + 600.0f) < 110.0f))
+        && (pos->y < 230.0f)) {
         if (pos->y > 190.0f) {
             return 230.0f;
         }
@@ -979,9 +979,9 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
 
     if (this->timers[1] != 0) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, this->rotateSpeed);
-        if ((player->stateFlags1 & PLAYER_STATE1_22) &&
-            ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) < 0x2000) &&
-            ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) > -0x2000)) {
+        if ((player->stateFlags1 & PLAYER_STATE1_22)
+            && ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) < 0x2000)
+            && ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) > -0x2000)) {
             Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x, 1.0f, 400.0f);
             Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].y, 1.0f, 400.0f);
             Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].z, 1.0f, 400.0f);
@@ -1246,8 +1246,8 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
                 this->groundBlastPos.y = floorY;
 
                 if (floorY >= 0.0f) {
-                    if ((this->groundBlastPos.y != 35.0f) && (0.0f < this->beamReflectionPitch) &&
-                        (this->timers[0] != 0)) {
+                    if ((this->groundBlastPos.y != 35.0f) && (0.0f < this->beamReflectionPitch)
+                        && (this->timers[0] != 0)) {
                         this->csState1 = 1;
                         this->groundBlastPos.x = spBC.x;
                         this->groundBlastPos.z = spBC.z;
@@ -1473,9 +1473,9 @@ void BossTw_SetupWait(BossTw* this, PlayState* play) {
 }
 
 void BossTw_Wait(BossTw* this, PlayState* play) {
-    if ((this->actor.params == TW_TWINROVA) && (sKoumePtr->actionFunc == BossTw_FlyTo) &&
-        (sKotakePtr->actionFunc == BossTw_FlyTo) &&
-        ((sKoumePtr->actor.colChkInfo.health + sKotakePtr->actor.colChkInfo.health) >= 4)) {
+    if ((this->actor.params == TW_TWINROVA) && (sKoumePtr->actionFunc == BossTw_FlyTo)
+        && (sKotakePtr->actionFunc == BossTw_FlyTo)
+        && ((sKoumePtr->actor.colChkInfo.health + sKotakePtr->actor.colChkInfo.health) >= 4)) {
 
         BossTw_TwinrovaSetupMergeCS(this, play);
         BossTw_SetupMergeCS(sKotakePtr, play);
@@ -2877,10 +2877,10 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
         this->work[FOG_TIMER]--;
     }
 
-    if (this->actionFunc == BossTw_FlyTo || this->actionFunc == BossTw_Spin ||
-        this->actionFunc == BossTw_TurnToPlayer) {
-        if ((s16)(player->actor.shape.rot.y - this->actor.yawTowardsPlayer + 0x8000) < 0x1000 &&
-            (s16)(player->actor.shape.rot.y - this->actor.yawTowardsPlayer + 0x8000) > -0x1000 && player->unk_A73) {
+    if (this->actionFunc == BossTw_FlyTo || this->actionFunc == BossTw_Spin
+        || this->actionFunc == BossTw_TurnToPlayer) {
+        if ((s16)(player->actor.shape.rot.y - this->actor.yawTowardsPlayer + 0x8000) < 0x1000
+            && (s16)(player->actor.shape.rot.y - this->actor.yawTowardsPlayer + 0x8000) > -0x1000 && player->unk_A73) {
             BossTw_SetupSpin(this, play);
         }
     }
@@ -3002,10 +3002,9 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
 
     this->actionFunc(this, play);
 
-    if (this->actionFunc != BossTw_TwinrovaShootBlast && this->actionFunc != BossTw_TwinrovaChargeBlast &&
-        this->visible && this->unk_5F8 == 0 &&
-        (s16)(player->actor.shape.rot.y - this->actor.yawTowardsPlayer + 0x8000) < 0x1000 &&
-        (s16)(player->actor.shape.rot.y - this->actor.yawTowardsPlayer + 0x8000) > -0x1000 && player->unk_A73 != 0) {
+    if (this->actionFunc != BossTw_TwinrovaShootBlast && this->actionFunc != BossTw_TwinrovaChargeBlast && this->visible
+        && this->unk_5F8 == 0 && (s16)(player->actor.shape.rot.y - this->actor.yawTowardsPlayer + 0x8000) < 0x1000
+        && (s16)(player->actor.shape.rot.y - this->actor.yawTowardsPlayer + 0x8000) > -0x1000 && player->unk_A73 != 0) {
         BossTw_TwinrovaSetupSpin(this, play);
     }
 
@@ -3294,8 +3293,8 @@ void func_80941BC0(BossTw* this, PlayState* play) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, (s16)this->workf[UNK_F9]);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
     gDPSetRenderMode(POLY_XLU_DISP++,
-                     Z_CMP | IM_RD | CVG_DST_SAVE | ZMODE_DEC | FORCE_BL |
-                         GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),
+                     Z_CMP | IM_RD | CVG_DST_SAVE | ZMODE_DEC | FORCE_BL
+                         | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),
                      G_RM_ZB_OVL_SURF2);
     gSPSetGeometryMode(POLY_XLU_DISP++, G_CULL_BACK | G_FOG);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaEffectHaloDL));
@@ -3540,9 +3539,9 @@ void BossTw_Draw(Actor* thisx, PlayState* play2) {
                 diff.y = this->groundBlastPos2.y - player->actor.world.pos.y;
                 diff.z = this->groundBlastPos2.z - player->actor.world.pos.z;
 
-                if ((fabsf(diff.y) < 10.0f) && (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-                    (sqrtf(SQ(diff.x) + SQ(diff.z)) < (this->workf[UNK_F12] * 4600.0f)) && (sFreezeState == 0) &&
-                    (this->workf[UNK_F11] > 200.0f)) {
+                if ((fabsf(diff.y) < 10.0f) && (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+                    && (sqrtf(SQ(diff.x) + SQ(diff.z)) < (this->workf[UNK_F12] * 4600.0f)) && (sFreezeState == 0)
+                    && (this->workf[UNK_F11] > 200.0f)) {
                     sFreezeState = 1;
                     sTwinrovaPtr->timers[2] = 100;
                 }
@@ -4055,8 +4054,9 @@ void BossTw_BlastFire(BossTw* this, PlayState* play) {
                 yDiff = sKoumePtr->groundBlastPos2.y - player->actor.world.pos.y;
                 zDiff = sKoumePtr->groundBlastPos2.z - player->actor.world.pos.z;
 
-                if (!player->bodyIsBurning && (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-                    (fabsf(yDiff) < 10.0f) && (sqrtf(SQ(xDiff) + SQ(zDiff)) < (sKoumePtr->workf[UNK_F13] * 4550.0f))) {
+                if (!player->bodyIsBurning && (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+                    && (fabsf(yDiff) < 10.0f)
+                    && (sqrtf(SQ(xDiff) + SQ(zDiff)) < (sKoumePtr->workf[UNK_F13] * 4550.0f))) {
                     s16 j;
 
                     for (j = 0; j < 18; j++) {

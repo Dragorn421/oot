@@ -109,10 +109,10 @@ const char* UCodeDisas_GetCombineColorName(u32 value, u32 arg) {
             break;
 
         case 7: // G_CCMUX_NOISE, G_CCMUX_K4, G_CCMUX_COMBINED_ALPHA, G_CCMUX_0
-            ret = (arg == COMBINER_A)   ? "NOISE"
-                  : (arg == COMBINER_B) ? "K4"
-                  : (arg == COMBINER_C) ? "COMBINED_ALPHA"
-                                        : "0";
+            ret = (arg == COMBINER_A) ? "NOISE"
+                : (arg == COMBINER_B) ? "K4"
+                : (arg == COMBINER_C) ? "COMBINED_ALPHA"
+                                      : "0";
             break;
 
         default:
@@ -591,10 +591,10 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 Gfillrect setscissor = ptr->fillrect;
                 const char* modeStr;
 
-                modeStr = (setscissor.pad == G_SC_NON_INTERLACE)    ? "G_SC_NON_INTERLACE"
-                          : (setscissor.pad == G_SC_ODD_INTERLACE)  ? "G_SC_ODD_INTERLACE"
-                          : (setscissor.pad == G_SC_EVEN_INTERLACE) ? "G_SC_EVEN_INTERLACE"
-                                                                    : "???";
+                modeStr = (setscissor.pad == G_SC_NON_INTERLACE)  ? "G_SC_NON_INTERLACE"
+                        : (setscissor.pad == G_SC_ODD_INTERLACE)  ? "G_SC_ODD_INTERLACE"
+                        : (setscissor.pad == G_SC_EVEN_INTERLACE) ? "G_SC_EVEN_INTERLACE"
+                                                                  : "???";
 
                 if (setscissor.x0frac | setscissor.y0frac | setscissor.x1frac | setscissor.y1frac) {
                     if (1) {}

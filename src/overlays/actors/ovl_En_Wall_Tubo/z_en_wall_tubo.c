@@ -85,8 +85,8 @@ void EnWallTubo_DetectChu(EnWallTubo* this, PlayState* play) {
                 chuPosDiff.y = chu->actor.world.pos.y - this->actor.world.pos.y;
                 chuPosDiff.z = chu->actor.world.pos.z - this->actor.world.pos.z;
 
-                if (((fabsf(chuPosDiff.x) < 40.0f) || (BREG(2))) && ((fabsf(chuPosDiff.y) < 40.0f) || (BREG(2))) &&
-                    (fabsf(chuPosDiff.z) < 40.0f || (BREG(2)))) {
+                if (((fabsf(chuPosDiff.x) < 40.0f) || (BREG(2))) && ((fabsf(chuPosDiff.y) < 40.0f) || (BREG(2)))
+                    && (fabsf(chuPosDiff.z) < 40.0f || (BREG(2)))) {
                     this->chuGirl->wallStatus[this->actor.params] = 1;
                     chu->timer = 2;
                     Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);

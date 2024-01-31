@@ -113,10 +113,10 @@ void BgIceObjects_SetNextTarget(BgIceObjects* this, PlayState* play) {
 void BgIceObjects_CheckPits(BgIceObjects* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
-    if ((thisx->velocity.y > 0.0f) || ((thisx->world.pos.x <= -1660.0f) && (thisx->world.pos.z <= -1060.0f)) ||
-        ((thisx->world.pos.x <= -1580.0f) && (thisx->world.pos.z >= -420.0f)) ||
-        ((thisx->world.pos.x >= -980.0f) && (thisx->world.pos.z <= -1180.0f)) ||
-        ((thisx->world.pos.x >= -860.0f) && (thisx->world.pos.z >= -700.0f))) {
+    if ((thisx->velocity.y > 0.0f) || ((thisx->world.pos.x <= -1660.0f) && (thisx->world.pos.z <= -1060.0f))
+        || ((thisx->world.pos.x <= -1580.0f) && (thisx->world.pos.z >= -420.0f))
+        || ((thisx->world.pos.x >= -980.0f) && (thisx->world.pos.z <= -1180.0f))
+        || ((thisx->world.pos.x >= -860.0f) && (thisx->world.pos.z >= -700.0f))) {
 
         thisx->velocity.y += 1.0f;
         if (Math_StepToF(&thisx->world.pos.y, -300.0f, thisx->velocity.y)) {

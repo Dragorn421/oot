@@ -199,8 +199,8 @@ void EnSkb_Destroy(Actor* thisx, PlayState* play) {
 void EnSkb_DecideNextAction(EnSkb* this) {
     if (IS_DAY) {
         EnSkb_SetupDespawn(this);
-    } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
-               (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
+    } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7)
+               && (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
         EnSkb_SetupAttack(this);
     } else {
         EnSkb_SetupWalkForward(this);
@@ -244,8 +244,8 @@ void EnSkb_SetupDespawn(EnSkb* this) {
 }
 
 void EnSkb_Despawn(EnSkb* this, PlayState* play) {
-    if ((Math_SmoothStepToF(&this->actor.shape.yOffset, -8000.0f, 1.0f, 500.0f, 0.0f) != 0.0f) &&
-        (play->gameplayFrames & 1)) {
+    if ((Math_SmoothStepToF(&this->actor.shape.yOffset, -8000.0f, 1.0f, 500.0f, 0.0f) != 0.0f)
+        && (play->gameplayFrames & 1)) {
         EnSkb_SpawnDebris(play, this, &this->actor.world.pos);
     }
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 0.0f, 1.0f, 2.5f, 0.0f);
@@ -288,16 +288,16 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
         playSpeed = -this->skelAnime.playSpeed;
     }
     if (thisKeyFrame != (s32)this->skelAnime.curFrame) {
-        if (((prevKeyFrame < 9) && (((s32)playSpeed + thisKeyFrame) >= 8)) ||
-            !((prevKeyFrame >= 16) || (((s32)playSpeed + thisKeyFrame) < 15))) {
+        if (((prevKeyFrame < 9) && (((s32)playSpeed + thisKeyFrame) >= 8))
+            || !((prevKeyFrame >= 16) || (((s32)playSpeed + thisKeyFrame) < 15))) {
 
             Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_WALK);
         }
     }
     if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > 800.0f || IS_DAY) {
         EnSkb_SetupDespawn(this);
-    } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
-               (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
+    } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7)
+               && (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
         EnSkb_SetupAttack(this);
     }
 }
@@ -448,9 +448,9 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
     s16 colorFilterDuration;
     Player* player;
 
-    if ((this->actionState != SKB_BEHAVIOR_DYING) &&
-        (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
-        (this->actor.yDistToWater >= 40.0f)) {
+    if ((this->actionState != SKB_BEHAVIOR_DYING)
+        && (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH))
+        && (this->actor.yDistToWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->setColliderAT = false;
         EnSkb_SetupDeath(this, play);
@@ -489,12 +489,12 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                     }
                     player = GET_PLAYER(play);
                     if (this->breakFlags == 0) {
-                        if ((this->actor.colChkInfo.damageEffect == 0xD) ||
-                            ((this->actor.colChkInfo.damageEffect == 0xE) &&
-                             ((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H &&
-                               player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H) ||
-                              (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT ||
-                               player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT)))) {
+                        if ((this->actor.colChkInfo.damageEffect == 0xD)
+                            || ((this->actor.colChkInfo.damageEffect == 0xE)
+                                && ((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H
+                                     && player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H)
+                                    || (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT
+                                        || player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT)))) {
                             BodyBreak_Alloc(&this->bodyBreak, 2, play);
                             this->breakFlags = 1; // setup for head bodybreak
                         }
@@ -513,8 +513,8 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
     EnSkb_CheckDamage(this, play);
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 15.0f, 30.0f, 60.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
     this->actionFunc(this, play);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += (3000.0f * this->actor.scale.y);

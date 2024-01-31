@@ -256,8 +256,8 @@ void func_80B4EE38(EnZl2* this, s16 arg1, s32 arg2) {
             phi_v0 -= ((s16)(temp_v1 - arg1) / 50);
         }
         temp_v1 += phi_v0;
-        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - arg1) > -0x64) &&
-            ((s16)(temp_v1 - arg1) < 0x64)) {
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - arg1) > -0x64)
+            && ((s16)(temp_v1 - arg1) < 0x64)) {
             temp_v1 = arg1;
             phi_v0 = 0;
         }
@@ -327,8 +327,8 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
         }
         temp_v1 += phi_v0;
 
-        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - phi_a0) > -0x64) &&
-            ((s16)(temp_v1 - phi_a0) < 0x64)) {
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - phi_a0) > -0x64)
+            && ((s16)(temp_v1 - phi_a0) < 0x64)) {
             temp_v1 = phi_a0;
             phi_v0 = 0;
         }
@@ -1624,8 +1624,8 @@ s32 EnZl2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
                            Gfx** gfx) {
     EnZl2* this = (EnZl2*)thisx;
 
-    if (this->overrideLimbDrawConfig < 0 || this->overrideLimbDrawConfig > 0 ||
-        sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig] == NULL) {
+    if (this->overrideLimbDrawConfig < 0 || this->overrideLimbDrawConfig > 0
+        || sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig] == NULL) {
         PRINTF(VT_FGCOL(RED) "描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return 0;
     }

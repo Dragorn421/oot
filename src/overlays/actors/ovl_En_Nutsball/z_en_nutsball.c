@@ -108,15 +108,15 @@ void func_80ABBBA8(EnNutsball* this, PlayState* play) {
 
     this->actor.home.rot.z += 0x2AA8;
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-        (this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
-        (this->collider.base.ocFlags1 & OC1_HIT)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+        || (this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT)
+        || (this->collider.base.ocFlags1 & OC1_HIT)) {
         // Checking if the player is using a shield that reflects projectiles
         // And if so, reflects the projectile on impact
-        if ((player->currentShield == PLAYER_SHIELD_DEKU) ||
-            ((player->currentShield == PLAYER_SHIELD_HYLIAN) && LINK_IS_ADULT)) {
-            if ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.atFlags & AT_TYPE_ENEMY) &&
-                (this->collider.base.atFlags & AT_BOUNCED)) {
+        if ((player->currentShield == PLAYER_SHIELD_DEKU)
+            || ((player->currentShield == PLAYER_SHIELD_HYLIAN) && LINK_IS_ADULT)) {
+            if ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.atFlags & AT_TYPE_ENEMY)
+                && (this->collider.base.atFlags & AT_BOUNCED)) {
                 this->collider.base.atFlags &= ~AT_TYPE_ENEMY & ~AT_BOUNCED & ~AT_HIT;
                 this->collider.base.atFlags |= AT_TYPE_PLAYER;
 
@@ -147,8 +147,8 @@ void EnNutsball_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
-        (this->actionFunc == func_80ABBB34)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))
+        || (this->actionFunc == func_80ABBB34)) {
         this->actionFunc(this, play);
 
         Actor_MoveXZGravity(&this->actor);

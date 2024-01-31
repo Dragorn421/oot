@@ -246,8 +246,8 @@ s32 EnDodojr_CheckNearbyBombs(EnDodojr* this, PlayState* play) {
         yDist = bomb->world.pos.y - this->actor.world.pos.y;
         zDist = bomb->world.pos.z - this->actor.world.pos.z;
 
-        if ((fabsf(xDist) >= fabsf(maxBombRange.x)) || (fabsf(yDist) >= fabsf(maxBombRange.y)) ||
-            (fabsf(zDist) >= fabsf(maxBombRange.z))) {
+        if ((fabsf(xDist) >= fabsf(maxBombRange.x)) || (fabsf(yDist) >= fabsf(maxBombRange.y))
+            || (fabsf(zDist) >= fabsf(maxBombRange.z))) {
             bomb = bomb->next;
             continue;
         }
@@ -281,8 +281,8 @@ void EnDodojr_UpdateCrawl(EnDodojr* this, PlayState* play) {
     Vec3f crawlTargetPos;
     s16 angleIndex;
 
-    if ((this->bomb == NULL) || (this->bomb->update == NULL) ||
-        ((this->bomb != NULL) && (this->bomb->parent != NULL))) {
+    if ((this->bomb == NULL) || (this->bomb->update == NULL)
+        || ((this->bomb != NULL) && (this->bomb->parent != NULL))) {
         EnDodojr_CheckNearbyBombs(this, play);
     }
 
@@ -294,8 +294,8 @@ void EnDodojr_UpdateCrawl(EnDodojr* this, PlayState* play) {
 
     if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &crawlTargetPos) > 80.0f) {
         angleIndex =
-            (s16)(this->actor.home.pos.x + this->actor.home.pos.y + this->actor.home.pos.z + play->state.frames / 30) %
-            12;
+            (s16)(this->actor.home.pos.x + this->actor.home.pos.y + this->actor.home.pos.z + play->state.frames / 30)
+            % 12;
         angleIndex = ABS(angleIndex);
         crawlTargetPos.x += 80.0f * sinf(angles[angleIndex]);
         crawlTargetPos.z += 80.0f * cosf(angles[angleIndex]);
@@ -321,10 +321,10 @@ void EnDodojr_SetupStandardDeathBounce(EnDodojr* this) {
 }
 
 s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play) {
-    if ((this->actionFunc == EnDodojr_SwallowBomb) || (this->actionFunc == EnDodojr_SwallowedBombDeathBounce) ||
-        (this->actionFunc == EnDodojr_SwallowedBombDeathSequence) || (this->actionFunc == EnDodojr_Despawn) ||
-        (this->actionFunc == EnDodojr_StandardDeathBounce) || (this->actionFunc == EnDodojr_DeathSequence) ||
-        (this->actionFunc == EnDodojr_DropItem)) {
+    if ((this->actionFunc == EnDodojr_SwallowBomb) || (this->actionFunc == EnDodojr_SwallowedBombDeathBounce)
+        || (this->actionFunc == EnDodojr_SwallowedBombDeathSequence) || (this->actionFunc == EnDodojr_Despawn)
+        || (this->actionFunc == EnDodojr_StandardDeathBounce) || (this->actionFunc == EnDodojr_DeathSequence)
+        || (this->actionFunc == EnDodojr_DropItem)) {
         return false;
     }
 
@@ -355,8 +355,8 @@ s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play) {
             return true;
         }
 
-        if ((this->actor.colChkInfo.damageEffect == 1) && (this->actionFunc != EnDodojr_Stunned) &&
-            (this->actionFunc != EnDodojr_StunnedBounce)) {
+        if ((this->actor.colChkInfo.damageEffect == 1) && (this->actionFunc != EnDodojr_Stunned)
+            && (this->actionFunc != EnDodojr_StunnedBounce)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 120);
@@ -372,14 +372,14 @@ void EnDodojr_UpdateCollider(EnDodojr* this, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
     if ((this->actionFunc != EnDodojr_WaitUnderground) && (this->actionFunc != EnDodojr_DropItem)) {
-        if ((this->actionFunc == EnDodojr_EmergeFromGround) || (this->actionFunc == EnDodojr_CrawlTowardsTarget) ||
-            (this->actionFunc == EnDodojr_JumpAttackBounce)) {
+        if ((this->actionFunc == EnDodojr_EmergeFromGround) || (this->actionFunc == EnDodojr_CrawlTowardsTarget)
+            || (this->actionFunc == EnDodojr_JumpAttackBounce)) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
 
-        if ((this->actionFunc == EnDodojr_EmergeFromGround) || (this->actionFunc == EnDodojr_CrawlTowardsTarget) ||
-            (this->actionFunc == EnDodojr_StunnedBounce) || (this->actionFunc == EnDodojr_Stunned) ||
-            (this->actionFunc == EnDodojr_JumpAttackBounce)) {
+        if ((this->actionFunc == EnDodojr_EmergeFromGround) || (this->actionFunc == EnDodojr_CrawlTowardsTarget)
+            || (this->actionFunc == EnDodojr_StunnedBounce) || (this->actionFunc == EnDodojr_Stunned)
+            || (this->actionFunc == EnDodojr_JumpAttackBounce)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
 

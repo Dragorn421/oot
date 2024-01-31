@@ -151,9 +151,9 @@ void func_80A4E470(EnGs* this, PlayState* play) {
 
         } else if (this->unk_19D & 1) {
             if (play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
-                if ((play->msgCtx.unk_E3F2 == OCARINA_SONG_SARIAS) || (play->msgCtx.unk_E3F2 == OCARINA_SONG_EPONAS) ||
-                    (play->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY) || (play->msgCtx.unk_E3F2 == OCARINA_SONG_SUNS) ||
-                    (play->msgCtx.unk_E3F2 == OCARINA_SONG_TIME)) {
+                if ((play->msgCtx.unk_E3F2 == OCARINA_SONG_SARIAS) || (play->msgCtx.unk_E3F2 == OCARINA_SONG_EPONAS)
+                    || (play->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY) || (play->msgCtx.unk_E3F2 == OCARINA_SONG_SUNS)
+                    || (play->msgCtx.unk_E3F2 == OCARINA_SONG_TIME)) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, this->actor.world.pos.x,
                                 this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_HEAL_TIMED);
                     Actor_PlaySfx(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
@@ -216,8 +216,9 @@ void func_80A4E910(EnGs* this, PlayState* play) {
         this->unk_19F = 1;
         this->unk_1E8 = 0.5f;
         this->unk_1EC = 0.0f;
-    } else if ((this->unk_19F == 1) && (func_80A4E754(this, play, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 0.8f,
-                                                      0.007f, 0.001f, 7, 0) == 0.0f)) {
+    } else if ((this->unk_19F == 1)
+               && (func_80A4E754(this, play, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 0.8f, 0.007f, 0.001f, 7, 0)
+                   == 0.0f)) {
         if (!Play_InCsMode(play)) {
             Message_StartTextbox(play, 0x71B1, NULL);
         }
@@ -236,8 +237,8 @@ void func_80A4EA08(EnGs* this, PlayState* play) {
     } else if (this->unk_19F == 1) {
         this->unk_1A0[0].z = (((this->unk_200 % 8) / 8.0f) * 360.0f) * (0x10000 / 360.0f);
         this->unk_1A0[1].z = -this->unk_1A0[0].z;
-        if (func_80A4E754(this, play, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 0.8f, 0.005f, 0.001f, 7, 0) ==
-            0.0f) {
+        if (func_80A4E754(this, play, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 0.8f, 0.005f, 0.001f, 7, 0)
+            == 0.0f) {
             this->unk_19C = 0;
             this->actionFunc = func_80A4F734;
         }
@@ -276,8 +277,8 @@ void func_80A4EB3C(EnGs* this, PlayState* play) {
             this->unk_19F++;
         }
     } else if (this->unk_19F == 4) {
-        if (func_80A4E754(this, play, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 1.0f, 0.03f, 0.001f, 5, 0) ==
-            0.0f) {
+        if (func_80A4E754(this, play, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 1.0f, 0.03f, 0.001f, 5, 0)
+            == 0.0f) {
             this->unk_19C = 0;
             this->actionFunc = func_80A4F734;
         }

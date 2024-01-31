@@ -818,8 +818,8 @@ void func_80AF3F20(EnRu2* this, PlayState* play) {
 void EnRu2_Draw(Actor* thisx, PlayState* play) {
     EnRu2* this = (EnRu2*)thisx;
 
-    if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
-        (sDrawFuncs[this->drawConfig] == NULL)) {
+    if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs))
+        || (sDrawFuncs[this->drawConfig] == NULL)) {
         // "Draw Mode is improper!"
         PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

@@ -182,8 +182,8 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
         this->actionFunc = EnDoor_Idle;
         if (doorType == DOOR_EVENING) {
             doorType = (gSaveContext.save.dayTime > CLOCK_TIME(18, 0) && gSaveContext.save.dayTime < CLOCK_TIME(21, 0))
-                           ? DOOR_SCENEEXIT
-                           : DOOR_CHECKABLE;
+                         ? DOOR_SCENEEXIT
+                         : DOOR_CHECKABLE;
         }
         this->actor.world.rot.y = 0x0000;
         if (doorType == DOOR_LOCKED) {
@@ -231,8 +231,8 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
     } else if (!Player_InCsMode(play)) {
-        if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f &&
-            fabsf(playerPosRelToDoor.z) < 50.0f) {
+        if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f
+            && fabsf(playerPosRelToDoor.z) < 50.0f) {
             yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
             if (playerPosRelToDoor.z > 0.0f) {
                 yawDiff = 0x8000 - yawDiff;
@@ -302,8 +302,8 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
             this->playerIsOpening = false;
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->openAnim])) {
             Actor_PlaySfx(&this->actor,
-                          (play->sceneId == SCENE_SHADOW_TEMPLE || play->sceneId == SCENE_BOTTOM_OF_THE_WELL ||
-                           play->sceneId == SCENE_FIRE_TEMPLE)
+                          (play->sceneId == SCENE_SHADOW_TEMPLE || play->sceneId == SCENE_BOTTOM_OF_THE_WELL
+                           || play->sceneId == SCENE_FIRE_TEMPLE)
                               ? NA_SE_EV_IRON_DOOR_OPEN
                               : NA_SE_OC_DOOR_OPEN);
             if (this->skelAnime.playSpeed < 1.5f) {
@@ -314,8 +314,8 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
             }
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->openAnim])) {
             Actor_PlaySfx(&this->actor,
-                          (play->sceneId == SCENE_SHADOW_TEMPLE || play->sceneId == SCENE_BOTTOM_OF_THE_WELL ||
-                           play->sceneId == SCENE_FIRE_TEMPLE)
+                          (play->sceneId == SCENE_SHADOW_TEMPLE || play->sceneId == SCENE_BOTTOM_OF_THE_WELL
+                           || play->sceneId == SCENE_FIRE_TEMPLE)
                               ? NA_SE_EV_IRON_DOOR_CLOSE
                               : NA_SE_EV_DOOR_CLOSE);
         }
@@ -343,8 +343,8 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         rot->z += this->actor.world.rot.y;
         if ((play->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
             // Draw the side of the door that is visible to the camera
-            rotDiff = this->actor.shape.rot.y + this->skelAnime.jointTable[3].z + rot->z -
-                      Math_Vec3f_Yaw(&play->view.eye, &this->actor.world.pos);
+            rotDiff = this->actor.shape.rot.y + this->skelAnime.jointTable[3].z + rot->z
+                    - Math_Vec3f_Yaw(&play->view.eye, &this->actor.world.pos);
             *dList = (ABS(rotDiff) < 0x4000) ? doorDLists[0] : doorDLists[1];
         } else {
             doorDListIndex = this->unk_192;

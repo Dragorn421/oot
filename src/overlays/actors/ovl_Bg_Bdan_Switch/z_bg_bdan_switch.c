@@ -469,8 +469,8 @@ void func_8086DDA8(BgBdanSwitch* this) {
 }
 
 void func_8086DDC0(BgBdanSwitch* this, PlayState* play) {
-    if ((((this->dyna.actor.params & 0xFF) != YELLOW_TALL_2) || (func_8005B198() == this->dyna.actor.category)) ||
-        (this->unk_1DA <= 0)) {
+    if ((((this->dyna.actor.params & 0xFF) != YELLOW_TALL_2) || (func_8005B198() == this->dyna.actor.category))
+        || (this->unk_1DA <= 0)) {
         this->unk_1C8 += 0.3f;
         if (this->unk_1C8 >= 2.0f) {
             func_8086DB4C(this);

@@ -245,9 +245,9 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         ObjTsubo_SpawnCollectible(this, play);
         Actor_Kill(&this->actor);
-    } else if ((this->collider.base.acFlags & AC_HIT) &&
-               (this->collider.elem.acHitElem->toucher.dmgFlags &
-                (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
+    } else if ((this->collider.base.acFlags & AC_HIT)
+               && (this->collider.elem.acHitElem->toucher.dmgFlags
+                   & (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
@@ -305,8 +305,8 @@ void ObjTsubo_SetupThrown(ObjTsubo* this) {
 void ObjTsubo_Thrown(ObjTsubo* this, PlayState* play) {
     s32 pad[2];
 
-    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
-        (this->collider.base.atFlags & AT_HIT)) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL))
+        || (this->collider.base.atFlags & AT_HIT)) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);

@@ -153,8 +153,8 @@ void func_80AB9F24(EnNiwLady* this, PlayState* play) {
     f32 frames;
     s32 pad;
 
-    if (Object_IsLoaded(&play->objectCtx, this->aneObjectSlot) &&
-        Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
+    if (Object_IsLoaded(&play->objectCtx, this->aneObjectSlot)
+        && Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->aneObjectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
@@ -205,8 +205,8 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
     currentCucco = (EnNiw*)play->actorCtx.actorLists[ACTORCAT_PROP].head;
     while (currentCucco != NULL) {
         if (currentCucco->actor.id == ACTOR_EN_NIW) {
-            if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f) &&
-                (fabsf(currentCucco->actor.world.pos.z - 1610.0f) < 190.0f)) {
+            if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f)
+                && (fabsf(currentCucco->actor.world.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
                     gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] |=
                         D_80ABB3B4[currentCucco->unk_2AA];
@@ -274,8 +274,8 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                 PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST,
                        gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
                 gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &=
-                    (u16) ~(INFTABLE_199_MASK | INFTABLE_19A_MASK | INFTABLE_19B_MASK | INFTABLE_19C_MASK |
-                            INFTABLE_19D_MASK | INFTABLE_19E_MASK | INFTABLE_19F_MASK);
+                    (u16) ~(INFTABLE_199_MASK | INFTABLE_19A_MASK | INFTABLE_19B_MASK | INFTABLE_19C_MASK
+                            | INFTABLE_19D_MASK | INFTABLE_19E_MASK | INFTABLE_19F_MASK);
                 PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST,
                        gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
                 PRINTF("\n\n");
@@ -538,8 +538,8 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
             }
         }
         Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 20.0f, 60.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
         Collider_UpdateCylinder(thisx, &this->collider);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }

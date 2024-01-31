@@ -476,9 +476,9 @@ void EnFloormas_BigWalk(EnFloormas* this, PlayState* play) {
             this->actionTimer--;
         }
     }
-    if (((animPastFrame || (Animation_OnFrame(&this->skelAnime, 12.0f))) ||
-         (Animation_OnFrame(&this->skelAnime, 24.0f) != 0)) ||
-        (Animation_OnFrame(&this->skelAnime, 36.0f) != 0)) {
+    if (((animPastFrame || (Animation_OnFrame(&this->skelAnime, 12.0f)))
+         || (Animation_OnFrame(&this->skelAnime, 24.0f) != 0))
+        || (Animation_OnFrame(&this->skelAnime, 36.0f) != 0)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
@@ -505,15 +505,15 @@ void EnFloormas_BigStopWalk(EnFloormas* this, PlayState* play) {
 
 void EnFloormas_Run(EnFloormas* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f) ||
-        Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)
+        || Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x71C);
 
-    if ((this->actor.xzDistToPlayer < 280.0f) && Actor_IsFacingPlayer(&this->actor, 0x2000) &&
-        !(this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+    if ((this->actor.xzDistToPlayer < 280.0f) && Actor_IsFacingPlayer(&this->actor, 0x2000)
+        && !(this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         EnFloormas_SetupHover(this, play);
     } else if (this->actor.xzDistToPlayer > 400.0f) {
         EnFloormas_SetupBigWalk(this);
@@ -529,8 +529,8 @@ void EnFloormas_Turn(EnFloormas* this, PlayState* play) {
         EnFloormas_SetupStand(this);
     }
 
-    if (((this->skelAnime.playSpeed > 0.0f) && Animation_OnFrame(&this->skelAnime, 21.0f)) ||
-        ((this->skelAnime.playSpeed < 0.0f) && Animation_OnFrame(&this->skelAnime, 6.0f))) {
+    if (((this->skelAnime.playSpeed > 0.0f) && Animation_OnFrame(&this->skelAnime, 21.0f))
+        || ((this->skelAnime.playSpeed < 0.0f) && Animation_OnFrame(&this->skelAnime, 6.0f))) {
         if (this->actor.scale.x > 0.004f) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_WALK);
         } else {
@@ -751,8 +751,8 @@ void EnFloormas_JumpAtLink(EnFloormas* this, PlayState* play) {
         this->actor.speed = 0.0f;
         Actor_PlaySfx(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
         EnFloormas_SetupLand(this);
-    } else if ((this->actor.yDistToPlayer < -10.0f) && (this->collider.base.ocFlags1 & OC1_HIT) &&
-               (&player->actor == this->collider.base.oc)) {
+    } else if ((this->actor.yDistToPlayer < -10.0f) && (this->collider.base.ocFlags1 & OC1_HIT)
+               && (&player->actor == this->collider.base.oc)) {
         play->grabPlayer(play, player);
         EnFloormas_SetupGrabLink(this, player);
     }
@@ -794,8 +794,8 @@ void EnFloormas_GrabLink(EnFloormas* this, PlayState* play) {
         parent = (EnFloormas*)this->actor.parent;
         child = (EnFloormas*)this->actor.child;
 
-        if (((parent->actionFunc == EnFloormas_GrabLink) || parent->actionFunc == EnFloormas_SmallWait) &&
-            (child->actionFunc == EnFloormas_GrabLink || child->actionFunc == EnFloormas_SmallWait)) {
+        if (((parent->actionFunc == EnFloormas_GrabLink) || parent->actionFunc == EnFloormas_SmallWait)
+            && (child->actionFunc == EnFloormas_GrabLink || child->actionFunc == EnFloormas_SmallWait)) {
 
             parent->actor.params = MERGE_FOLLOWER;
             child->actor.params = MERGE_FOLLOWER;
@@ -842,9 +842,9 @@ void EnFloormas_SmallFollowerJumpAtLeader(EnFloormas* this, PlayState* play) {
         this->actor.velocity.y = 7.0f;
     } else if (this->skelAnime.curFrame < 20.0f) {
         Math_ApproachS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, primFloormas), 2, 0xE38);
-    } else if ((((primFloormas->world.pos.y - this->actor.world.pos.y) < -10.0f) &&
-                (fabsf(this->actor.world.pos.x - primFloormas->world.pos.x) < 10.0f)) &&
-               (fabsf(this->actor.world.pos.z - primFloormas->world.pos.z) < 10.0f)) {
+    } else if ((((primFloormas->world.pos.y - this->actor.world.pos.y) < -10.0f)
+                && (fabsf(this->actor.world.pos.x - primFloormas->world.pos.x) < 10.0f))
+               && (fabsf(this->actor.world.pos.z - primFloormas->world.pos.z) < 10.0f)) {
         EnFloormas_SetupSmallWait(this);
         this->collider.base.ocFlags1 |= OC1_ON;
     } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
@@ -853,8 +853,8 @@ void EnFloormas_SmallFollowerJumpAtLeader(EnFloormas* this, PlayState* play) {
         EnFloormas_SetupLand(this);
     }
 
-    if (fabsf(this->actor.world.pos.x - primFloormas->world.pos.x) < 5.0f &&
-        fabsf(this->actor.world.pos.z - primFloormas->world.pos.z) < 5.0f) {
+    if (fabsf(this->actor.world.pos.x - primFloormas->world.pos.x) < 5.0f
+        && fabsf(this->actor.world.pos.z - primFloormas->world.pos.z) < 5.0f) {
         Math_StepToF(&this->actor.speed, 0, 2.0f);
     }
 }
@@ -1043,16 +1043,16 @@ void EnFloormas_Update(Actor* thisx, PlayState* play) {
         }
 
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, this->actor.scale.x * 3000.0f, 0.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->actionFunc == EnFloormas_Charge) {
             this->actor.flags |= ACTOR_FLAG_24;
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnFloormas_GrabLink) {
-            if (this->actionFunc != EnFloormas_Split && this->actionFunc != EnFloormas_TakeDamage &&
-                this->actor.freezeTimer == 0) {
+            if (this->actionFunc != EnFloormas_Split && this->actionFunc != EnFloormas_TakeDamage
+                && this->actor.freezeTimer == 0) {
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
             }
 

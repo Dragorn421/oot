@@ -69,16 +69,16 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
             return;
         }
 
-        if ((gSaveContext.sceneLayer != 6) &&
-            ((gSaveContext.sceneLayer == 4) || (gSaveContext.sceneLayer == 5) || (!LINK_IS_ADULT && !IS_DAY))) {
+        if ((gSaveContext.sceneLayer != 6)
+            && ((gSaveContext.sceneLayer == 4) || (gSaveContext.sceneLayer == 5) || (!LINK_IS_ADULT && !IS_DAY))) {
             this->dyna.actor.shape.rot.x = -0x4000;
         } else {
             this->dyna.actor.shape.rot.x = 0;
         }
 
         if (gSaveContext.sceneLayer != 6) {
-            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)
+                && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 this->dyna.actor.shape.rot.x = -0x4000;
             }
         }
@@ -89,14 +89,15 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
             (10.0f * Math_SinS(this->dyna.actor.shape.rot.x)) - (Math_CosS(this->dyna.actor.shape.rot.x) * 400.0f);
         chainPos.x =
             (158.0f * Math_CosS(this->dyna.actor.shape.rot.y)) + (Math_SinS(this->dyna.actor.shape.rot.y) * chainPos.z);
-        chainPos.z = (-158.0f * Math_SinS(this->dyna.actor.shape.rot.y)) +
-                     (Math_CosS(this->dyna.actor.shape.rot.y) * chainPos.z);
+        chainPos.z = (-158.0f * Math_SinS(this->dyna.actor.shape.rot.y))
+                   + (Math_CosS(this->dyna.actor.shape.rot.y) * chainPos.z);
 
         if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT00_HANEBASI,
                                this->dyna.actor.world.pos.x + chainPos.x, this->dyna.actor.world.pos.y + chainPos.y,
                                this->dyna.actor.world.pos.z + chainPos.z,
                                ((this->dyna.actor.shape.rot.x == 0) ? 0 : 0xF020), this->dyna.actor.shape.rot.y, 0,
-                               DT_CHAIN_1) == NULL) {
+                               DT_CHAIN_1)
+            == NULL) {
             Actor_Kill(&this->dyna.actor);
         }
 
@@ -107,7 +108,8 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
                                this->dyna.actor.world.pos.x - (Math_CosS(this->dyna.actor.shape.rot.y) * 316.0f),
                                this->dyna.actor.world.pos.y,
                                this->dyna.actor.world.pos.z + (Math_SinS(this->dyna.actor.shape.rot.y) * 316.0f),
-                               this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, DT_CHAIN_2) == NULL) {
+                               this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, DT_CHAIN_2)
+            == NULL) {
             Actor_Kill(&this->dyna.actor);
             Actor_Kill(this->dyna.actor.parent);
         }
@@ -137,8 +139,8 @@ void BgSpot00Hanebasi_Destroy(Actor* thisx, PlayState* play) {
 void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
     BgSpot00Hanebasi* child = (BgSpot00Hanebasi*)this->dyna.actor.child;
 
-    if (!IS_CUTSCENE_LAYER && CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-        CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
+    if (!IS_CUTSCENE_LAYER && CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)
+        && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
         return;
     }
 
@@ -204,13 +206,13 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         if (play->sceneId == SCENE_HYRULE_FIELD) {
-            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80) && LINK_IS_CHILD) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)
+                && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80) && LINK_IS_CHILD) {
                 Player* player = GET_PLAYER(play);
 
-                if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&
-                    (player->actor.world.pos.z > 1080.0f) && (player->actor.world.pos.z < 1700.0f) &&
-                    (!(Play_InCsMode(play)))) {
+                if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f)
+                    && (player->actor.world.pos.z > 1080.0f) && (player->actor.world.pos.z < 1700.0f)
+                    && (!(Play_InCsMode(play)))) {
                     SET_EVENTCHKINF(EVENTCHKINF_80);
                     Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;

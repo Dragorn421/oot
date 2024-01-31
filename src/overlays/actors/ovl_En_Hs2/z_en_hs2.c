@@ -79,8 +79,8 @@ s32 func_80A6F0B4(EnHs2* this, PlayState* play, u16 textId, EnHs2ActionFunc acti
     }
 
     this->actor.textId = textId;
-    if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2151 &&
-        this->actor.xzDistToPlayer < 100.0f) {
+    if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2151
+        && this->actor.xzDistToPlayer < 100.0f) {
         this->unk_2A8 |= 0x1;
         Actor_OfferTalk(&this->actor, play, 100.0f);
     }

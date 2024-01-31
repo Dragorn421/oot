@@ -381,8 +381,8 @@ void EnFish_Dropped_Fall(EnFish* this, PlayState* play) {
         EnFish_Dropped_SetupFlopOnGround(this);
     } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
         EnFish_Dropped_SetupSwimAway(this);
-    } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) &&
-               (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
+    } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED)
+               && (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
         PRINTF(VT_COL(YELLOW, BLACK));
         // "BG missing? Running Actor_delete"
         PRINTF("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
@@ -742,8 +742,8 @@ void EnFish_RespawningUpdate(EnFish* this, PlayState* play) {
 void EnFish_Update(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
-    if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (play->csCtx.state != CS_STATE_IDLE) &&
-        (play->csCtx.actorCues[1] != NULL)) {
+    if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (play->csCtx.state != CS_STATE_IDLE)
+        && (play->csCtx.actorCues[1] != NULL)) {
         EnFish_SetCutsceneData(this);
     }
 

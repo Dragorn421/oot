@@ -737,8 +737,8 @@ void EnMb_SpearPatrolEndCharge(EnMb* this, PlayState* play) {
             if (this->timer3 == 0) {
                 relYawFromPlayer = this->actor.shape.rot.y - this->actor.yawTowardsPlayer;
 
-                if (ABS(this->actor.yDistToPlayer) <= 20.0f && EnMb_IsPlayerInCorridor(this, play) &&
-                    ABS(relYawFromPlayer) <= 0x4000 && this->actor.xzDistToPlayer <= 200.0f) {
+                if (ABS(this->actor.yDistToPlayer) <= 20.0f && EnMb_IsPlayerInCorridor(this, play)
+                    && ABS(relYawFromPlayer) <= 0x4000 && this->actor.xzDistToPlayer <= 200.0f) {
                     EnMb_SetupSpearPrepareAndCharge(this);
                 } else {
                     lastFrame = Animation_GetLastFrame(&gEnMbSpearPrepareChargeAnim);
@@ -802,8 +802,8 @@ void EnMb_SpearGuardPrepareAndCharge(EnMb* this, PlayState* play) {
         this->actor.speed = 10.0f;
         this->attack = ENMB_ATTACK_SPEAR;
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
-        if (prevFrame != (s32)this->skelAnime.curFrame &&
-            ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
+        if (prevFrame != (s32)this->skelAnime.curFrame
+            && ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DASH);
         }
     }
@@ -900,8 +900,8 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
         this->actor.speed = 10.0f;
         this->attack = ENMB_ATTACK_SPEAR;
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
-        if (prevFrame != (s32)this->skelAnime.curFrame &&
-            ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
+        if (prevFrame != (s32)this->skelAnime.curFrame
+            && ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DASH);
         }
     }
@@ -931,11 +931,11 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
     }
 
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
-        player->actor.world.pos.x = this->actor.world.pos.x + Math_CosS(this->actor.shape.rot.y) * 10.0f +
-                                    Math_SinS(this->actor.shape.rot.y) * 89.0f;
+        player->actor.world.pos.x = this->actor.world.pos.x + Math_CosS(this->actor.shape.rot.y) * 10.0f
+                                  + Math_SinS(this->actor.shape.rot.y) * 89.0f;
         hasHitPlayer = true;
-        player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f +
-                                    Math_CosS(this->actor.shape.rot.y) * 89.0f;
+        player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f
+                                  + Math_CosS(this->actor.shape.rot.y) * 89.0f;
         player->av2.actionVar2 = 0;
         player->actor.speed = 0.0f;
         player->actor.velocity.y = 0.0f;
@@ -970,8 +970,8 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
-    if (prevFrame != (s32)this->skelAnime.curFrame &&
-        ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
+    if (prevFrame != (s32)this->skelAnime.curFrame
+        && ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DASH);
     }
 
@@ -1000,11 +1000,11 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
     }
 
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
-        player->actor.world.pos.x = this->actor.world.pos.x + Math_CosS(this->actor.shape.rot.y) * 10.0f +
-                                    Math_SinS(this->actor.shape.rot.y) * 89.0f;
+        player->actor.world.pos.x = this->actor.world.pos.x + Math_CosS(this->actor.shape.rot.y) * 10.0f
+                                  + Math_SinS(this->actor.shape.rot.y) * 89.0f;
         hasHitPlayer = true;
-        player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f +
-                                    Math_CosS(this->actor.shape.rot.y) * 89.0f;
+        player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f
+                                  + Math_CosS(this->actor.shape.rot.y) * 89.0f;
         player->av2.actionVar2 = 0;
         player->actor.speed = 0.0f;
         player->actor.velocity.y = 0.0f;
@@ -1131,8 +1131,8 @@ void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
     playSpeedAbs = ABS(this->skelAnime.playSpeed);
     beforeCurFrame = this->skelAnime.curFrame - playSpeedAbs;
     playSpeedAbs = ABS(this->skelAnime.playSpeed);
-    if (this->timer3 == 0 &&
-        Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->playerDetectionRange) {
+    if (this->timer3 == 0
+        && Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->playerDetectionRange) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.flags |= ACTOR_FLAG_0;
         if (this->actor.xzDistToPlayer < 500.0f && relYawTowardsPlayer < 0x1388) {
@@ -1165,8 +1165,8 @@ void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
     }
 
     if (prevFrame != (s32)this->skelAnime.curFrame) {
-        if ((beforeCurFrame <= 1 && prevFrame + (s32)playSpeedAbs >= 1) ||
-            (beforeCurFrame <= 20 && prevFrame + (s32)playSpeedAbs >= 20)) {
+        if ((beforeCurFrame <= 1 && prevFrame + (s32)playSpeedAbs >= 1)
+            || (beforeCurFrame <= 20 && prevFrame + (s32)playSpeedAbs >= 20)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
@@ -1181,8 +1181,8 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
     f32 yDistToPlayerAbs;
     f32 playSpeedABS;
 
-    if (Math_Vec3f_DistXZ(&this->waypointPos, &this->actor.world.pos) <= 8.0f ||
-        (Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.home.pos, &this->actor.world.pos) <= 4.0f)) {
+    if (Math_Vec3f_DistXZ(&this->waypointPos, &this->actor.world.pos) <= 8.0f
+        || (Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.home.pos, &this->actor.world.pos) <= 4.0f)) {
         EnMb_SetupSpearPatrolTurnTowardsWaypoint(this, play);
     } else {
         Math_SmoothStepToF(&this->actor.speed, 0.59999996f, 0.1f, 1.0f, 0.0f);
@@ -1220,8 +1220,8 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
     beforeCurFrame = this->skelAnime.curFrame - playSpeedABS;
     playSpeedABS = (this->skelAnime.playSpeed >= 0.0f) ? this->skelAnime.playSpeed : -this->skelAnime.playSpeed;
     if (prevFrame != (s32)this->skelAnime.curFrame) {
-        if ((beforeCurFrame <= 1 && (s32)playSpeedABS + prevFrame >= 1) ||
-            (beforeCurFrame <= 20 && (s32)playSpeedABS + prevFrame >= 20)) {
+        if ((beforeCurFrame <= 1 && (s32)playSpeedABS + prevFrame >= 1)
+            || (beforeCurFrame <= 20 && (s32)playSpeedABS + prevFrame >= 20)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
@@ -1235,8 +1235,8 @@ void EnMb_ClubWaitPlayerNear(EnMb* this, PlayState* play) {
     s16 relYawFromPlayer = this->actor.world.rot.y - this->actor.yawTowardsPlayer;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->playerDetectionRange &&
-        !(player->stateFlags1 & PLAYER_STATE1_26) && ABS(relYawFromPlayer) < 0x3E80) {
+    if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->playerDetectionRange
+        && !(player->stateFlags1 & PLAYER_STATE1_26) && ABS(relYawFromPlayer) < 0x3E80) {
         EnMb_SetupClubAttack(this);
     }
 }
@@ -1376,8 +1376,8 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && this->state >= ENMB_STATE_STUNNED) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_IGNORE &&
-            this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
+        if (this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_IGNORE
+            && this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
             if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
@@ -1387,8 +1387,8 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             this->attack = ENMB_ATTACK_NONE;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
-            if (this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN ||
-                this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN_ICE) {
+            if (this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN
+                || this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN_ICE) {
                 if (this->state != ENMB_STATE_STUNNED) {
                     Actor_ApplyDamage(&this->actor);
                     EnMb_SetupStunned(this);
@@ -1423,8 +1423,8 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(thisx);
         Actor_UpdateBgCheckInfo(play, thisx, 40.0f, 40.0f, 70.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
         Actor_SetFocus(thisx, thisx->scale.x * 4500.0f);
         Collider_UpdateCylinder(thisx, &this->bodyCollider);
         if (thisx->colChkInfo.health <= 0) {
@@ -1432,8 +1432,8 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
             this->bodyCollider.dim.pos.z += Math_CosS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
         }
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
-        if (this->state >= ENMB_STATE_STUNNED &&
-            (thisx->params == ENMB_TYPE_CLUB || this->state != ENMB_STATE_ATTACK)) {
+        if (this->state >= ENMB_STATE_STUNNED
+            && (thisx->params == ENMB_TYPE_CLUB || this->state != ENMB_STATE_ATTACK)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
         }
         if (this->state >= ENMB_STATE_IDLE) {

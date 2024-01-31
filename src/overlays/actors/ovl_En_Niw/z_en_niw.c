@@ -157,12 +157,12 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
 
     if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
         for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {
-            if (fabsf(this->actor.world.pos.x - sKakarikoPosList[i].x) < 40.0f &&
-                fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
+            if (fabsf(this->actor.world.pos.x - sKakarikoPosList[i].x) < 40.0f
+                && fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
                 this->unk_2AA = i;
                 PRINTF(VT_FGCOL(YELLOW) " 通常鶏index %d\n" VT_RST, this->unk_2AA);
-                if (gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &
-                    sKakarikoFlagList[i]) {
+                if (gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]
+                    & sKakarikoFlagList[i]) {
                     this->actor.world.pos.x = 300.0f;
                     this->actor.world.pos.y = 100.0f;
                     this->actor.world.pos.z = 1530.0f;
@@ -858,8 +858,8 @@ void func_80AB7420(EnNiw* this, PlayState* play) {
 }
 
 void func_80AB747C(EnNiw* this, PlayState* play) {
-    if (this->unk_2A8 == 0 && this->actor.params != 0xA && this->actionFunc != func_80AB6450 &&
-        this->collider.base.acFlags & AC_HIT) {
+    if (this->unk_2A8 == 0 && this->actor.params != 0xA && this->actionFunc != func_80AB6450
+        && this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->sfxTimer1 = 30;
         if (this->unk_2A4 > 0 && D_80AB85E0 == 0) {
@@ -977,13 +977,13 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != func_80AB6EB4 && this->actionFunc != func_80AB6450 && play->sceneId != SCENE_ZORAS_RIVER) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 60.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
-                                    UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2
+                                    | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     }
     if (play->sceneId == SCENE_ZORAS_RIVER) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 60.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
     }
     if (thisx->floorHeight <= BGCHECK_Y_MIN || thisx->floorHeight >= 32000.0f) {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, thisx->floorHeight);
@@ -1038,8 +1038,8 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         return;
     }
 
-    if ((thisx->bgCheckFlags & BGCHECKFLAG_WATER) && thisx->yDistToWater > 15.0f && this->actionFunc != func_80AB6F04 &&
-        thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
+    if ((thisx->bgCheckFlags & BGCHECKFLAG_WATER) && thisx->yDistToWater > 15.0f && this->actionFunc != func_80AB6F04
+        && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         thisx->velocity.y = 0.0f;
         thisx->gravity = 0.0f;
         Math_Vec3f_Copy(&pos, &thisx->world.pos);
@@ -1104,9 +1104,8 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         if (thisx->params != 0xA && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 4) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
-        if (this->actionFunc != func_80AB6BF8 && this->actionFunc != func_80AB6D08 &&
-            this->actionFunc != func_80AB6324 && this->actionFunc != func_80AB63A8 &&
-            this->actionFunc != func_80AB6450) {
+        if (this->actionFunc != func_80AB6BF8 && this->actionFunc != func_80AB6D08 && this->actionFunc != func_80AB6324
+            && this->actionFunc != func_80AB63A8 && this->actionFunc != func_80AB6450) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
         }
     }

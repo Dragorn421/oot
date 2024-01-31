@@ -108,8 +108,8 @@ void EnHintnuts_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnHintnuts_HitByScrubProjectile1(EnHintnuts* this, PlayState* play) {
-    if (this->actor.textId != 0 && this->actor.category == ACTORCAT_ENEMY &&
-        ((this->actor.params == 0) || (sPuzzleCounter == 2))) {
+    if (this->actor.textId != 0 && this->actor.category == ACTORCAT_ENEMY
+        && ((this->actor.params == 0) || (sPuzzleCounter == 2))) {
         this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BG);
@@ -243,8 +243,8 @@ void EnHintnuts_Wait(EnHintnuts* this, PlayState* play) {
             EnHintnuts_SetupStand(this);
         }
     }
-    if (hasSlowPlaybackSpeed && 160.0f < this->actor.xzDistToPlayer && fabsf(this->actor.yDistToPlayer) < 120.0f &&
-        ((this->animFlagAndTimer == 0) || (this->actor.xzDistToPlayer < 480.0f))) {
+    if (hasSlowPlaybackSpeed && 160.0f < this->actor.xzDistToPlayer && fabsf(this->actor.yDistToPlayer) < 120.0f
+        && ((this->animFlagAndTimer == 0) || (this->actor.xzDistToPlayer < 480.0f))) {
         this->skelAnime.playSpeed = 1.0f;
     }
 }
@@ -287,7 +287,8 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, PlayState* play) {
         nutPos.y = this->actor.world.pos.y + 12.0f;
         nutPos.z = this->actor.world.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, nutPos.x, nutPos.y, nutPos.z, this->actor.shape.rot.x,
-                        this->actor.shape.rot.y, this->actor.shape.rot.z, 1) != NULL) {
+                        this->actor.shape.rot.y, this->actor.shape.rot.z, 1)
+            != NULL) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     }
@@ -373,8 +374,8 @@ void EnHintnuts_Run(EnHintnuts* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnHintnuts_SetupTalk(this);
-    } else if (this->animFlagAndTimer == 0 && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f &&
-               fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
+    } else if (this->animFlagAndTimer == 0 && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f
+               && fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
         this->actor.speed = 0.0f;
         if (this->actor.category == ACTORCAT_BG) {
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_16);
@@ -484,8 +485,8 @@ void EnHintnuts_Update(Actor* thisx, PlayState* play) {
         if (this->actionFunc != EnHintnuts_Freeze && this->actionFunc != EnHintnuts_BeginFreeze) {
             Actor_MoveXZGravity(&this->actor);
             Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                        UPDBGCHECKINFO_FLAG_4);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                        | UPDBGCHECKINFO_FLAG_4);
         }
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->collider.base.acFlags & AC_ON) {

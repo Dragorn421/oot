@@ -1090,11 +1090,11 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
     }
 
     if (!(this->actionFlags & 0x80) && func_80ACC624(this, play)) {
-        if ((this->skelAnime.animation == &gOwlTakeoffAnim &&
-             (this->skelAnime.curFrame == 2.0f || this->skelAnime.curFrame == 9.0f ||
-              this->skelAnime.curFrame == 23.0f || this->skelAnime.curFrame == 40.0f ||
-              this->skelAnime.curFrame == 58.0f)) ||
-            (this->skelAnime.animation == &gOwlFlyAnim && this->skelAnime.curFrame == 4.0f)) {
+        if ((this->skelAnime.animation == &gOwlTakeoffAnim
+             && (this->skelAnime.curFrame == 2.0f || this->skelAnime.curFrame == 9.0f
+                 || this->skelAnime.curFrame == 23.0f || this->skelAnime.curFrame == 40.0f
+                 || this->skelAnime.curFrame == 58.0f))
+            || (this->skelAnime.animation == &gOwlFlyAnim && this->skelAnime.curFrame == 4.0f)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }

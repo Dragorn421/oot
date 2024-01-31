@@ -542,8 +542,8 @@ s32 EnZo_PlayerInProximity(EnZo* this, PlayState* play) {
 void EnZo_SetAnimation(EnZo* this) {
     s32 animId = ARRAY_COUNT(sAnimationInfo);
 
-    if (this->skelAnime.animation == &gZoraHandsOnHipsTappingFootAnim ||
-        this->skelAnime.animation == &gZoraOpenArmsAnim) {
+    if (this->skelAnime.animation == &gZoraHandsOnHipsTappingFootAnim
+        || this->skelAnime.animation == &gZoraOpenArmsAnim) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             if (this->actionFunc == EnZo_Standing) {
                 animId = ENZO_ANIM_0;
@@ -553,13 +553,13 @@ void EnZo_SetAnimation(EnZo* this) {
         }
     }
 
-    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4006 &&
-        this->skelAnime.animation != &gZoraHandsOnHipsTappingFootAnim) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4006
+        && this->skelAnime.animation != &gZoraHandsOnHipsTappingFootAnim) {
         animId = ENZO_ANIM_6;
     }
 
-    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4007 &&
-        this->skelAnime.animation != &gZoraOpenArmsAnim) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4007
+        && this->skelAnime.animation != &gZoraOpenArmsAnim) {
         animId = ENZO_ANIM_7;
     }
 

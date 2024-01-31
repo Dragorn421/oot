@@ -85,10 +85,10 @@ void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antia
     yScaleHiOddField = modeF ? (loResInterlaced ? (F210(0.75) << 16) : (F210(0.5) << 16)) : 0;
 
     viMode->customViMode.type = type;
-    viMode->customViMode.comRegs.ctrl = VI_CTRL_PIXEL_ADV(3) | VI_CTRL_GAMMA_ON | VI_CTRL_GAMMA_DITHER_ON |
-                                        (!loResDeinterlaced ? VI_CTRL_SERRATE_ON : 0) |
-                                        (antialiasOn ? VI_CTRL_DIVOT_ON : 0) |
-                                        (fb32Bit ? VI_CTRL_TYPE_32 : VI_CTRL_TYPE_16);
+    viMode->customViMode.comRegs.ctrl = VI_CTRL_PIXEL_ADV(3) | VI_CTRL_GAMMA_ON | VI_CTRL_GAMMA_DITHER_ON
+                                      | (!loResDeinterlaced ? VI_CTRL_SERRATE_ON : 0)
+                                      | (antialiasOn ? VI_CTRL_DIVOT_ON : 0)
+                                      | (fb32Bit ? VI_CTRL_TYPE_32 : VI_CTRL_TYPE_16);
 
     if (modeLAN1) {
         // Anti-aliased, fetch extra lines as-needed
@@ -270,8 +270,8 @@ void ViMode_Update(ViMode* viMode, Input* input) {
     // Load state from REGs
     ViMode_Load(viMode);
 
-    if ((viMode->editState == VI_MODE_EDIT_STATE_ACTIVE) || (viMode->editState == VI_MODE_EDIT_STATE_2) ||
-        (viMode->editState == VI_MODE_EDIT_STATE_3)) {
+    if ((viMode->editState == VI_MODE_EDIT_STATE_ACTIVE) || (viMode->editState == VI_MODE_EDIT_STATE_2)
+        || (viMode->editState == VI_MODE_EDIT_STATE_3)) {
         gScreenWidth = viMode->viWidth;
         gScreenHeight = viMode->viHeight;
 

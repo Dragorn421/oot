@@ -313,8 +313,8 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
 void EnTest_Destroy(Actor* thisx, PlayState* play) {
     EnTest* this = (EnTest*)thisx;
 
-    if ((this->actor.params != STALFOS_TYPE_2) &&
-        !Actor_FindNearby(play, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
+    if ((this->actor.params != STALFOS_TYPE_2)
+        && !Actor_FindNearby(play, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
         func_800F5B58();
     }
 
@@ -334,8 +334,8 @@ void EnTest_ChooseRandomAction(EnTest* this, PlayState* play) {
         case 1:
         case 5:
         case 6:
-            if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 170.0f) &&
-                Actor_IsFacingPlayer(&this->actor, 0x71C) && Actor_IsTargeted(play, &this->actor)) {
+            if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 170.0f)
+                && Actor_IsFacingPlayer(&this->actor, 0x71C) && Actor_IsTargeted(play, &this->actor)) {
                 EnTest_SetupJumpslash(this);
                 break;
             }
@@ -510,8 +510,8 @@ void EnTest_Idle(EnTest* this, PlayState* play) {
             this->timer--;
         } else {
             if (Actor_IsFacingPlayer(&this->actor, 0x1555)) {
-                if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
-                    (Rand_ZeroOne() < 0.3f)) {
+                if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f)
+                    && (Rand_ZeroOne() < 0.3f)) {
                     if (Actor_IsTargeted(play, &this->actor)) {
                         EnTest_SetupJumpslash(this);
                     } else {
@@ -595,8 +595,8 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
             this->actor.speed = -5.0f;
         }
 
-        if ((this->actor.params == STALFOS_TYPE_CEILING) &&
-            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.world.rot.y)) {
+        if ((this->actor.params == STALFOS_TYPE_CEILING)
+            && !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.world.rot.y)) {
             this->actor.speed *= -1.0f;
         }
 
@@ -656,8 +656,8 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
             this->timer += (s16)(Rand_ZeroOne() * 5.0f);
         }
 
-        if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
-            (Actor_IsFacingPlayer(&this->actor, 0x71C))) {
+        if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f)
+            && (Actor_IsFacingPlayer(&this->actor, 0x71C))) {
             if (Actor_IsTargeted(play, &this->actor)) {
                 if (Rand_ZeroOne() < 0.1f) {
                     EnTest_SetupJumpslash(this);
@@ -817,9 +817,9 @@ void func_80860F84(EnTest* this, PlayState* play) {
             }
         }
 
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-            ((this->actor.params == STALFOS_TYPE_CEILING) &&
-             !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.world.rot.y))) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+            || ((this->actor.params == STALFOS_TYPE_CEILING)
+                && !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.world.rot.y))) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 if (this->actor.speed >= 0.0f) {
                     newYaw = this->actor.shape.rot.y + 0x3FFF;
@@ -1169,8 +1169,8 @@ void EnTest_StopAndBlock(EnTest* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     SkelAnime_Update(&this->skelAnime);
 
-    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x3E80) &&
-        (this->actor.params != STALFOS_TYPE_CEILING) && ((play->gameplayFrames % 2) != 0)) {
+    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x3E80)
+        && (this->actor.params != STALFOS_TYPE_CEILING) && ((play->gameplayFrames % 2) != 0)) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         EnTest_SetupJumpBack(this);
     }
@@ -1223,9 +1223,9 @@ void func_808621D4(EnTest* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actor.speed = 0.0f;
 
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
-            ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
-             (this->actor.xzDistToPlayer < 80.0f))) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+            && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4)
+                && (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
         } else if (!EnTest_ReactToProjectile(play, this)) {
             EnTest_ChooseAction(this, play);
@@ -1235,12 +1235,12 @@ void func_808621D4(EnTest* this, PlayState* play) {
     }
 
     if (player->meleeWeaponState != 0) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
-            ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
-             (this->actor.xzDistToPlayer < 80.0f))) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+            && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4)
+                && (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
-        } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
-                   (player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START)) {
+        } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING)
+                   && (player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START)) {
             EnTest_SetupJumpBack(this);
         } else {
             EnTest_SetupStopAndBlock(this);
@@ -1275,12 +1275,12 @@ void func_80862418(EnTest* this, PlayState* play) {
     }
 
     if (player->meleeWeaponState != 0) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
-            ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
-             (this->actor.xzDistToPlayer < 80.0f))) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+            && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4)
+                && (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
-        } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
-                   (player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START)) {
+        } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING)
+                   && (player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START)) {
             EnTest_SetupJumpBack(this);
         } else {
             EnTest_SetupStopAndBlock(this);
@@ -1322,9 +1322,9 @@ void EnTest_Stunned(EnTest* this, PlayState* play) {
         if (this->actor.colChkInfo.health == 0) {
             func_80862FA8(this, play);
         } else if (player->meleeWeaponState != 0) {
-            if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
-                ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
-                 (this->actor.xzDistToPlayer < 80.0f))) {
+            if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+                && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4)
+                    && (this->actor.xzDistToPlayer < 80.0f))) {
                 EnTest_SetupJumpUp(this);
             } else if ((Rand_ZeroOne() > 0.7f) && (player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START)) {
                 EnTest_SetupJumpBack(this);
@@ -1391,9 +1391,9 @@ void func_808628C8(EnTest* this, PlayState* play) {
         }
     }
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-        ((this->actor.params == STALFOS_TYPE_CEILING) &&
-         !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+        || ((this->actor.params == STALFOS_TYPE_CEILING)
+            && !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF))) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             if (this->actor.speed >= 0.0f) {
                 newYaw = (this->actor.shape.rot.y + 0x3FFF);
@@ -1519,8 +1519,8 @@ void func_80862E6C(EnTest* this, PlayState* play) {
             this->actor.child = NULL;
             this->actor.flags |= ACTOR_FLAG_0;
             EnTest_SetupJumpBack(this);
-        } else if ((this->actor.params == STALFOS_TYPE_5) &&
-                   !Actor_FindNearby(play, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
+        } else if ((this->actor.params == STALFOS_TYPE_5)
+                   && !Actor_FindNearby(play, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xD0);
 
             if (this->actor.parent != NULL) {
@@ -1662,8 +1662,8 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
-            (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
+        if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING)
+            && (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
             this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
             if (this->swordState >= 1) {
                 this->swordState = 0;
@@ -1673,9 +1673,9 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
-            if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
-                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_FREEZE) ||
-                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_LIGHT)) {
+            if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN)
+                || (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_FREEZE)
+                || (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_LIGHT)) {
                 if (this->unk_7C8 != 0xB) {
                     Actor_ApplyDamage(&this->actor);
                     EnTest_SetupStunned(this);
@@ -1710,8 +1710,8 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
     if (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
 
         if (this->actor.params == STALFOS_TYPE_1) {
             if (this->actor.world.pos.y <= this->actor.home.pos.y) {
@@ -1725,8 +1725,9 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
         } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             floorProperty = SurfaceType_GetFloorProperty(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
-            if ((floorProperty == FLOOR_PROPERTY_5) || (floorProperty == FLOOR_PROPERTY_12) ||
-                SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) == FLOOR_TYPE_9) {
+            if ((floorProperty == FLOOR_PROPERTY_5) || (floorProperty == FLOOR_PROPERTY_12)
+                || SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId)
+                       == FLOOR_TYPE_9) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -1789,8 +1790,8 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
     if ((this->actor.colChkInfo.health > 0) || (this->actor.colorFilterTimer != 0)) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
 
-        if ((this->unk_7C8 >= 0xA) &&
-            ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
+        if ((this->unk_7C8 >= 0xA)
+            && ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
         }
 
@@ -1836,8 +1837,8 @@ s32 EnTest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_test.c", 3587);
     }
 
-    if ((this->actor.params == STALFOS_TYPE_INVISIBLE) &&
-        !CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if ((this->actor.params == STALFOS_TYPE_INVISIBLE)
+        && !CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
         *dList = NULL;
     }
 

@@ -138,12 +138,12 @@ u16 func_80AA1B58(EnMa2* this, PlayState* play) {
     if (LINK_IS_CHILD) {
         return 0;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (play->sceneId == SCENE_STABLE) && IS_DAY &&
-        (this->actor.shape.rot.z == 5)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (play->sceneId == SCENE_STABLE) && IS_DAY
+        && (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (play->sceneId == SCENE_LON_LON_RANCH) && IS_NIGHT &&
-        (this->actor.shape.rot.z == 6)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (play->sceneId == SCENE_LON_LON_RANCH) && IS_NIGHT
+        && (this->actor.shape.rot.z == 6)) {
         return 2;
     }
     if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) || (play->sceneId != SCENE_LON_LON_RANCH)) {
@@ -343,8 +343,8 @@ s32 EnMa2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateY(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.x), MTXMODE_APPLY);
     }
-    if ((limbIndex == MALON_ADULT_CHEST_AND_NECK_LIMB) || (limbIndex == MALON_ADULT_LEFT_SHOULDER_LIMB) ||
-        (limbIndex == MALON_ADULT_RIGHT_SHOULDER_LIMB)) {
+    if ((limbIndex == MALON_ADULT_CHEST_AND_NECK_LIMB) || (limbIndex == MALON_ADULT_LEFT_SHOULDER_LIMB)
+        || (limbIndex == MALON_ADULT_RIGHT_SHOULDER_LIMB)) {
         rot->y += Math_SinS(this->unk_212[limbIndex].y) * 200.0f;
         rot->z += Math_CosS(this->unk_212[limbIndex].z) * 200.0f;
     }

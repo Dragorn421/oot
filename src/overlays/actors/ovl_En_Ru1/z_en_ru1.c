@@ -485,9 +485,8 @@ f32 func_80AEB7E0(CsCmdActorCue* cue, PlayState* play) {
     s32 csCurFrame = play->csCtx.curFrame;
 
     if ((csCurFrame < cue->endFrame) && (cue->endFrame - cue->startFrame > 0)) {
-        return (Math_CosS(((csCurFrame - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame)) * 32768.0f) *
-                -0.5f) +
-               0.5f;
+        return (Math_CosS(((csCurFrame - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame)) * 32768.0f) * -0.5f)
+             + 0.5f;
     }
     return 1.0f;
 }
@@ -572,8 +571,8 @@ void func_80AEBB3C(EnRu1* this) {
 void func_80AEBB78(EnRu1* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if (Animation_OnFrame(skelAnime, 4.0f) || Animation_OnFrame(skelAnime, 13.0f) ||
-        Animation_OnFrame(skelAnime, 22.0f) || Animation_OnFrame(skelAnime, 31.0f)) {
+    if (Animation_OnFrame(skelAnime, 4.0f) || Animation_OnFrame(skelAnime, 13.0f) || Animation_OnFrame(skelAnime, 22.0f)
+        || Animation_OnFrame(skelAnime, 31.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_SWIM);
     }
 }
@@ -854,9 +853,9 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    if ((func_80AEC5FC(this, play)) && (!Play_InCsMode(play)) &&
-        (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
-        (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if ((func_80AEC5FC(this, play)) && (!Play_InCsMode(play))
+        && (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21)))
+        && (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
         play->csCtx.script = D_80AF0880;
         gSaveContext.cutsceneTrigger = 1;
@@ -1170,8 +1169,8 @@ void func_80AED414(EnRu1* this, PlayState* play) {
 void func_80AED44C(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
-    if (GET_INFTABLE(INFTABLE_141) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
-        !GET_INFTABLE(INFTABLE_147)) {
+    if (GET_INFTABLE(INFTABLE_141) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140)
+        && !GET_INFTABLE(INFTABLE_147)) {
         if (!func_80AEB020(this, play)) {
             func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
             actorRoom = this->actor.room;
@@ -1224,8 +1223,8 @@ s32 func_80AED624(EnRu1* this, PlayState* play) {
     if (this->roomNum2 != curRoomNum) {
         Actor_Kill(&this->actor);
         return false;
-    } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (this->actor.yDistToWater > kREG(16) + 50.0f) && (this->action != 33)) {
+    } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum))
+               && (this->actor.yDistToWater > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->alpha = 0xFF;
@@ -1537,8 +1536,8 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
         colCtx = &play->colCtx;
         floorBgId = this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
         dynaPolyActor = DynaPoly_GetActor(colCtx, floorBgId);
-        if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
-            dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
+        if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS
+            && dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
             func_80AEE02C(this);
             play->csCtx.script = D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
@@ -1569,8 +1568,8 @@ void func_80AEE488(EnRu1* this, PlayState* play) {
 
 void func_80AEE568(EnRu1* this, PlayState* play) {
     if (!func_80AEE394(this, play)) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speed == 0.0f) &&
-            (this->actor.minVelocityY == 0.0f)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speed == 0.0f)
+            && (this->actor.minVelocityY == 0.0f)) {
             func_80AEE02C(this);
             Actor_OfferCarry(&this->actor, play);
             this->action = 27;
@@ -1894,9 +1893,9 @@ void func_80AEF3A8(EnRu1* this, PlayState* play) {
 void func_80AEF40C(EnRu1* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if (Animation_OnFrame(skelAnime, 2.0f) || Animation_OnFrame(skelAnime, 7.0f) ||
-        Animation_OnFrame(skelAnime, 12.0f) || Animation_OnFrame(skelAnime, 18.0f) ||
-        Animation_OnFrame(skelAnime, 25.0f) || Animation_OnFrame(skelAnime, 33.0f)) {
+    if (Animation_OnFrame(skelAnime, 2.0f) || Animation_OnFrame(skelAnime, 7.0f) || Animation_OnFrame(skelAnime, 12.0f)
+        || Animation_OnFrame(skelAnime, 18.0f) || Animation_OnFrame(skelAnime, 25.0f)
+        || Animation_OnFrame(skelAnime, 33.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
     }
 }
@@ -2178,8 +2177,8 @@ void func_80AEFF40(EnRu1* this, PlayState* play) {
 void func_80AEFF94(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
-    if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
-        (!(func_80AEB020(this, play)))) {
+    if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)
+        && (!(func_80AEB020(this, play)))) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         actorRoom = this->actor.room;
         this->action = 22;

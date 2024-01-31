@@ -75,11 +75,11 @@ void EnShopnuts_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    if (((SHOPNUTS_GET_TYPE(&this->actor) == DNS_TYPE_HEART_PIECE) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE)) ||
-        ((SHOPNUTS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_STICK_UPGRADE) &&
-         GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
-        ((SHOPNUTS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_NUT_UPGRADE) &&
-         GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
+    if (((SHOPNUTS_GET_TYPE(&this->actor) == DNS_TYPE_HEART_PIECE) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE))
+        || ((SHOPNUTS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_STICK_UPGRADE)
+            && GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE))
+        || ((SHOPNUTS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_NUT_UPGRADE)
+            && GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
         Actor_Kill(&this->actor);
     } else {
         EnShopnuts_SetupIdle(this);
@@ -165,9 +165,8 @@ void EnShopnuts_Idle(EnShopnuts* this, PlayState* play) {
             EnShopnuts_SetupPeek(this);
         }
     }
-    if (hasSlowPlaybackSpeed &&
-        ((this->actor.xzDistToPlayer > 160.0f) && (fabsf(this->actor.yDistToPlayer) < 120.0f)) &&
-        ((this->animFlagAndTimer == 0) || (this->actor.xzDistToPlayer < 480.0f))) {
+    if (hasSlowPlaybackSpeed && ((this->actor.xzDistToPlayer > 160.0f) && (fabsf(this->actor.yDistToPlayer) < 120.0f))
+        && ((this->animFlagAndTimer == 0) || (this->actor.xzDistToPlayer < 480.0f))) {
         this->skelAnime.playSpeed = 1.0f;
     }
 }
@@ -218,7 +217,8 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, PlayState* play) {
 
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, spawnPos.x, spawnPos.y, spawnPos.z,
                         this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z,
-                        EN_NUTSBALL_TYPE_SHOPNUTS) != NULL) {
+                        EN_NUTSBALL_TYPE_SHOPNUTS)
+            != NULL) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     }
@@ -276,8 +276,9 @@ void EnShopnuts_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc == EnShopnuts_Idle) {
         Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
     } else if (this->actionFunc == EnShopnuts_Burrow) {
-        Actor_SetFocus(&this->actor, 20.0f - ((this->skelAnime.curFrame * 20.0f) /
-                                              Animation_GetLastFrame(&gBusinessScrubPeekBurrowAnim)));
+        Actor_SetFocus(
+            &this->actor,
+            20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&gBusinessScrubPeekBurrowAnim)));
     } else {
         Actor_SetFocus(&this->actor, 20.0f);
     }

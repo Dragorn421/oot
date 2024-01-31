@@ -150,8 +150,8 @@ void func_80B9A534(ObjMure2* this) {
     s32 i;
 
     for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
-        if (this->actorSpawnPtrList[i] != NULL && (((this->currentActorNum >> i) & 1) == 0) &&
-            (this->actorSpawnPtrList[i]->update == NULL)) {
+        if (this->actorSpawnPtrList[i] != NULL && (((this->currentActorNum >> i) & 1) == 0)
+            && (this->actorSpawnPtrList[i]->update == NULL)) {
             this->currentActorNum |= (1 << i);
             this->actorSpawnPtrList[i] = NULL;
         }
@@ -187,8 +187,8 @@ void func_80B9A658(ObjMure2* this) {
 }
 
 void func_80B9A668(ObjMure2* this, PlayState* play) {
-    if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) <
-        (sDistSquared1[this->actor.params & 3] * this->unk_184)) {
+    if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z)
+        < (sDistSquared1[this->actor.params & 3] * this->unk_184)) {
         this->actor.flags |= ACTOR_FLAG_4;
         ObjMure2_SpawnActors(this, play);
         func_80B9A6E8(this);
@@ -201,8 +201,8 @@ void func_80B9A6E8(ObjMure2* this) {
 
 void func_80B9A6F8(ObjMure2* this, PlayState* play) {
     func_80B9A534(this);
-    if ((sDistSquared2[this->actor.params & 3] * this->unk_184) <=
-        Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z)) {
+    if ((sDistSquared2[this->actor.params & 3] * this->unk_184)
+        <= Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         ObjMure2_CleanupAndDie(this, play);
         func_80B9A658(this);

@@ -157,8 +157,8 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play)
     this->startTimer++;
 
     for (i = 0; i < 3; i++) {
-        if ((player->rideActor != NULL) &&
-            (Math3D_Vec3f_DistXYZ(&sIngoRaceCheckpoints[i], &player->rideActor->world.pos) < 400.0f)) {
+        if ((player->rideActor != NULL)
+            && (Math3D_Vec3f_DistXYZ(&sIngoRaceCheckpoints[i], &player->rideActor->world.pos) < 400.0f)) {
             if ((i > 0) && (this->playerCheck[i - 1] == 1)) {
                 this->playerCheck[i] = 1;
             } else if (i == 0) {
@@ -322,8 +322,8 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, PlayState* play
 
     if (!(this->raceFlags & MALONRACE_PLAYER_ON_MARK) && AT_FINISH_LINE(player->rideActor)) {
         this->raceFlags |= MALONRACE_PLAYER_ON_MARK;
-    } else if ((this->raceFlags & MALONRACE_PLAYER_ON_MARK) && !(this->raceFlags & MALONRACE_PLAYER_START) &&
-               !AT_FINISH_LINE(player->rideActor)) {
+    } else if ((this->raceFlags & MALONRACE_PLAYER_ON_MARK) && !(this->raceFlags & MALONRACE_PLAYER_START)
+               && !AT_FINISH_LINE(player->rideActor)) {
         this->raceFlags |= MALONRACE_PLAYER_START;
     }
     if ((this->startTimer > 50) && !(this->raceFlags & MALONRACE_SET_TIMER)) {
@@ -369,8 +369,8 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, PlayState* play
                 }
             }
         }
-        if ((player2->rideActor != NULL) && (this->raceFlags & MALONRACE_PLAYER_START) &&
-            AT_FINISH_LINE(player2->rideActor)) {
+        if ((player2->rideActor != NULL) && (this->raceFlags & MALONRACE_PLAYER_START)
+            && AT_FINISH_LINE(player2->rideActor)) {
             if ((this->lapCount == 1) && (this->fenceCheck[15] == 0) && (player2->rideActor->prevPos.x < -200.0f)) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
                 Message_StartTextbox(play, 0x208C, NULL);

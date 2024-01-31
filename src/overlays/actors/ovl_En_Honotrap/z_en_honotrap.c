@@ -364,8 +364,8 @@ void EnHonotrap_FlameMove(EnHonotrap* this, PlayState* play) {
     targetReached &= Math_StepToF(&thisx->world.pos.y, this->targetPos.y, speed.y);
     targetReached &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, speed.z);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.0f, 10.0f, 0.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
 
     if (this->collider.tris.base.atFlags & AT_BOUNCED) {
         Player* player = GET_PLAYER(play);
@@ -418,8 +418,8 @@ void EnHonotrap_FlameChase(EnHonotrap* this, PlayState* play) {
     this->actor.velocity.y *= 0.95f;
     Actor_UpdatePos(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.0f, 10.0f, 0.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
     if (this->collider.cyl.base.atFlags & AT_BOUNCED) {
         Player* player = GET_PLAYER(play);
         Vec3s shieldRot;
@@ -449,8 +449,8 @@ void EnHonotrap_FlameVanish(EnHonotrap* this, PlayState* play) {
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.0f, 10.0f, 0.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
     if (targetReached) {
         Actor_Kill(&this->actor);
     }

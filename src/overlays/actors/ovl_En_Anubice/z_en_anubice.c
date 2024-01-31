@@ -246,8 +246,8 @@ void EnAnubice_GoToHome(EnAnubice* this, PlayState* play) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
 
-    if ((fabsf(this->home.x - this->actor.world.pos.x) > 3.0f) &&
-        (fabsf(this->home.z - this->actor.world.pos.z) > 3.0f)) {
+    if ((fabsf(this->home.x - this->actor.world.pos.x) > 3.0f)
+        && (fabsf(this->home.z - this->actor.world.pos.z) > 3.0f)) {
         x = this->home.x - this->actor.world.pos.x;
         z = this->home.z - this->actor.world.pos.z;
         xzDist = sqrtf(SQ(x) + SQ(z));
@@ -364,15 +364,15 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
     Vec3f rotatedKnockbackVelocity;
     EnAnubice* this = (EnAnubice*)thisx;
 
-    if ((this->actionFunc != EnAnubice_SetupDie) && (this->actionFunc != EnAnubice_Die) &&
-        (this->actor.shape.yOffset == 0.0f)) {
+    if ((this->actionFunc != EnAnubice_SetupDie) && (this->actionFunc != EnAnubice_Die)
+        && (this->actor.shape.yOffset == 0.0f)) {
         EnAnubice_Hover(this, play);
         for (i = 0; i < ARRAY_COUNT(this->flameCircles); i++) {
             flameCircle = this->flameCircles[i];
 
-            if ((flameCircle != NULL) && (fabsf(flameCircle->actor.world.pos.x - this->actor.world.pos.x) < 60.0f) &&
-                (fabsf(this->flameCircles[i]->actor.world.pos.z - this->actor.world.pos.z) < 60.0f) &&
-                (flameCircle->timer != 0)) {
+            if ((flameCircle != NULL) && (fabsf(flameCircle->actor.world.pos.x - this->actor.world.pos.x) < 60.0f)
+                && (fabsf(this->flameCircles[i]->actor.world.pos.z - this->actor.world.pos.z) < 60.0f)
+                && (flameCircle->timer != 0)) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(play, &this->actor);
@@ -449,8 +449,8 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
 
     if (!this->isPlayerOutOfRange) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 5.0f, 10.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
     } else {
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 5.0f, 10.0f,
                                 UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);

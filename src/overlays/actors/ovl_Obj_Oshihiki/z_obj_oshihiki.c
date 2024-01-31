@@ -143,8 +143,8 @@ void ObjOshihiki_ResetFloors(ObjOshihiki* this) {
 ObjOshihiki* ObjOshihiki_GetBlockUnder(ObjOshihiki* this, PlayState* play) {
     DynaPolyActor* dynaPolyActor;
 
-    if ((this->floorBgIds[this->highestFloor] != BGCHECK_SCENE) &&
-        (fabsf(this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) < 0.001f)) {
+    if ((this->floorBgIds[this->highestFloor] != BGCHECK_SCENE)
+        && (fabsf(this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) < 0.001f)) {
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->floorBgIds[this->highestFloor]);
         if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI)) {
             return (ObjOshihiki*)dynaPolyActor;
@@ -183,14 +183,14 @@ s32 ObjOshihiki_NoSwitchPress(ObjOshihiki* this, DynaPolyActor* dyna, PlayState*
         dynaSwitchFlag = (dyna->actor.params >> 8) & 0x3F;
         switch (dyna->actor.params & 0x33) {
             case 0x20: // Normal blue switch
-                if ((dynaSwitchFlag == ((this->dyna.actor.params >> 8) & 0x3F)) &&
-                    Flags_GetSwitch(play, dynaSwitchFlag)) {
+                if ((dynaSwitchFlag == ((this->dyna.actor.params >> 8) & 0x3F))
+                    && Flags_GetSwitch(play, dynaSwitchFlag)) {
                     return 0;
                 }
                 break;
             case 0x30: // Inverse blue switch
-                if ((dynaSwitchFlag == ((this->dyna.actor.params >> 8) & 0x3F)) &&
-                    !Flags_GetSwitch(play, dynaSwitchFlag)) {
+                if ((dynaSwitchFlag == ((this->dyna.actor.params >> 8) & 0x3F))
+                    && !Flags_GetSwitch(play, dynaSwitchFlag)) {
                     return 0;
                 }
                 break;
@@ -345,8 +345,8 @@ s16 ObjOshihiki_GetHighestFloor(ObjOshihiki* this) {
     for (i = 1; i < ARRAY_COUNT(this->floorHeights); i++) {
         if (this->floorHeights[i] > this->floorHeights[highestFloor]) {
             highestFloor = i;
-        } else if ((this->floorBgIds[i] == BGCHECK_SCENE) &&
-                   ((this->floorHeights[i] - this->floorHeights[highestFloor]) > -0.001f)) {
+        } else if ((this->floorBgIds[i] == BGCHECK_SCENE)
+                   && ((this->floorHeights[i] - this->floorHeights[highestFloor]) > -0.001f)) {
             highestFloor = i;
         }
     }
@@ -423,8 +423,8 @@ s32 ObjOshihiki_MoveWithBlockUnder(ObjOshihiki* this, PlayState* play) {
     s32 pad;
     ObjOshihiki* blockUnder = ObjOshihiki_GetBlockUnder(this, play);
 
-    if ((blockUnder != NULL) && (blockUnder->stateFlags & PUSHBLOCK_SETUP_PUSH) &&
-        !ObjOshihiki_CheckWall(play, blockUnder->dyna.unk_158, blockUnder->direction, this)) {
+    if ((blockUnder != NULL) && (blockUnder->stateFlags & PUSHBLOCK_SETUP_PUSH)
+        && !ObjOshihiki_CheckWall(play, blockUnder->dyna.unk_158, blockUnder->direction, this)) {
         this->blockUnder = blockUnder;
     }
 
@@ -456,8 +456,8 @@ void ObjOshihiki_OnScene(ObjOshihiki* this, PlayState* play) {
 
     this->stateFlags |= PUSHBLOCK_ON_SCENE;
     if ((this->timer <= 0) && (fabsf(this->dyna.unk_150) > 0.001f)) {
-        if (ObjOshihiki_StrongEnough(this) &&
-            !ObjOshihiki_CheckWall(play, this->dyna.unk_158, this->dyna.unk_150, this)) {
+        if (ObjOshihiki_StrongEnough(this)
+            && !ObjOshihiki_CheckWall(play, this->dyna.unk_158, this->dyna.unk_150, this)) {
             this->direction = this->dyna.unk_150;
             ObjOshihiki_SetupPush(this, play);
         } else {
@@ -496,8 +496,8 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
                 func_80043538(dynaPolyActor);
 
                 if ((this->timer <= 0) && (fabsf(this->dyna.unk_150) > 0.001f)) {
-                    if (ObjOshihiki_StrongEnough(this) && ObjOshihiki_NoSwitchPress(this, dynaPolyActor, play) &&
-                        !ObjOshihiki_CheckWall(play, this->dyna.unk_158, this->dyna.unk_150, this)) {
+                    if (ObjOshihiki_StrongEnough(this) && ObjOshihiki_NoSwitchPress(this, dynaPolyActor, play)
+                        && !ObjOshihiki_CheckWall(play, this->dyna.unk_158, this->dyna.unk_150, this)) {
 
                         this->direction = this->dyna.unk_150;
                         ObjOshihiki_SetupPush(this, play);
@@ -605,9 +605,10 @@ void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play) {
             ObjOshihiki_SetupOnActor(this, play);
         }
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Actor_PlaySfx(&this->dyna.actor, NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(
-                                                                    &play->colCtx, this->floorPolys[this->highestFloor],
-                                                                    this->floorBgIds[this->highestFloor]));
+        Actor_PlaySfx(&this->dyna.actor,
+                      NA_SE_PL_WALK_GROUND
+                          + SurfaceType_GetSfxOffset(&play->colCtx, this->floorPolys[this->highestFloor],
+                                                     this->floorBgIds[this->highestFloor]));
     }
 }
 
@@ -616,8 +617,8 @@ void ObjOshihiki_Update(Actor* thisx, PlayState* play) {
     ObjOshihiki* this = (ObjOshihiki*)thisx;
 
     this->stateFlags &=
-        ~(PUSHBLOCK_SETUP_FALL | PUSHBLOCK_FALL | PUSHBLOCK_SETUP_PUSH | PUSHBLOCK_PUSH | PUSHBLOCK_SETUP_ON_ACTOR |
-          PUSHBLOCK_ON_ACTOR | PUSHBLOCK_SETUP_ON_SCENE | PUSHBLOCK_ON_SCENE);
+        ~(PUSHBLOCK_SETUP_FALL | PUSHBLOCK_FALL | PUSHBLOCK_SETUP_PUSH | PUSHBLOCK_PUSH | PUSHBLOCK_SETUP_ON_ACTOR
+          | PUSHBLOCK_ON_ACTOR | PUSHBLOCK_SETUP_ON_SCENE | PUSHBLOCK_ON_SCENE);
     this->stateFlags |= PUSHBLOCK_MOVE_UNDER;
 
     if (this->timer > 0) {

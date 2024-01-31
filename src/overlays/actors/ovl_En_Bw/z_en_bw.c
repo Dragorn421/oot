@@ -221,10 +221,10 @@ void func_809CEA24(EnBw* this, PlayState* play) {
         sp60 = ABS(sp58) * 85.0f;
         this->color1.g = sp60;
     }
-    if ((((play->gameplayFrames % 4) == (u32)this->actor.params) && (this->actor.speed != 0.0f) &&
-         (sp64 =
-              BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0, 1))) ||
-        (this->unk_222 == 0)) {
+    if ((((play->gameplayFrames % 4) == (u32)this->actor.params) && (this->actor.speed != 0.0f)
+         && (sp64 =
+                 BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0, 1)))
+        || (this->unk_222 == 0)) {
         if (sp74 != NULL) {
             sp74 = SEGMENTED_TO_VIRTUAL(sp74);
             sp62 = RAD_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
@@ -334,8 +334,8 @@ void func_809CEA24(EnBw* this, PlayState* play) {
     switch (this->unk_221) {
         case 3:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
-            if ((this->unk_224 == 0) && (this->actor.xzDistToPlayer < 200.0f) &&
-                (ABS(this->actor.yDistToPlayer) < 50.0f) && Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
+            if ((this->unk_224 == 0) && (this->actor.xzDistToPlayer < 200.0f)
+                && (ABS(this->actor.yDistToPlayer) < 50.0f) && Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
                 func_809CF72C(this);
             } else {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_236 + this->unk_238, 1,
@@ -347,25 +347,25 @@ void func_809CEA24(EnBw* this, PlayState* play) {
             if (sp64 == 0) {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1,
                                    this->actor.speed * 1000.0f, 0);
-                if ((this->actor.xzDistToPlayer < 90.0f) && (this->actor.yDistToPlayer < 50.0f) &&
-                    Actor_IsFacingPlayer(&this->actor, 0x1554) &&
-                    Actor_TestFloorInDirection(&this->actor, play, 71.24802f, this->actor.yawTowardsPlayer)) {
+                if ((this->actor.xzDistToPlayer < 90.0f) && (this->actor.yDistToPlayer < 50.0f)
+                    && Actor_IsFacingPlayer(&this->actor, 0x1554)
+                    && Actor_TestFloorInDirection(&this->actor, play, 71.24802f, this->actor.yawTowardsPlayer)) {
                     func_809CF8F0(this);
                 }
             } else {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_236 + this->unk_238, 1,
                                    this->actor.speed * 1000.0f, 0);
             }
-            if ((this->unk_224 == 0) || (ABS(this->actor.yDistToPlayer) > 60.0f) ||
-                (player2->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+            if ((this->unk_224 == 0) || (ABS(this->actor.yDistToPlayer) > 60.0f)
+                || (player2->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
                 this->unk_221 = 3;
                 this->unk_224 = 150;
                 this->unk_250 = 0.0f;
             }
             break;
         case 1:
-            if (((sp64 == 0) && !(this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) ||
-                Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
+            if (((sp64 == 0) && !(this->actor.bgCheckFlags & BGCHECKFLAG_WALL))
+                || Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
                 if (Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
                     this->unk_238 = -this->unk_238;
                 }
@@ -726,8 +726,8 @@ void func_809D0584(EnBw* this, PlayState* play) {
                 this->unk_248 = 0.0f;
             }
         }
-        if ((play->actorCtx.unk_02 != 0) && (this->actor.xzDistToPlayer <= 400.0f) &&
-            (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+        if ((play->actorCtx.unk_02 != 0) && (this->actor.xzDistToPlayer <= 400.0f)
+            && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             if (this->unk_220 == 5) {
                 this->unk_23C = 0;
                 func_809CFF10(this);
@@ -790,13 +790,13 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
         }
 
         this->unk_234 = Actor_TestFloorInDirection(thisx, play, 50.0f, thisx->world.rot.y);
-        if ((this->unk_220 == 4) || (this->unk_220 == 6) || (this->unk_220 == 5) || (this->unk_220 == 1) ||
-            (this->unk_234 != 0)) {
+        if ((this->unk_220 == 4) || (this->unk_220 == 6) || (this->unk_220 == 5) || (this->unk_220 == 1)
+            || (this->unk_234 != 0)) {
             Actor_MoveXZGravity(thisx);
         }
         Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 30.0f, 21.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
-                                    UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2
+                                    | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     }
     Collider_UpdateCylinder(thisx, &this->collider2);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider2.base);

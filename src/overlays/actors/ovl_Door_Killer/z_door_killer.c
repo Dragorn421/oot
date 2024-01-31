@@ -144,8 +144,8 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
             this->colliderJntSph.elements[0].dim.worldSphere.center.z = (s16)this->actor.world.pos.z;
 
             // If tied to a switch flag and that switch flag is already set, kill the actor.
-            if ((((this->actor.params >> 8) & 0x3F) != 0x3F) &&
-                Flags_GetSwitch(play, ((this->actor.params >> 8) & 0x3F))) {
+            if ((((this->actor.params >> 8) & 0x3F) != 0x3F)
+                && Flags_GetSwitch(play, ((this->actor.params >> 8) & 0x3F))) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -162,10 +162,10 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
             // Random trajectories for rubble pieces
             randF = Rand_CenteredFloat(8.0f);
             this->actor.velocity.z = Rand_ZeroFloat(8.0f);
-            this->actor.velocity.x = (Math_CosS(this->actor.world.rot.y) * randF) +
-                                     (Math_SinS(this->actor.world.rot.y) * this->actor.velocity.z);
-            this->actor.velocity.z = (-Math_SinS(this->actor.world.rot.y) * randF) +
-                                     (Math_CosS(this->actor.world.rot.y) * this->actor.velocity.z);
+            this->actor.velocity.x = (Math_CosS(this->actor.world.rot.y) * randF)
+                                   + (Math_SinS(this->actor.world.rot.y) * this->actor.velocity.z);
+            this->actor.velocity.z = (-Math_SinS(this->actor.world.rot.y) * randF)
+                                   + (Math_CosS(this->actor.world.rot.y) * this->actor.velocity.z);
             this->actor.velocity.y = Rand_ZeroFloat(4.0f) + 4.0f;
 
             // These are used as the x,y,z rotational velocities in DoorKiller_FallAsRubble
@@ -350,8 +350,8 @@ void DoorKiller_FallOver(DoorKiller* this, PlayState* play) {
         Vec3f playerPosRelToDoor;
         Player* player = GET_PLAYER(play);
         func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
-        if ((fabsf(playerPosRelToDoor.y) < 20.0f) && (fabsf(playerPosRelToDoor.x) < 20.0f) &&
-            (playerPosRelToDoor.z < 100.0f) && (playerPosRelToDoor.z > 0.0f)) {
+        if ((fabsf(playerPosRelToDoor.y) < 20.0f) && (fabsf(playerPosRelToDoor.x) < 20.0f)
+            && (playerPosRelToDoor.z < 100.0f) && (playerPosRelToDoor.z > 0.0f)) {
             this->hasHitPlayerOrGround |= 1;
             func_8002F6D4(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f, 16);
             Actor_PlaySfx(&this->actor, NA_SE_EN_KDOOR_HIT);
@@ -436,9 +436,8 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
         DoorKiller_SpawnRubble(&this->actor, play);
         this->actionFunc = DoorKiller_Die;
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
-    } else if (!Player_InCsMode(play) && (fabsf(playerPosRelToDoor.y) < 20.0f) &&
-               (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 50.0f) &&
-               (playerPosRelToDoor.z > 0.0f)) {
+    } else if (!Player_InCsMode(play) && (fabsf(playerPosRelToDoor.y) < 20.0f) && (fabsf(playerPosRelToDoor.x) < 20.0f)
+               && (playerPosRelToDoor.z < 50.0f) && (playerPosRelToDoor.z > 0.0f)) {
         // Set player properties to make the door openable if within range
         angleToFacingPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
         if (playerPosRelToDoor.z > 0.0f) {

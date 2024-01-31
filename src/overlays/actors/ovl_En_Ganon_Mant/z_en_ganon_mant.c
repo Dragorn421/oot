@@ -199,14 +199,14 @@ void EnGanonMant_UpdateStrand(PlayState* play, EnGanonMant* this, Vec3f* root, V
 
             // Push the cloak away from attached actor, plus oscillations
             delta.x = 0;
-            delta.z = (this->backPush + (sinf((strandNum * (2 * M_PI)) / 2.1f) * this->backSwayMagnitude)) *
-                      sBackSwayCoefficients[i];
+            delta.z = (this->backPush + (sinf((strandNum * (2 * M_PI)) / 2.1f) * this->backSwayMagnitude))
+                    * sBackSwayCoefficients[i];
             Matrix_RotateY(this->baseYaw, MTXMODE_NEW);
             Matrix_MultVec3f(&delta, &backSwayOffset);
 
             // Push the cloak out to either side, in a swaying manner
-            delta.x = cosf((strandNum * M_PI) / (GANON_MANT_NUM_STRANDS - 1.0f)) * this->sideSwayMagnitude *
-                      sSideSwayCoefficients[i];
+            delta.x = cosf((strandNum * M_PI) / (GANON_MANT_NUM_STRANDS - 1.0f)) * this->sideSwayMagnitude
+                    * sSideSwayCoefficients[i];
             delta.z = 0;
             Matrix_MultVec3f(&delta, &sideSwayOffset);
 

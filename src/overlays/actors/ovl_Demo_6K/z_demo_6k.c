@@ -214,8 +214,8 @@ void func_80966E04(Demo6K* this, PlayState* play) {
         func_8002F948(&this->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
     }
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL) &&
-        (play->csCtx.actorCues[6]->id == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL)
+        && (play->csCtx.actorCues[6]->id == 2)) {
         Demo6K_SetupAction(this, func_80966E98);
     }
 }
@@ -288,8 +288,8 @@ void func_8096712C(Demo6K* this, PlayState* play) {
         this->actor.scale.x = 0.1f;
     }
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL) &&
-        (play->csCtx.actorCues[6]->id == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL)
+        && (play->csCtx.actorCues[6]->id == 2)) {
         Demo6K_SetupAction(this, func_809670AC);
         this->timer1 = 0;
         this->actor.scale.x = 0.1f;
@@ -688,8 +688,8 @@ void func_809688C4(Actor* thisx, PlayState* play2) {
     u32 frames = play->state.frames;
     s32 i;
 
-    if ((i = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[1] != NULL)) &&
-        (play->csCtx.actorCues[1]->id != 1)) {
+    if ((i = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[1] != NULL))
+        && (play->csCtx.actorCues[1]->id != 1)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1277);
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);

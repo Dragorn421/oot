@@ -717,8 +717,8 @@ void EnNb_PlayKnuckleDefeatSFX(EnNb* this, PlayState* play) {
 void EnNb_PlayKneelingOnGroundSFX(EnNb* this) {
     s32 pad[2];
 
-    if ((this->skelAnime.mode == 2) &&
-        (Animation_OnFrame(&this->skelAnime, 18.0f) || Animation_OnFrame(&this->skelAnime, 25.0f))) {
+    if ((this->skelAnime.mode == 2)
+        && (Animation_OnFrame(&this->skelAnime, 18.0f) || Animation_OnFrame(&this->skelAnime, 25.0f))) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_HUMAN_BOUND);
     }
 }

@@ -373,8 +373,8 @@ void func_80AAAA24(EnMd* this) {
 s16 func_80AAAC78(EnMd* this, PlayState* play) {
     s16 dialogState = Message_GetState(&play->msgCtx);
 
-    if ((this->unk_209 == TEXT_STATE_AWAITING_NEXT) || (this->unk_209 == TEXT_STATE_EVENT) ||
-        (this->unk_209 == TEXT_STATE_CLOSING) || (this->unk_209 == TEXT_STATE_DONE_HAS_NEXT)) {
+    if ((this->unk_209 == TEXT_STATE_AWAITING_NEXT) || (this->unk_209 == TEXT_STATE_EVENT)
+        || (this->unk_209 == TEXT_STATE_CLOSING) || (this->unk_209 == TEXT_STATE_DONE_HAS_NEXT)) {
         if (this->unk_209 != dialogState) {
             this->unk_208++;
         }
@@ -402,8 +402,8 @@ u16 EnMd_GetTextIdKokiriForest(PlayState* play, EnMd* this) {
         return 0x1034;
     }
 
-    if ((CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD) == EQUIP_VALUE_SHIELD_DEKU) &&
-        (CUR_EQUIP_VALUE(EQUIP_TYPE_SWORD) == EQUIP_VALUE_SWORD_KOKIRI)) {
+    if ((CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD) == EQUIP_VALUE_SHIELD_DEKU)
+        && (CUR_EQUIP_VALUE(EQUIP_TYPE_SWORD) == EQUIP_VALUE_SWORD_KOKIRI)) {
         return 0x1033;
     }
 
@@ -638,10 +638,10 @@ void func_80AAB5A4(EnMd* this, PlayState* play) {
     f32 temp;
 
     if (play->sceneId != SCENE_MIDOS_HOUSE) {
-        temp = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
-                (play->sceneId == SCENE_KOKIRI_FOREST))
-                   ? 100.0f
-                   : 400.0f;
+        temp = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C)
+                && (play->sceneId == SCENE_KOKIRI_FOREST))
+                 ? 100.0f
+                 : 400.0f;
         this->alpha = func_80034DD4(&this->actor, play, this->alpha, temp);
         this->actor.shape.shadowAlpha = this->alpha;
     } else {
@@ -672,10 +672,10 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ELF, this->actor.world.pos.x,
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
 
-    if (((play->sceneId == SCENE_KOKIRI_FOREST) && !GET_EVENTCHKINF(EVENTCHKINF_04)) ||
-        ((play->sceneId == SCENE_KOKIRI_FOREST) && GET_EVENTCHKINF(EVENTCHKINF_04) &&
-         CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) ||
-        ((play->sceneId == SCENE_LOST_WOODS) && !GET_EVENTCHKINF(EVENTCHKINF_0A))) {
+    if (((play->sceneId == SCENE_KOKIRI_FOREST) && !GET_EVENTCHKINF(EVENTCHKINF_04))
+        || ((play->sceneId == SCENE_KOKIRI_FOREST) && GET_EVENTCHKINF(EVENTCHKINF_04)
+            && CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD))
+        || ((play->sceneId == SCENE_LOST_WOODS) && !GET_EVENTCHKINF(EVENTCHKINF_0A))) {
         this->actor.home.pos = this->actor.world.pos;
         this->actionFunc = func_80AAB948;
         return;
@@ -735,8 +735,8 @@ void func_80AAB948(EnMd* this, PlayState* play) {
     }
 
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
-            (play->sceneId == SCENE_KOKIRI_FOREST)) {
+        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C)
+            && (play->sceneId == SCENE_KOKIRI_FOREST)) {
             play->msgCtx.msgMode = MSGMODE_PAUSED;
         }
 
@@ -803,8 +803,8 @@ void func_80AABD0C(EnMd* this, PlayState* play) {
         return;
     }
 
-    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
-        (play->sceneId == SCENE_KOKIRI_FOREST)) {
+    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C)
+        && (play->sceneId == SCENE_KOKIRI_FOREST)) {
         Message_CloseTextbox(play);
         SET_EVENTCHKINF(EVENTCHKINF_1C);
         Actor_Kill(&this->actor);
@@ -851,8 +851,8 @@ s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
     }
 
-    if (((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM)) ||
-        (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
+    if (((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM))
+        || (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
         rot->y += Math_SinS(this->unk_214[limbIndex]) * 200.0f;
         rot->z += Math_CosS(this->unk_236[limbIndex]) * 200.0f;
     }

@@ -309,8 +309,8 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, PlayState* play) {
             default:
                 switch (this->moveState) {
                     case MOVE_TARGET:
-                        if ((fabsf(this->actor.world.pos.x - this->targetPos.x) > 5.0f) ||
-                            (fabsf(this->actor.world.pos.y - this->targetPos.y) > 5.0f)) {
+                        if ((fabsf(this->actor.world.pos.x - this->targetPos.x) > 5.0f)
+                            || (fabsf(this->actor.world.pos.y - this->targetPos.y) > 5.0f)) {
                             Math_ApproachF(&this->actor.world.pos.x, this->targetPos.x, 0.3f, 30.0f);
                             Math_ApproachF(&this->actor.world.pos.y, this->targetPos.y, 0.3f, 30.0f);
                         } else {
@@ -320,8 +320,8 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, PlayState* play) {
                         break;
                     case MOVE_HOME:
                         if (this->waitTimer == 0) {
-                            if ((fabsf(this->actor.world.pos.x - this->actor.home.pos.x) > 5.0f) ||
-                                (fabsf(this->actor.world.pos.y - this->actor.home.pos.y) > 5.0f)) {
+                            if ((fabsf(this->actor.world.pos.x - this->actor.home.pos.x) > 5.0f)
+                                || (fabsf(this->actor.world.pos.y - this->actor.home.pos.y) > 5.0f)) {
                                 Math_ApproachF(&this->actor.world.pos.x, this->actor.home.pos.x, 0.3f, 30.0f);
                                 Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.3f, 30.0f);
                             } else {
@@ -428,8 +428,8 @@ void EnGSwitch_Update(Actor* thisx, PlayState* play) {
     if (this->delayTimer != 0) {
         this->delayTimer--;
     }
-    if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE) &&
-        (this->type != ENGSWITCH_TARGET_RUPEE)) {
+    if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE)
+        && (this->type != ENGSWITCH_TARGET_RUPEE)) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 50.0f, 50.0f, 100.0f,
                                 UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);

@@ -205,8 +205,8 @@ void PadMgr_UpdateRumble(PadMgr* padMgr) {
         // not already known to be an initialized a rumble pak
         i = sRumbleUpdateCounter % MAXCONTROLLERS;
 
-        if (padMgr->ctrlrIsConnected[i] && (padMgr->padStatus[i].status & CONT_CARD_ON) &&
-            padMgr->pakType[i] != CONT_PAK_RUMBLE) {
+        if (padMgr->ctrlrIsConnected[i] && (padMgr->padStatus[i].status & CONT_CARD_ON)
+            && padMgr->pakType[i] != CONT_PAK_RUMBLE) {
             ret = osMotorInit(serialEventQueue, &padMgr->rumblePfs[i], i);
 
             if (ret == 0) {

@@ -948,8 +948,8 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
     PRINTF("PYP %f\n", player->actor.floorHeight);
     SkelAnime_Update(&this->skelAnime);
     this->work[GND_DEATH_SFX_TIMER]++;
-    if (((60 < this->work[GND_DEATH_SFX_TIMER]) && (this->work[GND_DEATH_SFX_TIMER] < 500)) ||
-        ((501 < this->work[GND_DEATH_SFX_TIMER]) && (this->work[GND_DEATH_SFX_TIMER] < 620))) {
+    if (((60 < this->work[GND_DEATH_SFX_TIMER]) && (this->work[GND_DEATH_SFX_TIMER] < 500))
+        || ((501 < this->work[GND_DEATH_SFX_TIMER]) && (this->work[GND_DEATH_SFX_TIMER] < 620))) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_LAST - SFX_FLAG);
     }
 
@@ -1238,8 +1238,8 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                 acHitElem = this->colliderBody.elem.acHitElem;
             }
             if (this->flyMode != GND_FLY_PAINTING) {
-                if (acHit && (this->actionFunc != BossGanondrof_Stunned) &&
-                    (acHitElem->toucher.dmgFlags & DMG_RANGED)) {
+                if (acHit && (this->actionFunc != BossGanondrof_Stunned)
+                    && (acHitElem->toucher.dmgFlags & DMG_RANGED)) {
                     Actor_PlaySfx(&this->actor, NA_SE_NONE);
                     PRINTF("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
@@ -1350,8 +1350,8 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
     legRotTargetZ = ((-sn * this->actor.velocity.x) + (cs * this->actor.velocity.z)) * 300.0f;
     Math_ApproachF(&this->legRotY, legRotTargetY, 1.0f, 600.0f);
     Math_ApproachF(&this->legRotZ, legRotTargetZ, 1.0f, 600.0f);
-    if ((this->flyMode != GND_FLY_PAINTING) && (this->actionFunc != BossGanondrof_Stunned) &&
-        (this->deathState == NOT_DEAD)) {
+    if ((this->flyMode != GND_FLY_PAINTING) && (this->actionFunc != BossGanondrof_Stunned)
+        && (this->deathState == NOT_DEAD)) {
         legSplitTarget = (Math_SinS(this->work[GND_VARIANCE_TIMER] * 0x8DC) * -500.0f) - 500.0f;
     } else {
         legSplitTarget = 0.0f;

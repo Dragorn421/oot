@@ -221,8 +221,8 @@ void func_80B32804(EnWeiyer* this, PlayState* play) {
         BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
 
     if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
-                                 &this->actor.home.pos.y, &waterBox) ||
-        ((this->actor.home.pos.y - 5.0f) <= this->actor.floorHeight)) {
+                                 &this->actor.home.pos.y, &waterBox)
+        || ((this->actor.home.pos.y - 5.0f) <= this->actor.floorHeight)) {
         Actor_Kill(&this->actor);
     } else {
         this->actor.home.pos.y -= 5.0f;
@@ -288,8 +288,8 @@ void func_80B328E8(EnWeiyer* this, PlayState* play) {
                 Rand_ZeroOne() * (this->actor.home.pos.y - this->actor.floorHeight) + this->actor.floorHeight;
         }
 
-        if ((this->actor.xzDistToPlayer < 400.0f) && (fabsf(this->actor.yDistToPlayer) < 250.0f) &&
-            (player->actor.world.pos.y < (this->actor.home.pos.y + 20.0f))) {
+        if ((this->actor.xzDistToPlayer < 400.0f) && (fabsf(this->actor.yDistToPlayer) < 250.0f)
+            && (player->actor.world.pos.y < (this->actor.home.pos.y + 20.0f))) {
             func_80B32508(this);
         }
     }
@@ -363,8 +363,8 @@ void func_80B32E34(EnWeiyer* this, PlayState* play) {
         this->unk_194--;
     }
 
-    if ((this->unk_194 == 0) || ((this->actor.home.pos.y + 20.0f) <= player->actor.world.pos.y) ||
-        (this->collider.base.atFlags & AT_HIT)) {
+    if ((this->unk_194 == 0) || ((this->actor.home.pos.y + 20.0f) <= player->actor.world.pos.y)
+        || (this->collider.base.atFlags & AT_HIT)) {
         func_80B32538(this);
     } else {
         if (Actor_IsFacingPlayer(&this->actor, 0x2800)) {
@@ -388,8 +388,8 @@ void func_80B32E34(EnWeiyer* this, PlayState* play) {
 
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0x200, 0x80);
 
-        if ((player->actor.yDistToWater < 50.0f) && (this->actor.yDistToWater < 20.0f) &&
-            Actor_IsFacingPlayer(&this->actor, 0x2000)) {
+        if ((player->actor.yDistToWater < 50.0f) && (this->actor.yDistToWater < 20.0f)
+            && Actor_IsFacingPlayer(&this->actor, 0x2000)) {
             func_80B327D8(this);
         }
     }

@@ -420,8 +420,8 @@ void BgPoEvent_BlockReset(BgPoEvent* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;
     }
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, 493.0f, 1.0f) &&
-        Math_ScaledStepToS(&this->dyna.actor.shape.rot.z, this->dyna.actor.world.rot.z - 0x4000, 0x400)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, 493.0f, 1.0f)
+        && Math_ScaledStepToS(&this->dyna.actor.shape.rot.z, this->dyna.actor.world.rot.z - 0x4000, 0x400)) {
 
         this->index = (this->index + 1) % 4;
         this->actionFunc = BgPoEvent_BlockFall;
@@ -516,11 +516,11 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play) {
 
     DECR(this->timer);
 
-    if (((this->timer == 0) || ((thisx->xzDistToPlayer < 150.0f) && (thisx->yDistToPlayer < 50.0f)) ||
-         (func_8002DD78(player) && (thisx->xzDistToPlayer < 320.0f) &&
-          ((this->index != 2) ? (thisx->yDistToPlayer < 100.0f) : (thisx->yDistToPlayer < 0.0f)) &&
-          Player_IsFacingActor(thisx, 0x2000, play))) &&
-        ((thisx->parent != NULL) || (thisx->child != NULL))) {
+    if (((this->timer == 0) || ((thisx->xzDistToPlayer < 150.0f) && (thisx->yDistToPlayer < 50.0f))
+         || (func_8002DD78(player) && (thisx->xzDistToPlayer < 320.0f)
+             && ((this->index != 2) ? (thisx->yDistToPlayer < 100.0f) : (thisx->yDistToPlayer < 0.0f))
+             && Player_IsFacingActor(thisx, 0x2000, play)))
+        && ((thisx->parent != NULL) || (thisx->child != NULL))) {
         /*The third condition in the || is checking if
             1) Link is holding a ranged weapon
             2) Link is too close in the xz plane

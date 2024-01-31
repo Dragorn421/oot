@@ -365,10 +365,10 @@ void func_800B44E0(DebugCam* debugCam, Camera* cam) {
     }
 
     if (!func_800BB2B4(&sDebugCamAnim.positionPos, &sDebugCamAnim.roll, &sDebugCamAnim.fov, debugCam->sub.position,
-                       &sDebugCamAnim.keyframe, &sDebugCamAnim.curFrame) &&
-        !func_800BB2B4(&sDebugCamAnim.lookAtPos, &sDebugCamAnim.roll, &sDebugCamAnim.fov, debugCam->sub.lookAt,
-                       &sDebugCamAnim.keyframe, &sDebugCamAnim.curFrame) &&
-        sDebugCamAnim.unk_0A == 1) {
+                       &sDebugCamAnim.keyframe, &sDebugCamAnim.curFrame)
+        && !func_800BB2B4(&sDebugCamAnim.lookAtPos, &sDebugCamAnim.roll, &sDebugCamAnim.fov, debugCam->sub.lookAt,
+                          &sDebugCamAnim.keyframe, &sDebugCamAnim.curFrame)
+        && sDebugCamAnim.unk_0A == 1) {
         Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         sDebugCamAnim.unk_04++;
@@ -812,8 +812,8 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
             debugCam->unk_44 = 0;
         }
         debugCam->unk_40 = 4;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, (BTN_DRIGHT | BTN_L)) ||
-               CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_DRIGHT)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, (BTN_DRIGHT | BTN_L))
+               || CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_DRIGHT)) {
         spFC = sp104;
         spFC.r = temp_f2;
         spFC.pitch = 0;
@@ -830,8 +830,8 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
             debugCam->unk_44 = 0;
         }
         debugCam->unk_40 = 5;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, (BTN_DLEFT | BTN_L)) ||
-               CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_DLEFT)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, (BTN_DLEFT | BTN_L))
+               || CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_DLEFT)) {
         spFC = sp104;
         spFC.r = temp_f2;
         spFC.pitch = 0;
@@ -925,8 +925,8 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
             func_800B41DC(debugCam, debugCam->sub.unkIdx, cam);
         } else {
 
-            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_R) &&
-                CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_R)
+                && CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CANCEL, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 debugCam->sub.nPoints = debugCam->sub.unkIdx + 1;
@@ -984,12 +984,12 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
     if (debugCam->unk_00 == 1) {
         OREG(0) = 8;
         DebugCamera_ScreenTextColored(12, 5, DEBUG_CAM_TEXT_YELLOW, D_8012CEF4);
-        if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_CRIGHT) &&
-            !CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
+        if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_CRIGHT)
+            && !CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
             func_800B44E0(debugCam, cam);
         } else {
-            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CRIGHT) &&
-                CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CRIGHT)
+                && CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 PRINTF("@@@\n@@@\n@@@/* *** spline point data ** start here *** */\n@@@\n");
@@ -1005,8 +1005,8 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
                 debugCam->sub.unk_08 = (debugCam->sub.unk_08 + 1) % 3;
             }
 
-            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CUP) &&
-                CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CUP)
+                && CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                 Audio_PlaySfxGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (debugCam->sub.unkIdx > 0) {
@@ -1036,8 +1036,8 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
                     }
                 }
             }
-            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L) &&
-                CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CDOWN)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)
+                && CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CDOWN)) {
                 Audio_PlaySfxGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (debugCam->sub.unkIdx < (debugCam->sub.nPoints - 1)) {
@@ -1769,9 +1769,9 @@ s32 func_800B91B0(Camera* cam, DebugCam* debugCam) {
     }
 
     if (!func_800BB2B4(&sDebugCamAnim.positionPos, &sDebugCamAnim.roll, &sDebugCamAnim.fov,
-                       sDebugCamCuts[D_8016110C].position, &sDebugCamAnim.keyframe, &sDebugCamAnim.curFrame) &&
-        !func_800BB2B4(&sDebugCamAnim.lookAtPos, &sDebugCamAnim.roll, &sDebugCamAnim.fov,
-                       sDebugCamCuts[D_8016110C].lookAt, &sDebugCamAnim.keyframe, &sDebugCamAnim.curFrame)) {
+                       sDebugCamCuts[D_8016110C].position, &sDebugCamAnim.keyframe, &sDebugCamAnim.curFrame)
+        && !func_800BB2B4(&sDebugCamAnim.lookAtPos, &sDebugCamAnim.roll, &sDebugCamAnim.fov,
+                          sDebugCamCuts[D_8016110C].lookAt, &sDebugCamAnim.keyframe, &sDebugCamAnim.curFrame)) {
 
         D_8012D13C[7] = ((sDebugCamAnim.keyframe + 1) / 10) + '0';
         D_8012D13C[8] = ((sDebugCamAnim.keyframe + 1) % 10) + '0';
@@ -1873,8 +1873,8 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_INFO):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_INFO): {
                     if ((1 << sCurFileIdx) & sMempakFiles) {
-                        if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_DLEFT) ||
-                            CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_DRIGHT)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_DLEFT)
+                            || CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_DRIGHT)) {
                             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             debugCam->sub.demoCtrlToggleSwitch ^= 1;
@@ -1957,8 +1957,8 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
                         13, 9, (debugCam->sub.demoCtrlToggleSwitch != 0) ? DEBUG_CAM_TEXT_PEACH : DEBUG_CAM_TEXT_BLUE,
                         "PRESS B BUTTON");
 
-                    if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_A) ||
-                        CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_B)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_A)
+                        || CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_B)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         if (debugCam->sub.demoCtrlMenu == DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS)) {
@@ -1983,8 +1983,8 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
                         13, 9, (debugCam->sub.demoCtrlToggleSwitch != 0) ? DEBUG_CAM_TEXT_PEACH : DEBUG_CAM_TEXT_BLUE,
                         "PRESS B BUTTON");
 
-                    if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_A) ||
-                        CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_B)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_A)
+                        || CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_B)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         debugCam->sub.demoCtrlMenu -= 9;
@@ -2110,9 +2110,9 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
                     } else {
                         DebugCamera_ScreenTextColored(12, 26, DEBUG_CAM_TEXT_GOLD, D_8012CF60[0]);
                         DebugCamera_ScreenTextColored(19, 26, DEBUG_CAM_TEXT_GOLD, D_8012CF80);
-                        if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_B) ||
-                            CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_DUP) ||
-                            CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_DDOWN)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_B)
+                            || CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_DUP)
+                            || CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_DDOWN)) {
 
                             Audio_PlaySfxGeneral(NA_SE_SY_CANCEL, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -2307,16 +2307,16 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
                 sCurFileIdx = (sCurFileIdx == 0) ? 0x1E : sCurFileIdx - 1;
             }
 
-            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L) &&
-                CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CRIGHT)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)
+                && CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CRIGHT)) {
                 for (i = 0; i < ARRAY_COUNT(sDebugCamCuts) - 1; i++) {
                     PRINTF("###%2d:(%c) (%d %d) %d %d %d\n", i, sDebugCamCuts[i].letter, sDebugCamCuts[i].position,
                            sDebugCamCuts[i].lookAt, sDebugCamCuts[i].nFrames, sDebugCamCuts[i].nPoints,
                            sDebugCamCuts[i].mode);
                 }
                 DebugCamera_PrintAllCuts(cam);
-            } else if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L) &&
-                       CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CLEFT)) {
+            } else if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)
+                       && CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CLEFT)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 for (i = 0; i < ARRAY_COUNT(sDebugCamCuts) - 1; i++) {

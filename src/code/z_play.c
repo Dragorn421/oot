@@ -255,9 +255,10 @@ void Play_Init(GameState* thisx) {
     this->cameraPtrs[CAM_ID_MAIN] = &this->mainCamera;
     this->cameraPtrs[CAM_ID_MAIN]->uid = 0;
     this->activeCamId = CAM_ID_MAIN;
-    Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_CHECK_BG_ALT | CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG |
-                                                      CAM_STATE_EXTERNAL_FINISHED | CAM_STATE_CAM_FUNC_FINISH |
-                                                      CAM_STATE_LOCK_MODE | CAM_STATE_DISTORTION | CAM_STATE_PLAY_INIT);
+    Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_CHECK_BG_ALT | CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG
+                                                      | CAM_STATE_EXTERNAL_FINISHED | CAM_STATE_CAM_FUNC_FINISH
+                                                      | CAM_STATE_LOCK_MODE | CAM_STATE_DISTORTION
+                                                      | CAM_STATE_PLAY_INIT);
     Sram_Init(this, &this->sramCtx);
     Regs_InitData(this);
     Message_Init(this);
@@ -308,16 +309,16 @@ void Play_Init(GameState* thisx) {
     // save the base scene layer (before accounting for the special cases below) to use later for the transition type
     baseSceneLayer = gSaveContext.sceneLayer;
 
-    if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_HYRULE_FIELD) && !LINK_IS_ADULT &&
-        !IS_CUTSCENE_LAYER) {
-        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-            CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
+    if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_HYRULE_FIELD) && !LINK_IS_ADULT
+        && !IS_CUTSCENE_LAYER) {
+        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)
+            && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
             gSaveContext.sceneLayer = 1;
         } else {
             gSaveContext.sceneLayer = 0;
         }
-    } else if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_KOKIRI_FOREST) &&
-               LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
+    } else if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_KOKIRI_FOREST)
+               && LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
         gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
@@ -329,8 +330,8 @@ void Play_Init(GameState* thisx) {
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
-        gSaveContext.sceneLayer == 6) {
+    if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY)
+        && gSaveContext.sceneLayer == 6) {
         PRINTF("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
         PRINTF("出戻り？\n"); // "Return?"
@@ -346,8 +347,8 @@ void Play_Init(GameState* thisx) {
             gSaveContext.save.bgsDayCount++;
             gSaveContext.dogIsLost = true;
 
-            if (Inventory_ReplaceItem(this, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
-                Inventory_ReplaceItem(this, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
+            if (Inventory_ReplaceItem(this, ITEM_WEIRD_EGG, ITEM_CHICKEN)
+                || Inventory_ReplaceItem(this, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
                 Message_StartTextbox(this, 0x3066, NULL);
             }
 
@@ -527,8 +528,8 @@ void Play_Update(PlayState* this) {
                         }
 
                         // fade out bgm if "continue bgm" flag is not set
-                        if (!(gEntranceTable[this->nextEntranceIndex + sceneLayer].field &
-                              ENTRANCE_INFO_CONTINUE_BGM_FLAG)) {
+                        if (!(gEntranceTable[this->nextEntranceIndex + sceneLayer].field
+                              & ENTRANCE_INFO_CONTINUE_BGM_FLAG)) {
                             // "Sound initialized. 111"
                             PRINTF("\n\n\nサウンドイニシャル来ました。111");
                             if ((this->transitionType < TRANS_TYPE_MAX) && !Environment_IsForcedSequenceDisabled()) {
@@ -563,8 +564,8 @@ void Play_Update(PlayState* this) {
 
                     gSaveContext.transWipeSpeed = 14;
 
-                    if ((this->transitionCtx.transitionType == TRANS_TYPE_WIPE_FAST) ||
-                        (this->transitionCtx.transitionType == TRANS_TYPE_FILL_WHITE2)) {
+                    if ((this->transitionCtx.transitionType == TRANS_TYPE_WIPE_FAST)
+                        || (this->transitionCtx.transitionType == TRANS_TYPE_FILL_WHITE2)) {
                         //! @bug TRANS_TYPE_FILL_WHITE2 will never reach this code.
                         //! It is a non-instance type transition which doesn't run this case.
                         gSaveContext.transWipeSpeed = 28;
@@ -572,21 +573,21 @@ void Play_Update(PlayState* this) {
 
                     gSaveContext.transFadeDuration = 60;
 
-                    if ((this->transitionCtx.transitionType == TRANS_TYPE_FADE_BLACK_FAST) ||
-                        (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_FAST)) {
+                    if ((this->transitionCtx.transitionType == TRANS_TYPE_FADE_BLACK_FAST)
+                        || (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_FAST)) {
                         gSaveContext.transFadeDuration = 20;
-                    } else if ((this->transitionCtx.transitionType == TRANS_TYPE_FADE_BLACK_SLOW) ||
-                               (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_SLOW)) {
+                    } else if ((this->transitionCtx.transitionType == TRANS_TYPE_FADE_BLACK_SLOW)
+                               || (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_SLOW)) {
                         gSaveContext.transFadeDuration = 150;
                     } else if (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_INSTANT) {
                         gSaveContext.transFadeDuration = 2;
                     }
 
-                    if ((this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE) ||
-                        (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_FAST) ||
-                        (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_SLOW) ||
-                        (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_CS_DELAYED) ||
-                        (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_INSTANT)) {
+                    if ((this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE)
+                        || (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_FAST)
+                        || (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_SLOW)
+                        || (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_CS_DELAYED)
+                        || (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_INSTANT)) {
                         this->transitionCtx.setColor(&this->transitionCtx.instanceData, RGBA8(160, 160, 160, 255));
 
                         if (this->transitionCtx.setUnkColor != NULL) {
@@ -844,8 +845,8 @@ void Play_Update(PlayState* this) {
         if (1 && (gTransitionTileState != TRANS_TILE_READY)) {
             PLAY_LOG(3542);
 
-            if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (this->msgCtx.msgMode == MSGMODE_NONE) &&
-                (this->gameOverCtx.state == GAMEOVER_INACTIVE)) {
+            if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (this->msgCtx.msgMode == MSGMODE_NONE)
+                && (this->gameOverCtx.state == GAMEOVER_INACTIVE)) {
                 KaleidoSetup_Update(this);
             }
 
@@ -1088,8 +1089,8 @@ void Play_Draw(PlayState* this) {
             gfxP = Graph_GfxPlusOne(sp1CC);
             gSPDisplayList(OVERLAY_DISP++, gfxP);
 
-            if ((this->transitionMode == TRANS_MODE_INSTANCE_RUNNING) ||
-                (this->transitionMode == TRANS_MODE_INSTANCE_WAIT) || (this->transitionCtx.transitionType >= 56)) {
+            if ((this->transitionMode == TRANS_MODE_INSTANCE_RUNNING)
+                || (this->transitionMode == TRANS_MODE_INSTANCE_WAIT) || (this->transitionCtx.transitionType >= 56)) {
                 View view;
 
                 View_Init(&view, gfxCtx);
@@ -1195,8 +1196,8 @@ void Play_Draw(PlayState* this) {
         }
 
         if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
-            if ((this->skyboxCtx.drawType != SKYBOX_DRAW_128) &&
-                (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
+            if ((this->skyboxCtx.drawType != SKYBOX_DRAW_128)
+                && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
                 Vec3f quakeOffset;
 
                 quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(this));
@@ -1317,8 +1318,8 @@ void Play_Main(GameState* thisx) {
         R_PLAY_DRAW_SCREEN_FILLS = true;
         R_PLAY_DRAW_SANDSTORM = true;
         R_PLAY_DRAW_OVERLAY_ELEMENTS = true;
-        R_PLAY_DRAW_ENV_FLAGS = (PLAY_ENV_DRAW_SKYBOX_FILTERS | PLAY_ENV_DRAW_SUN_AND_MOON | PLAY_ENV_DRAW_LIGHTNING |
-                                 PLAY_ENV_DRAW_LIGHTS);
+        R_PLAY_DRAW_ENV_FLAGS = (PLAY_ENV_DRAW_SKYBOX_FILTERS | PLAY_ENV_DRAW_SUN_AND_MOON | PLAY_ENV_DRAW_LIGHTNING
+                                 | PLAY_ENV_DRAW_LIGHTS);
         HREG(91) = 1; // reg is not used in this mode
         R_PLAY_DRAW_COVER_ELEMENTS = true;
         R_PLAY_DRAW_DEBUG_OBJECTS = true;
@@ -1475,8 +1476,9 @@ void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest) {
     Matrix_Mult(&this->viewProjectionMtxF, MTXMODE_NEW);
     Matrix_MultVec3f(src, dest);
 
-    w = this->viewProjectionMtxF.ww + (this->viewProjectionMtxF.wx * src->x + this->viewProjectionMtxF.wy * src->y +
-                                       this->viewProjectionMtxF.wz * src->z);
+    w = this->viewProjectionMtxF.ww
+      + (this->viewProjectionMtxF.wx * src->x + this->viewProjectionMtxF.wy * src->y
+         + this->viewProjectionMtxF.wz * src->z);
 
     dest->x = (SCREEN_WIDTH / 2) + ((dest->x / w) * (SCREEN_WIDTH / 2));
     dest->y = (SCREEN_HEIGHT / 2) - ((dest->y / w) * (SCREEN_HEIGHT / 2));
@@ -1754,15 +1756,15 @@ void Play_LoadToLastEntrance(PlayState* this) {
     gSaveContext.respawnFlag = -1;
     this->transitionTrigger = TRANS_TRIGGER_START;
 
-    if ((this->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
-        (this->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
-        (this->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE) || (this->sceneId == SCENE_GANON_BOSS)) {
+    if ((this->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR)
+        || (this->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR)
+        || (this->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE) || (this->sceneId == SCENE_GANON_BOSS)) {
         this->nextEntranceIndex = ENTR_GANONS_TOWER_COLLAPSE_EXTERIOR_0;
         Item_Give(this, ITEM_SWORD_MASTER);
-    } else if ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11) ||
-               (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12) ||
-               (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13) ||
-               (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15)) {
+    } else if ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11)
+               || (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12)
+               || (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13)
+               || (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15)) {
         this->nextEntranceIndex = ENTR_HYRULE_FIELD_6;
     } else {
         this->nextEntranceIndex = gSaveContext.save.entranceIndex;
@@ -1779,9 +1781,9 @@ void Play_TriggerRespawn(PlayState* this) {
 int Play_CamIsNotFixed(PlayState* this) {
     // SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT was probably intended to be in this condition,
     // but the room shape type check handles all shop cases regardless
-    return (this->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_IMAGE) &&
-           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED) &&
-           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneId != SCENE_CASTLE_COURTYARD_GUARDS_DAY);
+    return (this->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_IMAGE)
+        && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED)
+        && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneId != SCENE_CASTLE_COURTYARD_GUARDS_DAY);
 }
 
 int FrameAdvance_IsEnabled(PlayState* this) {
@@ -1820,10 +1822,10 @@ s32 func_800C0DB4(PlayState* this, Vec3f* pos) {
 
     waterSurfacePos = *pos;
 
-    if (WaterBox_GetSurface1(this, &this->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
-                             &waterBox) == true &&
-        pos->y < waterSurfacePos.y &&
-        BgCheck_EntityRaycastDown3(&this->colCtx, &poly, &bgId, &waterSurfacePos) != BGCHECK_Y_MIN) {
+    if (WaterBox_GetSurface1(this, &this->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y, &waterBox)
+            == true
+        && pos->y < waterSurfacePos.y
+        && BgCheck_EntityRaycastDown3(&this->colCtx, &poly, &bgId, &waterSurfacePos) != BGCHECK_Y_MIN) {
         return true;
     } else {
         return false;

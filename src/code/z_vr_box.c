@@ -462,23 +462,23 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
     switch (skyboxId) {
         case SKYBOX_NORMAL_SKY:
             skyboxConfig = 0;
-            if (gSaveContext.retainWeatherMode && !IS_CUTSCENE_LAYER && gWeatherMode > WEATHER_MODE_CLEAR &&
-                gWeatherMode <= WEATHER_MODE_HEAVY_RAIN) {
+            if (gSaveContext.retainWeatherMode && !IS_CUTSCENE_LAYER && gWeatherMode > WEATHER_MODE_CLEAR
+                && gWeatherMode <= WEATHER_MODE_HEAVY_RAIN) {
                 skyboxConfig = 1;
             }
 
             for (i = 0; i < ARRAY_COUNT(gTimeBasedSkyboxConfigs[skyboxConfig]); i++) {
-                if (gSaveContext.skyboxTime >= gTimeBasedSkyboxConfigs[skyboxConfig][i].startTime &&
-                    (gSaveContext.skyboxTime < gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime ||
-                     gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime == 0xFFFF)) {
+                if (gSaveContext.skyboxTime >= gTimeBasedSkyboxConfigs[skyboxConfig][i].startTime
+                    && (gSaveContext.skyboxTime < gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime
+                        || gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime == 0xFFFF)) {
                     play->envCtx.skybox1Index = skybox1Index = gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox1Index;
                     play->envCtx.skybox2Index = skybox2Index = gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox2Index;
                     if (gTimeBasedSkyboxConfigs[skyboxConfig][i].changeSkybox) {
                         play->envCtx.skyboxBlend =
                             Environment_LerpWeight(gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime,
                                                    gTimeBasedSkyboxConfigs[skyboxConfig][i].startTime,
-                                                   ((void)0, gSaveContext.skyboxTime)) *
-                            255.0f;
+                                                   ((void)0, gSaveContext.skyboxTime))
+                            * 255.0f;
                     } else {
                         play->envCtx.skyboxBlend = 0;
                     }

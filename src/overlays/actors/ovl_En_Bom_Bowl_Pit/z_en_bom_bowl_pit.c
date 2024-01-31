@@ -65,8 +65,8 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, PlayState* play) {
             chuPosDiff.y = chu->actor.world.pos.y - this->actor.world.pos.y;
             chuPosDiff.z = chu->actor.world.pos.z - this->actor.world.pos.z;
 
-            if (((fabsf(chuPosDiff.x) < 40.0f) || (BREG(2))) && ((fabsf(chuPosDiff.y) < 40.0f) || (BREG(2))) &&
-                ((fabsf(chuPosDiff.z) < 40.0f) || (BREG(2)))) {
+            if (((fabsf(chuPosDiff.x) < 40.0f) || (BREG(2))) && ((fabsf(chuPosDiff.y) < 40.0f) || (BREG(2)))
+                && ((fabsf(chuPosDiff.z) < 40.0f) || (BREG(2)))) {
                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
                 chu->timer = 1;
 
@@ -133,12 +133,12 @@ void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, PlayState* play) {
         Message_CloseTextbox(play);
     }
 
-    if ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 5.0f) &&
-        (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 5.0f) &&
-        (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 5.0f) &&
-        (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 5.0f) &&
-        (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 5.0f) &&
-        (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 5.0f)) {
+    if ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 5.0f)
+        && (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 5.0f)
+        && (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 5.0f)
+        && (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 5.0f)
+        && (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 5.0f)
+        && (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 5.0f)) {
         Message_CloseTextbox(play);
         this->timer = 30;
         this->actionFunc = EnBomBowlPit_SpawnPrize;

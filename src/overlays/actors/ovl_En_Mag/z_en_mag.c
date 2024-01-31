@@ -107,9 +107,9 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
 
     if (gSaveContext.fileNum != 0xFEDC) {
         if (this->globalState < MAG_STATE_DISPLAY) {
-            if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) ||
-                CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) ||
-                CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B)) {
+            if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)
+                || CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A)
+                || CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B)) {
 
                 Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -135,9 +135,9 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
             }
         } else if (this->globalState >= MAG_STATE_DISPLAY) {
             if (sDelayTimer == 0) {
-                if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) ||
-                    CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) ||
-                    CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B)) {
+                if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)
+                    || CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A)
+                    || CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B)) {
 
                     if (play->transitionTrigger != TRANS_TRIGGER_START) {
                         Audio_SetCutsceneFlag(0);

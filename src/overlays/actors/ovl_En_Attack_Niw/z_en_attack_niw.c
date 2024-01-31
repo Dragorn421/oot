@@ -169,8 +169,8 @@ s32 func_809B55EC(EnAttackNiw* this, PlayState* play) {
 
     Actor_SetFocus(&this->actor, this->unk_2E4);
     Actor_GetScreenPos(play, &this->actor, &sp1E, &sp1C);
-    if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E > SCREEN_WIDTH) || (sp1C < 0) ||
-        (sp1C > SCREEN_HEIGHT)) {
+    if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E > SCREEN_WIDTH) || (sp1C < 0)
+        || (sp1C > SCREEN_HEIGHT)) {
         return 0;
     } else {
         return 1;
@@ -217,10 +217,10 @@ void func_809B5670(EnAttackNiw* this, PlayState* play) {
         this->unk_2E0 = 5.0f;
         this->unk_288 = 0.0f;
         this->actionFunc = func_809B59B0;
-    } else if (((this->actor.projectedPos.z > 0.0f) && (fabsf(sp34.x - this->actor.world.pos.x) < 50.0f) &&
-                (fabsf(sp34.y - this->actor.world.pos.y) < 50.0f) &&
-                (fabsf(sp34.z - this->actor.world.pos.z) < 50.0f)) ||
-               (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    } else if (((this->actor.projectedPos.z > 0.0f) && (fabsf(sp34.x - this->actor.world.pos.x) < 50.0f)
+                && (fabsf(sp34.y - this->actor.world.pos.y) < 50.0f)
+                && (fabsf(sp34.z - this->actor.world.pos.z) < 50.0f))
+               || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
         this->unk_2D4 = this->actor.yawTowardsPlayer;
         this->unk_2D0 = this->actor.world.rot.x - 2000.0f;
@@ -267,8 +267,8 @@ void func_809B59B0(EnAttackNiw* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.world.rot.x, this->unk_2D0, 2, this->unk_2DC, 0);
     Math_ApproachF(&this->unk_2DC, 10000.0f, 1.0f, 1000.0f);
     Math_ApproachF(&this->actor.speed, this->unk_2E0, 0.9f, 1.0f);
-    if ((this->actor.gravity == -2.0f) && (this->unk_262 == 0) &&
-        ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->unk_25C == 0))) {
+    if ((this->actor.gravity == -2.0f) && (this->unk_262 == 0)
+        && ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->unk_25C == 0))) {
         this->unk_2E0 = 0.0f;
         this->actor.gravity = 0.0f;
         this->unk_2DC = 0.0f;
@@ -328,8 +328,8 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     this->actor.shape.shadowScale = 15.0f;
     this->actionFunc(this, play2);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 60.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
 
     if (this->actionFunc == func_809B5670) {
         Actor_MoveXYZ(&this->actor);
@@ -357,8 +357,8 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     tmpf1 = 20.0f;
     if (this->actor.xyzDistToPlayerSq < SQ(tmpf1)) {
         cucco = (EnNiw*)this->actor.parent;
-        if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
-            (cucco->timer9 == 0) && (player->invincibilityTimer == 0)) {
+        if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL)
+            && (cucco->timer9 == 0) && (player->invincibilityTimer == 0)) {
             func_8002F6D4(play, &this->actor, 2.0f, this->actor.world.rot.y, 0.0f, 0x10);
             cucco->timer9 = 0x46;
         }

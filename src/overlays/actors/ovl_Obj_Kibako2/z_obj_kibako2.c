@@ -143,8 +143,8 @@ void ObjKibako2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void ObjKibako2_Idle(ObjKibako2* this, PlayState* play) {
-    if ((this->collider.base.acFlags & AC_HIT) || (this->dyna.actor.home.rot.z != 0) ||
-        func_80033684(play, &this->dyna.actor) != NULL) {
+    if ((this->collider.base.acFlags & AC_HIT) || (this->dyna.actor.home.rot.z != 0)
+        || func_80033684(play, &this->dyna.actor) != NULL) {
         ObjKibako2_Break(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         this->dyna.actor.flags |= ACTOR_FLAG_4;

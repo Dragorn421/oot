@@ -430,8 +430,8 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_AOB:
             if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
-                           ? 0x508D
-                           : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
+                         ? 0x508D
+                         : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
             } else if (play->sceneId == SCENE_MARKET_DAY) {
                 return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
@@ -541,8 +541,8 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
                 return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
-                           ? 0x5062
-                           : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
+                         ? 0x5062
+                         : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
             }
         case ENHY_TYPE_BJI_19:
             return 0x7120;
@@ -681,8 +681,8 @@ void EnHy_UpdateEyes(EnHy* this) {
         u8 headInfoIndex = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
 
         this->curEyeIndex++;
-        if ((sHeadInfo[headInfoIndex].eyeTextures != NULL) &&
-            (sHeadInfo[headInfoIndex].eyeTextures[this->curEyeIndex] == NULL)) {
+        if ((sHeadInfo[headInfoIndex].eyeTextures != NULL)
+            && (sHeadInfo[headInfoIndex].eyeTextures[this->curEyeIndex] == NULL)) {
             this->nextEyeIndexTimer = Rand_S16Offset(30, 30);
             this->curEyeIndex = 0;
         }
@@ -724,8 +724,8 @@ void func_80A70834(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
-        if (!Inventory_HasSpecificBottle(ITEM_BOTTLE_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BOTTLE_BUG) &&
-            !Inventory_HasSpecificBottle(ITEM_BOTTLE_FISH)) {
+        if (!Inventory_HasSpecificBottle(ITEM_BOTTLE_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BOTTLE_BUG)
+            && !Inventory_HasSpecificBottle(ITEM_BOTTLE_FISH)) {
             switch (func_8002F368(play)) {
                 case EXCH_ITEM_BOTTLE_POE:
                 case EXCH_ITEM_BOTTLE_BIG_POE:
@@ -810,9 +810,9 @@ void func_80A70978(EnHy* this, PlayState* play) {
 s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
     switch (play->sceneId) {
         case SCENE_KAKARIKO_VILLAGE:
-            if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 ||
-                  (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
-                  (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
+            if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10
+                  || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2
+                  || (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
                 return true;
             } else if (!LINK_IS_ADULT) {
                 return true;
@@ -842,9 +842,9 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
         case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
             if ((this->actor.params & 0x7F) == ENHY_TYPE_AOB) {
                 return !LINK_IS_ADULT ? false : true;
-            } else if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 ||
-                         (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
-                         (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
+            } else if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9
+                         || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2
+                         || (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
                 return true;
             } else if (IS_DAY) {
                 return false;
@@ -879,8 +879,8 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
 void EnHy_Init(Actor* thisx, PlayState* play) {
     EnHy* this = (EnHy*)thisx;
 
-    if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, play) ||
-        !EnHy_FindSkelAndHeadObjects(this, play)) {
+    if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, play)
+        || !EnHy_FindSkelAndHeadObjects(this, play)) {
         Actor_Kill(&this->actor);
     }
 

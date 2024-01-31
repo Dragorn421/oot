@@ -89,8 +89,8 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
             thisx->params = 0xF;
         }
         Actor_UpdateBgCheckInfo(play, thisx, 10.0f, 20.0f, 20.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
         thisx->home.pos = thisx->world.pos;
         this->targetPosLeft.x = thisx->world.pos.x + (trapDist * Math_CosS(thisx->world.rot.y));
         this->targetPosLeft.z = thisx->world.pos.z - (trapDist * Math_SinS(thisx->world.rot.y));
@@ -191,7 +191,8 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                 posAhead.z = (Math_CosS(thisx->world.rot.y) * 30.0f) + thisx->world.pos.z;
                 posAhead.y = thisx->world.pos.y;
                 if (BgCheck_EntityLineTest1(&play->colCtx, &thisx->world.pos, &posAhead, &colPoint, &colPoly, true,
-                                            true, false, true, &bgId) == true) {
+                                            true, false, true, &bgId)
+                    == true) {
                     this->vContinue = 0.0f;
                 }
             }
@@ -245,13 +246,13 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                     case DIR_LEFT:
                         if (!(thisx->params & SPIKETRAP_FOURWAY_LEFT_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
-                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall < -0x2000) &&
-                                   (angleToWall > -0x6000)) {
+                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall < -0x2000)
+                                   && (angleToWall > -0x6000)) {
                             this->vMovementMetric = 0.0f;
                             break;
                         }
-                        if (touchingActor && (this->vMovementMetric != 0.0f) && (angleToCollidedActor <= -0x2000) &&
-                            (angleToCollidedActor > -0x6000)) {
+                        if (touchingActor && (this->vMovementMetric != 0.0f) && (angleToCollidedActor <= -0x2000)
+                            && (angleToCollidedActor > -0x6000)) {
                             this->vMovementMetric = 0.0f;
                             break;
                         }
@@ -289,13 +290,13 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                     case DIR_RIGHT:
                         if (!(thisx->params & SPIKETRAP_FOURWAY_RIGHT_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
-                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall > 0x2000) &&
-                                   (angleToWall < 0x6000)) {
+                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall > 0x2000)
+                                   && (angleToWall < 0x6000)) {
                             this->vMovementMetric = 0.0f;
                             break;
                         }
-                        if (touchingActor && (this->vMovementMetric != 0.0f) && (angleToCollidedActor > 0x2000) &&
-                            (angleToCollidedActor < 0x6000)) {
+                        if (touchingActor && (this->vMovementMetric != 0.0f) && (angleToCollidedActor > 0x2000)
+                            && (angleToCollidedActor < 0x6000)) {
                             this->vMovementMetric = 0.0f;
                             break;
                         }
@@ -341,8 +342,8 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                             if ((thisx->wallYaw < -0x2000) && (thisx->wallYaw > -0x6000)) {
                                 blockedOnReturn = true;
                             }
-                        } else if (touchingActor && (angleToCollidedActor < -0x2000) &&
-                                   (angleToCollidedActor > -0x6000)) {
+                        } else if (touchingActor && (angleToCollidedActor < -0x2000)
+                                   && (angleToCollidedActor > -0x6000)) {
                             blockedOnReturn = true;
                         }
                         break;
@@ -360,8 +361,8 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                             if ((thisx->wallYaw > 0x2000) && (thisx->wallYaw < 0x6000)) {
                                 blockedOnReturn = true;
                             }
-                        } else if (touchingActor && (angleToCollidedActor > 0x2000) &&
-                                   (angleToCollidedActor < 0x6000)) {
+                        } else if (touchingActor && (angleToCollidedActor > 0x2000)
+                                   && (angleToCollidedActor < 0x6000)) {
                             blockedOnReturn = true;
                         }
                         break;
@@ -378,8 +379,8 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
             posTemp = thisx->world.pos;
         }
         Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 20.0f, 20.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
             thisx->world.pos.x = posTemp.x;
             thisx->world.pos.z = posTemp.z;

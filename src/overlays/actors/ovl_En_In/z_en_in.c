@@ -316,8 +316,8 @@ void func_80A795C8(EnIn* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
-    if (this->skelAnime.animation == &object_in_Anim_0003B4 || this->skelAnime.animation == &object_in_Anim_001BE0 ||
-        this->skelAnime.animation == &object_in_Anim_013D60) {
+    if (this->skelAnime.animation == &object_in_Anim_0003B4 || this->skelAnime.animation == &object_in_Anim_001BE0
+        || this->skelAnime.animation == &object_in_Anim_013D60) {
         trackingMode = NPC_TRACKING_NONE;
     } else {
         trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
@@ -361,12 +361,12 @@ s32 func_80A7975C(EnIn* this, PlayState* play) {
 }
 
 s32 func_80A79830(EnIn* this, PlayState* play) {
-    if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
-        !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+    if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1
+        && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
-    if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
-        GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+    if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3
+        && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_NIGHT) {
@@ -717,8 +717,8 @@ void func_80A7A770(EnIn* this, PlayState* play) {
 
 void func_80A7A848(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        if ((play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees < 50) ||
-            play->msgCtx.choiceIndex == 1) {
+        if ((play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees < 50)
+            || play->msgCtx.choiceIndex == 1) {
             SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
             this->actionFunc = func_80A7A4C8;
         } else {
@@ -923,8 +923,8 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &collider->base);
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_Update(&this->skelAnime);
-        if (this->skelAnime.animation == &object_in_Anim_001BE0 &&
-            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6) {
+        if (this->skelAnime.animation == &object_in_Anim_001BE0
+            && GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6) {
             func_80A79690(&this->skelAnime, this, play);
         }
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
@@ -933,8 +933,8 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, play);
-        if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
-            this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
+        if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF)
+            && this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             if (Actor_TalkOfferAccepted(&this->actor, play)) {}
         } else {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,

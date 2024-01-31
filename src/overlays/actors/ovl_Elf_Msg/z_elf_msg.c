@@ -44,8 +44,8 @@ void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
  * Can also set a switch flag from params while killing.
  */
 s32 ElfMsg_KillCheck(ElfMsg* this, PlayState* play) {
-    if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
-        Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
+    if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41)
+        && Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161); // "Mutual destruction"
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
@@ -120,10 +120,10 @@ void ElfMsg_CallNaviCuboid(ElfMsg* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     EnElf* navi = (EnElf*)player->naviActor;
 
-    if ((fabsf(player->actor.world.pos.x - this->actor.world.pos.x) < (100.0f * this->actor.scale.x)) &&
-        (this->actor.world.pos.y <= player->actor.world.pos.y) &&
-        ((player->actor.world.pos.y - this->actor.world.pos.y) < (100.0f * this->actor.scale.y)) &&
-        (fabsf(player->actor.world.pos.z - this->actor.world.pos.z) < (100.0f * this->actor.scale.z))) {
+    if ((fabsf(player->actor.world.pos.x - this->actor.world.pos.x) < (100.0f * this->actor.scale.x))
+        && (this->actor.world.pos.y <= player->actor.world.pos.y)
+        && ((player->actor.world.pos.y - this->actor.world.pos.y) < (100.0f * this->actor.scale.y))
+        && (fabsf(player->actor.world.pos.z - this->actor.world.pos.z) < (100.0f * this->actor.scale.z))) {
         player->naviTextId = ElfMsg_GetMessageId(this);
         navi->elfMsg = this;
     }
@@ -137,9 +137,9 @@ void ElfMsg_CallNaviCylinder(ElfMsg* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     EnElf* navi = (EnElf*)player->naviActor;
 
-    if (ElfMsg_WithinXZDistance(&player->actor.world.pos, &this->actor.world.pos, this->actor.scale.x * 100.0f) &&
-        (this->actor.world.pos.y <= player->actor.world.pos.y) &&
-        ((player->actor.world.pos.y - this->actor.world.pos.y) < (100.0f * this->actor.scale.y))) {
+    if (ElfMsg_WithinXZDistance(&player->actor.world.pos, &this->actor.world.pos, this->actor.scale.x * 100.0f)
+        && (this->actor.world.pos.y <= player->actor.world.pos.y)
+        && ((player->actor.world.pos.y - this->actor.world.pos.y) < (100.0f * this->actor.scale.y))) {
         player->naviTextId = ElfMsg_GetMessageId(this);
         navi->elfMsg = this;
     }
@@ -156,8 +156,8 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
             Actor_Kill(&this->actor);
             return;
         }
-        if ((this->actor.world.rot.y <= 0x41) || (this->actor.world.rot.y > 0x80) ||
-            Flags_GetSwitch(play, this->actor.world.rot.y - 0x41)) {
+        if ((this->actor.world.rot.y <= 0x41) || (this->actor.world.rot.y > 0x80)
+            || Flags_GetSwitch(play, this->actor.world.rot.y - 0x41)) {
             this->actionFunc(this, play);
         }
     }

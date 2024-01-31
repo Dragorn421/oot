@@ -252,8 +252,8 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
     } else {
         Actor_GetScreenPos(play, &this->actor, &sp2A, &sp28);
 
-        if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
-            Actor_OfferTalk(&this->actor, play, 100.0f)) {
+        if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240)
+            && Actor_OfferTalk(&this->actor, play, 100.0f)) {
             this->actor.textId = EnCs_GetTextId(this, play);
         }
     }
@@ -359,8 +359,8 @@ void EnCs_Walk(EnCs* this, PlayState* play) {
     if (this->talkState == 0) {
         curAnimFrame = this->skelAnime.curFrame;
 
-        if (((curAnimFrame >= 8) && (curAnimFrame < 16)) || ((curAnimFrame >= 23) && (curAnimFrame < 30)) ||
-            (curAnimFrame == 0)) {
+        if (((curAnimFrame >= 8) && (curAnimFrame < 16)) || ((curAnimFrame >= 23) && (curAnimFrame < 30))
+            || (curAnimFrame == 0)) {
             this->walkSpeed = 0.0f;
         } else {
             this->walkSpeed = 1.0f;

@@ -64,10 +64,10 @@ void MapMark_Init(PlayState* play) {
 
     sLoadedMarkDataTable = gMapMarkDataTable;
     sLoadedMarkDataTable =
-        (void*)(uintptr_t)((overlay->vramTable != NULL)
-                               ? (void*)((uintptr_t)overlay->vramTable -
-                                         (intptr_t)((uintptr_t)overlay->vramStart - (uintptr_t)overlay->loadedRamAddr))
-                               : NULL);
+        (void*)(uintptr_t)((overlay->vramTable != NULL) ? (
+                               void*)((uintptr_t)overlay->vramTable
+                                      - (intptr_t)((uintptr_t)overlay->vramStart - (uintptr_t)overlay->loadedRamAddr))
+                                                        : NULL);
 }
 
 void MapMark_ClearPointers(PlayState* play) {

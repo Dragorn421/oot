@@ -289,8 +289,8 @@ s32 ObjBean_CheckForHorseTrample(ObjBean* this, PlayState* play) {
     Actor* currentActor = play->actorCtx.actorLists[ACTORCAT_BG].head;
 
     while (currentActor != NULL) {
-        if ((currentActor->id == ACTOR_EN_HORSE) &&
-            (Math3D_Vec3fDistSq(&currentActor->world.pos, &this->dyna.actor.world.pos) < SQ(100.0f))) {
+        if ((currentActor->id == ACTOR_EN_HORSE)
+            && (Math3D_Vec3fDistSq(&currentActor->world.pos, &this->dyna.actor.world.pos) < SQ(100.0f))) {
             return true;
         }
         currentActor = currentActor->next;
@@ -630,8 +630,8 @@ void ObjBean_SetupWaitForWater(ObjBean* this) {
 void ObjBean_WaitForWater(ObjBean* this, PlayState* play) {
     this->transformFunc(this);
 
-    if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED) && CutsceneFlags_Get(play, 5) && (D_80B90E30 == NULL) &&
-        (this->dyna.actor.xzDistToPlayer < 50.0f)) {
+    if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED) && CutsceneFlags_Get(play, 5) && (D_80B90E30 == NULL)
+        && (this->dyna.actor.xzDistToPlayer < 50.0f)) {
         ObjBean_SetupGrowWaterPhase1(this);
         D_80B90E30 = this;
         OnePointCutscene_Init(play, 2210, -99, &this->dyna.actor, CAM_ID_MAIN);

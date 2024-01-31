@@ -264,14 +264,14 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
         this->talkState = ENDAIKU_STATE_TALKING;
     } else {
         Actor_GetScreenPos(play, &this->actor, &sp2E, &sp2C);
-        if (sp2E >= 0 && sp2E <= 320 && sp2C >= 0 && sp2C <= 240 && this->talkState == ENDAIKU_STATE_CAN_TALK &&
-            Actor_OfferTalk(&this->actor, play, 100.0f) == 1) {
+        if (sp2E >= 0 && sp2E <= 320 && sp2C >= 0 && sp2C <= 240 && this->talkState == ENDAIKU_STATE_CAN_TALK
+            && Actor_OfferTalk(&this->actor, play, 100.0f) == 1) {
             if (play->sceneId == SCENE_THIEVES_HIDEOUT) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
                     freedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
-                        if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
-                            EVENTCHKINF_CARPENTERS_FREE_MASK(carpenterType)) {
+                        if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX]
+                            & EVENTCHKINF_CARPENTERS_FREE_MASK(carpenterType)) {
                             freedCount++;
                         }
                     }
@@ -290,8 +290,8 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                             this->actor.textId = 0x605E;
                             break;
                     }
-                } else if (!(this->stateFlags &
-                             (ENDAIKU_STATEFLAG_GERUDOFIGHTING | ENDAIKU_STATEFLAG_GERUDODEFEATED))) {
+                } else if (!(this->stateFlags
+                             & (ENDAIKU_STATEFLAG_GERUDOFIGHTING | ENDAIKU_STATEFLAG_GERUDODEFEATED))) {
                     this->actor.textId = 0x6007;
                 }
             } else if (play->sceneId == SCENE_CARPENTERS_TENT) {

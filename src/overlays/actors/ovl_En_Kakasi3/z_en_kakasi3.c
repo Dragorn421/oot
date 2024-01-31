@@ -277,9 +277,9 @@ void func_80A915B8(EnKakasi3* this, PlayState* play) {
 void func_80A91620(EnKakasi3* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((play->msgCtx.ocarinaMode == OCARINA_MODE_04 ||
-         (play->msgCtx.ocarinaMode >= OCARINA_MODE_05 && play->msgCtx.ocarinaMode < OCARINA_MODE_0B)) &&
-        (play->msgCtx.msgMode == MSGMODE_NONE)) {
+    if ((play->msgCtx.ocarinaMode == OCARINA_MODE_04
+         || (play->msgCtx.ocarinaMode >= OCARINA_MODE_05 && play->msgCtx.ocarinaMode < OCARINA_MODE_0B))
+        && (play->msgCtx.msgMode == MSGMODE_NONE)) {
 
         OnePointCutscene_EndCutscene(play, this->subCamId);
         if (play->cameraPtrs[this->subCamId] == NULL) {
@@ -345,9 +345,9 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
         // "No way!"
         PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
     }
-    if ((play->msgCtx.ocarinaMode == OCARINA_MODE_04 ||
-         (play->msgCtx.ocarinaMode >= OCARINA_MODE_05 && play->msgCtx.ocarinaMode < OCARINA_MODE_0B)) &&
-        play->msgCtx.msgMode == MSGMODE_NONE) {
+    if ((play->msgCtx.ocarinaMode == OCARINA_MODE_04
+         || (play->msgCtx.ocarinaMode >= OCARINA_MODE_05 && play->msgCtx.ocarinaMode < OCARINA_MODE_0B))
+        && play->msgCtx.msgMode == MSGMODE_NONE) {
 
         Message_StartTextbox(play, 0x40A6, NULL);
         this->dialogState = TEXT_STATE_EVENT;

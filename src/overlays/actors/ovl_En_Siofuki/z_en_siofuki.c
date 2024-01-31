@@ -125,8 +125,8 @@ void func_80AFBE8C(EnSiofuki* this, PlayState* play) {
     dY = player->actor.world.pos.y - this->dyna.actor.world.pos.y;
     dZ = player->actor.world.pos.z - this->dyna.actor.world.pos.z;
 
-    if ((dX > (this->dyna.actor.scale.x * -346.0f)) && (dX < (this->dyna.actor.scale.x * 346.0f)) &&
-        (dZ > (this->dyna.actor.scale.z * -400.0f)) && (dZ < (this->dyna.actor.scale.z * 400.0f)) && (dY < 0.0f)) {
+    if ((dX > (this->dyna.actor.scale.x * -346.0f)) && (dX < (this->dyna.actor.scale.x * 346.0f))
+        && (dZ > (this->dyna.actor.scale.z * -400.0f)) && (dZ < (this->dyna.actor.scale.z * 400.0f)) && (dY < 0.0f)) {
         if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->splashTimer <= 0) {
                 EffectSsGSplash_Spawn(play, &player->actor.world.pos, NULL, NULL, 1, 1);
@@ -204,8 +204,8 @@ void func_80AFC218(EnSiofuki* this, PlayState* play) {
         func_8002F994(&this->dyna.actor, this->timer);
     }
 
-    if (((((u16)this->dyna.actor.params >> 0xC) & 0xF) == EN_SIOFUKI_LOWERING) &&
-        Flags_GetTreasure(play, (u16)this->dyna.actor.params & 0x3F)) {
+    if (((((u16)this->dyna.actor.params >> 0xC) & 0xF) == EN_SIOFUKI_LOWERING)
+        && Flags_GetTreasure(play, (u16)this->dyna.actor.params & 0x3F)) {
         this->currentHeight = -45.0f;
         this->targetHeight = -45.0f;
         Flags_UnsetSwitch(play, ((u16)this->dyna.actor.params >> 6) & 0x3F);

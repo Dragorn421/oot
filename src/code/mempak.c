@@ -195,8 +195,8 @@ s32 Mempak_CreateFile(s32 controllerNum, char* letter, s32 size) {
             // File already exists, delete then alloc
 
             sMempakExtName[0] = NCH(*letter);
-            if (osPfsDeleteFile(&sMempakPfsHandle, sMempakCompanyCode, sMempakGameCode, sMempakGameName,
-                                sMempakExtName) == 0) {
+            if (osPfsDeleteFile(&sMempakPfsHandle, sMempakCompanyCode, sMempakGameCode, sMempakGameName, sMempakExtName)
+                == 0) {
                 ret = true;
             }
             error = osPfsAllocateFile(&sMempakPfsHandle, sMempakCompanyCode, sMempakGameCode, sMempakGameName,

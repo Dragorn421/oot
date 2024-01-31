@@ -346,8 +346,8 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
             this->elfMsg = NULL;
             this->unk_2C7 = 0x14;
 
-            if ((gSaveContext.save.info.playerData.naviTimer >= 25800) ||
-                (gSaveContext.save.info.playerData.naviTimer < 3000)) {
+            if ((gSaveContext.save.info.playerData.naviTimer >= 25800)
+                || (gSaveContext.save.info.playerData.naviTimer < 3000)) {
                 gSaveContext.save.info.playerData.naviTimer = 0;
             }
             break;
@@ -1015,8 +1015,8 @@ void func_80A04414(EnElf* this, PlayState* play) {
 
     } else {
         if (this->unk_2C6 == 0) {
-            if ((arrowPointedActor == NULL) ||
-                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &play->actorCtx.targetCtx.naviRefPos) < 50.0f)) {
+            if ((arrowPointedActor == NULL)
+                || (Math_Vec3f_DistXYZ(&this->actor.world.pos, &play->actorCtx.targetCtx.naviRefPos) < 50.0f)) {
                 this->unk_2C6 = 1;
             }
         } else if (this->unk_29C != 0.0f) {
@@ -1088,8 +1088,8 @@ void func_80A0461C(EnElf* this, PlayState* play) {
         // `SCENE_CAM_TYPE_SHOOTING_GALLERY`.
         // However, of these three, only `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` is used with `VIEWPOINT_PIVOT`,
         // so here the bit check is equivalent to checking for `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT`.
-        if ((player->stateFlags1 & PLAYER_STATE1_10) ||
-            ((R_SCENE_CAM_TYPE & 0x10) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
+        if ((player->stateFlags1 & PLAYER_STATE1_10)
+            || ((R_SCENE_CAM_TYPE & 0x10) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
             temp = 12;
             this->unk_2C0 = 100;
         } else if (arrowPointedActor == NULL || arrowPointedActor->category == ACTORCAT_NPC) {
@@ -1379,9 +1379,9 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 
     if (player->naviTextId == 0) {
         if (player->unk_664 == NULL) {
-            if (((gSaveContext.save.info.playerData.naviTimer >= 600) &&
-                 (gSaveContext.save.info.playerData.naviTimer <= 3000)) ||
-                (nREG(89) != 0)) {
+            if (((gSaveContext.save.info.playerData.naviTimer >= 600)
+                 && (gSaveContext.save.info.playerData.naviTimer <= 3000))
+                || (nREG(89) != 0)) {
                 player->naviTextId = QuestHint_GetNaviTextId(play);
 
                 if (player->naviTextId == 0x15F) {

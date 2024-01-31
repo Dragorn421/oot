@@ -85,8 +85,8 @@ void BgDdanJd_Idle(BgDdanJd* this, PlayState* play) {
     }
 
     // if this is the platform that rises all the way to the top, and the switch state has just changed to on
-    if (this->ySpeed == DEFAULT_Y_SPEED && this->dyna.actor.params < 0x40 &&
-        Flags_GetSwitch(play, this->dyna.actor.params)) {
+    if (this->ySpeed == DEFAULT_Y_SPEED && this->dyna.actor.params < 0x40
+        && Flags_GetSwitch(play, this->dyna.actor.params)) {
         this->ySpeed = SHORTCUT_Y_SPEED;
         this->state = STATE_GO_MIDDLE_FROM_BOTTOM;
         this->idleTimer = 0;
@@ -153,8 +153,8 @@ void BgDdanJd_MoveEffects(BgDdanJd* this, PlayState* play) {
 // Implements the platform's movement state
 void BgDdanJd_Move(BgDdanJd* this, PlayState* play) {
     // if this is the platform that rises all the way to the top, and the switch state has just changed to on
-    if (this->ySpeed == DEFAULT_Y_SPEED && this->dyna.actor.params < 0x40 &&
-        Flags_GetSwitch(play, this->dyna.actor.params)) {
+    if (this->ySpeed == DEFAULT_Y_SPEED && this->dyna.actor.params < 0x40
+        && Flags_GetSwitch(play, this->dyna.actor.params)) {
         this->ySpeed = SHORTCUT_Y_SPEED;
         this->state = STATE_GO_MIDDLE_FROM_BOTTOM;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;

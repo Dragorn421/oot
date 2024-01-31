@@ -84,8 +84,8 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    if ((this->talkMode == 1) && (play->sceneId == SCENE_GERUDO_TRAINING_GROUND) && (this->switchFlag != 0x08) &&
-        (this->switchFlag != 0x16) && (this->switchFlag != 0x2F)) {
+    if ((this->talkMode == 1) && (play->sceneId == SCENE_GERUDO_TRAINING_GROUND) && (this->switchFlag != 0x08)
+        && (this->switchFlag != 0x16) && (this->switchFlag != 0x2F)) {
 
         this->unk_15A = false;
         this->talkMode = 4;
@@ -128,8 +128,8 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
     } else {
         s16 yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.world.rot.y));
 
-        if (!((this->actor.xzDistToPlayer > 40.0f + this->triggerRange) ||
-              (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f) || (yawDiff >= 0x4000))) {
+        if (!((this->actor.xzDistToPlayer > 40.0f + this->triggerRange)
+              || (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f) || (yawDiff >= 0x4000))) {
             if (this->unk_158 >= 2) {
                 PRINTF("\n\n");
                 // "Transparent Message Kimi Set"
@@ -215,9 +215,9 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
             // "distance"
             PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ きょり %f\n" VT_RST, this->actor.xzDistToPlayer);
         }
-        if (((this->actor.xzDistToPlayer < (40.0f + this->triggerRange)) &&
-             (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f)) &&
-            !Play_InCsMode(play)) {
+        if (((this->actor.xzDistToPlayer < (40.0f + this->triggerRange))
+             && (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f))
+            && !Play_InCsMode(play)) {
             if (this->unk_158 >= 2) {
                 PRINTF("\n\n");
                 // "Transparent Message Kimi Seto"

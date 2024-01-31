@@ -345,7 +345,7 @@ void Lights_GlowCheck(PlayState* play) {
                 // Obtain the z-buffer value for the screen pixel corresponding to the center of the glow.
                 zBuf = gZBuffer[(s32)((wY * -(SCREEN_HEIGHT / 2)) + (SCREEN_HEIGHT / 2))]
                                [(s32)((wX * (SCREEN_WIDTH / 2)) + (SCREEN_WIDTH / 2))]
-                       << 2;
+                    << 2;
                 if (1) {}
                 if (1) {}
 

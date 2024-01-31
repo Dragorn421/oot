@@ -111,8 +111,8 @@ s32 SkelCurve_Update(PlayState* play, SkelCurve* skelCurve) {
 
     skelCurve->curFrame += skelCurve->playSpeed * R_UPDATE_RATE * 0.5f;
 
-    if (((skelCurve->playSpeed >= 0.0f) && (skelCurve->curFrame > skelCurve->endFrame)) ||
-        ((skelCurve->playSpeed < 0.0f) && (skelCurve->curFrame < skelCurve->endFrame))) {
+    if (((skelCurve->playSpeed >= 0.0f) && (skelCurve->curFrame > skelCurve->endFrame))
+        || ((skelCurve->playSpeed < 0.0f) && (skelCurve->curFrame < skelCurve->endFrame))) {
         skelCurve->curFrame = skelCurve->endFrame;
         ret = true;
     }
@@ -164,8 +164,8 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
 
     Matrix_Push();
 
-    if ((overrideLimbDraw == NULL) ||
-        ((overrideLimbDraw != NULL) && overrideLimbDraw(play, skelCurve, limbIndex, data))) {
+    if ((overrideLimbDraw == NULL)
+        || ((overrideLimbDraw != NULL) && overrideLimbDraw(play, skelCurve, limbIndex, data))) {
         Vec3f scale;
         Vec3s rot;
         Vec3f pos;

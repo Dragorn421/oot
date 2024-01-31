@@ -44,8 +44,8 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
         this->gfx = initParams->dList;
         objId = initParams->objId;
 
-        if (objId == OBJECT_GAMEPLAY_KEEP || objId == OBJECT_GAMEPLAY_FIELD_KEEP ||
-            objId == OBJECT_GAMEPLAY_DANGEON_KEEP) {
+        if (objId == OBJECT_GAMEPLAY_KEEP || objId == OBJECT_GAMEPLAY_FIELD_KEEP
+            || objId == OBJECT_GAMEPLAY_DANGEON_KEEP) {
             this->rObjId = KAKERA_OBJECT_DEFAULT;
         } else {
             this->rObjId = initParams->objId;

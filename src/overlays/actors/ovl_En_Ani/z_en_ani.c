@@ -153,8 +153,8 @@ void func_809B064C(EnAni* this, PlayState* play) {
         } else {
             EnAni_SetupAction(this, func_809B04F0);
         }
-    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
-               -80.0f < this->actor.yDistToPlayer) {
+    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f
+               && -80.0f < this->actor.yDistToPlayer) {
         if (GET_ITEMGETINF(ITEMGETINF_15)) {
             EnAni_SetText(this, play, 0x5056);
         } else {
@@ -179,8 +179,8 @@ void func_809B07F8(EnAni* this, PlayState* play) {
         } else {
             EnAni_SetupAction(this, func_809B0524);
         }
-    } else if (yawDiff > -0x36B0 && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
-               -80.0f < this->actor.yDistToPlayer) {
+    } else if (yawDiff > -0x36B0 && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f
+               && -80.0f < this->actor.yDistToPlayer) {
         if (GET_ITEMGETINF(ITEMGETINF_15)) {
             EnAni_SetText(this, play, 0x5056);
         } else {

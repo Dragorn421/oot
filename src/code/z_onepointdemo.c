@@ -244,9 +244,9 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             Actor_GetScreenPos(play, &player->actor, &sp82, &sp7E);
             Actor_GetScreenPos(play, actor, &sp80, &sp7C);
-            if ((sp82 > 0) && (sp82 < 320) && (sp7E > 0) && (sp7E < 240) && (sp80 > 0) && (sp80 < 320) && (sp7C > 0) &&
-                (sp7C < 240) &&
-                !OnePointCutscene_BgCheckLineTest(&play->colCtx, &actor->focus.pos, &player->actor.focus.pos)) {
+            if ((sp82 > 0) && (sp82 < 320) && (sp7E > 0) && (sp7E < 240) && (sp80 > 0) && (sp80 < 320) && (sp7C > 0)
+                && (sp7C < 240)
+                && !OnePointCutscene_BgCheckLineTest(&play->colCtx, &actor->focus.pos, &player->actor.focus.pos)) {
                 D_80121184[0].atTargetInit.x = (play->view.at.x + actor->focus.pos.x) * 0.5f;
                 D_80121184[0].atTargetInit.y = (play->view.at.y + actor->focus.pos.y) * 0.5f;
                 D_80121184[0].atTargetInit.z = (play->view.at.z + actor->focus.pos.z) * 0.5f;
@@ -1138,8 +1138,8 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 4022:
-            subCam->timer = D_801237CC[0].timerInit + D_801237CC[3].timerInit + D_801237CC[1].timerInit +
-                            D_801237CC[2].timerInit + D_801237CC[4].timerInit;
+            subCam->timer = D_801237CC[0].timerInit + D_801237CC[3].timerInit + D_801237CC[1].timerInit
+                          + D_801237CC[2].timerInit + D_801237CC[4].timerInit;
 
             csInfo->keyFrames = D_801237CC;
             csInfo->keyFrameCount = ARRAY_COUNT(D_801237CC);

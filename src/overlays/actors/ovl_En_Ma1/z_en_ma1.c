@@ -172,9 +172,9 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
         return false;
     }
 
-    if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
-        !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) &&
-        !GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE)) {
+    if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY))
+        && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)
+        && !GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE)) {
         return true;
     }
 
@@ -187,8 +187,8 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneId == SCENE_LON_LON_BUILDINGS) && IS_NIGHT &&
-        GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+    if ((play->sceneId == SCENE_LON_LON_BUILDINGS) && IS_NIGHT
+        && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return true;
     }
 

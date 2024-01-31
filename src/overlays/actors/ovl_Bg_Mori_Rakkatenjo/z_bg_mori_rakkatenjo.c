@@ -54,9 +54,9 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     // "Forest Temple obj. Falling Ceiling"
     PRINTF("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
-    if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
-        (fabsf(683.0f - this->dyna.actor.home.pos.y) > 0.001f) ||
-        (fabsf(-2520.0f - this->dyna.actor.home.pos.z) > 0.001f)) {
+    if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f)
+        || (fabsf(683.0f - this->dyna.actor.home.pos.y) > 0.001f)
+        || (fabsf(-2520.0f - this->dyna.actor.home.pos.z) > 0.001f)) {
         // "The set position has been changed. Let's fix the program."
         PRINTF("Warning : セット位置が変更されています。プログラムを修正しましょう。\n");
     }

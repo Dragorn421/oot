@@ -914,8 +914,8 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 }
 
                 if (nFramesToDecode != 0) {
-                    frameIndex = (synthState->samplePosInt + skipInitialSamples - nFirstFrameSamplesToIgnore) /
-                                 SAMPLES_PER_FRAME;
+                    frameIndex = (synthState->samplePosInt + skipInitialSamples - nFirstFrameSamplesToIgnore)
+                               / SAMPLES_PER_FRAME;
                     sampleDataOffset = frameIndex * frameSize;
                     if (sample->medium == MEDIUM_RAM) {
                         sampleData = (u8*)(sampleDataStart + sampleDataOffset + sampleAddr);
@@ -1239,8 +1239,8 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
 
         // If the harmonic changes, map the offset in the wave from one harmonic to another for continuity
         if (harmonicIndexCurAndPrev != 0) {
-            samplePosInt = samplePosInt * sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev >> 2] /
-                           sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev & 3];
+            samplePosInt = samplePosInt * sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev >> 2]
+                         / sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev & 3];
         }
 
         // Offset in the WAVE_SAMPLE_COUNT samples of gWaveSamples to start processing the wave for continuity

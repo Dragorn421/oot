@@ -21,8 +21,8 @@ void Font_LoadChar(Font* font, u8 character, u16 codePointIndex) {
  */
 void Font_LoadMessageBoxIcon(Font* font, u16 icon) {
     DMA_REQUEST_SYNC(font->iconBuf,
-                     (uintptr_t)_message_staticSegmentRomStart + 4 * MESSAGE_STATIC_TEX_SIZE +
-                         icon * FONT_CHAR_TEX_SIZE,
+                     (uintptr_t)_message_staticSegmentRomStart + 4 * MESSAGE_STATIC_TEX_SIZE
+                         + icon * FONT_CHAR_TEX_SIZE,
                      FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 100);
 }
 

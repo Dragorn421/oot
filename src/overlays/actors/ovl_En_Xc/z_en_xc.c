@@ -321,9 +321,9 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
     if (this->actor.params == SHEIK_TYPE_BOLERO) {
         player = GET_PLAYER(play);
         posRot = &player->actor.world;
-        if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
-            (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
-            !Play_InCsMode(play)) {
+        if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f)
+            && (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f)
+            && !Play_InCsMode(play)) {
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_51);
@@ -337,8 +337,8 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 
 void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
     // Player is adult and does not have iron boots and has not learned Serenade
-    if (!CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
-        LINK_IS_ADULT) {
+    if (!CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52)
+        && LINK_IS_ADULT) {
         this->action = SHEIK_ACTION_SERENADE;
         PRINTF("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n");
     } else {
@@ -352,8 +352,8 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
         s32 stateFlags = player->stateFlags1;
 
-        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
-            !(stateFlags & PLAYER_STATE1_29) && !Play_InCsMode(play)) {
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52)
+            && !(stateFlags & PLAYER_STATE1_29) && !Play_InCsMode(play)) {
             Cutscene_SetScript(play, gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag

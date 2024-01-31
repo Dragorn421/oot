@@ -274,8 +274,8 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
 
     Collider_DestroyCylinder(play, &this->collider);
 
-    if (this->actor.params != ENTA_IN_KAKARIKO && this->actor.params != ENTA_RETURNED_FROM_KAKARIKO &&
-        play->sceneId == SCENE_LON_LON_BUILDINGS) {
+    if (this->actor.params != ENTA_IN_KAKARIKO && this->actor.params != ENTA_RETURNED_FROM_KAKARIKO
+        && play->sceneId == SCENE_LON_LON_BUILDINGS) {
         gSaveContext.timerState = TIMER_STATE_OFF;
     }
 
@@ -291,8 +291,8 @@ s32 EnTa_RequestTalk(EnTa* this, PlayState* play, u16 textId) {
 
     this->actor.textId = textId;
 
-    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) &&
-        (this->actor.xzDistToPlayer < 100.0f)) {
+    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300)
+        && (this->actor.xzDistToPlayer < 100.0f)) {
         this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
         Actor_OfferTalk(&this->actor, play, 100.0f);
     }
@@ -624,8 +624,8 @@ s32 EnTa_IsPlayerHoldingSuperCucco(EnTa* this, PlayState* play, s32 cuccoIdx) {
 
     if (player->stateFlags1 & PLAYER_STATE1_11) {
         interactRangeActor = player->interactRangeActor;
-        if (interactRangeActor != NULL && interactRangeActor->id == ACTOR_EN_NIW &&
-            interactRangeActor == &this->superCuccos[cuccoIdx]->actor) {
+        if (interactRangeActor != NULL && interactRangeActor->id == ACTOR_EN_NIW
+            && interactRangeActor == &this->superCuccos[cuccoIdx]->actor) {
             return true;
         }
     }
@@ -1280,8 +1280,8 @@ s32 EnTa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         // in the else if branch below and rocking always occurs.
         // So this flag has no effect.
         this->stateFlags &= ~TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM;
-    } else if ((limbIndex == ENTA_LIMB_CHEST) || (limbIndex == ENTA_LIMB_LEFT_ARM) ||
-               (limbIndex == ENTA_LIMB_RIGHT_ARM)) {
+    } else if ((limbIndex == ENTA_LIMB_CHEST) || (limbIndex == ENTA_LIMB_LEFT_ARM)
+               || (limbIndex == ENTA_LIMB_RIGHT_ARM)) {
         s32 limbIdx50 = limbIndex * 50;
 
         rot->y += Math_SinS(play->state.frames * (limbIdx50 + 0x814)) * 200.0f;

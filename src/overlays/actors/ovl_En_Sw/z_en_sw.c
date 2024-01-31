@@ -319,8 +319,8 @@ void EnSw_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80B0C9F0(EnSw* this, PlayState* play) {
     s32 phi_v1 = false;
 
-    if (this->actor.xyzDistToPlayerSq < SQ(400.0f) && ((this->actor.params & 0xE000) >> 0xD) == 0 &&
-        play->actorCtx.unk_02 != 0) {
+    if (this->actor.xyzDistToPlayerSq < SQ(400.0f) && ((this->actor.params & 0xE000) >> 0xD) == 0
+        && play->actorCtx.unk_02 != 0) {
 
         this->actor.colChkInfo.damage = this->actor.colChkInfo.health;
         phi_v1 = true;
@@ -721,22 +721,22 @@ s32 func_80B0DFFC(EnSw* this, PlayState* play) {
     if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         sp4C = false;
-    } else if (((play->state.frames % 4) == 0) &&
-               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_454, &sp50, &sp60, true,
-                                        false, false, true, &sp5C)) {
+    } else if (((play->state.frames % 4) == 0)
+               && !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_454, &sp50, &sp60, true,
+                                           false, false, true, &sp5C)) {
         sp4C = false;
-    } else if (((play->state.frames % 4) == 1) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_460, &sp50, &sp60, true, false,
-                                       false, true, &sp5C)) {
+    } else if (((play->state.frames % 4) == 1)
+               && BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_460, &sp50, &sp60, true,
+                                          false, false, true, &sp5C)) {
         sp4C = false;
-    } else if (((play->state.frames % 4) == 2) &&
-               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_46C, &sp50, &sp60, true,
-                                        false, false, true, &sp5C)) {
+    } else if (((play->state.frames % 4) == 2)
+               && !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_46C, &sp50, &sp60, true,
+                                           false, false, true, &sp5C)) {
         if (0) {}
         sp4C = false;
-    } else if (((play->state.frames % 4) == 3) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_478, &sp50, &sp60, true, false,
-                                       false, true, &sp5C)) {
+    } else if (((play->state.frames % 4) == 3)
+               && BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_478, &sp50, &sp60, true,
+                                          false, false, true, &sp5C)) {
         sp4C = false;
     }
 

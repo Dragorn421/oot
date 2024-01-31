@@ -1277,8 +1277,8 @@ void DemoEc_InitCommon(DemoEc* this, PlayState* play) {
         return;
     }
 
-    if (Object_IsLoaded(&play->objectCtx, primaryObjectSlot) &&
-        Object_IsLoaded(&play->objectCtx, secondaryObjectSlot)) {
+    if (Object_IsLoaded(&play->objectCtx, primaryObjectSlot)
+        && Object_IsLoaded(&play->objectCtx, secondaryObjectSlot)) {
 
         this->drawObjectSlot = primaryObjectSlot;
         this->animObjectSlot = secondaryObjectSlot;

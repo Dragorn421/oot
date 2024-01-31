@@ -642,8 +642,8 @@ void BossSst_HeadSetupNeutral(BossSst* this) {
 
 void BossSst_HeadNeutral(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (!this->ready && ((HAND_STATE(sHands[LEFT]) == HAND_BEAT) || (HAND_STATE(sHands[LEFT]) == HAND_WAIT)) &&
-        ((HAND_STATE(sHands[RIGHT]) == HAND_BEAT) || (HAND_STATE(sHands[RIGHT]) == HAND_WAIT))) {
+    if (!this->ready && ((HAND_STATE(sHands[LEFT]) == HAND_BEAT) || (HAND_STATE(sHands[LEFT]) == HAND_WAIT))
+        && ((HAND_STATE(sHands[RIGHT]) == HAND_BEAT) || (HAND_STATE(sHands[RIGHT]) == HAND_WAIT))) {
         this->ready = true;
     }
 
@@ -654,8 +654,8 @@ void BossSst_HeadNeutral(BossSst* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        if ((GET_PLAYER(play)->actor.world.pos.y > -50.0f) &&
-            !(GET_PLAYER(play)->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+        if ((GET_PLAYER(play)->actor.world.pos.y > -50.0f)
+            && !(GET_PLAYER(play)->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
             sHands[Rand_ZeroOne() <= 0.5f]->ready = true;
             BossSst_HeadSetupWait(this);
         } else {
@@ -702,8 +702,8 @@ void BossSst_HeadSetupReadyCharge(BossSst* this) {
 
 void BossSst_HeadReadyCharge(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (sHands[LEFT]->ready && (sHands[LEFT]->actionFunc == BossSst_HandReadyCharge) && sHands[RIGHT]->ready &&
-        (sHands[RIGHT]->actionFunc == BossSst_HandReadyCharge)) {
+    if (sHands[LEFT]->ready && (sHands[LEFT]->actionFunc == BossSst_HandReadyCharge) && sHands[RIGHT]->ready
+        && (sHands[RIGHT]->actionFunc == BossSst_HandReadyCharge)) {
         BossSst_HeadSetupCharge(this);
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 4, 0x800, 0x400);
@@ -1047,10 +1047,10 @@ void BossSst_HeadDeath(BossSst* this, PlayState* play) {
     } else if (this->timer == 48) {
         Player* player = GET_PLAYER(play);
 
-        player->actor.world.pos.x = sRoomCenter.x + (400.0f * Math_SinS(this->actor.shape.rot.y)) +
-                                    (Math_CosS(this->actor.shape.rot.y) * -120.0f);
-        player->actor.world.pos.z = sRoomCenter.z + (400.0f * Math_CosS(this->actor.shape.rot.y)) -
-                                    (Math_SinS(this->actor.shape.rot.y) * -120.0f);
+        player->actor.world.pos.x = sRoomCenter.x + (400.0f * Math_SinS(this->actor.shape.rot.y))
+                                  + (Math_CosS(this->actor.shape.rot.y) * -120.0f);
+        player->actor.world.pos.z = sRoomCenter.z + (400.0f * Math_CosS(this->actor.shape.rot.y))
+                                  - (Math_SinS(this->actor.shape.rot.y) * -120.0f);
         player->actor.shape.rot.y = Actor_WorldYawTowardPoint(&player->actor, &sRoomCenter);
         func_8002DBD0(&this->actor, &sSubCamEye, &GET_ACTIVE_CAM(play)->eye);
         func_8002DBD0(&this->actor, &sSubCamAt, &GET_ACTIVE_CAM(play)->at);
@@ -1243,8 +1243,8 @@ void BossSst_HandWait(BossSst* this, PlayState* play) {
             this->timer--;
         }
 
-        if ((this->timer == 0) && (player->actor.world.pos.y > -50.0f) &&
-            !(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+        if ((this->timer == 0) && (player->actor.world.pos.y > -50.0f)
+            && !(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
             BossSst_HandSelectAttack(this);
         }
     } else if (sHead->actionFunc == BossSst_HeadNeutral) {
@@ -1371,8 +1371,8 @@ void BossSst_HandOffbeatEnd(BossSst* this, PlayState* play) {
             } else {
                 BossSst_HandSetupWait(this);
             }
-        } else if ((sHead->actionFunc != BossSst_HeadIntro) && ((sHead->timer % 7) == 5) &&
-                   ((sHead->timer % 28) != 5)) {
+        } else if ((sHead->actionFunc != BossSst_HeadIntro) && ((sHead->timer % 7) == 5)
+                   && ((sHead->timer % 28) != 5)) {
             BossSst_HandSetupOffbeat(this);
         }
     }
@@ -1429,8 +1429,8 @@ void BossSst_HandRetreat(BossSst* this, PlayState* play) {
         inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.home.rot.z, 0x200);
         inPosition &= Math_ScaledStepToS(&this->handYRotMod, 0, 0x800);
         func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
-        if ((Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 250.0f, 0.5f, 70.0f, 5.0f) < 1.0f) &&
-            inPosition && (diff < 10.0f)) {
+        if ((Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 250.0f, 0.5f, 70.0f, 5.0f) < 1.0f)
+            && inPosition && (diff < 10.0f)) {
             this->timer = 8;
         }
     }
@@ -1456,8 +1456,8 @@ void BossSst_HandReadySlam(BossSst* this, PlayState* play) {
     } else {
         Player* player = GET_PLAYER(play);
 
-        if (Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 300.0f, 30.0f) &&
-            (this->actor.xzDistToPlayer < 140.0f)) {
+        if (Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 300.0f, 30.0f)
+            && (this->actor.xzDistToPlayer < 140.0f)) {
             this->timer = 20;
         }
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x1000, 0x100);
@@ -1949,8 +1949,8 @@ void BossSst_HandSwing(BossSst* this, PlayState* play) {
         player->actor.world.pos.z += 20.0f * Math_CosS(this->actor.shape.rot.y);
     }
 
-    if ((this->timer == 4) && (this->amplitude == 0) && SkelAnime_Update(&this->skelAnime) &&
-        (player->stateFlags2 & PLAYER_STATE2_7)) {
+    if ((this->timer == 4) && (this->amplitude == 0) && SkelAnime_Update(&this->skelAnime)
+        && (player->stateFlags2 & PLAYER_STATE2_7)) {
         BossSst_HandReleasePlayer(this, play, false);
         player->actor.world.pos.x += 70.0f * Math_SinS(this->actor.shape.rot.y);
         player->actor.world.pos.z += 70.0f * Math_CosS(this->actor.shape.rot.y);
@@ -2042,8 +2042,8 @@ void BossSst_HandShake(BossSst* this, PlayState* play) {
     }
 
     if (HAND_STATE(OTHER_HAND(this)) == HAND_DAMAGED) {
-        if ((OTHER_HAND(this)->actionFunc == BossSst_HandShake) ||
-            (OTHER_HAND(this)->actionFunc == BossSst_HandReadyCharge)) {
+        if ((OTHER_HAND(this)->actionFunc == BossSst_HandShake)
+            || (OTHER_HAND(this)->actionFunc == BossSst_HandReadyCharge)) {
             BossSst_HandSetupReadyCharge(this);
         } else if (this->timer == 0) {
             this->timer = 80;
@@ -2583,9 +2583,9 @@ void BossSst_UpdateHand(Actor* thisx, PlayState* play) {
     BossSstHandTrail* trail;
 
     if (this->colliderCyl.base.atFlags & AT_ON) {
-        if ((this->effects[0].move < 5) ||
-            (this->actor.xzDistToPlayer < ((this->effects[2].scale * 0.01f) * sCylinderInitHand.dim.radius)) ||
-            (this->colliderCyl.base.atFlags & AT_HIT)) {
+        if ((this->effects[0].move < 5)
+            || (this->actor.xzDistToPlayer < ((this->effects[2].scale * 0.01f) * sCylinderInitHand.dim.radius))
+            || (this->colliderCyl.base.atFlags & AT_HIT)) {
             this->colliderCyl.base.atFlags &= ~(AT_ON | AT_HIT);
         } else {
             this->colliderCyl.dim.radius = (this->effects[0].scale * 0.01f) * sCylinderInitHand.dim.radius;
@@ -2600,8 +2600,8 @@ void BossSst_UpdateHand(Actor* thisx, PlayState* play) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
-    if ((sHead->actionFunc != BossSst_HeadLurk) && (sHead->actionFunc != BossSst_HeadIntro) &&
-        (this->colliderJntSph.base.acFlags & AC_ON)) {
+    if ((sHead->actionFunc != BossSst_HeadLurk) && (sHead->actionFunc != BossSst_HeadIntro)
+        && (this->colliderJntSph.base.acFlags & AC_ON)) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
@@ -2613,8 +2613,8 @@ void BossSst_UpdateHand(Actor* thisx, PlayState* play) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCyl.base);
     }
 
-    if ((HAND_STATE(this) != HAND_DEATH) && (HAND_STATE(this) != HAND_WAIT) && (HAND_STATE(this) != HAND_BEAT) &&
-        (HAND_STATE(this) != HAND_FROZEN)) {
+    if ((HAND_STATE(this) != HAND_DEATH) && (HAND_STATE(this) != HAND_WAIT) && (HAND_STATE(this) != HAND_BEAT)
+        && (HAND_STATE(this) != HAND_FROZEN)) {
         this->trailCount++;
         this->trailCount = CLAMP_MAX(this->trailCount, 7);
     } else {
@@ -2668,10 +2668,10 @@ void BossSst_UpdateHead(Actor* thisx, PlayState* play) {
     }
 
     BossSst_MoveAround(this);
-    if ((!this->vVanish || CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) &&
-        ((this->actionFunc == BossSst_HeadReadyCharge) || (this->actionFunc == BossSst_HeadCharge) ||
-         (this->actionFunc == BossSst_HeadFrozenHand) || (this->actionFunc == BossSst_HeadStunned) ||
-         (this->actionFunc == BossSst_HeadVulnerable) || (this->actionFunc == BossSst_HeadDamage))) {
+    if ((!this->vVanish || CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS))
+        && ((this->actionFunc == BossSst_HeadReadyCharge) || (this->actionFunc == BossSst_HeadCharge)
+            || (this->actionFunc == BossSst_HeadFrozenHand) || (this->actionFunc == BossSst_HeadStunned)
+            || (this->actionFunc == BossSst_HeadVulnerable) || (this->actionFunc == BossSst_HeadDamage))) {
         this->actor.flags |= ACTOR_FLAG_0;
     } else {
         this->actor.flags &= ~ACTOR_FLAG_0;
@@ -2832,8 +2832,8 @@ s32 BossSst_OverrideHeadDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
         } else if (limbIndex == 2) {
             rot->z -= 0x400 * sinf(timer12 * (M_PI / 24));
         }
-    } else if ((this->actionFunc == BossSst_HeadDarken) || (this->actionFunc == BossSst_HeadFall) ||
-               (this->actionFunc == BossSst_HeadMelt)) {
+    } else if ((this->actionFunc == BossSst_HeadDarken) || (this->actionFunc == BossSst_HeadFall)
+               || (this->actionFunc == BossSst_HeadMelt)) {
         if ((limbIndex == 3) || (limbIndex == 39) || (limbIndex == 42)) {
             rot->z -= 0x1000;
         } else if ((limbIndex == 5) || (limbIndex == 6)) {

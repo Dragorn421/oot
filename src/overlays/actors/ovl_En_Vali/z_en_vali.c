@@ -503,8 +503,8 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
-            } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
-                       (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
+            } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN)
+                       && (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DAMAGE);
             }
 
@@ -539,8 +539,8 @@ void EnVali_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     EnVali* this = (EnVali*)thisx;
 
-    if ((this->bodyCollider.base.atFlags & AT_HIT) || (this->leftArmCollider.base.atFlags & AT_HIT) ||
-        (this->rightArmCollider.base.atFlags & AT_HIT)) {
+    if ((this->bodyCollider.base.atFlags & AT_HIT) || (this->leftArmCollider.base.atFlags & AT_HIT)
+        || (this->rightArmCollider.base.atFlags & AT_HIT)) {
         this->leftArmCollider.base.atFlags &= ~AT_HIT;
         this->rightArmCollider.base.atFlags &= ~AT_HIT;
         this->bodyCollider.base.atFlags &= ~AT_HIT;
@@ -675,8 +675,8 @@ s32 EnVali_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
     EnVali* this = (EnVali*)thisx;
     f32 curFrame;
 
-    if ((limbIndex == EN_VALI_LIMB_NUCLEUS) || (limbIndex == EN_VALI_LIMB_OUTER_HOOD) ||
-        (limbIndex == EN_VALI_LIMB_INNER_HOOD)) {
+    if ((limbIndex == EN_VALI_LIMB_NUCLEUS) || (limbIndex == EN_VALI_LIMB_OUTER_HOOD)
+        || (limbIndex == EN_VALI_LIMB_INNER_HOOD)) {
         *dList = NULL;
         return false;
     } else {

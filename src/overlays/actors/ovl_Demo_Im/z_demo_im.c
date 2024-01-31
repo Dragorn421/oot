@@ -338,8 +338,8 @@ void func_8098544C(DemoIm* this, PlayState* play) {
 }
 
 void func_809854DC(DemoIm* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[5] != NULL) &&
-        (play->csCtx.actorCues[5]->id == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[5] != NULL)
+        && (play->csCtx.actorCues[5]->id == 2)) {
         Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaIdleAnim),
                          ANIMMODE_LOOP, 0.0f);
         this->action = 2;
@@ -356,8 +356,8 @@ void func_8098557C(DemoIm* this) {
 }
 
 void func_809855A8(DemoIm* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[5] != NULL) &&
-        (play->csCtx.actorCues[5]->id == 3)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[5] != NULL)
+        && (play->csCtx.actorCues[5]->id == 3)) {
         Animation_Change(&this->skelAnime, &gImpaRaiseArmsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaRaiseArmsAnim),
                          ANIMMODE_ONCE, 4.0f);
         this->action = 4;
@@ -373,8 +373,8 @@ void func_80985640(DemoIm* this, s32 arg1) {
 }
 
 void func_809856AC(DemoIm* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL) &&
-        (play->csCtx.actorCues[6]->id == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL)
+        && (play->csCtx.actorCues[6]->id == 2)) {
         this->action = 6;
         func_809853B4(this, play);
     }

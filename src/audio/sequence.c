@@ -22,9 +22,9 @@
 #include "ultra64/abi.h"
 
 // Direct audio command (skips the queueing system)
-#define SEQCMD_SET_PLAYER_VOLUME_NOW(seqPlayerIndex, duration, volume)                                                \
-    Audio_ProcessSeqCmd((SEQCMD_OP_SET_PLAYER_VOLUME << 28) | ((u8)(seqPlayerIndex) << 24) | ((u8)(duration) << 16) | \
-                        ((u8)((volume)*127.0f)));
+#define SEQCMD_SET_PLAYER_VOLUME_NOW(seqPlayerIndex, duration, volume)                                              \
+    Audio_ProcessSeqCmd((SEQCMD_OP_SET_PLAYER_VOLUME << 28) | ((u8)(seqPlayerIndex) << 24) | ((u8)(duration) << 16) \
+                        | ((u8)((volume)*127.0f)));
 
 typedef struct {
     u8 seqId;
@@ -276,12 +276,12 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             // Volume is scaled relative to 127
             gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTarget = (f32)val / 127.0f;
-            if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volCur !=
-                gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTarget) {
+            if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volCur
+                != gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTarget) {
                 gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volStep =
-                    (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volCur -
-                     gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTarget) /
-                    (f32)duration;
+                    (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volCur
+                     - gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTarget)
+                    / (f32)duration;
                 gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTimer = duration;
                 gActiveSeqs[seqPlayerIndex].volChannelFlags |= 1 << channelIndex;
             }
@@ -300,8 +300,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             port = (cmd & 0xFF0000) >> 16;
             val = cmd & 0xFF;
             if (!(gActiveSeqs[seqPlayerIndex].channelPortMask & (1 << channelIndex))) {
-                Audio_QueueCmdS8(0x06000000 | _SHIFTL(seqPlayerIndex, 16, 8) | _SHIFTL(channelIndex, 8, 8) |
-                                     _SHIFTL(port, 0, 8),
+                Audio_QueueCmdS8(0x06000000 | _SHIFTL(seqPlayerIndex, 16, 8) | _SHIFTL(channelIndex, 8, 8)
+                                     | _SHIFTL(port, 0, 8),
                                  val);
             }
             break;
@@ -567,8 +567,8 @@ void Audio_UpdateActiveSequences(void) {
                     case SEQCMD_SUB_OP_TEMPO_RESET:
                         // Reset tempo to original tempo
                         tempoTarget = (gActiveSeqs[seqPlayerIndex].tempoOriginal != 0)
-                                          ? gActiveSeqs[seqPlayerIndex].tempoOriginal
-                                          : tempoPrev;
+                                        ? gActiveSeqs[seqPlayerIndex].tempoOriginal
+                                        : tempoPrev;
                         break;
 
                     default: // `SEQCMD_SUB_OP_TEMPO_SET`

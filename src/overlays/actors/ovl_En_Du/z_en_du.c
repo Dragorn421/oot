@@ -551,8 +551,8 @@ void EnDu_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 
-    if (this->skelAnime.animation == &gDaruniaDancingEndAnim &&
-        Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
+    if (this->skelAnime.animation == &gDaruniaDancingEndAnim
+        && Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
     }
 

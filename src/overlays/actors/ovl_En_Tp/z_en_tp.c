@@ -452,10 +452,10 @@ void EnTp_Head_Wait(EnTp* this, PlayState* play) {
 
             yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos) + 0x4000;
             Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 0.3f, 1.0f, 0.3f);
-            this->actor.world.pos.x = this->actor.home.pos.x +
-                                      (Math_SinS(2000 * this->unk_15C) * (Math_SinS(yaw) * this->horizontalVariation));
-            this->actor.world.pos.z = this->actor.home.pos.z +
-                                      (Math_SinS(2000 * this->unk_15C) * (Math_CosS(yaw) * this->horizontalVariation));
+            this->actor.world.pos.x = this->actor.home.pos.x
+                                    + (Math_SinS(2000 * this->unk_15C) * (Math_SinS(yaw) * this->horizontalVariation));
+            this->actor.world.pos.z = this->actor.home.pos.z
+                                    + (Math_SinS(2000 * this->unk_15C) * (Math_CosS(yaw) * this->horizontalVariation));
         } else {
             this->actor.shape.rot.x = 0;
             this->unk_150 = 1;

@@ -319,8 +319,8 @@ void EnIshi_Init(Actor* thisx, PlayState* play) {
     }
     Actor_SetScale(&this->actor, sRockScales[type]);
     EnIshi_InitCollider(&this->actor, play);
-    if ((type == ROCK_LARGE) &&
-        Flags_GetSwitch(play, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
+    if ((type == ROCK_LARGE)
+        && Flags_GetSwitch(play, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -355,8 +355,8 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
         if ((this->actor.params >> 4) & 1) {
             EnIshi_SpawnBugs(this, play);
         }
-    } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
-               this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
+    } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL)
+               && this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
         EnIshi_DropCollectible(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, sBreakSfxDurations[type], sBreakSfxIds[type]);
         sFragmentSpawnFuncs[type](this, play);
@@ -397,8 +397,8 @@ void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {
         func_80A7ED94(&this->actor.velocity, D_80A7FA28[this->actor.params & 1]);
         Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
-                                    UPDBGCHECKINFO_FLAG_7);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6
+                                    | UPDBGCHECKINFO_FLAG_7);
     }
 }
 
@@ -468,8 +468,8 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
     this->actor.shape.rot.x += sRotSpeedX;
     this->actor.shape.rot.y += sRotSpeedY;
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
-                                UPDBGCHECKINFO_FLAG_7);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6
+                                | UPDBGCHECKINFO_FLAG_7);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }

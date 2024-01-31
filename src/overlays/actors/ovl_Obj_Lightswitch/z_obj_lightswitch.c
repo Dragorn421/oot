@@ -187,7 +187,8 @@ void ObjLightswitch_Init(Actor* thisx, PlayState* play) {
         this->actor.flags |= ACTOR_FLAG_5;
         if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_OBJ_OSHIHIKI, this->actor.home.pos.x,
                                this->actor.home.pos.y, this->actor.home.pos.z, 0, this->actor.home.rot.y, 0,
-                               (0xFF << 8) | PUSHBLOCK_SMALL_START_ON) == NULL) {
+                               (0xFF << 8) | PUSHBLOCK_SMALL_START_ON)
+            == NULL) {
             PRINTF(VT_COL(RED, WHITE));
             // "Push-pull block occurrence failure"
             PRINTF("押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_obj_lightswitch.c", 452, this->actor.params);
@@ -324,8 +325,8 @@ void ObjLightswitch_SetupTurnOff(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_TurnOff(ObjLightswitch* this, PlayState* play) {
-    if ((this->actor.params >> 4 & 3) != OBJLIGHTSWITCH_TYPE_1 || func_8005B198() == this->actor.category ||
-        this->toggleDelay <= 0) {
+    if ((this->actor.params >> 4 & 3) != OBJLIGHTSWITCH_TYPE_1 || func_8005B198() == this->actor.category
+        || this->toggleDelay <= 0) {
         this->timer--;
 
         Math_StepToS(&this->flameRingRotSpeed, 0, 0xA);

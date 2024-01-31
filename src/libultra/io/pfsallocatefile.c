@@ -24,8 +24,8 @@ s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u
 
     fileSizeInPages = (fileSize + PFS_PAGE_SIZE - 1) / PFS_PAGE_SIZE;
 
-    if (((ret = osPfsFindFile(pfs, companyCode, gameCode, gameName, extName, fileNo)) != 0) &&
-        (ret != PFS_ERR_INVALID)) {
+    if (((ret = osPfsFindFile(pfs, companyCode, gameCode, gameName, extName, fileNo)) != 0)
+        && (ret != PFS_ERR_INVALID)) {
         return ret;
     }
     if (*fileNo != -1) {

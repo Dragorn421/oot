@@ -627,8 +627,8 @@ void EnBb_Blue(EnBb* this, PlayState* play) {
         }
         thisYawToWall = this->actor.wallYaw - this->actor.world.rot.y;
         moveYawToWall = this->actor.wallYaw - this->vMoveAngleY;
-        if ((this->targetActor == NULL) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
-            (ABS(thisYawToWall) > 0x4000 || ABS(moveYawToWall) > 0x4000)) {
+        if ((this->targetActor == NULL) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+            && (ABS(thisYawToWall) > 0x4000 || ABS(moveYawToWall) > 0x4000)) {
             this->vMoveAngleY = this->actor.wallYaw + this->actor.wallYaw - this->actor.world.rot.y - 0x8000;
             Math_SmoothStepToS(&this->actor.world.rot.y, this->vMoveAngleY, 1, 0xBB8, 0);
         }
@@ -783,8 +783,8 @@ void EnBb_Red(EnBb* this, PlayState* play) {
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     switch (this->actionState) {
         case BBRED_WAIT:
-            if ((Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 250.0f) && (ABS(yawDiff) <= 0x4000) &&
-                (this->timer == 0)) {
+            if ((Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 250.0f) && (ABS(yawDiff) <= 0x4000)
+                && (this->timer == 0)) {
                 this->actor.speed = 5.0f;
                 this->actor.gravity = -1.0f;
                 this->actor.velocity.y = 18.0f;
@@ -1176,8 +1176,8 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                 break;
             default:
             block_15:
-                if ((this->dmgEffect == 14) || (this->dmgEffect == 12) || (this->dmgEffect == 11) ||
-                    (this->dmgEffect == 10) || (this->dmgEffect == 7) || (this->dmgEffect == 5)) {
+                if ((this->dmgEffect == 14) || (this->dmgEffect == 12) || (this->dmgEffect == 11)
+                    || (this->dmgEffect == 10) || (this->dmgEffect == 7) || (this->dmgEffect == 5)) {
                     if ((this->action != BB_DOWN) || (this->timer < 190)) {
                         Actor_ApplyDamage(&this->actor);
                     }
@@ -1185,8 +1185,8 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                         EnBb_SetupDown(this);
                     }
                 } else {
-                    if (((this->action == BB_DOWN) && (this->timer < 190)) ||
-                        ((this->actor.params != ENBB_WHITE) && (this->flameScaleX < 20.0f))) {
+                    if (((this->action == BB_DOWN) && (this->timer < 190))
+                        || ((this->actor.params != ENBB_WHITE) && (this->flameScaleX < 20.0f))) {
                         Actor_ApplyDamage(&this->actor);
                     } else {
                         this->collider.base.acFlags |= AC_HIT;
@@ -1203,15 +1203,15 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                     //! colorFilterParams is never set. And because Din's Fire halts updating during its cutscene,
                     //! EnBb_Death doesn't kill the bubble on the next frame like it should. This combines with
                     //! the bug in EnBb_Draw below to crash the game.
-                } else if ((this->actor.params == ENBB_WHITE) &&
-                           ((this->action == BB_WHITE) || (this->action == BB_STUNNED))) {
+                } else if ((this->actor.params == ENBB_WHITE)
+                           && ((this->action == BB_WHITE) || (this->action == BB_STUNNED))) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
                     this->actor.speed = -8.0f;
                     this->maxSpeedXZ = 0.0f;
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLE_DAMAGE);
-                } else if (((this->action == BB_DOWN) && (this->timer < 190)) ||
-                           ((this->actor.params != ENBB_WHITE) && (this->flameScaleX < 20.0f))) {
+                } else if (((this->action == BB_DOWN) && (this->timer < 190))
+                           || ((this->actor.params != ENBB_WHITE) && (this->flameScaleX < 20.0f))) {
                     EnBb_SetupDamage(this);
                 }
                 FALLTHROUGH;
@@ -1235,8 +1235,8 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
     }
     if (this->actor.colChkInfo.damageEffect != 0xD) {
         this->actionFunc(this, play);
-        if ((this->actor.params <= ENBB_BLUE) && (this->actor.speed >= -6.0f) &&
-            ((this->actor.flags & ACTOR_FLAG_15) == 0)) {
+        if ((this->actor.params <= ENBB_BLUE) && (this->actor.speed >= -6.0f)
+            && ((this->actor.flags & ACTOR_FLAG_15) == 0)) {
             Actor_MoveXZGravity(&this->actor);
         }
         if (this->moveMode == BBMOVE_NORMAL) {
@@ -1255,9 +1255,9 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
         if ((this->action > BB_KILL) && ((this->actor.speed != 0.0f) || (this->action == BB_GREEN))) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
-        if ((this->action > BB_FLAME_TRAIL) &&
-            ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) &&
-            (this->moveMode != BBMOVE_HIDDEN)) {
+        if ((this->action > BB_FLAME_TRAIL)
+            && ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))
+            && (this->moveMode != BBMOVE_HIDDEN)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
         }
@@ -1327,11 +1327,11 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
         if (this->actor.params != ENBB_WHITE) {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
-                                        ((play->gameplayFrames + (this->flameScrollMod * 10)) *
-                                         (-20 - (this->flameScrollMod * -2))) %
-                                            0x200,
-                                        0x20, 0x80));
+                       Gfx_TwoTexScroll(
+                           play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
+                           ((play->gameplayFrames + (this->flameScrollMod * 10)) * (-20 - (this->flameScrollMod * -2)))
+                               % 0x200,
+                           0x20, 0x80));
             gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, this->flamePrimBlue, this->flamePrimAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, this->flameEnvColor.r, this->flameEnvColor.g, this->flameEnvColor.b, 0);
             Matrix_RotateY(
@@ -1344,8 +1344,8 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
         } else {
             Matrix_MultVec3f(&blureBase1, &blureVtx1);
             Matrix_MultVec3f(&blureBase2, &blureVtx2);
-            if ((this->maxSpeedXZ != 0.0f) && (this->action == BB_WHITE) && !(play->gameplayFrames & 1) &&
-                (this->actor.colChkInfo.health != 0)) {
+            if ((this->maxSpeedXZ != 0.0f) && (this->action == BB_WHITE) && !(play->gameplayFrames & 1)
+                && (this->actor.colChkInfo.health != 0)) {
                 EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &blureVtx1, &blureVtx2);
             } else if (this->action != BB_WHITE) {
                 EffectBlure_AddSpace(Effect_GetByIndex(this->blureIdx));

@@ -214,7 +214,8 @@ s32 EnFd_SpawnCore(EnFd* this, PlayState* play) {
     }
 
     if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FW, this->corePos.x, this->corePos.y,
-                           this->corePos.z, 0, this->actor.shape.rot.y, 0, this->runDir) == NULL) {
+                           this->corePos.z, 0, this->actor.shape.rot.y, 0, this->runDir)
+        == NULL) {
         return false;
     }
 
@@ -263,8 +264,8 @@ void EnFd_SpawnDot(EnFd* this, PlayState* play) {
  * Checks to see if the hammer effect is active, and if it should be applied
  */
 s32 EnFd_CheckHammer(EnFd* this, PlayState* play) {
-    if (this->actionFunc == EnFd_Reappear || this->actionFunc == EnFd_SpinAndGrow ||
-        this->actionFunc == EnFd_JumpToGround || this->actionFunc == EnFd_WaitForCore) {
+    if (this->actionFunc == EnFd_Reappear || this->actionFunc == EnFd_SpinAndGrow
+        || this->actionFunc == EnFd_JumpToGround || this->actionFunc == EnFd_WaitForCore) {
         return false;
     } else if (play->actorCtx.unk_02 != 0 && this->actor.xzDistToPlayer < 300.0f && this->actor.yDistToPlayer < 60.0f) {
         return true;
@@ -679,8 +680,8 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     EnFd_UpdateEffectsDots(this);
     EnFd_UpdateEffectsFlames(this);
-    if (this->actionFunc != EnFd_Reappear && this->actionFunc != EnFd_SpinAndGrow &&
-        this->actionFunc != EnFd_WaitForCore) {
+    if (this->actionFunc != EnFd_Reappear && this->actionFunc != EnFd_SpinAndGrow
+        && this->actionFunc != EnFd_WaitForCore) {
         if (this->attackTimer == 0 && this->invincibilityTimer == 0) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
@@ -726,9 +727,9 @@ void EnFd_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
         Matrix_MultVec3f(&initialPos, &this->actor.focus.pos);
     }
 
-    if (limbIndex == 3 || limbIndex == 6 || limbIndex == 7 || limbIndex == 10 || limbIndex == 14 || limbIndex == 15 ||
-        limbIndex == 17 || limbIndex == 18 || limbIndex == 20 || limbIndex == 22 || limbIndex == 23 ||
-        limbIndex == 24 || limbIndex == 25 || limbIndex == 26) {
+    if (limbIndex == 3 || limbIndex == 6 || limbIndex == 7 || limbIndex == 10 || limbIndex == 14 || limbIndex == 15
+        || limbIndex == 17 || limbIndex == 18 || limbIndex == 20 || limbIndex == 22 || limbIndex == 23
+        || limbIndex == 24 || limbIndex == 25 || limbIndex == 26) {
         if ((play->state.frames % 2) != 0) {
             for (i = 0; i < 1; i++) {
                 Matrix_MultVec3f(&initialPos, &pos);

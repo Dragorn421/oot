@@ -130,8 +130,8 @@ void func_80889C18(BgHidanKousi* this, PlayState* play) {
 
 void func_80889C90(BgHidanKousi* this, PlayState* play) {
     Actor_UpdatePos(&this->dyna.actor);
-    if (D_80889E40[this->dyna.actor.params & 0xFF] <
-        Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &this->dyna.actor.world.pos)) {
+    if (D_80889E40[this->dyna.actor.params & 0xFF]
+        < Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &this->dyna.actor.world.pos)) {
         func_80889ACC(this);
         BgHidanKousi_SetupAction(this, func_80889D28);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);

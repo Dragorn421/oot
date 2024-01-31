@@ -322,12 +322,12 @@ void MirRay_SetupReflectionPolys(MirRay* this, PlayState* play, MirRayShieldRefl
     sp60[2] = -((*shieldMtx).zz * this->reflectRange) * this->reflectIntensity * 400.0f;
 
     for (i = 0; i < 6; i++) {
-        posA.x = ((*shieldMtx).xw + (this->shieldCorners[i].x * (*shieldMtx).xx)) +
-                 (this->shieldCorners[i].y * (*shieldMtx).xy);
-        posA.y = ((*shieldMtx).yw + (this->shieldCorners[i].x * (*shieldMtx).yx)) +
-                 (this->shieldCorners[i].y * (*shieldMtx).yy);
-        posA.z = ((*shieldMtx).zw + (this->shieldCorners[i].x * (*shieldMtx).zx)) +
-                 (this->shieldCorners[i].y * (*shieldMtx).zy);
+        posA.x = ((*shieldMtx).xw + (this->shieldCorners[i].x * (*shieldMtx).xx))
+               + (this->shieldCorners[i].y * (*shieldMtx).xy);
+        posA.y = ((*shieldMtx).yw + (this->shieldCorners[i].x * (*shieldMtx).yx))
+               + (this->shieldCorners[i].y * (*shieldMtx).yy);
+        posA.z = ((*shieldMtx).zw + (this->shieldCorners[i].x * (*shieldMtx).zx))
+               + (this->shieldCorners[i].y * (*shieldMtx).zy);
         posB.x = sp60[0] + posA.x;
         posB.y = sp60[1] + posA.y;
         posB.z = sp60[2] + posA.z;
@@ -347,11 +347,11 @@ void MirRay_RemoveSimilarReflections(MirRayShieldReflection* reflection) {
     for (i = 0; i < 6; i++) {
         for (j = i + 1; j < 6; j++) {
             if (reflection[i].reflectionPoly != NULL) {
-                if ((reflection[j].reflectionPoly != NULL) &&
-                    (ABS(reflection[i].reflectionPoly->normal.x - reflection[j].reflectionPoly->normal.x) < 100) &&
-                    (ABS(reflection[i].reflectionPoly->normal.y - reflection[j].reflectionPoly->normal.y) < 100) &&
-                    (ABS(reflection[i].reflectionPoly->normal.z - reflection[j].reflectionPoly->normal.z) < 100) &&
-                    (reflection[i].reflectionPoly->dist == reflection[j].reflectionPoly->dist)) {
+                if ((reflection[j].reflectionPoly != NULL)
+                    && (ABS(reflection[i].reflectionPoly->normal.x - reflection[j].reflectionPoly->normal.x) < 100)
+                    && (ABS(reflection[i].reflectionPoly->normal.y - reflection[j].reflectionPoly->normal.y) < 100)
+                    && (ABS(reflection[i].reflectionPoly->normal.z - reflection[j].reflectionPoly->normal.z) < 100)
+                    && (reflection[i].reflectionPoly->dist == reflection[j].reflectionPoly->dist)) {
                     reflection[j].reflectionPoly = NULL;
                 }
             }

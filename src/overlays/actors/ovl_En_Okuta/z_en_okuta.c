@@ -136,8 +136,8 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
             BgCheck_EntityRaycastDown4(&play->colCtx, &thisx->floorPoly, &floorBgId, thisx, &thisx->world.pos);
         //! @bug calls WaterBox_GetSurfaceImpl directly
         if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, thisx->world.pos.x, thisx->world.pos.z, &ySurface,
-                                     &outWaterBox) ||
-            (ySurface <= thisx->floorHeight)) {
+                                     &outWaterBox)
+            || (ySurface <= thisx->floorHeight)) {
             Actor_Kill(thisx);
         } else {
             thisx->home.pos.y = ySurface;
@@ -189,8 +189,8 @@ void EnOkuta_SpawnRipple(EnOkuta* this, PlayState* play) {
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.home.pos.y;
     pos.z = this->actor.world.pos.z;
-    if ((play->gameplayFrames % 7) == 0 &&
-        ((this->actionFunc != EnOkuta_Shoot) || ((this->actor.world.pos.y - this->actor.home.pos.y) < 50.0f))) {
+    if ((play->gameplayFrames % 7) == 0
+        && ((this->actionFunc != EnOkuta_Shoot) || ((this->actor.world.pos.y - this->actor.home.pos.y) < 50.0f))) {
         EffectSsGRipple_Spawn(play, &pos, 250, 650, 0);
     }
 }
@@ -269,7 +269,8 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, PlayState* play) {
     pos.y = this->actor.world.pos.y - 6.0f;
     pos.z = this->actor.world.pos.z + (25.0f * cosY);
     if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_OKUTA, pos.x, pos.y, pos.z, this->actor.shape.rot.x,
-                    this->actor.shape.rot.y, this->actor.shape.rot.z, 0x10) != NULL) {
+                    this->actor.shape.rot.y, this->actor.shape.rot.z, 0x10)
+        != NULL) {
         pos.x = this->actor.world.pos.x + (40.0f * sinY);
         pos.z = this->actor.world.pos.z + (40.0f * cosY);
         pos.y = this->actor.world.pos.y;
@@ -481,13 +482,13 @@ void EnOkuta_ProjectileFly(EnOkuta* this, PlayState* play) {
         this->actor.speed -= 0.1f;
         this->actor.speed = CLAMP_MIN(this->actor.speed, 1.0f);
     }
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-        (this->collider.base.atFlags & AT_HIT) || this->collider.base.acFlags & AC_HIT ||
-        this->collider.base.ocFlags1 & OC1_HIT || this->actor.floorHeight == BGCHECK_Y_MIN) {
-        if ((player->currentShield == PLAYER_SHIELD_DEKU ||
-             (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) &&
-            this->collider.base.atFlags & AT_HIT && this->collider.base.atFlags & AT_TYPE_ENEMY &&
-            this->collider.base.atFlags & AT_BOUNCED) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+        || (this->collider.base.atFlags & AT_HIT) || this->collider.base.acFlags & AC_HIT
+        || this->collider.base.ocFlags1 & OC1_HIT || this->actor.floorHeight == BGCHECK_Y_MIN) {
+        if ((player->currentShield == PLAYER_SHIELD_DEKU
+             || (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT))
+            && this->collider.base.atFlags & AT_HIT && this->collider.base.atFlags & AT_TYPE_ENEMY
+            && this->collider.base.atFlags & AT_BOUNCED) {
             this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->collider.base.atFlags |= AT_TYPE_PLAYER;
             this->collider.elem.toucher.dmgFlags = DMG_DEKU_STICK;
@@ -582,8 +583,8 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
         if (this->actor.params == 0) {
             EnOkuta_ColliderCheck(this, play);
             if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
-                                         &ySurface, &outWaterBox) ||
-                (ySurface < this->actor.floorHeight)) {
+                                         &ySurface, &outWaterBox)
+                || (ySurface < this->actor.floorHeight)) {
                 if (this->actor.colChkInfo.health != 0) {
                     Actor_Kill(&this->actor);
                     return;
@@ -596,21 +597,21 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
         if (this->actor.params == 0) {
             EnOkuta_UpdateHeadScale(this);
             this->collider.dim.height =
-                (((sOctorockColliderInit.dim.height * this->headScale.y) - this->collider.dim.yShift) *
-                 this->actor.scale.y * 100.0f);
+                (((sOctorockColliderInit.dim.height * this->headScale.y) - this->collider.dim.yShift)
+                 * this->actor.scale.y * 100.0f);
         } else {
             canRestorePrevPos = false;
             Actor_MoveXZGravity(&this->actor);
             Math_Vec3f_Copy(&prevPos, &this->actor.world.pos);
             Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 15.0f, 30.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-            if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
-                SurfaceType_IsIgnoredByProjectiles(&play->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
+            if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+                && SurfaceType_IsIgnoredByProjectiles(&play->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 canRestorePrevPos = true;
                 this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
             }
-            if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-                SurfaceType_IsIgnoredByProjectiles(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId)) {
+            if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+                && SurfaceType_IsIgnoredByProjectiles(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId)) {
                 canRestorePrevPos = true;
                 this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
             }
@@ -628,8 +629,8 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnOkuta_WaitToAppear) {
-            if ((this->actionFunc != EnOkuta_Die) && (this->actionFunc != EnOkuta_WaitToDie) &&
-                (this->actionFunc != EnOkuta_Freeze)) {
+            if ((this->actionFunc != EnOkuta_Die) && (this->actionFunc != EnOkuta_WaitToDie)
+                && (this->actionFunc != EnOkuta_Freeze)) {
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
             }
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

@@ -488,10 +488,10 @@ void Player_SetBootData(PlayState* play, Player* this) {
 }
 
 int Player_InBlockingCsMode(PlayState* play, Player* this) {
-    return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csAction != PLAYER_CSACTION_NONE) ||
-           (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
-           (this->stateFlags3 & PLAYER_STATE3_7) ||
-           ((gSaveContext.magicState != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemAction) >= 0));
+    return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csAction != PLAYER_CSACTION_NONE)
+        || (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0)
+        || (this->stateFlags3 & PLAYER_STATE3_7)
+        || ((gSaveContext.magicState != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemAction) >= 0));
 }
 
 int Player_InCsMode(PlayState* play) {
@@ -520,8 +520,8 @@ s32 Player_ActionToModelGroup(Player* this, s32 itemAction) {
 }
 
 void Player_SetModelsForHoldingShield(Player* this) {
-    if ((this->stateFlags1 & PLAYER_STATE1_22) &&
-        ((this->itemAction < 0) || (this->itemAction == this->heldItemAction))) {
+    if ((this->stateFlags1 & PLAYER_STATE1_22)
+        && ((this->itemAction < 0) || (this->itemAction == this->heldItemAction))) {
         if (!Player_HoldsTwoHandedWeapon(this) && !Player_IsChildWithHylianShield(this)) {
             this->rightHandType = PLAYER_MODELTYPE_RH_SHIELD;
             this->rightHandDLists =
@@ -543,14 +543,14 @@ void Player_SetModels(Player* this, s32 modelGroup) {
     this->rightHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND];
     this->sheathType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH];
 
-    this->leftHandDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND]] +
-                           ((void)0, gSaveContext.save.linkAge);
-    this->rightHandDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND]] +
-                            ((void)0, gSaveContext.save.linkAge);
-    this->sheathDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH]] +
-                         ((void)0, gSaveContext.save.linkAge);
-    this->waistDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST]] +
-                        ((void)0, gSaveContext.save.linkAge);
+    this->leftHandDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND]]
+                         + ((void)0, gSaveContext.save.linkAge);
+    this->rightHandDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND]]
+                          + ((void)0, gSaveContext.save.linkAge);
+    this->sheathDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH]]
+                       + ((void)0, gSaveContext.save.linkAge);
+    this->waistDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST]]
+                      + ((void)0, gSaveContext.save.linkAge);
 
     Player_SetModelsForHoldingShield(this);
 }
@@ -605,12 +605,12 @@ void func_8008EDF0(Player* this) {
 }
 
 void func_8008EE08(Player* this) {
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-        (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
-        (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
-         ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
-        this->stateFlags1 &= ~(PLAYER_STATE1_15 | PLAYER_STATE1_16 | PLAYER_STATE1_17 | PLAYER_STATE1_18 |
-                               PLAYER_STATE1_19 | PLAYER_STATE1_30);
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+        || (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27))
+        || (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19))
+            && ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
+        this->stateFlags1 &= ~(PLAYER_STATE1_15 | PLAYER_STATE1_16 | PLAYER_STATE1_17 | PLAYER_STATE1_18
+                               | PLAYER_STATE1_19 | PLAYER_STATE1_30);
     } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_21))) {
         this->stateFlags1 |= PLAYER_STATE1_19;
     }
@@ -732,8 +732,8 @@ s32 Player_HoldsTwoHandedWeapon(Player* this) {
 }
 
 int Player_HoldsBrokenKnife(Player* this) {
-    return (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) &&
-           (gSaveContext.save.info.playerData.swordHealth <= 0.0f);
+    return (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON)
+        && (gSaveContext.save.info.playerData.swordHealth <= 0.0f);
 }
 
 s32 Player_ActionToBottle(Player* this, s32 itemAction) {
@@ -787,11 +787,11 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
 
     if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
         envHazard = PLAYER_ENV_HAZARD_HOTROOM - 1;
-    } else if ((this->underwaterTimer > 80) &&
-               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) {
+    } else if ((this->underwaterTimer > 80)
+               && ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) {
         envHazard = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))
-                        ? (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)
-                        : (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1);
+                      ? (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)
+                      : (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1);
     } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
         envHazard = PLAYER_ENV_HAZARD_SWIMMING - 1;
     } else {
@@ -800,11 +800,11 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
 
     triggerEntry = &sEnvHazardTextTriggers[envHazard];
     if (!Player_InCsMode(play)) {
-        if ((triggerEntry->flag != 0) && !(gSaveContext.envHazardTextTriggerFlags & triggerEntry->flag) &&
-            (((envHazard == (PLAYER_ENV_HAZARD_HOTROOM - 1)) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
-             (((envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)) ||
-               (envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1))) &&
-              (this->currentBoots == PLAYER_BOOTS_IRON) && (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
+        if ((triggerEntry->flag != 0) && !(gSaveContext.envHazardTextTriggerFlags & triggerEntry->flag)
+            && (((envHazard == (PLAYER_ENV_HAZARD_HOTROOM - 1)) && (this->currentTunic != PLAYER_TUNIC_GORON))
+                || (((envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1))
+                     || (envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1)))
+                    && (this->currentBoots == PLAYER_BOOTS_IRON) && (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
             Message_StartTextbox(play, triggerEntry->textId, NULL);
             gSaveContext.envHazardTextTriggerFlags |= triggerEntry->flag;
         }
@@ -902,9 +902,9 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
 
     SkelAnime_DrawFlexLod(play, skeleton, jointTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
-    if ((overrideLimbDraw != Player_OverrideLimbDrawGameplayFirstPerson) &&
-        (overrideLimbDraw != Player_OverrideLimbDrawGameplayCrawling) &&
-        (gSaveContext.gameMode != GAMEMODE_END_CREDITS)) {
+    if ((overrideLimbDraw != Player_OverrideLimbDrawGameplayFirstPerson)
+        && (overrideLimbDraw != Player_OverrideLimbDrawGameplayCrawling)
+        && (gSaveContext.gameMode != GAMEMODE_END_CREDITS)) {
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
@@ -978,8 +978,8 @@ void func_8008F87C(PlayState* play, Player* this, SkelAnime* skelAnime, Vec3f* p
     s16 temp2;
     s32 temp3;
 
-    if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_7) &&
-        (Player_ActionToMagicSpell(this, this->itemAction) < 0)) {
+    if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_7)
+        && (Player_ActionToMagicSpell(this, this->itemAction) < 0)) {
         s32 pad;
 
         sp7C = D_80126058[(void)0, gSaveContext.save.linkAge];
@@ -1133,8 +1133,8 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
             } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & PLAYER_STATE1_25)) {
                 dLists = gPlayerLeftHandOpenDLs + gSaveContext.save.linkAge;
                 sLeftHandType = PLAYER_MODELTYPE_LH_OPEN;
-            } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speed > 2.0f) &&
-                       !(this->stateFlags1 & PLAYER_STATE1_27)) {
+            } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speed > 2.0f)
+                       && !(this->stateFlags1 & PLAYER_STATE1_27)) {
                 dLists = gPlayerLeftHandClosedDLs + gSaveContext.save.linkAge;
                 sLeftHandType = PLAYER_MODELTYPE_LH_CLOSED;
             }
@@ -1145,8 +1145,8 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
 
             if (sRightHandType == PLAYER_MODELTYPE_RH_SHIELD) {
                 dLists += this->currentShield * 4;
-            } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_OPEN) && (this->actor.speed > 2.0f) &&
-                       !(this->stateFlags1 & PLAYER_STATE1_27)) {
+            } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_OPEN) && (this->actor.speed > 2.0f)
+                       && !(this->stateFlags1 & PLAYER_STATE1_27)) {
                 dLists = sPlayerRightHandClosedDLs + gSaveContext.save.linkAge;
                 sRightHandType = PLAYER_MODELTYPE_RH_CLOSED;
             }
@@ -1157,14 +1157,14 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
 
             if ((this->sheathType == PLAYER_MODELTYPE_SHEATH_18) || (this->sheathType == PLAYER_MODELTYPE_SHEATH_19)) {
                 dLists += this->currentShield * 4;
-                if (!LINK_IS_ADULT && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
-                    (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
+                if (!LINK_IS_ADULT && (this->currentShield < PLAYER_SHIELD_HYLIAN)
+                    && (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                     dLists += PLAYER_SHIELD_MAX * 4;
                 }
-            } else if (!LINK_IS_ADULT &&
-                       ((this->sheathType == PLAYER_MODELTYPE_SHEATH_16) ||
-                        (this->sheathType == PLAYER_MODELTYPE_SHEATH_17)) &&
-                       (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
+            } else if (!LINK_IS_ADULT
+                       && ((this->sheathType == PLAYER_MODELTYPE_SHEATH_16)
+                           || (this->sheathType == PLAYER_MODELTYPE_SHEATH_17))
+                       && (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                 dLists = D_80125D28 + PLAYER_SHIELD_MAX * 4;
             }
 
@@ -1194,8 +1194,8 @@ s32 Player_OverrideLimbDrawGameplayFirstPerson(PlayState* play, s32 limbIndex, G
             *dList = sFirstPersonForearmDLs[(void)0, gSaveContext.save.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
             *dList = Player_HoldsHookshot(this)
-                         ? gLinkAdultRightHandHoldingHookshotFarDL
-                         : sFirstPersonRightHandHoldingWeaponDLs[(void)0, gSaveContext.save.linkAge];
+                       ? gLinkAdultRightHandHoldingHookshotFarDL
+                       : sFirstPersonRightHandHoldingWeaponDLs[(void)0, gSaveContext.save.linkAge];
         } else {
             *dList = NULL;
         }
@@ -1222,9 +1222,9 @@ u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
         weaponInfo->active = 1;
         return true;
-    } else if ((weaponInfo->tip.x == newTip->x) && (weaponInfo->tip.y == newTip->y) &&
-               (weaponInfo->tip.z == newTip->z) && (weaponInfo->base.x == newBase->x) &&
-               (weaponInfo->base.y == newBase->y) && (weaponInfo->base.z == newBase->z)) {
+    } else if ((weaponInfo->tip.x == newTip->x) && (weaponInfo->tip.y == newTip->y) && (weaponInfo->tip.z == newTip->z)
+               && (weaponInfo->base.x == newBase->x) && (weaponInfo->base.y == newBase->y)
+               && (weaponInfo->base.z == newBase->z)) {
         if (collider != NULL) {
             Collider_ResetQuadAT(play, &collider->base);
         }
@@ -1282,14 +1282,14 @@ void func_800906D4(PlayState* play, Player* this, Vec3f* newTipPos) {
     Matrix_MultVec3f(&D_801260A4[1], &newBasePos[1]);
     Matrix_MultVec3f(&D_801260A4[2], &newBasePos[2]);
 
-    if (func_80090480(play, NULL, &this->meleeWeaponInfo[0], &newTipPos[0], &newBasePos[0]) &&
-        !(this->stateFlags1 & PLAYER_STATE1_22)) {
+    if (func_80090480(play, NULL, &this->meleeWeaponInfo[0], &newTipPos[0], &newBasePos[0])
+        && !(this->stateFlags1 & PLAYER_STATE1_22)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->meleeWeaponEffectIndex), &this->meleeWeaponInfo[0].tip,
                               &this->meleeWeaponInfo[0].base);
     }
 
-    if ((this->meleeWeaponState > 0) &&
-        ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) || (this->stateFlags2 & PLAYER_STATE2_17))) {
+    if ((this->meleeWeaponState > 0)
+        && ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) || (this->stateFlags2 & PLAYER_STATE2_17))) {
         func_80090480(play, &this->meleeWeaponQuads[0], &this->meleeWeaponInfo[1], &newTipPos[1], &newBasePos[1]);
         func_80090480(play, &this->meleeWeaponQuads[1], &this->meleeWeaponInfo[2], &newTipPos[2], &newBasePos[2]);
     }
@@ -1534,8 +1534,8 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
         if (this->rightHandType == PLAYER_MODELTYPE_RH_FF) {
             Matrix_Get(&this->shieldMf);
-        } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT) ||
-                   (this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT_2)) {
+        } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT)
+                   || (this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT_2)) {
             BowSlingshotStringData* stringData = &sBowSlingshotStringData[gSaveContext.save.linkAge];
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2783);
@@ -1604,8 +1604,8 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             }
 
             if ((this->unk_862 != 0) || ((func_8002DD6C(this) == 0) && (heldActor != NULL))) {
-                if (!(this->stateFlags1 & PLAYER_STATE1_10) && (this->unk_862 != 0) &&
-                    (this->exchangeItemId != EXCH_ITEM_NONE)) {
+                if (!(this->stateFlags1 & PLAYER_STATE1_10) && (this->unk_862 != 0)
+                    && (this->exchangeItemId != EXCH_ITEM_NONE)) {
                     Math_Vec3f_Copy(&sGetItemRefPos, &this->leftHandPos);
                 } else {
                     sGetItemRefPos.x = (this->bodyPartsPos[PLAYER_BODYPART_R_HAND].x + this->leftHandPos.x) * 0.5f;
@@ -1620,8 +1620,8 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         }
     } else if (this->actor.scale.y >= 0.0f) {
         if (limbIndex == PLAYER_LIMB_SHEATH) {
-            if ((this->rightHandType != PLAYER_MODELTYPE_RH_SHIELD) &&
-                (this->rightHandType != PLAYER_MODELTYPE_RH_FF)) {
+            if ((this->rightHandType != PLAYER_MODELTYPE_RH_SHIELD)
+                && (this->rightHandType != PLAYER_MODELTYPE_RH_FF)) {
                 if (Player_IsChildWithHylianShield(this)) {
                     Player_UpdateShieldCollider(play, this, &this->shieldQuad, sSheathLimbModelShieldQuadVertices);
                 }
@@ -1663,8 +1663,8 @@ u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime)
     SkelAnime_InitLink(play, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.save.linkAge],
                        &gPlayerAnim_link_normal_wait, 9, ptr, ptr, PLAYER_LIMB_MAX);
 
-    return PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE + size +
-           sizeof(Vec3s[PLAYER_LIMB_BUF_COUNT]);
+    return PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE + size
+         + sizeof(Vec3s[PLAYER_LIMB_BUF_COUNT]);
 }
 
 u8 sPauseModelGroupBySword[] = {
@@ -1682,8 +1682,8 @@ s32 Player_OverrideLimbDrawPause(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     s32 dListOffset = 0;
     Gfx** dLists;
 
-    if ((modelGroup == PLAYER_MODELGROUP_SWORD_AND_SHIELD) && !LINK_IS_ADULT &&
-        (playerSwordAndShield[1] == PLAYER_SHIELD_HYLIAN)) {
+    if ((modelGroup == PLAYER_MODELGROUP_SWORD_AND_SHIELD) && !LINK_IS_ADULT
+        && (playerSwordAndShield[1] == PLAYER_SHIELD_HYLIAN)) {
         modelGroup = PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD;
     }
 
@@ -1752,8 +1752,8 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
     gSPTexture(POLY_OPA_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_SHADE, G_CC_SHADE);
     gDPSetOtherMode(POLY_OPA_DISP++,
-                    G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
-                        G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
+                    G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE
+                        | G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
     gSPLoadGeometryMode(POLY_OPA_DISP++, G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
     gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, width, height);

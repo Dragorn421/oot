@@ -286,8 +286,8 @@ void EnCow_Idle(EnCow* this, PlayState* play) {
                 this->cowFlags &= ~COW_FLAG_FAILED_TO_GIVE_MILK;
                 R_EPONAS_SONG_PLAYED = false;
             } else {
-                if ((this->actor.xzDistToPlayer < 150.0f) &&
-                    (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 25000)) {
+                if ((this->actor.xzDistToPlayer < 150.0f)
+                    && (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 25000)) {
                     R_EPONAS_SONG_PLAYED = false;
                     this->actionFunc = EnCow_Talk;
                     this->actor.flags |= ACTOR_FLAG_16;
@@ -314,8 +314,8 @@ void EnCow_IdleTail(EnCow* this, PlayState* play) {
                          Animation_GetLastFrame(&gCowTailIdleAnim), ANIMMODE_ONCE, 1.0f);
     }
 
-    if ((this->actor.xzDistToPlayer < 150.0f) &&
-        (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 25000)) {
+    if ((this->actor.xzDistToPlayer < 150.0f)
+        && (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 25000)) {
         if (!(this->cowFlags & COW_FLAG_PLAYER_NEARBY)) {
             this->cowFlags |= COW_FLAG_PLAYER_NEARBY;
 
@@ -352,8 +352,8 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
 
     this->actionFunc(this, play);
 
-    if ((thisx->xzDistToPlayer < 150.0f) &&
-        (ABS(Math_Vec3f_Yaw(&thisx->world.pos, &player->actor.world.pos)) < 0xC000)) {
+    if ((thisx->xzDistToPlayer < 150.0f)
+        && (ABS(Math_Vec3f_Yaw(&thisx->world.pos, &player->actor.world.pos)) < 0xC000)) {
         targetX = Math_Vec3f_Pitch(&thisx->focus.pos, &player->actor.focus.pos);
         targetY = Math_Vec3f_Yaw(&thisx->focus.pos, &player->actor.focus.pos) - thisx->shape.rot.y;
 

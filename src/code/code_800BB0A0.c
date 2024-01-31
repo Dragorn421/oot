@@ -33,8 +33,8 @@ s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s
         progress = 0.0f;
     }
 
-    if ((point[key].continueFlag == CS_CAM_STOP) || (point[key + 1].continueFlag == CS_CAM_STOP) ||
-        (point[key + 2].continueFlag == CS_CAM_STOP)) {
+    if ((point[key].continueFlag == CS_CAM_STOP) || (point[key + 1].continueFlag == CS_CAM_STOP)
+        || (point[key + 2].continueFlag == CS_CAM_STOP)) {
         return true;
     }
 

@@ -97,8 +97,8 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
             }
         }
     }
-    if ((this->collider.base.acFlags & AC_HIT) &&
-        (ABS((s16)(this->collider.base.ac->world.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
+    if ((this->collider.base.acFlags & AC_HIT)
+        && (ABS((s16)(this->collider.base.ac->world.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->framesUntilDisable == -1) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_AMOS_DAMAGE);

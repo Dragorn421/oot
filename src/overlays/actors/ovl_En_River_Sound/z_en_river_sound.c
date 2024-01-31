@@ -198,8 +198,8 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
     EnRiverSound* this = (EnRiverSound*)thisx;
     s32 bgId;
 
-    if ((thisx->params == RS_RIVER_DEFAULT_LOW_FREQ) || (thisx->params == RS_RIVER_DEFAULT_MEDIUM_FREQ) ||
-        (thisx->params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
+    if ((thisx->params == RS_RIVER_DEFAULT_LOW_FREQ) || (thisx->params == RS_RIVER_DEFAULT_MEDIUM_FREQ)
+        || (thisx->params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
         path = &play->pathList[this->pathIndex];
         pos = &thisx->world.pos;
 
@@ -266,9 +266,8 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
 
     if (!this->playSfx) {
         this->playSfx = true;
-    } else if ((this->actor.params == RS_RIVER_DEFAULT_LOW_FREQ) ||
-               (this->actor.params == RS_RIVER_DEFAULT_MEDIUM_FREQ) ||
-               (this->actor.params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
+    } else if ((this->actor.params == RS_RIVER_DEFAULT_LOW_FREQ) || (this->actor.params == RS_RIVER_DEFAULT_MEDIUM_FREQ)
+               || (this->actor.params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
         Audio_PlaySfxRiver(&this->actor.projectedPos, sfxFreqs[this->sfxFreqIndex]);
     } else if (this->actor.params == RS_LOWER_MAIN_BGM_VOLUME) {
         // Responsible for lowering market bgm in Child Market Entrance and Child Market Back Alley
@@ -286,8 +285,8 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
         // Play the Great Fairy Song inside the fairy fountain
         // Volume depends on distance to source
         Audio_PlaySariaBgm(&this->actor.home.pos, NA_BGM_GREAT_FAIRY, 800);
-    } else if ((this->actor.params == RS_SANDSTORM) || (this->actor.params == RS_CHAMBER_OF_SAGES_1) ||
-               (this->actor.params == RS_CHAMBER_OF_SAGES_2) || (this->actor.params == RS_RUMBLING)) {
+    } else if ((this->actor.params == RS_SANDSTORM) || (this->actor.params == RS_CHAMBER_OF_SAGES_1)
+               || (this->actor.params == RS_CHAMBER_OF_SAGES_2) || (this->actor.params == RS_RUMBLING)) {
         // Play sfx in the fixed center of the screen
         Sfx_PlaySfxCentered2(soundEffects[this->actor.params]);
     } else {

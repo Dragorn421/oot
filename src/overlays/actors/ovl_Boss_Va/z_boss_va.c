@@ -418,12 +418,12 @@ void BossVa_AttachToBody(BossVa* this) {
         case BOSSVA_ZAPPER_2:
         case BOSSVA_ZAPPER_3:
             this->actor.shape.rot.y = sInitRot[this->actor.params].y;
-            this->actor.shape.rot.x = (sInitRot[this->actor.params].x +
-                                       (s16)(Math_CosS(sInitRot[this->actor.params].y) * vaBody->actor.shape.rot.x)) -
-                                      (s16)(Math_SinS(sInitRot[this->actor.params].y) * vaBody->actor.shape.rot.z);
-            this->actor.shape.rot.z = (s16)(Math_CosS(sInitRot[this->actor.params].y) * vaBody->actor.shape.rot.z) +
-                                      (sInitRot[this->actor.params].z +
-                                       (s16)(Math_SinS(sInitRot[this->actor.params].y) * vaBody->actor.shape.rot.x));
+            this->actor.shape.rot.x = (sInitRot[this->actor.params].x
+                                       + (s16)(Math_CosS(sInitRot[this->actor.params].y) * vaBody->actor.shape.rot.x))
+                                    - (s16)(Math_SinS(sInitRot[this->actor.params].y) * vaBody->actor.shape.rot.z);
+            this->actor.shape.rot.z = (s16)(Math_CosS(sInitRot[this->actor.params].y) * vaBody->actor.shape.rot.z)
+                                    + (sInitRot[this->actor.params].z
+                                       + (s16)(Math_SinS(sInitRot[this->actor.params].y) * vaBody->actor.shape.rot.x));
             break;
     }
 
@@ -1412,8 +1412,8 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->timer == 0) {
         Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, ((sFightPhase - PHASE_4 + 1) * 5.0f) + 10.0f, 0.0f);
-        if (Math_SmoothStepToS(&this->vaBodySpinRate, (s16)((sFightPhase - PHASE_4 + 1) * 500.0f) + 0xFA0, 1, 0x12C,
-                               0) == 0) {
+        if (Math_SmoothStepToS(&this->vaBodySpinRate, (s16)((sFightPhase - PHASE_4 + 1) * 500.0f) + 0xFA0, 1, 0x12C, 0)
+            == 0) {
             if (this->actor.speed == 0.0f) {
                 this->actor.colorFilterTimer = 0;
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -1640,8 +1640,8 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
                             this->actor.world.pos.z, 0, 0, 0, 0);
 
                 for (i = 2, sp7C = 2; i > 0; i--) {
-                    if (Math_Vec3f_DistXYZ(&sWarpPos[i], &player->actor.world.pos) <
-                        Math_Vec3f_DistXYZ(&sWarpPos[i - 1], &player->actor.world.pos)) {
+                    if (Math_Vec3f_DistXYZ(&sWarpPos[i], &player->actor.world.pos)
+                        < Math_Vec3f_DistXYZ(&sWarpPos[i - 1], &player->actor.world.pos)) {
                         sp7C = i - 1;
                     }
                 }
@@ -2025,8 +2025,8 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
             tmp17 = Math_SmoothStepToS(&this->unk_1F2, yaw - 0x4000, 1, 0x9C4, 0);
             sp88 += ABS(tmp17);
 
-            sp96 = this->actor.shape.rot.x + this->skelAnime.jointTable[1].z + this->skelAnime.jointTable[2].z +
-                   this->skelAnime.jointTable[3].z + this->skelAnime.jointTable[4].z + this->skelAnime.jointTable[5].z;
+            sp96 = this->actor.shape.rot.x + this->skelAnime.jointTable[1].z + this->skelAnime.jointTable[2].z
+                 + this->skelAnime.jointTable[3].z + this->skelAnime.jointTable[4].z + this->skelAnime.jointTable[5].z;
 
             yaw = Math_Vec3f_Pitch(&sp7C, &this->zapNeckPos);
             tmp17 = Math_SmoothStepToS(&this->unk_1EA, yaw - sp96, 1, 0xFA0, 0);
@@ -2175,9 +2175,9 @@ void BossVa_ZapperDeath(BossVa* this, PlayState* play) {
         case DEATH_ZAPPER_1:
         case DEATH_ZAPPER_3:
             if (!this->burst) {
-                if (((this->actor.params == BOSSVA_ZAPPER_1) && (this->timer2 < 16)) ||
-                    ((this->actor.params == BOSSVA_ZAPPER_2) && (this->timer2 < 24)) ||
-                    (this->actor.params == BOSSVA_ZAPPER_3)) {
+                if (((this->actor.params == BOSSVA_ZAPPER_1) && (this->timer2 < 16))
+                    || ((this->actor.params == BOSSVA_ZAPPER_2) && (this->timer2 < 24))
+                    || (this->actor.params == BOSSVA_ZAPPER_3)) {
 
                     if ((this->timer2 % 2) == 0 && (this->timer2 >= 0)) {
                         if (this->timer2 < 8) {
@@ -2287,8 +2287,8 @@ void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
             tmp16 = Math_SmoothStepToS(&this->unk_1F2, yaw - 0x4000, 1, 0xEA6, 0);
             sp60 += ABS(tmp16);
 
-            sp6A = this->actor.shape.rot.x + this->skelAnime.jointTable[1].x + this->skelAnime.jointTable[2].x +
-                   this->skelAnime.jointTable[3].x + this->skelAnime.jointTable[4].x + this->skelAnime.jointTable[5].x;
+            sp6A = this->actor.shape.rot.x + this->skelAnime.jointTable[1].x + this->skelAnime.jointTable[2].x
+                 + this->skelAnime.jointTable[3].x + this->skelAnime.jointTable[4].x + this->skelAnime.jointTable[5].x;
 
             yaw = Math_Vec3f_Pitch(&sp54, &this->zapNeckPos);
             tmp16 = Math_SmoothStepToS(&this->unk_1EA, yaw - sp6A, 1, 0x1B58, 0);
@@ -3587,8 +3587,10 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
                 materialFlag++;
             }
 
-            if ((effect->mode != TUMOR_BODY) || ((Math_Vec3f_DistXZ(&subCam->eye, &effect->pos) -
-                                                  Math_Vec3f_DistXZ(&subCam->eye, &parent->actor.world.pos)) < 10.0f)) {
+            if ((effect->mode != TUMOR_BODY)
+                || ((Math_Vec3f_DistXZ(&subCam->eye, &effect->pos)
+                     - Math_Vec3f_DistXZ(&subCam->eye, &parent->actor.world.pos))
+                    < 10.0f)) {
                 Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                 Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
 

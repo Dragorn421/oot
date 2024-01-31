@@ -202,8 +202,8 @@ void EnAObj_WaitTalk(EnAObj* this, PlayState* play) {
 
     if (this->dyna.actor.textId != 0) {
         relYawTowardsPlayer = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
-        if (ABS(relYawTowardsPlayer) < 0x2800 ||
-            (this->dyna.actor.params == A_OBJ_SIGNPOST_ARROW && ABS(relYawTowardsPlayer) > 0x5800)) {
+        if (ABS(relYawTowardsPlayer) < 0x2800
+            || (this->dyna.actor.params == A_OBJ_SIGNPOST_ARROW && ABS(relYawTowardsPlayer) > 0x5800)) {
             if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
                 EnAObj_SetupAction(this, EnAObj_WaitFinishedTalking);
             } else {
@@ -317,12 +317,12 @@ void EnAObj_Update(Actor* thisx, PlayState* play) {
     if (this->dyna.actor.gravity != 0.0f) {
         if (this->dyna.actor.params != A_OBJ_BOULDER_FRAGMENT) {
             Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 5.0f, 40.0f, 0.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                        UPDBGCHECKINFO_FLAG_4);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                        | UPDBGCHECKINFO_FLAG_4);
         } else {
             Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 5.0f, 20.0f, 0.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                        UPDBGCHECKINFO_FLAG_4);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                        | UPDBGCHECKINFO_FLAG_4);
         }
     }
 

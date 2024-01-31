@@ -31,12 +31,12 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
 
         if (ammo == 0) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 130, 130, 130, pauseCtx->alpha);
-        } else if ((item == ITEM_BOMB && AMMO(item) == CUR_CAPACITY(UPG_BOMB_BAG)) ||
-                   (item == ITEM_BOW && AMMO(item) == CUR_CAPACITY(UPG_QUIVER)) ||
-                   (item == ITEM_SLINGSHOT && AMMO(item) == CUR_CAPACITY(UPG_BULLET_BAG)) ||
-                   (item == ITEM_DEKU_STICK && AMMO(item) == CUR_CAPACITY(UPG_DEKU_STICKS)) ||
-                   (item == ITEM_DEKU_NUT && AMMO(item) == CUR_CAPACITY(UPG_DEKU_NUTS)) ||
-                   (item == ITEM_BOMBCHU && ammo == 50) || (item == ITEM_MAGIC_BEAN && ammo == 15)) {
+        } else if ((item == ITEM_BOMB && AMMO(item) == CUR_CAPACITY(UPG_BOMB_BAG))
+                   || (item == ITEM_BOW && AMMO(item) == CUR_CAPACITY(UPG_QUIVER))
+                   || (item == ITEM_SLINGSHOT && AMMO(item) == CUR_CAPACITY(UPG_BULLET_BAG))
+                   || (item == ITEM_DEKU_STICK && AMMO(item) == CUR_CAPACITY(UPG_DEKU_STICKS))
+                   || (item == ITEM_DEKU_NUT && AMMO(item) == CUR_CAPACITY(UPG_DEKU_NUTS))
+                   || (item == ITEM_BOMBCHU && ammo == 50) || (item == ITEM_MAGIC_BEAN && ammo == 15)) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 120, 255, 0, pauseCtx->alpha);
         }
     }
@@ -103,8 +103,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     pauseCtx->cursorColorSet = 0;
     pauseCtx->nameColorSet = 0;
 
-    if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) &&
-        (pauseCtx->pageIndex == PAUSE_ITEM)) {
+    if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)
+        && (pauseCtx->pageIndex == PAUSE_ITEM)) {
         moveCursorResult = 0;
         oldCursorPoint = pauseCtx->cursorPoint[PAUSE_ITEM];
 
@@ -135,8 +135,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->cursorX[PAUSE_ITEM]--;
                             pauseCtx->cursorPoint[PAUSE_ITEM] -= 1;
 
-                            if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
-                                ITEM_NONE) {
+                            if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]]
+                                != ITEM_NONE) {
                                 moveCursorResult = 1;
                             }
                         } else {
@@ -168,8 +168,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->cursorX[PAUSE_ITEM]++;
                             pauseCtx->cursorPoint[PAUSE_ITEM] += 1;
 
-                            if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
-                                ITEM_NONE) {
+                            if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]]
+                                != ITEM_NONE) {
                                 moveCursorResult = 1;
                             }
                         } else {
@@ -293,8 +293,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 pauseCtx->cursorY[PAUSE_ITEM]--;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] -= 6;
 
-                                if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
-                                    ITEM_NONE) {
+                                if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]]
+                                    != ITEM_NONE) {
                                     moveCursorResult = 1;
                                 }
                             } else {
@@ -308,8 +308,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 pauseCtx->cursorY[PAUSE_ITEM]++;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] += 6;
 
-                                if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
-                                    ITEM_NONE) {
+                                if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]]
+                                    != ITEM_NONE) {
                                     moveCursorResult = 1;
                                 }
                             } else {
@@ -348,8 +348,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 index = cursorSlot * 4; // required to match?
                 KaleidoScope_SetCursorVtx(pauseCtx, index, pauseCtx->itemVtx);
 
-                if ((pauseCtx->debugState == 0) && (pauseCtx->state == PAUSE_STATE_MAIN) &&
-                    (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
+                if ((pauseCtx->debugState == 0) && (pauseCtx->state == PAUSE_STATE_MAIN)
+                    && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
                     if (CHECK_BTN_ANY(input->press.button, BTN_CLEFT | BTN_CDOWN | BTN_CRIGHT)) {
                         if (CHECK_AGE_REQ_SLOT(cursorSlot) && (cursorItem != ITEM_SOLD_OUT)) {
                             if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
@@ -369,9 +369,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             sEquipAnimTimer = 0;
                             sEquipState = 3;
                             sEquipMoveTimer = 10;
-                            if ((pauseCtx->equipTargetItem == ITEM_ARROW_FIRE) ||
-                                (pauseCtx->equipTargetItem == ITEM_ARROW_ICE) ||
-                                (pauseCtx->equipTargetItem == ITEM_ARROW_LIGHT)) {
+                            if ((pauseCtx->equipTargetItem == ITEM_ARROW_FIRE)
+                                || (pauseCtx->equipTargetItem == ITEM_ARROW_ICE)
+                                || (pauseCtx->equipTargetItem == ITEM_ARROW_LIGHT)) {
                                 index = 0;
                                 if (pauseCtx->equipTargetItem == ITEM_ARROW_ICE) {
                                     index = 1;
@@ -435,8 +435,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
         if (gSaveContext.save.info.inventory.items[i] != ITEM_NONE) {
-            if ((pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) && (pauseCtx->pageIndex == PAUSE_ITEM) &&
-                (pauseCtx->cursorSpecialPos == 0)) {
+            if ((pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) && (pauseCtx->pageIndex == PAUSE_ITEM)
+                && (pauseCtx->cursorSpecialPos == 0)) {
                 if (CHECK_AGE_REQ_SLOT(i)) {
                     if ((sEquipState == 2) && (i == 3)) {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, magicArrowEffectsR[pauseCtx->equipTargetItem - 0xBF],
@@ -593,10 +593,10 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
 
                 if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[1]) {
                     if (gSaveContext.save.info.equips.buttonItems[1] != ITEM_NONE) {
-                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.save.info.equips.buttonItems[1] == ITEM_BOW) ||
-                             ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)))) {
+                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)
+                            && ((gSaveContext.save.info.equips.buttonItems[1] == ITEM_BOW)
+                                || ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE)
+                                    && (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
@@ -611,10 +611,10 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                     }
                 } else if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[2]) {
                     if (gSaveContext.save.info.equips.buttonItems[1] != ITEM_NONE) {
-                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.save.info.equips.buttonItems[1] == ITEM_BOW) ||
-                             ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)))) {
+                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)
+                            && ((gSaveContext.save.info.equips.buttonItems[1] == ITEM_BOW)
+                                || ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE)
+                                    && (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
@@ -630,20 +630,20 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                 }
 
                 if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)) {
-                    if ((gSaveContext.save.info.equips.buttonItems[1] == ITEM_BOW) ||
-                        ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                         (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT))) {
+                    if ((gSaveContext.save.info.equips.buttonItems[1] == ITEM_BOW)
+                        || ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE)
+                            && (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT))) {
                         pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                         pauseCtx->equipTargetSlot = SLOT_BOW;
                     }
                 } else if (pauseCtx->equipTargetItem == ITEM_BOW) {
-                    if ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                        (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)) {
+                    if ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE)
+                        && (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)) {
                         gSaveContext.save.info.equips.buttonItems[2] = gSaveContext.save.info.equips.buttonItems[1];
                         gSaveContext.save.info.equips.cButtonSlots[1] = gSaveContext.save.info.equips.cButtonSlots[0];
                         Interface_LoadItemIcon2(play, 2);
-                    } else if ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                               (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)) {
+                    } else if ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE)
+                               && (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)) {
                         gSaveContext.save.info.equips.buttonItems[3] = gSaveContext.save.info.equips.buttonItems[1];
                         gSaveContext.save.info.equips.cButtonSlots[2] = gSaveContext.save.info.equips.cButtonSlots[0];
                         Interface_LoadItemIcon2(play, 3);
@@ -670,10 +670,10 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
 
                 if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[0]) {
                     if (gSaveContext.save.info.equips.buttonItems[2] != ITEM_NONE) {
-                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.save.info.equips.buttonItems[2] == ITEM_BOW) ||
-                             ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)))) {
+                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)
+                            && ((gSaveContext.save.info.equips.buttonItems[2] == ITEM_BOW)
+                                || ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE)
+                                    && (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
@@ -688,10 +688,10 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                     }
                 } else if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[2]) {
                     if (gSaveContext.save.info.equips.buttonItems[2] != ITEM_NONE) {
-                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.save.info.equips.buttonItems[2] == ITEM_BOW) ||
-                             ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)))) {
+                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)
+                            && ((gSaveContext.save.info.equips.buttonItems[2] == ITEM_BOW)
+                                || ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE)
+                                    && (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
@@ -707,19 +707,19 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                 }
 
                 if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)) {
-                    if ((gSaveContext.save.info.equips.buttonItems[2] == ITEM_BOW) ||
-                        ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                         (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT))) {
+                    if ((gSaveContext.save.info.equips.buttonItems[2] == ITEM_BOW)
+                        || ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE)
+                            && (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT))) {
                         pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                         pauseCtx->equipTargetSlot = SLOT_BOW;
                     }
                 } else if (pauseCtx->equipTargetItem == ITEM_BOW) {
-                    if ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                        (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)) {
+                    if ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE)
+                        && (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)) {
                         gSaveContext.save.info.equips.buttonItems[1] = gSaveContext.save.info.equips.buttonItems[2];
                         Interface_LoadItemIcon2(play, 1);
-                    } else if ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                               (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)) {
+                    } else if ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE)
+                               && (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)) {
                         gSaveContext.save.info.equips.buttonItems[3] = gSaveContext.save.info.equips.buttonItems[2];
                         Interface_LoadItemIcon2(play, 3);
                     }
@@ -745,10 +745,10 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
 
                 if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[0]) {
                     if (gSaveContext.save.info.equips.buttonItems[3] != ITEM_NONE) {
-                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.save.info.equips.buttonItems[3] == ITEM_BOW) ||
-                             ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)))) {
+                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)
+                            && ((gSaveContext.save.info.equips.buttonItems[3] == ITEM_BOW)
+                                || ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE)
+                                    && (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
@@ -763,10 +763,10 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                     }
                 } else if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[1]) {
                     if (gSaveContext.save.info.equips.buttonItems[3] != ITEM_NONE) {
-                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.save.info.equips.buttonItems[3] == ITEM_BOW) ||
-                             ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)))) {
+                        if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)
+                            && ((gSaveContext.save.info.equips.buttonItems[3] == ITEM_BOW)
+                                || ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE)
+                                    && (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
@@ -782,19 +782,19 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                 }
 
                 if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)) {
-                    if ((gSaveContext.save.info.equips.buttonItems[3] == ITEM_BOW) ||
-                        ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                         (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT))) {
+                    if ((gSaveContext.save.info.equips.buttonItems[3] == ITEM_BOW)
+                        || ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE)
+                            && (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT))) {
                         pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                         pauseCtx->equipTargetSlot = SLOT_BOW;
                     }
                 } else if (pauseCtx->equipTargetItem == ITEM_BOW) {
-                    if ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                        (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)) {
+                    if ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE)
+                        && (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)) {
                         gSaveContext.save.info.equips.buttonItems[1] = gSaveContext.save.info.equips.buttonItems[3];
                         Interface_LoadItemIcon2(play, 1);
-                    } else if ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                               (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)) {
+                    } else if ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE)
+                               && (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)) {
                         gSaveContext.save.info.equips.buttonItems[2] = gSaveContext.save.info.equips.buttonItems[3];
                         Interface_LoadItemIcon2(play, 2);
                     }

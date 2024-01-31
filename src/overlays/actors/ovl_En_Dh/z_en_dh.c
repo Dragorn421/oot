@@ -459,8 +459,8 @@ void EnDh_Death(EnDh* this, PlayState* play) {
             }
         }
     } else {
-        if (((s32)this->skelAnime.curFrame == 53) || ((s32)this->skelAnime.curFrame == 56) ||
-            ((s32)this->skelAnime.curFrame == 61)) {
+        if (((s32)this->skelAnime.curFrame == 53) || ((s32)this->skelAnime.curFrame == 56)
+            || ((s32)this->skelAnime.curFrame == 61)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
         if ((s32)this->skelAnime.curFrame == 61) {
@@ -488,9 +488,9 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
                 EnDh_SetupDeath(this);
                 Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x90);
             } else {
-                if (((lastHealth >= 15) && (this->actor.colChkInfo.health < 15)) ||
-                    ((lastHealth >= 9) && (this->actor.colChkInfo.health < 9)) ||
-                    ((lastHealth >= 3) && (this->actor.colChkInfo.health < 3))) {
+                if (((lastHealth >= 15) && (this->actor.colChkInfo.health < 15))
+                    || ((lastHealth >= 9) && (this->actor.colChkInfo.health < 9))
+                    || ((lastHealth >= 3) && (this->actor.colChkInfo.health < 3))) {
 
                     this->retreat++;
                 }
@@ -510,8 +510,8 @@ void EnDh_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 45.0f, 45.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
     this->actor.focus.pos = this->headPos;
     Collider_UpdateCylinder(&this->actor, &this->collider1);
     if (this->actor.colChkInfo.health > 0) {
@@ -520,8 +520,8 @@ void EnDh_Update(Actor* thisx, PlayState* play) {
         } else {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider1.base);
         }
-        if (((this->curAction != DH_DAMAGE) && (this->actor.shape.yOffset == 0.0f)) ||
-            ((player->unk_844 != 0) && (player->unk_845 != this->unk_258))) {
+        if (((this->curAction != DH_DAMAGE) && (this->actor.shape.yOffset == 0.0f))
+            || ((player->unk_844 != 0) && (player->unk_845 != this->unk_258))) {
 
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider2.base);
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider2.base);

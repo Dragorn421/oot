@@ -176,8 +176,8 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     PRINTF(VT_FGCOL(CYAN) " no = %d\n" VT_RST, effectType);
 
     objectSlot = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
-                     ? 0
-                     : Object_GetSlot(&play->objectCtx, sEffectTypeObjects[effectType]);
+                   ? 0
+                   : Object_GetSlot(&play->objectCtx, sEffectTypeObjects[effectType]);
 
     PRINTF(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectSlot);
 
@@ -506,8 +506,8 @@ void DemoEffect_Destroy(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 effectType = (this->actor.params & 0x00FF);
 
-    if (effectType == DEMO_EFFECT_TIMEWARP_MASTERSWORD || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE ||
-        effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
+    if (effectType == DEMO_EFFECT_TIMEWARP_MASTERSWORD || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE
+        || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
         SkelCurve_Destroy(play, &this->skelCurve);
     }
 }
@@ -677,8 +677,8 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
         } else {
             Actor_SetScale(&this->actor, 84 * 0.001f);
         }
-    } else if (gSaveContext.sceneLayer == 5 || gSaveContext.sceneLayer == 4 ||
-               (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
+    } else if (gSaveContext.sceneLayer == 5 || gSaveContext.sceneLayer == 4
+               || (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
@@ -833,8 +833,8 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
             }
         }
 
-        if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0 && gSaveContext.sceneLayer == 6 &&
-            play->csCtx.curFrame == 143) {
+        if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0 && gSaveContext.sceneLayer == 6
+            && play->csCtx.curFrame == 143) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
     }
@@ -1387,10 +1387,10 @@ void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos
     this->actor.world.pos.z = radius * sinf(DEG_TO_RAD(degrees));
 
     xPos = this->actor.world.pos.x;
-    ySpherical = (this->actor.world.pos.y * cosf(BINANG_TO_RAD(rotation.x))) -
-                 (sinf(BINANG_TO_RAD(rotation.x)) * this->actor.world.pos.z);
-    xzSpherical = (this->actor.world.pos.z * cosf(BINANG_TO_RAD(rotation.x))) +
-                  (sinf(BINANG_TO_RAD(rotation.x)) * this->actor.world.pos.y);
+    ySpherical = (this->actor.world.pos.y * cosf(BINANG_TO_RAD(rotation.x)))
+               - (sinf(BINANG_TO_RAD(rotation.x)) * this->actor.world.pos.z);
+    xzSpherical = (this->actor.world.pos.z * cosf(BINANG_TO_RAD(rotation.x)))
+                + (sinf(BINANG_TO_RAD(rotation.x)) * this->actor.world.pos.y);
 
     this->actor.world.pos.x =
         (xPos * cosf(BINANG_TO_RAD(rotation.y))) - (sinf(BINANG_TO_RAD(rotation.y)) * xzSpherical);
@@ -1589,8 +1589,8 @@ void DemoEffect_UpdateDust(DemoEffect* this, PlayState* play) {
     Vec3f velocity;
     Vec3f accel;
 
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL &&
-        play->csCtx.actorCues[this->cueChannel]->id == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL
+        && play->csCtx.actorCues[this->cueChannel]->id == 2) {
         pos = this->actor.world.pos;
 
         pos.y += 600.0f;
@@ -1617,8 +1617,8 @@ void DemoEffect_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 DemoEffect_CheckForCue(DemoEffect* this, PlayState* play, s32 cueId) {
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL &&
-        play->csCtx.actorCues[this->cueChannel]->id == cueId) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL
+        && play->csCtx.actorCues[this->cueChannel]->id == cueId) {
         return 1;
     }
 
@@ -2008,8 +2008,9 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     u8 effectType = (this->actor.params & 0x00FF);
 
-    if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
-        CutsceneFlags_Get(play, 1) || IS_CUTSCENE_LAYER || gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
+    if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL
+        || CutsceneFlags_Get(play, 1) || IS_CUTSCENE_LAYER
+        || gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_25);

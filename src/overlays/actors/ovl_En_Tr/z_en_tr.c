@@ -294,8 +294,9 @@ void EnTr_Reappear(EnTr* this, PlayState* play) {
 
 void EnTr_WaitToReappear(EnTr* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if ((play->csCtx.actorCues[this->cueChannel] != NULL) && ((play->csCtx.actorCues[this->cueChannel]->id == 3) ||
-                                                                  (play->csCtx.actorCues[this->cueChannel]->id == 5))) {
+        if ((play->csCtx.actorCues[this->cueChannel] != NULL)
+            && ((play->csCtx.actorCues[this->cueChannel]->id == 3)
+                || (play->csCtx.actorCues[this->cueChannel]->id == 5))) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
             this->timer = 34;
             EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
@@ -377,8 +378,8 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->animation != NULL) {
-            if ((this->animation == &gKotakeKoumeLookingOverLeftShoulderAnim) ||
-                (this->animation == &gKotakeKoumeLookingOverRightShoulderAnim)) {
+            if ((this->animation == &gKotakeKoumeLookingOverLeftShoulderAnim)
+                || (this->animation == &gKotakeKoumeLookingOverRightShoulderAnim)) {
                 if (this->actor.params != TR_KOUME) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
                 } else {

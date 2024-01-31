@@ -131,8 +131,8 @@ void Map_InitData(PlayState* play, s16 room) {
             PRINTF(VT_RST);
             sEntranceIconMapIndex = extendedMapIndex;
             DMA_REQUEST_SYNC(interfaceCtx->mapSegment,
-                             (uintptr_t)_map_grand_staticSegmentRomStart +
-                                 gMapData->owMinimapTexOffset[extendedMapIndex],
+                             (uintptr_t)_map_grand_staticSegmentRomStart
+                                 + gMapData->owMinimapTexOffset[extendedMapIndex],
                              gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
             interfaceCtx->unk_258 = mapIndex;
             break;
@@ -160,8 +160,8 @@ void Map_InitData(PlayState* play, s16 room) {
                    VREG(30));
             PRINTF(VT_RST);
             DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
-                             (uintptr_t)_map_i_staticSegmentRomStart +
-                                 ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
+                             (uintptr_t)_map_i_staticSegmentRomStart
+                                 + ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
                              MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];
@@ -456,13 +456,13 @@ void Minimap_Draw(PlayState* play) {
                                         (R_OW_MINIMAP_Y + gMapData->owMinimapHeight[mapIndex]) << 2, G_TX_RENDERTILE, 0,
                                         0, 1 << 10, 1 << 10);
 
-                    if (((play->sceneId != SCENE_KAKARIKO_VILLAGE) && (play->sceneId != SCENE_KOKIRI_FOREST) &&
-                         (play->sceneId != SCENE_ZORAS_FOUNTAIN)) ||
-                        (LINK_AGE_IN_YEARS != YEARS_ADULT)) {
-                        if ((gMapData->owEntranceFlag[sEntranceIconMapIndex] == 0xFFFF) ||
-                            ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
-                             (gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] &
-                              gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
+                    if (((play->sceneId != SCENE_KAKARIKO_VILLAGE) && (play->sceneId != SCENE_KOKIRI_FOREST)
+                         && (play->sceneId != SCENE_ZORAS_FOUNTAIN))
+                        || (LINK_AGE_IN_YEARS != YEARS_ADULT)) {
+                        if ((gMapData->owEntranceFlag[sEntranceIconMapIndex] == 0xFFFF)
+                            || ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF)
+                                && (gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX]
+                                    & gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
 
                             gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b,
                                                 8, 8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
@@ -477,8 +477,8 @@ void Minimap_Draw(PlayState* play) {
                         }
                     }
 
-                    if ((play->sceneId == SCENE_ZORAS_FOUNTAIN) &&
-                        (gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] & gBitFlags[INFTABLE_1A9_SHIFT])) {
+                    if ((play->sceneId == SCENE_ZORAS_FOUNTAIN)
+                        && (gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] & gBitFlags[INFTABLE_1A9_SHIFT])) {
                         gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8,
                                             8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -562,8 +562,8 @@ void Map_Update(PlayState* play) {
                 }
 
                 for (i = 0; i < gMapData->switchEntryCount[mapIndex]; i++) {
-                    if ((interfaceCtx->mapRoomNum == gMapData->switchFromRoom[mapIndex][i]) &&
-                        (floor == gMapData->switchFromFloor[mapIndex][i])) {
+                    if ((interfaceCtx->mapRoomNum == gMapData->switchFromRoom[mapIndex][i])
+                        && (floor == gMapData->switchFromFloor[mapIndex][i])) {
                         interfaceCtx->mapRoomNum = gMapData->switchToRoom[mapIndex][i];
                         PRINTF(VT_FGCOL(YELLOW));
                         // "Layer switching = %x"
@@ -586,8 +586,8 @@ void Map_Update(PlayState* play) {
             case SCENE_SPIRIT_TEMPLE_BOSS:
             case SCENE_SHADOW_TEMPLE_BOSS:
                 VREG(30) = gMapData->bossFloor[play->sceneId - SCENE_DEKU_TREE_BOSS];
-                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE +
-                                  gMapData->floorTexIndexOffset[play->sceneId - SCENE_DEKU_TREE_BOSS][VREG(30)];
+                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE
+                                + gMapData->floorTexIndexOffset[play->sceneId - SCENE_DEKU_TREE_BOSS][VREG(30)];
                 break;
         }
     }

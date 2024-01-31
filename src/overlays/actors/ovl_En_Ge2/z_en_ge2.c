@@ -223,8 +223,8 @@ s32 Ge2_DetectPlayerInUpdate(PlayState* play, EnGe2* this, Vec3f* pos, s16 yRot,
 }
 
 s32 EnGe2_CheckCarpentersFreed(void) {
-    if (CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
-                           (EVENTCHKINF_CARPENTERS_FREE_MASK_ALL | 0xF0),
+    if (CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX]
+                           & (EVENTCHKINF_CARPENTERS_FREE_MASK_ALL | 0xF0),
                        EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)) {
         return 1;
     }
@@ -411,8 +411,8 @@ void EnGe2_TurnToFacePlayer(EnGe2* this, PlayState* play) {
 }
 
 void EnGe2_LookAtPlayer(EnGe2* this, PlayState* play) {
-    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) &&
-        (this->actor.xzDistToPlayer < 200.0f)) {
+    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300)
+        && (this->actor.xzDistToPlayer < 200.0f)) {
         Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->unk_2EE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRot.x, 0, 6, 6200, 100);
@@ -554,8 +554,8 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     if ((this->stateFlags & GE2_STATE_KO) || (this->stateFlags & GE2_STATE_CAPTURING)) {
         this->actionFunc(this, play);
     } else if (this->collider.base.acFlags & AC_HIT) {
-        if ((this->collider.elem.acHitElem != NULL) &&
-            (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
+        if ((this->collider.elem.acHitElem != NULL)
+            && (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
             //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the colorfilter.
             //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
@@ -606,8 +606,9 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-    if ((this->collider.base.acFlags & AC_HIT) && ((this->collider.elem.acHitElem == NULL) ||
-                                                   !(this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT))) {
+    if ((this->collider.base.acFlags & AC_HIT)
+        && ((this->collider.elem.acHitElem == NULL)
+            || !(this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT))) {
         this->actor.colorFilterTimer = 0;
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;

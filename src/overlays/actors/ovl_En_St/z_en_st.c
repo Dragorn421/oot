@@ -288,15 +288,15 @@ void EnSt_InitColliders(EnSt* this, PlayState* play) {
     this->colCylinder[0].elem.bumper.dmgFlags =
         DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT;
     this->colCylinder[1].elem.bumper.dmgFlags =
-        DMG_DEFAULT &
-        ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
-        ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
+        DMG_DEFAULT
+        & ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT)
+        & ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
     this->colCylinder[2].base.colType = COLTYPE_METAL;
     this->colCylinder[2].elem.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
     this->colCylinder[2].elem.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].elem.bumper.dmgFlags =
-        DMG_DEFAULT &
-        ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT);
+    this->colCylinder[2].elem.bumper.dmgFlags = DMG_DEFAULT
+                                              & ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING
+                                                  | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
 

@@ -1342,8 +1342,8 @@ static DemoGjUpdateFunc sUpdateFuncs[] = {
 void DemoGj_Update(Actor* thisx, PlayState* play) {
     DemoGj* this = (DemoGj*)thisx;
 
-    if (this->updateMode < 0 || this->updateMode >= ARRAY_COUNT(sUpdateFuncs) ||
-        sUpdateFuncs[this->updateMode] == NULL) {
+    if (this->updateMode < 0 || this->updateMode >= ARRAY_COUNT(sUpdateFuncs)
+        || sUpdateFuncs[this->updateMode] == NULL) {
         // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

@@ -116,8 +116,8 @@ void func_80A90264(EnKakasi2* this, PlayState* play) {
 
     this->unk_194++;
 
-    if ((BREG(1) != 0) && (this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
-        (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y)) {
+    if ((BREG(1) != 0) && (this->actor.xzDistToPlayer < this->maxSpawnDistance.x)
+        && (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y)) {
 
         this->actor.draw = func_80A90948;
         Collider_InitCylinder(play, &this->collider);
@@ -133,9 +133,9 @@ void func_80A90264(EnKakasi2* this, PlayState* play) {
 
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         this->actionFunc = func_80A904D8;
-    } else if ((this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
-               (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y) &&
-               GET_EVENTCHKINF(EVENTCHKINF_9C)) {
+    } else if ((this->actor.xzDistToPlayer < this->maxSpawnDistance.x)
+               && (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y)
+               && GET_EVENTCHKINF(EVENTCHKINF_9C)) {
 
         this->unk_194 = 0;
         if (play->msgCtx.ocarinaMode == OCARINA_MODE_0B) {

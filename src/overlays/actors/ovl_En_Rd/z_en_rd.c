@@ -209,8 +209,8 @@ void EnRd_UpdateMourningTarget(PlayState* play, Actor* thisx, s32 shouldMourn) {
     Actor* enemyIterator = play->actorCtx.actorLists[ACTORCAT_ENEMY].head;
 
     while (enemyIterator != NULL) {
-        if ((enemyIterator->id != ACTOR_EN_RD) || (enemyIterator == thisx) ||
-            (enemyIterator->params < REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING)) {
+        if ((enemyIterator->id != ACTOR_EN_RD) || (enemyIterator == thisx)
+            || (enemyIterator->params < REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING)) {
             enemyIterator = enemyIterator->next;
             continue;
         }
@@ -355,9 +355,10 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
     }
 
     if ((ABS(yaw) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
-        if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
-                                     PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
-            !(player->stateFlags2 & PLAYER_STATE2_7)) {
+        if (!(player->stateFlags1
+              & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 | PLAYER_STATE1_19
+                 | PLAYER_STATE1_21))
+            && !(player->stateFlags2 & PLAYER_STATE2_7)) {
             if (this->playerStunWaitTimer == 0) {
                 if (!(this->rdFlags & 0x80)) {
                     player->actor.freezeTimer = 40;
@@ -378,8 +379,8 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
         this->grabWaitTimer--;
     }
 
-    if (!this->grabWaitTimer && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f) &&
-        Actor_IsFacingPlayer(&this->actor, 0x38E3)) {
+    if (!this->grabWaitTimer && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f)
+        && Actor_IsFacingPlayer(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (play->grabPlayer(play, player)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
@@ -430,10 +431,11 @@ void EnRd_WalkToHome(EnRd* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
-                                 PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
-        !(player->stateFlags2 & PLAYER_STATE2_7) &&
-        (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
+    if (!(player->stateFlags1
+          & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 | PLAYER_STATE1_19
+             | PLAYER_STATE1_21))
+        && !(player->stateFlags2 & PLAYER_STATE2_7)
+        && (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
         this->actor.targetMode = 0;
         EnRd_SetupWalkToPlayer(this, play);
     } else if (this->actor.params > REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING) {
@@ -789,9 +791,9 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    if ((gSaveContext.sunsSongState != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) &&
-        !this->stunnedBySunsSong && (this->action != REDEAD_ACTION_DAMAGED) && (this->action != REDEAD_ACTION_DEAD) &&
-        (this->action != REDEAD_ACTION_STUNNED)) {
+    if ((gSaveContext.sunsSongState != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) && !this->stunnedBySunsSong
+        && (this->action != REDEAD_ACTION_DAMAGED) && (this->action != REDEAD_ACTION_DEAD)
+        && (this->action != REDEAD_ACTION_STUNNED)) {
         EnRd_SetupStunned(this);
         return;
     }
@@ -807,9 +809,9 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
             }
 
             if ((this->damageEffect != REDEAD_DMGEFF_NONE) && (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC)) {
-                if (((this->damageEffect == REDEAD_DMGEFF_HOOKSHOT) ||
-                     (this->damageEffect == REDEAD_DMGEFF_LIGHT_MAGIC)) &&
-                    (this->action != REDEAD_ACTION_STUNNED)) {
+                if (((this->damageEffect == REDEAD_DMGEFF_HOOKSHOT)
+                     || (this->damageEffect == REDEAD_DMGEFF_LIGHT_MAGIC))
+                    && (this->action != REDEAD_ACTION_STUNNED)) {
                     Actor_ApplyDamage(&this->actor);
                     EnRd_SetupStunned(this);
                     return;
@@ -850,8 +852,8 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 
-    if (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC &&
-        ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) || (this->damageEffect != REDEAD_DMGEFF_FIRE_MAGIC))) {
+    if (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC
+        && ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) || (this->damageEffect != REDEAD_DMGEFF_FIRE_MAGIC))) {
         if (this->playerStunWaitTimer != 0) {
             this->playerStunWaitTimer--;
         }
@@ -863,8 +865,8 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
 
         if ((this->actor.shape.rot.x == 0) && (this->action != REDEAD_ACTION_GRAB) && (this->actor.speed != 0.0f)) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 30.0f, 20.0f, 35.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                        UPDBGCHECKINFO_FLAG_4);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                        | UPDBGCHECKINFO_FLAG_4);
         }
 
         if (this->action == REDEAD_ACTION_ATTEMPT_PLAYER_FREEZE) {

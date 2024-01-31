@@ -608,8 +608,8 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
     if (this->actionFunc != EnBili_Die) {
         EnBili_UpdateTentaclesIndex(this);
         if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
-            if ((this->actionFunc == EnBili_FloatIdle) || (this->actionFunc == EnBili_SetNewHomeHeight) ||
-                (this->actionFunc == EnBili_ApproachPlayer) || (this->actionFunc == EnBili_Recoil)) {
+            if ((this->actionFunc == EnBili_FloatIdle) || (this->actionFunc == EnBili_SetNewHomeHeight)
+                || (this->actionFunc == EnBili_ApproachPlayer) || (this->actionFunc == EnBili_Recoil)) {
                 if (this->playFlySfx) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_FLY);
                     this->playFlySfx = false;

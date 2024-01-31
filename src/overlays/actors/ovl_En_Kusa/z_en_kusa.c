@@ -355,8 +355,8 @@ void EnKusa_LiftedUp(EnKusa* this, PlayState* play) {
         EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.005f);
         Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
-                                    UPDBGCHECKINFO_FLAG_7);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6
+                                    | UPDBGCHECKINFO_FLAG_7);
         this->actor.gravity = -3.2f;
     }
 }
@@ -417,8 +417,8 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
     EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.05f);
     Actor_UpdatePos(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
-                                UPDBGCHECKINFO_FLAG_7);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6
+                                | UPDBGCHECKINFO_FLAG_7);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }

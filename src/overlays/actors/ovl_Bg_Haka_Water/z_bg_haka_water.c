@@ -61,8 +61,8 @@ void BgHakaWater_LowerWater(BgHakaWater* this, PlayState* play) {
 }
 
 void BgHakaWater_Wait(BgHakaWater* this, PlayState* play) {
-    if ((!this->isLowered && Flags_GetSwitch(play, this->actor.params)) ||
-        (this->isLowered && !Flags_GetSwitch(play, this->actor.params))) {
+    if ((!this->isLowered && Flags_GetSwitch(play, this->actor.params))
+        || (this->isLowered && !Flags_GetSwitch(play, this->actor.params))) {
         if (this->isLowered) {
             this->isLowered = false;
             this->actor.draw = BgHakaWater_Draw;

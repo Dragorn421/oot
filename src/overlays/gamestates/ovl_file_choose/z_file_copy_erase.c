@@ -63,8 +63,8 @@ void FileSelect_SelectCopySource(GameState* thisx) {
     SramContext* sramCtx = &this->sramCtx;
     Input* input = &this->state.input[0];
 
-    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input->press.button, BTN_B)) {
+    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START))
+        || CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->actionTimer = 8;
         this->buttonIndex = FS_BTN_MAIN_COPY;
         this->nextTitleLabel = FS_TITLE_SELECT_FILE;
@@ -179,8 +179,8 @@ void FileSelect_SelectCopyDest(GameState* thisx) {
     SramContext* sramCtx = &this->sramCtx;
     Input* input = &this->state.input[0];
 
-    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input->press.button, BTN_B)) {
+    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START))
+        || CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->buttonIndex = this->selectedFileIndex;
         this->nextTitleLabel = FS_TITLE_COPY_FROM;
         this->actionTimer = 8;
@@ -369,8 +369,8 @@ void FileSelect_CopyConfirm(GameState* thisx) {
     Input* input = &this->state.input[0];
     u16 dayTime;
 
-    if (((this->buttonIndex != FS_BTN_CONFIRM_YES) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input->press.button, BTN_B)) {
+    if (((this->buttonIndex != FS_BTN_CONFIRM_YES) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START))
+        || CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->actionTimer = 8;
         this->nextTitleLabel = FS_TITLE_COPY_TO;
         this->configMode = CM_RETURN_TO_COPY_DEST;
@@ -694,8 +694,8 @@ void FileSelect_EraseSelect(GameState* thisx) {
     SramContext* sramCtx = &this->sramCtx;
     Input* input = &this->state.input[0];
 
-    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input->press.button, BTN_B)) {
+    if (((this->buttonIndex == FS_BTN_COPY_QUIT) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START))
+        || CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->buttonIndex = FS_BTN_MAIN_ERASE;
         this->actionTimer = 8;
         this->nextTitleLabel = FS_TITLE_SELECT_FILE;
@@ -835,8 +835,8 @@ void FileSelect_EraseConfirm(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     Input* input = &this->state.input[0];
 
-    if (((this->buttonIndex != FS_BTN_CONFIRM_YES) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) ||
-        CHECK_BTN_ALL(input->press.button, BTN_B)) {
+    if (((this->buttonIndex != FS_BTN_CONFIRM_YES) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START))
+        || CHECK_BTN_ALL(input->press.button, BTN_B)) {
         this->buttonIndex = this->selectedFileIndex;
         this->nextTitleLabel = FS_TITLE_ERASE_FILE;
         this->configMode = CM_EXIT_TO_ERASE_SELECT_1;

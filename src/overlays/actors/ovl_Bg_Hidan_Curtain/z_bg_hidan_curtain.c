@@ -109,8 +109,8 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
             this->actor.world.pos.y = this->actor.home.pos.y - hcParams->riseDist;
         }
     }
-    if (((this->type == 1) && Flags_GetTreasure(play, this->treasureFlag)) ||
-        (((this->type == 0) || (this->type == 6)) && Flags_GetClear(play, this->actor.room))) {
+    if (((this->type == 1) && Flags_GetTreasure(play, this->treasureFlag))
+        || (((this->type == 0) || (this->type == 6)) && Flags_GetClear(play, this->actor.room))) {
         Actor_Kill(&this->actor);
     }
     this->texScroll = Rand_ZeroOne() * 15.0f;
@@ -205,8 +205,8 @@ void BgHidanCurtain_Update(Actor* thisx, PlayState* play2) {
     BgHidanCurtainParams* hcParams = &sHCParams[this->size];
     f32 riseProgress;
 
-    if ((play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_SLOW_CHEST_CS) ||
-        (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_TURN_AROUND)) {
+    if ((play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_SLOW_CHEST_CS)
+        || (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_TURN_AROUND)) {
         this->collider.base.atFlags &= ~AT_HIT;
     } else {
         if (this->collider.base.atFlags & AT_HIT) {

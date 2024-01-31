@@ -700,8 +700,8 @@ void EnOssan_StartShopping(PlayState* play, EnOssan* this) {
 
     if (this->actor.params == OSSAN_TYPE_MASK) {
         // if all masks have been sold, give the option to ask about the mask of truth
-        if (GET_ITEMGETINF(ITEMGETINF_38) && GET_ITEMGETINF(ITEMGETINF_39) && GET_ITEMGETINF(ITEMGETINF_3A) &&
-            GET_ITEMGETINF(ITEMGETINF_3B)) {
+        if (GET_ITEMGETINF(ITEMGETINF_38) && GET_ITEMGETINF(ITEMGETINF_39) && GET_ITEMGETINF(ITEMGETINF_3A)
+            && GET_ITEMGETINF(ITEMGETINF_3B)) {
             Message_ContinueTextbox(play, 0x70AD);
         } else {
             Message_ContinueTextbox(play, 0x70A2);
@@ -947,8 +947,8 @@ s32 EnOssan_FacingShopkeeperDialogResult(EnOssan* this, PlayState* play) {
 void EnOssan_State_FacingShopkeeper(EnOssan* this, PlayState* play, Player* player) {
     u8 nextIndex;
 
-    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) &&
-        !EnOssan_TestEndInteraction(this, play, &play->state.input[0])) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE)
+        && !EnOssan_TestEndInteraction(this, play, &play->state.input[0])) {
         if (Message_ShouldAdvance(play) && EnOssan_FacingShopkeeperDialogResult(this, play)) {
             Sfx_PlaySfxCentered(NA_SE_SY_DECIDE);
             return;
@@ -1187,8 +1187,8 @@ void EnOssan_State_BrowseLeftShelf(EnOssan* this, PlayState* play, Player* playe
     this->drawCursor = 0xFF;
     this->stickRightPrompt.isEnabled = true;
     EnOssan_UpdateCursorPos(play, this);
-    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) &&
-        !EnOssan_HasPlayerSelectedItem(play, this, &play->state.input[0])) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT)
+        && !EnOssan_HasPlayerSelectedItem(play, this, &play->state.input[0])) {
         if (this->moveHorizontal) {
             if (this->stickAccumX > 0) {
                 a = EnOssan_CursorRight(this, this->cursorIndex, 4);
@@ -1246,8 +1246,8 @@ void EnOssan_State_BrowseRightShelf(EnOssan* this, PlayState* play, Player* play
     this->drawCursor = 0xFF;
     this->stickLeftPrompt.isEnabled = true;
     EnOssan_UpdateCursorPos(play, this);
-    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) &&
-        !EnOssan_HasPlayerSelectedItem(play, this, &play->state.input[0])) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT)
+        && !EnOssan_HasPlayerSelectedItem(play, this, &play->state.input[0])) {
         if (this->moveHorizontal) {
             if (this->stickAccumX < 0) {
                 nextIndex = EnOssan_CursorRight(this, this->cursorIndex, 0);
@@ -1482,8 +1482,8 @@ void EnOssan_State_ItemSelected(EnOssan* this, PlayState* play2, Player* player)
         PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2654);
         return;
     }
-    if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE &&
-        !EnOssan_TestCancelOption(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
+    if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE
+        && !EnOssan_TestCancelOption(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
                 EnOssan_HandleCanBuyItem(play, this);
@@ -1503,8 +1503,8 @@ void EnOssan_State_SelectMilkBottle(EnOssan* this, PlayState* play2, Player* pla
         PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2693);
         return;
     }
-    if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE &&
-        !EnOssan_TestCancelOption(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
+    if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE
+        && !EnOssan_TestCancelOption(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
                 EnOssan_HandleCanBuyLonLonMilk(play, this);
@@ -1524,8 +1524,8 @@ void EnOssan_State_SelectWeirdEgg(EnOssan* this, PlayState* play2, Player* playe
         PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2732);
         return;
     }
-    if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE &&
-        !EnOssan_TestCancelOption(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
+    if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE
+        && !EnOssan_TestCancelOption(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
                 EnOssan_HandleCanBuyWeirdEgg(play, this);
@@ -1559,8 +1559,8 @@ void EnOssan_State_SelectBombs(EnOssan* this, PlayState* play, Player* player) {
         EnOssan_State_ItemSelected(this, play, player);
         return;
     }
-    if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE &&
-        !EnOssan_TestCancelOption(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
+    if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE
+        && !EnOssan_TestCancelOption(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
                 EnOssan_BuyGoronCityBombs(play, this);
@@ -1586,8 +1586,8 @@ void EnOssan_State_SelectMaskItem(EnOssan* this, PlayState* play, Player* player
             this->stateFlag = this->tempStateFlag;
             Message_ContinueTextbox(play, this->shelfSlots[this->cursorIndex]->actor.textId);
         }
-    } else if (talkState == TEXT_STATE_CHOICE && !EnOssan_TestCancelOption(this, play, &play->state.input[0]) &&
-               Message_ShouldAdvance(play)) {
+    } else if (talkState == TEXT_STATE_CHOICE && !EnOssan_TestCancelOption(this, play, &play->state.input[0])
+               && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
                 switch (item->actor.params) {
@@ -1840,12 +1840,12 @@ void EnOssan_UpdateItemSelectedProperty(EnOssan* this) {
 
     for (i = 0; i < 8; i++) {
         if (temp_a1[0] != NULL) {
-            if (this->stateFlag != OSSAN_STATE_SELECT_ITEM &&
-                this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL &&
-                this->stateFlag != OSSAN_STATE_SELECT_ITEM_WEIRD_EGG &&
-                this->stateFlag != OSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED &&
-                this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOMBS && this->stateFlag != OSSAN_STATE_SELECT_ITEM_MASK &&
-                this->stateFlag != OSSAN_STATE_CANT_GET_ITEM && this->drawCursor == 0) {
+            if (this->stateFlag != OSSAN_STATE_SELECT_ITEM
+                && this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL
+                && this->stateFlag != OSSAN_STATE_SELECT_ITEM_WEIRD_EGG
+                && this->stateFlag != OSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED
+                && this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOMBS && this->stateFlag != OSSAN_STATE_SELECT_ITEM_MASK
+                && this->stateFlag != OSSAN_STATE_CANT_GET_ITEM && this->drawCursor == 0) {
                 temp_a1[0]->isSelected = false;
             } else {
                 if (this->cursorIndex == i) {
@@ -2079,8 +2079,8 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
         } else {
             if (GET_ITEMGETINF(ITEMGETINF_3B)) {
                 return 0x70AC;
-            } else if (!GET_ITEMGETINF(ITEMGETINF_3A) && !GET_ITEMGETINF(ITEMGETINF_24) &&
-                       !GET_ITEMGETINF(ITEMGETINF_38)) {
+            } else if (!GET_ITEMGETINF(ITEMGETINF_3A) && !GET_ITEMGETINF(ITEMGETINF_24)
+                       && !GET_ITEMGETINF(ITEMGETINF_38)) {
                 // Haven't borrowed the Keaton Mask
                 if (!GET_ITEMGETINF(ITEMGETINF_23)) {
                     return 0x70A1;

@@ -259,8 +259,8 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
         this->timer--;
     }
 
-    if ((this->timer == 0) || (this->collider.base.acFlags & AC_HIT) ||
-        ((this->collider.base.ocFlags1 & OC1_HIT) && (this->collider.base.oc->category != ACTORCAT_PLAYER))) {
+    if ((this->timer == 0) || (this->collider.base.acFlags & AC_HIT)
+        || ((this->collider.base.ocFlags1 & OC1_HIT) && (this->collider.base.oc->category != ACTORCAT_PLAYER))) {
         EnBomChu_Explode(this, play);
         return;
     }
@@ -274,18 +274,17 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
     posB.z = this->actor.world.pos.z - (this->axisUp.z * 4.0f);
 
     if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posUpDown, &polyUpDown, true, true, true, true,
-                                &bgIdUpDown) &&
-        !(SurfaceType_GetWallFlags(&play->colCtx, polyUpDown, bgIdUpDown) & WALL_FLAG_CRAWLSPACE) &&
-        !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polyUpDown, bgIdUpDown)) {
+                                &bgIdUpDown)
+        && !(SurfaceType_GetWallFlags(&play->colCtx, polyUpDown, bgIdUpDown) & WALL_FLAG_CRAWLSPACE)
+        && !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polyUpDown, bgIdUpDown)) {
         // forwards
         posB.x = (this->axisForwards.x * lineLength) + posA.x;
         posB.y = (this->axisForwards.y * lineLength) + posA.y;
         posB.z = (this->axisForwards.z * lineLength) + posA.z;
 
-        if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
-                                    &bgIdSide) &&
-            !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & WALL_FLAG_CRAWLSPACE) &&
-            !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polySide, bgIdSide)) {
+        if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true, &bgIdSide)
+            && !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & WALL_FLAG_CRAWLSPACE)
+            && !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polySide, bgIdSide)) {
             EnBomChu_UpdateFloorPoly(this, polySide, play);
             this->actor.world.pos = posSide;
             this->actor.floorBgId = bgIdSide;
@@ -322,9 +321,9 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
             }
 
             if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
-                                        &bgIdSide) &&
-                !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & WALL_FLAG_CRAWLSPACE) &&
-                !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polySide, bgIdSide)) {
+                                        &bgIdSide)
+                && !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & WALL_FLAG_CRAWLSPACE)
+                && !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polySide, bgIdSide)) {
                 EnBomChu_UpdateFloorPoly(this, polySide, play);
                 this->actor.world.pos = posSide;
                 this->actor.floorBgId = bgIdSide;
@@ -362,12 +361,12 @@ void EnBomChu_WaitForKill(EnBomChu* this, PlayState* play) {
 void EnBomChu_ModelToWorld(EnBomChu* this, Vec3f* modelPos, Vec3f* dest) {
     f32 x = modelPos->x + this->visualJitter;
 
-    dest->x = this->actor.world.pos.x + (this->axisLeft.x * x) + (this->axisUp.x * modelPos->y) +
-              (this->axisForwards.x * modelPos->z);
-    dest->y = this->actor.world.pos.y + (this->axisLeft.y * x) + (this->axisUp.y * modelPos->y) +
-              (this->axisForwards.y * modelPos->z);
-    dest->z = this->actor.world.pos.z + (this->axisLeft.z * x) + (this->axisUp.z * modelPos->y) +
-              (this->axisForwards.z * modelPos->z);
+    dest->x = this->actor.world.pos.x + (this->axisLeft.x * x) + (this->axisUp.x * modelPos->y)
+            + (this->axisForwards.x * modelPos->z);
+    dest->y = this->actor.world.pos.y + (this->axisLeft.y * x) + (this->axisUp.y * modelPos->y)
+            + (this->axisForwards.y * modelPos->z);
+    dest->z = this->actor.world.pos.z + (this->axisLeft.z * x) + (this->axisUp.z * modelPos->y)
+            + (this->axisForwards.z * modelPos->z);
 }
 
 void EnBomChu_SpawnRipples(EnBomChu* this, PlayState* play, f32 y) {

@@ -80,8 +80,8 @@ void BgSstFloor_Update(Actor* thisx, PlayState* play) {
         this->dyna.actor.params = BONGOFLOOR_REST;
         this->drumPhase = 28;
 
-        if (DynaPolyActor_IsPlayerOnTop(&this->dyna) &&
-            !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)
+            && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
             distFromRim = 600.0f - this->dyna.actor.xzDistToPlayer;
             if (distFromRim > 0.0f) {
                 if (distFromRim > 350.0f) {

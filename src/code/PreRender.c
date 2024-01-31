@@ -61,8 +61,8 @@ void PreRender_CopyImage(PreRender* this, Gfx** gfxP, void* img, void* imgDst) {
     gDPPipeSync(gfx++);
     // Configure the cycle type to COPY mode, disable blending
     gDPSetOtherMode(gfx++,
-                    G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                        G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
+                    G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE
+                        | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
     // Set the destination buffer as the color image and set the scissoring region to the entire image
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, imgDst);
@@ -122,8 +122,8 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
     gDPPipeSync(gfx++);
     // Configure the cycle type to COPY mode, disable blending
     gDPSetOtherMode(gfx++,
-                    G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                        G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
+                    G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE
+                        | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
     // Set the destination buffer as the color image and set the scissoring region to the destination region
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
@@ -185,8 +185,8 @@ void func_800C170C(PreRender* this, Gfx** gfxP, void* buf, void* bufSave, u32 r,
     gDPPipeSync(gfx++);
     // Set the cycle type to 1-cycle mode to use the color combiner
     gDPSetOtherMode(gfx++,
-                    G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                        G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+                    G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE
+                        | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_OPA_SURF | G_RM_OPA_SURF2);
     gDPSetEnvColor(gfx++, r, g, b, a);
 
@@ -263,8 +263,8 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
 
     gDPPipeSync(gfx++);
     gDPSetOtherMode(gfx++,
-                    G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                        G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+                    G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE
+                        | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_PASS | G_RM_OPA_CI2);
 
     // Set the combiner to draw the texture as-is, discarding alpha channel
@@ -383,8 +383,8 @@ void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxP) {
     //
     // Also disables other modes such as alpha compare and texture perspective correction
     gDPSetOtherMode(gfx++,
-                    G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                        G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+                    G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE
+                        | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_VISCVG | G_RM_VISCVG2);
     // Set up a scissor with the same dimensions as the framebuffer
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
@@ -436,11 +436,11 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
         // Effectively disable blending in both cycles. It's 2-cycle so that TEXEL1 can be used to point to a different
         // texture tile.
         gDPSetOtherMode(gfx++,
-                        G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                            G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                        G_AC_NONE | G_ZS_PRIM | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA |
-                            GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) |
-                            GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1));
+                        G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE
+                            | G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
+                        G_AC_NONE | G_ZS_PRIM | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA
+                            | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1)
+                            | GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1));
 
         // Set up the color combiner: first cycle: TEXEL0, TEXEL1 + ENVIRONMENT; second cycle: G_CC_PASS2
         gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 1, 0, TEXEL1, ENVIRONMENT, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
@@ -728,8 +728,8 @@ void PreRender_DivotFilter(PreRender* this) {
             if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
                 if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {}
 
-                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
-                    PRERENDER_DIVOT_PARTIAL_CVG_RED) {
+                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0)
+                    == PRERENDER_DIVOT_PARTIAL_CVG_RED) {
                     // Fill the pixel with full red, likely for debugging
                     pxR = 31;
                     pxG = 0;
@@ -740,8 +740,8 @@ void PreRender_DivotFilter(PreRender* this) {
                     u8* windowG = &buffG[x - 1];
                     u8* windowB = &buffB[x - 1];
 
-                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
-                        PRERENDER_DIVOT_PRINT_COLOR) {
+                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0)
+                        == PRERENDER_DIVOT_PRINT_COLOR) {
                         PRINTF("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", windowR[0], windowR[1],
                                windowR[2], MEDIAN3(windowR[0], windowR[1], windowR[2]), windowG[0], windowG[1],
                                windowG[2], MEDIAN3(windowG[0], windowG[1], windowG[2]), windowB[0], windowB[1],
@@ -751,8 +751,8 @@ void PreRender_DivotFilter(PreRender* this) {
                     // Sample the median value from the 3 pixel wide window
 
                     // (Both blocks contain the same code)
-                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
-                        PRERENDER_DIVOT_ALTERNATE_COLOR) {
+                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0)
+                        == PRERENDER_DIVOT_ALTERNATE_COLOR) {
                         pxR = MEDIAN3(windowR[0], windowR[1], windowR[2]);
                         pxG = MEDIAN3(windowG[0], windowG[1], windowG[2]);
                         pxB = MEDIAN3(windowB[0], windowB[1], windowB[2]);

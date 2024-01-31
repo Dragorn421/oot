@@ -280,12 +280,12 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
     dx = this->targetPosition.x - this->actor.world.pos.x;
     dy = this->targetPosition.y - this->actor.world.pos.y;
     dz = this->targetPosition.z - this->actor.world.pos.z;
-    dx += Math_SinS((2096.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER]) *
-          this->fwork[BFD_FLY_WOBBLE_AMP];
-    dy += Math_SinS((1096.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER]) *
-          this->fwork[BFD_FLY_WOBBLE_AMP];
-    dz += Math_SinS((1796.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER]) *
-          this->fwork[BFD_FLY_WOBBLE_AMP];
+    dx += Math_SinS((2096.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER])
+        * this->fwork[BFD_FLY_WOBBLE_AMP];
+    dy += Math_SinS((1096.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER])
+        * this->fwork[BFD_FLY_WOBBLE_AMP];
+    dz += Math_SinS((1796.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER])
+        * this->fwork[BFD_FLY_WOBBLE_AMP];
     angleToTarget = RAD_TO_BINANG(Math_FAtan2F(dx, dz));
     pitchToTarget = RAD_TO_BINANG(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))));
 
@@ -307,8 +307,8 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 this->targetPosition.z = 0.0;
                 this->fwork[BFD_TURN_RATE_MAX] = 10000.0f;
                 this->work[BFD_ACTION_STATE] = BOSSFD_WAIT_INTRO;
-                if ((fabsf(player2->actor.world.pos.z) < 80.0f) &&
-                    (fabsf(player2->actor.world.pos.x - 340.0f) < 60.0f)) {
+                if ((fabsf(player2->actor.world.pos.z) < 80.0f)
+                    && (fabsf(player2->actor.world.pos.x - 340.0f) < 60.0f)) {
 
                     this->introState = BFD_CS_START;
                     Cutscene_StartManual(play, &play->csCtx);
@@ -699,8 +699,8 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     this->fireBreathTimer = 20;
                 }
             }
-            if ((this->work[BFD_DAMAGE_FLASH_TIMER] != 0) || (this->timers[0] == 0) ||
-                (player->actor.world.pos.y < 70.0f)) {
+            if ((this->work[BFD_DAMAGE_FLASH_TIMER] != 0) || (this->timers[0] == 0)
+                || (player->actor.world.pos.y < 70.0f)) {
                 this->work[BFD_ACTION_STATE] = BOSSFD_FLY_MAIN;
                 this->timers[0] = 0;
                 this->work[BFD_START_ATTACK] = false;
@@ -928,9 +928,8 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
 
         Math_ApproachS(&this->actor.world.rot.y, angleToTarget, 0xA, this->fwork[BFD_TURN_RATE]);
 
-        if (((this->work[BFD_ACTION_STATE] == BOSSFD_FLY_CHASE) ||
-             (this->work[BFD_ACTION_STATE] == BOSSFD_FLY_UNUSED)) &&
-            (this->actor.world.pos.y < 110.0f) && (pitchToTarget < 0)) {
+        if (((this->work[BFD_ACTION_STATE] == BOSSFD_FLY_CHASE) || (this->work[BFD_ACTION_STATE] == BOSSFD_FLY_UNUSED))
+            && (this->actor.world.pos.y < 110.0f) && (pitchToTarget < 0)) {
             pitchToTarget = 0;
             Math_ApproachF(&this->actor.world.pos.y, 110.0f, 1.0f, 5.0f);
         }
@@ -1156,8 +1155,8 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         if (this->work[BFD_SPLASH_TIMER] != 0) {
             this->work[BFD_SPLASH_TIMER]--;
-            if ((this->actor.colChkInfo.health == 0) ||
-                ((this->introState == BFD_CS_EMERGE) && (this->actor.world.rot.x > 0x3000))) {
+            if ((this->actor.colChkInfo.health == 0)
+                || ((this->introState == BFD_CS_EMERGE) && (this->actor.world.rot.x > 0x3000))) {
                 if ((u8)this->fogMode == 0) {
                     play->envCtx.lightBlend = 0.0f;
                 }
@@ -1869,10 +1868,12 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
         Matrix_Translate(0.0f, 0.0f, 35.0f, MTXMODE_APPLY);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         if (i < this->skinSegments) {
-            Matrix_Scale(1.0f + (Math_SinS((this->work[BFD_LEAD_BODY_SEG] * 5000.0f) + (i * 7000.0f)) *
-                                 this->fwork[BFD_BODY_PULSE]),
-                         1.0f + (Math_SinS((this->work[BFD_LEAD_BODY_SEG] * 5000.0f) + (i * 7000.0f)) *
-                                 this->fwork[BFD_BODY_PULSE]),
+            Matrix_Scale(1.0f
+                             + (Math_SinS((this->work[BFD_LEAD_BODY_SEG] * 5000.0f) + (i * 7000.0f))
+                                * this->fwork[BFD_BODY_PULSE]),
+                         1.0f
+                             + (Math_SinS((this->work[BFD_LEAD_BODY_SEG] * 5000.0f) + (i * 7000.0f))
+                                * this->fwork[BFD_BODY_PULSE]),
                          1.0f, MTXMODE_APPLY);
             Matrix_RotateY(M_PI / 2.0f, MTXMODE_APPLY);
             MATRIX_TO_MTX(tempMat, "../z_boss_fd.c", 4719);

@@ -80,9 +80,9 @@ s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Ve
 
     compAAlongB = ((lineAx * lineBx) + (lineAy * lineBy) + (lineAz * lineBz)) * scaleB;
 
-    compBAAlongB = ((lineBx * (lineAPointA->x - lineBPointA->x)) + (lineBy * (lineAPointA->y - lineBPointA->y)) +
-                    (lineBz * (lineAPointA->z - lineBPointA->z))) *
-                   scaleB;
+    compBAAlongB = ((lineBx * (lineAPointA->x - lineBPointA->x)) + (lineBy * (lineAPointA->y - lineBPointA->y))
+                    + (lineBz * (lineAPointA->z - lineBPointA->z)))
+                 * scaleB;
 
     lineAPerpB.x = lineAx - (lineBx * compAAlongB);
     lineAPerpB.y = lineAy - (lineBy * compAAlongB);
@@ -129,9 +129,9 @@ void Math3D_LineClosestToPoint(InfiniteLine* line, Vec3f* pos, Vec3f* closestPoi
         //! @bug Missing early return
     }
 
-    t = (((pos->x - line->point.x) * line->dir.x) + ((pos->y - line->point.y) * line->dir.y) +
-         ((pos->z - line->point.z) * line->dir.z)) /
-        dirVectorLengthSq;
+    t = (((pos->x - line->point.x) * line->dir.x) + ((pos->y - line->point.y) * line->dir.y)
+         + ((pos->z - line->point.z) * line->dir.z))
+      / dirVectorLengthSq;
     closestPoint->x = (line->dir.x * t) + line->point.x;
     closestPoint->y = (line->dir.y * t) + line->point.y;
     closestPoint->z = (line->dir.z * t) + line->point.z;
@@ -330,8 +330,8 @@ s32 Math3D_CirSquareVsTriSquare(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, 
         maxY = y2;
     }
 
-    if ((minX - radius) <= centerX && (maxX + radius) >= centerX && (minY - radius) <= centerY &&
-        (maxY + radius) >= centerY) {
+    if ((minX - radius) <= centerX && (maxX + radius) >= centerX && (minY - radius) <= centerY
+        && (maxY + radius) >= centerY) {
         return true;
     }
     return false;
@@ -390,8 +390,8 @@ s32 Math3D_SphCubeVsTriCube(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* center, f32 
         maxZ = v2->z;
     }
 
-    if ((center->x >= (minX - radius)) && (center->x <= (maxX + radius)) && (center->y >= (minY - radius)) &&
-        (center->y <= (maxY + radius)) && (center->z >= (minZ - radius)) && (center->z <= (maxZ + radius))) {
+    if ((center->x >= (minX - radius)) && (center->x <= (maxX + radius)) && (center->y >= (minY - radius))
+        && (center->y <= (maxY + radius)) && (center->z >= (minZ - radius)) && (center->z <= (maxZ + radius))) {
         return true;
     }
 
@@ -913,8 +913,8 @@ f32 Math3D_Planef(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* pointOnPlane) {
  * Returns the answer to the plane equation
  */
 f32 Math3D_Plane(Plane* plane, Vec3f* pointOnPlane) {
-    return (plane->normal.x * pointOnPlane->x) + (plane->normal.y * pointOnPlane->y) +
-           (plane->normal.z * pointOnPlane->z) + plane->originDist;
+    return (plane->normal.x * pointOnPlane->x) + (plane->normal.y * pointOnPlane->y)
+         + (plane->normal.z * pointOnPlane->z) + plane->originDist;
 }
 
 /*
@@ -968,8 +968,8 @@ s32 Math3D_TriChkPointParaYImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x, f
 
     // check if the point is within `chkDist` units of any vertex of the triangle.
     chkDistSq = SQ(chkDist);
-    if (((SQ(v0->z - z) + SQ(v0->x - x)) < chkDistSq) || ((SQ(v1->z - z) + SQ(v1->x - x)) < chkDistSq) ||
-        ((SQ(v2->z - z) + SQ(v2->x - x)) < chkDistSq)) {
+    if (((SQ(v0->z - z) + SQ(v0->x - x)) < chkDistSq) || ((SQ(v1->z - z) + SQ(v1->x - x)) < chkDistSq)
+        || ((SQ(v2->z - z) + SQ(v2->x - x)) < chkDistSq)) {
 
         return true;
     }
@@ -980,8 +980,8 @@ s32 Math3D_TriChkPointParaYImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x, f
     detv1v2 = ((v1->z - z) * (v2->x - x)) - ((v1->x - x) * (v2->z - z));
     detv2v0 = ((v2->z - z) * (v0->x - x)) - ((v2->x - x) * (v0->z - z));
 
-    if (((detMax >= detv0v1) && (detMax >= detv1v2) && (detMax >= detv2v0)) ||
-        ((-detMax <= detv0v1) && (-detMax <= detv1v2) && (-detMax <= detv2v0))) {
+    if (((detMax >= detv0v1) && (detMax >= detv1v2) && (detMax >= detv2v0))
+        || ((-detMax <= detv0v1) && (-detMax <= detv1v2) && (-detMax <= detv2v0))) {
         return true;
     }
 
@@ -1105,8 +1105,8 @@ s32 Math3D_TriChkPointParaXImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 y, f32 z, f
 
     chkDistSq = SQ(chkDist);
 
-    if (((SQ(v0->y - y) + SQ(v0->z - z)) < chkDistSq) || ((SQ(v1->y - y) + SQ(v1->z - z)) < chkDistSq) ||
-        ((SQ(v2->y - y) + SQ(v2->z - z)) < chkDistSq)) {
+    if (((SQ(v0->y - y) + SQ(v0->z - z)) < chkDistSq) || ((SQ(v1->y - y) + SQ(v1->z - z)) < chkDistSq)
+        || ((SQ(v2->y - y) + SQ(v2->z - z)) < chkDistSq)) {
         return true;
     }
 
@@ -1114,8 +1114,8 @@ s32 Math3D_TriChkPointParaXImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 y, f32 z, f
     detv1v2 = ((v1->y - y) * (v2->z - z)) - ((v1->z - z) * (v2->y - y));
     detv2v0 = ((v2->y - y) * (v0->z - z)) - ((v2->z - z) * (v0->y - y));
 
-    if (((detv0v1 <= detMax) && (detv1v2 <= detMax) && (detv2v0 <= detMax)) ||
-        ((-detMax <= detv0v1) && (-detMax <= detv1v2) && (-detMax <= detv2v0))) {
+    if (((detv0v1 <= detMax) && (detv1v2 <= detMax) && (detv2v0 <= detMax))
+        || ((-detMax <= detv0v1) && (-detMax <= detv1v2) && (-detMax <= detv2v0))) {
         return true;
     }
 
@@ -1216,8 +1216,8 @@ s32 Math3D_TriChkPointParaZImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 x, f32 y, f
 
     chkDistSq = SQ(chkDist);
 
-    if (((SQ(x - v0->x) + SQ(y - v0->y)) < chkDistSq) || ((SQ(x - v1->x) + SQ(y - v1->y)) < chkDistSq) ||
-        ((SQ(x - v2->x) + SQ(y - v2->y)) < chkDistSq)) {
+    if (((SQ(x - v0->x) + SQ(y - v0->y)) < chkDistSq) || ((SQ(x - v1->x) + SQ(y - v1->y)) < chkDistSq)
+        || ((SQ(x - v2->x) + SQ(y - v2->y)) < chkDistSq)) {
         // Distance from any vertex to a point is less than chkDist
         return true;
     }
@@ -1226,8 +1226,8 @@ s32 Math3D_TriChkPointParaZImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 x, f32 y, f
     detv1v2 = ((v1->x - x) * (v2->y - y)) - ((v1->y - y) * (v2->x - x));
     detv2v0 = ((v2->x - x) * (v0->y - y)) - ((v2->y - y) * (v0->x - x));
 
-    if (((detMax >= detv0v1) && (detMax >= detv1v2) && (detMax >= detv2v0)) ||
-        ((-detMax <= detv0v1) && (-detMax <= detv1v2) && (-detMax <= detv2v0))) {
+    if (((detMax >= detv0v1) && (detMax >= detv1v2) && (detMax >= detv2v0))
+        || ((-detMax <= detv0v1) && (-detMax <= detv1v2) && (-detMax <= detv2v0))) {
         return true;
     }
 
@@ -1378,9 +1378,9 @@ s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32
         return false;
     }
 
-    if (((nx == 0.0f) || (Math3D_TriChkPointParaX(v0, v1, v2, nx, intersect->y, intersect->z))) &&
-        ((ny == 0.0f) || (Math3D_TriChkPointParaY(v0, v1, v2, ny, intersect->z, intersect->x))) &&
-        ((nz == 0.0f) || (Math3D_TriChkPointParaZ(v0, v1, v2, nz, intersect->x, intersect->y)))) {
+    if (((nx == 0.0f) || (Math3D_TriChkPointParaX(v0, v1, v2, nx, intersect->y, intersect->z)))
+        && ((ny == 0.0f) || (Math3D_TriChkPointParaY(v0, v1, v2, ny, intersect->z, intersect->x)))
+        && ((nz == 0.0f) || (Math3D_TriChkPointParaZ(v0, v1, v2, nz, intersect->x, intersect->y)))) {
         return true;
     }
 
@@ -1465,9 +1465,9 @@ s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line) {
         // line length is "0"
         return false;
     }
-    temp_f0_2 = ((((sphere->center.x - line->a.x) * lineDiff.x) + ((sphere->center.y - line->a.y) * lineDiff.y)) +
-                 ((sphere->center.z - line->a.z) * lineDiff.z)) /
-                lineLenSq;
+    temp_f0_2 = ((((sphere->center.x - line->a.x) * lineDiff.x) + ((sphere->center.y - line->a.y) * lineDiff.y))
+                 + ((sphere->center.z - line->a.z) * lineDiff.z))
+              / lineLenSq;
     if ((temp_f0_2 < 0.0f) || (temp_f0_2 > 1.0f)) {
         return false;
     }
@@ -1476,9 +1476,9 @@ s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line) {
     sphLinePerpendicularPoint.y = (lineDiff.y * temp_f0_2) + line->a.y;
     sphLinePerpendicularPoint.z = (lineDiff.z * temp_f0_2) + line->a.z;
 
-    if (SQ(sphLinePerpendicularPoint.x - sphere->center.x) + SQ(sphLinePerpendicularPoint.y - sphere->center.y) +
-            SQ(sphLinePerpendicularPoint.z - sphere->center.z) <=
-        SQ((f32)sphere->radius)) {
+    if (SQ(sphLinePerpendicularPoint.x - sphere->center.x) + SQ(sphLinePerpendicularPoint.y - sphere->center.y)
+            + SQ(sphLinePerpendicularPoint.z - sphere->center.z)
+        <= SQ((f32)sphere->radius)) {
         return true;
     }
     return false;
@@ -1571,7 +1571,8 @@ s32 Math3D_TriVsSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoi
     nz = tri->plane.normal.z * planeDist;
 
     if (Math3D_Planef(tri->plane.normal.x, tri->plane.normal.y, tri->plane.normal.z, tri->plane.originDist,
-                      &sphereCenter) > 0.0f) {
+                      &sphereCenter)
+        > 0.0f) {
         sphPlanePos.x = sphereCenter.x - nx;
         sphPlanePos.y = sphereCenter.y - ny;
         sphPlanePos.z = sphereCenter.z - nz;
@@ -1749,12 +1750,12 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
         }
     }
     // checks for intersection points outside the bounds of the cylinder
-    if ((sideIntA == 1) &&
-        ((fracA * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracA * ptAToPtB.y + cylToPtA.y))) {
+    if ((sideIntA == 1)
+        && ((fracA * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracA * ptAToPtB.y + cylToPtA.y))) {
         sideIntA = 0;
     }
-    if ((sideIntB == 1) &&
-        ((fracB * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracB * ptAToPtB.y + cylToPtA.y))) {
+    if ((sideIntB == 1)
+        && ((fracB * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracB * ptAToPtB.y + cylToPtA.y))) {
         sideIntB = 0;
     }
     if (sideIntA == 0 && sideIntB == 0) {
@@ -1829,8 +1830,8 @@ s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect) {
     cylBottom = (f32)cyl->pos.y + cyl->yShift;
     cylTop = cyl->height + cylBottom;
 
-    if (((tri->vtx[0].y < cylBottom) && (tri->vtx[1].y < cylBottom) && (tri->vtx[2].y < cylBottom)) ||
-        ((cylTop < tri->vtx[0].y) && (cylTop < tri->vtx[1].y) && (cylTop < tri->vtx[2].y))) {
+    if (((tri->vtx[0].y < cylBottom) && (tri->vtx[1].y < cylBottom) && (tri->vtx[2].y < cylBottom))
+        || ((cylTop < tri->vtx[0].y) && (cylTop < tri->vtx[1].y) && (cylTop < tri->vtx[2].y))) {
         // If all of the vertices are below or all of the vertices are above the cylinder.
         return false;
     }
@@ -1894,8 +1895,8 @@ s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect) {
     bottomSphere.center.y = cylBottom;
     topSphere.radius = bottomSphere.radius = cyl->radius;
 
-    if ((Math3D_TriVsSphIntersect(&topSphere, tri, intersect)) ||
-        (Math3D_TriVsSphIntersect(&bottomSphere, tri, intersect))) {
+    if ((Math3D_TriVsSphIntersect(&topSphere, tri, intersect))
+        || (Math3D_TriVsSphIntersect(&bottomSphere, tri, intersect))) {
         return true;
     }
     return false;
@@ -2042,8 +2043,8 @@ s32 Math3D_CylVsCylOverlapCenterDist(Cylinder16* ca, Cylinder16* cb, f32* overla
     }
 
     // top of ca < bottom of cb or top of cb < bottom of ca
-    if (((caf.pos.y + caf.yShift) + caf.height) < (cbf.pos.y + cbf.yShift) ||
-        (((cbf.pos.y + cbf.yShift) + cbf.height) < (caf.pos.y + caf.yShift))) {
+    if (((caf.pos.y + caf.yShift) + caf.height) < (cbf.pos.y + cbf.yShift)
+        || (((cbf.pos.y + cbf.yShift) + cbf.height) < (caf.pos.y + caf.yShift))) {
         return false;
     }
 
@@ -2065,8 +2066,8 @@ s32 Math3D_TriVsTriIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect) {
     dist1 = Math3D_Plane(&ta->plane, &tb->vtx[1]);
     dist2 = Math3D_Plane(&ta->plane, &tb->vtx[2]);
 
-    if (((dist0 > 0.0f) && (dist1 > 0.0f) && (dist2 > 0.0f)) ||
-        (((dist0 < 0.0f) && (dist1 < 0.0f)) && (dist2 < 0.0f))) {
+    if (((dist0 > 0.0f) && (dist1 > 0.0f) && (dist2 > 0.0f))
+        || (((dist0 < 0.0f) && (dist1 < 0.0f)) && (dist2 < 0.0f))) {
         return false;
     }
 
@@ -2074,8 +2075,8 @@ s32 Math3D_TriVsTriIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect) {
     dist1 = Math3D_Plane(&tb->plane, &ta->vtx[1]);
     dist2 = Math3D_Plane(&tb->plane, &ta->vtx[2]);
 
-    if ((((dist0 > 0.0f) && (dist1 > 0.0f)) && (dist2 > 0.0f)) ||
-        ((dist0 < 0.0f) && (dist1 < 0.0f) && (dist2 < 0.0f))) {
+    if ((((dist0 > 0.0f) && (dist1 > 0.0f)) && (dist2 > 0.0f))
+        || ((dist0 < 0.0f) && (dist1 < 0.0f) && (dist2 < 0.0f))) {
         return false;
     }
 
@@ -2092,18 +2093,18 @@ s32 Math3D_TriVsTriIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect) {
         return true;
     }
     if (Math3D_TriLineIntersect(&ta->vtx[0], &ta->vtx[1], &ta->vtx[2], ta->plane.normal.x, ta->plane.normal.y,
-                                ta->plane.normal.z, ta->plane.originDist, &tb->vtx[0], &tb->vtx[1], intersect,
-                                0) == 1) {
+                                ta->plane.normal.z, ta->plane.originDist, &tb->vtx[0], &tb->vtx[1], intersect, 0)
+        == 1) {
         return true;
     }
     if (Math3D_TriLineIntersect(&ta->vtx[0], &ta->vtx[1], &ta->vtx[2], ta->plane.normal.x, ta->plane.normal.y,
-                                ta->plane.normal.z, ta->plane.originDist, &tb->vtx[1], &tb->vtx[2], intersect,
-                                0) == 1) {
+                                ta->plane.normal.z, ta->plane.originDist, &tb->vtx[1], &tb->vtx[2], intersect, 0)
+        == 1) {
         return true;
     }
     if (Math3D_TriLineIntersect(&ta->vtx[0], &ta->vtx[1], &ta->vtx[2], ta->plane.normal.x, ta->plane.normal.y,
-                                ta->plane.normal.z, ta->plane.originDist, &tb->vtx[2], &tb->vtx[0], intersect,
-                                0) == 1) {
+                                ta->plane.normal.z, ta->plane.originDist, &tb->vtx[2], &tb->vtx[0], intersect, 0)
+        == 1) {
         return true;
     }
     return false;

@@ -310,12 +310,14 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
             unk1 = (posY - WATER_TEMPLE_WATER_B1_Y) / (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * 200;
         } else if (posY < WATER_TEMPLE_WATER_F2_Y) {
             unk0 = 1;
-            unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F1_Y) / (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) *
-                               (255 - 160));
+            unk1 = 255
+                 - (s32)((posY - WATER_TEMPLE_WATER_F1_Y) / (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y)
+                         * (255 - 160));
         } else if (posY <= WATER_TEMPLE_WATER_F3_Y) {
             unk0 = 2;
-            unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) *
-                               (255 - 160));
+            unk1 = 255
+                 - (s32)((posY - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y)
+                         * (255 - 160));
         }
         play->roomCtx.unk_74[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
     }

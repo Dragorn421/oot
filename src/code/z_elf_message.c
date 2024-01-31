@@ -34,12 +34,12 @@ u32 QuestHint_CheckCondition(QuestHintCmd* hintCmd) {
     switch (type) {
         case (QUEST_HINT_CONDITION_FLAG << 1):
             flag = 1 << (hintCmd->byte1 & 0x0F);
-            return ((hintCmd->byte0 & 1) == 1) ==
-                   ((flag & gSaveContext.save.info.eventChkInf[(hintCmd->byte1 & 0xF0) >> 4]) != 0);
+            return ((hintCmd->byte0 & 1) == 1)
+                == ((flag & gSaveContext.save.info.eventChkInf[(hintCmd->byte1 & 0xF0) >> 4]) != 0);
 
         case (QUEST_HINT_CONDITION_DUNGEON_ITEM << 1):
-            return ((hintCmd->byte0 & 1) == 1) ==
-                   (CHECK_DUNGEON_ITEM(hintCmd->byte1 - ITEM_DUNGEON_BOSS_KEY, gSaveContext.mapIndex) != 0);
+            return ((hintCmd->byte0 & 1) == 1)
+                == (CHECK_DUNGEON_ITEM(hintCmd->byte1 - ITEM_DUNGEON_BOSS_KEY, gSaveContext.mapIndex) != 0);
 
         case (QUEST_HINT_CONDITION_ITEM << 1):
             return ((hintCmd->byte0 & 1) == 1) == (hintCmd->byte3 == INV_CONTENT(hintCmd->byte1));
@@ -50,21 +50,22 @@ u32 QuestHint_CheckCondition(QuestHintCmd* hintCmd) {
                     return ((hintCmd->byte0 & 1) == 1) == ((hintCmd->byte1 & 0x0F) == CUR_UPG_VALUE(UPG_STRENGTH));
 
                 case (QUEST_HINT_CONDITION_BOOTS << 4):
-                    return ((hintCmd->byte0 & 1) == 1) ==
-                           (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS,
-                                              hintCmd->byte3 - ITEM_BOOTS_KOKIRI + EQUIP_INV_BOOTS_KOKIRI) != 0);
+                    return ((hintCmd->byte0 & 1) == 1)
+                        == (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS,
+                                              hintCmd->byte3 - ITEM_BOOTS_KOKIRI + EQUIP_INV_BOOTS_KOKIRI)
+                            != 0);
 
                 case (QUEST_HINT_CONDITION_SONG << 4):
-                    return ((hintCmd->byte0 & 1) == 1) ==
-                           (CHECK_QUEST_ITEM(hintCmd->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET) != 0);
+                    return ((hintCmd->byte0 & 1) == 1)
+                        == (CHECK_QUEST_ITEM(hintCmd->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET) != 0);
 
                 case (QUEST_HINT_CONDITION_MEDALLION << 4):
-                    return ((hintCmd->byte0 & 1) == 1) ==
-                           (CHECK_QUEST_ITEM(hintCmd->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST) != 0);
+                    return ((hintCmd->byte0 & 1) == 1)
+                        == (CHECK_QUEST_ITEM(hintCmd->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST) != 0);
 
                 case (QUEST_HINT_CONDITION_MAGIC << 4):
-                    return ((hintCmd->byte0 & 1) == 1) ==
-                           (((void)0, gSaveContext.save.info.playerData.isMagicAcquired) != 0);
+                    return ((hintCmd->byte0 & 1) == 1)
+                        == (((void)0, gSaveContext.save.info.playerData.isMagicAcquired) != 0);
             }
     }
 

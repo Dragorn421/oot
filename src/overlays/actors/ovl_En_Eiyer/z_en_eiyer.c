@@ -130,7 +130,8 @@ void EnEiyer_Init(Actor* thisx, PlayState* play) {
         // Each clone spawns another clone
         if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EIYER, this->actor.home.pos.x,
                                this->actor.home.pos.y, this->actor.home.pos.z, 0, this->actor.shape.rot.y + 0x4000, 0,
-                               this->actor.params + 1) == NULL) {
+                               this->actor.params + 1)
+            == NULL) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -646,15 +647,15 @@ void EnEiyer_Update(Actor* thisx, PlayState* play) {
         Actor_MoveXYZ(&this->actor);
     }
 
-    if (this->actionFunc == EnEiyer_Glide || this->actionFunc == EnEiyer_DiveAttack ||
-        this->actionFunc == EnEiyer_Stunned || this->actionFunc == EnEiyer_Die || this->actionFunc == EnEiyer_Hurt ||
-        (this->actionFunc == EnEiyer_Land && this->timer == -1)) {
+    if (this->actionFunc == EnEiyer_Glide || this->actionFunc == EnEiyer_DiveAttack
+        || this->actionFunc == EnEiyer_Stunned || this->actionFunc == EnEiyer_Die || this->actionFunc == EnEiyer_Hurt
+        || (this->actionFunc == EnEiyer_Land && this->timer == -1)) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 27.0f, 30.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     }
 
-    if (this->actor.params == 0xA ||
-        (this->actionFunc != EnEiyer_AppearFromGround && this->actionFunc != EnEiyer_CircleUnderground)) {
+    if (this->actor.params == 0xA
+        || (this->actionFunc != EnEiyer_AppearFromGround && this->actionFunc != EnEiyer_CircleUnderground)) {
         this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 
@@ -687,8 +688,8 @@ s32 EnEiyer_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
         pos->z += 2500.0f;
     }
 
-    if (this->collider.elem.bumper.dmgFlags == (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) && limbIndex != 9 &&
-        limbIndex != 10) {
+    if (this->collider.elem.bumper.dmgFlags == (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) && limbIndex != 9
+        && limbIndex != 10) {
         *dList = NULL;
     }
     return 0;

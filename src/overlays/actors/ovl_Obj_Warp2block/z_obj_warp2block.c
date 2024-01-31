@@ -86,8 +86,8 @@ s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
 
     temp_a3 = this->dyna.actor.child;
     player = GET_PLAYER(play);
-    if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
-        (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
+    if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))])
+        || (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
 
         func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
         temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
@@ -246,8 +246,8 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play) {
     Actor* current = play->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
 
     while (current != NULL) {
-        if (current->id == ACTOR_OBJ_WARP2BLOCK && !((current->params >> 0xF) & 1) &&
-            ((this->dyna.actor.params & 0x3F) == (current->params & 0x3F))) {
+        if (current->id == ACTOR_OBJ_WARP2BLOCK && !((current->params >> 0xF) & 1)
+            && ((this->dyna.actor.params & 0x3F) == (current->params & 0x3F))) {
             this->dyna.actor.child = current;
             if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
                 ObjWarp2block_SwapWithChild(this, play);

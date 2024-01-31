@@ -641,8 +641,8 @@ OSThread* Fault_FindFaultedThread(void) {
 
     // OS_PRIORITY_THREADTAIL indicates the end of the thread queue
     while (thread->priority != OS_PRIORITY_THREADTAIL) {
-        if (thread->priority > OS_PRIORITY_IDLE && thread->priority < OS_PRIORITY_APPMAX &&
-            (thread->flags & (OS_FLAG_CPU_BREAK | OS_FLAG_FAULT))) {
+        if (thread->priority > OS_PRIORITY_IDLE && thread->priority < OS_PRIORITY_APPMAX
+            && (thread->flags & (OS_FLAG_CPU_BREAK | OS_FLAG_FAULT))) {
             return thread;
         }
         thread = thread->tlnext;

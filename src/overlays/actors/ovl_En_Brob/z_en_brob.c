@@ -263,8 +263,8 @@ void EnBrob_Update(Actor* thisx, PlayState* play2) {
 
     acHits[0] = (this->colliders[0].base.acFlags & AC_HIT) != 0;
     acHits[1] = (this->colliders[1].base.acFlags & AC_HIT) != 0;
-    if ((acHits[0] && (this->colliders[0].elem.acHitElem->toucher.dmgFlags & DMG_BOOMERANG)) ||
-        (acHits[1] && (this->colliders[1].elem.acHitElem->toucher.dmgFlags & DMG_BOOMERANG))) {
+    if ((acHits[0] && (this->colliders[0].elem.acHitElem->toucher.dmgFlags & DMG_BOOMERANG))
+        || (acHits[1] && (this->colliders[1].elem.acHitElem->toucher.dmgFlags & DMG_BOOMERANG))) {
 
         for (i = 0; i < 2; i++) {
             this->colliders[i].base.atFlags &= ~(AT_HIT | AT_BOUNCED);
@@ -272,12 +272,12 @@ void EnBrob_Update(Actor* thisx, PlayState* play2) {
         }
 
         EnBrob_SetupStunned(this);
-    } else if ((this->colliders[0].base.atFlags & AT_HIT) || (this->colliders[1].base.atFlags & AT_HIT) ||
-               (acHits[0] && (this->colliders[0].elem.acHitElem->toucher.dmgFlags & DMG_SLASH_KOKIRI)) ||
-               (acHits[1] && (this->colliders[1].elem.acHitElem->toucher.dmgFlags & DMG_SLASH_KOKIRI))) {
+    } else if ((this->colliders[0].base.atFlags & AT_HIT) || (this->colliders[1].base.atFlags & AT_HIT)
+               || (acHits[0] && (this->colliders[0].elem.acHitElem->toucher.dmgFlags & DMG_SLASH_KOKIRI))
+               || (acHits[1] && (this->colliders[1].elem.acHitElem->toucher.dmgFlags & DMG_SLASH_KOKIRI))) {
 
-        if (this->actionFunc == EnBrob_MoveUp && !(this->colliders[0].base.atFlags & AT_BOUNCED) &&
-            !(this->colliders[1].base.atFlags & AT_BOUNCED)) {
+        if (this->actionFunc == EnBrob_MoveUp && !(this->colliders[0].base.atFlags & AT_BOUNCED)
+            && !(this->colliders[1].base.atFlags & AT_BOUNCED)) {
             func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
         } else if (this->actionFunc != EnBrob_MoveUp) {
             EnBrob_SetupShock(this);

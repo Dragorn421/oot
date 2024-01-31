@@ -103,8 +103,8 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
     }
 
     this->requiredObjectSlot = (thisx->params == STA_BOMBABLE_RUBBLE)
-                                   ? Object_GetSlot(&play->objectCtx, OBJECT_HAKACH_OBJECTS)
-                                   : Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
+                                 ? Object_GetSlot(&play->objectCtx, OBJECT_HAKACH_OBJECTS)
+                                 : Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
 
     if (this->requiredObjectSlot < 0) {
         Actor_Kill(thisx);

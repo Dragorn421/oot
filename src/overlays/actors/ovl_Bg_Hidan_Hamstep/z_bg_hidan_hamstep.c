@@ -296,8 +296,8 @@ void func_80888860(BgHidanHamstep* this, PlayState* play) {
 
     Actor_MoveXZGravity(&this->dyna.actor);
 
-    if (((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) < (-20.0f - this->dyna.actor.minVelocityY)) &&
-        (this->dyna.actor.velocity.y <= 0.0f)) {
+    if (((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) < (-20.0f - this->dyna.actor.minVelocityY))
+        && (this->dyna.actor.velocity.y <= 0.0f)) {
         this->unk_244++;
 
         if (this->unk_244 >= 7) {
@@ -353,9 +353,9 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
         PRINTF("%s %d\n", "../z_bg_hidan_hamstep.c", 696);
     }
 
-    if (((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) <=
-         sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1]) &&
-        (this->dyna.actor.velocity.y <= 0.0f)) {
+    if (((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y)
+         <= sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1])
+        && (this->dyna.actor.velocity.y <= 0.0f)) {
         this->unk_244++;
 
         if (this->unk_244 >= 7) {

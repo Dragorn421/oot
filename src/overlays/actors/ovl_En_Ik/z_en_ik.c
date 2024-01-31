@@ -253,9 +253,9 @@ void EnIk_InitImpl(Actor* thisx, PlayState* play) {
 }
 
 s32 EnIk_HandleBlocking(EnIk* this, PlayState* play) {
-    if (((this->armorStatusFlag != 0) || (this->actor.params == IK_TYPE_NABOORU)) &&
-        (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) != 0) &&
-        (play->gameplayFrames & 1)) {
+    if (((this->armorStatusFlag != 0) || (this->actor.params == IK_TYPE_NABOORU))
+        && (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) != 0)
+        && (play->gameplayFrames & 1)) {
         EnIk_SetupStopAndBlock(this);
         return true;
     } else {
@@ -332,8 +332,8 @@ void EnIk_Idle(EnIk* this, PlayState* play) {
     s32 detectionThreshold = (this->armorStatusFlag == 0) ? 0xAAA : 0x3FFC;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if ((ABS(yawDiff) <= detectionThreshold) && (this->actor.xzDistToPlayer < 100.0f) &&
-        (ABS(this->actor.yDistToPlayer) < 150.0f)) {
+    if ((ABS(yawDiff) <= detectionThreshold) && (this->actor.xzDistToPlayer < 100.0f)
+        && (ABS(this->actor.yDistToPlayer) < 150.0f)) {
         if ((play->gameplayFrames & 1)) {
             EnIk_SetupVerticalAttack(this);
         } else {
@@ -527,8 +527,8 @@ void EnIk_DoubleHorizontalAttack(EnIk* this, PlayState* play) {
         this->unk_2FF = 3;
     }
 
-    if (((this->skelAnime.curFrame > 1.0f) && (this->skelAnime.curFrame < 9.0f)) ||
-        ((this->skelAnime.curFrame > 13.0f) && (this->skelAnime.curFrame < 18.0f))) {
+    if (((this->skelAnime.curFrame > 1.0f) && (this->skelAnime.curFrame < 9.0f))
+        || ((this->skelAnime.curFrame > 13.0f) && (this->skelAnime.curFrame < 18.0f))) {
         if (!this->isBreakingProp && (this->armorStatusFlag != 0) && (this->skelAnime.curFrame < 10.0f)) {
             Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
             this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -610,8 +610,8 @@ void EnIk_StopAndBlock(EnIk* this, PlayState* play) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->shieldCollider.base);
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4000) &&
-            (this->actor.xzDistToPlayer < 100.0f) && (ABS(this->actor.yDistToPlayer) < 150.0f)) {
+        if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4000)
+            && (this->actor.xzDistToPlayer < 100.0f) && (ABS(this->actor.yDistToPlayer) < 150.0f)) {
             if ((play->gameplayFrames & 1)) {
                 EnIk_SetupVerticalAttack(this);
             } else {
@@ -736,8 +736,8 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         this->damageEffect = this->actor.colChkInfo.damageEffect;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if ((this->damageEffect == EN_IK_DMGEFF_NONE) || (this->damageEffect == EN_IK_DMGEFF_SPARKS_NO_DMG) ||
-            ((this->armorStatusFlag == 0) && (this->damageEffect == EN_IK_DMGEFF_PROJECTILE))) {
+        if ((this->damageEffect == EN_IK_DMGEFF_NONE) || (this->damageEffect == EN_IK_DMGEFF_SPARKS_NO_DMG)
+            || ((this->armorStatusFlag == 0) && (this->damageEffect == EN_IK_DMGEFF_PROJECTILE))) {
             if (this->damageEffect != EN_IK_DMGEFF_NONE) {
                 // spawn sparks and don't damage
                 CollisionCheck_SpawnShieldParticlesMetal(play, &sparksPos);
@@ -834,8 +834,8 @@ void EnIk_UpdateEnemy(Actor* thisx, PlayState* play) {
 
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
 
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.focus.pos.y += 45.0f;
@@ -883,8 +883,8 @@ s32 EnIk_OverrideLimbDrawEnemy(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
         if (this->actor.params != IK_TYPE_NABOORU) {
             *dList = gIronKnuckleGerudoHeadDL;
         }
-    } else if ((limbIndex == IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT) ||
-               (limbIndex == IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK)) {
+    } else if ((limbIndex == IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT)
+               || (limbIndex == IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK)) {
         if (this->drawArmorFlag & ARMOR_BROKEN) {
             *dList = NULL;
         }
@@ -1240,9 +1240,9 @@ void EnIk_CsAction5(EnIk* this, PlayState* play) {
 }
 
 s32 EnIk_OverrideLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    if ((limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_HELMET_ARMOR) ||
-        (limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_FRONT) ||
-        (limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_BACK)) {
+    if ((limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_HELMET_ARMOR)
+        || (limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_FRONT)
+        || (limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_BACK)) {
         if (EnIk_GetAnimCurFrame(thisx) >= 30.0f) {
             *dList = NULL;
         }
@@ -1494,8 +1494,8 @@ static EnIkDrawFunc sCsDrawFuncs[] = { EnIk_CsDrawNothing, EnIk_CsDrawIntro, EnI
 void EnIk_DrawCutscene(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
 
-    if (this->csDrawMode < 0 || this->csDrawMode >= ARRAY_COUNT(sCsDrawFuncs) ||
-        sCsDrawFuncs[this->csDrawMode] == NULL) {
+    if (this->csDrawMode < 0 || this->csDrawMode >= ARRAY_COUNT(sCsDrawFuncs)
+        || sCsDrawFuncs[this->csDrawMode] == NULL) {
         PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -1545,8 +1545,8 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
     s32 upperParams = IK_GET_UPPER_PARAMS(&this->actor);
 
-    if (((IK_GET_ARMOR_TYPE(&this->actor) == IK_TYPE_NABOORU) && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
-        (upperParams != 0 && Flags_GetSwitch(play, upperParams >> 8))) {
+    if (((IK_GET_ARMOR_TYPE(&this->actor) == IK_TYPE_NABOORU) && GET_EVENTCHKINF(EVENTCHKINF_3C))
+        || (upperParams != 0 && Flags_GetSwitch(play, upperParams >> 8))) {
         Actor_Kill(&this->actor);
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);

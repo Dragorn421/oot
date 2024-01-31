@@ -119,8 +119,8 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
                 // "North! ! ! ! !"
                 PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToPlayer);
             }
-            if ((this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
-                (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
+            if ((this->actor.xzDistToPlayer < (90.0f + this->interactRange))
+                && (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
                 if (player->stateFlags2 & PLAYER_STATE2_25) {
                     ocarinaSong = this->ocarinaSong;
                     if (ocarinaSong == 6) {
@@ -129,8 +129,8 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
                     player->stateFlags2 |= PLAYER_STATE2_23;
                     Message_StartOcarina(play, ocarinaSong + OCARINA_ACTION_CHECK_SARIA);
                     this->actionFunc = func_80ABF0CC;
-                } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange) &&
-                            ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)))) {
+                } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange)
+                            && ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)))) {
                     this->unk_15A = 0;
                     player->unk_6A8 = &this->actor;
                 }
@@ -152,8 +152,8 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play) {
             if (play->sceneId == SCENE_WATER_TEMPLE) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
             }
-            if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) &&
-                (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_SPELLS)) {
+            if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC)
+                && (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_SPELLS)) {
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
@@ -161,10 +161,10 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play) {
             return;
         }
         if (this->unk_158 != 0) {
-            if ((play->msgCtx.ocarinaMode == OCARINA_MODE_05) || (play->msgCtx.ocarinaMode == OCARINA_MODE_06) ||
-                (play->msgCtx.ocarinaMode == OCARINA_MODE_07) || (play->msgCtx.ocarinaMode == OCARINA_MODE_08) ||
-                (play->msgCtx.ocarinaMode == OCARINA_MODE_09) || (play->msgCtx.ocarinaMode == OCARINA_MODE_0A) ||
-                (play->msgCtx.ocarinaMode == OCARINA_MODE_0D)) {
+            if ((play->msgCtx.ocarinaMode == OCARINA_MODE_05) || (play->msgCtx.ocarinaMode == OCARINA_MODE_06)
+                || (play->msgCtx.ocarinaMode == OCARINA_MODE_07) || (play->msgCtx.ocarinaMode == OCARINA_MODE_08)
+                || (play->msgCtx.ocarinaMode == OCARINA_MODE_09) || (play->msgCtx.ocarinaMode == OCARINA_MODE_0A)
+                || (play->msgCtx.ocarinaMode == OCARINA_MODE_0D)) {
                 if (this->switchFlag >= 0) {
                     Flags_SetSwitch(play, this->switchFlag);
                 }
@@ -190,10 +190,10 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
     if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
-        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
-                   ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D)) &&
-                   (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
-                   (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
+        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B))
+                   && ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D))
+                   && (this->actor.xzDistToPlayer < (90.0f + this->interactRange))
+                   && (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
                 switch (this->type) {
                     case 1:
@@ -217,8 +217,8 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
                 }
                 player->stateFlags2 |= PLAYER_STATE2_23;
                 this->actionFunc = func_80ABF4C8;
-            } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange)) &&
-                       (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)) {
+            } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange))
+                       && (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)) {
                 this->unk_15A = 0;
                 player->stateFlags2 |= PLAYER_STATE2_23;
             }

@@ -27,10 +27,10 @@
 // Entrance Table definition
 #define DEFINE_ENTRANCE(_0, sceneId, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
     { sceneId, spawn,                                                                                    \
-      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                           \
-       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                                \
-       (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |    \
-       (((startTransType) << ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_START_TRANS_TYPE_MASK)) },
+      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0)                                             \
+       | ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0)                                \
+       | (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK)    \
+       | (((startTransType) << ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_START_TRANS_TYPE_MASK)) },
 
 EntranceInfo gEntranceTable[] = {
 #include "tables/entrance_table.h"
@@ -618,9 +618,9 @@ void Scene_DrawConfigGanonsTowerCollapseExterior(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6004);
 
     if (Flags_GetSwitch(play, 0x37)) {
-        if ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
-            (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
-            (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) {
+        if ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR)
+            || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR)
+            || (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) {
             func_8009BEEC(play);
         }
     }

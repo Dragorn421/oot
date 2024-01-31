@@ -96,9 +96,9 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     this->collider.dim.pos.y = thisx->world.pos.y;
     this->collider.dim.pos.z = thisx->world.pos.z;
 
-    if (this->flameColor == POE_FLAME_PURPLE && Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_GREEN) &&
-        Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_BLUE) &&
-        Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_RED) && !Flags_GetSwitch(play, thisx->params)) {
+    if (this->flameColor == POE_FLAME_PURPLE && Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_GREEN)
+        && Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_BLUE)
+        && Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_RED) && !Flags_GetSwitch(play, thisx->params)) {
 
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0, thisx->params);
         play->envCtx.lightSettingOverride = 4;

@@ -80,10 +80,10 @@ void OceffSpot_End(OceffSpot* this, PlayState* play) {
         this->unk_174 -= 0.05f;
     } else {
         Actor_Kill(&this->actor);
-        if (gTimeSpeed != 400 && !play->msgCtx.disableSunsSong &&
-            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
-            if (play->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
-                play->msgCtx.ocarinaMode != OCARINA_MODE_08) {
+        if (gTimeSpeed != 400 && !play->msgCtx.disableSunsSong
+            && GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
+            if (play->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE
+                || play->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
                 PRINTF(VT_FGCOL(YELLOW));
                 // "Sun's Song Flag"

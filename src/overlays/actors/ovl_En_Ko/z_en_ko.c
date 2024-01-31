@@ -492,13 +492,13 @@ u16 EnKo_GetTextId(PlayState* play, Actor* thisx) {
     u16 textId;
     EnKo* this = (EnKo*)thisx;
 
-    if (ENKO_TYPE == ENKO_TYPE_CHILD_0 || ENKO_TYPE == ENKO_TYPE_CHILD_2 || ENKO_TYPE == ENKO_TYPE_CHILD_3 ||
-        ENKO_TYPE == ENKO_TYPE_CHILD_4 || ENKO_TYPE == ENKO_TYPE_CHILD_7 || ENKO_TYPE == ENKO_TYPE_CHILD_8 ||
-        ENKO_TYPE == ENKO_TYPE_CHILD_11) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_0 || ENKO_TYPE == ENKO_TYPE_CHILD_2 || ENKO_TYPE == ENKO_TYPE_CHILD_3
+        || ENKO_TYPE == ENKO_TYPE_CHILD_4 || ENKO_TYPE == ENKO_TYPE_CHILD_7 || ENKO_TYPE == ENKO_TYPE_CHILD_8
+        || ENKO_TYPE == ENKO_TYPE_CHILD_11) {
         textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KOKIRI_1);
     }
-    if (ENKO_TYPE == ENKO_TYPE_CHILD_1 || ENKO_TYPE == ENKO_TYPE_CHILD_5 || ENKO_TYPE == ENKO_TYPE_CHILD_6 ||
-        ENKO_TYPE == ENKO_TYPE_CHILD_9 || ENKO_TYPE == ENKO_TYPE_CHILD_10) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_1 || ENKO_TYPE == ENKO_TYPE_CHILD_5 || ENKO_TYPE == ENKO_TYPE_CHILD_6
+        || ENKO_TYPE == ENKO_TYPE_CHILD_9 || ENKO_TYPE == ENKO_TYPE_CHILD_10) {
         textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KOKIRI_2);
     }
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
@@ -576,8 +576,8 @@ s16 EnKo_UpdateTalkState(PlayState* play, Actor* thisx) {
                         break;
                     case 0x1038:
                         this->actor.textId = (play->msgCtx.choiceIndex != 0)
-                                                 ? (play->msgCtx.choiceIndex == 1) ? 0x103A : 0x103B
-                                                 : 0x1039;
+                                               ? (play->msgCtx.choiceIndex == 1) ? 0x103A : 0x103B
+                                               : 0x1039;
                         Message_ContinueTextbox(play, this->actor.textId);
                         break;
                     case 0x103E:
@@ -971,8 +971,8 @@ void func_80A9877C(EnKo* this, PlayState* play) {
         }
     }
     if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->lookDist, EnKo_GetTextId,
-                          EnKo_UpdateTalkState) &&
-        ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_LOST_WOODS) {
+                          EnKo_UpdateTalkState)
+        && ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_LOST_WOODS) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
         if (func_8002F368(play) == EXCH_ITEM_ODD_POTION) {
@@ -1132,8 +1132,8 @@ s32 func_80A98ECC(EnKo* this, PlayState* play) {
 void EnKo_Init(Actor* thisx, PlayState* play) {
     EnKo* this = (EnKo*)thisx;
 
-    if (ENKO_TYPE >= ENKO_TYPE_CHILD_MAX || !EnKo_IsOsAnimeAvailable(this, play) ||
-        !EnKo_AreObjectsAvailable(this, play)) {
+    if (ENKO_TYPE >= ENKO_TYPE_CHILD_MAX || !EnKo_IsOsAnimeAvailable(this, play)
+        || !EnKo_AreObjectsAvailable(this, play)) {
         Actor_Kill(thisx);
     }
     if (!EnKo_CanSpawn(this, play)) {
@@ -1196,8 +1196,8 @@ void func_80A99048(EnKo* this, PlayState* play) {
 }
 
 void func_80A99384(EnKo* this, PlayState* play) {
-    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->interactInfo.talkState != NPC_TALK_STATE_IDLE &&
-        this->actor.textId == 0x10B9) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->interactInfo.talkState != NPC_TALK_STATE_IDLE
+        && this->actor.textId == 0x10B9) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_LAUGHING);
         this->actionFunc = func_80A99438;
     } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {

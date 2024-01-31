@@ -280,8 +280,8 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
     this->nameEntryVtx[36].v.ob[1] = this->nameEntryVtx[37].v.ob[1] = this->nameEntryVtx[tmp].v.ob[1] + 7;
     this->nameEntryVtx[38].v.ob[1] = this->nameEntryVtx[39].v.ob[1] = this->nameEntryVtx[36].v.ob[1] - 24;
 
-    if ((this->kbdButton == FS_KBD_BTN_HIRA) || (this->kbdButton == FS_KBD_BTN_KATA) ||
-        (this->kbdButton == FS_KBD_BTN_END)) {
+    if ((this->kbdButton == FS_KBD_BTN_HIRA) || (this->kbdButton == FS_KBD_BTN_KATA)
+        || (this->kbdButton == FS_KBD_BTN_END)) {
         if (this->kbdX != this->kbdButton) {
             PRINTF("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
@@ -322,8 +322,8 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                         G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
-    if ((this->kbdButton == FS_KBD_BTN_HIRA) || (this->kbdButton == FS_KBD_BTN_KATA) ||
-        (this->kbdButton == FS_KBD_BTN_END)) {
+    if ((this->kbdButton == FS_KBD_BTN_HIRA) || (this->kbdButton == FS_KBD_BTN_KATA)
+        || (this->kbdButton == FS_KBD_BTN_END)) {
         gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelMediumButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);

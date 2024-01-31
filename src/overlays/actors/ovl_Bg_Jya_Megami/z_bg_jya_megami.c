@@ -264,8 +264,8 @@ void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play) {
         }
     }
 
-    if ((this->explosionTimer % 4 == 0) && (this->explosionTimer > 30) && (this->explosionTimer < 80) &&
-        (this->explosionTimer > 40)) {
+    if ((this->explosionTimer % 4 == 0) && (this->explosionTimer > 30) && (this->explosionTimer < 80)
+        && (this->explosionTimer > 40)) {
         sp8C.x = ((Rand_ZeroOne() - 0.5f) * 90.0f) + this->dyna.actor.world.pos.x;
         sp8C.y = (this->dyna.actor.world.pos.y - (Rand_ZeroOne() * 80.0f)) - 20.0f;
         sp8C.z = this->dyna.actor.world.pos.z - (Rand_ZeroOne() - 0.5f) * 50.0f;

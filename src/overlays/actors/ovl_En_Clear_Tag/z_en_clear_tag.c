@@ -459,8 +459,8 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     Math_ApproachF(&this->targetDirection.z, 0x500, 1.0f, 0x100);
 
                     // Check if the Arwing should fire its laser.
-                    if ((this->frameCounter % 4) == 0 && (Rand_ZeroOne() < 0.75f) &&
-                        (this->state == CLEAR_TAG_STATE_TARGET_LOCKED)) {
+                    if ((this->frameCounter % 4) == 0 && (Rand_ZeroOne() < 0.75f)
+                        && (this->state == CLEAR_TAG_STATE_TARGET_LOCKED)) {
                         this->shouldShootLaser = true;
                     }
                 } else {
@@ -559,8 +559,8 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                                         UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
                 // Check if the laser has hit a target, timed out, or hit the ground or a wall.
-                if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) || hasAtHit ||
-                    this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
+                if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) || hasAtHit
+                    || this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
                     // Kill the laser.
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.

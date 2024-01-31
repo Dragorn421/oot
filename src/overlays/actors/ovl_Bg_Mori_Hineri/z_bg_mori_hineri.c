@@ -112,9 +112,9 @@ void BgMoriHineri_Destroy(Actor* thisx, PlayState* play) {
 void func_808A39FC(BgMoriHineri* this, PlayState* play) {
     CollisionHeader* colHeader;
 
-    if (Object_IsLoaded(&play->objectCtx, this->moriHineriObjectSlot) &&
-        Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot) &&
-        ((this->boxObjectSlot < 0) || Object_IsLoaded(&play->objectCtx, this->boxObjectSlot))) {
+    if (Object_IsLoaded(&play->objectCtx, this->moriHineriObjectSlot)
+        && Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot)
+        && ((this->boxObjectSlot < 0) || Object_IsLoaded(&play->objectCtx, this->boxObjectSlot))) {
         this->dyna.actor.objectSlot = this->moriHineriObjectSlot;
         if (this->dyna.actor.params >= 4) {
             this->dyna.actor.params -= 4;
@@ -124,8 +124,8 @@ void func_808A39FC(BgMoriHineri* this, PlayState* play) {
                 this->moriHineriObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_HINERI1);
             } else {
                 this->moriHineriObjectSlot = (this->dyna.actor.params == 2)
-                                                 ? Object_GetSlot(&play->objectCtx, OBJECT_MORI_HINERI2A)
-                                                 : Object_GetSlot(&play->objectCtx, OBJECT_MORI_HINERI2);
+                                               ? Object_GetSlot(&play->objectCtx, OBJECT_MORI_HINERI2A)
+                                               : Object_GetSlot(&play->objectCtx, OBJECT_MORI_HINERI2);
             }
             if (this->moriHineriObjectSlot < 0) {
                 Actor_Kill(&this->dyna.actor);
@@ -178,14 +178,15 @@ void func_808A3C8C(BgMoriHineri* this, PlayState* play) {
 void func_808A3D58(BgMoriHineri* this, PlayState* play) {
     s16 mainCamChildId;
 
-    if ((Flags_GetSwitch(play, this->switchFlag) && (this->dyna.actor.params == 0 || this->dyna.actor.params == 2)) ||
-        (!Flags_GetSwitch(play, this->switchFlag) && (this->dyna.actor.params == 1 || this->dyna.actor.params == 3))) {
+    if ((Flags_GetSwitch(play, this->switchFlag) && (this->dyna.actor.params == 0 || this->dyna.actor.params == 2))
+        || (!Flags_GetSwitch(play, this->switchFlag)
+            && (this->dyna.actor.params == 1 || this->dyna.actor.params == 3))) {
         this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
         mainCamChildId = play->cameraPtrs[CAM_ID_MAIN]->childCamId;
-        if ((mainCamChildId != CAM_ID_MAIN) &&
-            (play->cameraPtrs[mainCamChildId]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
+        if ((mainCamChildId != CAM_ID_MAIN)
+            && (play->cameraPtrs[mainCamChildId]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
             OnePointCutscene_EndCutscene(play, mainCamChildId);
         }
         OnePointCutscene_Init(play, 3260, 40, &this->dyna.actor, CAM_ID_MAIN);
@@ -249,8 +250,8 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDungeonDoorDL);
     }
-    if ((this->boxObjectSlot > 0) && ((this->boxObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOX)) > 0) &&
-        Object_IsLoaded(&play->objectCtx, this->boxObjectSlot)) {
+    if ((this->boxObjectSlot > 0) && ((this->boxObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOX)) > 0)
+        && Object_IsLoaded(&play->objectCtx, this->boxObjectSlot)) {
         gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->boxObjectSlot].segment);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);

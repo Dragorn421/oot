@@ -44,8 +44,8 @@ void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
  * Can also set a switch flag from params while killing.
  */
 s32 ElfMsg2_KillCheck(ElfMsg2* this, PlayState* play) {
-    if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
-        Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
+    if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41)
+        && Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 171); // "Mutual destruction"
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(play, ((this->actor.params >> 8) & 0x3F));
@@ -131,8 +131,8 @@ void ElfMsg2_WaitForTextRead(ElfMsg2* this, PlayState* play) {
 void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play) {
     // If (y >= 0x41) && (y <= 0x80), Idles until switch flag (actor.world.rot.y - 0x41) is set
     // If (y > 0x80), Idles forever (Bug?)
-    if ((this->actor.world.rot.y >= 0x41) && (this->actor.world.rot.y <= 0x80) &&
-        (Flags_GetSwitch(play, (this->actor.world.rot.y - 0x41)))) {
+    if ((this->actor.world.rot.y >= 0x41) && (this->actor.world.rot.y <= 0x80)
+        && (Flags_GetSwitch(play, (this->actor.world.rot.y - 0x41)))) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
         this->actor.textId = ElfMsg2_GetMessageId(this);

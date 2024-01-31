@@ -88,8 +88,8 @@ void func_808AE5B4(BgSpot05Soko* this, PlayState* play) {
 
 void func_808AE630(BgSpot05Soko* this, PlayState* play) {
     this->dyna.actor.speed *= 1.5f;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speed) !=
-        0) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speed)
+        != 0) {
         Actor_Kill(&this->dyna.actor);
     }
 }

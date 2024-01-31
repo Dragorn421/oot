@@ -597,14 +597,15 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                 s32 rippleDelay;
                 s32 rippleScale;
 
-                if ((player->actor.speed > 0.0f) && (player->actor.world.pos.y < this->actor.world.pos.y) &&
-                    (this->actor.xyzDistToPlayerSq < SQ(50.0f))) {
+                if ((player->actor.speed > 0.0f) && (player->actor.world.pos.y < this->actor.world.pos.y)
+                    && (this->actor.xyzDistToPlayerSq < SQ(50.0f))) {
                     Math_ApproachF(&this->actor.speed, player->actor.speed, 1.0f, 0.2f);
                     if (this->actor.speed > 1.0f) {
                         this->actor.speed = 1.0f;
                     }
                     if (Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 1, 0x1000,
-                                           0) > 0) {
+                                           0)
+                        > 0) {
                         this->spinVel.y = this->actor.speed * 1000.0f;
                     } else {
                         this->spinVel.y = this->actor.speed * -1000.0f;
@@ -728,8 +729,8 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     }
                     break;
                 case 1:
-                    if ((play->msgCtx.ocarinaMode == OCARINA_MODE_04) &&
-                        (play->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY)) {
+                    if ((play->msgCtx.ocarinaMode == OCARINA_MODE_04)
+                        && (play->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY)) {
                         this->actionState = ENKANBAN_REPAIR;
                         this->bounceX = 1;
                         Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -767,9 +768,8 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             Math_ApproachZeroF(&this->floorRot.x, 1.0f, 0.05f);
             Math_ApproachZeroF(&this->floorRot.z, 1.0f, 0.05f);
             Math_ApproachZeroF(&this->actor.shape.yOffset, 1.0f, 2.0f);
-            if (((distX + distY + distZ) == 0.0f) &&
-                ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0) && (this->floorRot.x == 0.0f) &&
-                (this->floorRot.z == 0.0f)) {
+            if (((distX + distY + distZ) == 0.0f) && ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0)
+                && (this->floorRot.x == 0.0f) && (this->floorRot.z == 0.0f)) {
                 signpost->partFlags |= this->partFlags;
                 signpost->actor.flags |= ACTOR_FLAG_0;
                 Actor_Kill(&this->actor);
@@ -860,8 +860,8 @@ void EnKanban_Draw(Actor* thisx, PlayState* play) {
             gSPDisplayList(POLY_XLU_DISP++, object_kanban_DL_001630);
         }
     }
-    if ((this->actor.projectedPos.z <= 400.0f) && (this->actor.projectedPos.z > 0.0f) &&
-        (this->actor.floorHeight > -3000.0f)) {
+    if ((this->actor.projectedPos.z <= 400.0f) && (this->actor.projectedPos.z > 0.0f)
+        && (this->actor.floorHeight > -3000.0f)) {
         if ((this->bounceX != 0) || (this->bounceZ != 0)) {
             u16 dayTime = gSaveContext.save.dayTime;
             f32 shadowAlpha;

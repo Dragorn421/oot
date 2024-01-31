@@ -247,9 +247,9 @@ void BgJyaBigmirror_Draw(Actor* thisx, PlayState* play) {
         Gfx_DrawDListXlu(play, gBigMirror4DL);
     }
 
-    if ((this->puzzleFlags &
-         (BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM)) &&
-        (this->puzzleFlags & BIGMIR_PUZZLE_COBRA2_SOLVED) && (this->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
+    if ((this->puzzleFlags
+         & (BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM))
+        && (this->puzzleFlags & BIGMIR_PUZZLE_COBRA2_SOLVED) && (this->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
         BgJyaBigmirror_DrawLightBeam(&this->actor, play);
     }
 }

@@ -299,8 +299,8 @@ void func_80AADCD0(EnMm* this, PlayState* play) {
             Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
-            if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f) &&
-                (this->unk_1E0 != 3) && Actor_OfferTalk(&this->actor, play, 100.0f)) {
+            if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f)
+                && (this->unk_1E0 != 3) && Actor_OfferTalk(&this->actor, play, 100.0f)) {
                 this->actor.textId = EnMm_GetTextId(this, play);
             }
         }
@@ -368,8 +368,8 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
                 break;
         }
 
-        if ((sPathInfo[this->unk_1E8].unk_00 >= 0 && (this->waypoint < phi_a2 || phi_v1 < this->waypoint)) ||
-            (sPathInfo[this->unk_1E8].unk_00 < 0 && (phi_a2 < this->waypoint || this->waypoint < phi_v1))) {
+        if ((sPathInfo[this->unk_1E8].unk_00 >= 0 && (this->waypoint < phi_a2 || phi_v1 < this->waypoint))
+            || (sPathInfo[this->unk_1E8].unk_00 < 0 && (phi_a2 < this->waypoint || this->waypoint < phi_v1))) {
             this->unk_1E8 = sPathInfo[this->unk_1E8].unk_04;
             this->waypoint = sPathInfo[this->unk_1E8].unk_08;
         }
@@ -418,9 +418,9 @@ void func_80AAE294(EnMm* this, PlayState* play) {
         }
 
         if (this->curAnimIndex == 4) {
-            if (((this->skelAnime.curFrame - this->skelAnime.playSpeed < 9.0f) && (this->skelAnime.curFrame >= 9.0f)) ||
-                ((this->skelAnime.curFrame - this->skelAnime.playSpeed < 19.0f) &&
-                 (this->skelAnime.curFrame >= 19.0f))) {
+            if (((this->skelAnime.curFrame - this->skelAnime.playSpeed < 9.0f) && (this->skelAnime.curFrame >= 9.0f))
+                || ((this->skelAnime.curFrame - this->skelAnime.playSpeed < 19.0f)
+                    && (this->skelAnime.curFrame >= 19.0f))) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
             }
         }

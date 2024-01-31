@@ -105,8 +105,8 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
             // "☆☆☆☆☆ Cloudy Rain Thunder (;O;) Uo Melancholy ☆☆☆☆☆"
             PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり雨雷 (;O;) うおお 憂鬱 ☆☆☆☆☆ \n" VT_RST);
 
-            if (!GET_EVENTCHKINF(EVENTCHKINF_48) || !GET_EVENTCHKINF(EVENTCHKINF_49) ||
-                !GET_EVENTCHKINF(EVENTCHKINF_4A) || CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_48) || !GET_EVENTCHKINF(EVENTCHKINF_49) || !GET_EVENTCHKINF(EVENTCHKINF_4A)
+                || CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
                 Actor_Kill(&this->actor);
             }
             EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyRainThunderKakariko);
@@ -134,12 +134,13 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 s
     Player* player = GET_PLAYER(play);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
-        if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || !gSkyboxIsChanging ||
-            (play->skyboxId != SKYBOX_NORMAL_SKY && play->envCtx.lightConfig == play->envCtx.changeLightNextConfig)) {
+        if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || !gSkyboxIsChanging
+            || (play->skyboxId != SKYBOX_NORMAL_SKY
+                && play->envCtx.lightConfig == play->envCtx.changeLightNextConfig)) {
             gInterruptSongOfStorms = true;
-            if (play->envCtx.stormRequest == STORM_REQUEST_NONE &&
-                ((play->envCtx.lightMode != LIGHT_MODE_TIME) ||
-                 (play->envCtx.lightConfig != 1 && !play->envCtx.changeLightEnabled))) {
+            if (play->envCtx.stormRequest == STORM_REQUEST_NONE
+                && ((play->envCtx.lightMode != LIGHT_MODE_TIME)
+                    || (play->envCtx.lightConfig != 1 && !play->envCtx.changeLightEnabled))) {
                 gInterruptSongOfStorms = false;
                 if (gWeatherMode != weatherMode) {
                     gWeatherMode = weatherMode;
@@ -175,12 +176,13 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, PlayState* play, u8 skybox
     Player* player = GET_PLAYER(play);
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
-        if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || !gSkyboxIsChanging ||
-            (play->skyboxId != SKYBOX_NORMAL_SKY && play->envCtx.lightConfig == play->envCtx.changeLightNextConfig)) {
+        if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || !gSkyboxIsChanging
+            || (play->skyboxId != SKYBOX_NORMAL_SKY
+                && play->envCtx.lightConfig == play->envCtx.changeLightNextConfig)) {
             gInterruptSongOfStorms = true;
-            if ((play->envCtx.stormRequest == STORM_REQUEST_NONE) &&
-                ((play->envCtx.lightMode != LIGHT_MODE_TIME) ||
-                 (play->envCtx.lightConfig != 1 && !play->envCtx.changeLightEnabled))) {
+            if ((play->envCtx.stormRequest == STORM_REQUEST_NONE)
+                && ((play->envCtx.lightMode != LIGHT_MODE_TIME)
+                    || (play->envCtx.lightConfig != 1 && !play->envCtx.changeLightEnabled))) {
                 gInterruptSongOfStorms = false;
                 gWeatherMode = WEATHER_MODE_CLEAR;
                 play->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;

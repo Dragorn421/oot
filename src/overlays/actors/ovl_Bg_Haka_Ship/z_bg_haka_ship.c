@@ -58,10 +58,11 @@ void BgHakaShip_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y - 0x4000;
     this->yOffset = 0;
-    if (this->dyna.actor.params == 0 &&
-        Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_HAKA_SHIP,
-                           this->dyna.actor.world.pos.x + -10.0f, this->dyna.actor.world.pos.y + 82.0f,
-                           this->dyna.actor.world.pos.z, 0, 0, 0, 1) == NULL) {
+    if (this->dyna.actor.params == 0
+        && Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_HAKA_SHIP,
+                              this->dyna.actor.world.pos.x + -10.0f, this->dyna.actor.world.pos.y + 82.0f,
+                              this->dyna.actor.world.pos.z, 0, 0, 0, 1)
+               == NULL) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -178,8 +179,8 @@ void BgHakaShip_CrashFall(BgHakaShip* this, PlayState* play) {
         }
     } else {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
-        if ((this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 500.0f) &&
-            DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+        if ((this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 500.0f)
+            && DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             Play_TriggerVoidOut(play);
         }
     }

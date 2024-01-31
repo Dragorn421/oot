@@ -197,11 +197,11 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, PlayState* play) {
     this->dyna.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
     if ((player->stateFlags2 & PLAYER_STATE2_4) && (sStatueDistToPlayer > 0.0f)) {
         player->actor.world.pos.x =
-            this->dyna.actor.home.pos.x +
-            (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
+            this->dyna.actor.home.pos.x
+            + (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
         player->actor.world.pos.z =
-            this->dyna.actor.home.pos.z +
-            (Math_CosS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
+            this->dyna.actor.home.pos.z
+            + (Math_CosS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
     } else {
         sStatueDistToPlayer = 0.0f;
     }

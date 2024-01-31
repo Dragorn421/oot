@@ -68,13 +68,13 @@ void func_8006D0EC(PlayState* play, Player* player) {
         gSaveContext.minigameState = 0;
         horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, 1);
         horseActor->room = -1;
-    } else if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_7) &&
-               GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
+    } else if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_7)
+               && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         Actor* horseActor =
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
-    } else if ((play->sceneId == gSaveContext.save.info.horseData.sceneId) &&
-               (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || DREG(1) != 0)) {
+    } else if ((play->sceneId == gSaveContext.save.info.horseData.sceneId)
+               && (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || DREG(1) != 0)) {
         // "Set by existence of horse %d %d %d"
         PRINTF("馬存在によるセット %d %d %d\n", gSaveContext.save.info.horseData.sceneId,
                Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED), DREG(1));
@@ -95,8 +95,8 @@ void func_8006D0EC(PlayState* play, Player* player) {
             PRINTF(VT_RST);
             func_8006D074(play);
         }
-    } else if ((play->sceneId == SCENE_LON_LON_RANCH) && !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) &&
-               (DREG(1) == 0)) {
+    } else if ((play->sceneId == SCENE_LON_LON_RANCH) && !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)
+               && (DREG(1) == 0)) {
         Actor* horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 443);
     } else if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || (DREG(1) != 0)) {
@@ -134,11 +134,11 @@ void func_8006D684(PlayState* play, Player* player) {
     s32 i;
     Vec3s spawnPos;
 
-    if ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11 ||
-         gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12 ||
-         gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13 ||
-         gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15) &&
-        (gSaveContext.respawnFlag == 0)) {
+    if ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11
+         || gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12
+         || gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13
+         || gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15)
+        && (gSaveContext.respawnFlag == 0)) {
         Vec3s spawnPositions[] = {
             { -2961, 313, 7700 },
             { -1900, 313, 7015 },
@@ -163,8 +163,8 @@ void func_8006D684(PlayState* play, Player* player) {
         Actor_MountHorse(play, player, player->rideActor);
         func_8002DE74(play, player);
         gSaveContext.save.info.horseData.sceneId = play->sceneId;
-    } else if ((play->sceneId == SCENE_LON_LON_RANCH) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
-               !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && (DREG(1) == 0)) {
+    } else if ((play->sceneId == SCENE_LON_LON_RANCH) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)
+               && !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && (DREG(1) == 0)) {
         player->rideActor =
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 894.0f, 0.0f, -2084.0f, 0, -0x7FFF, 0, 5);
         ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 582);
@@ -189,11 +189,11 @@ void func_8006D684(PlayState* play, Player* player) {
         };
 
         for (i = 0; i < ARRAY_COUNT(D_8011F9B8); i++) {
-            if ((play->sceneId == D_8011F9B8[i].sceneId) &&
-                (((void)0, gSaveContext.save.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {
+            if ((play->sceneId == D_8011F9B8[i].sceneId)
+                && (((void)0, gSaveContext.save.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {
                 if (D_8011F9B8[i].type == 7) {
-                    if ((play->sceneId == SCENE_LON_LON_RANCH) &&
-                        (((void)0, gSaveContext.save.cutsceneIndex) == 0xFFF1)) {
+                    if ((play->sceneId == SCENE_LON_LON_RANCH)
+                        && (((void)0, gSaveContext.save.cutsceneIndex) == 0xFFF1)) {
                         D_8011F9B8[i].pos.x = player->actor.world.pos.x;
                         D_8011F9B8[i].pos.y = player->actor.world.pos.y;
                         D_8011F9B8[i].pos.z = player->actor.world.pos.z;
@@ -254,14 +254,14 @@ void func_8006DC68(PlayState* play, Player* player) {
         }
 
         if (func_8006CFC0(play->sceneId)) {
-            if (IS_CUTSCENE_LAYER ||
-                ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11 ||
-                  gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12 ||
-                  gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13 ||
-                  gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15) &&
-                 (gSaveContext.respawnFlag == 0)) ||
-                ((play->sceneId == SCENE_LON_LON_RANCH) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
-                 !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && (DREG(1) == 0))) {
+            if (IS_CUTSCENE_LAYER
+                || ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11
+                     || gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12
+                     || gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13
+                     || gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15)
+                    && (gSaveContext.respawnFlag == 0))
+                || ((play->sceneId == SCENE_LON_LON_RANCH) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)
+                    && !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && (DREG(1) == 0))) {
                 func_8006D684(play, player);
             } else {
                 func_8006D0EC(play, player);

@@ -205,9 +205,9 @@ void func_80895C74(BgJyaCobra* this, PlayState* play) {
     BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
     f32 phi_f0;
 
-    if ((params & 3) == 2 && mirror != NULL &&
-        (!(mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) ||
-         !(mirror->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED))) {
+    if ((params & 3) == 2 && mirror != NULL
+        && (!(mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED)
+            || !(mirror->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED))) {
         Math_StepToF(&this->unk_18C, 0.0f, 0.05f);
     } else {
         this->unk_18C = 1.0f;
@@ -236,8 +236,8 @@ void func_80895C74(BgJyaCobra* this, PlayState* play) {
             phi_f0 = 0.34f;
         } else {
             phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
-            if (phi_v0 < 0x500 && phi_v0 > -0x500 && mirror != NULL &&
-                (mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED)) {
+            if (phi_v0 < 0x500 && phi_v0 > -0x500 && mirror != NULL
+                && (mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED)) {
                 phi_f0 = 0.34f;
             }
         }
@@ -614,8 +614,8 @@ void BgJyaCobra_Draw(Actor* thisx, PlayState* play) {
     if ((this->dyna.actor.params & 3) == 2) {
         BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
 
-        if (mirror != NULL && (mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) &&
-            (mirror->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
+        if (mirror != NULL && (mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED)
+            && (mirror->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
             BgJyaCobra_DrawShadow(this, play);
         }
     } else {

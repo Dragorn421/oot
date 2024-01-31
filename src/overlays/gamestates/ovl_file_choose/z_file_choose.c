@@ -9,10 +9,10 @@ static s16 sScreenFillAlpha = 255;
 
 static Gfx sScreenFillSetupDL[] = {
     gsDPPipeSync(),
-    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
-                          G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
-    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
-                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_1PRIMITIVE,
+    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR
+                          | G_LOD | G_SHADING_SMOOTH),
+    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE
+                         | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_1PRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_CLD_SURF | G_RM_CLD_SURF2),
     gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
     gsSPEndDisplayList(),
@@ -604,8 +604,8 @@ void FileSelect_SetWindowContentVtx(GameState* thisx) {
 
         if ((this->configMode == CM_COPY_ANIM_2) && (phi_t5 == this->copyDestFileIndex)) {
             temp_t1 = this->fileNamesY[phi_t5] + 0x2C;
-        } else if (((this->configMode == CM_COPY_ANIM_3) || (this->configMode == CM_COPY_ANIM_4)) &&
-                   (phi_t5 == this->copyDestFileIndex)) {
+        } else if (((this->configMode == CM_COPY_ANIM_3) || (this->configMode == CM_COPY_ANIM_4))
+                   && (phi_t5 == this->copyDestFileIndex)) {
             temp_t1 = this->buttonYOffsets[phi_t5] + phi_ra;
         } else {
             temp_t1 = phi_ra + this->buttonYOffsets[phi_t5] + this->fileNamesY[phi_t5];
@@ -653,8 +653,8 @@ void FileSelect_SetWindowContentVtx(GameState* thisx) {
 
             if ((this->configMode == 0xF) && (phi_t5 == this->copyDestFileIndex)) {
                 temp_t1 = this->fileNamesY[phi_t5] + 0x2C;
-            } else if (((this->configMode == CM_COPY_ANIM_3) || (this->configMode == CM_COPY_ANIM_4)) &&
-                       (phi_t5 == this->copyDestFileIndex)) {
+            } else if (((this->configMode == CM_COPY_ANIM_3) || (this->configMode == CM_COPY_ANIM_4))
+                       && (phi_t5 == this->copyDestFileIndex)) {
                 temp_t1 = this->buttonYOffsets[phi_t5] + phi_ra;
             } else {
                 temp_t1 = phi_ra + this->buttonYOffsets[phi_t5] + this->fileNamesY[phi_t5];
@@ -745,11 +745,11 @@ void FileSelect_SetWindowContentVtx(GameState* thisx) {
 
     phi_t2 += 4;
 
-    if (((this->menuMode == FS_MENU_MODE_CONFIG) && (this->configMode >= CM_MAIN_MENU)) ||
-        ((this->menuMode == FS_MENU_MODE_SELECT) && (this->selectMode == SM_CONFIRM_FILE))) {
+    if (((this->menuMode == FS_MENU_MODE_CONFIG) && (this->configMode >= CM_MAIN_MENU))
+        || ((this->menuMode == FS_MENU_MODE_SELECT) && (this->selectMode == SM_CONFIRM_FILE))) {
         if (this->menuMode == FS_MENU_MODE_CONFIG) {
-            if ((this->configMode == CM_SELECT_COPY_SOURCE) || (this->configMode == CM_SELECT_COPY_DEST) ||
-                (this->configMode == CM_ERASE_SELECT)) {
+            if ((this->configMode == CM_SELECT_COPY_SOURCE) || (this->configMode == CM_SELECT_COPY_DEST)
+                || (this->configMode == CM_ERASE_SELECT)) {
                 phi_t5 = D_8081283C[this->buttonIndex];
             } else if ((this->configMode == CM_ERASE_CONFIRM) || (this->configMode == CM_COPY_CONFIRM)) {
                 phi_t5 = D_80812844[this->buttonIndex];
@@ -1077,11 +1077,11 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
     gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
 
     // draw highlight over currently selected button
-    if (((this->menuMode == FS_MENU_MODE_CONFIG) &&
-         ((this->configMode == CM_MAIN_MENU) || (this->configMode == CM_SELECT_COPY_SOURCE) ||
-          (this->configMode == CM_SELECT_COPY_DEST) || (this->configMode == CM_COPY_CONFIRM) ||
-          (this->configMode == CM_ERASE_SELECT) || (this->configMode == CM_ERASE_CONFIRM))) ||
-        ((this->menuMode == FS_MENU_MODE_SELECT) && (this->selectMode == SM_CONFIRM_FILE))) {
+    if (((this->menuMode == FS_MENU_MODE_CONFIG)
+         && ((this->configMode == CM_MAIN_MENU) || (this->configMode == CM_SELECT_COPY_SOURCE)
+             || (this->configMode == CM_SELECT_COPY_DEST) || (this->configMode == CM_COPY_CONFIRM)
+             || (this->configMode == CM_ERASE_SELECT) || (this->configMode == CM_ERASE_CONFIRM)))
+        || ((this->menuMode == FS_MENU_MODE_SELECT) && (this->selectMode == SM_CONFIRM_FILE))) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
                           PRIMITIVE, 0);
@@ -1502,10 +1502,10 @@ void FileSelect_LoadGame(GameState* thisx) {
 
     gSaveContext.save.info.playerData.naviTimer = 0;
 
-    if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
-        (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-        (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
-        (gSaveContext.save.info.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
+    if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)
+        && (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_MASTER)
+        && (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_BIGGORON)
+        && (gSaveContext.save.info.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
 
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
         swordEquipValue =

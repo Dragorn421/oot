@@ -384,8 +384,9 @@ void BgMizuBwall_SetAlpha(BgMizuBwall* this, PlayState* play) {
     if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
         this->scrollAlpha1 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
-        this->scrollAlpha1 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F1_Y) /
-                                         (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) * (255 - 160));
+        this->scrollAlpha1 = 255
+                           - (s32)((waterLevel - WATER_TEMPLE_WATER_F1_Y)
+                                   / (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) * (255 - 160));
     } else {
         this->scrollAlpha1 = 160;
     }
@@ -393,8 +394,9 @@ void BgMizuBwall_SetAlpha(BgMizuBwall* this, PlayState* play) {
     if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
         this->scrollAlpha2 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F3_Y) {
-        this->scrollAlpha2 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F2_Y) /
-                                         (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) * (255 - 160));
+        this->scrollAlpha2 = 255
+                           - (s32)((waterLevel - WATER_TEMPLE_WATER_F2_Y)
+                                   / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) * (255 - 160));
     } else {
         this->scrollAlpha2 = 160;
     }
@@ -402,8 +404,9 @@ void BgMizuBwall_SetAlpha(BgMizuBwall* this, PlayState* play) {
     if (waterLevel < WATER_TEMPLE_WATER_B1_Y) {
         this->scrollAlpha3 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
-        this->scrollAlpha3 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_B1_Y) /
-                                         (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * (255 - 160));
+        this->scrollAlpha3 = 255
+                           - (s32)((waterLevel - WATER_TEMPLE_WATER_B1_Y)
+                                   / (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * (255 - 160));
     } else {
         this->scrollAlpha3 = 160;
     }

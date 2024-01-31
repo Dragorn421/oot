@@ -11,9 +11,9 @@ IndentPPDirectives: AfterHash
 BinPackArguments: true
 BinPackParameters: true
 AlignAfterOpenBracket: Align
-AlignOperands: true
+AlignOperands: AlignAfterOperator
 BreakBeforeTernaryOperators: true
-BreakBeforeBinaryOperators: None
+BreakBeforeBinaryOperators: NonAssignment
 AllowShortBlocksOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false

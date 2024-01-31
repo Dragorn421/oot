@@ -157,7 +157,8 @@ void BgJya1flift_Move(BgJya1flift* this, PlayState* play) {
         tempVelocity = this->dyna.actor.velocity.y;
     }
     if (fabsf(Math_SmoothStepToF(&this->dyna.actor.world.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f,
-                                 tempVelocity, 1.0f)) < 0.001f) {
+                                 tempVelocity, 1.0f))
+        < 0.001f) {
         this->dyna.actor.world.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);

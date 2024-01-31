@@ -105,9 +105,9 @@ static EnFrPointers sEnFrPointers = {
     },
 };
 
-#define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                             \
-    (gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] & \
-     sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex])
+#define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                           \
+    (gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] \
+     & sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex])
 
 #define FROG_SET_SONG_PLAYED(frogSongIndex)                                  \
     gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] |= \
@@ -642,9 +642,10 @@ void EnFr_Activate(EnFr* this, PlayState* play) {
 void EnFr_ActivateCheckFrogSong(EnFr* this, PlayState* play) {
     if (sEnFrPointers.flags == 11) {
         // Check if all 6 child songs have been played for the frogs
-        if (GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_ZL) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_EPONA) &&
-            GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SARIA) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SUNS) &&
-            GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SOT) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_STORMS)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_ZL) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_EPONA)
+            && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SARIA) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SUNS)
+            && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SOT)
+            && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_STORMS)) {
             this->actionFunc = EnFr_TalkBeforeFrogSong;
             this->songIndex = FROG_CHOIR_SONG;
             Message_StartTextbox(play, 0x40AB, &this->actor);

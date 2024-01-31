@@ -372,8 +372,8 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
         if (tableType == FONT_TABLE) {
             if (loadStatusEntry0 == LOAD_STATUS_MAYBE_DISCARDABLE) {
                 for (i = 0; i < gAudioCtx.numNotes; i++) {
-                    if (gAudioCtx.notes[i].playbackState.fontId == temporaryCache->entries[0].id &&
-                        gAudioCtx.notes[i].noteSubEu.bitField0.enabled) {
+                    if (gAudioCtx.notes[i].playbackState.fontId == temporaryCache->entries[0].id
+                        && gAudioCtx.notes[i].noteSubEu.bitField0.enabled) {
                         break;
                     }
                 }
@@ -386,8 +386,8 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
 
             if (loadStatusEntry1 == LOAD_STATUS_MAYBE_DISCARDABLE) {
                 for (i = 0; i < gAudioCtx.numNotes; i++) {
-                    if (gAudioCtx.notes[i].playbackState.fontId == temporaryCache->entries[1].id &&
-                        gAudioCtx.notes[i].noteSubEu.bitField0.enabled) {
+                    if (gAudioCtx.notes[i].playbackState.fontId == temporaryCache->entries[1].id
+                        && gAudioCtx.notes[i].noteSubEu.bitField0.enabled) {
                         break;
                     }
                 }
@@ -414,8 +414,8 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
             if (tableType == SEQUENCE_TABLE) {
                 if (loadStatusEntry0 == LOAD_STATUS_COMPLETE) {
                     for (i = 0; i < gAudioCtx.audioBufferParameters.numSequencePlayers; i++) {
-                        if (gAudioCtx.seqPlayers[i].enabled &&
-                            gAudioCtx.seqPlayers[i].seqId == temporaryCache->entries[0].id) {
+                        if (gAudioCtx.seqPlayers[i].enabled
+                            && gAudioCtx.seqPlayers[i].seqId == temporaryCache->entries[0].id) {
                             break;
                         }
                     }
@@ -428,8 +428,8 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
 
                 if (loadStatusEntry1 == LOAD_STATUS_COMPLETE) {
                     for (i = 0; i < gAudioCtx.audioBufferParameters.numSequencePlayers; i++) {
-                        if (gAudioCtx.seqPlayers[i].enabled &&
-                            gAudioCtx.seqPlayers[i].seqId == temporaryCache->entries[1].id) {
+                        if (gAudioCtx.seqPlayers[i].enabled
+                            && gAudioCtx.seqPlayers[i].seqId == temporaryCache->entries[1].id) {
                             break;
                         }
                     }
@@ -442,8 +442,8 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
             } else if (tableType == FONT_TABLE) {
                 if (loadStatusEntry0 == LOAD_STATUS_COMPLETE) {
                     for (i = 0; i < gAudioCtx.numNotes; i++) {
-                        if (gAudioCtx.notes[i].playbackState.fontId == temporaryCache->entries[0].id &&
-                            gAudioCtx.notes[i].noteSubEu.bitField0.enabled) {
+                        if (gAudioCtx.notes[i].playbackState.fontId == temporaryCache->entries[0].id
+                            && gAudioCtx.notes[i].noteSubEu.bitField0.enabled) {
                             break;
                         }
                     }
@@ -455,8 +455,8 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
 
                 if (loadStatusEntry1 == LOAD_STATUS_COMPLETE) {
                     for (i = 0; i < gAudioCtx.numNotes; i++) {
-                        if (gAudioCtx.notes[i].playbackState.fontId == temporaryCache->entries[1].id &&
-                            gAudioCtx.notes[i].noteSubEu.bitField0.enabled) {
+                        if (gAudioCtx.notes[i].playbackState.fontId == temporaryCache->entries[1].id
+                            && gAudioCtx.notes[i].noteSubEu.bitField0.enabled) {
                             break;
                         }
                     }
@@ -514,8 +514,8 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                 temporaryCache->entries[0].size = size;
                 temporaryPool->curRamAddr = temporaryPool->startRamAddr + size;
 
-                if (temporaryCache->entries[1].id != -1 &&
-                    temporaryCache->entries[1].ramAddr < temporaryPool->curRamAddr) {
+                if (temporaryCache->entries[1].id != -1
+                    && temporaryCache->entries[1].ramAddr < temporaryPool->curRamAddr) {
                     if (tableType == SAMPLE_TABLE) {
                         AudioHeap_DiscardSampleBank(temporaryCache->entries[1].id);
                     }
@@ -544,8 +544,8 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                     (u8*)((u32)(temporaryPool->startRamAddr + temporaryPool->size - size) & ~0xF);
                 temporaryCache->entries[1].id = id;
                 temporaryCache->entries[1].size = size;
-                if (temporaryCache->entries[0].id != -1 &&
-                    temporaryCache->entries[1].ramAddr < temporaryPool->curRamAddr) {
+                if (temporaryCache->entries[0].id != -1
+                    && temporaryCache->entries[1].ramAddr < temporaryPool->curRamAddr) {
                     if (tableType == SAMPLE_TABLE) {
                         AudioHeap_DiscardSampleBank(temporaryCache->entries[0].id);
                     }
@@ -790,8 +790,8 @@ s32 AudioHeap_ResetStep(void) {
                 AudioHeap_UpdateReverbs();
             } else {
                 for (i = 0; i < gAudioCtx.numNotes; i++) {
-                    if (gAudioCtx.notes[i].noteSubEu.bitField0.enabled &&
-                        gAudioCtx.notes[i].playbackState.adsr.action.s.state != ADSR_STATE_DISABLED) {
+                    if (gAudioCtx.notes[i].noteSubEu.bitField0.enabled
+                        && gAudioCtx.notes[i].playbackState.adsr.action.s.state != ADSR_STATE_DISABLED) {
                         gAudioCtx.notes[i].playbackState.adsr.fadeOutVel =
                             gAudioCtx.audioBufferParameters.updatesPerFrameInv;
                         gAudioCtx.notes[i].playbackState.adsr.action.s.release = true;
@@ -949,8 +949,8 @@ void AudioHeap_Init(void) {
     gAudioCtx.notes = AudioHeap_AllocZeroed(&gAudioCtx.miscPool, gAudioCtx.numNotes * sizeof(Note));
     Audio_NoteInitAll();
     Audio_InitNoteFreeList();
-    gAudioCtx.noteSubsEu = AudioHeap_AllocZeroed(&gAudioCtx.miscPool, gAudioCtx.audioBufferParameters.updatesPerFrame *
-                                                                          gAudioCtx.numNotes * sizeof(NoteSubEu));
+    gAudioCtx.noteSubsEu = AudioHeap_AllocZeroed(&gAudioCtx.miscPool, gAudioCtx.audioBufferParameters.updatesPerFrame
+                                                                          * gAudioCtx.numNotes * sizeof(NoteSubEu));
     // Initialize audio binary interface command list buffers
     for (i = 0; i != 2; i++) {
         gAudioCtx.abiCmdBufs[i] =
@@ -1268,8 +1268,8 @@ void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
     for (fontId = 0; fontId < numFonts; fontId++) {
         sampleBankId1 = gAudioCtx.soundFontList[fontId].sampleBankId1;
         sampleBankId2 = gAudioCtx.soundFontList[fontId].sampleBankId2;
-        if (((sampleBankId1 != 0xFF) && (entry->sampleBankId == sampleBankId1)) ||
-            ((sampleBankId2 != 0xFF) && (entry->sampleBankId == sampleBankId2)) || entry->sampleBankId == 0) {
+        if (((sampleBankId1 != 0xFF) && (entry->sampleBankId == sampleBankId1))
+            || ((sampleBankId2 != 0xFF) && (entry->sampleBankId == sampleBankId2)) || entry->sampleBankId == 0) {
             if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) != NULL) {
                 if (AudioLoad_IsFontLoadComplete(fontId) != 0) {
                     AudioHeap_UnapplySampleCacheForFont(entry, fontId);
@@ -1308,8 +1308,8 @@ SampleCacheEntry* AudioHeap_AllocPersistentSampleCacheEntry(u32 size) {
 }
 
 void AudioHeap_DiscardSampleCacheForFont(SampleCacheEntry* entry, s32 sampleBankId1, s32 sampleBankId2, s32 fontId) {
-    if ((entry->sampleBankId == sampleBankId1) || (entry->sampleBankId == sampleBankId2) ||
-        (entry->sampleBankId == 0)) {
+    if ((entry->sampleBankId == sampleBankId1) || (entry->sampleBankId == sampleBankId2)
+        || (entry->sampleBankId == 0)) {
         AudioHeap_UnapplySampleCacheForFont(entry, fontId);
     }
 }
@@ -1328,8 +1328,8 @@ void AudioHeap_DiscardSampleCaches(void) {
         if ((sampleBankId1 == 0xFF) && (sampleBankId2 == 0xFF)) {
             continue;
         }
-        if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_PERMANENT, fontId) == NULL ||
-            !AudioLoad_IsFontLoadComplete(fontId)) {
+        if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_PERMANENT, fontId) == NULL
+            || !AudioLoad_IsFontLoadComplete(fontId)) {
             continue;
         }
 
@@ -1420,8 +1420,8 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
         sampleBankId1 = gAudioCtx.soundFontList[fontId].sampleBankId1;
         sampleBankId2 = gAudioCtx.soundFontList[fontId].sampleBankId2;
         if ((sampleBankId1 != 0xFF) || (sampleBankId2 != 0xFF)) {
-            if (!AudioLoad_IsFontLoadComplete(fontId) ||
-                AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) == NULL) {
+            if (!AudioLoad_IsFontLoadComplete(fontId)
+                || AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) == NULL) {
                 continue;
             }
 

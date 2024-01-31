@@ -192,11 +192,12 @@ void EnVm_Wait(EnVm* this, PlayState* play) {
 
             dist = this->beamSightRange - this->actor.xzDistToPlayer;
 
-            if (this->actor.xzDistToPlayer <= this->beamSightRange && ABS(headRot) <= 0x2710 && pitch >= 0xE38 &&
-                this->actor.yDistToPlayer <= 80.0f && this->actor.yDistToPlayer >= -160.0f) {
+            if (this->actor.xzDistToPlayer <= this->beamSightRange && ABS(headRot) <= 0x2710 && pitch >= 0xE38
+                && this->actor.yDistToPlayer <= 80.0f && this->actor.yDistToPlayer >= -160.0f) {
                 Math_SmoothStepToS(&this->beamRot.x, pitch, 10, 0xFA0, 0);
                 if (Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsPlayer - this->actor.shape.rot.y, 1,
-                                       (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0) <= 5460) {
+                                       (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0)
+                    <= 5460) {
                     this->timer--;
                     if (this->timer == 0) {
                         this->unk_25E++;
@@ -484,7 +485,8 @@ void EnVm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
             Matrix_MultVec3f(&sp80, &this->beamPos3);
 
             if (BgCheck_EntityLineTest1(&play->colCtx, &this->beamPos1, &this->beamPos3, &posResult, &poly, true, true,
-                                        false, true, &bgId) == true) {
+                                        false, true, &bgId)
+                == true) {
                 this->beamScale.z = Math_Vec3f_DistXYZ(&this->beamPos1, &posResult) - 5.0f;
                 this->unk_260 = 4;
                 this->beamPos3 = posResult;

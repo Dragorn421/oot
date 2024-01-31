@@ -408,10 +408,10 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
         this->actor.velocity.y *= -0.3f;
         this->actor.world.pos.y = nextPointY - ((this->actor.world.pos.y - nextPointY) * 0.3f);
     }
-    if (this->bounceCount == 0 &&
-        WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &ySurface,
-                                &waterBox) &&
-        this->actor.world.pos.y <= ySurface) {
+    if (this->bounceCount == 0
+        && WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &ySurface,
+                                   &waterBox)
+        && this->actor.world.pos.y <= ySurface) {
         this->stateFlags |= ENGOROIWA_IN_WATER;
         if (ySurface < thisY) {
             waterHitPos.x = this->actor.world.pos.x;
@@ -605,16 +605,16 @@ void EnGoroiwa_Roll(EnGoroiwa* this, PlayState* play) {
         }
     } else if (moveFuncs[(this->actor.params >> 10) & 1](this, play)) {
         loopMode = (this->actor.params >> 8) & 3;
-        if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK &&
-            (this->nextWaypoint == 0 || this->nextWaypoint == this->endWaypoint)) {
+        if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK
+            && (this->nextWaypoint == 0 || this->nextWaypoint == this->endWaypoint)) {
             EnGoroiwa_SpawnFragments(this, play);
         }
         EnGoroiwa_NextWaypoint(this, play);
-        if ((loopMode == ENGOROIWA_LOOPMODE_ROUNDTRIP) &&
-            (this->currentWaypoint == 0 || this->currentWaypoint == this->endWaypoint)) {
+        if ((loopMode == ENGOROIWA_LOOPMODE_ROUNDTRIP)
+            && (this->currentWaypoint == 0 || this->currentWaypoint == this->endWaypoint)) {
             EnGoroiwa_SetupWait(this);
-        } else if (!((this->actor.params >> 10) & 1) && this->currentWaypoint != 0 &&
-                   this->currentWaypoint != this->endWaypoint) {
+        } else if (!((this->actor.params >> 10) & 1) && this->currentWaypoint != 0
+                   && this->currentWaypoint != this->endWaypoint) {
             ascendDirection = EnGoroiwa_GetAscendDirection(this, play);
             if (ascendDirection > 0) {
                 EnGoroiwa_SetupMoveUp(this);

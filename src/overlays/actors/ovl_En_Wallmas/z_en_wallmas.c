@@ -301,9 +301,9 @@ void EnWallmas_WaitToDrop(EnWallmas* this, PlayState* play) {
         this->timer--;
     }
 
-    if ((player->stateFlags1 & PLAYER_STATE1_20) || (player->stateFlags1 & PLAYER_STATE1_27) ||
-        !(player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-        ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.home.pos, playerPos)))) {
+    if ((player->stateFlags1 & PLAYER_STATE1_20) || (player->stateFlags1 & PLAYER_STATE1_27)
+        || !(player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+        || ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.home.pos, playerPos)))) {
         Audio_StopSfxById(NA_SE_EN_FALL_AIM);
         this->timer = 0x82;
     }
@@ -320,9 +320,9 @@ void EnWallmas_WaitToDrop(EnWallmas* this, PlayState* play) {
 void EnWallmas_Drop(EnWallmas* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (!Player_InCsMode(play) && !(player->stateFlags2 & PLAYER_STATE2_4) && (player->invincibilityTimer >= 0) &&
-        (this->actor.xzDistToPlayer < 30.0f) && (this->actor.yDistToPlayer < -5.0f) &&
-        (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistToPlayer)) {
+    if (!Player_InCsMode(play) && !(player->stateFlags2 & PLAYER_STATE2_4) && (player->invincibilityTimer >= 0)
+        && (this->actor.xzDistToPlayer < 30.0f) && (this->actor.yDistToPlayer < -5.0f)
+        && (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistToPlayer)) {
         EnWallmas_SetupTakePlayer(this, play);
     }
 }
@@ -348,8 +348,8 @@ void EnWallmas_Walk(EnWallmas* this, PlayState* play) {
 
     Math_ScaledStepToS(&this->actor.world.rot.y, (s16)((s32)this->actor.yawTowardsPlayer + 0x8000), 0xB6);
 
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f) ||
-        Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)
+        || Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_WALK);
     }
 }
@@ -378,8 +378,8 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, PlayState* play) {
             return;
         }
 
-        if (this->actor.params == WMT_TIMER ||
-            Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 200.0f) {
+        if (this->actor.params == WMT_TIMER
+            || Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 200.0f) {
             EnWallmas_TimerInit(this, play);
         } else {
             EnWallmas_ProximityOrSwitchInit(this);
@@ -519,8 +519,8 @@ void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
                 }
             }
 
-            if ((this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_WHITE) ||
-                (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_BLUE)) {
+            if ((this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_WHITE)
+                || (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_BLUE)) {
                 if (this->actionFunc != EnWallmas_Stun) {
                     EnWallmas_SetupStun(this);
                 }
@@ -542,8 +542,8 @@ void EnWallmas_Update(Actor* thisx, PlayState* play) {
     EnWallmas_ColUpdate(this, play);
     this->actionFunc(this, play);
 
-    if ((this->actionFunc == EnWallmas_WaitToDrop) || (this->actionFunc == EnWallmas_WaitForProximity) ||
-        (this->actionFunc == EnWallmas_TakePlayer) || (this->actionFunc == EnWallmas_WaitForSwitchFlag)) {
+    if ((this->actionFunc == EnWallmas_WaitToDrop) || (this->actionFunc == EnWallmas_WaitForProximity)
+        || (this->actionFunc == EnWallmas_TakePlayer) || (this->actionFunc == EnWallmas_WaitForSwitchFlag)) {
         return;
     }
 
@@ -553,8 +553,8 @@ void EnWallmas_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != EnWallmas_Drop) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 25.0f, 0.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
     } else if (this->actor.world.pos.y <= this->yTarget) {
         this->actor.world.pos.y = this->yTarget;
         this->actor.velocity.y = 0.0f;
@@ -565,8 +565,8 @@ void EnWallmas_Update(Actor* thisx, PlayState* play) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 
-        if ((this->actionFunc != EnWallmas_TakeDamage) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-            (this->actor.freezeTimer == 0)) {
+        if ((this->actionFunc != EnWallmas_TakeDamage) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)
+            && (this->actor.freezeTimer == 0)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
     }
@@ -598,8 +598,8 @@ void EnWallmas_DrawXlu(EnWallmas* this, PlayState* play) {
                   &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
 
-    if ((this->actionFunc != EnWallmas_WaitToDrop) && (this->actionFunc != EnWallmas_ReturnToCeiling) &&
-        (this->actionFunc != EnWallmas_TakePlayer) && (this->actionFunc != EnWallmas_WaitForSwitchFlag)) {
+    if ((this->actionFunc != EnWallmas_WaitToDrop) && (this->actionFunc != EnWallmas_ReturnToCeiling)
+        && (this->actionFunc != EnWallmas_TakePlayer) && (this->actionFunc != EnWallmas_WaitForSwitchFlag)) {
         xzScale = this->actor.scale.x * 50.0f;
     } else {
         xzScale = ((0x50 - this->timer) >= 0x51 ? 0x50 : (0x50 - this->timer)) * TIMER_SCALE;

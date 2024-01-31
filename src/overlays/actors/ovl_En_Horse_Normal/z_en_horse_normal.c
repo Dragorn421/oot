@@ -148,8 +148,8 @@ static EnHorseNormalUnkStruct2 D_80A6D4B8 = { ARRAY_COUNT(D_80A6D470), D_80A6D47
 void func_80A6B250(EnHorseNormal* this) {
     static s32 D_80A6D4C0[] = { 0, 16 };
 
-    if (D_80A6D4C0[this->unk_200] < this->skin.skelAnime.curFrame &&
-        ((this->unk_200 != 0) || !(D_80A6D4C0[1] < this->skin.skelAnime.curFrame))) {
+    if (D_80A6D4C0[this->unk_200] < this->skin.skelAnime.curFrame
+        && ((this->unk_200 != 0) || !(D_80A6D4C0[1] < this->skin.skelAnime.curFrame))) {
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->unk_200++;
@@ -228,10 +228,10 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
         this->actor.home.rot.z = this->actor.world.rot.z = this->actor.shape.rot.z = 0;
         Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
-        if ((this->actor.world.pos.x == -730.0f && this->actor.world.pos.y == 0.0f &&
-             this->actor.world.pos.z == -1100.0f) ||
-            (this->actor.world.pos.x == 880.0f && this->actor.world.pos.y == 0.0f &&
-             this->actor.world.pos.z == -1170.0f)) {
+        if ((this->actor.world.pos.x == -730.0f && this->actor.world.pos.y == 0.0f
+             && this->actor.world.pos.z == -1100.0f)
+            || (this->actor.world.pos.x == 880.0f && this->actor.world.pos.y == 0.0f
+                && this->actor.world.pos.z == -1170.0f)) {
             func_80A6C6B0(this);
             return;
         }
@@ -246,8 +246,8 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
             return;
         }
     } else if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
-        if (this->actor.world.pos.x == 3707.0f && this->actor.world.pos.y == 1413.0f &&
-            this->actor.world.pos.z == -665.0f) {
+        if (this->actor.world.pos.x == 3707.0f && this->actor.world.pos.y == 1413.0f
+            && this->actor.world.pos.z == -665.0f) {
             Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
             Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
             func_80A6C4CC(this);
@@ -397,9 +397,10 @@ void EnHorseNormal_Wander(EnHorseNormal* this, PlayState* play) {
                 this->actor.speed = 8.0f;
                 phi_t0 = 6;
             }
-            if (Rand_ZeroOne() < 0.1f || (this->unk_21E == 0 && ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-                                                                 (this->bodyCollider.base.ocFlags1 & OC1_HIT) ||
-                                                                 (this->headCollider.base.ocFlags1 & OC1_HIT)))) {
+            if (Rand_ZeroOne() < 0.1f
+                || (this->unk_21E == 0
+                    && ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->bodyCollider.base.ocFlags1 & OC1_HIT)
+                        || (this->headCollider.base.ocFlags1 & OC1_HIT)))) {
                 this->unk_21E += (Rand_ZeroOne() * 30.0f) - 15.0f;
                 if (this->unk_21E > 50) {
                     this->unk_21E = 50;
@@ -581,8 +582,8 @@ void EnHorseNormal_Update(Actor* thisx, PlayState* play) {
     sActionFuncs[this->action](this, play);
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 35.0f, 100.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
     if (play->sceneId == SCENE_LON_LON_RANCH && this->actor.world.pos.z < -2400.0f) {
         this->actor.world.pos.z = -2400.0f;
     }
@@ -669,28 +670,28 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play) {
         f32 temp_f0_4;
 
         if (play->sceneId == SCENE_STABLE) {
-            if (this->actor.world.pos.x == 355.0f && this->actor.world.pos.y == 0.0f &&
-                this->actor.world.pos.z == -245.0f) {
+            if (this->actor.world.pos.x == 355.0f && this->actor.world.pos.y == 0.0f
+                && this->actor.world.pos.z == -245.0f) {
                 clonePos.x = 235.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = 100.0f;
                 cloneRotY = 0x7FFF;
-            } else if (this->actor.world.pos.x == 238.0f && this->actor.world.pos.y == 0.0f &&
-                       this->actor.world.pos.z == -245.0f) {
+            } else if (this->actor.world.pos.x == 238.0f && this->actor.world.pos.y == 0.0f
+                       && this->actor.world.pos.z == -245.0f) {
                 clonePos.x = 478.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = 100.0f;
                 cloneRotY = 0x7FFF;
             }
         } else if (play->sceneId == SCENE_LON_LON_RANCH) {
-            if (this->actor.world.pos.x == -730.0f && this->actor.world.pos.y == 0.0f &&
-                this->actor.world.pos.z == -1100.0f) {
+            if (this->actor.world.pos.x == -730.0f && this->actor.world.pos.y == 0.0f
+                && this->actor.world.pos.z == -1100.0f) {
                 clonePos.x = 780.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = -80.0f;
                 cloneRotY = 0;
-            } else if (this->actor.world.pos.x == 880.0f && this->actor.world.pos.y == 0.0f &&
-                       this->actor.world.pos.z == -1170.0f) {
+            } else if (this->actor.world.pos.x == 880.0f && this->actor.world.pos.y == 0.0f
+                       && this->actor.world.pos.z == -1170.0f) {
                 clonePos.x = -1000.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = -70.0f;

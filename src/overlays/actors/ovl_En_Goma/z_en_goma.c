@@ -271,8 +271,8 @@ void EnGoma_Egg(EnGoma* this, PlayState* play) {
 
     this->eggSquishAngle += 1.0f;
     Math_ApproachF(&this->eggSquishAmount, 0.1f, 1.0f, 0.005f);
-    if (fabsf(this->actor.world.pos.x - player->actor.world.pos.x) < 100.0f &&
-        fabsf(this->actor.world.pos.z - player->actor.world.pos.z) < 100.0f) {
+    if (fabsf(this->actor.world.pos.x - player->actor.world.pos.x) < 100.0f
+        && fabsf(this->actor.world.pos.z - player->actor.world.pos.z) < 100.0f) {
         if (++this->playerDetectionTimer > 9) {
             this->actionFunc = EnGoma_EggFallToGround;
         }
@@ -790,8 +790,8 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
         case ENGOMA_NORMAL:
             this->actor.naviEnemyId = NAVI_ENEMY_GOHMA_LARVA;
             Matrix_Translate(this->actor.world.pos.x,
-                             this->actor.world.pos.y +
-                                 ((this->actor.shape.yOffset * this->actor.scale.y) + play->mainCamera.quakeOffset.y),
+                             this->actor.world.pos.y
+                                 + ((this->actor.shape.yOffset * this->actor.scale.y) + play->mainCamera.quakeOffset.y),
                              this->actor.world.pos.z, MTXMODE_NEW);
             Matrix_RotateX(BINANG_TO_RAD_ALT(this->slopePitch), MTXMODE_APPLY);
             Matrix_RotateZ(BINANG_TO_RAD_ALT(this->slopeRoll), MTXMODE_APPLY);

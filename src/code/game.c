@@ -132,8 +132,8 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfxP) {
 
     gDPPipeSync(gfx++);
     gDPSetOtherMode(gfx++,
-                    G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                        G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
+                    G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE
+                        | G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
 
     for (i = 0; i < 16; i++) {
@@ -318,16 +318,16 @@ void GameState_Update(GameState* gameState) {
             R_VI_NEXT_ADDI_SCAN_LINES = 0x30;
         }
 
-        if ((R_VI_CUR_ADDI_SCAN_LINES != R_VI_NEXT_ADDI_SCAN_LINES) ||
-            R_VI_CUR_Y_SCALE_MODE != R_VI_NEXT_Y_SCALE_MODE) {
+        if ((R_VI_CUR_ADDI_SCAN_LINES != R_VI_NEXT_ADDI_SCAN_LINES)
+            || R_VI_CUR_Y_SCALE_MODE != R_VI_NEXT_Y_SCALE_MODE) {
 
             R_VI_CUR_ADDI_SCAN_LINES = R_VI_NEXT_ADDI_SCAN_LINES;
             R_VI_CUR_Y_SCALE_MODE = R_VI_NEXT_Y_SCALE_MODE;
 
             gViConfigAdditionalScanLines = R_VI_NEXT_ADDI_SCAN_LINES;
             gViConfigYScale = R_VI_NEXT_Y_SCALE_MODE == 0
-                                  ? ((f32)SCREEN_HEIGHT) / (gViConfigAdditionalScanLines + (f32)SCREEN_HEIGHT)
-                                  : 1.0f;
+                                ? ((f32)SCREEN_HEIGHT) / (gViConfigAdditionalScanLines + (f32)SCREEN_HEIGHT)
+                                : 1.0f;
             D_80009430 = 1;
         }
     }

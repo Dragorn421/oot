@@ -158,8 +158,8 @@ void DemoKekkai_SpawnParticles(DemoKekkai* this, PlayState* play) {
 }
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL) &&
-        (play->csCtx.actorCues[0]->id != 1) && (play->csCtx.actorCues[0]->id == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL)
+        && (play->csCtx.actorCues[0]->id != 1) && (play->csCtx.actorCues[0]->id == 2)) {
         if (!(this->sfxFlag & 1)) {
             Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_DISPEL_BARRIER);
             this->sfxFlag |= 1;

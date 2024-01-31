@@ -370,8 +370,8 @@ void EnPoField_CorrectYPos(EnPoField* this, PlayState* play) {
     }
     Math_ApproachF(
         &this->actor.home.pos.y,
-        ((player->actor.world.pos.y > this->actor.floorHeight) ? player->actor.world.pos.y : this->actor.floorHeight) +
-            13.0f,
+        ((player->actor.world.pos.y > this->actor.floorHeight) ? player->actor.world.pos.y : this->actor.floorHeight)
+            + 13.0f,
         0.2f, 5.0f);
     this->actor.world.pos.y = Math_SinS(this->unk_194 * 0x800) * 13.0f + this->actor.home.pos.y;
 }
@@ -404,8 +404,8 @@ void EnPoField_WaitForSpawn(EnPoField* this, PlayState* play) {
     }
     if (this->actionTimer == 0) {
         for (i = 0; i < sNumSpawned; i++) {
-            if (fabsf(sSpawnPositions[i].x - player->actor.world.pos.x) < 150.0f &&
-                fabsf(sSpawnPositions[i].z - player->actor.world.pos.z) < 150.0f) {
+            if (fabsf(sSpawnPositions[i].x - player->actor.world.pos.x) < 150.0f
+                && fabsf(sSpawnPositions[i].z - player->actor.world.pos.z) < 150.0f) {
                 if (Flags_GetSwitch(play, sSpawnSwitchFlags[i])) {
                     if (player->stateFlags1 & PLAYER_STATE1_23) { // Player riding Epona
                         return;
@@ -506,8 +506,8 @@ void EnPoField_Flee(EnPoField* this, PlayState* play) {
         this->actionTimer--;
     }
     if (Actor_WorldDistXZToPoint(&this->actor, &sFieldMiddle) > 3000.0f) {
-        phi_t0 = (s16)(this->actor.yawTowardsPlayer - Actor_WorldYawTowardPoint(&this->actor, &sFieldMiddle) - 0x8000) *
-                 0.2f;
+        phi_t0 = (s16)(this->actor.yawTowardsPlayer - Actor_WorldYawTowardPoint(&this->actor, &sFieldMiddle) - 0x8000)
+               * 0.2f;
     } else {
         phi_t0 = 0;
     }
@@ -852,8 +852,8 @@ void EnPoField_Update(Actor* thisx, PlayState* play) {
     EnPoField_TestForDamage(this, play);
     this->actionFunc(this, play);
     EnPoField_UpdateFlame(this, play);
-    if (this->actionFunc == EnPoField_Flee || this->actionFunc == EnPoField_Damage ||
-        this->actionFunc == EnPoField_Appear) {
+    if (this->actionFunc == EnPoField_Flee || this->actionFunc == EnPoField_Damage
+        || this->actionFunc == EnPoField_Appear) {
         Actor_MoveXZGravity(&this->actor);
     }
     if (this->actionFunc != EnPoField_WaitForSpawn) {

@@ -302,8 +302,8 @@ void func_80AD95D8(EnPoSisters* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeSistersDamagedAnim, -3.0f);
     if (this->collider.base.ac != NULL) {
         this->actor.world.rot.y = (this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT))
-                                      ? this->collider.base.ac->world.rot.y
-                                      : Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
+                                    ? this->collider.base.ac->world.rot.y
+                                    : Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
     if (this->unk_194 != 0) {
         this->actor.speed = 10.0f;
@@ -339,8 +339,8 @@ void func_80AD97C8(EnPoSisters* this, PlayState* play) {
     f32 sp20;
 
     if (this->unk_195 == 0 || this->actionFunc != func_80ADAAA4) {
-        if ((player->meleeWeaponState == 0 || player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
-            player->actor.world.pos.y - player->actor.floorHeight < 1.0f) {
+        if ((player->meleeWeaponState == 0 || player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H)
+            && player->actor.world.pos.y - player->actor.floorHeight < 1.0f) {
             Math_StepToF(&this->unk_294, 110.0f, 3.0f);
         } else {
             Math_StepToF(&this->unk_294, 170.0f, 10.0f);
@@ -757,8 +757,8 @@ void func_80ADAE6C(EnPoSisters* this, PlayState* play) {
         this->unk_22E.a = 255;
         if (this->unk_194 != 0) {
             this->unk_199 |= 1;
-            this->collider.elem.bumper.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE | DMG_MAGIC_FIRE |
-                                                   DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
+            this->collider.elem.bumper.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE | DMG_MAGIC_FIRE
+                                                   | DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
             if (this->unk_19A != 0) {
                 this->unk_19A--;
             }
@@ -786,11 +786,11 @@ void func_80ADAFC0(EnPoSisters* this, PlayState* play) {
         this->unk_234[i] = this->unk_234[i - 1];
     }
     this->unk_234[0].x =
-        (Math_SinS((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
-        this->actor.world.pos.x;
+        (Math_SinS((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x))
+        + this->actor.world.pos.x;
     this->unk_234[0].z =
-        (Math_CosS((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
-        this->actor.world.pos.z;
+        (Math_CosS((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x))
+        + this->actor.world.pos.z;
     if (this->unk_19A < 8) {
         this->unk_234[0].y = this->unk_234[1].y - 9.0f;
     } else {
@@ -1145,8 +1145,8 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
                 sp24.z = this->actor.world.pos.z;
                 Item_DropCollectible(play, &sp24, ITEM00_ARROWS_SMALL);
             }
-        } else if (this->collider.base.colType == 9 ||
-                   (this->actor.colChkInfo.damageEffect == 0 && this->actor.colChkInfo.damage == 0)) {
+        } else if (this->collider.base.colType == 9
+                   || (this->actor.colChkInfo.damageEffect == 0 && this->actor.colChkInfo.damage == 0)) {
             if (this->unk_194 == 0) {
                 this->actor.freezeTimer = 0;
             }
@@ -1154,8 +1154,8 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
             this->actor.world.rot.y = this->actor.shape.rot.y;
             this->unk_199 |= 2;
             func_80AD98F4(this, play);
-        } else if (this->unk_194 == 0 && this->actor.colChkInfo.damageEffect == 0xE &&
-                   this->actionFunc == func_80ADB770) {
+        } else if (this->unk_194 == 0 && this->actor.colChkInfo.damageEffect == 0xE
+                   && this->actionFunc == func_80ADB770) {
             if (this->unk_19C == 0) {
                 this->unk_19C = -45;
             }
@@ -1319,8 +1319,8 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
             Color_RGBA8* color = &D_80ADD6F0[this->unk_194];
             f32 temp_f2 = Rand_ZeroOne() * 0.3f + 0.7f;
 
-            if (this->actionFunc == func_80ADB17C || this->actionFunc == func_80ADBD38 ||
-                this->actionFunc == func_80ADBEE8) {
+            if (this->actionFunc == func_80ADB17C || this->actionFunc == func_80ADBD38
+                || this->actionFunc == func_80ADBEE8) {
                 Lights_PointNoGlowSetInfo(&this->lightInfo, this->unk_234[0].x, this->unk_234[0].y + 15.0f,
                                           this->unk_234[0].z, color->r * temp_f2, color->g * temp_f2,
                                           color->b * temp_f2, 200);
@@ -1398,8 +1398,8 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
         phi_f20 = this->actor.scale.x * 0.5f;
     }
     for (i = 0; i < this->unk_198; i++) {
-        if (this->actionFunc != func_80ADB17C && this->actionFunc != func_80ADBD38 &&
-            this->actionFunc != func_80ADBEE8) {
+        if (this->actionFunc != func_80ADB17C && this->actionFunc != func_80ADBD38
+            && this->actionFunc != func_80ADBEE8) {
             phi_s5 = -i * 31 + 248;
         }
         gDPPipeSync(POLY_XLU_DISP++);

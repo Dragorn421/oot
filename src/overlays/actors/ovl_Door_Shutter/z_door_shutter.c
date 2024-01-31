@@ -753,8 +753,8 @@ void DoorShutter_Open(DoorShutter* this, PlayState* play) {
                 DoorShutter_SetupAction(this, DoorShutter_Close);
             } else {
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYODOOR_CLOSE);
-                if ((this->doorType == SHUTTER_FRONT_SWITCH || this->doorType == SHUTTER_FRONT_SWITCH_BACK_CLEAR) &&
-                    !Flags_GetSwitch(play, DOORSHUTTER_GET_SWITCH_FLAG(&this->dyna.actor))) {
+                if ((this->doorType == SHUTTER_FRONT_SWITCH || this->doorType == SHUTTER_FRONT_SWITCH_BACK_CLEAR)
+                    && !Flags_GetSwitch(play, DOORSHUTTER_GET_SWITCH_FLAG(&this->dyna.actor))) {
                     Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSHUTTER_CLOSE);
                 }
                 DoorShutter_SetupAction(this, DoorShutter_JabuDoorClose);
@@ -908,8 +908,8 @@ void DoorShutter_Update(Actor* thisx, PlayState* play) {
     DoorShutter* this = (DoorShutter*)thisx;
     Player* player = GET_PLAYER(play);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28)) ||
-        (this->actionFunc == DoorShutter_WaitForObject)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28))
+        || (this->actionFunc == DoorShutter_WaitForObject)) {
         this->actionFunc(this, play);
     }
 }
@@ -964,8 +964,8 @@ s32 DoorShutter_ShouldDraw(DoorShutter* this, PlayState* play) {
     relYawTowardsViewEye = ABS(relYawTowardsViewEye);
     relYawTowardsPlayer = ABS(relYawTowardsPlayer);
 
-    if ((relYawTowardsPlayer < 0x4000 && relYawTowardsViewEye > 0x4000) ||
-        (relYawTowardsPlayer > 0x4000 && relYawTowardsViewEye < 0x4000)) {
+    if ((relYawTowardsPlayer < 0x4000 && relYawTowardsViewEye > 0x4000)
+        || (relYawTowardsPlayer > 0x4000 && relYawTowardsViewEye < 0x4000)) {
         return false;
     } else {
         return true;
@@ -987,8 +987,8 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     //! The best way to fix this issue (and what was done in Majora's Mask) is to null out the draw function in
     //! the init vars for the actor, and only set draw after initialization is complete.
 
-    if (this->dyna.actor.objectSlot == this->requiredObjectSlot &&
-        (this->styleType == DOORSHUTTER_STYLE_PHANTOM_GANON || DoorShutter_ShouldDraw(this, play))) {
+    if (this->dyna.actor.objectSlot == this->requiredObjectSlot
+        && (this->styleType == DOORSHUTTER_STYLE_PHANTOM_GANON || DoorShutter_ShouldDraw(this, play))) {
         s32 pad[2];
         DoorShutterGfxInfo* gfxInfo = &sGfxInfo[this->gfxType];
 
@@ -1014,8 +1014,8 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
                 TransitionActorEntry* transitionEntry =
                     &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)];
 
-                if (play->roomCtx.prevRoom.num >= 0 ||
-                    transitionEntry->sides[0].room == transitionEntry->sides[1].room) {
+                if (play->roomCtx.prevRoom.num >= 0
+                    || transitionEntry->sides[0].room == transitionEntry->sides[1].room) {
                     s32 yaw = Math_Vec3f_Yaw(&play->view.eye, &this->dyna.actor.world.pos);
 
                     if (ABS((s16)(this->dyna.actor.shape.rot.y - yaw)) < 0x4000) {

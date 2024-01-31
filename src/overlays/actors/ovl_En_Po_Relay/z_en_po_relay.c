@@ -212,11 +212,14 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
     if (this->pathIndex < 23) {
         // If the player travels along a different path to Dampé that converges later
         if ((Math3D_PointInSquare2D(660.0f, 840.0f, -4480.0f, -3760.0f, player->actor.world.pos.x,
-                                    player->actor.world.pos.z) != 0) ||
-            (Math3D_PointInSquare2D(1560.0f, 1740.0f, -4030.0f, -3670.0f, player->actor.world.pos.x,
-                                    player->actor.world.pos.z) != 0) ||
-            (Math3D_PointInSquare2D(1580.0f, 2090.0f, -3030.0f, -2500.0f, player->actor.world.pos.x,
-                                    player->actor.world.pos.z) != 0)) {
+                                    player->actor.world.pos.z)
+             != 0)
+            || (Math3D_PointInSquare2D(1560.0f, 1740.0f, -4030.0f, -3670.0f, player->actor.world.pos.x,
+                                       player->actor.world.pos.z)
+                != 0)
+            || (Math3D_PointInSquare2D(1580.0f, 2090.0f, -3030.0f, -2500.0f, player->actor.world.pos.x,
+                                       player->actor.world.pos.z)
+                != 0)) {
             speedXZ = (this->hookshotSlotFull) ? player->actor.speed * 1.4f : player->actor.speed * 1.2f;
         } else if (this->actor.xzDistToPlayer < 150.0f) {
             speedXZ = (this->hookshotSlotFull) ? player->actor.speed * 1.2f : player->actor.speed;

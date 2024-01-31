@@ -132,8 +132,8 @@ s32 EffectSs_FindSlot(s32 priority, s32* pIndex) {
     i = sEffectSsInfo.searchStartIndex;
     while (true) {
         // Equal priority should only be considered "lower" if flag 0 is set
-        if ((priority <= sEffectSsInfo.table[i].priority) &&
-            !((priority == sEffectSsInfo.table[i].priority) && (sEffectSsInfo.table[i].flags & 1))) {
+        if ((priority <= sEffectSsInfo.table[i].priority)
+            && !((priority == sEffectSsInfo.table[i].priority) && (sEffectSsInfo.table[i].flags & 1))) {
             break;
         }
 
@@ -214,9 +214,9 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
         }
 
         initInfo = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
-                                          ? (void*)((uintptr_t)overlayEntry->initInfo -
-                                                    (intptr_t)((uintptr_t)overlayEntry->vramStart -
-                                                               (uintptr_t)overlayEntry->loadedRamAddr))
+                                          ? (void*)((uintptr_t)overlayEntry->initInfo
+                                                    - (intptr_t)((uintptr_t)overlayEntry->vramStart
+                                                                 - (uintptr_t)overlayEntry->loadedRamAddr))
                                           : NULL);
     }
 
@@ -299,9 +299,9 @@ void EffectSs_DrawAll(PlayState* play) {
 
     for (i = 0; i < sEffectSsInfo.tableSize; i++) {
         if (sEffectSsInfo.table[i].life > -1) {
-            if ((sEffectSsInfo.table[i].pos.x > 32000.0f) || (sEffectSsInfo.table[i].pos.x < -32000.0f) ||
-                (sEffectSsInfo.table[i].pos.y > 32000.0f) || (sEffectSsInfo.table[i].pos.y < -32000.0f) ||
-                (sEffectSsInfo.table[i].pos.z > 32000.0f) || (sEffectSsInfo.table[i].pos.z < -32000.0f)) {
+            if ((sEffectSsInfo.table[i].pos.x > 32000.0f) || (sEffectSsInfo.table[i].pos.x < -32000.0f)
+                || (sEffectSsInfo.table[i].pos.y > 32000.0f) || (sEffectSsInfo.table[i].pos.y < -32000.0f)
+                || (sEffectSsInfo.table[i].pos.z > 32000.0f) || (sEffectSsInfo.table[i].pos.z < -32000.0f)) {
                 PRINTF(VT_FGCOL(RED));
                 // "Since the position is outside the area, delete it.
                 // Effect label No. %d: Please respond by the program.

@@ -829,9 +829,9 @@ AnimationEntry* AnimationContext_AddEntry(AnimationContext* animationCtx, Animat
     return entry;
 }
 
-#define LINK_ANIMATION_OFFSET(addr, offset)                                                                         \
-    (((uintptr_t)_link_animetionSegmentRomStart) + ((uintptr_t)(addr)) - ((uintptr_t)_link_animetionSegmentStart) + \
-     (offset))
+#define LINK_ANIMATION_OFFSET(addr, offset)                                                                       \
+    (((uintptr_t)_link_animetionSegmentRomStart) + ((uintptr_t)(addr)) - ((uintptr_t)_link_animetionSegmentStart) \
+     + (offset))
 
 /**
  * Requests loading frame data from the Link animation into frameTable

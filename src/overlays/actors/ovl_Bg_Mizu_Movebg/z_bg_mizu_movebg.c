@@ -136,8 +136,8 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             break;
 
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
-            thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY +
-                                 sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
+            thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY
+                               + sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
 
@@ -175,7 +175,8 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
 
             if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x + offsetPos.x,
                                    thisx->world.pos.y + offsetPos.y, thisx->world.pos.z + offsetPos.z,
-                                   thisx->world.rot.x, thisx->world.rot.y, thisx->world.rot.z, 2) == NULL) {
+                                   thisx->world.rot.x, thisx->world.rot.y, thisx->world.rot.z, 2)
+                == NULL) {
                 Actor_Kill(thisx);
             }
             break;
@@ -224,8 +225,9 @@ void BgMizuMovebg_SetScrollAlphas(BgMizuMovebg* this, PlayState* play) {
     if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
         this->scrollAlpha1 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
-        this->scrollAlpha1 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F1_Y) /
-                                         (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) * (255 - 160));
+        this->scrollAlpha1 = 255
+                           - (s32)((waterLevel - WATER_TEMPLE_WATER_F1_Y)
+                                   / (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) * (255 - 160));
     } else {
         this->scrollAlpha1 = 160;
     }
@@ -233,8 +235,9 @@ void BgMizuMovebg_SetScrollAlphas(BgMizuMovebg* this, PlayState* play) {
     if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
         this->scrollAlpha2 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F3_Y) {
-        this->scrollAlpha2 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F2_Y) /
-                                         (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) * (255 - 160));
+        this->scrollAlpha2 = 255
+                           - (s32)((waterLevel - WATER_TEMPLE_WATER_F2_Y)
+                                   / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) * (255 - 160));
     } else {
         this->scrollAlpha2 = 160;
     }
@@ -242,8 +245,9 @@ void BgMizuMovebg_SetScrollAlphas(BgMizuMovebg* this, PlayState* play) {
     if (waterLevel < WATER_TEMPLE_WATER_B1_Y) {
         this->scrollAlpha3 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
-        this->scrollAlpha3 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_B1_Y) /
-                                         (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * (255 - 160));
+        this->scrollAlpha3 = 255
+                           - (s32)((waterLevel - WATER_TEMPLE_WATER_B1_Y)
+                                   / (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * (255 - 160));
     } else {
         this->scrollAlpha3 = 160;
     }

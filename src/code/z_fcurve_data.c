@@ -68,9 +68,9 @@ f32 Curve_Interpolate(f32 x, CurveInterpKnot* knots, s32 knotCount) {
                     return knots[cur].ordinate;
                 } else if (knots[cur].flags & FCURVE_INTERP_LINEAR) {
                     // Linear interpolation
-                    return knots[cur].ordinate +
-                           ((x - (f32)knots[cur].abscissa) / ((f32)knots[next].abscissa - (f32)knots[cur].abscissa)) *
-                               (knots[next].ordinate - knots[cur].ordinate);
+                    return knots[cur].ordinate
+                         + ((x - (f32)knots[cur].abscissa) / ((f32)knots[next].abscissa - (f32)knots[cur].abscissa))
+                               * (knots[next].ordinate - knots[cur].ordinate);
                 } else {
                     // Cubic interpolation
                     f32 diff = (f32)knots[next].abscissa - (f32)knots[cur].abscissa;

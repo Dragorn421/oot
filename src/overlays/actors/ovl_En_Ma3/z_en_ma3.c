@@ -98,8 +98,8 @@ u16 EnMa3_GetTextId(PlayState* play, Actor* thisx) {
         return 0x2004;
     }
 
-    if (!(player->stateFlags1 & PLAYER_STATE1_23) &&
-        (Actor_FindNearby(play, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_23)
+        && (Actor_FindNearby(play, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
 
@@ -331,8 +331,8 @@ s32 EnMa3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateY(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.x), MTXMODE_APPLY);
     }
-    if ((limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) || (limbIndex == MALON_ADULT_LIMB_LEFT_SHOULDER) ||
-        (limbIndex == MALON_ADULT_LIMB_RIGHT_SHOULDER)) {
+    if ((limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) || (limbIndex == MALON_ADULT_LIMB_LEFT_SHOULDER)
+        || (limbIndex == MALON_ADULT_LIMB_RIGHT_SHOULDER)) {
         rot->y += Math_SinS(this->unk_212[limbIndex].y) * 200.0f;
         rot->z += Math_CosS(this->unk_212[limbIndex].z) * 200.0f;
     }

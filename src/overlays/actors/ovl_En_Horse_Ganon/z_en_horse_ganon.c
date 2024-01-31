@@ -152,8 +152,8 @@ void func_80A686A8(EnHorseGanon* this, PlayState* play) {
 }
 
 void func_80A68870(EnHorseGanon* this) {
-    if ((this->skin.skelAnime.curFrame > D_80A692B8[this->soundCount]) &&
-        (this->soundCount != 0 || !(this->skin.skelAnime.curFrame > D_80A692B8[1]))) {
+    if ((this->skin.skelAnime.curFrame > D_80A692B8[this->soundCount])
+        && (this->soundCount != 0 || !(this->skin.skelAnime.curFrame > D_80A692B8[1]))) {
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
@@ -289,8 +289,8 @@ void EnHorseGanon_Update(Actor* thisx, PlayState* play) {
     sActionFuncs[this->action](this, play);
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 55.0f, 100.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);

@@ -357,18 +357,18 @@ void EnGo_ChangeAnim(EnGo* this, s32 index) {
 s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
     if (((this->actor.params) & 0xF0) == 0x90) {
         return true;
-    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !Flags_GetSwitch(play, (this->actor.params) >> 8) &&
-               LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x10) {
+    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !Flags_GetSwitch(play, (this->actor.params) >> 8) && LINK_IS_ADULT
+               && (this->actor.params & 0xF0) == 0x10) {
         return true;
     } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x00) {
         return true;
-    } else if (play->sceneId == SCENE_DEATH_MOUNTAIN_TRAIL && LINK_IS_CHILD &&
-               ((this->actor.params & 0xF0) == 0x20 || (this->actor.params & 0xF0) == 0x30 ||
-                (this->actor.params & 0xF0) == 0x40)) {
+    } else if (play->sceneId == SCENE_DEATH_MOUNTAIN_TRAIL && LINK_IS_CHILD
+               && ((this->actor.params & 0xF0) == 0x20 || (this->actor.params & 0xF0) == 0x30
+                   || (this->actor.params & 0xF0) == 0x40)) {
         return true;
-    } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_CHILD &&
-               ((this->actor.params & 0xF0) == 0x50 || (this->actor.params & 0xF0) == 0x60 ||
-                (this->actor.params & 0xF0) == 0x70)) {
+    } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_CHILD
+               && ((this->actor.params & 0xF0) == 0x50 || (this->actor.params & 0xF0) == 0x60
+                   || (this->actor.params & 0xF0) == 0x70)) {
         return true;
     } else {
         return false;
@@ -396,8 +396,8 @@ void func_80A3F060(EnGo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
-    if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
-        this->actionFunc != func_80A40B1C) {
+    if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc
+        && this->actionFunc != func_80A40B1C) {
         trackingMode = NPC_TRACKING_NONE;
     }
 
@@ -451,10 +451,10 @@ void EnGo_ReverseAnimation(EnGo* this) {
 void EnGo_UpdateShadow(EnGo* this) {
     s16 shadowAlpha;
     f32 currentFrame = this->skelAnime.curFrame;
-    s16 shadowAlphaTarget = (this->skelAnime.animation == &gGoronAnim_004930 && currentFrame > 32.0f) ||
-                                    this->skelAnime.animation != &gGoronAnim_004930
-                                ? 255
-                                : 0;
+    s16 shadowAlphaTarget = (this->skelAnime.animation == &gGoronAnim_004930 && currentFrame > 32.0f)
+                                 || this->skelAnime.animation != &gGoronAnim_004930
+                              ? 255
+                              : 0;
 
     shadowAlpha = this->actor.shape.shadowAlpha;
     Math_SmoothStepToS(&shadowAlpha, shadowAlphaTarget, 10, 60, 1);
@@ -572,10 +572,10 @@ void func_80A3F908(EnGo* this, PlayState* play) {
     f32 interactRange;
     s32 dialogStarted;
 
-    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_GoronLinkRolling ||
-        this->actionFunc == EnGo_FireGenericActionFunc || this->actionFunc == EnGo_Eyedrops ||
-        this->actionFunc == func_80A40DCC || this->actionFunc == EnGo_GetItem || this->actionFunc == func_80A40C78 ||
-        this->actionFunc == func_80A40B1C) {
+    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_GoronLinkRolling
+        || this->actionFunc == EnGo_FireGenericActionFunc || this->actionFunc == EnGo_Eyedrops
+        || this->actionFunc == func_80A40DCC || this->actionFunc == EnGo_GetItem || this->actionFunc == func_80A40C78
+        || this->actionFunc == func_80A40B1C) {
 
         interactRange = (this->collider.dim.radius + 30.0f);
         interactRange *= (this->actor.scale.x / 0.01f);
@@ -746,8 +746,8 @@ void func_80A4008C(EnGo* this, PlayState* play) {
 }
 
 void EnGo_GoronLinkRolling(EnGo* this, PlayState* play) {
-    if ((EnGo_FollowPath(this, play) == true) && Flags_GetSwitch(play, this->actor.params >> 8) &&
-        (this->unk_218 == 0)) {
+    if ((EnGo_FollowPath(this, play) == true) && Flags_GetSwitch(play, this->actor.params >> 8)
+        && (this->unk_218 == 0)) {
         this->actor.speed = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
         SET_INFTABLE(INFTABLE_109);
@@ -1022,8 +1022,8 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
-        this->actionFunc == func_80A40B1C) {
+    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc
+        || this->actionFunc == func_80A40B1C) {
         func_80034F54(play, this->jointTable, this->morphTable, 18);
     }
 
@@ -1125,8 +1125,8 @@ void EnGo_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc == EnGo_CurledUp) {
         EnGo_DrawCurledUp(this, play);
         return; // needed for match?
-    } else if (this->actionFunc == EnGo_GoronLinkRolling || this->actionFunc == func_80A3FEB4 ||
-               this->actionFunc == EnGo_StopRolling || this->actionFunc == func_80A3FEB4) {
+    } else if (this->actionFunc == EnGo_GoronLinkRolling || this->actionFunc == func_80A3FEB4
+               || this->actionFunc == EnGo_StopRolling || this->actionFunc == func_80A3FEB4) {
         EnGo_DrawRolling(this, play);
         return; // needed for match?
     } else {

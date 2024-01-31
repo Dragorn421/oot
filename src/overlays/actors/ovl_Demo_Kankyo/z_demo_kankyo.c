@@ -796,7 +796,8 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
             case 1:
                 if (this->actor.params == DEMOKANKYO_WARP_OUT) {
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpOutCameraPoints, &this->unk_150[i].unk_20,
-                                      &this->unk_150[i].unk_1C) != 0) {
+                                      &this->unk_150[i].unk_1C)
+                        != 0) {
                         this->unk_150[i].unk_22++;
                     }
                     if (play->sceneId == SCENE_TEMPLE_OF_TIME && play->csCtx.curFrame == 25) {
@@ -806,7 +807,8 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                     Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxDefaultPos, 4,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
-                                      &this->unk_150[i].unk_1C) != 0) {
+                                      &this->unk_150[i].unk_1C)
+                        != 0) {
                         this->unk_150[i].unk_22++;
                     }
                     if (D_8098CF84 < play->csCtx.curFrame && this->actor.params == DEMOKANKYO_WARP_OUT) {
@@ -934,7 +936,8 @@ void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play) {
                 FALLTHROUGH;
             case 1:
                 if (func_800BB2B4(&camPos, &sSparklesRoll, &sSparklesFoV, sSparklesCameraPoints,
-                                  &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
+                                  &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C)
+                    != 0) {
                     this->unk_150[i].unk_22++;
                 }
                 posRot = Actor_GetWorld(&this->actor);

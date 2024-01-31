@@ -254,8 +254,8 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
         }
 
         if (LINK_IS_ADULT) {
-            if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) &&
-                (func_8002F368(play) == EXCH_ITEM_PRESCRIPTION)) {
+            if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION)
+                && (func_8002F368(play) == EXCH_ITEM_PRESCRIPTION)) {
                 this->actor.textId = 0x4014;
                 this->sfxPlayed = false;
                 player->actor.textId = this->actor.textId;

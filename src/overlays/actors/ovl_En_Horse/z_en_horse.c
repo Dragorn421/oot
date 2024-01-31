@@ -469,8 +469,8 @@ s32 EnHorse_BgCheckBridgeJumpPoint(EnHorse* this, PlayState* play) {
         }
         if (sBridgeJumps[i].zMin < this->actor.world.pos.z && this->actor.world.pos.z < sBridgeJumps[i].zMax) {
             if (xMin < this->actor.world.pos.x && this->actor.world.pos.x < xMax) {
-                if (sBridgeJumps[i].angle - sBridgeJumps[i].angleRange < this->actor.world.rot.y &&
-                    this->actor.world.rot.y < sBridgeJumps[i].angle + sBridgeJumps[i].angleRange) {
+                if (sBridgeJumps[i].angle - sBridgeJumps[i].angleRange < this->actor.world.rot.y
+                    && this->actor.world.rot.y < sBridgeJumps[i].angle + sBridgeJumps[i].angleRange) {
                     return true;
                 }
             }
@@ -503,8 +503,8 @@ s32 EnHorse_CheckBridgeJumps(EnHorse* this, PlayState* play) {
 
         if (sBridgeJumps[i].zMin < this->actor.world.pos.z && this->actor.world.pos.z < sBridgeJumps[i].zMax) {
             if (xMin < this->actor.world.pos.x && this->actor.world.pos.x < xMax) {
-                if (sBridgeJumps[i].angle - sBridgeJumps[i].angleRange < this->actor.world.rot.y &&
-                    this->actor.world.rot.y < sBridgeJumps[i].angle + sBridgeJumps[i].angleRange) {
+                if (sBridgeJumps[i].angle - sBridgeJumps[i].angleRange < this->actor.world.rot.y
+                    && this->actor.world.rot.y < sBridgeJumps[i].angle + sBridgeJumps[i].angleRange) {
                     this->bridgeJumpIdx = i;
                     EnHorse_StartBridgeJump(this, play);
                     return true;
@@ -647,15 +647,15 @@ int func_80A5BBBC(PlayState* play, EnHorse* this, Vec3f* pos) {
 }
 
 void EnHorse_IdleAnimSounds(EnHorse* this, PlayState* play) {
-    if (this->animationIdx == ENHORSE_ANIM_IDLE &&
-        ((this->curFrame > 35.0f && this->type == HORSE_EPONA) ||
-         (this->curFrame > 28.0f && this->type == HORSE_HNI)) &&
-        !(this->stateFlags & ENHORSE_SANDDUST_SOUND)) {
+    if (this->animationIdx == ENHORSE_ANIM_IDLE
+        && ((this->curFrame > 35.0f && this->type == HORSE_EPONA)
+            || (this->curFrame > 28.0f && this->type == HORSE_HNI))
+        && !(this->stateFlags & ENHORSE_SANDDUST_SOUND)) {
         this->stateFlags |= ENHORSE_SANDDUST_SOUND;
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_SANDDUST, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-    } else if (this->animationIdx == ENHORSE_ANIM_REARING && this->curFrame > 25.0f &&
-               !(this->stateFlags & ENHORSE_LAND2_SOUND)) {
+    } else if (this->animationIdx == ENHORSE_ANIM_REARING && this->curFrame > 25.0f
+               && !(this->stateFlags & ENHORSE_LAND2_SOUND)) {
         this->stateFlags |= ENHORSE_LAND2_SOUND;
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_LAND2, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -675,12 +675,13 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
             player = GET_PLAYER(play);
             if (play->sceneId != SCENE_LON_LON_RANCH ||
                 //! Same flag checked twice
-                (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) &&
-                 (GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6 ||
-                  Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED))) ||
+                (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)
+                 && (GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6
+                     || Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)))
+                ||
                 // always load two spawns inside lon lon
-                ((sHorseSpawns[i].pos.x == 856 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -918) ||
-                 (sHorseSpawns[i].pos.x == -1003 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -755))) {
+                ((sHorseSpawns[i].pos.x == 856 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -918)
+                 || (sHorseSpawns[i].pos.x == -1003 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -755))) {
 
                 spawnPos.x = sHorseSpawns[i].pos.x;
                 spawnPos.y = sHorseSpawns[i].pos.y;
@@ -720,10 +721,10 @@ void EnHorse_ResetRace(EnHorse* this, PlayState* play) {
 s32 EnHorse_PlayerCanMove(EnHorse* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_0) || func_8002DD78(GET_PLAYER(play)) == 1 ||
-        (player->stateFlags1 & PLAYER_STATE1_20) || ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) ||
-        this->action == ENHORSE_ACT_HBA || player->actor.flags & ACTOR_FLAG_TALK ||
-        play->csCtx.state != CS_STATE_IDLE) {
+    if ((player->stateFlags1 & PLAYER_STATE1_0) || func_8002DD78(GET_PLAYER(play)) == 1
+        || (player->stateFlags1 & PLAYER_STATE1_20) || ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace)
+        || this->action == ENHORSE_ACT_HBA || player->actor.flags & ACTOR_FLAG_TALK
+        || play->csCtx.state != CS_STATE_IDLE) {
         return false;
     }
     return true;
@@ -803,8 +804,8 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
         }
     }
 
-    if (play->sceneId == SCENE_LON_LON_RANCH && GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6 &&
-        !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && !DREG(1)) {
+    if (play->sceneId == SCENE_LON_LON_RANCH && GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6
+        && !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && !DREG(1)) {
         this->stateFlags |= ENHORSE_FLAG_25;
     }
 
@@ -1018,9 +1019,9 @@ void EnHorse_UpdateSpeed(EnHorse* this, PlayState* play, f32 brakeDecel, f32 bra
 
     if (this->stateFlags & ENHORSE_BOOST) {
         if ((16 - this->boostTimer) > 0) {
-            this->actor.speed = (EnHorse_SlopeSpeedMultiplier(this, play) * this->boostSpeed - this->actor.speed) /
-                                    (16 - this->boostTimer) +
-                                this->actor.speed;
+            this->actor.speed = (EnHorse_SlopeSpeedMultiplier(this, play) * this->boostSpeed - this->actor.speed)
+                                  / (16 - this->boostTimer)
+                              + this->actor.speed;
         } else {
             this->actor.speed = EnHorse_SlopeSpeedMultiplier(this, play) * this->boostSpeed;
         }
@@ -1230,8 +1231,8 @@ void EnHorse_MountedWalk(EnHorse* this, PlayState* play) {
 
     EnHorse_PlayWalkingSfx(this);
     EnHorse_StickDirection(&this->curStick, &stickMag, &stickAngle);
-    if (this->noInputTimerMax == 0.0f ||
-        (this->noInputTimer > 0.0f && this->noInputTimer < this->noInputTimerMax - 20.0f)) {
+    if (this->noInputTimerMax == 0.0f
+        || (this->noInputTimer > 0.0f && this->noInputTimer < this->noInputTimerMax - 20.0f)) {
         EnHorse_UpdateSpeed(this, play, 0.3f, -0.5f, 10.0f, 0.06f, 3.0f, 400);
     } else {
         this->actor.speed = 3.0f;
@@ -1520,8 +1521,8 @@ void EnHorse_Reverse(EnHorse* this, PlayState* play) {
     EnHorse_PlayWalkingSfx(this);
     EnHorse_StickDirection(&this->curStick, &stickMag, &stickAngle);
     if (EnHorse_PlayerCanMove(this, play) == true) {
-        if (this->noInputTimerMax == 0.0f ||
-            (this->noInputTimer > 0.0f && this->noInputTimer < this->noInputTimerMax - 20.0f)) {
+        if (this->noInputTimerMax == 0.0f
+            || (this->noInputTimer > 0.0f && this->noInputTimer < this->noInputTimerMax - 20.0f)) {
             if (stickMag < 10.0f && this->noInputTimer <= 0.0f) {
                 EnHorse_StartMountedIdleResetAnim(this);
                 this->actor.speed = 0.0f;
@@ -1559,8 +1560,8 @@ void EnHorse_Reverse(EnHorse* this, PlayState* play) {
         }
     }
     this->skin.skelAnime.playSpeed = this->actor.speed * 0.5f * 1.5f;
-    if (SkelAnime_Update(&this->skin.skelAnime) && (f32)this->noInputTimer <= 0.0f &&
-        EnHorse_PlayerCanMove(this, play) == true) {
+    if (SkelAnime_Update(&this->skin.skelAnime) && (f32)this->noInputTimer <= 0.0f
+        && EnHorse_PlayerCanMove(this, play) == true) {
         if (stickMag > 10.0f && Math_CosS(stickAngle) <= -0.5f) {
             this->noInputTimerMax = 0;
             EnHorse_StartReversingInterruptable(this);
@@ -1634,8 +1635,8 @@ void EnHorse_LowJump(EnHorse* this, PlayState* play) {
         this->actor.world.pos.y = this->jumpStartY + y * 0.01f;
     }
 
-    if (SkelAnime_Update(&this->skin.skelAnime) ||
-        (curFrame > 17.0f && this->actor.world.pos.y < this->actor.floorHeight - this->actor.velocity.y + 80.0f)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)
+        || (curFrame > 17.0f && this->actor.world.pos.y < this->actor.floorHeight - this->actor.velocity.y + 80.0f)) {
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_LAND, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         Rumble_Request(0.0f, 255, 10, 80);
@@ -1710,8 +1711,8 @@ void EnHorse_HighJump(EnHorse* this, PlayState* play) {
         this->actor.world.pos.y = this->jumpStartY + y * 0.01f;
     }
 
-    if (SkelAnime_Update(&this->skin.skelAnime) ||
-        (curFrame > 23.0f && this->actor.world.pos.y < this->actor.floorHeight - this->actor.velocity.y + 80.0f)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)
+        || (curFrame > 23.0f && this->actor.world.pos.y < this->actor.floorHeight - this->actor.velocity.y + 80.0f)) {
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_LAND, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         Rumble_Request(0.0f, 255, 10, 80);
@@ -1912,8 +1913,8 @@ void EnHorse_FollowPlayer(EnHorse* this, PlayState* play) {
     distToPlayer = Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(play)->actor);
 
     // First rotate if the player is behind
-    if ((this->playerDir == PLAYER_DIR_BACK_R || this->playerDir == PLAYER_DIR_BACK_L) &&
-        (distToPlayer > 300.0f && !(this->stateFlags & ENHORSE_TURNING_TO_PLAYER))) {
+    if ((this->playerDir == PLAYER_DIR_BACK_R || this->playerDir == PLAYER_DIR_BACK_L)
+        && (distToPlayer > 300.0f && !(this->stateFlags & ENHORSE_TURNING_TO_PLAYER))) {
         this->animationIdx = ENHORSE_ANIM_REARING;
         this->stateFlags |= ENHORSE_TURNING_TO_PLAYER;
         this->angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor);
@@ -2096,8 +2097,8 @@ void EnHorse_UpdateIngoRace(EnHorse* this, PlayState* play) {
         playSpeed = 1.0f;
     }
     this->skin.skelAnime.playSpeed = playSpeed;
-    if (SkelAnime_Update(&this->skin.skelAnime) ||
-        (this->animationIdx == ENHORSE_ANIM_IDLE && this->actor.speed != 0.0f)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)
+        || (this->animationIdx == ENHORSE_ANIM_IDLE && this->actor.speed != 0.0f)) {
         EnHorse_UpdateIngoHorseAnim(this);
     }
 
@@ -2208,8 +2209,8 @@ void EnHorse_CsJump(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
         y = jointTable->y;
         this->actor.world.pos.y = this->jumpStartY + y * 0.01f;
     }
-    if (SkelAnime_Update(&this->skin.skelAnime) ||
-        (temp_f2 > 19.0f && this->actor.world.pos.y < (this->actor.floorHeight - this->actor.velocity.y) + 80.0f)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)
+        || (temp_f2 > 19.0f && this->actor.world.pos.y < (this->actor.floorHeight - this->actor.velocity.y) + 80.0f)) {
         Vec3s* jointTable;
         f32 y;
 
@@ -2423,8 +2424,8 @@ s32 EnHorse_UpdateHbaRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceInfo
     EnHorse_RaceWaypointPos(raceInfo->waypoints, this->curRaceWaypoint, &pos);
     Math3D_RotateXZPlane(&pos, raceInfo->waypoints[this->curRaceWaypoint].angle, &px, &pz, &d);
 
-    if (this->curRaceWaypoint >= raceInfo->numWaypoints - 1 &&
-        Math3D_Vec3f_DistXYZ(&pos, &this->actor.world.pos) < DREG(8)) {
+    if (this->curRaceWaypoint >= raceInfo->numWaypoints - 1
+        && Math3D_Vec3f_DistXYZ(&pos, &this->actor.world.pos) < DREG(8)) {
         this->hbaFlags |= 2;
     }
 
@@ -2579,8 +2580,8 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
     }
 
     this->skin.skelAnime.playSpeed = playSpeed;
-    if (SkelAnime_Update(&this->skin.skelAnime) ||
-        (this->animationIdx == ENHORSE_ANIM_IDLE && this->actor.speed != 0.0f)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)
+        || (this->animationIdx == ENHORSE_ANIM_IDLE && this->actor.speed != 0.0f)) {
         EnHorse_UpdateHbaAnim(this);
     }
 }
@@ -2856,14 +2857,14 @@ s32 EnHorse_CalcFloorHeight(EnHorse* this, PlayState* play, Vec3f* pos, Collisio
         return 1; // No floor
     }
 
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, pos->x, pos->z, &waterY, &waterBox) == 1 &&
-        *floorHeight < waterY) {
+    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, pos->x, pos->z, &waterY, &waterBox) == 1
+        && *floorHeight < waterY) {
         return 2; // Water
     }
 
     if (COLPOLY_GET_NORMAL((*floorPoly)->normal.y) < 0.81915206f || // cos(35 degrees)
-        SurfaceType_IsHorseBlocked(&play->colCtx, *floorPoly, bgId) ||
-        SurfaceType_GetFloorType(&play->colCtx, *floorPoly, bgId) == FLOOR_TYPE_7) {
+        SurfaceType_IsHorseBlocked(&play->colCtx, *floorPoly, bgId)
+        || SurfaceType_GetFloorType(&play->colCtx, *floorPoly, bgId) == FLOOR_TYPE_7) {
         return 3; // Horse blocked surface
     }
     return 0;
@@ -2926,8 +2927,9 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
     s32 pad;
 
     if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterHeight,
-                                &waterBox) == 1 &&
-        this->actor.floorHeight < waterHeight) {
+                                &waterBox)
+            == 1
+        && this->actor.floorHeight < waterHeight) {
         EnHorse_ObstructMovement(this, play, 1, galloping);
         return;
     }
@@ -2973,8 +2975,8 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
         pos.y = this->yFront;
         dist = Math3D_DistPlaneToPos(nx, ny, nz, this->actor.floorPoly->dist, &pos);
         if ((frontFloor != this->actor.floorPoly) && (this->actor.speed >= 0.0f)) {
-            if ((!(this->stateFlags & ENHORSE_JUMPING) && dist < -40.0f) ||
-                (this->stateFlags & ENHORSE_JUMPING && dist < -200.0f)) {
+            if ((!(this->stateFlags & ENHORSE_JUMPING) && dist < -40.0f)
+                || (this->stateFlags & ENHORSE_JUMPING && dist < -200.0f)) {
                 EnHorse_ObstructMovement(this, play, 4, galloping);
                 return;
             }
@@ -2983,16 +2985,16 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
         pos = backPos;
         pos.y = this->yBack;
         dist = Math3D_DistPlaneToPos(nx, ny, nz, this->actor.floorPoly->dist, &pos);
-        if (((backFloor != this->actor.floorPoly) && (this->actor.speed <= 0.0f) &&
-             !(this->stateFlags & ENHORSE_JUMPING) && (dist < -40.0f)) ||
-            (this->stateFlags & ENHORSE_JUMPING && dist < -200.0f)) {
+        if (((backFloor != this->actor.floorPoly) && (this->actor.speed <= 0.0f)
+             && !(this->stateFlags & ENHORSE_JUMPING) && (dist < -40.0f))
+            || (this->stateFlags & ENHORSE_JUMPING && dist < -200.0f)) {
             EnHorse_ObstructMovement(this, play, 5, galloping);
             return;
         }
 
         if (ny < 0.81915206f || // cos(35 degrees)
-            SurfaceType_IsHorseBlocked(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ||
-            SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) == FLOOR_TYPE_7) {
+            SurfaceType_IsHorseBlocked(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId)
+            || SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) == FLOOR_TYPE_7) {
             if (this->actor.speed >= 0.0f) {
                 EnHorse_ObstructMovement(this, play, 4, galloping);
             } else {
@@ -3082,8 +3084,9 @@ void EnHorse_ResolveCollision(EnHorse* this, PlayState* play, CollisionPoly* col
     nx = COLPOLY_GET_NORMAL(colPoly->normal.x);
     ny = COLPOLY_GET_NORMAL(colPoly->normal.y);
     nz = COLPOLY_GET_NORMAL(colPoly->normal.z);
-    if (!(Math_CosS(this->actor.world.rot.y - RAD_TO_BINANG(Math_FAtan2F(colPoly->normal.x, colPoly->normal.z)) -
-                    0x7FFF) < 0.7071f)) { // cos(45 degrees)
+    if (!(Math_CosS(this->actor.world.rot.y - RAD_TO_BINANG(Math_FAtan2F(colPoly->normal.x, colPoly->normal.z))
+                    - 0x7FFF)
+          < 0.7071f)) { // cos(45 degrees)
         dist = Math3D_DistPlaneToPos(nx, ny, nz, colPoly->dist, &this->actor.world.pos);
         offset = (1.0f / sqrtf(SQ(nx) + SQ(nz)));
         offset = (30.0f - dist) * offset;
@@ -3138,16 +3141,16 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     Vec3f obstacleTop;
 
     Actor_UpdateBgCheckInfo(play, &this->actor, play->sceneId == SCENE_LON_LON_RANCH ? 19.0f : 40.0f, 35.0f, 100.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                | UPDBGCHECKINFO_FLAG_4);
 
     if (EnHorse_BgCheckBridgeJumpPoint(this, play)) {
         return;
     }
 
     // void 0 trick required to match, but is surely not real. revisit at a later time
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
-        Math_CosS(this->actor.wallYaw - ((void)0, this->actor.world).rot.y) < -0.3f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+        && Math_CosS(this->actor.wallYaw - ((void)0, this->actor.world).rot.y) < -0.3f) {
         if (this->actor.speed > 4.0f) {
             this->actor.speed -= 1.0f;
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_SANDDUST, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -3198,9 +3201,9 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
         if (intersectDist < 30.0f) {
             EnHorse_ResolveCollision(this, play, wall);
         }
-        if ((Math_CosS(this->actor.world.rot.y - RAD_TO_BINANG(Math_FAtan2F(wall->normal.x, wall->normal.z)) - 0x7FFF) <
-             0.5f) ||
-            SurfaceType_IsHorseBlocked(&play->colCtx, wall, bgId) != 0) {
+        if ((Math_CosS(this->actor.world.rot.y - RAD_TO_BINANG(Math_FAtan2F(wall->normal.x, wall->normal.z)) - 0x7FFF)
+             < 0.5f)
+            || SurfaceType_IsHorseBlocked(&play->colCtx, wall, bgId) != 0) {
             return;
         }
 
@@ -3216,8 +3219,8 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
         }
 
         dynaPoly = DynaPoly_GetActor(&play->colCtx, bgId);
-        if ((this->stateFlags & ENHORSE_FLAG_26) &&
-            ((dynaPoly && dynaPoly->actor.id != ACTOR_BG_UMAJUMP) || dynaPoly == NULL)) {
+        if ((this->stateFlags & ENHORSE_FLAG_26)
+            && ((dynaPoly && dynaPoly->actor.id != ACTOR_BG_UMAJUMP) || dynaPoly == NULL)) {
             if (!movingFast) {
                 this->stateFlags |= ENHORSE_FORCE_REVERSING;
             } else if (movingFast == true) {
@@ -3246,10 +3249,12 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
 
     if (Math3D_DistPlaneToPos(
             COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x), COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y),
-            COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z), this->actor.floorPoly->dist, &obstacleTop) < -40.0f &&
-        Math3D_DistPlaneToPos(COLPOLY_GET_NORMAL(obstacleFloor->normal.x), COLPOLY_GET_NORMAL(obstacleFloor->normal.y),
-                              COLPOLY_GET_NORMAL(obstacleFloor->normal.z), obstacleFloor->dist,
-                              &this->actor.world.pos) > 40.0f) {
+            COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z), this->actor.floorPoly->dist, &obstacleTop)
+            < -40.0f
+        && Math3D_DistPlaneToPos(
+               COLPOLY_GET_NORMAL(obstacleFloor->normal.x), COLPOLY_GET_NORMAL(obstacleFloor->normal.y),
+               COLPOLY_GET_NORMAL(obstacleFloor->normal.z), obstacleFloor->dist, &this->actor.world.pos)
+               > 40.0f) {
         if (movingFast == true && this->action != ENHORSE_ACT_STOPPING) {
             this->stateFlags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, play);
@@ -3260,8 +3265,8 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
 
     ny = COLPOLY_GET_NORMAL(obstacleFloor->normal.y);
     if (ny < 0.81915206f || // cos(35 degrees)
-        (SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId) != 0) ||
-        (SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == FLOOR_TYPE_7)) {
+        (SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId) != 0)
+        || (SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == FLOOR_TYPE_7)) {
         if (movingFast == true && this->action != ENHORSE_ACT_STOPPING) {
             this->stateFlags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, play);
@@ -3297,8 +3302,8 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
 
     ny = COLPOLY_GET_NORMAL(obstacleFloor->normal.y);
     if (ny < 0.81915206f || // cos(35 degrees)
-        SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId) ||
-        SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == FLOOR_TYPE_7) {
+        SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId)
+        || SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == FLOOR_TYPE_7) {
         if (movingFast == true && this->action != ENHORSE_ACT_STOPPING) {
             this->stateFlags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, play);
@@ -3311,8 +3316,8 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     } else if (!movingFast && obstacleHeight > 19.0f && obstacleHeight <= 40.0f) {
         EnHorse_Stub1(this);
         this->postDrawFunc = EnHorse_LowJumpInit;
-    } else if ((movingFast == true && this->actor.speed < 13.8f && obstacleHeight > 19.0f && obstacleHeight <= 72.0f) ||
-               (this->actor.speed > 13.8f && obstacleHeight <= 112.0f)) {
+    } else if ((movingFast == true && this->actor.speed < 13.8f && obstacleHeight > 19.0f && obstacleHeight <= 72.0f)
+               || (this->actor.speed > 13.8f && obstacleHeight <= 112.0f)) {
 
         EnHorse_Stub2(this);
         this->postDrawFunc = EnHorse_HighJumpInit;
@@ -3324,11 +3329,11 @@ void EnHorse_CheckBoost(EnHorse* thisx, PlayState* play2) {
     PlayState* play = play2;
     s32 pad;
 
-    if (this->action == ENHORSE_ACT_MOUNTED_WALK || this->action == ENHORSE_ACT_MOUNTED_TROT ||
-        this->action == ENHORSE_ACT_MOUNTED_GALLOP) {
+    if (this->action == ENHORSE_ACT_MOUNTED_WALK || this->action == ENHORSE_ACT_MOUNTED_TROT
+        || this->action == ENHORSE_ACT_MOUNTED_GALLOP) {
         if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) && (play->interfaceCtx.unk_1EE == 8)) {
-            if (!(this->stateFlags & ENHORSE_BOOST) && !(this->stateFlags & ENHORSE_FLAG_8) &&
-                !(this->stateFlags & ENHORSE_FLAG_9)) {
+            if (!(this->stateFlags & ENHORSE_BOOST) && !(this->stateFlags & ENHORSE_FLAG_8)
+                && !(this->stateFlags & ENHORSE_FLAG_9)) {
                 if (this->numBoosts > 0) {
                     Rumble_Request(0.0f, 180, 20, 100);
                     this->stateFlags |= ENHORSE_BOOST;
@@ -3504,8 +3509,8 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         if (this->stateFlags & ENHORSE_FLAG_20 && this->inRace == true) {
             this->stateFlags &= ~ENHORSE_FLAG_20;
             EnHorse_StartRearing(this);
-        } else if (!(this->stateFlags & ENHORSE_FLAG_20) && this->stateFlags & ENHORSE_FLAG_21 &&
-                   this->action != ENHORSE_ACT_MOUNTED_REARING && this->inRace == true) {
+        } else if (!(this->stateFlags & ENHORSE_FLAG_20) && this->stateFlags & ENHORSE_FLAG_21
+                   && this->action != ENHORSE_ACT_MOUNTED_REARING && this->inRace == true) {
             this->stateFlags &= ~ENHORSE_FLAG_21;
             EnHorse_StartRearing(this);
         }
@@ -3516,8 +3521,8 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
     this->curFrame = this->skin.skelAnime.curFrame;
     this->lastPos = thisx->world.pos;
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
-        if (this->action == ENHORSE_ACT_MOUNTED_GALLOP || this->action == ENHORSE_ACT_MOUNTED_TROT ||
-            this->action == ENHORSE_ACT_MOUNTED_WALK) {
+        if (this->action == ENHORSE_ACT_MOUNTED_GALLOP || this->action == ENHORSE_ACT_MOUNTED_TROT
+            || this->action == ENHORSE_ACT_MOUNTED_WALK) {
             EnHorse_CheckBoost(this, play);
         }
         if (this->playerControlled == true) {
@@ -3560,8 +3565,8 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->cyl1.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->cyl2.base);
         if ((player->stateFlags1 & PLAYER_STATE1_0) && player->rideActor != NULL) {
-            if (play->sceneId != SCENE_LON_LON_RANCH ||
-                (play->sceneId == SCENE_LON_LON_RANCH && (thisx->world.pos.z < -2400.0f))) {
+            if (play->sceneId != SCENE_LON_LON_RANCH
+                || (play->sceneId == SCENE_LON_LON_RANCH && (thisx->world.pos.z < -2400.0f))) {
                 EnHorse_UpdateConveyors(this, play);
             }
         }
@@ -3647,8 +3652,8 @@ s32 EnHorse_MountSideCheck(EnHorse* this, PlayState* play, Player* player) {
         return 0;
     } else if (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) > 30.0f) {
         return 0;
-    } else if (Math_CosS(Actor_WorldYawTowardActor(&player->actor, &this->actor) - player->actor.world.rot.y) <
-               0.17364818f) { // cos(80 degrees)
+    } else if (Math_CosS(Actor_WorldYawTowardActor(&player->actor, &this->actor) - player->actor.world.rot.y)
+               < 0.17364818f) { // cos(80 degrees)
         return 0;
     } else {
         mountSide = EnHorse_PlayerDirToMountSide(this, play, player);
@@ -3706,9 +3711,9 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
 
     Skin_GetLimbPos(skin, 13, &sp94, &sp2C);
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sp2C, &this->unk_228, &sp28);
-    if ((this->animationIdx == ENHORSE_ANIM_IDLE && this->action != ENHORSE_ACT_FROZEN) &&
-        ((frame > 40.0f && frame < 45.0f && this->type == HORSE_EPONA) ||
-         (frame > 28.0f && frame < 33.0f && this->type == HORSE_HNI))) {
+    if ((this->animationIdx == ENHORSE_ANIM_IDLE && this->action != ENHORSE_ACT_FROZEN)
+        && ((frame > 40.0f && frame < 45.0f && this->type == HORSE_EPONA)
+            || (frame > 28.0f && frame < 33.0f && this->type == HORSE_HNI))) {
         if (Rand_ZeroOne() < 0.6f) {
             this->dustFlags |= 1;
             Skin_GetLimbPos(skin, 28, &hoofOffset, &this->frontRightHoof);
@@ -3762,8 +3767,8 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
                 Skin_GetLimbPos(skin, 37, &hoofOffset, &sp70);
                 EnHorse_RandomOffset(&sp70, 10.0f, &this->backLeftHoof);
             }
-        } else if (this->action == ENHORSE_ACT_LOW_JUMP && frame > 6.0f &&
-                   Rand_ZeroOne() < 1.0f - (frame - 6.0f) * (1.0f / 17.0f)) {
+        } else if (this->action == ENHORSE_ACT_LOW_JUMP && frame > 6.0f
+                   && Rand_ZeroOne() < 1.0f - (frame - 6.0f) * (1.0f / 17.0f)) {
             if (Rand_ZeroOne() < 0.5f) {
                 this->dustFlags |= 8;
                 Skin_GetLimbPos(skin, 37, &hoofOffset, &sp70);
@@ -3774,8 +3779,8 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
                 Skin_GetLimbPos(skin, 45, &hoofOffset, &sp70);
                 EnHorse_RandomOffset(&sp70, 10.0f, &this->backRightHoof);
             }
-        } else if (this->action == ENHORSE_ACT_HIGH_JUMP && frame > 5.0f &&
-                   Rand_ZeroOne() < 1.0f - (frame - 5.0f) * (1.0f / 25.0f)) {
+        } else if (this->action == ENHORSE_ACT_HIGH_JUMP && frame > 5.0f
+                   && Rand_ZeroOne() < 1.0f - (frame - 5.0f) * (1.0f / 25.0f)) {
             if (Rand_ZeroOne() < 0.5f) {
                 this->dustFlags |= 8;
                 Skin_GetLimbPos(skin, 37, &hoofOffset, &sp70);

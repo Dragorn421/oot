@@ -112,8 +112,8 @@ void EnGe3_TurnToFacePlayer(EnGe3* this, PlayState* play) {
 }
 
 void EnGe3_LookAtPlayer(EnGe3* this, PlayState* play) {
-    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x2300) &&
-        (this->actor.xzDistToPlayer < 100.0f)) {
+    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x2300)
+        && (this->actor.xzDistToPlayer < 100.0f)) {
         Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->unk_306, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRot.x, 0, 6, 6200, 100);

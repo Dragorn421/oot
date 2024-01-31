@@ -1210,8 +1210,8 @@ void BossDodongo_PlayerPosCheck(BossDodongo* this, PlayState* play) {
     for (i = 0; i < 4; i++) {
         temp_v1 = &sCornerPositions[i];
 
-        if ((fabsf(this->actor.world.pos.x - temp_v1->x) < 200.0f) &&
-            (fabsf(this->actor.world.pos.z - temp_v1->z) < 200.0f)) {
+        if ((fabsf(this->actor.world.pos.x - temp_v1->x) < 200.0f)
+            && (fabsf(this->actor.world.pos.z - temp_v1->z) < 200.0f)) {
             this->playerPosInRange = true;
             break;
         }
@@ -1242,8 +1242,8 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
                 if (this->collider.elements[i].base.bumperFlags & BUMP_HIT) {
                     acHitElem = this->collider.elements[i].base.acHitElem;
 
-                    if ((acHitElem->toucher.dmgFlags & DMG_BOOMERANG) ||
-                        (acHitElem->toucher.dmgFlags & DMG_SLINGSHOT)) {
+                    if ((acHitElem->toucher.dmgFlags & DMG_BOOMERANG)
+                        || (acHitElem->toucher.dmgFlags & DMG_SLINGSHOT)) {
                         this->collider.elements[i].base.bumperFlags &= ~BUMP_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);

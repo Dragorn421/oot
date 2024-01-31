@@ -292,8 +292,8 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
     }
     if (func_800354B4(play, thisx, 100.0f, 0x5DC0, 0x2AA8, thisx->shape.rot.y)) {
         thisx->shape.rot.y = thisx->world.rot.y = thisx->yawTowardsPlayer;
-        if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) < 0x2EE0) &&
-            (thisx->xzDistToPlayer < 90.0f)) {
+        if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) < 0x2EE0)
+            && (thisx->xzDistToPlayer < 90.0f)) {
             EnGeldB_SetupJump(this);
             return true;
         } else if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
@@ -309,8 +309,8 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
     } else if ((bomb = Actor_FindNearby(play, thisx, -1, ACTORCAT_EXPLOSIVE, 80.0f)) != NULL) {
         thisx->shape.rot.y = thisx->world.rot.y = thisx->yawTowardsPlayer;
         if (((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall < 0x2EE0)) || (bomb->id == ACTOR_EN_BOM_CHU)) {
-            if ((bomb->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(thisx, bomb) < 80.0f) &&
-                ((s16)(thisx->shape.rot.y - (bomb->world.rot.y - 0x8000)) < 0x3E80)) {
+            if ((bomb->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(thisx, bomb) < 80.0f)
+                && ((s16)(thisx->shape.rot.y - (bomb->world.rot.y - 0x8000)) < 0x3E80)) {
                 EnGeldB_SetupJump(this);
                 return true;
             } else {
@@ -328,8 +328,8 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
         } else {
             s16 angleToFacingLink = player->actor.shape.rot.y - thisx->shape.rot.y;
 
-            if ((thisx->xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(play, thisx) &&
-                ((play->gameplayFrames & 7) || (ABS(angleToFacingLink) < 0x38E0))) {
+            if ((thisx->xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(play, thisx)
+                && ((play->gameplayFrames & 7) || (ABS(angleToFacingLink) < 0x38E0))) {
                 EnGeldB_SetupSlash(this);
                 return true;
             } else {
@@ -448,10 +448,10 @@ void EnGeldB_Ready(EnGeldB* this, PlayState* play) {
             EnGeldB_SetupCircle(this);
         } else if (--this->timer == 0) {
             if (Actor_IsFacingPlayer(&this->actor, 30 * 0x10000 / 360)) {
-                if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f) &&
-                    (Rand_ZeroOne() < 0.3f)) {
-                    if (Actor_OtherIsTargeted(play, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
-                        (ABS(angleToLink) < 0x38E0)) {
+                if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f)
+                    && (Rand_ZeroOne() < 0.3f)) {
+                    if (Actor_OtherIsTargeted(play, &this->actor) || (Rand_ZeroOne() > 0.5f)
+                        || (ABS(angleToLink) < 0x38E0)) {
                         EnGeldB_SetupRollForward(this);
                     } else {
                         EnGeldB_SetupSpinAttack(this);
@@ -519,8 +519,8 @@ void EnGeldB_Advance(EnGeldB* this, PlayState* play) {
                 EnGeldB_SetupReady(this);
             }
         } else if (this->actor.xzDistToPlayer < 90.0f) {
-            if (!Actor_OtherIsTargeted(play, &this->actor) &&
-                (Rand_ZeroOne() > 0.03f || (this->actor.xzDistToPlayer <= 45.0f && facingAngletoLink < 0x38E0))) {
+            if (!Actor_OtherIsTargeted(play, &this->actor)
+                && (Rand_ZeroOne() > 0.03f || (this->actor.xzDistToPlayer <= 45.0f && facingAngletoLink < 0x38E0))) {
                 EnGeldB_SetupSlash(this);
             } else if (Actor_OtherIsTargeted(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
                 EnGeldB_SetupRollBack(this);
@@ -529,8 +529,8 @@ void EnGeldB_Advance(EnGeldB* this, PlayState* play) {
             }
         }
         if (!EnGeldB_ReactToPlayer(play, this, 0)) {
-            if ((this->actor.xzDistToPlayer < 210.0f) && (this->actor.xzDistToPlayer > 150.0f) &&
-                Actor_IsFacingPlayer(&this->actor, 0x71C)) {
+            if ((this->actor.xzDistToPlayer < 210.0f) && (this->actor.xzDistToPlayer > 150.0f)
+                && Actor_IsFacingPlayer(&this->actor, 0x71C)) {
                 if (Actor_IsTargeted(play, &this->actor)) {
                     if (Rand_ZeroOne() > 0.5f) {
                         EnGeldB_SetupRollForward(this);
@@ -582,8 +582,8 @@ void EnGeldB_RollForward(EnGeldB* this, PlayState* play) {
             if (ABS(facingAngleToLink) < 0x38E0) {
                 this->lookTimer = 20;
             }
-        } else if (!Actor_OtherIsTargeted(play, &this->actor) &&
-                   (Rand_ZeroOne() > 0.5f || (ABS(facingAngleToLink) < 0x3FFC))) {
+        } else if (!Actor_OtherIsTargeted(play, &this->actor)
+                   && (Rand_ZeroOne() > 0.5f || (ABS(facingAngleToLink) < 0x3FFC))) {
             EnGeldB_SetupSlash(this);
         } else {
             EnGeldB_SetupAdvance(this, play);
@@ -668,8 +668,8 @@ void EnGeldB_Circle(EnGeldB* this, PlayState* play) {
                 this->actor.speed = 8.0f;
             }
         }
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3E80)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+            || !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3E80)) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 if (this->actor.speed >= 0.0f) {
                     phi_v1 = this->actor.shape.rot.y + 0x3E80;
@@ -713,16 +713,16 @@ void EnGeldB_Circle(EnGeldB* this, PlayState* play) {
         beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
         afterPrevFrame = (s32)ABS(this->skelAnime.playSpeed) + prevFrame;
 
-        if ((prevFrame != (s32)this->skelAnime.curFrame) &&
-            (((beforeCurFrame < 0) && (afterPrevFrame > 0)) || ((beforeCurFrame < 5) && (afterPrevFrame > 5)))) {
+        if ((prevFrame != (s32)this->skelAnime.curFrame)
+            && (((beforeCurFrame < 0) && (afterPrevFrame > 0)) || ((beforeCurFrame < 5) && (afterPrevFrame > 5)))) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_MUSI_LAND);
         }
 
         if ((play->gameplayFrames & 0x5F) == 0) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
         }
-        if ((Math_CosS(angleBehindLink - this->actor.shape.rot.y) < -0.85f) &&
-            !Actor_OtherIsTargeted(play, &this->actor) && (this->actor.xzDistToPlayer <= 45.0f)) {
+        if ((Math_CosS(angleBehindLink - this->actor.shape.rot.y) < -0.85f)
+            && !Actor_OtherIsTargeted(play, &this->actor) && (this->actor.xzDistToPlayer <= 45.0f)) {
             EnGeldB_SetupSlash(this);
         } else if (--this->timer == 0) {
             if (Actor_OtherIsTargeted(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
@@ -768,8 +768,8 @@ void EnGeldB_SpinDodge(EnGeldB* this, PlayState* play) {
     s32 afterPrevFrame;
 
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x3A98;
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3E80)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+        || !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3E80)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             if (this->actor.speed >= 0.0f) {
                 phi_v1 = this->actor.shape.rot.y + 0x3E80;
@@ -809,8 +809,8 @@ void EnGeldB_SpinDodge(EnGeldB* this, PlayState* play) {
     beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
     afterPrevFrame = (s32)ABS(this->skelAnime.playSpeed) + prevFrame;
 
-    if ((prevFrame != (s32)this->skelAnime.curFrame) &&
-        (((beforeCurFrame < 0) && (afterPrevFrame > 0)) || ((beforeCurFrame < 5) && (afterPrevFrame > 5)))) {
+    if ((prevFrame != (s32)this->skelAnime.curFrame)
+        && (((beforeCurFrame < 0) && (afterPrevFrame > 0)) || ((beforeCurFrame < 5) && (afterPrevFrame > 5)))) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_MUSI_LAND);
     }
 
@@ -988,8 +988,8 @@ void EnGeldB_SetupRollBack(EnGeldB* this) {
 
 void EnGeldB_RollBack(EnGeldB* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (!Actor_OtherIsTargeted(play, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
-            (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
+        if (!Actor_OtherIsTargeted(play, &this->actor) && (this->actor.xzDistToPlayer < 170.0f)
+            && (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             EnGeldB_SetupSpinAttack(this);
         } else if (play->gameplayFrames & 1) {
             EnGeldB_SetupSidestep(this, play);
@@ -1064,15 +1064,15 @@ void EnGeldB_Damaged(EnGeldB* this, PlayState* play) {
         this->invisible = false;
     }
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x1194, 0);
-    if (!EnGeldB_DodgeRanged(play, this) && !EnGeldB_ReactToPlayer(play, this, 0) &&
-        SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if (!EnGeldB_DodgeRanged(play, this) && !EnGeldB_ReactToPlayer(play, this, 0) && SkelAnime_Update(&this->skelAnime)
+        && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         angleToWall = this->actor.wallYaw - this->actor.shape.rot.y;
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) < 0x2EE0) &&
-            (this->actor.xzDistToPlayer < 90.0f)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) < 0x2EE0)
+            && (this->actor.xzDistToPlayer < 90.0f)) {
             EnGeldB_SetupJump(this);
         } else if (!EnGeldB_DodgeRanged(play, this)) {
-            if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(play, &this->actor) &&
-                (play->gameplayFrames & 7)) {
+            if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(play, &this->actor)
+                && (play->gameplayFrames & 7)) {
                 EnGeldB_SetupSlash(this);
             } else {
                 EnGeldB_SetupRollBack(this);
@@ -1101,8 +1101,8 @@ void EnGeldB_Jump(EnGeldB* this, PlayState* play) {
         func_800355B8(play, &this->leftFootPos);
         func_800355B8(play, &this->rightFootPos);
     }
-    if (SkelAnime_Update(&this->skelAnime) &&
-        (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
+    if (SkelAnime_Update(&this->skelAnime)
+        && (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.x = 0;
         this->actor.speed = 0.0f;
@@ -1142,8 +1142,8 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play) {
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         angleToLink = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-        if ((ABS(angleToLink) <= 0x4000) && (this->actor.xzDistToPlayer < 40.0f) &&
-            (ABS(this->actor.yDistToPlayer) < 50.0f)) {
+        if ((ABS(angleToLink) <= 0x4000) && (this->actor.xzDistToPlayer < 40.0f)
+            && (ABS(this->actor.yDistToPlayer) < 50.0f)) {
             if (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
                 if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
                     EnGeldB_SetupSpinDodge(this, play);
@@ -1154,8 +1154,8 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play) {
                 }
             } else {
                 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
-                if (!Actor_OtherIsTargeted(play, &this->actor) &&
-                    ((play->gameplayFrames & 1) || (ABS(angleFacingLink) < 0x38E0))) {
+                if (!Actor_OtherIsTargeted(play, &this->actor)
+                    && ((play->gameplayFrames & 1) || (ABS(angleFacingLink) < 0x38E0))) {
                     EnGeldB_SetupSlash(this);
                 } else {
                     EnGeldB_SetupCircle(this);
@@ -1164,8 +1164,8 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play) {
         } else {
             EnGeldB_SetupCircle(this);
         }
-    } else if ((this->timer == 0) &&
-               func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
+    } else if ((this->timer == 0)
+               && func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnGeldB_SetupSpinDodge(this, play);
         } else if (!EnGeldB_DodgeRanged(play, this)) {
@@ -1222,8 +1222,8 @@ void EnGeldB_Sidestep(EnGeldB* this, PlayState* play) {
         this->actor.speed -= 0.125f;
     }
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3E80)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
+        || !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3E80)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             if (this->actor.speed >= 0.0f) {
                 phi_v1 = this->actor.shape.rot.y + 0x3E80;
@@ -1285,13 +1285,13 @@ void EnGeldB_Sidestep(EnGeldB* this, PlayState* play) {
                 s16 angleFacingPlayer2 = player2->actor.shape.rot.y - this->actor.shape.rot.y;
 
                 this->actor.world.rot.y = this->actor.shape.rot.y;
-                if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(play, &this->actor) &&
-                    (!(play->gameplayFrames & 3) || (ABS(angleFacingPlayer2) < 0x38E0))) {
+                if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(play, &this->actor)
+                    && (!(play->gameplayFrames & 3) || (ABS(angleFacingPlayer2) < 0x38E0))) {
                     EnGeldB_SetupSlash(this);
-                } else if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f) &&
-                           !(play->gameplayFrames & 1)) {
-                    if (Actor_OtherIsTargeted(play, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
-                        (ABS(angleFacingPlayer2) < 0x38E0)) {
+                } else if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f)
+                           && !(play->gameplayFrames & 1)) {
+                    if (Actor_OtherIsTargeted(play, &this->actor) || (Rand_ZeroOne() > 0.5f)
+                        || (ABS(angleFacingPlayer2) < 0x38E0)) {
                         EnGeldB_SetupRollForward(this);
                     } else {
                         EnGeldB_SetupSpinAttack(this);
@@ -1301,9 +1301,9 @@ void EnGeldB_Sidestep(EnGeldB* this, PlayState* play) {
                 }
             }
         }
-        if ((prevFrame != (s32)this->skelAnime.curFrame) &&
-            (((beforeCurFrame < 0) && (((s32)absPlaySpeed + prevFrame) > 0)) ||
-             ((beforeCurFrame < 5) && (((s32)absPlaySpeed + prevFrame) > 5)))) {
+        if ((prevFrame != (s32)this->skelAnime.curFrame)
+            && (((beforeCurFrame < 0) && (((s32)absPlaySpeed + prevFrame) > 0))
+                || ((beforeCurFrame < 5) && (((s32)absPlaySpeed + prevFrame) > 5)))) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_MUSI_LAND);
         }
         if ((play->gameplayFrames & 0x5F) == 0) {
@@ -1363,15 +1363,15 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
     if (this->blockCollider.base.acFlags & AC_BOUNCED) {
         this->blockCollider.base.acFlags &= ~AC_BOUNCED;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-    } else if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->action >= GELDB_READY) &&
-               (this->spinAttackState < 2)) {
+    } else if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->action >= GELDB_READY)
+               && (this->spinAttackState < 2)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
-            if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN) ||
-                (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {
+            if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN)
+                || (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {
                 if (this->action != GELDB_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -1408,8 +1408,8 @@ void EnGeldB_Update(Actor* thisx, PlayState* play) {
     if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 15.0f, 30.0f, 60.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                    UPDBGCHECKINFO_FLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3
+                                    | UPDBGCHECKINFO_FLAG_4);
         this->actionFunc(this, play);
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.focus.pos.y += 40.0f;
@@ -1417,8 +1417,8 @@ void EnGeldB_Update(Actor* thisx, PlayState* play) {
     }
     Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
-    if ((this->action >= GELDB_READY) && (this->spinAttackState < 2) &&
-        ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
+    if ((this->action >= GELDB_READY) && (this->spinAttackState < 2)
+        && ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
     }
     if ((this->action == GELDB_BLOCK) && (this->skelAnime.curFrame == 0.0f)) {

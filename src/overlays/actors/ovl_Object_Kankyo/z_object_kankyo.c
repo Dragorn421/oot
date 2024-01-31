@@ -226,9 +226,9 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
         }
     }
 
-    if (play->envCtx.precipitation[PRECIP_SNOW_MAX] < 64 &&
-        (gSaveContext.save.entranceIndex != ENTR_KOKIRI_FOREST_0 || gSaveContext.sceneLayer != 4 ||
-         play->envCtx.precipitation[PRECIP_SNOW_MAX])) {
+    if (play->envCtx.precipitation[PRECIP_SNOW_MAX] < 64
+        && (gSaveContext.save.entranceIndex != ENTR_KOKIRI_FOREST_0 || gSaveContext.sceneLayer != 4
+            || play->envCtx.precipitation[PRECIP_SNOW_MAX])) {
         play->envCtx.precipitation[PRECIP_SNOW_MAX] += 16;
     }
 
@@ -414,12 +414,12 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
 
                 if (this->effects[i].state != 2) {
                     maxDist = 130.0f;
-                    if (this->effects[i].base.x + this->effects[i].pos.x - baseX > maxDist ||
-                        this->effects[i].base.x + this->effects[i].pos.x - baseX < -maxDist ||
-                        this->effects[i].base.y + this->effects[i].pos.y - baseY > maxDist ||
-                        this->effects[i].base.y + this->effects[i].pos.y - baseY < -maxDist ||
-                        this->effects[i].base.z + this->effects[i].pos.z - baseZ > maxDist ||
-                        this->effects[i].base.z + this->effects[i].pos.z - baseZ < -maxDist) {
+                    if (this->effects[i].base.x + this->effects[i].pos.x - baseX > maxDist
+                        || this->effects[i].base.x + this->effects[i].pos.x - baseX < -maxDist
+                        || this->effects[i].base.y + this->effects[i].pos.y - baseY > maxDist
+                        || this->effects[i].base.y + this->effects[i].pos.y - baseY < -maxDist
+                        || this->effects[i].base.z + this->effects[i].pos.z - baseZ > maxDist
+                        || this->effects[i].base.z + this->effects[i].pos.z - baseZ < -maxDist) {
 
                         // when a fairy moves off screen, wrap around to the other side
                         if (this->effects[i].base.x + this->effects[i].pos.x - baseX > maxDist) {
@@ -651,18 +651,18 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
                     this->effects[i].pos.z += cosf(this->effects[i].dirPhase.z * 0.01f);
                     this->effects[i].pos.y += -this->effects[i].speed;
 
-                    if (this->effects[i].base.y + this->effects[i].pos.y < this->actor.world.pos.y ||
-                        this->effects[i].base.y + this->effects[i].pos.y < play->view.eye.y - 150.0f) {
+                    if (this->effects[i].base.y + this->effects[i].pos.y < this->actor.world.pos.y
+                        || this->effects[i].base.y + this->effects[i].pos.y < play->view.eye.y - 150.0f) {
                         this->effects[i].state++;
                     }
 
                     maxDist = 80;
-                    if (this->effects[i].base.x + this->effects[i].pos.x - baseX > maxDist ||
-                        this->effects[i].base.x + this->effects[i].pos.x - baseX < -maxDist ||
-                        this->effects[i].base.y + this->effects[i].pos.y - baseY > maxDist ||
-                        this->effects[i].base.y + this->effects[i].pos.y - baseY < -maxDist ||
-                        this->effects[i].base.z + this->effects[i].pos.z - baseZ > maxDist ||
-                        this->effects[i].base.z + this->effects[i].pos.z - baseZ < -maxDist) {
+                    if (this->effects[i].base.x + this->effects[i].pos.x - baseX > maxDist
+                        || this->effects[i].base.x + this->effects[i].pos.x - baseX < -maxDist
+                        || this->effects[i].base.y + this->effects[i].pos.y - baseY > maxDist
+                        || this->effects[i].base.y + this->effects[i].pos.y - baseY < -maxDist
+                        || this->effects[i].base.z + this->effects[i].pos.z - baseZ > maxDist
+                        || this->effects[i].base.z + this->effects[i].pos.z - baseZ < -maxDist) {
 
                         // when off screen, wrap around to the other side
                         if (this->effects[i].base.x + this->effects[i].pos.x - baseX > maxDist) {

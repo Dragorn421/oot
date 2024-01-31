@@ -125,12 +125,12 @@ void BgHidanDalm_Destroy(Actor* thisx, PlayState* play) {
 void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(play) &&
-        (player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD ||
-         player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_SIDE)) {
+    if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(play)
+        && (player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD
+            || player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_SIDE)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if ((this->collider.elements[0].base.bumperFlags & BUMP_HIT) ||
-            (this->collider.elements[1].base.bumperFlags & BUMP_HIT)) {
+        if ((this->collider.elements[0].base.bumperFlags & BUMP_HIT)
+            || (this->collider.elements[1].base.bumperFlags & BUMP_HIT)) {
             this->dyna.actor.world.rot.y -= 0x4000;
         } else {
             this->dyna.actor.world.rot.y += 0x4000;

@@ -66,8 +66,8 @@ void DoorWarp1_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
 
-    if (this->actor.params != WARP_SAGES && this->actor.params != WARP_BLUE_CRYSTAL &&
-        this->actor.params != WARP_YELLOW && this->actor.params != WARP_DESTINATION) {
+    if (this->actor.params != WARP_SAGES && this->actor.params != WARP_BLUE_CRYSTAL && this->actor.params != WARP_YELLOW
+        && this->actor.params != WARP_DESTINATION) {
         Lights_PointNoGlowSetInfo(&this->upperLightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                                   this->actor.world.pos.z, 0, 0, 0, 0);
         this->upperLight = LightContext_InsertLight(play2, &play2->lightCtx, &this->upperLightInfo);
@@ -161,13 +161,13 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             DoorWarp1_SetupAction(this, DoorWarp1_AwaitClearFlag);
             break;
         case WARP_DESTINATION:
-            if ((!(gSaveContext.save.entranceIndex == ENTR_SACRED_FOREST_MEADOW_3 ||
-                   gSaveContext.save.entranceIndex == ENTR_DEATH_MOUNTAIN_CRATER_5 ||
-                   gSaveContext.save.entranceIndex == ENTR_LAKE_HYLIA_9 ||
-                   gSaveContext.save.entranceIndex == ENTR_DESERT_COLOSSUS_8 ||
-                   gSaveContext.save.entranceIndex == ENTR_GRAVEYARD_8) &&
-                 !IS_CUTSCENE_LAYER) ||
-                (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
+            if ((!(gSaveContext.save.entranceIndex == ENTR_SACRED_FOREST_MEADOW_3
+                   || gSaveContext.save.entranceIndex == ENTR_DEATH_MOUNTAIN_CRATER_5
+                   || gSaveContext.save.entranceIndex == ENTR_LAKE_HYLIA_9
+                   || gSaveContext.save.entranceIndex == ENTR_DESERT_COLOSSUS_8
+                   || gSaveContext.save.entranceIndex == ENTR_GRAVEYARD_8)
+                 && !IS_CUTSCENE_LAYER)
+                || (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
             }
             if (Actor_WorldDistXZToActor(&player->actor, &this->actor) > 100.0f) {
@@ -404,8 +404,8 @@ void DoorWarp1_WarpAppear(DoorWarp1* this, PlayState* play) {
     Math_SmoothStepToF(&this->lightRayAlpha, 255.0f, 0.4f, 10.0f, 0.01f);
     Math_SmoothStepToF(&this->warpAlpha, 255.0f, 0.4f, 10.0f, 0.01f);
 
-    if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_ORANGE && this->actor.params != WARP_GREEN &&
-        this->actor.params != WARP_RED) {
+    if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_ORANGE && this->actor.params != WARP_GREEN
+        && this->actor.params != WARP_RED) {
         if (this->scale < 100) {
             this->scale += 2;
         }
@@ -929,8 +929,8 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_door_warp1.c", 2173);
 
     temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.7f;
-    if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_DESTINATION &&
-        this->actor.params != WARP_ORANGE && this->actor.params != WARP_GREEN && this->actor.params != WARP_RED) {
+    if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_DESTINATION && this->actor.params != WARP_ORANGE
+        && this->actor.params != WARP_GREEN && this->actor.params != WARP_RED) {
         this->unk_19C += (s16)(temp_f0 * 15.0f);
     }
     if (this->actor.params == WARP_DESTINATION) {
