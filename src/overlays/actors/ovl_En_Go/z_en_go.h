@@ -22,7 +22,6 @@ typedef s16 (*callback2_80A3ED24)(PlayState*, struct EnGo*);
 // /* 0x80 */ // Not Used
 // /* 0x90 */ GORON1_DMT_BIGGORON,
 
-
 #define EN_GO_EFFECT_COUNT 20
 
 typedef struct {

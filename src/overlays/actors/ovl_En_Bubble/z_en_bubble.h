@@ -15,7 +15,7 @@ typedef struct EnBubble {
     /* 0x0170 */ ColliderJntSphElement colliderSphereItems[2];
     /* 0x01F0 */ Vec3f unk_1F0; // set but never used
     /* 0x01FC */ Vec3f unk_1FC; // randomly generated, set but never used
-    /* 0x0208 */ s16 unk_208;   // set to 8 when about to pop
+    /* 0x0208 */ s16 unk_208; // set to 8 when about to pop
     /* 0x020A */ s16 explosionCountdown;
     /* 0x020C */ char unk_20C[4]; // unused
     /* 0x0210 */ f32 graphicRotSpeed;

@@ -53,7 +53,7 @@ typedef enum {
 } EnExItemType;
 
 #define EXITEM_COUNTER 5
-#define EXITEM_CHEST 10
-#define EXITEM_MAGIC 16
+#define EXITEM_CHEST   10
+#define EXITEM_MAGIC   16
 
 #endif

@@ -44,7 +44,7 @@ typedef struct {
 } SkinAnimatedLimbData; // size = 0xC
 
 #define SKIN_LIMB_TYPE_ANIMATED 4
-#define SKIN_LIMB_TYPE_NORMAL 11
+#define SKIN_LIMB_TYPE_NORMAL   11
 
 typedef struct {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent

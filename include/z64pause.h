@@ -9,7 +9,7 @@ struct OcarinaStaff;
 
 #define PAUSE_ITEM_NONE 999
 
-#define PAUSE_CURSOR_PAGE_LEFT 10
+#define PAUSE_CURSOR_PAGE_LEFT  10
 #define PAUSE_CURSOR_PAGE_RIGHT 11
 
 typedef enum {
@@ -20,10 +20,10 @@ typedef enum {
     /* 0x04 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
 
-#define PAUSE_EQUIP_PLAYER_WIDTH 64
+#define PAUSE_EQUIP_PLAYER_WIDTH  64
 #define PAUSE_EQUIP_PLAYER_HEIGHT 112
 
-#define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
+#define PAUSE_EQUIP_BUFFER_SIZE                        sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
 
 typedef enum {
@@ -34,7 +34,7 @@ typedef enum {
     /*  4 */ PAUSE_STATE_OPENING_1, // Animate the pause menu coming together with rotations and other animations.
     /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
     /*  6 */ PAUSE_STATE_MAIN, // Pause menu ready for player inputs.
-    /*  7 */ PAUSE_STATE_SAVE_PROMPT,  // Save prompt in the pause menu
+    /*  7 */ PAUSE_STATE_SAVE_PROMPT, // Save prompt in the pause menu
     /*  8 */ PAUSE_STATE_8,
     /*  9 */ PAUSE_STATE_9,
     /* 10 */ PAUSE_STATE_10,
@@ -141,17 +141,17 @@ typedef struct {
 
 // Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
 // texture format for ITEM_NAME_TEX_*
-#define MAP_NAME_TEX1_WIDTH 128
+#define MAP_NAME_TEX1_WIDTH  128
 #define MAP_NAME_TEX1_HEIGHT 16
-#define MAP_NAME_TEX1_SIZE ((MAP_NAME_TEX1_WIDTH * MAP_NAME_TEX1_HEIGHT) / 2) // 128x16 IA4 texture
+#define MAP_NAME_TEX1_SIZE   ((MAP_NAME_TEX1_WIDTH * MAP_NAME_TEX1_HEIGHT) / 2) // 128x16 IA4 texture
 
-#define MAP_NAME_TEX2_WIDTH 80
+#define MAP_NAME_TEX2_WIDTH  80
 #define MAP_NAME_TEX2_HEIGHT 32
-#define MAP_NAME_TEX2_SIZE (MAP_NAME_TEX2_WIDTH * MAP_NAME_TEX2_HEIGHT) // 80x32 IA8 texture
+#define MAP_NAME_TEX2_SIZE   (MAP_NAME_TEX2_WIDTH * MAP_NAME_TEX2_HEIGHT) // 80x32 IA8 texture
 
-#define PAUSE_MAP_MARK_NONE -1
+#define PAUSE_MAP_MARK_NONE  -1
 #define PAUSE_MAP_MARK_CHEST 0
-#define PAUSE_MAP_MARK_BOSS 1
+#define PAUSE_MAP_MARK_BOSS  1
 
 typedef struct {
     /* 0x00 */ s16 chestFlag; // chest icon is only displayed if this flag is not set for the current room, -1 for no flag

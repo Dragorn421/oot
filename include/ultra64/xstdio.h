@@ -5,9 +5,9 @@
 
 // IDO doesn't support long double types, improve portability for compilers supporting them
 #ifdef __sgi
-#define LONG_DOUBLE_TYPE double
+    #define LONG_DOUBLE_TYPE double
 #else
-#define LONG_DOUBLE_TYPE long double
+    #define LONG_DOUBLE_TYPE long double
 #endif
 
 typedef struct {

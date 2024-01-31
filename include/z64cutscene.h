@@ -21,7 +21,7 @@ typedef union CutsceneData {
     s32 i;
     f32 f;
     s16 s[2];
-    s8  b[4];
+    s8 b[4];
 } CutsceneData;
 
 typedef enum {
@@ -364,7 +364,6 @@ typedef union {
     s32 _words[2];
 } CsCmdCam; // size = 0x8
 
-
 typedef union {
     struct {
         /* 0x00 */ u16 type;
@@ -430,8 +429,8 @@ typedef union {
         /* 0x00 */ u16 unused0;
         /* 0x02 */ u16 startFrame;
         /* 0x04 */ u16 endFrame; // unused
-        /* 0x06 */ u8  hour;
-        /* 0x07 */ u8  minute;
+        /* 0x06 */ u8 hour;
+        /* 0x07 */ u8 minute;
     };
     s32 _words[3];
 } CsCmdTime; // size = 0xC
@@ -492,7 +491,7 @@ typedef union {
 } CutsceneCameraPoint; // size = 0x10
 
 #define CS_CAM_CONTINUE 0
-#define CS_CAM_STOP -1
+#define CS_CAM_STOP     -1
 
 #define CS_CAM_DATA_NOT_APPLIED 0xFFFF
 
@@ -510,7 +509,7 @@ typedef struct {
 } CutsceneCameraMove; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ char  unk_00[0x4];
+    /* 0x00 */ char unk_00[0x4];
     /* 0x04 */ void* script;
     /* 0x08 */ u8 state;
     /* 0x0C */ f32 timer;

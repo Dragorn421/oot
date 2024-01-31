@@ -10,11 +10,11 @@ typedef void (*EnFrActionFunc)(struct EnFr*, PlayState*);
 typedef void (*EnFrBlinkFunc)(struct EnFr*);
 
 typedef enum {
-    /* 0 */ FROG_YELLOW,   // Middle
-    /* 1 */ FROG_BLUE,     // Front Left
-    /* 2 */ FROG_RED,      // Front Right
-    /* 3 */ FROG_PURPLE,   // Back Left
-    /* 4 */ FROG_WHITE     // Back Right
+    /* 0 */ FROG_YELLOW, // Middle
+    /* 1 */ FROG_BLUE, // Front Left
+    /* 2 */ FROG_RED, // Front Right
+    /* 3 */ FROG_PURPLE, // Back Left
+    /* 4 */ FROG_WHITE // Back Right
 } FrogType;
 
 typedef enum {
@@ -30,10 +30,10 @@ typedef enum {
 
 typedef struct EnFr {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelAnime;   // Frog Skeleton
+    /* 0x014C */ SkelAnime skelAnime; // Frog Skeleton
     /* 0x0190 */ Vec3s jointTable[24];
     /* 0x0220 */ Vec3s morphTable[24];
-    /* 0x02B0 */ SkelAnime skelAnimeButterfly;  // Butterfly Skeleton above Frog during Frog Song
+    /* 0x02B0 */ SkelAnime skelAnimeButterfly; // Butterfly Skeleton above Frog during Frog Song
     /* 0x02F4 */ Vec3s jointTableButterfly[8];
     /* 0x0324 */ Vec3s morphTableButterfly[8];
     /* 0x0354 */ EnFrActionFunc actionFunc;
@@ -45,7 +45,7 @@ typedef struct EnFr {
     /* 0x0374 */ EnFrBlinkFunc blinkFunc; // unique case of using a function pointer for blinking
     /* 0x0378 */ u8 eyeTexIndex; // index for blinking graphics
     /* 0x0379 */ u8 isJumpingUp; // Conditional for jumping up from the log back onto the log
-    /* 0x037A */ u8 isBelowWaterSurfaceCurrent;   // Used for diving effects
+    /* 0x037A */ u8 isBelowWaterSurfaceCurrent; // Used for diving effects
     /* 0x037B */ u8 isBelowWaterSurfacePrevious;
     /* 0x037C */ u8 isDeactivating; // Related to debugging (PRINTF)
     /* 0x037D */ u8 isActive; // Each Frog grows when their specific song is played.
@@ -61,7 +61,7 @@ typedef struct EnFr {
     /* 0x038C */ Vec3f posLogSpot; // Where the frog goes when activated
     /* 0x0398 */ f32 xzDistToLogSpot; // z position or axis
     /* 0x039C */ f32 unusedFloat; // Unused float, only set to zero.
-    /* 0x03A0 */ f32 scale; //scale
+    /* 0x03A0 */ f32 scale; // scale
     /* 0x03A4 */ Actor* unusedButterflyActor; // unused pointer to Actor. Likely intended for butterfly
     /* 0x03A8 */ u8 isButterflyDrawn; // isButterflyDrawn
     /* 0x03AA */ s16 xyAngleButterfly; // Butterfly Travels along random angles in the x-y plane

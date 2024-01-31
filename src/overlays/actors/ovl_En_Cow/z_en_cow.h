@@ -5,7 +5,7 @@
 #include "global.h"
 #include "assets/objects/object_cow/object_cow.h"
 
-#define COW_FLAG_PLAYER_NEARBY (1 << 1)
+#define COW_FLAG_PLAYER_NEARBY       (1 << 1)
 #define COW_FLAG_FAILED_TO_GIVE_MILK (1 << 2)
 
 #define COW_GET_TYPE(thisx) ((thisx)->actor.params)

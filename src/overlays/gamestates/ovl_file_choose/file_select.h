@@ -5,10 +5,9 @@
 #include "ultra64.h"
 #include "global.h"
 
-
 #define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + offsetof(SaveContext, save.info.playerData.newf[index])])
 
-#define SLOT_OCCUPIED(sramCtx, slotNum) \
+#define SLOT_OCCUPIED(sramCtx, slotNum)        \
     ((GET_NEWF(sramCtx, slotNum, 0) == 'Z') || \
      (GET_NEWF(sramCtx, slotNum, 1) == 'E') || \
      (GET_NEWF(sramCtx, slotNum, 2) == 'L') || \
@@ -81,24 +80,24 @@ typedef enum {
 } SelectMode;
 
 typedef enum {
-    /* 0 */ FS_TITLE_SELECT_FILE,   // "Please select a file."
-    /* 1 */ FS_TITLE_OPEN_FILE,     // "Open this file?"
-    /* 2 */ FS_TITLE_COPY_FROM,     // "Copy which file?"
-    /* 3 */ FS_TITLE_COPY_TO,       // "Copy to which file?"
-    /* 4 */ FS_TITLE_COPY_CONFIRM,  // "Are you sure?"
+    /* 0 */ FS_TITLE_SELECT_FILE, // "Please select a file."
+    /* 1 */ FS_TITLE_OPEN_FILE, // "Open this file?"
+    /* 2 */ FS_TITLE_COPY_FROM, // "Copy which file?"
+    /* 3 */ FS_TITLE_COPY_TO, // "Copy to which file?"
+    /* 4 */ FS_TITLE_COPY_CONFIRM, // "Are you sure?"
     /* 5 */ FS_TITLE_COPY_COMPLETE, // "File copied."
-    /* 6 */ FS_TITLE_ERASE_FILE,    // "Erase which file?"
+    /* 6 */ FS_TITLE_ERASE_FILE, // "Erase which file?"
     /* 7 */ FS_TITLE_ERASE_CONFIRM, // "Are you sure?"
     /* 8 */ FS_TITLE_ERASE_COMPLETE // "File erased."
 } TitleLabel;
 
 typedef enum {
     /* -1 */ FS_WARNING_NONE = -1,
-    /*  0 */ FS_WARNING_NO_FILE_COPY,   // "No file to copy."
-    /*  1 */ FS_WARNING_NO_FILE_ERASE,  // "No file to erase."
+    /*  0 */ FS_WARNING_NO_FILE_COPY, // "No file to copy."
+    /*  1 */ FS_WARNING_NO_FILE_ERASE, // "No file to erase."
     /*  2 */ FS_WARNING_NO_EMPTY_FILES, // "There is no empty file."
-    /*  3 */ FS_WARNING_FILE_EMPTY,     // "This is an empty file."
-    /*  4 */ FS_WARNING_FILE_IN_USE     // "This file is in use."
+    /*  3 */ FS_WARNING_FILE_EMPTY, // "This is an empty file."
+    /*  4 */ FS_WARNING_FILE_IN_USE // "This file is in use."
 } WarningLabel;
 
 typedef enum {

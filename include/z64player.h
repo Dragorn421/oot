@@ -167,24 +167,24 @@ typedef enum {
 } PlayerLimb;
 
 typedef enum {
-    /* 0x00 */ PLAYER_BODYPART_WAIST,      // PLAYER_LIMB_WAIST
-    /* 0x01 */ PLAYER_BODYPART_R_THIGH,    // PLAYER_LIMB_R_THIGH
-    /* 0x02 */ PLAYER_BODYPART_R_SHIN,     // PLAYER_LIMB_R_SHIN
-    /* 0x03 */ PLAYER_BODYPART_R_FOOT,     // PLAYER_LIMB_R_FOOT
-    /* 0x04 */ PLAYER_BODYPART_L_THIGH,    // PLAYER_LIMB_L_THIGH
-    /* 0x05 */ PLAYER_BODYPART_L_SHIN,     // PLAYER_LIMB_L_SHIN
-    /* 0x06 */ PLAYER_BODYPART_L_FOOT,     // PLAYER_LIMB_L_FOOT
-    /* 0x07 */ PLAYER_BODYPART_HEAD,       // PLAYER_LIMB_HEAD
-    /* 0x08 */ PLAYER_BODYPART_HAT,        // PLAYER_LIMB_HAT
-    /* 0x09 */ PLAYER_BODYPART_COLLAR,     // PLAYER_LIMB_COLLAR
+    /* 0x00 */ PLAYER_BODYPART_WAIST, // PLAYER_LIMB_WAIST
+    /* 0x01 */ PLAYER_BODYPART_R_THIGH, // PLAYER_LIMB_R_THIGH
+    /* 0x02 */ PLAYER_BODYPART_R_SHIN, // PLAYER_LIMB_R_SHIN
+    /* 0x03 */ PLAYER_BODYPART_R_FOOT, // PLAYER_LIMB_R_FOOT
+    /* 0x04 */ PLAYER_BODYPART_L_THIGH, // PLAYER_LIMB_L_THIGH
+    /* 0x05 */ PLAYER_BODYPART_L_SHIN, // PLAYER_LIMB_L_SHIN
+    /* 0x06 */ PLAYER_BODYPART_L_FOOT, // PLAYER_LIMB_L_FOOT
+    /* 0x07 */ PLAYER_BODYPART_HEAD, // PLAYER_LIMB_HEAD
+    /* 0x08 */ PLAYER_BODYPART_HAT, // PLAYER_LIMB_HAT
+    /* 0x09 */ PLAYER_BODYPART_COLLAR, // PLAYER_LIMB_COLLAR
     /* 0x0A */ PLAYER_BODYPART_L_SHOULDER, // PLAYER_LIMB_L_SHOULDER
-    /* 0x0B */ PLAYER_BODYPART_L_FOREARM,  // PLAYER_LIMB_L_FOREARM
-    /* 0x0C */ PLAYER_BODYPART_L_HAND,     // PLAYER_LIMB_L_HAND
+    /* 0x0B */ PLAYER_BODYPART_L_FOREARM, // PLAYER_LIMB_L_FOREARM
+    /* 0x0C */ PLAYER_BODYPART_L_HAND, // PLAYER_LIMB_L_HAND
     /* 0x0D */ PLAYER_BODYPART_R_SHOULDER, // PLAYER_LIMB_R_SHOULDER
-    /* 0x0E */ PLAYER_BODYPART_R_FOREARM,  // PLAYER_LIMB_R_FOREARM
-    /* 0x0F */ PLAYER_BODYPART_R_HAND,     // PLAYER_LIMB_R_HAND
-    /* 0x10 */ PLAYER_BODYPART_SHEATH,     // PLAYER_LIMB_SHEATH
-    /* 0x11 */ PLAYER_BODYPART_TORSO,      // PLAYER_LIMB_TORSO
+    /* 0x0E */ PLAYER_BODYPART_R_FOREARM, // PLAYER_LIMB_R_FOREARM
+    /* 0x0F */ PLAYER_BODYPART_R_HAND, // PLAYER_LIMB_R_HAND
+    /* 0x10 */ PLAYER_BODYPART_SHEATH, // PLAYER_LIMB_SHEATH
+    /* 0x11 */ PLAYER_BODYPART_TORSO, // PLAYER_LIMB_TORSO
     /* 0x12 */ PLAYER_BODYPART_MAX
 } PlayerBodyPart;
 
@@ -230,7 +230,7 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `Player_OverrideLimbDrawPause`)
-    /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD,  //hold sword only. used for holding sword only as child link with hylian shield equipped
+    /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD, // hold sword only. used for holding sword only as child link with hylian shield equipped
     /* 0x02 */ PLAYER_MODELGROUP_SWORD_AND_SHIELD, // hold sword and shield or just sword if no shield is equipped
     /* 0x03 */ PLAYER_MODELGROUP_DEFAULT, // non-specific models, for items that don't have particular link models
     /* 0x04 */ PLAYER_MODELGROUP_4, // unused, same as PLAYER_MODELGROUP_DEFAULT
@@ -350,7 +350,7 @@ typedef enum {
 } PlayerAnimGroup;
 
 #define LIMB_BUF_COUNT(limbCount) ((ALIGN16((limbCount) * sizeof(Vec3s)) + sizeof(Vec3s) - 1) / sizeof(Vec3s))
-#define PLAYER_LIMB_BUF_COUNT LIMB_BUF_COUNT(PLAYER_LIMB_MAX)
+#define PLAYER_LIMB_BUF_COUNT     LIMB_BUF_COUNT(PLAYER_LIMB_MAX)
 
 typedef enum {
     /* 0x00 */ PLAYER_CSACTION_NONE,
@@ -593,80 +593,80 @@ typedef struct {
 
 #define LEDGE_DIST_MAX 399.96002f
 
-#define PLAYER_STATE1_0 (1 << 0)
-#define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1)
-#define PLAYER_STATE1_2 (1 << 2)
-#define PLAYER_STATE1_3 (1 << 3)
-#define PLAYER_STATE1_4 (1 << 4)
-#define PLAYER_STATE1_5 (1 << 5)
-#define PLAYER_STATE1_6 (1 << 6)
-#define PLAYER_STATE1_7 (1 << 7)
+#define PLAYER_STATE1_0                        (1 << 0)
+#define PLAYER_STATE1_SWINGING_BOTTLE          (1 << 1)
+#define PLAYER_STATE1_2                        (1 << 2)
+#define PLAYER_STATE1_3                        (1 << 3)
+#define PLAYER_STATE1_4                        (1 << 4)
+#define PLAYER_STATE1_5                        (1 << 5)
+#define PLAYER_STATE1_6                        (1 << 6)
+#define PLAYER_STATE1_7                        (1 << 7)
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8)
-#define PLAYER_STATE1_9 (1 << 9)
-#define PLAYER_STATE1_10 (1 << 10)
-#define PLAYER_STATE1_11 (1 << 11)
-#define PLAYER_STATE1_12 (1 << 12)
-#define PLAYER_STATE1_13 (1 << 13)
-#define PLAYER_STATE1_14 (1 << 14)
-#define PLAYER_STATE1_15 (1 << 15)
-#define PLAYER_STATE1_16 (1 << 16)
-#define PLAYER_STATE1_17 (1 << 17)
-#define PLAYER_STATE1_18 (1 << 18)
-#define PLAYER_STATE1_19 (1 << 19)
-#define PLAYER_STATE1_20 (1 << 20)
-#define PLAYER_STATE1_21 (1 << 21)
-#define PLAYER_STATE1_22 (1 << 22)
-#define PLAYER_STATE1_23 (1 << 23)
-#define PLAYER_STATE1_24 (1 << 24)
-#define PLAYER_STATE1_25 (1 << 25)
-#define PLAYER_STATE1_26 (1 << 26)
-#define PLAYER_STATE1_27 (1 << 27)
-#define PLAYER_STATE1_28 (1 << 28)
-#define PLAYER_STATE1_29 (1 << 29)
-#define PLAYER_STATE1_30 (1 << 30)
-#define PLAYER_STATE1_31 (1 << 31)
+#define PLAYER_STATE1_9                        (1 << 9)
+#define PLAYER_STATE1_10                       (1 << 10)
+#define PLAYER_STATE1_11                       (1 << 11)
+#define PLAYER_STATE1_12                       (1 << 12)
+#define PLAYER_STATE1_13                       (1 << 13)
+#define PLAYER_STATE1_14                       (1 << 14)
+#define PLAYER_STATE1_15                       (1 << 15)
+#define PLAYER_STATE1_16                       (1 << 16)
+#define PLAYER_STATE1_17                       (1 << 17)
+#define PLAYER_STATE1_18                       (1 << 18)
+#define PLAYER_STATE1_19                       (1 << 19)
+#define PLAYER_STATE1_20                       (1 << 20)
+#define PLAYER_STATE1_21                       (1 << 21)
+#define PLAYER_STATE1_22                       (1 << 22)
+#define PLAYER_STATE1_23                       (1 << 23)
+#define PLAYER_STATE1_24                       (1 << 24)
+#define PLAYER_STATE1_25                       (1 << 25)
+#define PLAYER_STATE1_26                       (1 << 26)
+#define PLAYER_STATE1_27                       (1 << 27)
+#define PLAYER_STATE1_28                       (1 << 28)
+#define PLAYER_STATE1_29                       (1 << 29)
+#define PLAYER_STATE1_30                       (1 << 30)
+#define PLAYER_STATE1_31                       (1 << 31)
 
-#define PLAYER_STATE2_0 (1 << 0)
-#define PLAYER_STATE2_1 (1 << 1)
-#define PLAYER_STATE2_2 (1 << 2)
-#define PLAYER_STATE2_3 (1 << 3)
-#define PLAYER_STATE2_4 (1 << 4)
-#define PLAYER_STATE2_5 (1 << 5)
-#define PLAYER_STATE2_6 (1 << 6)
-#define PLAYER_STATE2_7 (1 << 7)
-#define PLAYER_STATE2_8 (1 << 8)
+#define PLAYER_STATE2_0                      (1 << 0)
+#define PLAYER_STATE2_1                      (1 << 1)
+#define PLAYER_STATE2_2                      (1 << 2)
+#define PLAYER_STATE2_3                      (1 << 3)
+#define PLAYER_STATE2_4                      (1 << 4)
+#define PLAYER_STATE2_5                      (1 << 5)
+#define PLAYER_STATE2_6                      (1 << 6)
+#define PLAYER_STATE2_7                      (1 << 7)
+#define PLAYER_STATE2_8                      (1 << 8)
 #define PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND (1 << 9)
-#define PLAYER_STATE2_10 (1 << 10)
-#define PLAYER_STATE2_11 (1 << 11)
-#define PLAYER_STATE2_12 (1 << 12)
-#define PLAYER_STATE2_13 (1 << 13)
-#define PLAYER_STATE2_14 (1 << 14)
-#define PLAYER_STATE2_15 (1 << 15)
-#define PLAYER_STATE2_DO_ACTION_ENTER (1 << 16) // Turns on the "Enter On A" DoAction
-#define PLAYER_STATE2_17 (1 << 17)
-#define PLAYER_STATE2_CRAWLING (1 << 18) // Crawling through a crawlspace
-#define PLAYER_STATE2_19 (1 << 19)
-#define PLAYER_STATE2_20 (1 << 20)
-#define PLAYER_STATE2_21 (1 << 21)
-#define PLAYER_STATE2_22 (1 << 22)
-#define PLAYER_STATE2_23 (1 << 23)
-#define PLAYER_STATE2_24 (1 << 24)
-#define PLAYER_STATE2_25 (1 << 25)
-#define PLAYER_STATE2_26 (1 << 26)
-#define PLAYER_STATE2_27 (1 << 27)
-#define PLAYER_STATE2_28 (1 << 28)
-#define PLAYER_STATE2_29 (1 << 29)
-#define PLAYER_STATE2_30 (1 << 30)
-#define PLAYER_STATE2_31 (1 << 31)
+#define PLAYER_STATE2_10                     (1 << 10)
+#define PLAYER_STATE2_11                     (1 << 11)
+#define PLAYER_STATE2_12                     (1 << 12)
+#define PLAYER_STATE2_13                     (1 << 13)
+#define PLAYER_STATE2_14                     (1 << 14)
+#define PLAYER_STATE2_15                     (1 << 15)
+#define PLAYER_STATE2_DO_ACTION_ENTER        (1 << 16) // Turns on the "Enter On A" DoAction
+#define PLAYER_STATE2_17                     (1 << 17)
+#define PLAYER_STATE2_CRAWLING               (1 << 18) // Crawling through a crawlspace
+#define PLAYER_STATE2_19                     (1 << 19)
+#define PLAYER_STATE2_20                     (1 << 20)
+#define PLAYER_STATE2_21                     (1 << 21)
+#define PLAYER_STATE2_22                     (1 << 22)
+#define PLAYER_STATE2_23                     (1 << 23)
+#define PLAYER_STATE2_24                     (1 << 24)
+#define PLAYER_STATE2_25                     (1 << 25)
+#define PLAYER_STATE2_26                     (1 << 26)
+#define PLAYER_STATE2_27                     (1 << 27)
+#define PLAYER_STATE2_28                     (1 << 28)
+#define PLAYER_STATE2_29                     (1 << 29)
+#define PLAYER_STATE2_30                     (1 << 30)
+#define PLAYER_STATE2_31                     (1 << 31)
 
-#define PLAYER_STATE3_0 (1 << 0)
-#define PLAYER_STATE3_1 (1 << 1)
-#define PLAYER_STATE3_2 (1 << 2)
-#define PLAYER_STATE3_3 (1 << 3)
-#define PLAYER_STATE3_4 (1 << 4)
-#define PLAYER_STATE3_5 (1 << 5)
+#define PLAYER_STATE3_0                   (1 << 0)
+#define PLAYER_STATE3_1                   (1 << 1)
+#define PLAYER_STATE3_2                   (1 << 2)
+#define PLAYER_STATE3_3                   (1 << 3)
+#define PLAYER_STATE3_4                   (1 << 4)
+#define PLAYER_STATE3_5                   (1 << 5)
 #define PLAYER_STATE3_RESTORE_NAYRUS_LOVE (1 << 6) // Set by ocarina effects actors when destroyed to signal Nayru's Love may be restored (see `ACTOROVL_ALLOC_ABSOLUTE`)
-#define PLAYER_STATE3_7 (1 << 7)
+#define PLAYER_STATE3_7                   (1 << 7)
 
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
 typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
@@ -731,7 +731,7 @@ typedef struct Player {
     /* 0x0450 */ Vec3f unk_450;
     /* 0x045C */ Vec3f unk_45C;
     /* 0x0468 */ char unk_468[0x002];
-    /* 0x046A */ union { 
+    /* 0x046A */ union {
         s16 haltActorsDuringCsAction; // If true, halt actors belonging to certain categories during a `csAction`
         s16 slidingDoorBgCamIndex; // `BgCamIndex` used during a sliding door cutscene
     } cv; // "Cutscene Variable": context dependent variable that has different meanings depending on what function is called
@@ -793,11 +793,11 @@ typedef struct Player {
     /* 0x0847 */ s8 unk_847[4];
     /* 0x084B */ s8 unk_84B[4];
 
-    /* 0x084F */ union { 
+    /* 0x084F */ union {
         s8 actionVar1;
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
-    /* 0x0850 */ union { 
+    /* 0x0850 */ union {
         s16 actionVar2;
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 

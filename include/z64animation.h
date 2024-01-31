@@ -88,12 +88,12 @@ typedef enum {
     /*  1 */ ANIMTAPER_ACCEL
 } AnimationTapers;
 
-#define ANIM_FLAG_0 (1 << 0) // (no effect outside of player) Related to scaling an animation from/to child/adult
-#define ANIM_FLAG_UPDATE_Y (1 << 1)
-#define ANIM_FLAG_PLAYER_2 (1 << 2) // (player-only) Related to scaling an animation from/to child/adult
+#define ANIM_FLAG_0              (1 << 0) // (no effect outside of player) Related to scaling an animation from/to child/adult
+#define ANIM_FLAG_UPDATE_Y       (1 << 1)
+#define ANIM_FLAG_PLAYER_2       (1 << 2) // (player-only) Related to scaling an animation from/to child/adult
 #define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) // (player-only) Call AnimationContext_SetMoveActor
-#define ANIM_FLAG_NO_MOVE (1 << 4)
-#define ANIM_FLAG_PLAYER_7 (1 << 7) // (player-only)
+#define ANIM_FLAG_NO_MOVE        (1 << 4)
+#define ANIM_FLAG_PLAYER_7       (1 << 7) // (player-only)
 
 typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // Number of limbs in the skeleton
@@ -124,12 +124,15 @@ typedef struct SkelAnime {
 
 // Init
 
-BAD_RETURN(s32) SkelAnime_Init(struct PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-BAD_RETURN(s32) SkelAnime_InitFlex(struct PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-BAD_RETURN(s32) SkelAnime_InitSkin(struct PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                                   AnimationHeader* animation);
+BAD_RETURN(s32)
+SkelAnime_Init(struct PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+BAD_RETURN(s32)
+SkelAnime_InitFlex(struct PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
+                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+BAD_RETURN(s32)
+SkelAnime_InitSkin(struct PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+                   AnimationHeader* animation);
 
 void SkelAnime_InitLink(struct PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
                         LinkAnimationHeader* animation, s32 flags, Vec3s* jointTable, Vec3s* morphTable,

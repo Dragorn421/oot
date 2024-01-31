@@ -22,7 +22,7 @@ typedef struct {
 
 // Used in Graph_GetNextGameState in graph.c
 #define DEFINE_GAMESTATE_INTERNAL(typeName, enumName) enumName,
-#define DEFINE_GAMESTATE(typeName, enumName, name) DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
+#define DEFINE_GAMESTATE(typeName, enumName, name)    DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
 typedef enum {
 #include "tables/gamestate_table.h"
     GAMESTATE_ID_MAX

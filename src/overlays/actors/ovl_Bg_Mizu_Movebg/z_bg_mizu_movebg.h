@@ -9,9 +9,9 @@ typedef enum BgMizuMovebgType {
     /* 1 */ MIZUMOVEBG_TYPE_FLOATING_PLATFORM_WEST,
     /* 2 */ MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR,
     /* 3 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM, // Dragon Statue leading to the Water Temple boss room
-    /* 4 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_2,         // Same behavior as ``MIZUMOVEBG_TYPE_DRAGON_STATUE_3``
-    /* 5 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_3,         // Dragon Statues used in Water Temple puzzles
-    /* 6 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_4,         // Same behavior as ``MIZUMOVEBG_TYPE_DRAGON_STATUE_3``
+    /* 4 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_2, // Same behavior as ``MIZUMOVEBG_TYPE_DRAGON_STATUE_3``
+    /* 5 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_3, // Dragon Statues used in Water Temple puzzles
+    /* 6 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_4, // Same behavior as ``MIZUMOVEBG_TYPE_DRAGON_STATUE_3``
     /* 7 */ MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM,
     /* 8 */ MIZUMOVEBG_TYPE_MAX
 } BgMizuMovebgType;

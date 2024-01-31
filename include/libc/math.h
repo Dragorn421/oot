@@ -3,10 +3,10 @@
 
 #include "ultra64/ultratypes.h"
 
-#define M_PI 3.14159265358979323846f
-#define M_SQRT2 1.41421356237309504880f
+#define M_PI     3.14159265358979323846f
+#define M_SQRT2  1.41421356237309504880f
 #define MAXFLOAT 3.40282347e+38f
-#define SHT_MAX 32767.0f
+#define SHT_MAX  32767.0f
 #define SHT_MINV (1.0f / SHT_MAX)
 
 float floorf(float);

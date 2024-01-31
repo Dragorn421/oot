@@ -32,5 +32,4 @@ typedef enum {
     /*  1 */ JABUJABU_UNUSED_COLLISION // Shaped like a screen
 } EnJjType;
 
-
 #endif

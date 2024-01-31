@@ -16,7 +16,7 @@ typedef enum {
     /* 0xFFFF */ ENTA_CHILD_ERA = -1,
     /* 0x0001 */ ENTA_IN_KAKARIKO = 1,
     /* 0x0002 */ ENTA_RETURNED_FROM_KAKARIKO
- } EnTaType;
+} EnTaType;
 
 typedef enum {
     /* 0x00 */ ENTA_LIMB_NONE,
@@ -63,6 +63,5 @@ typedef struct EnTa {
     /* 0x02E2 */ s16 nodOffTimer;
     /* 0x02E4 */ AnimationHeader* currentAnimation;
 } EnTa; // size = 0x02E8
-
 
 #endif

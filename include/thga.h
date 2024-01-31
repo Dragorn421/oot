@@ -5,7 +5,7 @@
 
 typedef union {
     /* 0x00 */ TwoHeadArena tha;
-    struct {       // Same as TwoHeadArena, with different types and field names for the head and tail pointers
+    struct { // Same as TwoHeadArena, with different types and field names for the head and tail pointers
         /* 0x00 */ size_t size;
         /* 0x04 */ void* start;
         /* 0x08 */ Gfx* p;

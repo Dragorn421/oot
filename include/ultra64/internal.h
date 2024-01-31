@@ -13,7 +13,7 @@ typedef struct {
     /* 0x18 */ s32 (*edma)(OSPiHandle*, s32, u32, void*, size_t);
 } OSDevMgr; // size = 0x1C
 
-typedef struct  {
+typedef struct {
     /* 0x00 */ OSMesgQueue* queue;
     /* 0x04 */ OSMesg msg;
 } __OSEventState; // size = 0x08

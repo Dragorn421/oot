@@ -33,8 +33,8 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ FHGFLASH_SHOCK_NO_ACTOR, // Don't attach to any actor. Stays at a fixed position.
-    /* 0x01 */ FHGFLASH_SHOCK_PLAYER,   // Move to a random Player body part every frame.
-    /* 0x02 */ FHGFLASH_SHOCK_PG        // Move to a random Phantom Ganon body part every frame.
+    /* 0x01 */ FHGFLASH_SHOCK_PLAYER, // Move to a random Player body part every frame.
+    /* 0x02 */ FHGFLASH_SHOCK_PG // Move to a random Phantom Ganon body part every frame.
 } FhgFlashLightningParam;
 
 #endif

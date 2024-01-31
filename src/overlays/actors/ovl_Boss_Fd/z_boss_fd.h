@@ -53,10 +53,10 @@ typedef struct {
     /* 0x38 */ f32 bFdFxFloat2;
 } BossFdEffect; // size = 0x3C
 
-#define vFdFxRotX bFdFxFloat1
+#define vFdFxRotX     bFdFxFloat1
 #define vFdFxScaleMod bFdFxFloat1
-#define vFdFxRotY bFdFxFloat2
-#define vFdFxYStop bFdFxFloat2
+#define vFdFxRotY     bFdFxFloat2
+#define vFdFxYStop    bFdFxFloat2
 
 typedef enum {
     /* 0 */ BFD_FX_NONE,

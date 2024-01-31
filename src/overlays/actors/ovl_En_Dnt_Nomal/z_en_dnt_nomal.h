@@ -43,6 +43,6 @@ typedef struct EnDntNomal {
 } EnDntNomal; // size = 0x0360
 
 #define ENDNTNOMAL_TARGET 0
-#define ENDNTNOMAL_STAGE 1
+#define ENDNTNOMAL_STAGE  1
 
 #endif

@@ -10,18 +10,18 @@ struct DynaPolyActor;
 
 #define DYNAPOLY_INVALIDATE_LOOKUP (1 << 0)
 
-#define BGACTOR_NEG_ONE -1
-#define BG_ACTOR_MAX 50
-#define BGCHECK_SCENE BG_ACTOR_MAX
-#define BGCHECK_Y_MIN -32000.0f
-#define BGCHECK_XYZ_ABSMAX 32760.0f
+#define BGACTOR_NEG_ONE        -1
+#define BG_ACTOR_MAX           50
+#define BGCHECK_SCENE          BG_ACTOR_MAX
+#define BGCHECK_Y_MIN          -32000.0f
+#define BGCHECK_XYZ_ABSMAX     32760.0f
 #define BGCHECK_SUBDIV_OVERLAP 50
-#define BGCHECK_SUBDIV_MIN 150.0f
+#define BGCHECK_SUBDIV_MIN     150.0f
 
-#define FUNC_80041EA4_RESPAWN 5
+#define FUNC_80041EA4_RESPAWN    5
 #define FUNC_80041EA4_MOUNT_WALL 6
-#define FUNC_80041EA4_STOP 8
-#define FUNC_80041EA4_VOID_OUT 12
+#define FUNC_80041EA4_STOP       8
+#define FUNC_80041EA4_VOID_OUT   12
 
 typedef struct {
     /* 0x00 */ Vec3f scale;
@@ -31,19 +31,19 @@ typedef struct {
 
 // Macros for `CollisionPoly`
 
-#define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
-#define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
-#define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)
-#define COLPOLY_VTX_CHECK_FLAGS_ANY(vI, flags) ((vI) & (((flags) & 7) << 13))
-#define COLPOLY_VTX_FLAGS_MASKED(vI) ((vI) & 0xE000)
-#define COLPOLY_VTX_INDEX(vI) ((vI) & 0x1FFF)
-#define COLPOLY_VTX(vtxId, flags) ((((flags) & 7) << 13) | ((vtxId) & 0x1FFF))
+#define COLPOLY_NORMAL_FRAC                    (1.0f / SHT_MAX)
+#define COLPOLY_SNORMAL(x)                     ((s16)((x)*SHT_MAX))
+#define COLPOLY_GET_NORMAL(n)                  ((n)*COLPOLY_NORMAL_FRAC)
+#define COLPOLY_VTX_CHECK_FLAGS_ANY(vI, flags) ((vI) & (((flags)&7) << 13))
+#define COLPOLY_VTX_FLAGS_MASKED(vI)           ((vI)&0xE000)
+#define COLPOLY_VTX_INDEX(vI)                  ((vI)&0x1FFF)
+#define COLPOLY_VTX(vtxId, flags)              ((((flags)&7) << 13) | ((vtxId)&0x1FFF))
 
 // flags for flags_vIA
 // poly exclusion flags (xpFlags)
-#define COLPOLY_IGNORE_NONE 0
-#define COLPOLY_IGNORE_CAMERA (1 << 0)
-#define COLPOLY_IGNORE_ENTITY (1 << 1)
+#define COLPOLY_IGNORE_NONE        0
+#define COLPOLY_IGNORE_CAMERA      (1 << 0)
+#define COLPOLY_IGNORE_ENTITY      (1 << 1)
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
 // flags for flags_vIB
@@ -91,15 +91,15 @@ typedef struct {
 #define WATERBOX_LIGHT_INDEX_NONE 0x1F // warns and defaults to 0
 
 #define WATERBOX_ROOM(properties) (((properties) >> 13) & 0x3F)
-#define WATERBOX_ROOM_ALL 0x3F // value for "room index" indicating "all rooms"
+#define WATERBOX_ROOM_ALL         0x3F // value for "room index" indicating "all rooms"
 
 #define WATERBOX_FLAG_19 (1 << 19)
 
 #define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, room, setFlag19) \
-    ((((bgCamIndex) & 0xFF) <<  0) | \
-     (((lightIndex) & 0x1F) <<  8) | \
-     (((room)       & 0x3F) << 13) | \
-     (((setFlag19)  &    1) << 19))
+    ((((bgCamIndex)&0xFF) << 0) |                                    \
+     (((lightIndex)&0x1F) << 8) |                                    \
+     (((room)&0x3F) << 13) |                                         \
+     (((setFlag19)&1) << 19))
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -143,14 +143,14 @@ typedef enum {
     /* 32 */ WALL_TYPE_MAX = 32
 } WallType;
 
-#define WALL_FLAG_0 (1 << 0)
-#define WALL_FLAG_1 (1 << 1)
-#define WALL_FLAG_2 (1 << 2)
-#define WALL_FLAG_3 (1 << 3)
+#define WALL_FLAG_0            (1 << 0)
+#define WALL_FLAG_1            (1 << 1)
+#define WALL_FLAG_2            (1 << 2)
+#define WALL_FLAG_3            (1 << 3)
 #define WALL_FLAG_CRAWLSPACE_1 (1 << 4)
 #define WALL_FLAG_CRAWLSPACE_2 (1 << 5)
-#define WALL_FLAG_6 (1 << 6)
-#define WALL_FLAG_CRAWLSPACE (WALL_FLAG_CRAWLSPACE_1 | WALL_FLAG_CRAWLSPACE_2)
+#define WALL_FLAG_6            (1 << 6)
+#define WALL_FLAG_CRAWLSPACE   (WALL_FLAG_CRAWLSPACE_1 | WALL_FLAG_CRAWLSPACE_2)
 
 typedef enum {
     /*  0 */ FLOOR_PROPERTY_0,
@@ -214,28 +214,28 @@ typedef enum {
     /*  4 */ CONVEYOR_SPEED_MAX
 } ConveyorSpeed;
 
-#define CONVEYOR_DIRECTION_TO_BINANG(conveyorDirection) ((conveyorDirection) * (0x10000 / 64))
+#define CONVEYOR_DIRECTION_TO_BINANG(conveyorDirection)         ((conveyorDirection) * (0x10000 / 64))
 #define CONVEYOR_DIRECTION_FROM_BINANG(conveyorDirectionBinang) ((conveyorDirectionBinang) * (64 / 0x10000))
 
 #define SURFACETYPE0(bgCamIndex, exitIndex, floorType, unk18, wallType, floorProperty, isSoft, isHorseBlocked) \
-    ((((bgCamIndex)     & 0xFF) <<  0) | \
-     (((exitIndex)      & 0x1F) <<  8) | \
-     (((floorType)      & 0x1F) << 13) | \
-     (((unk18)          & 0x07) << 18) | \
-     (((wallType)       & 0x1F) << 21) | \
-     (((floorProperty)  & 0x0F) << 26) | \
-     (((isSoft)         &    1) << 30) | \
-     (((isHorseBlocked) &    1) << 31))
+    ((((bgCamIndex)&0xFF) << 0) |                                                                              \
+     (((exitIndex)&0x1F) << 8) |                                                                               \
+     (((floorType)&0x1F) << 13) |                                                                              \
+     (((unk18)&0x07) << 18) |                                                                                  \
+     (((wallType)&0x1F) << 21) |                                                                               \
+     (((floorProperty)&0x0F) << 26) |                                                                          \
+     (((isSoft)&1) << 30) |                                                                                    \
+     (((isHorseBlocked)&1) << 31))
 
 #define SURFACETYPE1(material, floorEffect, lightSetting, echo, canHookshot, conveyorSpeed, conveyorDirection, unk27) \
-    ((((material)          & 0x0F) <<  0) | \
-     (((floorEffect)       & 0x03) <<  4) | \
-     (((lightSetting)      & 0x1F) <<  6) | \
-     (((echo)              & 0x3F) << 11) | \
-     (((canHookshot)       &    1) << 17) | \
-     (((conveyorSpeed)     & 0x07) << 18) | \
-     (((conveyorDirection) & 0x3F) << 21) | \
-     (((unk27)             &    1) << 27))
+    ((((material)&0x0F) << 0) |                                                                                       \
+     (((floorEffect)&0x03) << 4) |                                                                                    \
+     (((lightSetting)&0x1F) << 6) |                                                                                   \
+     (((echo)&0x3F) << 11) |                                                                                          \
+     (((canHookshot)&1) << 17) |                                                                                      \
+     (((conveyorSpeed)&0x07) << 18) |                                                                                 \
+     (((conveyorDirection)&0x3F) << 21) |                                                                             \
+     (((unk27)&1) << 27))
 
 typedef struct {
     u32 data[2];
@@ -264,9 +264,9 @@ typedef struct {
 } SSList;
 
 typedef struct {
-    /* 0x00 */ u16 max;          // original name: short_slist_node_size
-    /* 0x02 */ u16 count;        // original name: short_slist_node_last_index
-    /* 0x04 */ SSNode* tbl;      // original name: short_slist_node_tbl
+    /* 0x00 */ u16 max; // original name: short_slist_node_size
+    /* 0x02 */ u16 count; // original name: short_slist_node_last_index
+    /* 0x04 */ SSNode* tbl; // original name: short_slist_node_tbl
     /* 0x08 */ u8* polyCheckTbl; // points to an array of bytes, one per static poly. Zero initialized when starting a
                                  // bg check, and set to 1 if that poly has already been tested.
 } SSNodeList;
@@ -302,9 +302,9 @@ typedef struct {
     /* 0x60 */ f32 maxY;
 } BgActor; // size = 0x64
 
-#define BGACTOR_IN_USE (1 << 0) // The bgActor entry is in use
-#define BGACTOR_1 (1 << 1)
-#define BGACTOR_COLLISION_DISABLED (1 << 2) // The collision of the bgActor is disabled
+#define BGACTOR_IN_USE                     (1 << 0) // The bgActor entry is in use
+#define BGACTOR_1                          (1 << 1)
+#define BGACTOR_COLLISION_DISABLED         (1 << 2) // The collision of the bgActor is disabled
 #define BGACTOR_CEILING_COLLISION_DISABLED (1 << 3) // The ceilings in the collision of the bgActor are ignored
 
 typedef struct {
@@ -321,12 +321,12 @@ typedef struct {
 
 typedef struct CollisionContext {
     /* 0x00 */ CollisionHeader* colHeader; // scene's static collision
-    /* 0x04 */ Vec3f minBounds;            // minimum coordinates of collision bounding box
-    /* 0x10 */ Vec3f maxBounds;            // maximum coordinates of collision bounding box
-    /* 0x1C */ Vec3i subdivAmount;         // x, y, z subdivisions of the scene's static collision
-    /* 0x28 */ Vec3f subdivLength;         // x, y, z subdivision worldspace lengths
-    /* 0x34 */ Vec3f subdivLengthInv;      // inverse of subdivision length
-    /* 0x40 */ StaticLookup* lookupTbl;    // 3d array of length subdivAmount
+    /* 0x04 */ Vec3f minBounds; // minimum coordinates of collision bounding box
+    /* 0x10 */ Vec3f maxBounds; // maximum coordinates of collision bounding box
+    /* 0x1C */ Vec3i subdivAmount; // x, y, z subdivisions of the scene's static collision
+    /* 0x28 */ Vec3f subdivLength; // x, y, z subdivision worldspace lengths
+    /* 0x34 */ Vec3f subdivLengthInv; // inverse of subdivision length
+    /* 0x40 */ StaticLookup* lookupTbl; // 3d array of length subdivAmount
     /* 0x44 */ SSNodeList polyNodes;
     /* 0x50 */ DynaCollisionContext dyna;
     /* 0x1460 */ u32 memSize; // Size of all allocated memory plus CollisionContext
@@ -357,8 +357,8 @@ typedef struct {
     /* 0x18 */ Vec3f* posResult;
     /* 0x1C */ CollisionPoly** resultPoly;
     /* 0x20 */ s32 chkOneFace; // bccFlags & 0x8
-    /* 0x24 */ f32* distSq;    // distance from posA to poly squared
-    /* 0x28 */ f32 chkDist;    // distance from poly
+    /* 0x24 */ f32* distSq; // distance from posA to poly squared
+    /* 0x28 */ f32 chkDist; // distance from poly
 } DynaLineTest;
 
 #endif

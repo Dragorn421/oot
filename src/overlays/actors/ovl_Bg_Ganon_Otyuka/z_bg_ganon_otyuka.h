@@ -4,11 +4,11 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define OTYUKA_SIDE_EAST (1 << 0)
-#define OTYUKA_SIDE_WEST (1 << 1)
+#define OTYUKA_SIDE_EAST  (1 << 0)
+#define OTYUKA_SIDE_WEST  (1 << 1)
 #define OTYUKA_SIDE_SOUTH (1 << 2)
 #define OTYUKA_SIDE_NORTH (1 << 3)
-#define OTYUKA_SIDE_ALL (OTYUKA_SIDE_EAST | OTYUKA_SIDE_WEST | OTYUKA_SIDE_SOUTH | OTYUKA_SIDE_NORTH)
+#define OTYUKA_SIDE_ALL   (OTYUKA_SIDE_EAST | OTYUKA_SIDE_WEST | OTYUKA_SIDE_SOUTH | OTYUKA_SIDE_NORTH)
 
 struct BgGanonOtyuka;
 

@@ -100,9 +100,9 @@ typedef struct {
  * "top": coming from the air
  */
 typedef enum {
-    /* 0x00 */ RESPAWN_MODE_DOWN,   /* Normal Void Outs */
+    /* 0x00 */ RESPAWN_MODE_DOWN, /* Normal Void Outs */
     /* 0x01 */ RESPAWN_MODE_RETURN, /* Grotto Returnpoints */
-    /* 0x02 */ RESPAWN_MODE_TOP,    /* Farore's Wind */
+    /* 0x02 */ RESPAWN_MODE_TOP, /* Farore's Wind */
     /* 0x03 */ RESPAWN_MODE_MAX
 } RespawnMode;
 
@@ -143,7 +143,7 @@ typedef enum {
     /* 0xC */ TIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
     /* 0xD */ TIMER_STATE_UP_MOVE, // Move to top-left corner
     /* 0xE */ TIMER_STATE_UP_TICK, // Counting up
-    /* 0xF */ TIMER_STATE_UP_FREEZE  // Stop counting the timer
+    /* 0xF */ TIMER_STATE_UP_FREEZE // Stop counting the timer
 } TimerState;
 
 typedef enum {
@@ -168,7 +168,7 @@ typedef enum {
 
 #define MARATHON_TIME_LIMIT 240 // 4 minutes
 
-#define ENV_HAZARD_TEXT_TRIGGER_HOTROOM (1 << 0)
+#define ENV_HAZARD_TEXT_TRIGGER_HOTROOM    (1 << 0)
 #define ENV_HAZARD_TEXT_TRIGGER_UNDERWATER (1 << 1)
 
 // offsets in SavePlayerData and SaveContext/Save
@@ -315,7 +315,7 @@ typedef enum {
 } ChamberCutsceneNum;
 
 typedef enum {
-    /* 0x00 */ HS_HBA,          // horseback archery
+    /* 0x00 */ HS_HBA, // horseback archery
     /* 0x01 */ HS_POE_POINTS,
     /* 0x02 */ HS_FISHING,
     /* 0x03 */ HS_HORSE_RACE,
@@ -329,12 +329,12 @@ typedef enum {
 #define HS_FISH_LENGTH_ADULT 0x7F000000 // mask for record length of catch as adult.
 #define HS_FISH_PLAYED_CHILD 0x100 // set when first talking to owner as child
 #define HS_FISH_PLAYED_ADULT 0x200 // set when first talking to owner as adult
-#define HS_FISH_PRIZE_CHILD 0x400 // won the Piece of Heart
-#define HS_FISH_PRIZE_ADULT 0x800 // won the Golden Scale
-#define HS_FISH_STOLE_HAT 0x1000 // Pond owner is visibly bald as Adult Link.
-#define HS_FISH_CHEAT_CHILD 0x80 // used Sinking Lure as child to catch record fish
-#define HS_FISH_CHEAT_ADULT 0x80000000 // used Sinking Lure as adult to catch record fish
-#define HS_FISH_PLAYED 0x10000 // incremented for every play. controls weather.
+#define HS_FISH_PRIZE_CHILD  0x400 // won the Piece of Heart
+#define HS_FISH_PRIZE_ADULT  0x800 // won the Golden Scale
+#define HS_FISH_STOLE_HAT    0x1000 // Pond owner is visibly bald as Adult Link.
+#define HS_FISH_CHEAT_CHILD  0x80 // used Sinking Lure as child to catch record fish
+#define HS_FISH_CHEAT_ADULT  0x80000000 // used Sinking Lure as adult to catch record fish
+#define HS_FISH_PLAYED       0x10000 // incremented for every play. controls weather.
 
 typedef enum {
     /* 0 */ SUNSSONG_INACTIVE,
@@ -365,100 +365,97 @@ typedef enum {
     /* 1 */ LINK_AGE_CHILD
 } LinkAge;
 
-
-
 /*
  *
  * SaveContext flags
  *
  */
 
-
 /*
  * SaveContext.eventChkInf
  */
 
-#define EVENTCHKINF_02 0x02
-#define EVENTCHKINF_03 0x03
-#define EVENTCHKINF_04 0x04
-#define EVENTCHKINF_05 0x05
-#define EVENTCHKINF_07 0x07
-#define EVENTCHKINF_09 0x09
-#define EVENTCHKINF_0A 0x0A
-#define EVENTCHKINF_0B 0x0B
-#define EVENTCHKINF_0C 0x0C
-#define EVENTCHKINF_0F 0x0F
-#define EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME 0x10
-#define EVENTCHKINF_11 0x11
-#define EVENTCHKINF_RECEIVED_WEIRD_EGG 0x12
-#define EVENTCHKINF_TALON_WOKEN_IN_CASTLE 0x13
-#define EVENTCHKINF_TALON_RETURNED_FROM_CASTLE 0x14
+#define EVENTCHKINF_02                             0x02
+#define EVENTCHKINF_03                             0x03
+#define EVENTCHKINF_04                             0x04
+#define EVENTCHKINF_05                             0x05
+#define EVENTCHKINF_07                             0x07
+#define EVENTCHKINF_09                             0x09
+#define EVENTCHKINF_0A                             0x0A
+#define EVENTCHKINF_0B                             0x0B
+#define EVENTCHKINF_0C                             0x0C
+#define EVENTCHKINF_0F                             0x0F
+#define EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME     0x10
+#define EVENTCHKINF_11                             0x11
+#define EVENTCHKINF_RECEIVED_WEIRD_EGG             0x12
+#define EVENTCHKINF_TALON_WOKEN_IN_CASTLE          0x13
+#define EVENTCHKINF_TALON_RETURNED_FROM_CASTLE     0x14
 #define EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH 0x15
-#define EVENTCHKINF_CAN_LEARN_EPONAS_SONG 0x16
-#define EVENTCHKINF_EPONA_OBTAINED 0x18
-#define EVENTCHKINF_1B 0x1B
-#define EVENTCHKINF_1C 0x1C
-#define EVENTCHKINF_1D 0x1D
-#define EVENTCHKINF_HORSE_RACE_COW_UNLOCK 0x1E
-#define EVENTCHKINF_20 0x20
-#define EVENTCHKINF_21 0x21
-#define EVENTCHKINF_22 0x22
-#define EVENTCHKINF_23 0x23
-#define EVENTCHKINF_25 0x25
-#define EVENTCHKINF_2A 0x2A
-#define EVENTCHKINF_2B 0x2B
-#define EVENTCHKINF_2C 0x2C
-#define EVENTCHKINF_2D 0x2D
-#define EVENTCHKINF_2F 0x2F
-#define EVENTCHKINF_30 0x30
-#define EVENTCHKINF_31 0x31
-#define EVENTCHKINF_32 0x32
-#define EVENTCHKINF_33 0x33
-#define EVENTCHKINF_37 0x37
-#define EVENTCHKINF_38 0x38
-#define EVENTCHKINF_39 0x39
-#define EVENTCHKINF_3A 0x3A
-#define EVENTCHKINF_3B 0x3B
-#define EVENTCHKINF_3C 0x3C
+#define EVENTCHKINF_CAN_LEARN_EPONAS_SONG          0x16
+#define EVENTCHKINF_EPONA_OBTAINED                 0x18
+#define EVENTCHKINF_1B                             0x1B
+#define EVENTCHKINF_1C                             0x1C
+#define EVENTCHKINF_1D                             0x1D
+#define EVENTCHKINF_HORSE_RACE_COW_UNLOCK          0x1E
+#define EVENTCHKINF_20                             0x20
+#define EVENTCHKINF_21                             0x21
+#define EVENTCHKINF_22                             0x22
+#define EVENTCHKINF_23                             0x23
+#define EVENTCHKINF_25                             0x25
+#define EVENTCHKINF_2A                             0x2A
+#define EVENTCHKINF_2B                             0x2B
+#define EVENTCHKINF_2C                             0x2C
+#define EVENTCHKINF_2D                             0x2D
+#define EVENTCHKINF_2F                             0x2F
+#define EVENTCHKINF_30                             0x30
+#define EVENTCHKINF_31                             0x31
+#define EVENTCHKINF_32                             0x32
+#define EVENTCHKINF_33                             0x33
+#define EVENTCHKINF_37                             0x37
+#define EVENTCHKINF_38                             0x38
+#define EVENTCHKINF_39                             0x39
+#define EVENTCHKINF_3A                             0x3A
+#define EVENTCHKINF_3B                             0x3B
+#define EVENTCHKINF_3C                             0x3C
 
 // 0x40
 #define EVENTCHKINF_40_INDEX 4
 #define EVENTCHKINF_40_SHIFT 0
-#define EVENTCHKINF_40_MASK (1 << EVENTCHKINF_40_SHIFT)
-#define EVENTCHKINF_40 ((EVENTCHKINF_40_INDEX << 4) | EVENTCHKINF_40_SHIFT)
+#define EVENTCHKINF_40_MASK  (1 << EVENTCHKINF_40_SHIFT)
+#define EVENTCHKINF_40       ((EVENTCHKINF_40_INDEX << 4) | EVENTCHKINF_40_SHIFT)
 
-#define EVENTCHKINF_41 0x41
-#define EVENTCHKINF_42 0x42
-#define EVENTCHKINF_43 0x43
-#define EVENTCHKINF_45 0x45
-#define EVENTCHKINF_48 0x48
-#define EVENTCHKINF_49 0x49
-#define EVENTCHKINF_4A 0x4A
-#define EVENTCHKINF_4B 0x4B
-#define EVENTCHKINF_4C 0x4C
-#define EVENTCHKINF_4D 0x4D
-#define EVENTCHKINF_4E 0x4E
+#define EVENTCHKINF_41                                  0x41
+#define EVENTCHKINF_42                                  0x42
+#define EVENTCHKINF_43                                  0x43
+#define EVENTCHKINF_45                                  0x45
+#define EVENTCHKINF_48                                  0x48
+#define EVENTCHKINF_49                                  0x49
+#define EVENTCHKINF_4A                                  0x4A
+#define EVENTCHKINF_4B                                  0x4B
+#define EVENTCHKINF_4C                                  0x4C
+#define EVENTCHKINF_4D                                  0x4D
+#define EVENTCHKINF_4E                                  0x4E
 #define EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS 0x4F // Cutscene in Temple of Time as adult after pulling the Master Sword for the first time
-#define EVENTCHKINF_50 0x50
-#define EVENTCHKINF_51 0x51
-#define EVENTCHKINF_52 0x52
-#define EVENTCHKINF_54 0x54
-#define EVENTCHKINF_55 0x55
-#define EVENTCHKINF_59 0x59
-#define EVENTCHKINF_5A 0x5A
-#define EVENTCHKINF_5B 0x5B
-#define EVENTCHKINF_5C 0x5C
-#define EVENTCHKINF_65 0x65
-#define EVENTCHKINF_67 0x67
-#define EVENTCHKINF_68 0x68
-#define EVENTCHKINF_69 0x69
-#define EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO 0x6A
+#define EVENTCHKINF_50                                  0x50
+#define EVENTCHKINF_51                                  0x51
+#define EVENTCHKINF_52                                  0x52
+#define EVENTCHKINF_54                                  0x54
+#define EVENTCHKINF_55                                  0x55
+#define EVENTCHKINF_59                                  0x59
+#define EVENTCHKINF_5A                                  0x5A
+#define EVENTCHKINF_5B                                  0x5B
+#define EVENTCHKINF_5C                                  0x5C
+#define EVENTCHKINF_65                                  0x65
+#define EVENTCHKINF_67                                  0x67
+#define EVENTCHKINF_68                                  0x68
+#define EVENTCHKINF_69                                  0x69
+#define EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO             0x6A
 
 // 0x6B
 #define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX 6
 #define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT 11
-#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK (1 << EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
-#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO ((EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX << 4) | EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK  (1 << EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO       ((EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX << 4) | EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
 
 #define EVENTCHKINF_6E 0x6E
 #define EVENTCHKINF_6F 0x6F
@@ -480,15 +477,12 @@ typedef enum {
 
 // 0x90-0x93
 // carpenters freed from the gerudo
-#define EVENTCHKINF_CARPENTERS_FREE_INDEX 9
+#define EVENTCHKINF_CARPENTERS_FREE_INDEX    9
 #define EVENTCHKINF_CARPENTERS_FREE_SHIFT(n) (0 + (n))
-#define EVENTCHKINF_CARPENTERS_FREE_MASK(n) (1 << EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
-#define EVENTCHKINF_CARPENTERS_FREE(n) ((EVENTCHKINF_CARPENTERS_FREE_INDEX << 4) | EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
-#define EVENTCHKINF_CARPENTERS_FREE_MASK_ALL (\
-      EVENTCHKINF_CARPENTERS_FREE_MASK(0)     \
-    | EVENTCHKINF_CARPENTERS_FREE_MASK(1)     \
-    | EVENTCHKINF_CARPENTERS_FREE_MASK(2)     \
-    | EVENTCHKINF_CARPENTERS_FREE_MASK(3)    )
+#define EVENTCHKINF_CARPENTERS_FREE_MASK(n)  (1 << EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
+#define EVENTCHKINF_CARPENTERS_FREE(n)       ((EVENTCHKINF_CARPENTERS_FREE_INDEX << 4) | EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
+#define EVENTCHKINF_CARPENTERS_FREE_MASK_ALL ( \
+    EVENTCHKINF_CARPENTERS_FREE_MASK(0) | EVENTCHKINF_CARPENTERS_FREE_MASK(1) | EVENTCHKINF_CARPENTERS_FREE_MASK(2) | EVENTCHKINF_CARPENTERS_FREE_MASK(3))
 #define GET_EVENTCHKINF_CARPENTERS_FREE_ALL() \
     CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX], EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)
 
@@ -535,7 +529,7 @@ typedef enum {
 #define EVENTCHKINF_C9 0xC9
 
 // 0xD0-0xD6
-#define EVENTCHKINF_SONGS_FOR_FROGS_INDEX 13
+#define EVENTCHKINF_SONGS_FOR_FROGS_INDEX        13
 #define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_SHIFT  0
 #define EVENTCHKINF_SONGS_FOR_FROGS_ZL_SHIFT     1
 #define EVENTCHKINF_SONGS_FOR_FROGS_EPONA_SHIFT  2
@@ -543,67 +537,66 @@ typedef enum {
 #define EVENTCHKINF_SONGS_FOR_FROGS_SARIA_SHIFT  4
 #define EVENTCHKINF_SONGS_FOR_FROGS_SOT_SHIFT    5
 #define EVENTCHKINF_SONGS_FOR_FROGS_STORMS_SHIFT 6
-#define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_MASK  (1 << EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_ZL_MASK     (1 << EVENTCHKINF_SONGS_FOR_FROGS_ZL_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_EPONA_MASK  (1 << EVENTCHKINF_SONGS_FOR_FROGS_EPONA_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SUNS_MASK   (1 << EVENTCHKINF_SONGS_FOR_FROGS_SUNS_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SARIA_MASK  (1 << EVENTCHKINF_SONGS_FOR_FROGS_SARIA_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SOT_MASK    (1 << EVENTCHKINF_SONGS_FOR_FROGS_SOT_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_STORMS_MASK (1 << EVENTCHKINF_SONGS_FOR_FROGS_STORMS_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR  ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_ZL     ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_ZL_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_EPONA  ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_EPONA_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SUNS   ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_SUNS_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SARIA  ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_SARIA_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SOT    ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_SOT_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_STORMS ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_STORMS_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_MASK   (1 << EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_ZL_MASK      (1 << EVENTCHKINF_SONGS_FOR_FROGS_ZL_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_EPONA_MASK   (1 << EVENTCHKINF_SONGS_FOR_FROGS_EPONA_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_SUNS_MASK    (1 << EVENTCHKINF_SONGS_FOR_FROGS_SUNS_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_SARIA_MASK   (1 << EVENTCHKINF_SONGS_FOR_FROGS_SARIA_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_SOT_MASK     (1 << EVENTCHKINF_SONGS_FOR_FROGS_SOT_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_STORMS_MASK  (1 << EVENTCHKINF_SONGS_FOR_FROGS_STORMS_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR        ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_ZL           ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_ZL_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_EPONA        ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_EPONA_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_SUNS         ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_SUNS_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_SARIA        ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_SARIA_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_SOT          ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_SOT_SHIFT)
+#define EVENTCHKINF_SONGS_FOR_FROGS_STORMS       ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_STORMS_SHIFT)
 
 // 0xDA-0xDE
 #define EVENTCHKINF_DA_DB_DC_DD_DE_INDEX 13
-#define EVENTCHKINF_DA_MASK (1 << 10)
-#define EVENTCHKINF_DB_MASK (1 << 11)
-#define EVENTCHKINF_DC_MASK (1 << 12)
-#define EVENTCHKINF_DD_MASK (1 << 13)
-#define EVENTCHKINF_DE_MASK (1 << 14)
-
+#define EVENTCHKINF_DA_MASK              (1 << 10)
+#define EVENTCHKINF_DB_MASK              (1 << 11)
+#define EVENTCHKINF_DC_MASK              (1 << 12)
+#define EVENTCHKINF_DD_MASK              (1 << 13)
+#define EVENTCHKINF_DE_MASK              (1 << 14)
 
 /*
  * SaveContext.itemGetInf
  */
 
-#define ITEMGETINF_TALON_BOTTLE 0x02
-#define ITEMGETINF_03 0x03
-#define ITEMGETINF_04 0x04
-#define ITEMGETINF_05 0x05
-#define ITEMGETINF_06 0x06
-#define ITEMGETINF_07 0x07
-#define ITEMGETINF_08 0x08
-#define ITEMGETINF_09 0x09
-#define ITEMGETINF_0A 0x0A
+#define ITEMGETINF_TALON_BOTTLE     0x02
+#define ITEMGETINF_03               0x03
+#define ITEMGETINF_04               0x04
+#define ITEMGETINF_05               0x05
+#define ITEMGETINF_06               0x06
+#define ITEMGETINF_07               0x07
+#define ITEMGETINF_08               0x08
+#define ITEMGETINF_09               0x09
+#define ITEMGETINF_0A               0x0A
 #define ITEMGETINF_DEKU_HEART_PIECE 0x0B
-#define ITEMGETINF_0C 0x0C
-#define ITEMGETINF_0D 0x0D
-#define ITEMGETINF_0E 0x0E
-#define ITEMGETINF_0F 0x0F
-#define ITEMGETINF_10 0x10
-#define ITEMGETINF_11 0x11
-#define ITEMGETINF_12 0x12
-#define ITEMGETINF_13 0x13
-#define ITEMGETINF_15 0x15
-#define ITEMGETINF_16 0x16
-#define ITEMGETINF_17 0x17
+#define ITEMGETINF_0C               0x0C
+#define ITEMGETINF_0D               0x0D
+#define ITEMGETINF_0E               0x0E
+#define ITEMGETINF_0F               0x0F
+#define ITEMGETINF_10               0x10
+#define ITEMGETINF_11               0x11
+#define ITEMGETINF_12               0x12
+#define ITEMGETINF_13               0x13
+#define ITEMGETINF_15               0x15
+#define ITEMGETINF_16               0x16
+#define ITEMGETINF_17               0x17
 
 // 0x18-0x1A
 #define ITEMGETINF_18_19_1A_INDEX 1
-#define ITEMGETINF_18_SHIFT 8
-#define ITEMGETINF_19_SHIFT 9
-#define ITEMGETINF_1A_SHIFT 10
-#define ITEMGETINF_18_MASK (1 << ITEMGETINF_18_SHIFT)
-#define ITEMGETINF_19_MASK (1 << ITEMGETINF_19_SHIFT)
-#define ITEMGETINF_1A_MASK (1 << ITEMGETINF_1A_SHIFT)
-#define ITEMGETINF_18 ((ITEMGETINF_18_19_1A_INDEX << 4) | ITEMGETINF_18_SHIFT)
-#define ITEMGETINF_19 ((ITEMGETINF_18_19_1A_INDEX << 4) | ITEMGETINF_19_SHIFT)
-#define ITEMGETINF_1A ((ITEMGETINF_18_19_1A_INDEX << 4) | ITEMGETINF_1A_SHIFT)
+#define ITEMGETINF_18_SHIFT       8
+#define ITEMGETINF_19_SHIFT       9
+#define ITEMGETINF_1A_SHIFT       10
+#define ITEMGETINF_18_MASK        (1 << ITEMGETINF_18_SHIFT)
+#define ITEMGETINF_19_MASK        (1 << ITEMGETINF_19_SHIFT)
+#define ITEMGETINF_1A_MASK        (1 << ITEMGETINF_1A_SHIFT)
+#define ITEMGETINF_18             ((ITEMGETINF_18_19_1A_INDEX << 4) | ITEMGETINF_18_SHIFT)
+#define ITEMGETINF_19             ((ITEMGETINF_18_19_1A_INDEX << 4) | ITEMGETINF_19_SHIFT)
+#define ITEMGETINF_1A             ((ITEMGETINF_18_19_1A_INDEX << 4) | ITEMGETINF_1A_SHIFT)
 
 #define ITEMGETINF_1B 0x1B
 #define ITEMGETINF_1C 0x1C
@@ -625,147 +618,146 @@ typedef enum {
 #define ITEMGETINF_3B 0x3B
 #define ITEMGETINF_3F 0x3F
 
-
 /*
  * SaveContext.infTable
  */
 
-#define INFTABLE_00 0x00
-#define INFTABLE_01 0x01
-#define INFTABLE_03 0x03
-#define INFTABLE_05 0x05
-#define INFTABLE_0C 0x0C
-#define INFTABLE_0E 0x0E
-#define INFTABLE_10 0x10
-#define INFTABLE_15 0x15
-#define INFTABLE_17 0x17
-#define INFTABLE_19 0x19
-#define INFTABLE_1E 0x1E
-#define INFTABLE_22 0x22
-#define INFTABLE_24 0x24
-#define INFTABLE_26 0x26
-#define INFTABLE_28 0x28
-#define INFTABLE_2A 0x2A
-#define INFTABLE_2B 0x2B
-#define INFTABLE_2E 0x2E
-#define INFTABLE_2F 0x2F
-#define INFTABLE_30 0x30
-#define INFTABLE_41 0x41
-#define INFTABLE_47 0x47
-#define INFTABLE_51 0x51
-#define INFTABLE_59 0x59
-#define INFTABLE_61 0x61
-#define INFTABLE_66 0x66
-#define INFTABLE_6A 0x6A
-#define INFTABLE_6C 0x6C
-#define INFTABLE_71 0x71
-#define INFTABLE_76 0x76
-#define INFTABLE_77 0x77
+#define INFTABLE_00                             0x00
+#define INFTABLE_01                             0x01
+#define INFTABLE_03                             0x03
+#define INFTABLE_05                             0x05
+#define INFTABLE_0C                             0x0C
+#define INFTABLE_0E                             0x0E
+#define INFTABLE_10                             0x10
+#define INFTABLE_15                             0x15
+#define INFTABLE_17                             0x17
+#define INFTABLE_19                             0x19
+#define INFTABLE_1E                             0x1E
+#define INFTABLE_22                             0x22
+#define INFTABLE_24                             0x24
+#define INFTABLE_26                             0x26
+#define INFTABLE_28                             0x28
+#define INFTABLE_2A                             0x2A
+#define INFTABLE_2B                             0x2B
+#define INFTABLE_2E                             0x2E
+#define INFTABLE_2F                             0x2F
+#define INFTABLE_30                             0x30
+#define INFTABLE_41                             0x41
+#define INFTABLE_47                             0x47
+#define INFTABLE_51                             0x51
+#define INFTABLE_59                             0x59
+#define INFTABLE_61                             0x61
+#define INFTABLE_66                             0x66
+#define INFTABLE_6A                             0x6A
+#define INFTABLE_6C                             0x6C
+#define INFTABLE_71                             0x71
+#define INFTABLE_76                             0x76
+#define INFTABLE_77                             0x77
 #define INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE 0x7E
-#define INFTABLE_TALKED_TO_MALON_FIRST_TIME 0x84
-#define INFTABLE_TOLD_EPONA_IS_SCARED 0x85
+#define INFTABLE_TALKED_TO_MALON_FIRST_TIME     0x84
+#define INFTABLE_TOLD_EPONA_IS_SCARED           0x85
 #define INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE 0x8B
-#define INFTABLE_8C 0x8C
-#define INFTABLE_8D 0x8D
-#define INFTABLE_8E 0x8E
-#define INFTABLE_94 0x94
-#define INFTABLE_97 0x97
-#define INFTABLE_9A 0x9A
-#define INFTABLE_A2 0xA2
-#define INFTABLE_AB 0xAB
-#define INFTABLE_B0 0xB0
-#define INFTABLE_B1 0xB1
-#define INFTABLE_B4 0xB4
-#define INFTABLE_B6 0xB6
-#define INFTABLE_B7 0xB7
-#define INFTABLE_B8 0xB8
-#define INFTABLE_B9 0xB9
-#define INFTABLE_BC 0xBC
-#define INFTABLE_C0 0xC0
-#define INFTABLE_C1 0xC1
-#define INFTABLE_C2 0xC2
-#define INFTABLE_C3 0xC3
-#define INFTABLE_C4 0xC4
-#define INFTABLE_C5 0xC5
-#define INFTABLE_C6 0xC6
-#define INFTABLE_C7 0xC7
-#define INFTABLE_C8 0xC8
-#define INFTABLE_C9 0xC9
-#define INFTABLE_CA 0xCA
-#define INFTABLE_CB 0xCB
-#define INFTABLE_CC 0xCC
-#define INFTABLE_CD 0xCD
-#define INFTABLE_CE 0xCE
-#define INFTABLE_D0 0xD0
-#define INFTABLE_D2 0xD2
-#define INFTABLE_D4 0xD4
-#define INFTABLE_D6 0xD6
-#define INFTABLE_D8 0xD8
-#define INFTABLE_D9 0xD9
-#define INFTABLE_E0 0xE0
-#define INFTABLE_E3 0xE3
-#define INFTABLE_E6 0xE6
-#define INFTABLE_EB 0xEB
-#define INFTABLE_F0 0xF0
-#define INFTABLE_F4 0xF4
-#define INFTABLE_F8 0xF8
-#define INFTABLE_FC 0xFC
-#define INFTABLE_109 0x109
-#define INFTABLE_10A 0x10A
-#define INFTABLE_10B 0x10B
-#define INFTABLE_10C 0x10C
-#define INFTABLE_10D 0x10D
-#define INFTABLE_10E 0x10E
-#define INFTABLE_10F 0x10F
-#define INFTABLE_113 0x113
-#define INFTABLE_11A 0x11A
-#define INFTABLE_11E 0x11E
-#define INFTABLE_124 0x124
-#define INFTABLE_129 0x129
-#define INFTABLE_12A 0x12A
-#define INFTABLE_138 0x138
-#define INFTABLE_139 0x139
-#define INFTABLE_140 0x140
-#define INFTABLE_141 0x141
-#define INFTABLE_142 0x142
-#define INFTABLE_143 0x143
-#define INFTABLE_144 0x144
-#define INFTABLE_145 0x145
-#define INFTABLE_146 0x146
-#define INFTABLE_147 0x147
-#define INFTABLE_160 0x160
-#define INFTABLE_161 0x161
-#define INFTABLE_162 0x162
-#define INFTABLE_163 0x163
-#define INFTABLE_164 0x164
-#define INFTABLE_166 0x166
-#define INFTABLE_16A 0x16A
-#define INFTABLE_16C 0x16C
-#define INFTABLE_170 0x170
-#define INFTABLE_171 0x171
-#define INFTABLE_172 0x172
-#define INFTABLE_176 0x176
-#define INFTABLE_178 0x178
-#define INFTABLE_17C 0x17C
-#define INFTABLE_17F 0x17F
-#define INFTABLE_190 0x190
-#define INFTABLE_191 0x191
-#define INFTABLE_HAS_DEKU_STICK_UPGRADE 0x192
-#define INFTABLE_HAS_DEKU_NUT_UPGRADE 0x193
-#define INFTABLE_195 0x195
-#define INFTABLE_196 0x196
-#define INFTABLE_197 0x197
-#define INFTABLE_198 0x198
+#define INFTABLE_8C                             0x8C
+#define INFTABLE_8D                             0x8D
+#define INFTABLE_8E                             0x8E
+#define INFTABLE_94                             0x94
+#define INFTABLE_97                             0x97
+#define INFTABLE_9A                             0x9A
+#define INFTABLE_A2                             0xA2
+#define INFTABLE_AB                             0xAB
+#define INFTABLE_B0                             0xB0
+#define INFTABLE_B1                             0xB1
+#define INFTABLE_B4                             0xB4
+#define INFTABLE_B6                             0xB6
+#define INFTABLE_B7                             0xB7
+#define INFTABLE_B8                             0xB8
+#define INFTABLE_B9                             0xB9
+#define INFTABLE_BC                             0xBC
+#define INFTABLE_C0                             0xC0
+#define INFTABLE_C1                             0xC1
+#define INFTABLE_C2                             0xC2
+#define INFTABLE_C3                             0xC3
+#define INFTABLE_C4                             0xC4
+#define INFTABLE_C5                             0xC5
+#define INFTABLE_C6                             0xC6
+#define INFTABLE_C7                             0xC7
+#define INFTABLE_C8                             0xC8
+#define INFTABLE_C9                             0xC9
+#define INFTABLE_CA                             0xCA
+#define INFTABLE_CB                             0xCB
+#define INFTABLE_CC                             0xCC
+#define INFTABLE_CD                             0xCD
+#define INFTABLE_CE                             0xCE
+#define INFTABLE_D0                             0xD0
+#define INFTABLE_D2                             0xD2
+#define INFTABLE_D4                             0xD4
+#define INFTABLE_D6                             0xD6
+#define INFTABLE_D8                             0xD8
+#define INFTABLE_D9                             0xD9
+#define INFTABLE_E0                             0xE0
+#define INFTABLE_E3                             0xE3
+#define INFTABLE_E6                             0xE6
+#define INFTABLE_EB                             0xEB
+#define INFTABLE_F0                             0xF0
+#define INFTABLE_F4                             0xF4
+#define INFTABLE_F8                             0xF8
+#define INFTABLE_FC                             0xFC
+#define INFTABLE_109                            0x109
+#define INFTABLE_10A                            0x10A
+#define INFTABLE_10B                            0x10B
+#define INFTABLE_10C                            0x10C
+#define INFTABLE_10D                            0x10D
+#define INFTABLE_10E                            0x10E
+#define INFTABLE_10F                            0x10F
+#define INFTABLE_113                            0x113
+#define INFTABLE_11A                            0x11A
+#define INFTABLE_11E                            0x11E
+#define INFTABLE_124                            0x124
+#define INFTABLE_129                            0x129
+#define INFTABLE_12A                            0x12A
+#define INFTABLE_138                            0x138
+#define INFTABLE_139                            0x139
+#define INFTABLE_140                            0x140
+#define INFTABLE_141                            0x141
+#define INFTABLE_142                            0x142
+#define INFTABLE_143                            0x143
+#define INFTABLE_144                            0x144
+#define INFTABLE_145                            0x145
+#define INFTABLE_146                            0x146
+#define INFTABLE_147                            0x147
+#define INFTABLE_160                            0x160
+#define INFTABLE_161                            0x161
+#define INFTABLE_162                            0x162
+#define INFTABLE_163                            0x163
+#define INFTABLE_164                            0x164
+#define INFTABLE_166                            0x166
+#define INFTABLE_16A                            0x16A
+#define INFTABLE_16C                            0x16C
+#define INFTABLE_170                            0x170
+#define INFTABLE_171                            0x171
+#define INFTABLE_172                            0x172
+#define INFTABLE_176                            0x176
+#define INFTABLE_178                            0x178
+#define INFTABLE_17C                            0x17C
+#define INFTABLE_17F                            0x17F
+#define INFTABLE_190                            0x190
+#define INFTABLE_191                            0x191
+#define INFTABLE_HAS_DEKU_STICK_UPGRADE         0x192
+#define INFTABLE_HAS_DEKU_NUT_UPGRADE           0x193
+#define INFTABLE_195                            0x195
+#define INFTABLE_196                            0x196
+#define INFTABLE_197                            0x197
+#define INFTABLE_198                            0x198
 
 // 0x199-0x19F
 #define INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX 25
-#define INFTABLE_199_MASK (1 << 9)
-#define INFTABLE_19A_MASK (1 << 10)
-#define INFTABLE_19B_MASK (1 << 11)
-#define INFTABLE_19C_MASK (1 << 12)
-#define INFTABLE_19D_MASK (1 << 13)
-#define INFTABLE_19E_MASK (1 << 14)
-#define INFTABLE_19F_MASK (1 << 15)
+#define INFTABLE_199_MASK                          (1 << 9)
+#define INFTABLE_19A_MASK                          (1 << 10)
+#define INFTABLE_19B_MASK                          (1 << 11)
+#define INFTABLE_19C_MASK                          (1 << 12)
+#define INFTABLE_19D_MASK                          (1 << 13)
+#define INFTABLE_19E_MASK                          (1 << 14)
+#define INFTABLE_19F_MASK                          (1 << 15)
 
 // 0x1A0-0x1AF
 #define INFTABLE_1AX_INDEX 26
@@ -785,34 +777,33 @@ typedef enum {
 // 0x1D0-0x1DF
 #define INFTABLE_1DX_INDEX 29
 
-
 /*
  * SaveContext.eventInf
  */
 
 // 0x00-0x0F
 // horses related
-#define EVENTINF_HORSES_INDEX 0
-#define EVENTINF_HORSES_STATE_SHIFT 0
+#define EVENTINF_HORSES_INDEX           0
+#define EVENTINF_HORSES_STATE_SHIFT     0
 #define EVENTINF_HORSES_HORSETYPE_SHIFT 4
-#define EVENTINF_HORSES_05_SHIFT 5
-#define EVENTINF_HORSES_06_SHIFT 6
-#define EVENTINF_HORSES_08_SHIFT 8
-#define EVENTINF_HORSES_0A_SHIFT 10
-#define EVENTINF_HORSES_0F_SHIFT 15 // unused?
-#define EVENTINF_HORSES_STATE_MASK (0xF << EVENTINF_HORSES_STATE_SHIFT)
-#define EVENTINF_HORSES_HORSETYPE_MASK (1 << EVENTINF_HORSES_HORSETYPE_SHIFT)
-#define EVENTINF_HORSES_05_MASK (1 << EVENTINF_HORSES_05_SHIFT)
-#define EVENTINF_HORSES_06_MASK (1 << EVENTINF_HORSES_06_SHIFT)
-#define EVENTINF_HORSES_0F_MASK (1 << EVENTINF_HORSES_0F_SHIFT)
-#define EVENTINF_HORSES_05 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_05_SHIFT)
-#define EVENTINF_HORSES_06 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_06_SHIFT)
+#define EVENTINF_HORSES_05_SHIFT        5
+#define EVENTINF_HORSES_06_SHIFT        6
+#define EVENTINF_HORSES_08_SHIFT        8
+#define EVENTINF_HORSES_0A_SHIFT        10
+#define EVENTINF_HORSES_0F_SHIFT        15 // unused?
+#define EVENTINF_HORSES_STATE_MASK      (0xF << EVENTINF_HORSES_STATE_SHIFT)
+#define EVENTINF_HORSES_HORSETYPE_MASK  (1 << EVENTINF_HORSES_HORSETYPE_SHIFT)
+#define EVENTINF_HORSES_05_MASK         (1 << EVENTINF_HORSES_05_SHIFT)
+#define EVENTINF_HORSES_06_MASK         (1 << EVENTINF_HORSES_06_SHIFT)
+#define EVENTINF_HORSES_0F_MASK         (1 << EVENTINF_HORSES_0F_SHIFT)
+#define EVENTINF_HORSES_05              ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_05_SHIFT)
+#define EVENTINF_HORSES_06              ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_06_SHIFT)
 // Used in z_en_ta (Talon) to store Cucco game winning status
 // and in z_en_ge1 (Gerudo) to store archery in-progress status
-#define EVENTINF_HORSES_08 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_08_SHIFT)
+#define EVENTINF_HORSES_08      ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_08_SHIFT)
 #define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
 // Used in z_en_ta (Talon) and z_en_ma3 (Malon) to store minigame finishing status
-#define EVENTINF_HORSES_0A ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
+#define EVENTINF_HORSES_0A           ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
 #define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
 
 typedef enum {
@@ -845,20 +836,17 @@ typedef enum {
     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
         (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_0F_MASK) | ((v) << EVENTINF_HORSES_0F_SHIFT)
 
-
 // Is the running man race active
 #define EVENTINF_MARATHON_ACTIVE 0x10
 
 // 0x20-0x24
 #define EVENTINF_20_21_22_23_24_INDEX 2
-#define EVENTINF_20_MASK (1 << 0)
-#define EVENTINF_21_MASK (1 << 1)
-#define EVENTINF_22_MASK (1 << 2)
-#define EVENTINF_23_MASK (1 << 3)
-#define EVENTINF_24_MASK (1 << 4)
+#define EVENTINF_20_MASK              (1 << 0)
+#define EVENTINF_21_MASK              (1 << 1)
+#define EVENTINF_22_MASK              (1 << 2)
+#define EVENTINF_23_MASK              (1 << 3)
+#define EVENTINF_24_MASK              (1 << 4)
 
 #define EVENTINF_30 0x30
-
-
 
 #endif

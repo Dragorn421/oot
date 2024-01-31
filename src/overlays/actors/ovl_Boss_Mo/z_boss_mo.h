@@ -129,7 +129,7 @@ typedef struct BossMo {
     /* 0x1548 */ char unk_1548[0x44];
 } BossMo; // size = 0x158C
 
-#define BOSSMO_CORE -1
+#define BOSSMO_CORE     -1
 #define BOSSMO_TENTACLE 100
 
 #endif

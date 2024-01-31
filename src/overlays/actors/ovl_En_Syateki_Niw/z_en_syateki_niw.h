@@ -9,15 +9,15 @@ struct EnSyatekiNiw;
 typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, PlayState*);
 
 typedef struct {
-    /* 0x00 */ u8    state;
+    /* 0x00 */ u8 state;
     /* 0x0C */ Vec3f pos;
     /* 0x10 */ Vec3f vel;
     /* 0x1C */ Vec3f accel;
-    /* 0x28 */ s16   lifespan;
-    /* 0x2A */ s16   rotPulse;
-    /* 0x2C */ f32   scale;
-    /* 0x30 */ f32   rot;
-    /* 0x34 */ u8    timer;
+    /* 0x28 */ s16 lifespan;
+    /* 0x2A */ s16 rotPulse;
+    /* 0x2C */ f32 scale;
+    /* 0x30 */ f32 rot;
+    /* 0x34 */ u8 timer;
 } EnSyatekiNiwEffect; // size = 0x38
 
 #define EN_SYATEKI_NIW_EFFECT_COUNT 5

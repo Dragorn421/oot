@@ -16,6 +16,6 @@ typedef struct {
 } EffectSsDeadSoundInitParams; // size = 0x30
 
 #define DEADSOUND_REPEAT_MODE_OFF 1
-#define DEADSOUND_REPEAT_MODE_ON 2
+#define DEADSOUND_REPEAT_MODE_ON  2
 
 #endif

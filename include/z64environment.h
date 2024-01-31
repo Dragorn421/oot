@@ -11,13 +11,13 @@ struct SkyboxContext;
 #define FILL_SCREEN_OPA (1 << 0)
 #define FILL_SCREEN_XLU (1 << 1)
 
-#define NEXT_TIME_NONE 0xFFFF
-#define NEXT_TIME_DAY (CLOCK_TIME(12, 0) + 1)
-#define NEXT_TIME_NIGHT CLOCK_TIME(0, 0)
-#define NEXT_TIME_DAY_SET 0xFFFE
+#define NEXT_TIME_NONE      0xFFFF
+#define NEXT_TIME_DAY       (CLOCK_TIME(12, 0) + 1)
+#define NEXT_TIME_NIGHT     CLOCK_TIME(0, 0)
+#define NEXT_TIME_DAY_SET   0xFFFE
 #define NEXT_TIME_NIGHT_SET 0xFFFD
 
-#define LIGHT_SETTING_MAX 31
+#define LIGHT_SETTING_MAX           31
 #define LIGHT_SETTING_OVERRIDE_NONE 0xFF
 
 // This mode disables the updating of lights in both light modes.
@@ -26,8 +26,8 @@ struct SkyboxContext;
 #define LIGHT_SETTING_OVERRIDE_FULL_CONTROL 0xFE
 
 #define LIGHT_BLENDRATE_OVERRIDE_NONE 0xFFFF
-#define LIGHT_BLEND_OVERRIDE_NONE 0
-#define LIGHT_BLEND_OVERRIDE_ON 1
+#define LIGHT_BLEND_OVERRIDE_NONE     0
+#define LIGHT_BLEND_OVERRIDE_ON       1
 
 // This mode disables the light system's automatic blending between
 // light settings for `LIGHT_MODE_SETTINGS` (or using a light setting override).
@@ -153,7 +153,7 @@ typedef struct {
 
 // Get blend rate from `EnvLightSettings.blendRateAndFogNear` in 0-255 range
 #define ENV_LIGHT_SETTINGS_BLEND_RATE_U8(blendRateAndFogNear) (((blendRateAndFogNear) >> 10) * 4)
-#define ENV_LIGHT_SETTINGS_FOG_NEAR(blendRateAndFogNear) ((blendRateAndFogNear) & 0x3FF)
+#define ENV_LIGHT_SETTINGS_FOG_NEAR(blendRateAndFogNear)      ((blendRateAndFogNear)&0x3FF)
 
 typedef struct {
     /* 0x00 */ u8 ambientColor[3];

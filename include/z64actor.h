@@ -11,7 +11,7 @@
 #define INVISIBLE_ACTOR_MAX 20
 
 #define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
-#define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
+#define MASS_HEAVY     0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
 struct Actor;
 struct PlayState;
@@ -43,9 +43,9 @@ typedef struct {
  * @see ACTOROVL_ALLOC_ABSOLUTE
  */
 #if OOT_DEBUG
-#define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x27A0
+    #define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x27A0
 #else
-#define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x24E0
+    #define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x24E0
 #endif
 
 /**
@@ -144,22 +144,22 @@ typedef struct {
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
-// 
+//
 #define ACTOR_FLAG_0 (1 << 0)
 
-// 
+//
 #define ACTOR_FLAG_2 (1 << 2)
 
-// 
+//
 #define ACTOR_FLAG_3 (1 << 3)
 
-// 
+//
 #define ACTOR_FLAG_4 (1 << 4)
 
-// 
+//
 #define ACTOR_FLAG_5 (1 << 5)
 
-// 
+//
 #define ACTOR_FLAG_6 (1 << 6)
 
 // hidden or revealed by Lens of Truth (depending on room lensMode)
@@ -170,68 +170,68 @@ typedef struct {
 // Actor will retain this flag until `Actor_TalkOfferAccepted` is called or manually turned off by the actor
 #define ACTOR_FLAG_TALK (1 << 8)
 
-// 
+//
 #define ACTOR_FLAG_9 (1 << 9)
 
-// 
+//
 #define ACTOR_FLAG_10 (1 << 10)
 
-// 
+//
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
 
 // Actor will not shake when a quake occurs
 #define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)
 
-// 
+//
 #define ACTOR_FLAG_13 (1 << 13)
 
-// 
+//
 #define ACTOR_FLAG_14 (1 << 14)
 
-// 
+//
 #define ACTOR_FLAG_15 (1 << 15)
 
-// 
+//
 #define ACTOR_FLAG_16 (1 << 16)
 
-// 
+//
 #define ACTOR_FLAG_17 (1 << 17)
 
-// 
+//
 #define ACTOR_FLAG_18 (1 << 18)
 
-// 
+//
 #define ACTOR_FLAG_19 (1 << 19)
 
-// 
+//
 #define ACTOR_FLAG_20 (1 << 20)
 
-// 
+//
 #define ACTOR_FLAG_21 (1 << 21)
 
 // ignores point lights but not directional lights (such as environment lights)
 #define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22)
 
-// 
+//
 #define ACTOR_FLAG_23 (1 << 23)
 
-// 
+//
 #define ACTOR_FLAG_24 (1 << 24)
 
-// 
+//
 #define ACTOR_FLAG_25 (1 << 25)
 
-// 
+//
 #define ACTOR_FLAG_26 (1 << 26)
 
-// 
+//
 #define ACTOR_FLAG_27 (1 << 27)
 
-// 
+//
 #define ACTOR_FLAG_28 (1 << 28)
 
-#define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
-#define COLORFILTER_GET_DURATION(colorFilterParams) ((colorFilterParams) & 0xFF)
+#define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams)&0x1F00) >> 5)
+#define COLORFILTER_GET_DURATION(colorFilterParams)       ((colorFilterParams)&0xFF)
 
 #define COLORFILTER_COLORFLAG_GRAY 0x8000
 #define COLORFILTER_COLORFLAG_RED  0x4000
@@ -239,18 +239,18 @@ typedef struct {
 
 #define COLORFILTER_INTENSITY_FLAG 0x8000
 
-#define COLORFILTER_BUFFLAG_XLU    0x2000
-#define COLORFILTER_BUFFLAG_OPA    0x0000
+#define COLORFILTER_BUFFLAG_XLU 0x2000
+#define COLORFILTER_BUFFLAG_OPA 0x0000
 
-#define BGCHECKFLAG_GROUND (1 << 0) // Standing on the ground
-#define BGCHECKFLAG_GROUND_TOUCH (1 << 1) // Has touched the ground (only active for 1 frame)
-#define BGCHECKFLAG_GROUND_LEAVE (1 << 2) // Has left the ground (only active for 1 frame)
-#define BGCHECKFLAG_WALL (1 << 3) // Touching a wall
-#define BGCHECKFLAG_CEILING (1 << 4) // Touching a ceiling
-#define BGCHECKFLAG_WATER (1 << 5) // In water
-#define BGCHECKFLAG_WATER_TOUCH (1 << 6) // Has touched water (reset when leaving water)
-#define BGCHECKFLAG_GROUND_STRICT (1 << 7) // Strictly on ground (BGCHECKFLAG_GROUND has some leeway)
-#define BGCHECKFLAG_CRUSHED (1 << 8) // Crushed between a floor and ceiling (triggers a void for player)
+#define BGCHECKFLAG_GROUND               (1 << 0) // Standing on the ground
+#define BGCHECKFLAG_GROUND_TOUCH         (1 << 1) // Has touched the ground (only active for 1 frame)
+#define BGCHECKFLAG_GROUND_LEAVE         (1 << 2) // Has left the ground (only active for 1 frame)
+#define BGCHECKFLAG_WALL                 (1 << 3) // Touching a wall
+#define BGCHECKFLAG_CEILING              (1 << 4) // Touching a ceiling
+#define BGCHECKFLAG_WATER                (1 << 5) // In water
+#define BGCHECKFLAG_WATER_TOUCH          (1 << 6) // Has touched water (reset when leaving water)
+#define BGCHECKFLAG_GROUND_STRICT        (1 << 7) // Strictly on ground (BGCHECKFLAG_GROUND has some leeway)
+#define BGCHECKFLAG_CRUSHED              (1 << 8) // Crushed between a floor and ceiling (triggers a void for player)
 #define BGCHECKFLAG_PLAYER_WALL_INTERACT (1 << 9) // Only set/used by player, related to interacting with walls
 
 typedef struct Actor {
@@ -329,13 +329,13 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
-#define DYNA_TRANSFORM_POS (1 << 0) // Position of the actors on top follows the dynapoly actor's movement.
+#define DYNA_TRANSFORM_POS   (1 << 0) // Position of the actors on top follows the dynapoly actor's movement.
 #define DYNA_TRANSFORM_ROT_Y (1 << 1) // The Y rotation of the actors on top follows the dynapoly actor's Y rotation.
 
-#define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
+#define DYNA_INTERACT_ACTOR_ON_TOP  (1 << 0) // There is an actor standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
-#define DYNA_INTERACT_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
-#define DYNA_INTERACT_3 (1 << 3) // Like the ACTOR_ON_TOP flag but only actors with ACTOR_FLAG_26
+#define DYNA_INTERACT_PLAYER_ABOVE  (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
+#define DYNA_INTERACT_3             (1 << 3) // Like the ACTOR_ON_TOP flag but only actors with ACTOR_FLAG_26
 
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;
@@ -358,8 +358,8 @@ typedef struct {
 } BodyBreak;
 
 #define BODYBREAK_OBJECT_SLOT_DEFAULT -1 // use the same object as the actor
-#define BODYBREAK_STATUS_READY -1
-#define BODYBREAK_STATUS_FINISHED 0
+#define BODYBREAK_STATUS_READY        -1
+#define BODYBREAK_STATUS_FINISHED     0
 
 typedef enum {
     /* 0x00 */ ITEM00_RUPEE_GREEN,
@@ -459,12 +459,12 @@ typedef enum {
     /* 0x0C */ ACTORCAT_MAX
 } ActorCategory;
 
-#define DEFINE_ACTOR(_0, enum, _2, _3) enum,
+#define DEFINE_ACTOR(_0, enum, _2, _3)          enum,
 #define DEFINE_ACTOR_INTERNAL(_0, enum, _2, _3) enum,
-#define DEFINE_ACTOR_UNSET(enum) enum,
+#define DEFINE_ACTOR_UNSET(enum)                enum,
 
 typedef enum {
-    #include "tables/actor_table.h"
+#include "tables/actor_table.h"
     /* 0x0192 */ ACTOR_ID_MAX // originally "ACTOR_DLF_MAX"
 } ActorID;
 
@@ -576,7 +576,7 @@ typedef enum {
 } NaviEnemy;
 
 #define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
-#define GET_TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)
+#define GET_TRANSITION_ACTOR_INDEX(actor)   ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)
 
 // EnDoor and DoorKiller share openAnim and playerIsOpening
 // Due to alignment, a substruct cannot be used in the structs of these actors.

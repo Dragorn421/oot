@@ -4,7 +4,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-
 struct EnHeishi2;
 
 typedef void (*EnHeishi2ActionFunc)(struct EnHeishi2*, PlayState*);

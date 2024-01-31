@@ -16,18 +16,18 @@ typedef struct {
     /* 0x14 */ char unk_14[0x1C]; // unused
 } GfxPrint; // size = 0x30
 
-#define GFX_CHAR_X_SPACING    8
-#define GFX_CHAR_Y_SPACING    8
+#define GFX_CHAR_X_SPACING 8
+#define GFX_CHAR_Y_SPACING 8
 
-#define GFXP_UNUSED "\x8E"
-#define GFXP_UNUSED_CHAR 0x8E
-#define GFXP_HIRAGANA "\x8D"
-#define GFXP_HIRAGANA_CHAR 0x8D
-#define GFXP_KATAKANA "\x8C"
-#define GFXP_KATAKANA_CHAR 0x8C
-#define GFXP_RAINBOW_ON "\x8B"
-#define GFXP_RAINBOW_ON_CHAR 0x8B
-#define GFXP_RAINBOW_OFF "\x8A"
+#define GFXP_UNUSED           "\x8E"
+#define GFXP_UNUSED_CHAR      0x8E
+#define GFXP_HIRAGANA         "\x8D"
+#define GFXP_HIRAGANA_CHAR    0x8D
+#define GFXP_KATAKANA         "\x8C"
+#define GFXP_KATAKANA_CHAR    0x8C
+#define GFXP_RAINBOW_ON       "\x8B"
+#define GFXP_RAINBOW_ON_CHAR  0x8B
+#define GFXP_RAINBOW_OFF      "\x8A"
 #define GFXP_RAINBOW_OFF_CHAR 0x8A
 
 #define GFXP_FLAG_HIRAGANA (1 << 0)

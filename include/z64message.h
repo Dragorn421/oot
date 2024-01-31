@@ -15,7 +15,7 @@ typedef enum {
 // TODO get these properties from the textures themselves
 #define FONT_CHAR_TEX_WIDTH  16
 #define FONT_CHAR_TEX_HEIGHT 16
-#define FONT_CHAR_TEX_SIZE ((FONT_CHAR_TEX_WIDTH * FONT_CHAR_TEX_HEIGHT) / 2) // 16x16 I4 texture
+#define FONT_CHAR_TEX_SIZE   ((FONT_CHAR_TEX_WIDTH * FONT_CHAR_TEX_HEIGHT) / 2) // 16x16 I4 texture
 
 // TODO get these properties from the textures themselves
 #define MESSAGE_STATIC_TEX_SIZE 0x1000
@@ -182,13 +182,13 @@ typedef struct {
     };
 } Font; // size = 0xE188
 
-#define TEXTBOX_ENDTYPE_DEFAULT     0x00
-#define TEXTBOX_ENDTYPE_2_CHOICE    0x10
-#define TEXTBOX_ENDTYPE_3_CHOICE    0x20
-#define TEXTBOX_ENDTYPE_HAS_NEXT    0x30
-#define TEXTBOX_ENDTYPE_PERSISTENT  0x40
-#define TEXTBOX_ENDTYPE_EVENT       0x50
-#define TEXTBOX_ENDTYPE_FADING      0x60
+#define TEXTBOX_ENDTYPE_DEFAULT    0x00
+#define TEXTBOX_ENDTYPE_2_CHOICE   0x10
+#define TEXTBOX_ENDTYPE_3_CHOICE   0x20
+#define TEXTBOX_ENDTYPE_HAS_NEXT   0x30
+#define TEXTBOX_ENDTYPE_PERSISTENT 0x40
+#define TEXTBOX_ENDTYPE_EVENT      0x50
+#define TEXTBOX_ENDTYPE_FADING     0x60
 
 typedef struct {
     /* 0x0000 */ View view;

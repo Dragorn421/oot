@@ -3,7 +3,10 @@
 
 #include "ultra64.h"
 
-#define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
+#define VEC_SET(V, X, Y, Z) \
+    (V).x = (X);            \
+    (V).y = (Y);            \
+    (V).z = (Z)
 
 typedef struct {
     f32 x, y;
@@ -83,20 +86,21 @@ typedef VecSphGeo VecSph;
 // Pitch is 0 along the xz-plane (horizon)
 typedef VecSphGeo VecGeo;
 
-#define LERP(x, y, scale) (((y) - (x)) * (scale) + (x))
-#define LERP32(x, y, scale) ((s32)(((y) - (x)) * (scale)) + (x))
-#define LERP16(x, y, scale) ((s16)(((y) - (x)) * (scale)) + (x))
-#define F32_LERP(v0,v1,t) ((v0) * (1.0f - (t)) + (v1) * (t))
-#define F32_LERPIMP(v0, v1, t) (v0 + ((v1 - v0) * t))
-#define F32_LERPIMPINV(v0, v1, t) ((v0) + (((v1) - (v0)) / (t)))
-#define BINANG_LERPIMP(v0, v1, t) ((v0) + (s16)((s16)((v1) - (v0)) * (t)))
+#define LERP(x, y, scale)            (((y) - (x)) * (scale) + (x))
+#define LERP32(x, y, scale)          ((s32)(((y) - (x)) * (scale)) + (x))
+#define LERP16(x, y, scale)          ((s16)(((y) - (x)) * (scale)) + (x))
+#define F32_LERP(v0, v1, t)          ((v0) * (1.0f - (t)) + (v1) * (t))
+#define F32_LERPIMP(v0, v1, t)       (v0 + ((v1 - v0) * t))
+#define F32_LERPIMPINV(v0, v1, t)    ((v0) + (((v1) - (v0)) / (t)))
+#define BINANG_LERPIMP(v0, v1, t)    ((v0) + (s16)((s16)((v1) - (v0)) * (t)))
 #define BINANG_LERPIMPINV(v0, v1, t) ((v0) + (s16)((v1) - (v0)) / (t))
 
-#define VEC3F_LERPIMPDST(dst, v0, v1, t){ \
-    (dst)->x = (v0)->x + (((v1)->x - (v0)->x) * t); \
-    (dst)->y = (v0)->y + (((v1)->y - (v0)->y) * t); \
-    (dst)->z = (v0)->z + (((v1)->z - (v0)->z) * t); \
-}
+#define VEC3F_LERPIMPDST(dst, v0, v1, t)                \
+    {                                                   \
+        (dst)->x = (v0)->x + (((v1)->x - (v0)->x) * t); \
+        (dst)->y = (v0)->y + (((v1)->y - (v0)->y) * t); \
+        (dst)->z = (v0)->z + (((v1)->z - (v0)->z) * t); \
+    }
 
 #define IS_ZERO(f) (fabsf(f) < 0.008f)
 
@@ -107,19 +111,19 @@ typedef VecSphGeo VecGeo;
 #define TRUNCF_BINANG(f) (s16)(s32)(f)
 
 // Angle conversion macros
-#define DEG_TO_BINANG(degrees) (s16)TRUNCF_BINANG((degrees) * (0x8000 / 180.0f))
-#define RAD_TO_BINANG(radians) (s16)TRUNCF_BINANG((radians) * (0x8000 / M_PI))
-#define RAD_TO_DEG(radians) ((radians) * (180.0f / M_PI))
-#define DEG_TO_RAD(degrees) ((degrees) * (M_PI / 180.0f))
-#define BINANG_TO_DEG(binang) ((f32)(binang) * (180.0f / 0x8000))
-#define BINANG_TO_RAD(binang) ((f32)(binang) * (M_PI / 0x8000))
-#define BINANG_TO_RAD_ALT(binang) (((f32)(binang) / (f32)0x8000) * M_PI)
-#define BINANG_TO_RAD_ALT2(binang) (((f32)(binang) * M_PI) / 0x8000)
+#define DEG_TO_BINANG(degrees)     (s16) TRUNCF_BINANG((degrees) * (0x8000 / 180.0f))
+#define RAD_TO_BINANG(radians)     (s16) TRUNCF_BINANG((radians) * (0x8000 / M_PI))
+#define RAD_TO_DEG(radians)        ((radians) * (180.0f / M_PI))
+#define DEG_TO_RAD(degrees)        ((degrees) * (M_PI / 180.0f))
+#define BINANG_TO_DEG(binang)      ((f32)(binang) * (180.0f / 0x8000))
+#define BINANG_TO_RAD(binang)      ((f32)(binang) * (M_PI / 0x8000))
+#define BINANG_TO_RAD_ALT(binang)  (((f32)(binang) / (f32)0x8000) * M_PI)
+#define BINANG_TO_RAD_ALT2(binang) (((f32)(binang)*M_PI) / 0x8000)
 
 // Vector macros
-#define SQXZ(vec) ((vec).x * (vec).x + (vec).z * (vec).z)
-#define DOTXZ(vec1, vec2) ((vec1).x * (vec2).x + (vec1).z * (vec2).z)
-#define SQXYZ(vec) ((vec).x * (vec).x + (vec).y * (vec).y + (vec).z * (vec).z)
+#define SQXZ(vec)          ((vec).x * (vec).x + (vec).z * (vec).z)
+#define DOTXZ(vec1, vec2)  ((vec1).x * (vec2).x + (vec1).z * (vec2).z)
+#define SQXYZ(vec)         ((vec).x * (vec).x + (vec).y * (vec).y + (vec).z * (vec).z)
 #define DOTXYZ(vec1, vec2) ((vec1).x * (vec2).x + (vec1).y * (vec2).y + (vec1).z * (vec2).z)
 
 #endif

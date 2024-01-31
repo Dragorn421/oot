@@ -22,24 +22,23 @@
  *
  */
 
-#define ENDOOR_PARAMS_TYPE_SHIFT 7
-#define ENDOOR_PARAMS_TYPE_MASK (7 << ENDOOR_PARAMS_TYPE_SHIFT)
-#define ENDOOR_GET_TYPE(thisx) ((thisx)->params >> ENDOOR_PARAMS_TYPE_SHIFT & 7)
-#define ENDOOR_PARAMS_DOUBLE_DOOR_FLAG 0x40
-#define ENDOOR_IS_DOUBLE_DOOR(thisx) ((thisx)->params & ENDOOR_PARAMS_DOUBLE_DOOR_FLAG)
+#define ENDOOR_PARAMS_TYPE_SHIFT             7
+#define ENDOOR_PARAMS_TYPE_MASK              (7 << ENDOOR_PARAMS_TYPE_SHIFT)
+#define ENDOOR_GET_TYPE(thisx)               ((thisx)->params >> ENDOOR_PARAMS_TYPE_SHIFT & 7)
+#define ENDOOR_PARAMS_DOUBLE_DOOR_FLAG       0x40
+#define ENDOOR_IS_DOUBLE_DOOR(thisx)         ((thisx)->params & ENDOOR_PARAMS_DOUBLE_DOOR_FLAG)
 #define ENDOOR_GET_LOCKED_SWITCH_FLAG(thisx) ((thisx)->params & 0x3F)
-#define ENDOOR_GET_CHECKABLE_TEXT_ID(thisx) ((thisx)->params & 0x3F)
-
+#define ENDOOR_GET_CHECKABLE_TEXT_ID(thisx)  ((thisx)->params & 0x3F)
 
 typedef enum {
-    /* 0x00 */ DOOR_ROOMLOAD,  // loads rooms
-    /* 0x01 */ DOOR_LOCKED,    // small key locked door
+    /* 0x00 */ DOOR_ROOMLOAD, // loads rooms
+    /* 0x01 */ DOOR_LOCKED, // small key locked door
     /* 0x02 */ DOOR_ROOMLOAD2, // loads rooms
     /* 0x03 */ DOOR_SCENEEXIT, // doesn't load rooms, used for doors paired with scene transition polygons
-    /* 0x04 */ DOOR_AJAR,      // open slightly but slams shut if Link gets too close
+    /* 0x04 */ DOOR_AJAR, // open slightly but slams shut if Link gets too close
     /* 0x05 */ DOOR_CHECKABLE, // doors that display a textbox when interacting
-    /* 0x06 */ DOOR_EVENING,   // unlocked between 18:00 and 21:00, Dampé's hut
-    /* 0x07 */ DOOR_ROOMLOAD7  // loads rooms
+    /* 0x06 */ DOOR_EVENING, // unlocked between 18:00 and 21:00, Dampé's hut
+    /* 0x07 */ DOOR_ROOMLOAD7 // loads rooms
 } EnDoorType;
 
 struct EnDoor;

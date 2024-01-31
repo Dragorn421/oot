@@ -38,7 +38,7 @@ typedef struct EnKanban {
     /* 0x01A0 */ ColliderCylinder collider;
 } EnKanban; // size = 0x01EC
 
-#define ENKANBAN_PIECE ((s16)0xFFDD)
+#define ENKANBAN_PIECE   ((s16)0xFFDD)
 #define ENKANBAN_FISHING 0x300
 
 #endif

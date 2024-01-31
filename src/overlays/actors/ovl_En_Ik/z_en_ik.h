@@ -9,8 +9,8 @@ struct EnIk;
 typedef void (*EnIkActionFunc)(struct EnIk*, PlayState*);
 
 #define IK_GET_UPPER_PARAMS(thisx) ((thisx)->params & 0xFF00)
-#define IK_GET_ARMOR_TYPE(thisx) ((thisx)->params & 0xFF)
-#define IK_GET_SWITCH_FLAG(thisx) (((thisx)->params >> 8) & 0xFF)
+#define IK_GET_ARMOR_TYPE(thisx)   ((thisx)->params & 0xFF)
+#define IK_GET_SWITCH_FLAG(thisx)  (((thisx)->params >> 8) & 0xFF)
 
 typedef enum {
     /* 0 */ IK_TYPE_NABOORU,

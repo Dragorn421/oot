@@ -17,14 +17,14 @@
 #define M_TASK_FLAG1 2
 
 /* Task Flag Fields */
-#define OS_TASK_YIELDED       0x0001
-#define OS_TASK_DP_WAIT       0x0002
-#define OS_TASK_LOADABLE      0x0004
-#define OS_TASK_SP_ONLY       0x0008
-#define OS_TASK_USR0          0x0010
-#define OS_TASK_USR1          0x0020
-#define OS_TASK_USR2          0x0040
-#define OS_TASK_USR3          0x0080
+#define OS_TASK_YIELDED  0x0001
+#define OS_TASK_DP_WAIT  0x0002
+#define OS_TASK_LOADABLE 0x0004
+#define OS_TASK_SP_ONLY  0x0008
+#define OS_TASK_USR0     0x0010
+#define OS_TASK_USR1     0x0020
+#define OS_TASK_USR2     0x0040
+#define OS_TASK_USR3     0x0080
 
 #define OS_YIELD_DATA_SIZE 0xC00
 

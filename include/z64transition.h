@@ -5,9 +5,9 @@
 #include "ultra64/gbi.h" // for Gfx
 #include "z64transition_instances.h"
 
-#define TRANS_TRIGGER_OFF 0 // transition is not active
+#define TRANS_TRIGGER_OFF   0 // transition is not active
 #define TRANS_TRIGGER_START 20 // start transition (exiting an area)
-#define TRANS_TRIGGER_END -20 // transition is ending (arriving in a new area)
+#define TRANS_TRIGGER_END   -20 // transition is ending (arriving in a new area)
 
 typedef enum {
     /*  0 */ TRANS_MODE_OFF,
@@ -69,16 +69,16 @@ typedef struct {
         TransitionTriforce triforce;
         TransitionWipe wipe;
     } instanceData;
-    /* 0x228 */ s32   transitionType;
+    /* 0x228 */ s32 transitionType;
     /* 0x22C */ void* (*init)(void* transition);
-    /* 0x230 */ void  (*destroy)(void* transition);
-    /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
-    /* 0x238 */ void  (*draw)(void* transition, Gfx** gfxP);
-    /* 0x23C */ void  (*start)(void* transition);
-    /* 0x240 */ void  (*setType)(void* transition, s32 type);
-    /* 0x244 */ void  (*setColor)(void* transition, u32 color);
-    /* 0x248 */ void  (*setUnkColor)(void* transition, u32 color);
-    /* 0x24C */ s32   (*isDone)(void* transition);
+    /* 0x230 */ void (*destroy)(void* transition);
+    /* 0x234 */ void (*update)(void* transition, s32 updateRate);
+    /* 0x238 */ void (*draw)(void* transition, Gfx** gfxP);
+    /* 0x23C */ void (*start)(void* transition);
+    /* 0x240 */ void (*setType)(void* transition, s32 type);
+    /* 0x244 */ void (*setColor)(void* transition, u32 color);
+    /* 0x248 */ void (*setUnkColor)(void* transition, u32 color);
+    /* 0x24C */ s32 (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
 
 #endif

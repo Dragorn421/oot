@@ -3,12 +3,12 @@
 
 #include "ultratypes.h"
 
-#define SP_DRAM_STACK_SIZE8     (0x400)
-#define SP_DRAM_STACK_SIZE64    (SP_DRAM_STACK_SIZE8 >> 3)
+#define SP_DRAM_STACK_SIZE8  (0x400)
+#define SP_DRAM_STACK_SIZE64 (SP_DRAM_STACK_SIZE8 >> 3)
 
-#define SP_UCODE_SIZE           0x1000
+#define SP_UCODE_SIZE 0x1000
 
-#define SP_UCODE_DATA_SIZE      0x800
+#define SP_UCODE_DATA_SIZE 0x800
 
 extern u64 rspbootTextStart[], rspbootTextEnd[];
 

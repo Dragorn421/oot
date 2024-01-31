@@ -22,9 +22,11 @@
  */
 
 #ifdef __GNUC__
-#define CMD_F(a) {.f = (a)}
+    #define CMD_F(a) \
+        { .f = (a) }
 #else
-#define CMD_F(a) {(a)}
+    #define CMD_F(a) \
+        { (a) }
 #endif
 
 /**
@@ -97,9 +99,9 @@
  * For commands that only need to last one frame, set `endFrame` to `startFrame + 1`.
  */
 #define CS_MISC(type, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
-    CMD_HH(type, startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
+    CMD_HH(type, startFrame), CMD_HH(endFrame, unused0),                                                                                        \
+        CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5),                                                         \
+        CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
 /**
  * Declares a list of `CS_LIGHT_SETTING` entries.
@@ -113,9 +115,9 @@
  * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
 #define CS_LIGHT_SETTING(lightSetting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_BBH(0, (lightSetting + 1), startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+    CMD_BBH(0, (lightSetting + 1), startFrame), CMD_HH(endFrame, unused0),                                                           \
+        CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5),                                              \
+        CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_RUMBLE_CONTROLLER` entries.
@@ -126,7 +128,7 @@
 /**
  * Rumble the controller.
  * @note `endFrame` is not used in the implementation of the command, so its value does not matter
-*/
+ */
 #define CS_RUMBLE_CONTROLLER(unused0, startFrame, endFrame, sourceStrength, duration, decreaseRate, unused1, unused2) \
     CMD_HH(unused0, startFrame), CMD_HBB(endFrame, sourceStrength, duration), CMD_BBH(decreaseRate, unused1, unused2)
 
@@ -142,10 +144,10 @@
  * The cue `id` is a number that has an actor-specific meaning.
  */
 #define CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2) \
-    CMD_HH(id, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
-    CMD_W(startX), CMD_W(startY), CMD_W(startZ), \
-    CMD_W(endX), CMD_W(endY), CMD_W(endZ), \
-    CMD_F(unused0), CMD_F(unused1), CMD_F(unused2)
+    CMD_HH(id, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ),                                                               \
+        CMD_W(startX), CMD_W(startY), CMD_W(startZ),                                                                                  \
+        CMD_W(endX), CMD_W(endY), CMD_W(endZ),                                                                                        \
+        CMD_F(unused0), CMD_F(unused1), CMD_F(unused2)
 
 /**
  * Declares a list of `CS_PLAYER_CUE` entries.
@@ -197,9 +199,9 @@
  * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
 #define CS_START_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH((seqId + 1), startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+    CMD_HH((seqId + 1), startFrame), CMD_HH(endFrame, unused0),                                                           \
+        CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5),                                   \
+        CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_STOP_SEQ` entries.
@@ -212,9 +214,9 @@
  * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
 #define CS_STOP_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH((seqId + 1), startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+    CMD_HH((seqId + 1), startFrame), CMD_HH(endFrame, unused0),                                                          \
+        CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5),                                  \
+        CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_FADE_OUT_SEQ` entries.
@@ -227,9 +229,9 @@
  * @see `CutsceneFadeOutSeqPlayer`
  */
 #define CS_FADE_OUT_SEQ(seqPlayer, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH(seqPlayer, startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+    CMD_HH(seqPlayer, startFrame), CMD_HH(endFrame, unused0),                                                                    \
+        CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5),                                          \
+        CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_TIME` entries.
@@ -262,13 +264,12 @@
  */
 #define CS_END() 0xFFFFFFFF, 0x00000000
 
-
 // most instances of this look like unimplemented actor cues.
 // after confirming this, can probably switch those over and delete this
 #define CS_UNK_DATA_LIST(cmdType, entries) CMD_W(cmdType), CMD_W(entries)
 
 #define CS_UNK_DATA(unk1, unk2, unk3, unk4, unk5, unk6, unk7, unk8, unk9, unk10, unk11, unk12) \
-    CMD_W(unk1), CMD_W(unk2), CMD_W(unk3), CMD_W(unk4), CMD_W(unk5), CMD_W(unk6), \
-    CMD_W(unk7), CMD_W(unk8), CMD_W(unk9), CMD_W(unk10), CMD_W(unk11), CMD_W(unk12)
+    CMD_W(unk1), CMD_W(unk2), CMD_W(unk3), CMD_W(unk4), CMD_W(unk5), CMD_W(unk6),              \
+        CMD_W(unk7), CMD_W(unk8), CMD_W(unk9), CMD_W(unk10), CMD_W(unk11), CMD_W(unk12)
 
 #endif

@@ -7,18 +7,18 @@
 struct PlayState;
 
 typedef struct {
-    /* 0x0 */ u16 flags;         // Only the bottom two bits are used, although others are set in objects
-    /* 0x2 */ s16 abscissa;      // knot input value
-    /* 0x4 */ s16 leftGradient;  // left derivative at the point
+    /* 0x0 */ u16 flags; // Only the bottom two bits are used, although others are set in objects
+    /* 0x2 */ s16 abscissa; // knot input value
+    /* 0x4 */ s16 leftGradient; // left derivative at the point
     /* 0x6 */ s16 rightGradient; // right derivative at the point
-    /* 0x8 */ f32 ordinate;      // output value
+    /* 0x8 */ f32 ordinate; // output value
 } CurveInterpKnot; // size = 0xC
 
 typedef struct {
     /* 0x0 */ u8* knotCounts;
     /* 0x4 */ CurveInterpKnot* interpolationData;
     /* 0x8 */ s16* constantData;
-    /* 0xC */ s16 unk_0C;     // Set but not used, always 1 in objects
+    /* 0xC */ s16 unk_0C; // Set but not used, always 1 in objects
     /* 0xE */ s16 frameCount; // Not used, inferred from use in objects
 } CurveAnimationHeader; // size = 0x10
 

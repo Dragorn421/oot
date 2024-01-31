@@ -27,8 +27,6 @@ typedef struct {
     /* 0x0C */ Color_RGBA8_u32 envColor;
 } Vis; // size = 0x10
 
-
-
 /* Cvg: Coverage */
 
 #define FB_FILTER_TO_CVG_TYPE(filter) (filter)
@@ -49,8 +47,6 @@ void VisCvg_Init(VisCvg* this);
 void VisCvg_Destroy(VisCvg* this);
 void VisCvg_Draw(VisCvg* this, Gfx** gfxP);
 
-
-
 /* Mono: Desaturation */
 
 // Only one type
@@ -65,11 +61,9 @@ void VisMono_Init(VisMono* this);
 void VisMono_Destroy(VisMono* this);
 void VisMono_Draw(VisMono* this, Gfx** gfxP);
 
-
-
 /* ZBuf: Z-Buffer */
 
-#define FB_FILTER_TO_ZBUF_TYPE(filter) ((filter) - FB_FILTER_ZBUF_IA)
+#define FB_FILTER_TO_ZBUF_TYPE(filter) ((filter)-FB_FILTER_ZBUF_IA)
 
 typedef enum {
     /* 0 */ VIS_ZBUF_TYPE_IA = FB_FILTER_TO_ZBUF_TYPE(FB_FILTER_ZBUF_IA),

@@ -126,10 +126,10 @@ typedef enum {
     /* 71 */ SETUPDL_MAX
 } SetupDL;
 
-#define UCODE_NULL      0
-#define UCODE_F3DZEX    1
-#define UCODE_UNK       2
-#define UCODE_S2DEX     3
+#define UCODE_NULL   0
+#define UCODE_F3DZEX 1
+#define UCODE_UNK    2
+#define UCODE_S2DEX  3
 
 typedef struct {
     /* 0x00 */ u32 type;

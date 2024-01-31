@@ -22,12 +22,12 @@ typedef struct {
     /* 0x000C */ ObjectEntry slots[19];
 } ObjectContext; // size = 0x518
 
-#define DEFINE_OBJECT(_0, enum) enum,
+#define DEFINE_OBJECT(_0, enum)      enum,
 #define DEFINE_OBJECT_NULL(_0, enum) enum,
-#define DEFINE_OBJECT_UNSET(enum) enum,
+#define DEFINE_OBJECT_UNSET(enum)    enum,
 
 typedef enum {
-    #include "tables/object_table.h"
+#include "tables/object_table.h"
     /* 0x0192 */ OBJECT_ID_MAX
 } ObjectId;
 

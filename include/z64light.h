@@ -44,7 +44,7 @@ typedef struct LightNode {
 } LightNode; // size = 0xC
 
 #define ENV_FOGNEAR_MAX 996
-#define ENV_ZFAR_MAX 12800
+#define ENV_ZFAR_MAX    12800
 
 typedef struct {
     /* 0x0 */ LightNode* listHead;

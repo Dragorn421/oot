@@ -100,7 +100,7 @@ typedef enum {
     /* 2 */ OCARINA_BTN_C_RIGHT,
     /* 3 */ OCARINA_BTN_C_LEFT,
     /* 4 */ OCARINA_BTN_C_UP,
-    /* 5 */ OCARINA_BTN_C_RIGHT_OR_C_LEFT,  // Special case for bFlat4: Interface/Overlap between C_RIGHT and C_LEFT
+    /* 5 */ OCARINA_BTN_C_RIGHT_OR_C_LEFT, // Special case for bFlat4: Interface/Overlap between C_RIGHT and C_LEFT
     /* 0xFF */ OCARINA_BTN_INVALID = 0xFF
 } OcarinaButtonIndex;
 
@@ -164,7 +164,7 @@ typedef struct {
     /* 0x5 */ u8 vibrato;
     /* 0x6 */ s8 bend; // frequency multiplicative offset from the pitch
     /* 0x7 */ u8 bFlat4Flag; // See note above
-} OcarinaNote;  // size = 0x8
+} OcarinaNote; // size = 0x8
 
 typedef struct {
     /* 0x0 */ u8 numButtons;
@@ -173,8 +173,8 @@ typedef struct {
 
 typedef struct OcarinaStaff {
     /* 0x0 */ u8 buttonIndex;
-    /* 0x1 */ u8 state;   // multi-use. Playing: used as songIndex. Playback: used as repeat count of song. Recording: used as OcarinaRecordingState. "status"
-    /* 0x2 */ u8 pos;     // "locate"
+    /* 0x1 */ u8 state; // multi-use. Playing: used as songIndex. Playback: used as repeat count of song. Recording: used as OcarinaRecordingState. "status"
+    /* 0x2 */ u8 pos; // "locate"
 } OcarinaStaff; // size = 0x3
 
 #endif

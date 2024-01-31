@@ -3,9 +3,9 @@
 
 // Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
 // texture format for MAP_NAME_TEX1_*
-#define ITEM_NAME_TEX_WIDTH 128
+#define ITEM_NAME_TEX_WIDTH  128
 #define ITEM_NAME_TEX_HEIGHT 16
-#define ITEM_NAME_TEX_SIZE ((ITEM_NAME_TEX_WIDTH * ITEM_NAME_TEX_HEIGHT) / 2) // 128x16 IA4 texture
+#define ITEM_NAME_TEX_SIZE   ((ITEM_NAME_TEX_WIDTH * ITEM_NAME_TEX_HEIGHT) / 2) // 128x16 IA4 texture
 
 typedef enum {
     /* 0 */ EQUIP_TYPE_SWORD,
@@ -358,11 +358,11 @@ typedef enum {
     /* 0x26 */ GI_CLAIM_CHECK,
     /* 0x27 */ GI_SWORD_KOKIRI,
     /* 0x28 */ GI_SWORD_KNIFE,
-    /* 0x29 */ GI_SHIELD_DEKU,   // or blue rupee if you have the shield
+    /* 0x29 */ GI_SHIELD_DEKU, // or blue rupee if you have the shield
     /* 0x2A */ GI_SHIELD_HYLIAN, // or blue rupee if you have the shield
     /* 0x2B */ GI_SHIELD_MIRROR,
     /* 0x2C */ GI_TUNIC_GORON, // or blue rupee if you have the tunic
-    /* 0x2D */ GI_TUNIC_ZORA,  // or blue rupee if you have the tunic
+    /* 0x2D */ GI_TUNIC_ZORA, // or blue rupee if you have the tunic
     /* 0x2E */ GI_BOOTS_IRON,
     /* 0x2F */ GI_BOOTS_HOVER,
     /* 0x30 */ GI_QUIVER_40,
@@ -390,9 +390,9 @@ typedef enum {
     /* 0x46 */ GI_WALLET_GIANT,
     /* 0x47 */ GI_WEIRD_EGG,
     /* 0x48 */ GI_RECOVERY_HEART,
-    /* 0x49 */ GI_ARROWS_5,  // amount changes depending on context
+    /* 0x49 */ GI_ARROWS_5, // amount changes depending on context
     /* 0x4A */ GI_ARROWS_10, // amount changes depending on context
-    /* 0x4B */ GI_ARROWS_30,  // amount changes depending on context
+    /* 0x4B */ GI_ARROWS_30, // amount changes depending on context
     /* 0x4C */ GI_RUPEE_GREEN,
     /* 0x4D */ GI_RUPEE_BLUE,
     /* 0x4E */ GI_RUPEE_RED,
@@ -430,12 +430,12 @@ typedef enum {
     /* 0x6E */ GI_BOTTLE_BLUE_FIRE,
     /* 0x6F */ GI_BOTTLE_POE,
     /* 0x70 */ GI_BOTTLE_BIG_POE,
-    /* 0x71 */ GI_DOOR_KEY,          // specific to chest minigame
-    /* 0x72 */ GI_RUPEE_GREEN_LOSE,  // specific to chest minigame
-    /* 0x73 */ GI_RUPEE_BLUE_LOSE,   // specific to chest minigame
-    /* 0x74 */ GI_RUPEE_RED_LOSE,    // specific to chest minigame
+    /* 0x71 */ GI_DOOR_KEY, // specific to chest minigame
+    /* 0x72 */ GI_RUPEE_GREEN_LOSE, // specific to chest minigame
+    /* 0x73 */ GI_RUPEE_BLUE_LOSE, // specific to chest minigame
+    /* 0x74 */ GI_RUPEE_RED_LOSE, // specific to chest minigame
     /* 0x75 */ GI_RUPEE_PURPLE_LOSE, // specific to chest minigame
-    /* 0x76 */ GI_HEART_PIECE_WIN,   // specific to chest minigame
+    /* 0x76 */ GI_HEART_PIECE_WIN, // specific to chest minigame
     /* 0x77 */ GI_DEKU_STICK_UPGRADE_20,
     /* 0x78 */ GI_DEKU_STICK_UPGRADE_30,
     /* 0x79 */ GI_DEKU_NUT_UPGRADE_30,

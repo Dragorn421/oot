@@ -42,9 +42,9 @@ typedef enum {
 } SkyboxId;
 
 typedef enum {
-    /* 0 */ SKYBOX_DRAW_128,       // 128x128 top/bottom faces, 128x64 side faces
+    /* 0 */ SKYBOX_DRAW_128, // 128x128 top/bottom faces, 128x64 side faces
     /* 1 */ SKYBOX_DRAW_256_4FACE, // 256x256 all side faces with per-face palettes
-    /* 2 */ SKYBOX_DRAW_256_3FACE  // 256x256 3/4 side faces with per-face palettes
+    /* 2 */ SKYBOX_DRAW_256_3FACE // 256x256 3/4 side faces with per-face palettes
 } SkyboxDrawType;
 
 typedef struct SkyboxContext {

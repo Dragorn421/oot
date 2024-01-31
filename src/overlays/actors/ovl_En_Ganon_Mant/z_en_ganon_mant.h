@@ -6,15 +6,15 @@
 
 struct EnGanonMant;
 
-#define GANON_MANT_NUM_JOINTS 12
+#define GANON_MANT_NUM_JOINTS  12
 #define GANON_MANT_NUM_STRANDS 12
 
 typedef struct {
-    /* 0x000 */ Vec3f root;                              // root position along the collar
-    /* 0x00C */ Vec3f joints[GANON_MANT_NUM_JOINTS];     // "joints" for deforming the cloak, stemming from root and propagating down the cloak
-    /* 0x090 */ Vec3f rotations[GANON_MANT_NUM_JOINTS];  // normal vector rotations, x and y only
+    /* 0x000 */ Vec3f root; // root position along the collar
+    /* 0x00C */ Vec3f joints[GANON_MANT_NUM_JOINTS]; // "joints" for deforming the cloak, stemming from root and propagating down the cloak
+    /* 0x090 */ Vec3f rotations[GANON_MANT_NUM_JOINTS]; // normal vector rotations, x and y only
     /* 0x120 */ Vec3f velocities[GANON_MANT_NUM_JOINTS]; // velocities calculated as differences in position from last update
-    /* 0x1B0 */ u8 torn[GANON_MANT_NUM_JOINTS];          // guess: whether the joint is torn?
+    /* 0x1B0 */ u8 torn[GANON_MANT_NUM_JOINTS]; // guess: whether the joint is torn?
 } MantStrand; // size = 0x1C8
 
 typedef struct EnGanonMant {

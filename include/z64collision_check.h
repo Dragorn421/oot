@@ -1,9 +1,9 @@
 #ifndef Z64COLLISION_CHECK_H
 #define Z64COLLISION_CHECK_H
 
-#define COLLISION_CHECK_AT_MAX 50
-#define COLLISION_CHECK_AC_MAX 60
-#define COLLISION_CHECK_OC_MAX 50
+#define COLLISION_CHECK_AT_MAX      50
+#define COLLISION_CHECK_AC_MAX      60
+#define COLLISION_CHECK_OC_MAX      50
 #define COLLISION_CHECK_OC_LINE_MAX 3
 
 struct Actor;
@@ -82,8 +82,8 @@ typedef struct {
 } ColliderElementTouch; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags;  // Bumper damage type flags.
-    /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
+    /* 0x00 */ u32 dmgFlags; // Bumper damage type flags.
+    /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderElementBump; // size = 0x0C
@@ -129,7 +129,7 @@ typedef struct {
     /* 0x04 */ ColliderElementTouch toucher; // Damage properties when acting as an AT collider
     /* 0x0C */ ColliderElementBumpInit bumper; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 toucherFlags; // Information flags for AT collisions
-    /* 0x15 */ u8 bumperFlags;  // Information flags for AC collisions
+    /* 0x15 */ u8 bumperFlags; // Information flags for AC collisions
     /* 0x16 */ u8 ocElemFlags; // Information flags for OC collisions
 } ColliderElementInit; // size = 0x18
 
@@ -310,75 +310,75 @@ typedef struct {
  * Collider properties, for all shapes
  */
 
-#define AT_NONE 0 // No flags set. Cannot have AT collisions when set as AT
-#define AT_ON (1 << 0) // Can have AT collisions when set as AT
-#define AT_HIT (1 << 1) // Had an AT collision
-#define AT_BOUNCED (1 << 2) // Had an AT collision with an AC_HARD collider
+#define AT_NONE        0 // No flags set. Cannot have AT collisions when set as AT
+#define AT_ON          (1 << 0) // Can have AT collisions when set as AT
+#define AT_HIT         (1 << 1) // Had an AT collision
+#define AT_BOUNCED     (1 << 2) // Had an AT collision with an AC_HARD collider
 #define AT_TYPE_PLAYER (1 << 3) // Has player-aligned damage
-#define AT_TYPE_ENEMY (1 << 4) // Has enemy-aligned damage
-#define AT_TYPE_OTHER (1 << 5) // Has non-aligned damage
-#define AT_SELF (1 << 6) // Can have AT collisions with colliders attached to the same actor
-#define AT_TYPE_ALL (AT_TYPE_PLAYER | AT_TYPE_ENEMY | AT_TYPE_OTHER) // Has all three damage alignments
+#define AT_TYPE_ENEMY  (1 << 4) // Has enemy-aligned damage
+#define AT_TYPE_OTHER  (1 << 5) // Has non-aligned damage
+#define AT_SELF        (1 << 6) // Can have AT collisions with colliders attached to the same actor
+#define AT_TYPE_ALL    (AT_TYPE_PLAYER | AT_TYPE_ENEMY | AT_TYPE_OTHER) // Has all three damage alignments
 
-#define AC_NONE 0 // No flags set. Cannot have AC collisions when set as AC
-#define AC_ON (1 << 0) // Can have AC collisions when set as AC
-#define AC_HIT (1 << 1) // Had an AC collision
-#define AC_HARD (1 << 2) // Causes AT colliders to bounce off it
+#define AC_NONE        0 // No flags set. Cannot have AC collisions when set as AC
+#define AC_ON          (1 << 0) // Can have AC collisions when set as AC
+#define AC_HIT         (1 << 1) // Had an AC collision
+#define AC_HARD        (1 << 2) // Causes AT colliders to bounce off it
 #define AC_TYPE_PLAYER AT_TYPE_PLAYER // Takes player-aligned damage
-#define AC_TYPE_ENEMY AT_TYPE_ENEMY // Takes enemy-aligned damage
-#define AC_TYPE_OTHER AT_TYPE_OTHER // Takes non-aligned damage
-#define AC_NO_DAMAGE (1 << 6) // Collider does not take damage
-#define AC_BOUNCED (1 << 7) // Caused an AT collider to bounce off it
-#define AC_TYPE_ALL (AC_TYPE_PLAYER | AC_TYPE_ENEMY | AC_TYPE_OTHER) // Takes damage from all three alignments
+#define AC_TYPE_ENEMY  AT_TYPE_ENEMY // Takes enemy-aligned damage
+#define AC_TYPE_OTHER  AT_TYPE_OTHER // Takes non-aligned damage
+#define AC_NO_DAMAGE   (1 << 6) // Collider does not take damage
+#define AC_BOUNCED     (1 << 7) // Caused an AT collider to bounce off it
+#define AC_TYPE_ALL    (AC_TYPE_PLAYER | AC_TYPE_ENEMY | AC_TYPE_OTHER) // Takes damage from all three alignments
 
-#define OC1_NONE 0 // No flags set. Cannot have OC collisions when set as OC
-#define OC1_ON (1 << 0) // Can have OC collisions when set as OC
-#define OC1_HIT (1 << 1) // Had an OC collision
-#define OC1_NO_PUSH (1 << 2) // Does not push other colliders away during OC collisions
+#define OC1_NONE        0 // No flags set. Cannot have OC collisions when set as OC
+#define OC1_ON          (1 << 0) // Can have OC collisions when set as OC
+#define OC1_HIT         (1 << 1) // Had an OC collision
+#define OC1_NO_PUSH     (1 << 2) // Does not push other colliders away during OC collisions
 #define OC1_TYPE_PLAYER (1 << 3) // Can have OC collisions with OC type player
-#define OC1_TYPE_1 (1 << 4) // Can have OC collisions with OC type 1
-#define OC1_TYPE_2 (1 << 5) // Can have OC collisions with OC type 2
-#define OC1_TYPE_ALL (OC1_TYPE_PLAYER | OC1_TYPE_1 | OC1_TYPE_2) // Can have collisions with all three OC types
+#define OC1_TYPE_1      (1 << 4) // Can have OC collisions with OC type 1
+#define OC1_TYPE_2      (1 << 5) // Can have OC collisions with OC type 2
+#define OC1_TYPE_ALL    (OC1_TYPE_PLAYER | OC1_TYPE_1 | OC1_TYPE_2) // Can have collisions with all three OC types
 
-#define OC2_NONE 0 // No flags set. Has no OC type
-#define OC2_HIT_PLAYER (1 << 0) // Had an OC collision with OC type player
-#define OC2_UNK1 (1 << 1) // Prevents OC collisions with OC2_UNK2. Some horses and toki_sword have it.
-#define OC2_UNK2 (1 << 2) // Prevents OC collisions with OC2_UNK1. Nothing has it.
+#define OC2_NONE        0 // No flags set. Has no OC type
+#define OC2_HIT_PLAYER  (1 << 0) // Had an OC collision with OC type player
+#define OC2_UNK1        (1 << 1) // Prevents OC collisions with OC2_UNK2. Some horses and toki_sword have it.
+#define OC2_UNK2        (1 << 2) // Prevents OC collisions with OC2_UNK1. Nothing has it.
 #define OC2_TYPE_PLAYER OC1_TYPE_PLAYER // Has OC type player
-#define OC2_TYPE_1 OC1_TYPE_1 // Has OC type 1
-#define OC2_TYPE_2 OC1_TYPE_2 // Has OC type 2
-#define OC2_FIRST_ONLY (1 << 6) // Skips AC checks on elements after the first collision. Only used by Ganon
+#define OC2_TYPE_1      OC1_TYPE_1 // Has OC type 1
+#define OC2_TYPE_2      OC1_TYPE_2 // Has OC type 2
+#define OC2_FIRST_ONLY  (1 << 6) // Skips AC checks on elements after the first collision. Only used by Ganon
 
-#define TOUCH_NONE 0 // No flags set. Cannot have AT collisions
-#define TOUCH_ON (1 << 0) // Can have AT collisions
-#define TOUCH_HIT (1 << 1) // Had an AT collision
-#define TOUCH_NEAREST (1 << 2) // If a Quad, only collides with the closest bumper
-#define TOUCH_SFX_MASK (3 << 3)
-#define TOUCH_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's type
-#define TOUCH_SFX_HARD (1 << 3) // Always uses hard deflection sound
-#define TOUCH_SFX_WOOD (2 << 3) // Always uses wood deflection sound
-#define TOUCH_SFX_NONE (3 << 3) // No hit sound effect
-#define TOUCH_AT_HITMARK (1 << 5) // Draw hitmarks for every AT collision
+#define TOUCH_NONE         0 // No flags set. Cannot have AT collisions
+#define TOUCH_ON           (1 << 0) // Can have AT collisions
+#define TOUCH_HIT          (1 << 1) // Had an AT collision
+#define TOUCH_NEAREST      (1 << 2) // If a Quad, only collides with the closest bumper
+#define TOUCH_SFX_MASK     (3 << 3)
+#define TOUCH_SFX_NORMAL   (0 << 3) // Hit sound effect based on AC collider's type
+#define TOUCH_SFX_HARD     (1 << 3) // Always uses hard deflection sound
+#define TOUCH_SFX_WOOD     (2 << 3) // Always uses wood deflection sound
+#define TOUCH_SFX_NONE     (3 << 3) // No hit sound effect
+#define TOUCH_AT_HITMARK   (1 << 5) // Draw hitmarks for every AT collision
 #define TOUCH_DREW_HITMARK (1 << 6) // Already drew hitmark for this frame
-#define TOUCH_UNK7 (1 << 7) // Unknown purpose. Used by some enemy quads
+#define TOUCH_UNK7         (1 << 7) // Unknown purpose. Used by some enemy quads
 
-#define BUMP_NONE 0 // No flags set. Cannot have AC collisions
-#define BUMP_ON (1 << 0) // Can have AC collisions
-#define BUMP_HIT (1 << 1) // Had an AC collision
-#define BUMP_HOOKABLE (1 << 2) // Can be hooked if actor has hookability flags set.
-#define BUMP_NO_AT_INFO (1 << 3) // Does not give its info to the AT collider that hit it.
-#define BUMP_NO_DAMAGE (1 << 4) // Does not take damage.
+#define BUMP_NONE         0 // No flags set. Cannot have AC collisions
+#define BUMP_ON           (1 << 0) // Can have AC collisions
+#define BUMP_HIT          (1 << 1) // Had an AC collision
+#define BUMP_HOOKABLE     (1 << 2) // Can be hooked if actor has hookability flags set.
+#define BUMP_NO_AT_INFO   (1 << 3) // Does not give its info to the AT collider that hit it.
+#define BUMP_NO_DAMAGE    (1 << 4) // Does not take damage.
 #define BUMP_NO_SWORD_SFX (1 << 5) // Does not have a sound effect when hit by player-attached AT colliders.
-#define BUMP_NO_HITMARK (1 << 6) // Skips hit effects.
+#define BUMP_NO_HITMARK   (1 << 6) // Skips hit effects.
 #define BUMP_DRAW_HITMARK (1 << 7) // Draw hitmark for AC collision this frame.
 
 #define OCELEM_NONE 0 // No flags set. Cannot have OC collisions
-#define OCELEM_ON (1 << 0) // Can have OC collisions
-#define OCELEM_HIT (1 << 1) // Had an OC collision
+#define OCELEM_ON   (1 << 0) // Can have OC collisions
+#define OCELEM_HIT  (1 << 1) // Had an OC collision
 #define OCELEM_UNK3 (1 << 3) // Unknown purpose. Used by Dead Hand element 0 and Dodongo element 5
 
 #define OCLINE_NONE 0 // Did not have an OcLine collision
-#define OCLINE_HIT (1 << 0) // Had an OcLine collision
+#define OCLINE_HIT  (1 << 0) // Had an OcLine collision
 
 #define DMG_ENTRY(damage, effect) ((damage) | ((effect) << 4))
 
@@ -415,14 +415,14 @@ typedef struct {
 #define DMG_HAMMER_JUMP  (1 << 30)
 #define DMG_UNKNOWN_2    (1 << 31)
 
-#define DMG_SLASH (DMG_SLASH_KOKIRI | DMG_SLASH_MASTER | DMG_SLASH_GIANT)
+#define DMG_SLASH       (DMG_SLASH_KOKIRI | DMG_SLASH_MASTER | DMG_SLASH_GIANT)
 #define DMG_SPIN_ATTACK (DMG_SPIN_KOKIRI | DMG_SPIN_MASTER | DMG_SPIN_GIANT)
-#define DMG_JUMP_SLASH (DMG_JUMP_KOKIRI | DMG_JUMP_MASTER | DMG_JUMP_GIANT)
-#define DMG_SWORD (DMG_SLASH | DMG_SPIN_ATTACK | DMG_JUMP_SLASH)
-#define DMG_HAMMER (DMG_HAMMER_SWING | DMG_HAMMER_JUMP)
-#define DMG_FIRE (DMG_ARROW_FIRE | DMG_MAGIC_FIRE)
-#define DMG_ARROW (DMG_ARROW_NORMAL | DMG_ARROW_FIRE | DMG_ARROW_ICE | DMG_ARROW_LIGHT | DMG_ARROW_UNK1 | DMG_ARROW_UNK2 | DMG_ARROW_UNK3)
-#define DMG_RANGED (DMG_ARROW | DMG_HOOKSHOT | DMG_SLINGSHOT)
-#define DMG_DEFAULT ~(DMG_SHIELD | DMG_MIR_RAY)
+#define DMG_JUMP_SLASH  (DMG_JUMP_KOKIRI | DMG_JUMP_MASTER | DMG_JUMP_GIANT)
+#define DMG_SWORD       (DMG_SLASH | DMG_SPIN_ATTACK | DMG_JUMP_SLASH)
+#define DMG_HAMMER      (DMG_HAMMER_SWING | DMG_HAMMER_JUMP)
+#define DMG_FIRE        (DMG_ARROW_FIRE | DMG_MAGIC_FIRE)
+#define DMG_ARROW       (DMG_ARROW_NORMAL | DMG_ARROW_FIRE | DMG_ARROW_ICE | DMG_ARROW_LIGHT | DMG_ARROW_UNK1 | DMG_ARROW_UNK2 | DMG_ARROW_UNK3)
+#define DMG_RANGED      (DMG_ARROW | DMG_HOOKSHOT | DMG_SLINGSHOT)
+#define DMG_DEFAULT     ~(DMG_SHIELD | DMG_MIR_RAY)
 
 #endif

@@ -40,7 +40,6 @@ typedef enum {
 // /* 0x0A */ GORON_FIRE_MAZE_UPPER,
 // /* 0x0B */ GORON_FIRE_HIGHEST
 
-
 typedef struct {
     s16 unused;
     s16 yDist;

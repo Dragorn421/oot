@@ -17,9 +17,9 @@ typedef struct EnDaikuKakariko {
     /* 0x01E4 */ s32 waypoint;
     /* 0x01E8 */ f32 runSpeed;
     /* 0x01EC */ s32 currentAnimIndex;
-    /* 0x01F0 */ char unk_1F0[8];  // Unused variables?
+    /* 0x01F0 */ char unk_1F0[8]; // Unused variables?
     /* 0x01F8 */ s32 pathContinue; // If true, continue looping through the path data
-    /* 0x01FC */ s32 run;          // If true the carpenter will run
+    /* 0x01FC */ s32 run; // If true the carpenter will run
     /* 0x0200 */ u16 flags;
     /* 0x0202 */ u16 runFlag;
     /* 0x0204 */ NpcInteractInfo interactInfo;

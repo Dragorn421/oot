@@ -6,19 +6,19 @@
 
 f32 fabsf(f32 f);
 #ifdef __sgi
-#pragma intrinsic(fabsf)
+    #pragma intrinsic(fabsf)
 #else
-#define fabsf(f) __builtin_fabsf((f32)(f))
+    #define fabsf(f) __builtin_fabsf((f32)(f))
 #endif
 
 f32 sqrtf(f32 f);
 #ifdef __sgi
-#pragma intrinsic(sqrtf)
+    #pragma intrinsic(sqrtf)
 #endif
 
 f64 sqrt(f64 f);
 #ifdef __sgi
-#pragma intrinsic(sqrt)
+    #pragma intrinsic(sqrt)
 #endif
 
 void cleararena(void);
@@ -227,7 +227,7 @@ void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Ve
 void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* innerColor,
                          Color_RGBA8* outerColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life);
 void EffectSsBlast_SpawnWhiteShockwaveSetScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
-                                         s16 scaleStep, s16 life);
+                                               s16 scaleStep, s16 life);
 void EffectSsBlast_SpawnShockwaveSetColor(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                                           Color_RGBA8* innerColor, Color_RGBA8* outerColor, s16 life);
 void EffectSsBlast_SpawnWhiteShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);

@@ -6,23 +6,23 @@
 #include "padmgr.h"
 
 // These are the same as the 3-bit ansi color codes
-#define FAULT_COLOR_BLACK      0
-#define FAULT_COLOR_RED        1
-#define FAULT_COLOR_GREEN      2
-#define FAULT_COLOR_YELLOW     3
-#define FAULT_COLOR_BLUE       4
-#define FAULT_COLOR_MAGENTA    5
-#define FAULT_COLOR_CYAN       6
-#define FAULT_COLOR_WHITE      7
+#define FAULT_COLOR_BLACK   0
+#define FAULT_COLOR_RED     1
+#define FAULT_COLOR_GREEN   2
+#define FAULT_COLOR_YELLOW  3
+#define FAULT_COLOR_BLUE    4
+#define FAULT_COLOR_MAGENTA 5
+#define FAULT_COLOR_CYAN    6
+#define FAULT_COLOR_WHITE   7
 // Additional color codes
 #define FAULT_COLOR_DARK_GRAY  8
 #define FAULT_COLOR_LIGHT_GRAY 9
 
-#define FAULT_COLOR_STRINGIFY(s) #s
+#define FAULT_COLOR_STRINGIFY(s)            #s
 #define FAULT_COLOR_EXPAND_AND_STRINGIFY(s) FAULT_COLOR_STRINGIFY(s)
 
-#define FAULT_ESC '\x1A'
-#define FAULT_COLOR(n) "\x1A" FAULT_COLOR_EXPAND_AND_STRINGIFY(FAULT_COLOR_ ## n)
+#define FAULT_ESC      '\x1A'
+#define FAULT_COLOR(n) "\x1A" FAULT_COLOR_EXPAND_AND_STRINGIFY(FAULT_COLOR_##n)
 
 typedef struct FaultClient {
     /* 0x00 */ struct FaultClient* next;

@@ -8,8 +8,8 @@ struct PlayState;
 
 /* Effects */
 
-#define SPARK_COUNT 3
-#define BLURE_COUNT 25
+#define SPARK_COUNT           3
+#define BLURE_COUNT           25
 #define SHIELD_PARTICLE_COUNT 3
 
 #define TOTAL_EFFECT_COUNT SPARK_COUNT + BLURE_COUNT + SHIELD_PARTICLE_COUNT
@@ -235,24 +235,24 @@ typedef struct {
 
 /* G Effect Regs */
 
-#define rgTexIdx regs[0]
-#define rgScale regs[1]
+#define rgTexIdx     regs[0]
+#define rgScale      regs[1]
 #define rgTexIdxStep regs[2]
 #define rgPrimColorR regs[3]
 #define rgPrimColorG regs[4]
 #define rgPrimColorB regs[5]
 #define rgPrimColorA regs[6]
-#define rgEnvColorR regs[7]
-#define rgEnvColorG regs[8]
-#define rgEnvColorB regs[9]
-#define rgEnvColorA regs[10]
+#define rgEnvColorR  regs[7]
+#define rgEnvColorG  regs[8]
+#define rgEnvColorB  regs[9]
+#define rgEnvColorA  regs[10]
 #define rgObjectSlot regs[11]
 
-#define DEFINE_EFFECT_SS(_0, enum) enum,
+#define DEFINE_EFFECT_SS(_0, enum)   enum,
 #define DEFINE_EFFECT_SS_UNSET(enum) enum,
 
 typedef enum {
-    #include "tables/effect_ss_table.h"
+#include "tables/effect_ss_table.h"
     /* 0x25 */ EFFECT_SS_TYPE_MAX // originally "EFFECT_SS2_TYPE_LAST_LABEL"
 } EffectSsType;
 

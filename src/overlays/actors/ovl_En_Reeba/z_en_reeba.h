@@ -35,8 +35,8 @@ typedef enum {
     /* 1 */ LEEVER_TYPE_BIG
 } LeeverType;
 
-#define LEEVER_STUN_NONE 0
-#define LEEVER_STUN_ICE 2
+#define LEEVER_STUN_NONE  0
+#define LEEVER_STUN_ICE   2
 #define LEEVER_STUN_OTHER 4
 
 #endif

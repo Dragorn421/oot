@@ -4,7 +4,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-
 struct BgSpot00Break;
 
 typedef struct BgSpot00Break {

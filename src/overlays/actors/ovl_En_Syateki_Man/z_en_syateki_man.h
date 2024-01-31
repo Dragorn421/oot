@@ -6,8 +6,8 @@
 
 struct EnSyatekiMan;
 
-typedef void (*EnSyatekiManActionFunc) (struct EnSyatekiMan*, PlayState*);
-typedef void (*EnSyatekiManOtherFunc) (struct EnSyatekiMan*);
+typedef void (*EnSyatekiManActionFunc)(struct EnSyatekiMan*, PlayState*);
+typedef void (*EnSyatekiManOtherFunc)(struct EnSyatekiMan*);
 
 typedef struct EnSyatekiMan {
     /* 0x0000 */ Actor actor;

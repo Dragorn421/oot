@@ -107,7 +107,7 @@ typedef enum {
     /* 06 */ OSSAN_STATE_BROWSE_LEFT_SHELF,
     /* 07 */ OSSAN_STATE_BROWSE_RIGHT_SHELF,
     /* 08 */ OSSAN_STATE_LOOK_SHOPKEEPER, // From looking at shelf
-    /* 09 */ OSSAN_STATE_SELECT_ITEM,     // Select most items
+    /* 09 */ OSSAN_STATE_SELECT_ITEM, // Select most items
     /* 10 */ OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL,
     /* 11 */ OSSAN_STATE_SELECT_ITEM_WEIRD_EGG,
     /* 12 */ OSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED, // Handles two unfinished shop items
@@ -117,14 +117,14 @@ typedef enum {
     /* 16 */ OSSAN_STATE_ITEM_PURCHASED,
     /* 17 */ OSSAN_STATE_CONTINUE_SHOPPING_PROMPT,
     /* 18 */ OSSAN_STATE_GIVE_LON_LON_MILK,
-    /* 19 */ OSSAN_STATE_DISPLAY_ONLY_BOMB_DIALOG,          // Turn to shopkeeper, talk about fake bombs
+    /* 19 */ OSSAN_STATE_DISPLAY_ONLY_BOMB_DIALOG, // Turn to shopkeeper, talk about fake bombs
     /* 20 */ OSSAN_STATE_WAIT_FOR_DISPLAY_ONLY_BOMB_DIALOG, // Can't Get Goron City Bombs
-    /* 21 */ OSSAN_STATE_21,                                // Unused
-    /* 22 */ OSSAN_STATE_22,                                // Follows OSSAN_STATE_21
+    /* 21 */ OSSAN_STATE_21, // Unused
+    /* 22 */ OSSAN_STATE_22, // Follows OSSAN_STATE_21
     /* 23 */ OSSAN_STATE_QUICK_BUY,
     /* 24 */ OSSAN_STATE_SELECT_ITEM_MASK,
     /* 25 */ OSSAN_STATE_LEND_MASK_OF_TRUTH, // First time all masks are sold
-    /* 26 */ OSSAN_STATE_DISCOUNT_DIALOG     // Hylian Shield Discount
+    /* 26 */ OSSAN_STATE_DISCOUNT_DIALOG // Hylian Shield Discount
 } EnOssanState;
 
 typedef enum {
@@ -133,9 +133,9 @@ typedef enum {
     OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK,
     OSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD,
     OSSAN_HAPPY_STATE_BORROWED_FIRST_MASK,
-    OSSAN_HAPPY_STATE_ANGRY,          // Give me my money man!
+    OSSAN_HAPPY_STATE_ANGRY, // Give me my money man!
     OSSAN_HAPPY_STATE_ALL_MASKS_SOLD, // All masks have been sold
-    OSSAN_HAPPY_STATE_NONE = 8        // No Action / Payment received!
+    OSSAN_HAPPY_STATE_NONE = 8 // No Action / Payment received!
 } EnOssanHappyMaskState;
 
 #endif
