@@ -36,6 +36,7 @@ void DynaPolyActor_UpdatePositionOnTop(CollisionContext* colCtx, s32 bgId, Actor
             SkinMatrix_Vec3fMtxFMultXYZ(&curTransform, &tempPos, &pos);
             actor->world.pos = pos;
 
+#if OOT_DEBUG
             if (BGCHECK_XYZ_ABSMAX <= pos.x || pos.x <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.y ||
                 pos.y <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.z || pos.z <= -BGCHECK_XYZ_ABSMAX) {
 
@@ -47,6 +48,7 @@ void DynaPolyActor_UpdatePositionOnTop(CollisionContext* colCtx, s32 bgId, Actor
                     pos.x, pos.y, pos.z);
                 PRINTF(VT_RST);
             }
+#endif
         }
     }
 }
