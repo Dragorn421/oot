@@ -186,9 +186,11 @@ DISASM_FLAGS += --config-dir $(DISASM_DATA_DIR) --symbol-addrs $(DISASM_DATA_DIR
 #### Files ####
 
 # ROM image
-ROMC := oot-$(VERSION)-compressed.z64
-ROM := oot-$(VERSION).z64
-ELF := $(ROM:.z64=.elf)
+ROM      := $(BUILD_DIR)/oot-$(VERSION).z64
+ROMC     := $(ROM:.z64=-compressed.z64)
+ELF      := $(ROM:.z64=.elf)
+MAP      := $(ROM:.z64=.map)
+LDSCRIPT := $(ROM:.z64=.ld)
 # description of ROM segments
 SPEC := spec
 
@@ -346,20 +348,20 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dma-range `./tools/dmadata_range.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(RELOC_O_FILES) $(BUILD_DIR)/ldscript.txt $(BUILD_DIR)/undefined_syms.txt
-	$(LD) -T $(BUILD_DIR)/undefined_syms.txt -T $(BUILD_DIR)/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(BUILD_DIR)/z64.map -o $@
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(RELOC_O_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
+	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
 
 $(BUILD_DIR)/$(SPEC): $(SPEC)
 	$(CPP) $(CPPFLAGS) $< | $(SPEC_REPLACE_VARS) > $@
 
-$(BUILD_DIR)/ldscript.txt: $(BUILD_DIR)/$(SPEC)
+$(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
 	$(MKLDSCRIPT) $< $@
 
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $(BUILD_DIR)/undefined_syms.txt
 
 clean:
-	$(RM) -r $(ROMC) $(ROM) $(ELF) $(BUILD_DIR)
+	$(RM) -r $(BUILD_DIR)
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
