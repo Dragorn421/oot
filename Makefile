@@ -141,6 +141,8 @@ ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
 PYTHON     ?= $(VENV)/bin/python3
+#ASM_PROCESSOR := $(PYTHON) tools/asm_processor/build.py
+ASM_PROCESSOR := ./tools/asm_processor/crwasmp/crwasmp.elf
 
 # Command to replace path variables in the spec file. We can't use the C
 # preprocessor for this because it won't substitute inside string literals.
@@ -317,11 +319,11 @@ $(BUILD_DIR)/src/libultra/rmon/%.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
-$(BUILD_DIR)/src/boot/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/code/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/overlays/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/boot/%.o: CC := $(ASM_PROCESSOR) $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/code/%.o: CC := $(ASM_PROCESSOR) $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/overlays/%.o: CC := $(ASM_PROCESSOR) $(CC) -- $(AS) $(ASFLAGS) --
 
-$(BUILD_DIR)/assets/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/assets/%.o: CC := $(ASM_PROCESSOR) $(CC) -- $(AS) $(ASFLAGS) --
 else
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/%.o: CC := $(CC) -fexec-charset=euc-jp
