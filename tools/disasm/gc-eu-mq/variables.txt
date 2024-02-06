@@ -783,3 +783,4 @@ gChildWarpOutToTCS = 0x8097C390; // size:0x120
 D_80ABF9D0 = 0x80AA19A0; // size:0x170
 D_80ABFB40 = 0x80AA1B10; // size:0x798
 D_80B4C5D0 = 0x80B27720; // size:0xFF0
+gUseCutsceneCam = 0x80119F90; // size:0x1
