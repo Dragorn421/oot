@@ -16,4 +16,5 @@ toml
 # tools
 mapfile-parser>=1.2.1,<2.0.0
 rabbitizer>=1.0.0,<2.0.0
-spimdisasm>=1.20.0,<2.0.0
+# spimdisasm
+git+https://github.com/Dragorn421/spimdisasm.git@56787cc673760b94bbeb644b5b3fdcd4070aa196
