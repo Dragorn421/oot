@@ -166,7 +166,7 @@ static void parse_input_file(const char *filename)
 // Writes the N64 ROM, padding the file size to a multiple of 1 MiB
 static void write_rom_file(const char *filename, int cicType)
 {
-    size_t fileSize = round_up(g_romSize, 0x100000);
+    size_t fileSize = round_up(g_romSize, 0x4000);
     uint8_t *buffer = calloc(fileSize, 1);
     int i;
     uint32_t chksum[2];
