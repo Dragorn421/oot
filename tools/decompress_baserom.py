@@ -167,6 +167,15 @@ def main():
         "version",
         help="Version of the game to decompress.",
     )
+    parser.add_argument(
+        "--dmadata-start",
+        dest="dmadata_start",
+        type=lambda s: int(s, 16),
+        required=True,
+        help=(
+            "The dmadata location in the rom, as a hexadecimal offset (e.g. 0x12f70)."
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -179,7 +188,7 @@ def main():
 
     uncompressed_path = baserom_dir / "baserom-decompressed.z64"
 
-    dmadata_start = int((baserom_dir / "dmadata_start.txt").read_text(), 16)
+    dmadata_start = args.dmadata_start
     correct_str_hash = (baserom_dir / "checksum.md5").read_text().split()[0]
 
     if check_existing_rom(uncompressed_path, correct_str_hash):

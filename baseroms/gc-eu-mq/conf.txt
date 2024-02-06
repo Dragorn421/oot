@@ -1,0 +1,3 @@
+decompress_baserom_args=--dmadata-start 0x07170
+extract_baserom_args=--dmadata-start 0x07170
+msgdis_args=--nes_message_entry_table_addr=0xB7E8F0 --ger_message_entry_table_addr=0xB82B18 --fra_message_entry_table_addr=0xB84C28 --staff_message_entry_table_addr=0xB86D38 --staff_message_entry_table_addr_end=0xB86EC0

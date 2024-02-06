@@ -348,7 +348,7 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
-	$(RM) -r assets/text/*.h
+	$(RM) -r assets/text/$(VERSION)
 	$(RM) -r $(BUILD_DIR)/assets
 	$(RM) -r .extracted-assets.json
 
@@ -363,15 +363,18 @@ venv:
 	$(PYTHON) -m pip install -U pip
 	$(PYTHON) -m pip install -U -r requirements.txt
 
+VERSION_CONF = $(shell grep '^$(1)=' $(BASEROM_DIR)/conf.txt | cut -d= -f2-)
+
 setup: venv
 	$(MAKE) -C tools
-	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(BASEROM_SEGMENTS_DIR) --dmadata-start `cat $(BASEROM_DIR)/dmadata_start.txt` --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
+	$(PYTHON) tools/decompress_baserom.py $(VERSION) $(call VERSION_CONF,decompress_baserom_args)
+	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(BASEROM_SEGMENTS_DIR) $(call VERSION_CONF,extract_baserom_args) --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
 # TODO: for now, we only extract assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
 	$(PYTHON) extract_assets.py -j$(N_THREADS)
-	$(PYTHON) tools/msgdis.py --text-out assets/text/message_data.h --staff-text-out assets/text/message_data_staff.h
 endif
+	mkdir -p assets/text/$(VERSION)
+	$(PYTHON) tools/msgdis.py --text-out assets/text/$(VERSION)/message_data.h --staff-text-out assets/text/$(VERSION)/message_data_staff.h --oot-version $(VERSION) $(call VERSION_CONF,msgdis_args)
 
 disasm: $(DISASM_O_FILES)
 
@@ -424,7 +427,7 @@ $(BUILD_DIR)/baserom/%.o: $(BASEROM_SEGMENTS_DIR)/%
 $(BUILD_DIR)/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
-$(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
+$(BUILD_DIR)/assets/text/%.enc.h: assets/text/$(VERSION)/%.h assets/text/charmap.txt
 	$(PYTHON) tools/msgenc.py assets/text/charmap.txt $< $@
 
 # Dependencies for files including message data headers
