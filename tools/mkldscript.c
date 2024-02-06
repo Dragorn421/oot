@@ -142,7 +142,8 @@ static void write_ld_script(FILE *fout)
         fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
+            // .reloc is what spimdisasm outputs
+            fprintf(fout, "            %s (.ovl .reloc)\n", seg->includes[j].fpath);
 
         fprintf(fout, "        _%sSegmentOvlEnd = .;\n", seg->name);
 
