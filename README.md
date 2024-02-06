@@ -1,3 +1,20 @@
+# ootgceumq_hacky_OK
+
+```
+# setup gc-eu-mq-dbg for assets
+# also install the hacked spimdisasm version (cf requirements.txt)
+make setup
+# setup and build gc-eu-mq (a bunch of its .o are used)
+make setup VERSION=gc-eu-mq
+make VERSION=gc-eu-mq
+# (re)disassemble
+rm expected/build/gc-eu-mq/.disasm
+make disasm VERSION=gc-eu-mq
+# link with the "OK" spec
+make HAVE_DISASM_RULES=0 VERSION=gc-eu-mq SPEC=spec_OK_with_expected_and_hacks.txt --assume-new=spec_OK_with_expected_and_hacks.txt COMPARE=1
+# should be OK
+```
+
 # The Legend of Zelda: Ocarina of Time
 
 [![Build Status][jenkins-badge]][jenkins] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
