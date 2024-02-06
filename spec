@@ -20,13 +20,17 @@ beginseg
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
     include "$(BUILD_DIR)/src/boot/yaz0.o"
     include "$(BUILD_DIR)/src/boot/z_locale.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/boot/assert.o"
+#endif
     include "$(BUILD_DIR)/src/boot/is_debug.o"
     include "$(BUILD_DIR)/src/libultra/io/driverominit.o"
     include "$(BUILD_DIR)/src/boot/mio0.o"
     include "$(BUILD_DIR)/src/boot/stackcheck.o"
     include "$(BUILD_DIR)/src/boot/logutils.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/sprintf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
     include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
     include "$(BUILD_DIR)/src/libultra/os/stopthread.o"
@@ -57,10 +61,14 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/probetlb.o"
     include "$(BUILD_DIR)/src/libultra/os/getmemsize.o"
     include "$(BUILD_DIR)/src/libultra/os/seteventmesg.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
     include "$(BUILD_DIR)/src/libultra/os/createmesgqueue.o"
     include "$(BUILD_DIR)/src/libultra/os/invaldcache.o"
@@ -88,17 +96,23 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/epiread.o"
     include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
     include "$(BUILD_DIR)/src/libultra/io/cartrominit.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
     include "$(BUILD_DIR)/src/libultra/os/yieldthread.o"
     include "$(BUILD_DIR)/src/libultra/os/getcause.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawwrite.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+#endif
     include "$(BUILD_DIR)/src/boot/build.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawwrite.o"
     include "$(BUILD_DIR)/src/libultra/io/vimgr.o"
@@ -242,7 +256,12 @@ endseg
 beginseg
     name "nes_font_static"
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/textures/nes_font_static/nes_font_static.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/nes_font_static.o"
+#endif
     number 10
 endseg
 
@@ -298,7 +317,12 @@ endseg
 beginseg
     name "code"
     compress
+#if OOT_DEBUG
     after "dmadata"
+#endif
+#if !OOT_DEBUG
+    address 0x80010F00
+#endif
     include "$(BUILD_DIR)/src/code/z_en_a_keep.o"
     include "$(BUILD_DIR)/src/code/z_en_item00.o"
     include "$(BUILD_DIR)/src/code/z_eff_blure.o"
@@ -342,7 +366,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_lights.o"
     include "$(BUILD_DIR)/src/code/z_malloc.o"
     include "$(BUILD_DIR)/src/code/z_map_mark.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/z_moji.o"
+#endif
     include "$(BUILD_DIR)/src/code/z_prenmi_buff.o"
     include "$(BUILD_DIR)/src/code/z_nulltask.o"
     include "$(BUILD_DIR)/src/code/z_olib.o"
@@ -360,7 +386,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_sample.o"
     include "$(BUILD_DIR)/src/code/code_80097A00.o"
     include "$(BUILD_DIR)/src/code/z_scene.o"
-    include "$(BUILD_DIR)/src/code/object_table.o"
+    include "$(BUILD_DIR)/src/code/object_table.o" // FIXME split from z_scene_table but not in gc-eu-mq disasm
     include "$(BUILD_DIR)/src/code/z_scene_table.o"
     include "$(BUILD_DIR)/src/code/z_skelanime.o"
     include "$(BUILD_DIR)/src/code/z_skin.o"
@@ -369,8 +395,10 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_sram.o"
     include "$(BUILD_DIR)/src/code/z_ss_sram.o"
     include "$(BUILD_DIR)/src/code/z_rumble.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/data/z_text.data.o"
-    include "$(BUILD_DIR)/data/unk_8012ABC0.data.o"
+#endif
+    include "$(BUILD_DIR)/data/unk_8012ABC0.data.o" // not in ndbg?
     include "$(BUILD_DIR)/src/code/z_view.o"
     include "$(BUILD_DIR)/src/code/z_vimode.o"
     include "$(BUILD_DIR)/src/code/z_viscvg.o"
@@ -385,9 +413,13 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_fbdemo_circle.o"
     include "$(BUILD_DIR)/src/code/z_fbdemo_fade.o"
     include "$(BUILD_DIR)/src/code/shrink_window.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/db_camera.o"
+#endif
     include "$(BUILD_DIR)/src/code/code_800BB0A0.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/mempak.o"
+#endif
     include "$(BUILD_DIR)/src/code/z_kaleido_manager.o"
     include "$(BUILD_DIR)/src/code/z_kaleido_scope_call.o"
     include "$(BUILD_DIR)/src/code/z_play.o"
@@ -415,7 +447,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/sys_rumble.o"
     include "$(BUILD_DIR)/src/code/code_800D31A0.o"
     include "$(BUILD_DIR)/src/code/irqmgr.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
+#endif
     include "$(BUILD_DIR)/src/code/fault.o"
     include "$(BUILD_DIR)/src/code/fault_drawer.o"
 #ifndef NON_MATCHING
@@ -423,9 +457,13 @@ beginseg
     include "$(BUILD_DIR)/data/fault_drawer.bss.o"
 #endif
     include "$(BUILD_DIR)/src/code/kanread.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
+#endif
+#if OOT_DEBUG
     pad_text // audio library aligned to 32 bytes?
-    include "$(BUILD_DIR)/src/audio/lib/data.o"
+#endif
+    include "$(BUILD_DIR)/src/audio/lib/data.o" // not in ndbg?
     include "$(BUILD_DIR)/src/audio/lib/synthesis.o"
     include "$(BUILD_DIR)/src/audio/lib/heap.o"
     include "$(BUILD_DIR)/src/audio/lib/load.o"
@@ -445,7 +483,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/gfxprint.o"
     include "$(BUILD_DIR)/src/code/rcp_utils.o"
     include "$(BUILD_DIR)/src/code/loadfragment2.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/mtxuty-cvt.o"
+#endif
     include "$(BUILD_DIR)/src/code/relocation.o"
     include "$(BUILD_DIR)/src/code/load.o"
     include "$(BUILD_DIR)/src/code/code_800FC620.o"
@@ -456,11 +496,16 @@ beginseg
     include "$(BUILD_DIR)/src/code/system_malloc.o"
     include "$(BUILD_DIR)/src/code/code_800FD970.o"
     include "$(BUILD_DIR)/src/code/__osMalloc.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/libc/sprintf.o"
+#endif
     include "$(BUILD_DIR)/src/code/printutils.o"
     include "$(BUILD_DIR)/src/code/sleep.o"
     include "$(BUILD_DIR)/src/code/jpegutils.o"
     include "$(BUILD_DIR)/src/code/jpegdecoder.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/mgu/scale.o"
     include "$(BUILD_DIR)/src/libultra/gu/sinf.o"
     include "$(BUILD_DIR)/src/libultra/gu/sins.o"
@@ -473,48 +518,79 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/sprawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/sptaskyield.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/mgu/mtxidentf.o"
     include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/sqrtf.o"
     include "$(BUILD_DIR)/src/libultra/os/afterprenmi.o"
     include "$(BUILD_DIR)/src/libultra/io/contquery.o"
     include "$(BUILD_DIR)/src/libultra/gu/lookathil.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
     include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
     include "$(BUILD_DIR)/src/libultra/gu/position.o"
     include "$(BUILD_DIR)/src/libultra/io/sptaskyielded.o"
     include "$(BUILD_DIR)/src/libultra/gu/rotate.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/aisetfreq.o"
     include "$(BUILD_DIR)/src/libultra/os/getactivequeue.o"
     include "$(BUILD_DIR)/src/libultra/mgu/normalize.o"
     include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsdeletefile.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/ortho.o"
     include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
     include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
     include "$(BUILD_DIR)/src/libultra/gu/coss.o"
     include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/us2dex.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
     include "$(BUILD_DIR)/src/libultra/io/contsetch.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsfilestate.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsinitpak.o"
     include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+    include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/contramread.o"
     include "$(BUILD_DIR)/src/libultra/io/crc.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/settimer.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/spgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetstat.o"
     include "$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o"
@@ -539,7 +615,10 @@ endseg
 beginseg
     name "buffers"
     flags NOLOAD
+#if OOT_DEBUG
+// TODO this is messing up rom alignment in ndbg
     align 0x40
+#endif
     include "$(BUILD_DIR)/src/buffers/zbuffer.o"
     include "$(BUILD_DIR)/src/buffers/gfxbuffers.o"
     include "$(BUILD_DIR)/src/buffers/heaps.o"
@@ -1663,6 +1742,7 @@ endseg
 beginseg
     name "ovl_Demo_Kankyo"
     compress
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data1.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data2.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data3.o"
@@ -1673,11 +1753,19 @@ beginseg
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data8.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/ovl_Demo_Kankyo_reloc.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/ovl_Demo_Kankyo.o"
+#endif
 endseg
 
 beginseg
     name "ovl_Demo_Kekkai"
     compress
+#if !OOT_DEBUG
+    // TODO probably ovl_Demo_Kankyo has bss which ofc isn't accounted for by the baserom include
+    address 0x8097CF10
+#endif
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kekkai/ovl_Demo_Kekkai_reloc.o"
 endseg
@@ -3022,9 +3110,14 @@ endseg
 beginseg
     name "ovl_En_Okarina_Tag"
     compress
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Okarina_Tag/z_en_okarina_tag_cutscene_data.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Okarina_Tag/z_en_okarina_tag.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Okarina_Tag/ovl_En_Okarina_Tag_reloc.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/ovl_En_Okarina_Tag.o"
+#endif
 endseg
 
 beginseg
@@ -7643,7 +7736,13 @@ beginseg
     name "vr_KSVR_static"
     compress
     romalign 0x1000
+// TODO revert this, should be fine, was sym_info.py trolling
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/textures/backgrounds/vr_KSVR_static.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/vr_KSVR_static.o"
+#endif
 endseg
 
 beginseg
@@ -8768,7 +8867,12 @@ beginseg
     name "jyasinzou_scene"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_scene.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_scene.o"
+#endif
     number 2
 endseg
 
@@ -8776,7 +8880,12 @@ beginseg
     name "jyasinzou_room_0"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_0.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_0.o"
+#endif
     number 3
 endseg
 
@@ -8784,7 +8893,12 @@ beginseg
     name "jyasinzou_room_1"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_1.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_1.o"
+#endif
     number 3
 endseg
 
@@ -8792,7 +8906,12 @@ beginseg
     name "jyasinzou_room_2"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_2.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_2.o"
+#endif
     number 3
 endseg
 
@@ -8800,7 +8919,12 @@ beginseg
     name "jyasinzou_room_3"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_3.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_3.o"
+#endif
     number 3
 endseg
 
@@ -8808,7 +8932,12 @@ beginseg
     name "jyasinzou_room_4"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_4.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_4.o"
+#endif
     number 3
 endseg
 
@@ -8816,7 +8945,12 @@ beginseg
     name "jyasinzou_room_5"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_5.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_5.o"
+#endif
     number 3
 endseg
 
@@ -8824,7 +8958,12 @@ beginseg
     name "jyasinzou_room_6"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_6.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_6.o"
+#endif
     number 3
 endseg
 
@@ -8832,7 +8971,12 @@ beginseg
     name "jyasinzou_room_7"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_7.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_7.o"
+#endif
     number 3
 endseg
 
@@ -8840,7 +8984,12 @@ beginseg
     name "jyasinzou_room_8"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_8.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_8.o"
+#endif
     number 3
 endseg
 
@@ -8848,7 +8997,12 @@ beginseg
     name "jyasinzou_room_9"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_9.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_9.o"
+#endif
     number 3
 endseg
 
@@ -8856,7 +9010,12 @@ beginseg
     name "jyasinzou_room_10"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_10.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_10.o"
+#endif
     number 3
 endseg
 
@@ -8864,7 +9023,12 @@ beginseg
     name "jyasinzou_room_11"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_11.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_11.o"
+#endif
     number 3
 endseg
 
@@ -8872,7 +9036,12 @@ beginseg
     name "jyasinzou_room_12"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_12.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_12.o"
+#endif
     number 3
 endseg
 
@@ -8880,7 +9049,12 @@ beginseg
     name "jyasinzou_room_13"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_13.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_13.o"
+#endif
     number 3
 endseg
 
@@ -8888,7 +9062,12 @@ beginseg
     name "jyasinzou_room_14"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_14.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_14.o"
+#endif
     number 3
 endseg
 
@@ -8896,7 +9075,12 @@ beginseg
     name "jyasinzou_room_15"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_15.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_15.o"
+#endif
     number 3
 endseg
 
@@ -8904,7 +9088,12 @@ beginseg
     name "jyasinzou_room_16"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_16.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_16.o"
+#endif
     number 3
 endseg
 
@@ -8912,7 +9101,12 @@ beginseg
     name "jyasinzou_room_17"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_17.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_17.o"
+#endif
     number 3
 endseg
 
@@ -8920,7 +9114,12 @@ beginseg
     name "jyasinzou_room_18"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_18.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_18.o"
+#endif
     number 3
 endseg
 
@@ -8928,7 +9127,12 @@ beginseg
     name "jyasinzou_room_19"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_19.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_19.o"
+#endif
     number 3
 endseg
 
@@ -8936,7 +9140,12 @@ beginseg
     name "jyasinzou_room_20"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_20.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_20.o"
+#endif
     number 3
 endseg
 
@@ -8944,7 +9153,12 @@ beginseg
     name "jyasinzou_room_21"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_21.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_21.o"
+#endif
     number 3
 endseg
 
@@ -8952,7 +9166,12 @@ beginseg
     name "jyasinzou_room_22"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_22.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_22.o"
+#endif
     number 3
 endseg
 
@@ -8960,7 +9179,12 @@ beginseg
     name "jyasinzou_room_23"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_23.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_23.o"
+#endif
     number 3
 endseg
 
@@ -8968,7 +9192,12 @@ beginseg
     name "jyasinzou_room_24"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_24.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_24.o"
+#endif
     number 3
 endseg
 
@@ -8976,7 +9205,12 @@ beginseg
     name "jyasinzou_room_25"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_25.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_25.o"
+#endif
     number 3
 endseg
 
@@ -8984,7 +9218,12 @@ beginseg
     name "jyasinzou_room_26"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_26.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_26.o"
+#endif
     number 3
 endseg
 
@@ -8992,7 +9231,12 @@ beginseg
     name "jyasinzou_room_27"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_27.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_27.o"
+#endif
     number 3
 endseg
 
@@ -9000,7 +9244,12 @@ beginseg
     name "jyasinzou_room_28"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/jyasinzou/jyasinzou_room_28.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/jyasinzou_room_28.o"
+#endif
     number 3
 endseg
 
@@ -9676,7 +9925,12 @@ beginseg
     name "spot00_scene"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/overworld/spot00/spot00_scene.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/spot00_scene.o"
+#endif
     number 2
 endseg
 
@@ -9684,7 +9938,12 @@ beginseg
     name "spot00_room_0"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/overworld/spot00/spot00_room_0.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/spot00_room_0.o"
+#endif
     number 3
 endseg
 
@@ -10028,7 +10287,12 @@ beginseg
     name "spot15_scene"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/overworld/spot15/spot15_scene.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/spot15_scene.o"
+#endif
     number 2
 endseg
 
@@ -10036,7 +10300,12 @@ beginseg
     name "spot15_room_0"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/overworld/spot15/spot15_room_0.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/spot15_room_0.o"
+#endif
     number 3
 endseg
 
@@ -10044,7 +10313,12 @@ beginseg
     name "spot16_scene"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/overworld/spot16/spot16_scene.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/spot16_scene.o"
+#endif
     number 2
 endseg
 
@@ -10052,7 +10326,12 @@ beginseg
     name "spot16_room_0"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/overworld/spot16/spot16_room_0.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/spot16_room_0.o"
+#endif
     number 3
 endseg
 
@@ -10496,7 +10775,12 @@ beginseg
     name "hairal_niwa_scene"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/indoors/hairal_niwa/hairal_niwa_scene.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/hairal_niwa_scene.o"
+#endif
     number 2
 endseg
 
@@ -10504,7 +10788,12 @@ beginseg
     name "hairal_niwa_room_0"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/indoors/hairal_niwa/hairal_niwa_room_0.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/hairal_niwa_room_0.o"
+#endif
     number 3
 endseg
 
@@ -10512,7 +10801,12 @@ beginseg
     name "ganon_tou_scene"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/ganon_tou/ganon_tou_scene.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/ganon_tou_scene.o"
+#endif
     number 2
 endseg
 
@@ -10520,7 +10814,12 @@ beginseg
     name "ganon_tou_room_0"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/dungeons/ganon_tou/ganon_tou_room_0.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/ganon_tou_room_0.o"
+#endif
     number 3
 endseg
 
@@ -10640,7 +10939,12 @@ beginseg
     name "hiral_demo_scene"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/misc/hiral_demo/hiral_demo_scene.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/hiral_demo_scene.o"
+#endif
     number 2
 endseg
 
@@ -10768,7 +11072,12 @@ beginseg
     name "daiyousei_izumi_scene"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/daiyousei_izumi_scene.o"
+#endif
     number 2
 endseg
 
@@ -10776,7 +11085,12 @@ beginseg
     name "daiyousei_izumi_room_0"
     compress
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_room_0.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/daiyousei_izumi_room_0.o"
+#endif
     number 3
 endseg
 
@@ -10784,7 +11098,13 @@ beginseg
     name "hakaana_scene"
     compress
     romalign 0x1000
+// TODO may be able to revert, I misread
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/scenes/misc/hakaana/hakaana_scene.o"
+#endif
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/baserom/hakaana_scene.o"
+#endif
     number 2
 endseg
 
