@@ -38,9 +38,6 @@ def main():
                     if (
                         not row  # blank line
                         or row[2].startswith(".")  # section name or .end
-                        or row[2].endswith(
-                            "_reloc.s"
-                        )  # TODO: disassemble overlay reloc sections?
                     ):
                         continue
                     generated_files.add(row[2])
@@ -48,6 +45,9 @@ def main():
             z_name = get_z_name_for_overlay(dma_file.name)
             generated_files.add(
                 f"src/overlays/{dma_file.overlay_dir}/{dma_file.name}/{z_name}.s"
+            )
+            generated_files.add(
+                f"src/overlays/{dma_file.overlay_dir}/{dma_file.name}/{dma_file.name}_reloc.s"
             )
         else:
             raise Exception(

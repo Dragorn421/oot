@@ -36,13 +36,16 @@ def load_file_splits(
         default_filename = (
             f"src/overlays/{dma_file.overlay_dir}/{dma_file.name}/{z_name}.s"
         )
+        reloc_filename = (
+            f"src/overlays/{dma_file.overlay_dir}/{dma_file.name}/{dma_file.name}_reloc.s"
+        )
         splits_data = None
         reloc_section = spimdisasm.mips.sections.SectionRelocZ64(
             context,
             vromStart=0,
             vromEnd=len(data),
             vram=dma_file.vram_start,
-            filename=default_filename,
+            filename=reloc_filename,
             array_of_bytes=data,
             segmentVromStart=0,
             overlayCategory=None,
@@ -100,16 +103,14 @@ def main():
 
     dma_files = parse_file_addresses(args.config_dir / "file_addresses.csv")
 
-    output_files = collections.defaultdict(list)
+    output_files: (
+        "collections.defaultdict[str, list[spimdisasm.mips.sections.SectionBase]]"
+    ) = collections.defaultdict(list)
     with open(args.rom, "rb") as f:
         for dma_file in dma_files:
             file_splits = load_file_splits(context, args.config_dir, dma_file, f)
 
             for section_type, files in file_splits.sectionsDict.items():
-                # TODO: disassemble overlay reloc sections?
-                if section_type == spimdisasm.common.FileSectionType.Reloc:
-                    continue
-
                 for path, section in files.items():
                     output_files[path].append(section)
 
