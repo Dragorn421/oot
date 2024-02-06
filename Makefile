@@ -512,7 +512,7 @@ $(EXPECTED_DIR)/.disasm: $(DISASM_DATA_FILES)
 	touch $@
 
 $(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/.disasm
-	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
+	iconv -f utf-8 -t euc-jp $(@:.o=.s) | $(AS) $(ASFLAGS) -o $@ --
 endif
 
 -include $(DEP_FILES)
