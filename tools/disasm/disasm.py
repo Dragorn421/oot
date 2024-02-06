@@ -151,6 +151,10 @@ def main():
                     spimdisasm.mips.FilesHandlers.writeSplitedFunction(
                         output_dir, func, rodata_list
                     )
+    syms = [(sym.name, sym.vram) for sym in context.globalSegment.symbols.values() if sym.name]
+    import pickle
+    with Path("syms_from_disasm.pickle").open("wb") as f:
+        pickle.dump(syms, f)
 
 
 if __name__ == "__main__":
