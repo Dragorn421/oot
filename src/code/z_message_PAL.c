@@ -31,7 +31,7 @@ MessageTableEntry sNesMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
     { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_nes },
 #define DEFINE_MESSAGE_FFFC
-#include "assets/text/message_data.h"
+#include "assets/text/message_data.enc.h"
 #undef DEFINE_MESSAGE_FFFC
 #undef DEFINE_MESSAGE
     { 0xFFFF, 0, NULL },
@@ -39,14 +39,14 @@ MessageTableEntry sNesMessageEntryTable[] = {
 
 const char* sGerMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_ger,
-#include "assets/text/message_data.h"
+#include "assets/text/message_data.enc.h"
 #undef DEFINE_MESSAGE
     NULL,
 };
 
 const char* sFraMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_fra,
-#include "assets/text/message_data.h"
+#include "assets/text/message_data.enc.h"
 #undef DEFINE_MESSAGE
     NULL,
 };
@@ -54,7 +54,7 @@ const char* sFraMessageEntryTable[] = {
 MessageTableEntry sStaffMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, staffMessage) \
     { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_staff },
-#include "assets/text/message_data_staff.h"
+#include "assets/text/message_data_staff.enc.h"
 #undef DEFINE_MESSAGE
     { 0xFFFF, 0, NULL },
 };
