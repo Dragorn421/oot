@@ -13,10 +13,13 @@ void func_800AD920(struct_80166500* this) {
     this->primColor.g = 255;
     this->primColor.b = 255;
     this->primColor.a = 255;
+
+    // clang-format off
+    this->envColor.r = 0; \
+    this->envColor.g = 0; \
+    this->envColor.b = 0; \
     this->envColor.a = 255;
-    this->envColor.r = 0;
-    this->envColor.g = 0;
-    this->envColor.b = 0;
+    // clang-format on
 }
 
 // Destroy
