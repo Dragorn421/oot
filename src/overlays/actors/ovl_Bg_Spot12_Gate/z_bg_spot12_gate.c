@@ -46,15 +46,19 @@ static InitChainEntry sInitChain[] = {
 void func_808B2F90(BgSpot12Gate* this, PlayState* play, CollisionHeader* collision, s32 flags) {
     Actor* thisx = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
-    s32 pad[2];
 
     DynaPolyActor_Init(thisx, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad[2];
+
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
                      thisx->id, thisx->params);
     }
+#endif
 }
 
 void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
@@ -109,16 +113,18 @@ void func_808B317C(BgSpot12Gate* this) {
 
 void func_808B318C(BgSpot12Gate* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
-    s32 quakeIndex;
 
     Math_StepToF(&thisx->velocity.y, 1.6f, 0.03f);
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 200.0f, thisx->velocity.y)) {
         func_808B3274(this);
 
-        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
-        Quake_SetSpeed(quakeIndex, -0x3CB0);
-        Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
-        Quake_SetDuration(quakeIndex, 12);
+        {
+            s32 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+
+            Quake_SetSpeed(quakeIndex, -0x3CB0);
+            Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 12);
+        }
 
         Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
