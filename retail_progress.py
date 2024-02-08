@@ -287,7 +287,7 @@ def get_object_data_for_comparison(object1: Path, object2: Path):
     return ObjectDataForComparison(insts1, insts2, sizes1, sizes2, rodata1, rodata2)
 
 
-def print_summary(version: str, csv: bool):
+def print_summary(version: str, csv: bool, only_not_ok: bool):
     expected_dir = Path("expected/build") / version
     build_dir = Path("build") / version
 
@@ -311,10 +311,12 @@ def print_summary(version: str, csv: bool):
         ):
             c_path = expected_object.relative_to(expected_dir).with_suffix(".c")
             data = data_async.get()
-            print_compare(csv, c_path, data)
+            print_compare(csv, only_not_ok, c_path, data)
 
 
-def print_compare(csv: bool, c_path: Path, data: ObjectDataForComparison):
+def print_compare(
+    csv: bool, only_not_ok: bool, c_path: Path, data: ObjectDataForComparison
+):
     if 1:
         insts1 = data.insts1
         insts2 = data.insts2
@@ -343,6 +345,15 @@ def print_compare(csv: bool, c_path: Path, data: ObjectDataForComparison):
         rodata_matches = rodata1 == rodata2
         data_size_matches = sizes1.get(".data", 0) == sizes2.get(".data", 0)
         bss_size_matches = sizes1.get(".bss", 0) == sizes2.get(".bss", 0)
+
+        if only_not_ok:
+            if (
+                text_progress == 1
+                and rodata_matches
+                and data_size_matches
+                and bss_size_matches
+            ):
+                return
 
         if csv:
             print(
@@ -381,6 +392,11 @@ if __name__ == "__main__":
         help="diff .data size, .bss size, and .rodata contents instead of text",
         action="store_true",
     )
+    parser.add_argument(
+        "--not-ok",
+        help="only show non-OK files",
+        action="store_true",
+    )
     parser.add_argument("--csv", help="print summary CSV", action="store_true")
     args = parser.parse_args()
 
@@ -390,4 +406,4 @@ if __name__ == "__main__":
         else:
             find_functions_with_diffs(args.version, args.file)
     else:
-        print_summary(args.version, args.csv)
+        print_summary(args.version, args.csv, args.not_ok)
