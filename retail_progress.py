@@ -287,6 +287,14 @@ def get_object_data_for_comparison(object1: Path, object2: Path):
     return ObjectDataForComparison(insts1, insts2, sizes1, sizes2, rodata1, rodata2)
 
 
+# Make interrupting with ^C less jank
+# https://stackoverflow.com/questions/72967793/keyboardinterrupt-with-python-multiprocessing-pool
+def set_sigint_ignored():
+    import signal
+
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
+
 def print_summary(version: str, csv: bool, only_not_ok: bool):
     expected_dir = Path("expected/build") / version
     build_dir = Path("build") / version
@@ -295,7 +303,7 @@ def print_summary(version: str, csv: bool, only_not_ok: bool):
 
     comparison_data_list: List[multiprocessing.pool.AsyncResult] = []
 
-    with multiprocessing.Pool() as p:
+    with multiprocessing.Pool(initializer=set_sigint_ignored) as p:
         for expected_object in expected_object_files:
             build_object = build_dir / expected_object.relative_to(expected_dir)
             comparison_data_list.append(
