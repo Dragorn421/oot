@@ -9,3 +9,36 @@ D_0F000000 = 0x0F000000;
 
 // z_bg_mjin
 D_06000000 = 0x06000000;
+
+
+// IPL symbols
+leoBootID      = 0x800001A0;
+osTvType       = 0x80000300;
+osRomType      = 0x80000304;
+osRomBase      = 0x80000308;
+osResetType    = 0x8000030C;
+osCicId        = 0x80000310;
+osVersion      = 0x80000314;
+osMemSize      = 0x80000318;
+osAppNMIBuffer = 0x8000031C;
+
+// baseromified code segment
+_codeSegmentBssStart = 0x80113130;
+_codeSegmentBssEnd = 0x8012A800;
+
+// IDK
+B_80113130_unknown = 0x80113130;
+D_00001060_unknown = 0x00001060;
+D_00007170_unknown = 0x00007170;
+D_0000D0D0_unknown = 0x0000D0D0;
+D_00A88000_unknown = 0x00A88000;
+D_00B8A230_unknown = 0x00B8A230;
+D_02000000_unknown = 0x02000000;
+D_8000AF94_unknown = 0x8000AF94;
+EnAObj_SetupAction = 0x80010F00;
+Fault_AddHungupAndCrash = 0x800AF5EC;
+func_84001008 = 0x84001008;
+func_8400103C_unknown = 0x8400103C;
+func_84001064 = 0x84001064;
+Main = 0x800A1710;
+D_0000AF90_unknown = 0x0000AF90;

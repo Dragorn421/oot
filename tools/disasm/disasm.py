@@ -140,10 +140,12 @@ def main():
                         section.disassembleToFile(f)
                 else:
                     section.saveToFile(str(basepath))
-                    with basepath.with_suffix(
-                        f"{section.sectionType.toStr()}.syms.txt"
+                    with basepath.with_name(
+                        f"{basepath.name}{section.sectionType.toStr()}.syms.txt"
                     ).open("w") as f:
-                        for sym in section.symbolList:
+                        for _, sym in section.getSymbolsRange(
+                            section.vram, section.vramEnd
+                        ):
                             f.write(f"PROVIDE({sym.getName()} = {sym.vram:#X});\n")
     print()
     print("Writing sections done.")

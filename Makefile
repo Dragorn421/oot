@@ -394,8 +394,9 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
-	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
+$(ELF): frankenspec.json $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
+	$(PYTHON) tools/gen_quitetheldscript.py $(BUILD_DIR)/$(SPEC) $(BUILD_DIR)/quitetheldscript.txt
+	$(LD) -T $(BUILD_DIR)/quitetheldscript.txt -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
 
 ## Order-only prerequisites
 # These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
@@ -423,6 +424,7 @@ $(BUILD_DIR)/baserom/%.o: $(EXTRACTED_DIR)/baserom/%
 
 $(BUILD_DIR)/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
+	$(PYTHON) tools/frankenelf/frankenelf.py $@ $@
 
 $(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h assets/text/charmap.txt
 	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py - --output $@ --charmap assets/text/charmap.txt
@@ -441,6 +443,7 @@ $(BUILD_DIR)/assets/%.o: assets/%.c
 
 $(BUILD_DIR)/src/%.o: src/%.s
 	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
+	$(PYTHON) tools/frankenelf/frankenelf.py $@ $@
 
 $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)/$(SPEC)
 	$(MKDMADATA) $< $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt
@@ -459,11 +462,14 @@ $(BUILD_DIR)/src/code/z_effect_soft_sprite_dlftbls.o: include/tables/effect_ss_t
 $(BUILD_DIR)/src/code/z_game_dlftbls.o: include/tables/gamestate_table.h
 $(BUILD_DIR)/src/code/z_scene_table.o: include/tables/scene_table.h include/tables/entrance_table.h
 
+.DELETE_ON_ERROR:
+
 $(BUILD_DIR)/src/%.o: src/%.c
 ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(PYTHON) tools/frankenelf/frankenelf.py $@ $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
@@ -472,6 +478,7 @@ ifneq ($(RUN_CC_CHECK),0)
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(PYTHON) tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/frankenelf/frankenelf.py $@ $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
@@ -480,6 +487,7 @@ ifneq ($(RUN_CC_CHECK),0)
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(PYTHON) tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/frankenelf/frankenelf.py $@ $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/$(SPEC)

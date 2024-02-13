@@ -295,11 +295,18 @@ def get_object_data_for_comparison(object1: Path, object2: Path):
     return ObjectDataForComparison(insts1, insts2, sizes1, sizes2, rodata1, rodata2)
 
 
+def list_src_o_files(expected_dir: Path):
+    for o_p in expected_dir.glob("src/**/*.o"):
+        c_p = o_p.relative_to(expected_dir).with_suffix(".c")
+        if c_p.exists():
+            yield o_p
+
+
 def print_summary(version: str, csv: bool, only_not_ok: bool):
     expected_dir = Path("expected/build") / version
     build_dir = Path("build") / version
 
-    expected_object_files = sorted(expected_dir.glob("src/**/*.o"))
+    expected_object_files = sorted(list_src_o_files(expected_dir))
 
     comparison_data_list: List[multiprocessing.pool.AsyncResult] = []
 
