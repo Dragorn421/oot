@@ -269,13 +269,9 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
     s32 pad2;
     EnWood02* this = (EnWood02*)thisx;
     f32 sp6C;
-    Player* player;
-    s32 var_s0;
-    Vec3f sp58;
-    s32 pad;
-    s32 var_v1_sp44_or_sp50;
     u8 v;
     u8 var_v0;
+    s32 pad;
 
     if ((this->unk153 == 1) && (this->actor.parent != NULL)) {
         if (!(this->actor.flags & ACTOR_FLAG_6)) {
@@ -297,6 +293,10 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
         if (this->actor.home.rot.y != 0) {
+            Vec3f sp58;
+            s32 var_s0;
+            s32 var_v1_sp44_or_sp50;
+
             sp58 = this->actor.world.pos;
             sp58.y += 200.0f;
             if ((this->unk14C >= 0) && (this->unk14C < 0x64)) {
@@ -328,6 +328,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk158.base);
         }
     } else if (this->actor.params < EN_WOOD_02_TYPE_23) {
+        Player* player;
+
         player = GET_PLAYER(play);
         if ((this->unk14C >= (-1)) &&
             (((((player->rideActor == NULL)) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0)) &&

@@ -442,7 +442,8 @@ void func_80B8DA78(struct_80B8D8A0* arg0) {
 }
 
 void func_80B8DB7C(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
-    s32 pad[2];
+    MirRay* new_var4 = this;
+    float new_var2;
     MtxF* shieldMf;             // s1
     Vec3f originPos;            // sp130
     Vec3f inFrontPos;           // sp124
@@ -453,22 +454,13 @@ void func_80B8DB7C(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
     Vec3f forwards;             // spE8
     Vec3f spDC;                 // spDC
     Player* player;             // s3
-    Vec3f upPos;                // spCC
-    Vec3f upAndInFrontPos;      // spC0
-    s32 i;                      // s2
-    struct_80B8D8A0* var_s0;    // s0
-    float new_var3;
-    f32* new_var;
-    f32 sp80; // sp80
-    float new_var2;
-    f32 temp_fv0;
 
     player = GET_PLAYER(play);
     shieldMf = &player->shieldMf;
     forwards.x = -(shieldMf->xz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
     new_var2 = 100.0f;
-    forwards.y = -(shieldMf->yz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
-    forwards.z = -(shieldMf->zz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
+    forwards.y = -(shieldMf->yz * this->shieldForwardNormalizeFactor) * new_var4->lightReflectionFactor * 400.0f;
+    forwards.z = -(shieldMf->zz * new_var4->shieldForwardNormalizeFactor) * new_var4->lightReflectionFactor * 400.0f;
     // Where the mirror shield is located
     originPos.x = shieldMf->xw;
     originPos.y = shieldMf->yw;
@@ -477,85 +469,98 @@ void func_80B8DB7C(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
     inFrontPos.x = forwards.x + originPos.x;
     inFrontPos.y = forwards.y + originPos.y;
     inFrontPos.z = forwards.z + originPos.z;
-    // Above the mirror shield origin
-    upPos.x = (shieldMf->xx * 300.0f) + originPos.x;
-    upPos.y = (shieldMf->yx * 300.0f) + originPos.y;
-    upPos.z = (shieldMf->zx * 300.0f) + originPos.z;
-    // Above and in front of the origin
-    upAndInFrontPos.x = (shieldMf->xx * 300.0f) + inFrontPos.x;
-    upAndInFrontPos.y = (shieldMf->yx * 300.0f) + inFrontPos.y;
-    upAndInFrontPos.z = (shieldMf->zx * 300.0f) + inFrontPos.z;
-    Collider_SetQuadVertices(&this->unk1AC, &upPos, &originPos, &upAndInFrontPos, &inFrontPos);
-    for (i = 0; i < 6; i++) {
-        new_var = &spDC.x; //! FAKE
-        var_s0 = &arg2[i];
-        if (var_s0->unk4C != NULL) {
-            if (&forwards) {} //! FAKE
-            spDC.x = COLPOLY_GET_NORMAL(var_s0->unk4C->unk8);
-            spDC.y = COLPOLY_GET_NORMAL(var_s0->unk4C->unkA);
-            spDC.z = COLPOLY_GET_NORMAL(var_s0->unk4C->unkC);
-            if (Math3D_LineSegVsPlane(*new_var, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPos, &inFrontPos,
-                                      &intersect, true)) {
-                var_s0->reflectionPos.x = intersect.x;
-                var_s0->reflectionPos.y = intersect.y;
-                var_s0->reflectionPos.z = intersect.z;
-                temp_fv0 = sqrtf(SQ(intersect.x - originPos.x) + SQ(intersect.y - originPos.y) +
-                                 SQ(intersect.z - originPos.z));
-                //! @bug temp_fv0 is at most
-                //! norm(sp124_inFront - sp130_origin) = norm(spE8_forwards) = this->lightReflectionFactor * 400
-                //! so this condition always passes. This logic was probably meant to fade the reflections with
-                //! distance. (TODO test in-game)
-                if (temp_fv0 < (this->lightReflectionFactor * 600.0f)) {
-                    var_s0->unk50 = 200;
+
+    {
+        Vec3f upPos;             // spCC
+        Vec3f upAndInFrontPos;   // spC0
+        s32 i;                   // s2
+        struct_80B8D8A0* var_s0; // s0
+        float new_var3;
+        f32* new_var;
+        f32 sp80; // sp80
+        s32 pad2;
+        f32 temp_fv0;
+
+        // Above the mirror shield origin
+        upPos.x = (shieldMf->xx * 300.0f) + originPos.x;
+        upPos.y = (shieldMf->yx * 300.0f) + originPos.y;
+        upPos.z = (shieldMf->zx * 300.0f) + originPos.z;
+        // Above and in front of the origin
+        upAndInFrontPos.x = (shieldMf->xx * 300.0f) + inFrontPos.x;
+        upAndInFrontPos.y = (shieldMf->yx * 300.0f) + inFrontPos.y;
+        upAndInFrontPos.z = (shieldMf->zx * 300.0f) + inFrontPos.z;
+        Collider_SetQuadVertices(&this->unk1AC, &upPos, &originPos, &upAndInFrontPos, &inFrontPos);
+        for (i = 0; i < 6; i++) {
+            new_var = &spDC.x; //! FAKE
+            var_s0 = &arg2[i];
+            if (var_s0->unk4C != NULL) {
+                if (&forwards) {} //! FAKE
+                spDC.x = COLPOLY_GET_NORMAL(var_s0->unk4C->unk8);
+                spDC.y = COLPOLY_GET_NORMAL(var_s0->unk4C->unkA);
+                spDC.z = COLPOLY_GET_NORMAL(var_s0->unk4C->unkC);
+                if (Math3D_LineSegVsPlane(*new_var, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPos, &inFrontPos,
+                                          &intersect, true)) {
+                    var_s0->reflectionPos.x = intersect.x;
+                    var_s0->reflectionPos.y = intersect.y;
+                    var_s0->reflectionPos.z = intersect.z;
+                    temp_fv0 = sqrtf(SQ(intersect.x - originPos.x) + SQ(intersect.y - originPos.y) +
+                                     SQ(intersect.z - originPos.z));
+                    //! @bug temp_fv0 is at most
+                    //! norm(sp124_inFront - sp130_origin) = norm(spE8_forwards) = this->lightReflectionFactor * 400
+                    //! so this condition always passes. This logic was probably meant to fade the reflections with
+                    //! distance. (TODO test in-game)
+                    if (temp_fv0 < (this->lightReflectionFactor * 600.0f)) {
+                        var_s0->unk50 = 200;
+                    } else {
+                        var_s0->unk50 = (u8)(s32)(800.0f - temp_fv0);
+                    }
+
+                    // The rest of the function computes a transformation that transforms the XY plane (corresponding to
+                    // the reflection in model space) into the surface plane. It does so by computing the same
+                    // intersection as above but with an offset in the x direction, which gives the transformation for
+                    // the x axis, then the same in the y direction.
+
+                    originPosWithOffset.x = (shieldMf->xx * new_var2) + originPos.x;
+                    originPosWithOffset.y = (shieldMf->yx * new_var2) + originPos.y;
+                    originPosWithOffset.z = (shieldMf->zx * 100.0f) + originPos.z;
+                    inFrontPosWithOffset.x = (forwards.x * 4.0f) + originPosWithOffset.x;
+                    inFrontPosWithOffset.y = (forwards.y * 4.0f) + originPosWithOffset.y;
+                    inFrontPosWithOffset.z = (forwards.z * 4.0f) + originPosWithOffset.z;
+                    var_s0->reflectionTransform.xx = var_s0->reflectionTransform.yy = var_s0->reflectionTransform.zz =
+                        var_s0->reflectionTransform.ww = 1.0f;
+
+                    //! FAKE
+                    sp80 = var_s0->reflectionTransform.zw = 0.0f;
+                    new_var3 = var_s0->reflectionTransform.xz = var_s0->reflectionTransform.yz =
+                        var_s0->reflectionTransform.wz = var_s0->reflectionTransform.xw =
+                            var_s0->reflectionTransform.yw = sp80;
+                    var_s0->reflectionTransform.yx = var_s0->reflectionTransform.zx = var_s0->reflectionTransform.wx =
+                        var_s0->reflectionTransform.xy = var_s0->reflectionTransform.zy =
+                            var_s0->reflectionTransform.wy = new_var3;
+                    if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPosWithOffset,
+                                              &inFrontPosWithOffset, &intersectWithOffset, true)) {
+                        do {
+                        } while (0); //! FAKE
+                        var_s0->reflectionTransform.xx = intersectWithOffset.x - intersect.x;
+                        var_s0->reflectionTransform.yx = intersectWithOffset.y - intersect.y;
+                        var_s0->reflectionTransform.zx = intersectWithOffset.z - intersect.z;
+                    }
+                    originPosWithOffset.x = (shieldMf->xy * 100.0f) + originPos.x;
+                    originPosWithOffset.y = (shieldMf->yy * 100.0f) + originPos.y;
+                    originPosWithOffset.z = (shieldMf->zy * 100.0f) + originPos.z;
+                    inFrontPosWithOffset.x = (forwards.x * 4.0f) + originPosWithOffset.x;
+                    inFrontPosWithOffset.y = (forwards.y * 4.0f) + originPosWithOffset.y;
+                    inFrontPosWithOffset.z = (forwards.z * 4.0f) + originPosWithOffset.z;
+                    if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPosWithOffset,
+                                              &inFrontPosWithOffset, &intersectWithOffset, true)) {
+                        if (!intersect.z) {} //! FAKE
+                        var_s0->reflectionTransform.xy = intersectWithOffset.x - intersect.x;
+                        var_s0->reflectionTransform.yy = intersectWithOffset.y - intersect.y;
+                        var_s0->reflectionTransform.zy = intersectWithOffset.z - intersect.z;
+                    }
                 } else {
-                    var_s0->unk50 = (u8)(s32)(800.0f - temp_fv0);
+                    var_s0->unk4C = NULL;
                 }
-
-                // The rest of the function computes a transformation that transforms the XY plane (corresponding to the
-                // reflection in model space) into the surface plane.
-                // It does so by computing the same intersection as above but with an offset in the x direction, which
-                // gives the transformation for the x axis, then the same in the y direction.
-
-                originPosWithOffset.x = (shieldMf->xx * new_var2) + originPos.x;
-                originPosWithOffset.y = (shieldMf->yx * new_var2) + originPos.y;
-                originPosWithOffset.z = (shieldMf->zx * 100.0f) + originPos.z;
-                inFrontPosWithOffset.x = (forwards.x * 4.0f) + originPosWithOffset.x;
-                inFrontPosWithOffset.y = (forwards.y * 4.0f) + originPosWithOffset.y;
-                inFrontPosWithOffset.z = (forwards.z * 4.0f) + originPosWithOffset.z;
-                var_s0->reflectionTransform.xx = var_s0->reflectionTransform.yy = var_s0->reflectionTransform.zz =
-                    var_s0->reflectionTransform.ww = 1.0f;
-
-                //! FAKE
-                sp80 = var_s0->reflectionTransform.zw = 0.0f;
-                new_var3 = var_s0->reflectionTransform.xz = var_s0->reflectionTransform.yz =
-                    var_s0->reflectionTransform.wz = var_s0->reflectionTransform.xw = var_s0->reflectionTransform.yw =
-                        sp80;
-                var_s0->reflectionTransform.yx = var_s0->reflectionTransform.zx = var_s0->reflectionTransform.wx =
-                    var_s0->reflectionTransform.xy = var_s0->reflectionTransform.zy = var_s0->reflectionTransform.wy =
-                        new_var3;
-                if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPosWithOffset,
-                                          &inFrontPosWithOffset, &intersectWithOffset, true)) {
-                    do {
-                    } while (0); //! FAKE
-                    var_s0->reflectionTransform.xx = intersectWithOffset.x - intersect.x;
-                    var_s0->reflectionTransform.yx = intersectWithOffset.y - intersect.y;
-                    var_s0->reflectionTransform.zx = intersectWithOffset.z - intersect.z;
-                }
-                originPosWithOffset.x = (shieldMf->xy * 100.0f) + originPos.x;
-                originPosWithOffset.y = (shieldMf->yy * 100.0f) + originPos.y;
-                originPosWithOffset.z = (shieldMf->zy * 100.0f) + originPos.z;
-                inFrontPosWithOffset.x = (forwards.x * 4.0f) + originPosWithOffset.x;
-                inFrontPosWithOffset.y = (forwards.y * 4.0f) + originPosWithOffset.y;
-                inFrontPosWithOffset.z = (forwards.z * 4.0f) + originPosWithOffset.z;
-                if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPosWithOffset,
-                                          &inFrontPosWithOffset, &intersectWithOffset, true)) {
-                    if (!intersect.z) {} //! FAKE
-                    var_s0->reflectionTransform.xy = intersectWithOffset.x - intersect.x;
-                    var_s0->reflectionTransform.yy = intersectWithOffset.y - intersect.y;
-                    var_s0->reflectionTransform.zy = intersectWithOffset.z - intersect.z;
-                }
-            } else {
-                var_s0->unk4C = NULL;
             }
         }
     }
