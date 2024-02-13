@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2024 Dragorn421
+# SPDX-License-Identifier: CC0-1.0
+
 from __future__ import annotations
 
 import sys
