@@ -10,29 +10,9 @@ from pathlib import Path
 from typing import Iterable
 
 
-class SpecIncludeSection(enum.Flag):
-    ALL = enum.auto()
-    TEXT = enum.auto()
-    DATA = enum.auto()
-    RODATA = enum.auto()
-    BSS = enum.auto()
-
-
-SPECINCLUDESECTIONFLAG_BY_SECTIONNAME = {
-    ".text": SpecIncludeSection.TEXT,
-    ".data": SpecIncludeSection.DATA,
-    ".rodata": SpecIncludeSection.RODATA,
-    ".bss": SpecIncludeSection.BSS,
-}
-SECTIONNAME_BY_SPECINCLUDESECTIONFLAG = {
-    v: k for k, v in SPECINCLUDESECTIONFLAG_BY_SECTIONNAME.items()
-}
-
-
 @dataclasses.dataclass
 class SpecInclude:
     file: Path
-    includeSectionsFlags: SpecIncludeSection = SpecIncludeSection.ALL
     dataWithRodata: bool = False
     pad_text: bool = False
 
@@ -132,12 +112,6 @@ def parse_spec(lines: Iterable[str]):
                     dataWithRodata=directive == "include_data_with_rodata",
                 )
                 cur_segment.includes.append(include)
-                if len(args) != 1:
-                    include.includeSectionsFlags = SpecIncludeSection(0)
-                    for arg in args[1:]:
-                        include.includeSectionsFlags |= (
-                            SPECINCLUDESECTIONFLAG_BY_SECTIONNAME[arg]
-                        )
             elif directive == "pad_text":
                 assert len(args) == 0
                 cur_segment.includes[-1].pad_text = True
@@ -170,15 +144,7 @@ def stringify_spec(spec: Spec, indent=" " * 4):
             directive = (
                 "include_data_with_rodata" if include.dataWithRodata else "include"
             )
-            if include.includeSectionsFlags == SpecIncludeSection.ALL:
-                includeSectionsFlags_str = ""
-            else:
-                includeSectionsFlags_str = "".join(
-                    " " + SECTIONNAME_BY_SPECINCLUDESECTIONFLAG[flag]
-                    for flag in include.includeSectionsFlags
-                )
-                assert includeSectionsFlags_str != ""
-            d = f'{directive} "{include.file}"{includeSectionsFlags_str}'
+            d = f'{directive} "{include.file}"'
             yield f"{indent}{d}"
             if include.pad_text:
                 yield f"{indent}pad_text"

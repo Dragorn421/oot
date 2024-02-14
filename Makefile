@@ -388,13 +388,14 @@ endif
 #### Various Recipes ####
 
 $(ROM): $(ELF)
-	$(ELF2ROM) -cic 6105 $< $@
+	$(OBJCOPY) -O binary $< $@
+	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
-$(ELF): frankenspec.json $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
+$(ELF): frankenspec.json tools/gen_quitetheldscript.py $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
 	$(PYTHON) tools/gen_quitetheldscript.py $(BUILD_DIR)/$(SPEC) $(BUILD_DIR)/quitetheldscript.txt
 	$(LD) -T $(BUILD_DIR)/quitetheldscript.txt -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
 
