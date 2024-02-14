@@ -13,7 +13,6 @@ import pyfrankenspec
 from pyfrankenspec import SectionName
 
 
-VERSION = "gc-eu-mq"
 EXPECTED_P = Path("expected")
 
 
@@ -89,21 +88,29 @@ def test_indented_writer():
         with iw.indented("  "):
             iw.writeline("tu")
     iw.writeline("vwx")
+    iw.writeline("a\nb\nc")
+    with iw.indented("  "):
+        iw.writeline("a\nb\nc")
 
 
 if 0:
     test_indented_writer()
-    exit()
+    exit(1)
 
 spec_p = Path(sys.argv[1])
 ldscript_p = Path(sys.argv[2])
+VERSION = sys.argv[3]
+assert VERSION in {"gc-eu-mq", "gc-eu-mq-dbg"}
 
 print(f"{spec_p=}")
 print(f"{ldscript_p=}")
 
 spec = pyspec.parse_spec_p(spec_p)
 
-frankenspec = pyfrankenspec.parse_frankenspec(Path("frankenspec.json"))
+if VERSION == "gc-eu-mq":
+    frankenspec = pyfrankenspec.parse_frankenspec(Path("frankenspec.json"))
+else:
+    frankenspec = pyfrankenspec.FrankenSpec()
 
 
 with open(Path(__file__).with_suffix(".dumplog.txt"), "w") as f:
@@ -114,6 +121,8 @@ with open(Path(__file__).with_suffix(".dumplog.txt"), "w") as f:
     f.write("frankenspec =\n")
     pprint(frankenspec, **kwargs)
     f.write("\n" * 10)
+
+i = 0
 
 with ldscript_p.open("w") as f:
     iw = IndentedWriter(f)
@@ -157,7 +166,7 @@ with ldscript_p.open("w") as f:
             iw.wl()
             iw.wl("(NOLOAD) /* flags NOLOAD */")
             iw.w(": ")
-        iw.wl("SUBALIGN(0)")
+        # iw.wl("SUBALIGN(0)")  # FIXME this looked like a good idea on paper but we also do want to align sections properly
         iw.wl("{")
         with iw.indented("  "):
             if frankenspec_seg.baseromify:
@@ -165,7 +174,13 @@ with ldscript_p.open("w") as f:
                 assert baserom_object_p.exists(), baserom_object_p
                 iw.wl(f"{baserom_object_p} (*)")
             else:
-                for section in SectionName:
+                for section in (
+                    SectionName.TEXT,
+                    SectionName.DATA,
+                    SectionName.RODATA,
+                    SectionName.OVL,
+                    SectionName.BSS,
+                ):
                     section_in_rom = section != SectionName.BSS and segment_in_rom
                     iw.wl()
                     iw.wl(
@@ -179,6 +194,18 @@ with ldscript_p.open("w") as f:
                         )
                     with iw.indented("  "):
                         for inc in seg.includes:
+                            iw.writeline(f"dot{i} = ABSOLUTE(.);")
+                            i += 1
+                            if inc.dataWithRodata and section == SectionName.DATA:
+                                iw_original = iw
+                                dataWithRodata_f = io.StringIO()
+                                iw = IndentedWriter(dataWithRodata_f)
+                            if inc.dataWithRodata and section == SectionName.RODATA:
+                                iw.writeline("/* include_data_with_rodata */")
+                                # FIXME this just assumes dataWithRodata_src is the same, eg that there is only one include_data_with_rodata include
+                                # also this relies on dat being written before rodata
+                                with iw.indented("  "):
+                                    iw.write(dataWithRodata_src)
                             inc_sections = (
                                 frankenspec_seg.frankenelf.get_sections(inc.file)
                                 if frankenspec_seg.frankenelf is not None
@@ -239,6 +266,12 @@ with ldscript_p.open("w") as f:
                                     iw.wl(
                                         f"/* skip include syms bc not exists {other} */"
                                     )
+                            if inc.pad_text and section == SectionName.TEXT:
+                                iw.wl(". += 0x10; /* pad_text */")
+                            if inc.dataWithRodata and section == SectionName.DATA:
+                                iw = iw_original
+                                dataWithRodata_src = dataWithRodata_f.getvalue()
+                                del dataWithRodata_f
                     iw.wl(f"_{seg.name}Segment{section.name.capitalize()}End = .;")
                     iw.wl(
                         f"_{seg.name}Segment{section.name.capitalize()}Size"
@@ -255,6 +288,11 @@ with ldscript_p.open("w") as f:
                             " = ABSOLUTE(.rom);"
                         )
                 iw.wl()
+                # for some reason the existing writes RoData instead of Rodata
+                iw.wl(
+                    f"_{seg.name}SegmentRoDataSize = ABSOLUTE(_{seg.name}SegmentRodataSize);"
+                )
+                iw.wl()
         iw.wl("}")
         iw.wl(f"_{seg.name}SegmentEnd = .;")
         if frankenspec_seg.baseromify:
@@ -269,20 +307,84 @@ with ldscript_p.open("w") as f:
         # f.write(f"_{seg.name}SegmentRomEnd = .rom;\n")
         iw.wl()
         iw.wl()
-    iw.wl()
-    iw.wl()
     # the reason to align and fill like this still unknown,
     # besides "it's what is currently done"
-    iw.wl("/* pad the rom for matching */")
-    iw.wl("rom_padding .rom : AT(.rom) {")
-    with iw.indented("  "):
-        iw.wl("BYTE(0); /* otherwise ld does not fill the section */")
-        iw.wl("FILL(0x00);")
-        iw.wl(". = ALIGN(0x1000);")
-        iw.wl("FILL(0xFF);")
-        iw.wl(". = ALIGN(0x8000);")
-    iw.wl("}")
-    iw.wl()
-    iw.wl("/DISCARD/ : { *(*) }")
-    iw.wl()
-    iw.wl("}")
+    if VERSION == "gc-eu-mq":
+        rom_padding_FF_align = 0x8000
+    else:
+        rom_padding_FF_align = 0x100000
+    iw.wl(
+        """
+
+/* pad the rom for matching */
+rom_padding .rom : AT(.rom)
+{
+  BYTE(0); /* otherwise ld does not fill the section */
+  FILL(0x00);
+  . = ALIGN(0x1000);
+  FILL(0xFF);
+"""
+        f"\
+  . = ALIGN(0x{rom_padding_FF_align:X});"
+        """
+}
+
+"""
+    )
+    if VERSION != "gc-eu-mq":
+        # TODO ld fails with "memory exhausted" error for gc-eu-mq with these
+        iw.wl(
+            """
+/* mdebug sections */
+.pdr              : { *(.pdr) }
+.mdebug           : { *(.mdebug) }
+.mdebug.abi32     : { *(.mdebug.abi32) }
+/* DWARF debug sections */
+/* Symbols in the DWARF debugging sections are relative to
+   the beginning of the section so we begin them at 0. */
+/* DWARF 1 */
+.debug          0 : { *(.debug) }
+.line           0 : { *(.line) }
+/* GNU DWARF 1 extensions */
+.debug_srcinfo  0 : { *(.debug_srcinfo) }
+.debug_sfnames  0 : { *(.debug_sfnames) }
+/* DWARF 1.1 and DWARF 2 */
+.debug_aranges  0 : { *(.debug_aranges) }
+.debug_pubnames 0 : { *(.debug_pubnames) }
+/* DWARF 2 */
+.debug_info     0 : { *(.debug_info .gnu.linkonce.wi.*) }
+.debug_abbrev   0 : { *(.debug_abbrev) }
+.debug_line     0 : { *(.debug_line .debug_line.* .debug_line_end ) }
+.debug_frame    0 : { *(.debug_frame) }
+.debug_str      0 : { *(.debug_str) }
+.debug_loc      0 : { *(.debug_loc) }
+.debug_macinfo  0 : { *(.debug_macinfo) }
+/* SGI/MIPS DWARF 2 extensions */
+.debug_weaknames 0 : { *(.debug_weaknames) }
+.debug_funcnames 0 : { *(.debug_funcnames) }
+.debug_typenames 0 : { *(.debug_typenames) }
+.debug_varnames  0 : { *(.debug_varnames) }
+/* DWARF 3 */
+.debug_pubtypes 0 : { *(.debug_pubtypes) }
+.debug_ranges   0 : { *(.debug_ranges) }
+/* DWARF 5 */
+.debug_addr     0 : { *(.debug_addr) }
+.debug_line_str 0 : { *(.debug_line_str) }
+.debug_loclists 0 : { *(.debug_loclists) }
+.debug_macro    0 : { *(.debug_macro) }
+.debug_names    0 : { *(.debug_names) }
+.debug_rnglists 0 : { *(.debug_rnglists) }
+.debug_str_offsets 0 : { *(.debug_str_offsets) }
+.debug_sup      0 : { *(.debug_sup) }
+/* gnu attributes */
+.gnu.attributes 0 : { KEEP (*(.gnu.attributes)) }
+"""
+        )
+    iw.wl(
+        """
+
+/DISCARD/ : { *(*) }
+
+}
+"""
+    )

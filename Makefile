@@ -396,7 +396,7 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
 $(ELF): frankenspec.json tools/gen_quitetheldscript.py $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
-	$(PYTHON) tools/gen_quitetheldscript.py $(BUILD_DIR)/$(SPEC) $(BUILD_DIR)/quitetheldscript.txt
+	$(PYTHON) tools/gen_quitetheldscript.py $(BUILD_DIR)/$(SPEC) $(BUILD_DIR)/quitetheldscript.txt $(VERSION)
 	$(LD) -T $(BUILD_DIR)/quitetheldscript.txt -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
 
 ## Order-only prerequisites

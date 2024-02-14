@@ -318,6 +318,7 @@ beginseg
     name "code"
     compress
     after "dmadata"
+    romalign 0x1000
     include "$(BUILD_DIR)/src/code/z_en_a_keep.o"
     include "$(BUILD_DIR)/src/code/z_en_item00.o"
     include "$(BUILD_DIR)/src/code/z_eff_blure.o"
