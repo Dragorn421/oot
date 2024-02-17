@@ -30,7 +30,7 @@ def remove_comments(text):
     )
     return re.sub(pattern, replacer, text)
 
-def convert_text(text, charmap):
+def convert_text(text, charmap, ignore_hash_lines: bool):
     def cvt_str(m):
         string = m.group(0)
 
@@ -66,6 +66,18 @@ def main():
         help="path to charmap file specifying custom encoding elements",
         required=True,
     )
+    parser.add_argument(
+        "--remove-comments",
+        dest="remove_comments",
+        help="Remove C comments ('//', '/*...*/') from the input before processing",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--ignore-hash-lines",
+        dest="ignore_hash_lines",
+        help="Ignore lines starting with '#', such as C preprocessor directives and linemarkers",
+        action="store_true",
+    )
     args = parser.parse_args()
 
     charmap = read_charmap(args.charmap)
@@ -77,8 +89,9 @@ def main():
         with open(args.input, "r") as infile:
             text = infile.read()
 
-    text = remove_comments(text)
-    text = convert_text(text, charmap)
+    if args.remove_comments:
+        text = remove_comments(text)
+    text = convert_text(text, charmap, args.ignore_hash_lines)
 
     if args.output == "-":
         sys.stdout.buffer.write(text.encode("raw_unicode_escape"))
