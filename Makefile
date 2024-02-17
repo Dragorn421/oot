@@ -421,7 +421,14 @@ $(BUILD_DIR)/data/%.o: data/%.s
 
 $(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h assets/text/charmap.txt
 	mkdir -p $(BUILD_DIR)/assets/text
-	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py - --output $@ --charmap assets/text/charmap.txt
+ifeq ($(COMPILER),ido)
+# (modern) host cpp does not add linemarkers (file and line information) that are compatible with IDO.
+# Use IDO's preprocessed output instead (-E)
+	tools/ido_recomp/$(DETECTED_OS)/7.1/cc -E $(CFLAGS) $< | $(PYTHON) tools/msgenc.py - --output $@ --charmap assets/text/charmap.txt
+else
+# do not pass -P, so linemarkers are kept for errors
+	$(CPP) $(filter-out -P,$(CPPFLAGS)) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py - --output $@ --charmap assets/text/charmap.txt
+endif
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
@@ -432,6 +439,14 @@ $(BUILD_DIR)/assets/text/staff_message_data_static.o: $(BUILD_DIR)/assets/text/m
 $(BUILD_DIR)/src/code/z_message_PAL.o: $(BUILD_DIR)/assets/text/message_data.enc.h $(BUILD_DIR)/assets/text/message_data_staff.enc.h
 
 $(BUILD_DIR)/assets/%.o: assets/%.c
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(OBJCOPY) -O binary $@ $@.bin
+
+$(BUILD_DIR)/assets/text/%.o: assets/text/%.c
+# Run CC_CHECK on text
+ifneq ($(RUN_CC_CHECK),0)
+	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
 
