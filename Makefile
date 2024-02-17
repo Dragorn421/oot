@@ -424,11 +424,13 @@ $(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h asse
 ifeq ($(COMPILER),ido)
 # (modern) host cpp does not add linemarkers (file and line information) that are compatible with IDO.
 # Use IDO's preprocessed output instead (-E)
-	tools/ido_recomp/$(DETECTED_OS)/7.1/cc -E $(CFLAGS) $< | $(PYTHON) tools/msgenc.py - --output $@ --charmap assets/text/charmap.txt
+# Note: piping IDO output to another process seems to crash IDO somehow
+	tools/ido_recomp/$(DETECTED_OS)/7.1/cc -E $(CFLAGS) $< > $(@:.enc.h=.processed.h)
 else
 # do not pass -P, so linemarkers are kept for errors
-	$(CPP) $(filter-out -P,$(CPPFLAGS)) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py - --output $@ --charmap assets/text/charmap.txt
+	$(CPP) $(filter-out -P,$(CPPFLAGS)) -I$(EXTRACTED_DIR) $< > $(@:.enc.h=.processed.h)
 endif
+	tools/msgenc assets/text/charmap.txt < $(@:.enc.h=.processed.h) > $@ || { $(RM) $@; false; }
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
