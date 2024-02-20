@@ -64,7 +64,9 @@ void func_80977450(DemoExt* this) {
 
 CsCmdActorCue* func_809774D8(PlayState* play, s32 arg1) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[arg1];
+        CsCmdActorCue* cue = play->csCtx.actorCues[arg1];
+
+        return cue;
     }
     return NULL;
 }
@@ -202,7 +204,7 @@ void func_80977950(DemoExt* this, PlayState* play) {
     gfxCtx = play->state.gfxCtx;
     texScrollPos = this->texScrollPos;
     temp_v0 = &this->unk178;
-    mtx = Graph_Alloc(gfxCtx, 0x40U);
+    mtx = GRAPH_ALLOC(gfxCtx, 0x40U);
     OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
     Matrix_Push();
     Matrix_Scale(temp_v0->x, temp_v0->y, temp_v0->z, MTXMODE_APPLY);
