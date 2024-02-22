@@ -46,13 +46,6 @@ static ColliderCylinderInit D_80AA0420 = {
 
 static u32 D_80AA044C[3] = { DMG_SPIN_MASTER, DMG_SPIN_KOKIRI, DMG_SPIN_GIANT };
 static u32 D_80AA0458[3] = { DMG_JUMP_MASTER, DMG_JUMP_KOKIRI, DMG_JUMP_GIANT };
-static u16 D_80AA0464[4] = {
-    NA_SE_IT_ROLLING_CUT_LV2,
-    NA_SE_IT_ROLLING_CUT_LV1,
-    NA_SE_IT_ROLLING_CUT_LV2,
-    NA_SE_IT_ROLLING_CUT_LV1,
-};
-static f32 D_80AA046C[9] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f, 0.0f };
 
 void EnMThunder_SetupAction(EnMThunder* this, EnMThunderActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -210,8 +203,19 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         }
         EnMThunder_SetupAction(this, func_80A9F9B4);
         this->unk1C4 = 8;
-        Audio_PlaySfxGeneral(D_80AA0464[this->unk1C6], &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+
+        {
+            static u16 D_80AA0464[4] = {
+                NA_SE_IT_ROLLING_CUT_LV2,
+                NA_SE_IT_ROLLING_CUT_LV1,
+                NA_SE_IT_ROLLING_CUT_LV2,
+                NA_SE_IT_ROLLING_CUT_LV1,
+            };
+
+            Audio_PlaySfxGeneral(D_80AA0464[this->unk1C6], &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        }
+
         this->unk1AC = 1.0f;
         return;
     }
@@ -305,6 +309,8 @@ void EnMThunder_Update(Actor* thisx, PlayState* play) {
     Lights_PointNoGlowSetInfo(&this->unk19C, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                               temp_v0, temp_v0, temp_fv0 * 100.0f, temp_fv0 * 800.0f);
 }
+
+static f32 D_80AA046C[9] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f, 0.0f };
 
 void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
     f32 var_fa1;

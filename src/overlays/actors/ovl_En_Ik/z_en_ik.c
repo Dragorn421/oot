@@ -659,83 +659,82 @@ void func_80A75A38(EnIk* this, PlayState* play) {
 }
 
 void func_80A75C38(EnIk* this, PlayState* play) {
-    f32 temp_f0;
-    u8 pad;
-    u8 pad2;
-    u8 prevHealth;
-    s32 pad3;
-    Vec3f sp38;
 
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
         return;
     }
     if (this->shieldCollider.base.acFlags & AC_BOUNCED) {
+        f32 temp_f0;
+
         temp_f0 = Animation_GetLastFrame(&object_ik_Anim_00485C) - 2.0f;
         if (this->skelAnime.curFrame < temp_f0) {
             this->skelAnime.curFrame = temp_f0;
         }
         this->shieldCollider.base.acFlags &= ~AC_BOUNCED;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        return;
-    }
-    if (!(this->bodyCollider.base.acFlags & AC_HIT)) {
-        return;
-    }
-    sp38 = this->actor.world.pos;
-    sp38.y += 50.0f;
-    Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
-    this->unk_2FD = this->actor.colChkInfo.damageEffect;
-    this->bodyCollider.base.acFlags &= ~AC_HIT;
+    } else if (this->bodyCollider.base.acFlags & AC_HIT) {
+        u8 pad;
+        u8 pad2;
+        u8 prevHealth;
+        s32 pad3;
+        Vec3f sp38;
 
-    if ((this->unk_2FD == 0) || (this->unk_2FD == 0xD) || ((this->unk_2FB == 0) && (this->unk_2FD == 0xE))) {
-        if (this->unk_2FD != 0) {
-            CollisionCheck_SpawnShieldParticlesMetal(play, &sp38);
-        }
-        return;
-    }
-    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
-    prevHealth = this->actor.colChkInfo.health;
-    Actor_ApplyDamage(&this->actor);
-    if (this->actor.params != 0) {
-        if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
-            this->unk_2FB = 1;
-            BodyBreak_Alloc(&this->bodyBreak, 3, play);
-        }
-    } else if (this->actor.colChkInfo.health <= 10) {
-        Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
-        if (this->switchFlags != 0xFF) {
-            Flags_SetSwitch(play, this->switchFlags);
-        }
-        return;
-    } else if (prevHealth == 50) {
-        Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
-    }
+        sp38 = this->actor.world.pos;
+        sp38.y += 50.0f;
+        Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
+        this->unk_2FD = this->actor.colChkInfo.damageEffect;
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-    if (this->actor.colChkInfo.health == 0) {
-        func_80A7598C(this);
-        Enemy_StartFinishingBlow(play, &this->actor);
-        return;
-    }
-    Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x7D0, 0);
-    if ((this->actor.params == 0) && (Rand_ZeroOne() < 0.5f)) {
-        if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x4000) {
-            func_80A754A0(this);
+        if ((this->unk_2FD == 0) || (this->unk_2FD == 0xD) || ((this->unk_2FB == 0) && (this->unk_2FD == 0xE))) {
+            if (this->unk_2FD != 0) {
+                CollisionCheck_SpawnShieldParticlesMetal(play, &sp38);
+            }
+            return;
         }
-    }
-    if ((this->actor.params != 0) && (this->unk_2FB != 0)) {
-        if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
-            Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
-        } else {
-            Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
-            Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
+        prevHealth = this->actor.colChkInfo.health;
+        Actor_ApplyDamage(&this->actor);
+        if (this->actor.params != 0) {
+            if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
+                this->unk_2FB = 1;
+                BodyBreak_Alloc(&this->bodyBreak, 3, play);
+            }
+        } else if (this->actor.colChkInfo.health <= 10) {
+            Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
+            if (this->switchFlags != 0xFF) {
+                Flags_SetSwitch(play, this->switchFlags);
+            }
+            return;
+        } else if (prevHealth == 50) {
+            Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
         }
-        func_80A75790(this);
-        return;
+
+        if (this->actor.colChkInfo.health == 0) {
+            func_80A7598C(this);
+            Enemy_StartFinishingBlow(play, &this->actor);
+            return;
+        }
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x7D0, 0);
+        if ((this->actor.params == 0) && (Rand_ZeroOne() < 0.5f)) {
+            if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x4000) {
+                func_80A754A0(this);
+            }
+        }
+        if ((this->actor.params != 0) && (this->unk_2FB != 0)) {
+            if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
+                Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
+            } else {
+                Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+            }
+            func_80A75790(this);
+            return;
+        }
+        Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+        CollisionCheck_SpawnShieldParticles(play, &sp38);
     }
-    Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
-    Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
-    CollisionCheck_SpawnShieldParticles(play, &sp38);
 }
 
 void func_80A75FA0(Actor* thisx, PlayState* play) {
