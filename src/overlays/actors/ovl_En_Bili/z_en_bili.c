@@ -112,12 +112,12 @@ void func_809BF9BC(EnBili* this) {
     this->actor.speed = 0.7f;
     this->unk1D4.elem.bumper.effect = 1;
     this->unk196 = 0x20;
-    this->unk1D4.base.atFlags |= AT_ON;
-    this->unk1D4.base.acFlags |= AC_ON;
-    this->unk190 = func_809C0174;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
+    this->unk1D4.base.atFlags |= AT_ON;
+    this->unk1D4.base.acFlags |= AC_ON;
+    this->unk190 = func_809C0174;
 }
 
 void func_809BFA14(EnBili* this) {
