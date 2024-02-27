@@ -257,8 +257,6 @@ s32 func_80B33FB0(PlayState* play, EnWf* this, s16 arg2) {
     s32 pad;
     s16 var_t0;
     s16 var_v1;
-    Actor* temp_v0_2;
-    s16 temp_v1_3;
 
     player = GET_PLAYER(play);
 
@@ -300,28 +298,32 @@ s32 func_80B33FB0(PlayState* play, EnWf* this, s16 arg2) {
         }
         func_80B35B94(this);
         return 1;
-    }
+    } else {
+        Actor* temp_v0_2;
 
-    temp_v0_2 = Actor_FindNearby(play, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
-    if (temp_v0_2 != NULL) {
-        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        if (((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (var_t0 < 0x2EE0)) ||
-            (temp_v0_2->id == ACTOR_EN_BOM_CHU)) {
-            if (temp_v0_2->id == ACTOR_EN_BOM_CHU) {
-                if ((Actor_WorldDistXYZToActor(&this->actor, temp_v0_2) < 80.0f) &&
-                    ((s16)(this->actor.shape.rot.y - temp_v0_2->world.rot.y + 0x8000) < 0x3E80)) {
-                    func_80B360E8(this);
-                    return 1;
+        temp_v0_2 = Actor_FindNearby(play, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
+        if (temp_v0_2 != NULL) {
+            this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+            if (((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (var_t0 < 0x2EE0)) ||
+                (temp_v0_2->id == ACTOR_EN_BOM_CHU)) {
+                if (temp_v0_2->id == ACTOR_EN_BOM_CHU) {
+                    if ((Actor_WorldDistXYZToActor(&this->actor, temp_v0_2) < 80.0f) &&
+                        ((s16)(this->actor.shape.rot.y - temp_v0_2->world.rot.y + 0x8000) < 0x3E80)) {
+                        func_80B360E8(this);
+                        return 1;
+                    }
                 }
+                func_80B365A8(this, play);
+                return 1;
             }
-            func_80B365A8(this, play);
+            func_80B35B94(this);
             return 1;
         }
-        func_80B35B94(this);
-        return 1;
     }
 
     if (arg2 != 0) {
+        s16 temp_v1_3;
+
         if (var_v1 >= 0x1B58) {
             func_80B365A8(this, play);
             return 1;

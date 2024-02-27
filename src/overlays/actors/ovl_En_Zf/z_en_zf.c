@@ -333,7 +333,7 @@ s16 func_80B44870(Vec3f* arg0, s16 arg1, s16 arg2, PlayState* play) {
     s16 var_s0;
     s16 var_s4;
     s16 var_s5;
-    s32 var_s7;
+    s32 var_s7; // s6 in gc-eu-mq
     Player* player = GET_PLAYER(play);
 
     var_fs2 = 585.0f;
@@ -342,8 +342,7 @@ s16 func_80B44870(Vec3f* arg0, s16 arg1, s16 arg2, PlayState* play) {
     var_s0 = 5;
     var_s7 = 0;
     var_fs1 = 99999.0f;
-    var_s4 = -1;
-    var_s5 = -1;
+    var_s4 = var_s5 = -1;
     temp_s3 = func_80B446A8(&player->actor.world.pos, arg1);
     if (arg0->y > 420.0f) {
         var_fs3 = 50.0f;
@@ -356,24 +355,34 @@ s16 func_80B44870(Vec3f* arg0, s16 arg1, s16 arg2, PlayState* play) {
             var_s0 = 0xE;
         }
     }
-    while (var_s0 >= var_s7) {
-        if ((var_s0 != arg1) && (var_s0 != temp_s3) &&
-            ((temp_s3 != -1) || !(Math_Vec3f_DistXYZ(&player->actor.world.pos, &D_80B4A090[var_s0]) < var_fs3))) {
-            temp_fv0 = Math_Vec3f_DistXYZ(arg0, &D_80B4A090[var_s0]);
-            if (!(var_fs2 < temp_fv0)) {
-                if (temp_fv0 < var_fs0) {
-                    var_fs1 = var_fs0;
-                    var_s4 = var_s5;
-                    var_fs0 = temp_fv0;
-                    var_s5 = var_s0;
-                } else if (temp_fv0 < var_fs1) {
-                    var_fs1 = temp_fv0;
-                    var_s4 = var_s0;
-                }
-            }
+    for (; var_s0 >= var_s7; var_s0--) {
+#if !OOT_DEBUG
+        if (0) {}
+#endif
+        if (var_s0 == arg1) {
+            continue;
         }
-        var_s0 -= 1;
+        if (var_s0 == temp_s3) {
+            continue;
+        }
+        if (((temp_s3 == (-1)) && ((Math_Vec3f_DistXYZ(&player->actor.world.pos, &D_80B4A090[var_s0]) < var_fs3)))) {
+            continue;
+        }
+        temp_fv0 = Math_Vec3f_DistXYZ(arg0, &D_80B4A090[var_s0]);
+        if ((var_fs2 < temp_fv0)) {
+            continue;
+        }
+        if (temp_fv0 < var_fs0) {
+            var_fs1 = var_fs0;
+            var_s4 = var_s5;
+            var_fs0 = temp_fv0;
+            var_s5 = var_s0;
+        } else if (temp_fv0 < var_fs1) {
+            var_fs1 = temp_fv0;
+            var_s4 = var_s0;
+        }
     }
+
     temp_s0 = &D_80B4A090[var_s5];
 
     //! @bug `var_s4` can be -1 in certain conditions and cause an out of bounds access.
@@ -1597,6 +1606,9 @@ void func_80B48578(EnZf* this, PlayState* play) {
         if (this->unk3F8) {
             this->actor.speed = -this->actor.speed;
         }
+#if !OOT_DEBUG
+        goto x; //! FAKE
+#endif
     } else {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
             !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF)) {
@@ -1621,6 +1633,7 @@ void func_80B48578(EnZf* this, PlayState* play) {
             }
         }
     }
+x: //! FAKE
     if (Math_SinS(temp_t0_sp56 - this->actor.shape.rot.y) >= 0.0f) {
         this->actor.speed += 0.125f;
     } else {
@@ -1680,7 +1693,7 @@ void func_80B48578(EnZf* this, PlayState* play) {
             } else {
                 this->actor.world.rot.y = this->actor.shape.rot.y;
                 if ((this->actor.xzDistToPlayer <= 100.0f) && ((play->gameplayFrames % 4) == 0) &&
-                    ((func_80B44CF0(play, this) != 0))) {
+                    (func_80B44CF0(play, this) != 0)) {
                     func_80B46A24(this);
                 } else {
                     if ((this->actor.xzDistToPlayer < 280.0f) && (this->actor.xzDistToPlayer > 240.0f) &&
@@ -1691,6 +1704,7 @@ void func_80B48578(EnZf* this, PlayState* play) {
                     }
                 }
             }
+        y:; //! FAKE
         } else {
             this->unk3F0 -= 1;
         }
