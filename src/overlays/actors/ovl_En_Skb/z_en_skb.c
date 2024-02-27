@@ -6,6 +6,7 @@
 
 #include "z_en_skb.h"
 #include "assets/objects/object_skb/object_skb.h"
+#include "z64.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
@@ -490,9 +491,9 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk2A4.base);
 }
 
-s32 func_80AFDD30(PlayState* arg0, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg5, void* thisx) {
+s32 func_80AFDD30(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg5, void* thisx) {
     EnSkb* this = thisx;
-    s32 pad;
+    PlayState* arg0 = play;
     s32 temp_v0;
 
     if (arg1 == 11) {

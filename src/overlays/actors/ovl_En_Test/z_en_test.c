@@ -526,14 +526,12 @@ void EnTest_SetupWalkAndBlock(EnTest* this) {
 void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
     s32 pad;
     f32 checkDist = 0.0f;
-    s32 pad1;
+    s32 absPlaySpeed;
     s32 prevFrame;
     s32 beforeCurFrame;
     f32 playSpeed;
     Player* player = GET_PLAYER(play);
-    f32 absPlaySpeed;
     s16 yawDiff;
-    s32 afterPrevFrame;
 
     if (!EnTest_ReactToProjectile(play, this)) {
         this->timer++;
@@ -560,6 +558,8 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         }
 
         if (ABS(this->actor.speed) < 3.0f) {
+            s32 pad;
+
             Animation_Change(&this->skelAnime, &D_060081B4, 0.0f, this->skelAnime.curFrame,
                              Animation_GetLastFrame(&D_060081B4), 0, -6.0f);
             playSpeed = this->actor.speed * 10.0f;
@@ -601,10 +601,10 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
 
         beforeCurFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        absPlaySpeed = ABS(this->skelAnime.playSpeed);
+        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            afterPrevFrame = (s32)absPlaySpeed + prevFrame;
+            s32 afterPrevFrame = (s32)absPlaySpeed + prevFrame;
 
             if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_WALK);
@@ -1784,9 +1784,9 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnTest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnTest_OverrideLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnTest* this = (EnTest*)thisx;
-    s32 pad;
+    PlayState* play = (PlayState*)play2;
 
     if (limbIndex == 6) {
         rot->x += this->headRot.y;
