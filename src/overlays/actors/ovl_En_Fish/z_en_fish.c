@@ -455,11 +455,11 @@ void func_80A16200(EnFish* this, PlayState* play) {
 
 void func_80A163DC(EnFish* this) {
     this->actor.home.pos = this->actor.world.pos;
-    this->actor.flags |= ACTOR_FLAG_4;
-    this->unk248 = 0xC8;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->actor.shape.yOffset = 0.0f;
+    this->actor.flags |= ACTOR_FLAG_4;
+    this->unk248 = 0xC8;
     func_80A152AC(this);
     this->unk244 = func_80A16450;
     this->unk250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
@@ -587,6 +587,9 @@ void func_80A16A64(EnFish* this, PlayState* play) {
     Vec3f sp34;
     s32 pad2;
     s32 sp2C;
+
+    if (play) {}
+    if (play) {}
 
     sp4C = play->csCtx.actorCues[1];
     if (sp4C == NULL) {

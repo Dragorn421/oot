@@ -107,7 +107,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->unk2FC = (this->actor.world.rot.z + 1) * 40.0f;
     this->actor.world.rot.z = 0;
     this->actor.shape.rot.z = 0;
-    switch (this->actor.params & 0xFF) {
+    switch (thisx->params & 0xFF) {
         case 0:
             func_80A32BD0(this, 0);
             if (func_80A330A0() != 0) {
@@ -142,7 +142,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     this->unk2F6 = this->actor.world.rot.y;
-    this->unk300 = ((this->actor.params & 0xFF00) >> 8) * 0xA;
+    this->unk300 = ((thisx->params & 0xFF00) >> 8) * 0xA;
 }
 
 void EnGe2_Destroy(Actor* thisx, PlayState* play) {

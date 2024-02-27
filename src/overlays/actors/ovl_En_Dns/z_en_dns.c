@@ -70,6 +70,7 @@ static u16 sStartingTextIds[] = {
     0x10DC, // DNS_TYPE_DEKU_STICK_UPGRADE
     0x10DD, // DNS_TYPE_DEKU_NUT_UPGRADE
 };
+#if OOT_DEBUG
 static char* sItemDebugTxt[] = {
     "デクの実売り            ", // DNS_TYPE_DEKU_NUTS_5
     "デクの棒売り            ", // DNS_TYPE_DEKU_STICKS_1
@@ -83,6 +84,7 @@ static char* sItemDebugTxt[] = {
     "デクの棒持てる数を増やす", // DNS_TYPE_DEKU_STICK_UPGRADE
     "デクの実持てる数を増やす", // DNS_TYPE_DEKU_NUT_UPGRADE
 };
+#endif
 static EnDnsPurchaseInfo sItemDekuNuts = {
     20, 5, GI_DEKU_NUTS_5_2, EnDns_CanBuyDekuNuts, EnDns_PayForDekuNuts,
 };

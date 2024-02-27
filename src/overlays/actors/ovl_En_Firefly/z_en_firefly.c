@@ -228,8 +228,8 @@ void func_80A13744_Setup_Perched_(EnFirefly* this) {
 }
 
 void func_80A13764_Setup_SwoopOnPlayer(EnFirefly* this) {
-    this->actor.shape.rot.x = 0x1554;
     this->skelAnime.playSpeed = 3.0f;
+    this->actor.shape.rot.x = 0x1554;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->unk1BA_timer = 50;
     this->actor.speed = 3.0f;
