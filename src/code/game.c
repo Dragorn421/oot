@@ -6,10 +6,11 @@ struct_801664F0 D_801664F0;
 struct_80166500 D_80166500;
 VisMono sMonoColors;
 ViMode sViMode;
+
+#if OOT_DEBUG
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
 
-#if OOT_DEBUG
 void GameState_FaultPrint(void) {
     static char sBtnChars[] = "ABZSuldr*+LRudlr";
     s32 i;
