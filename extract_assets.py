@@ -16,7 +16,7 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
         # Don't extract if another file wasn't extracted properly.
         return
 
-    execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baseroms/gc-eu-mq-dbg/segments -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath)
+    execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baseroms/gc-eu-mq-dbg/segments -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml --cs-float both" % (xmlPath, outputPath, outputSourcePath)
     
     if "overlays" in xmlPath:
         execStr += " --static"
