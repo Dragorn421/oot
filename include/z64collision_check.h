@@ -77,20 +77,20 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 dmgFlags; // Toucher damage type flags.
-    /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 effect_ColliderElementTouch; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 damage; // Damage or Stun Timer
 } ColliderElementTouch; // size = 0x08
 
 typedef struct {
     /* 0x00 */ u32 dmgFlags;  // Bumper damage type flags.
-    /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 effect_ColliderElementBump;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderElementBump; // size = 0x0C
 
 typedef struct {
     /* 0x00 */ u32 dmgFlags; // Bumper exclusion mask
-    /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 effect_ColliderElementBumpInit; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
 } ColliderElementBumpInit; // size = 0x08
 
@@ -424,5 +424,18 @@ typedef struct {
 #define DMG_ARROW (DMG_ARROW_NORMAL | DMG_ARROW_FIRE | DMG_ARROW_ICE | DMG_ARROW_LIGHT | DMG_ARROW_UNK1 | DMG_ARROW_UNK2 | DMG_ARROW_UNK3)
 #define DMG_RANGED (DMG_ARROW | DMG_HOOKSHOT | DMG_SLINGSHOT)
 #define DMG_DEFAULT ~(DMG_SHIELD | DMG_MIR_RAY)
+
+enum {
+    ACHITEFFECT_0,
+    ACHITEFFECT_1,
+    ACHITEFFECT_2,
+    ACHITEFFECT_3,
+    ACHITEFFECT_4
+};
+
+enum {
+    ATHITEFFECT_0,
+    ATHITEFFECT_1
+};
 
 #endif

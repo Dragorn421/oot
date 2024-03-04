@@ -98,7 +98,7 @@ u32 func_809CBCBC(EnBubble* this) {
     ColliderElement* elem = &this->colliderSphere.elements[0].base;
 
     elem->toucher.dmgFlags = DMG_EXPLOSIVE;
-    elem->toucher.effect = 0;
+    elem->toucher.effect_ColliderElementTouch = ACHITEFFECT_0;
     elem->toucher.damage = 4;
     elem->toucherFlags = TOUCH_ON;
     this->actor.velocity.y = 0.0f;

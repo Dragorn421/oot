@@ -140,7 +140,7 @@ void Collider_ResetOCBase(PlayState* play, Collider* col) {
 }
 
 s32 Collider_InitElementTouch(PlayState* play, ColliderElementTouch* touch) {
-    static ColliderElementTouch init = { 0x00000000, 0, 0 };
+    static ColliderElementTouch init = { 0x00000000, ACHITEFFECT_0, 0 };
 
     *touch = init;
     return true;
@@ -152,7 +152,7 @@ s32 Collider_DestroyElementTouch(PlayState* play, ColliderElementTouch* touch) {
 
 s32 Collider_SetElementTouch(PlayState* play, ColliderElementTouch* dest, ColliderElementTouch* src) {
     dest->dmgFlags = src->dmgFlags;
-    dest->effect = src->effect;
+    dest->effect_ColliderElementTouch = src->effect_ColliderElementTouch;
     dest->damage = src->damage;
     return true;
 }
@@ -161,7 +161,7 @@ void Collider_ResetATElement_Unk(PlayState* play, ColliderElement* elem) {
 }
 
 s32 Collider_InitElementBump(PlayState* play, ColliderElementBump* bump) {
-    static ColliderElementBump init = { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } };
+    static ColliderElementBump init = { 0xFFCFFFFF, ATHITEFFECT_0, 0, { 0, 0, 0 } };
 
     *bump = init;
     return true;
@@ -173,14 +173,14 @@ s32 Collider_DestroyElementBump(PlayState* play, ColliderElementBump* bump) {
 
 s32 Collider_SetElementBump(PlayState* play, ColliderElementBump* bump, ColliderElementBumpInit* init) {
     bump->dmgFlags = init->dmgFlags;
-    bump->effect = init->effect;
+    bump->effect_ColliderElementBump = init->effect_ColliderElementBumpInit;
     bump->defense = init->defense;
     return true;
 }
 
 s32 Collider_InitElement(PlayState* play, ColliderElement* elem) {
     static ColliderElement init = {
-        { 0, 0, 0 },   { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
+        { 0, ACHITEFFECT_0, 0 },   { 0xFFCFFFFF, ATHITEFFECT_0, 0, { 0, 0, 0 } },
         ELEMTYPE_UNK0, TOUCH_NONE,
         BUMP_NONE,     OCELEM_NONE,
         NULL,          NULL,
@@ -1716,7 +1716,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
         atElem->atHitElem = acElem;
         atElem->toucherFlags |= TOUCH_HIT;
         if (atCol->actor != NULL) {
-            atCol->actor->colChkInfo.atHitEffect = acElem->bumper.effect;
+            atCol->actor->colChkInfo.atHitEffect = acElem->bumper.effect_ColliderElementBump;
         }
     }
     acCol->acFlags |= AC_HIT;
@@ -1725,7 +1725,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
     acElem->acHitElem = atElem;
     acElem->bumperFlags |= BUMP_HIT;
     if (acCol->actor != NULL) {
-        acCol->actor->colChkInfo.acHitEffect = atElem->toucher.effect;
+        acCol->actor->colChkInfo.acHitEffect = atElem->toucher.effect_ColliderElementTouch;
     }
     acElem->bumper.hitPos.x = hitPos->x;
     acElem->bumper.hitPos.y = hitPos->y;
@@ -2994,8 +2994,8 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
     info->damageEffect = 0;
-    info->atHitEffect = 0;
-    info->acHitEffect = 0;
+    info->atHitEffect = ATHITEFFECT_0;
+    info->acHitEffect = ACHITEFFECT_0;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
 }
 

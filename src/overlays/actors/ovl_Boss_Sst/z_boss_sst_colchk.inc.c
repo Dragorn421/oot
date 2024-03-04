@@ -285,8 +285,8 @@ static ColliderCylinderInit sCylinderInitHead = {
     },
     {
         ELEMTYPE_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, ACHITEFFECT_0, 0x00 },
+        { 0xFFCFFFFF, ATHITEFFECT_0, 0x00 },
         TOUCH_NONE,
         BUMP_ON,
         OCELEM_NONE,
@@ -305,8 +305,8 @@ static ColliderCylinderInit sCylinderInitHand = {
     },
     {
         ELEMTYPE_UNK0,
-        { 0x20000000, 0x04, 0x10 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x20000000, ACHITEFFECT_4, 0x10 },
+        { 0x00000000, ATHITEFFECT_0, 0x00 },
         TOUCH_ON | TOUCH_SFX_NONE,
         BUMP_NONE,
         OCELEM_NONE,

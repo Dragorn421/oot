@@ -464,7 +464,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
 
         if (this->actor.params == TW_FIRE_BLAST || this->actor.params == TW_FIRE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastFire;
-            this->collider.elem.toucher.effect = 1;
+            this->collider.elem.toucher.effect_ColliderElementTouch = ACHITEFFECT_1;
         } else if (this->actor.params == TW_ICE_BLAST || this->actor.params == TW_ICE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastIce;
         } else if (this->actor.params >= TW_DEATHBALL_KOTAKE) {
