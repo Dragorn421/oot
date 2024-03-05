@@ -127,8 +127,8 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 Collider_SetTris(play, &this->unk1C4, &this->dyna.actor, &D_80880FF8, this->unk1E4);
                 this->unk178.dim.radius = 0x12;
                 this->unk178.dim.height = 0x73;
-                this->unk178.elem.toucherFlags &= ~TOUCH_SFX_NORMAL;
-                this->unk178.elem.toucherFlags |= 0x10;
+                this->unk178.elem.atElemFlags &= ~ATELEM_SFX_NORMAL;
+                this->unk178.elem.atElemFlags |= 0x10;
                 this->actionFunc = &func_808801B8;
             }
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp2C);

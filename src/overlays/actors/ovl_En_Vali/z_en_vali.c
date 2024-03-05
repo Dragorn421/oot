@@ -52,8 +52,8 @@ static ColliderQuadInit D_80B288A0 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x07, 0x08 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -72,8 +72,8 @@ static ColliderCylinderInit D_80B288F0 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x07, 0x08 },
         { 0xFFCFFFFF, 0x01, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 17, 35, -15, { 0, 0, 0 } },
@@ -238,7 +238,7 @@ void func_80B26D54(EnVali* this) {
     this->unk196 = 0x50;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
-    this->unk3FC.elem.bumper.effect = 0;
+    this->unk3FC.elem.acDmgInfo.effect = 0;
     Actor_PlaySfx(&this->actor, 0x389EU);
     this->unk190 = func_80B27654;
     this->actor.velocity.y = 1.0f;
@@ -425,7 +425,7 @@ void func_80B27654(EnVali* this, PlayState* play) {
         }
     }
     if (this->unk196 == 0) {
-        this->unk3FC.elem.bumper.effect = 1;
+        this->unk3FC.elem.acDmgInfo.effect = 1;
         func_80B268FC(this);
     }
 }

@@ -57,8 +57,8 @@ static ColliderJntSphElementInit D_80B37990[4] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 15, { { 0, 0, 0 }, 15 }, 100 },
@@ -68,8 +68,8 @@ static ColliderJntSphElementInit D_80B37990[4] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 21, { { 0, 0, 0 }, 15 }, 100 },
@@ -79,8 +79,8 @@ static ColliderJntSphElementInit D_80B37990[4] = {
             ELEMTYPE_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 17, { { 800, 0, 0 }, 25 }, 100 },
@@ -90,8 +90,8 @@ static ColliderJntSphElementInit D_80B37990[4] = {
             ELEMTYPE_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 12, { { 0, 0, 0 }, 30 }, 100 },
@@ -124,8 +124,8 @@ static ColliderCylinderInit D_80B37A30 = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 20, 50, 0, { 0, 0, 0 } },
@@ -144,8 +144,8 @@ static ColliderCylinderInit D_80B37A5C = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 15, 20, -15, { 0, 0, 0 } },
@@ -213,7 +213,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     } else {
         SkelAnime_InitFlex(play, &this->unk188, &D_6003BC0, &D_600A4AC, this->unk1CC, this->unk250, 22);
         Actor_SetScale(&this->actor, 0.01f);
-        this->unk304.elements[0].base.toucher.damage = this->unk304.elements[1].base.toucher.damage = 8;
+        this->unk304.elements[0].base.atDmgInfo.damage = this->unk304.elements[1].base.atDmgInfo.damage = 8;
         this->actor.naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }
     func_80B34380(this);

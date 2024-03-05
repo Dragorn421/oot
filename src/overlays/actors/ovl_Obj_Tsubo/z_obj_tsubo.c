@@ -62,8 +62,8 @@ static ColliderCylinderInit D_80BA1B94 = {
         ELEMTYPE_UNK0,
         { 0x00000002, 0x00, 0x01 },
         { 0x4FC1FFFE, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 9, 26, 0, { 0, 0, 0 } },
@@ -248,7 +248,7 @@ void func_80BA15BC(ObjTsubo* this, PlayState* play) {
         func_80BA0D60(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->unk150.base.acFlags & AC_HIT) &&
-               (this->unk150.elem.acHitElem->toucher.dmgFlags &
+               (this->unk150.elem.acHitElem->atDmgInfo.dmgFlags &
                 (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         func_80BA100C(this, play);
         func_80BA0D60(this, play);

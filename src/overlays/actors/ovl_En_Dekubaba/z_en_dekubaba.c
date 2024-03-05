@@ -45,8 +45,8 @@ static ColliderJntSphElementInit D_809E8ECC[7] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_HARD,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_HARD,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 1, { { 0, 100, 1000 }, 15 }, 100 },
@@ -56,8 +56,8 @@ static ColliderJntSphElementInit D_809E8ECC[7] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 51, { { 0, 0, 1500 }, 8 }, 100 },
@@ -67,8 +67,8 @@ static ColliderJntSphElementInit D_809E8ECC[7] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 52, { { 0, 0, 500 }, 8 }, 100 },
@@ -78,8 +78,8 @@ static ColliderJntSphElementInit D_809E8ECC[7] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 53, { { 0, 0, 1500 }, 8 }, 100 },
@@ -89,8 +89,8 @@ static ColliderJntSphElementInit D_809E8ECC[7] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 54, { { 0, 0, 500 }, 8 }, 100 },
@@ -100,8 +100,8 @@ static ColliderJntSphElementInit D_809E8ECC[7] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 55, { { 0, 0, 1500 }, 8 }, 100 },
@@ -111,8 +111,8 @@ static ColliderJntSphElementInit D_809E8ECC[7] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 56, { { 0, 0, 500 }, 8 }, 100 },
@@ -207,7 +207,7 @@ void func_809E5A38(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
-        this->unk238.elements[i].base.bumperFlags &= ~BUMP_ON;
+        this->unk238.elements[i].base.acElemFlags &= ~ACELEM_ON;
     }
 }
 
@@ -329,7 +329,7 @@ void func_809E6264(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
-        this->unk238.elements[i].base.bumperFlags |= BUMP_ON;
+        this->unk238.elements[i].base.acElemFlags |= ACELEM_ON;
     }
     if (this->unk1C6 == 1) {
         Animation_Change(&this->unk17C, &object_dekubaba_Anim_0002B8, 4.0f, 0.0f,

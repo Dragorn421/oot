@@ -63,8 +63,8 @@ static ColliderCylinderInit D_809C1640 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x03, 0x08 },
         { 0xFFCFFFFF, 0x01, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 9, 28, -20, { 0, 0, 0 } },
@@ -110,7 +110,7 @@ void EnBili_Destroy(Actor* thisx, PlayState* play) {
 
 void func_809BF9BC(EnBili* this) {
     this->actor.speed = 0.7f;
-    this->unk1D4.elem.bumper.effect = 1;
+    this->unk1D4.elem.acDmgInfo.effect = 1;
     this->unk196 = 0x20;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.gravity = 0.0f;
@@ -192,7 +192,7 @@ void func_809BFCE8(EnBili* this) {
 
 void func_809BFD18(EnBili* this) {
     this->unk196 = 0x50;
-    this->unk1D4.elem.bumper.effect = 0;
+    this->unk1D4.elem.acDmgInfo.effect = 0;
     this->actor.gravity = -1.0f;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);
@@ -510,7 +510,7 @@ void func_809C0A70(EnBili* this, PlayState* play) {
             } else {
                 func_809BFC48(this);
             }
-            if (this->unk1D4.elem.acHitElem->toucher.dmgFlags & DMG_ARROW) {
+            if (this->unk1D4.elem.acHitElem->atDmgInfo.dmgFlags & DMG_ARROW) {
                 this->actor.flags |= ACTOR_FLAG_4;
             }
         }

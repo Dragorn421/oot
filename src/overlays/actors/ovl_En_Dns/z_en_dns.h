@@ -54,7 +54,7 @@ typedef struct EnDns {
     /* 0x26C */ ColliderCylinder unk26C;
     /* 0x2B8 */ s16 unk2B8;
     /* 0x2BA */ u8 animIndex;
-    /* 0x2BB */ u8 bumpOn;
+    /* 0x2BB */ u8 isColliderEnabled;
     /* 0x2BC */ u8 unk2BC;
     /* 0x2BD */ u8 unk2BD;
     /* 0x2C0 */ EnDnsPurchaseInfo* unk2C0;

@@ -37,8 +37,8 @@ static ColliderCylinderInit D_80AA0420 = {
         ELEMTYPE_UNK2,
         { 0x00000001, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 200, 200, 0, { 0, 0, 0 } },
@@ -89,7 +89,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
         }
         player->stateFlags2 &= ~PLAYER_STATE2_17;
         this->unk1CA = 1;
-        this->unk14C.elem.toucher.dmgFlags = D_80AA044C[this->unk1C7];
+        this->unk14C.elem.atDmgInfo.dmgFlags = D_80AA044C[this->unk1C7];
         this->unk1C6 = 1;
         if (this->unk1C7 == 1) {
             this->unk1C9 = 2;
@@ -185,7 +185,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
             gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
         }
         if (player->unk_858 < 0.85f) {
-            this->unk14C.elem.toucher.dmgFlags = D_80AA044C[this->unk1C7];
+            this->unk14C.elem.atDmgInfo.dmgFlags = D_80AA044C[this->unk1C7];
             this->unk1C6 = 1;
             if (this->unk1C7 == 1) {
                 this->unk1C9 = 2;
@@ -193,7 +193,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
                 this->unk1C9 = 4;
             }
         } else {
-            this->unk14C.elem.toucher.dmgFlags = D_80AA0458[this->unk1C7];
+            this->unk14C.elem.atDmgInfo.dmgFlags = D_80AA0458[this->unk1C7];
             this->unk1C6 = 0;
             if (this->unk1C7 == 1) {
                 this->unk1C9 = 4;
