@@ -448,7 +448,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/code/fault.o"
     include "$(BUILD_DIR)/src/code/fault_drawer.o"
-#ifndef NON_MATCHING
+#if OOT_DEBUG && !defined(NON_MATCHING)
     include "$(BUILD_DIR)/data/fault.bss.o"
     include "$(BUILD_DIR)/data/fault_drawer.bss.o"
 #endif
@@ -456,7 +456,9 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
 #endif
+#if OOT_DEBUG
     pad_text // audio library aligned to 32 bytes?
+#endif
     include "$(BUILD_DIR)/src/audio/lib/data.o"
     include "$(BUILD_DIR)/src/audio/lib/synthesis.o"
     include "$(BUILD_DIR)/src/audio/lib/heap.o"

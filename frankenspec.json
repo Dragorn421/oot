@@ -1,7 +1,6 @@
 {
     "baseromify": [
         "nes_font_static",
-        "code",
         "ovl_title",
         "ovl_select",
         "ovl_opening",
@@ -533,6 +532,11 @@
             "perfile": {
                 "build/gc-eu-mq/src/boot/idle.o": "text data rodata",
                 "build/gc-eu-mq/src/boot/build.o": "text"
+            }
+        },
+        "code": {
+            "default": "",
+            "perfile": {
             }
         }
     },

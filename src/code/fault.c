@@ -76,7 +76,7 @@ const char* sFpExceptionNames[] = {
     "Unimplemented operation", "Invalid operation", "Division by zero", "Overflow", "Underflow", "Inexact operation",
 };
 
-#ifndef NON_MATCHING
+#if OOT_DEBUG && !defined(NON_MATCHING)
 // TODO: match .bss (has reordering issues)
 extern FaultMgr* sFaultInstance;
 extern u8 sFaultAwaitingInput;

@@ -99,7 +99,7 @@ FaultDrawer sFaultDrawerDefault = {
     NULL,
 };
 
-#ifndef NON_MATCHING
+#if OOT_DEBUG && !defined(NON_MATCHING)
 // TODO: match .bss (has reordering issues)
 extern FaultDrawer sFaultDrawer;
 extern char D_8016B6C0[0x20];

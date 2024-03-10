@@ -131,6 +131,7 @@ with ldscript_p.open("w") as f:
     iw.wl("SECTIONS {")
     iw.wl(".rom = 0;")
     iw.wl()
+    extern_syms_includes: list[Path] = []
     for seg in spec.segments:
         frankenspec_seg = frankenspec.get(seg.name)
         segment_in_rom = not (seg.flags & pyspec.SpecSegmentFlag.NOLOAD)
@@ -168,6 +169,23 @@ with ldscript_p.open("w") as f:
                 with iw.indented("  "):
                     iw.wl(f"{baserom_object_p} (*)")
                 iw.wl("}")
+                for section in (
+                    SectionName.TEXT,
+                    SectionName.DATA,
+                    SectionName.RODATA,
+                    SectionName.OVL,
+                    SectionName.BSS,
+                ):
+                    for inc in seg.includes:
+                        expected_inc_file = EXPECTED_P / inc.file
+                        if expected_inc_file.exists():
+                            file = expected_inc_file.with_suffix(
+                                f".{section.name.lower()}.o"
+                            )
+                            if file.exists():
+                                iw.w('INCLUDE "')
+                                iw.w(str(file.with_suffix(".syms.txt")))
+                                iw.wl('"')
             else:
                 for section in (
                     SectionName.TEXT,
@@ -218,6 +236,15 @@ with ldscript_p.open("w") as f:
                             elif not inc_sections:
                                 assert expected_inc_file.exists(), expected_inc_file
                                 input_file = expected_inc_file
+                                input_file_extern_syms_include = (
+                                    expected_inc_file.with_suffix(
+                                        f".{section.name.lower()}.extern_syms.txt"
+                                    )
+                                )
+                                if input_file_extern_syms_include.exists():
+                                    extern_syms_includes.append(
+                                        input_file_extern_syms_include
+                                    )
                             else:
                                 # mix and match
                                 # individually-assembled-disassembled-sections
@@ -252,10 +279,15 @@ with ldscript_p.open("w") as f:
                                     )
                                 if file.exists():
                                     input_file = file
+                                    if input_file.is_relative_to(EXPECTED_P):
+                                        extern_syms_includes.append(
+                                            input_file.with_suffix(f".extern_syms.txt")
+                                        )
                                 else:
                                     iw.wl(
                                         f"/* skip link section bc not exists {file} */"
                                     )
+
                                 def post_section_cb():
                                     if other.exists():
                                         # INCLUDE with the PROVIDE symbols must come after
@@ -269,6 +301,7 @@ with ldscript_p.open("w") as f:
                                         iw.wl(
                                             f"/* skip include syms bc not exists {other} */"
                                         )
+
                             if input_file:
                                 iw.w(f"..{seg.name}.{inc.file}.{section.name.lower()}")
                                 if section_in_rom:
@@ -285,7 +318,9 @@ with ldscript_p.open("w") as f:
                                     iw.w(": ")
                                 iw.wl("{")
                                 with iw.indented("  "):
-                                    iw.wl(f"{inc.file}.{section.name.lower()} = ABSOLUTE(.);")
+                                    iw.wl(
+                                        f"{inc.file}.{section.name.lower()} = ABSOLUTE(.);"
+                                    )
                                     if section_in_rom:
                                         iw.wl(
                                             f".rom = ABSOLUTE(. - _{seg.name}SegmentStart + _{seg.name}SegmentRomStart);"
@@ -338,6 +373,10 @@ with ldscript_p.open("w") as f:
         # f.write(f"_{seg.name}SegmentRomEnd = .rom;\n")
         iw.wl()
         iw.wl()
+    iw.wl("/* Extern symbols for expected sections */")
+    with iw.indented("  "):
+        for p in extern_syms_includes:
+            iw.w(f'INCLUDE "{p}"\n')
     iw.wl(
         """
 
