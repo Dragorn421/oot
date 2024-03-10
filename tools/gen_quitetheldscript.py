@@ -307,12 +307,6 @@ with ldscript_p.open("w") as f:
         # f.write(f"_{seg.name}SegmentRomEnd = .rom;\n")
         iw.wl()
         iw.wl()
-    # the reason to align and fill like this still unknown,
-    # besides "it's what is currently done"
-    if VERSION == "gc-eu-mq":
-        rom_padding_FF_align = 0x8000
-    else:
-        rom_padding_FF_align = 0x100000
     iw.wl(
         """
 
@@ -322,11 +316,6 @@ rom_padding .rom : AT(.rom)
   BYTE(0); /* otherwise ld does not fill the section */
   FILL(0x00);
   . = ALIGN(0x1000);
-  FILL(0xFF);
-"""
-        f"\
-  . = ALIGN(0x{rom_padding_FF_align:X});"
-        """
 }
 
 """

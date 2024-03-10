@@ -10,7 +10,7 @@ D_0F000000 = 0x0F000000;
 // z_bg_mjin
 D_06000000 = 0x06000000;
 
-
+#if !OOT_DEBUG
 // IPL symbols
 leoBootID      = 0x800001A0;
 osTvType       = 0x80000300;
@@ -42,3 +42,4 @@ func_8400103C_unknown = 0x8400103C;
 func_84001064 = 0x84001064;
 Main = 0x800A1710;
 D_0000AF90_unknown = 0x0000AF90;
+#endif
