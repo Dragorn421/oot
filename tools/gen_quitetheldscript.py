@@ -147,7 +147,7 @@ with ldscript_p.open("w") as f:
             iw.wl(f". = ALIGN(0x{seg.align:X}); /* align 0x{seg.align:X} */")
         if frankenspec_seg.override_vram is not None:
             iw.wl(f". = 0x{frankenspec_seg.override_vram:08X}; /* OVERRIDE vram */")
-        iw.wl(f"_{seg.name}SegmentStart = ABSOLUTE(.);")
+        iw.wl(f"_{seg.name}SegmentStart = .;")
         if seg.romalign:
             iw.wl(
                 f".rom = ALIGN(.rom, 0x{seg.romalign:X});"
@@ -158,21 +158,16 @@ with ldscript_p.open("w") as f:
             iw.wl(f".rom = 0x{frankenspec_seg.override_rom:08X}; /* OVERRIDE rom */")
         if segment_in_rom:
             # TODO remove ABSOLUTE s when it works (pretty sure they're redundant (at least some))
-            iw.wl(f"_{seg.name}SegmentRomStart = ABSOLUTE(.rom);")
-        iw.w(f"..{seg.name} _{seg.name}SegmentStart")
-        if segment_in_rom:
-            iw.w(f" : AT(_{seg.name}SegmentRomStart) ")
-        else:
-            iw.wl()
-            iw.wl("(NOLOAD) /* flags NOLOAD */")
-            iw.w(": ")
-        # iw.wl("SUBALIGN(0)")  # FIXME this looked like a good idea on paper but we also do want to align sections properly
-        iw.wl("{")
+            iw.wl(f"_{seg.name}SegmentRomStart = .rom;")
         with iw.indented("  "):
             if frankenspec_seg.baseromify:
                 baserom_object_p = Path(f"build/{VERSION}/baserom/{seg.name}.o")
                 assert baserom_object_p.exists(), baserom_object_p
-                iw.wl(f"{baserom_object_p} (*)")
+                iw.w(f"..{seg.name} : AT(_{seg.name}SegmentRomStart) ")
+                iw.wl("{")
+                with iw.indented("  "):
+                    iw.wl(f"{baserom_object_p} (*)")
+                iw.wl("}")
             else:
                 for section in (
                     SectionName.TEXT,
@@ -212,15 +207,17 @@ with ldscript_p.open("w") as f:
                                 else None
                             )
                             expected_inc_file = EXPECTED_P / inc.file
+                            input_file = None
+                            post_section_cb = None
                             if (
                                 frankenspec_seg.frankenelf is None
                                 or inc_sections == pyfrankenspec.ALL_SECTIONS
                             ):
                                 assert inc.file.exists(), inc.file
-                                iw.wl(f"{inc.file} ({section.value})")
+                                input_file = inc.file
                             elif not inc_sections:
                                 assert expected_inc_file.exists(), expected_inc_file
-                                iw.wl(f"{expected_inc_file} ({section.value})")
+                                input_file = expected_inc_file
                             else:
                                 # mix and match
                                 # individually-assembled-disassembled-sections
@@ -253,19 +250,58 @@ with ldscript_p.open("w") as f:
                                         ":",
                                         other,
                                     )
-                                iw.wl(f"{inc.file}.{section.name.lower()} = .;")
                                 if file.exists():
-                                    iw.wl(f"{file} ({section.value})")
+                                    input_file = file
                                 else:
                                     iw.wl(
                                         f"/* skip link section bc not exists {file} */"
                                     )
-                                if other.exists():
-                                    iw.wl(f"INCLUDE {other.with_suffix('.syms.txt')};")
-                                else:
-                                    iw.wl(
-                                        f"/* skip include syms bc not exists {other} */"
+                                def post_section_cb():
+                                    if other.exists():
+                                        # INCLUDE with the PROVIDE symbols must come after
+                                        # the symbols in the intended input are loaded,
+                                        # otherwise the PROVIDE d definitions are kept even
+                                        # if a section does define them later.
+                                        iw.w('INCLUDE "')
+                                        iw.w(str(other.with_suffix(".syms.txt")))
+                                        iw.wl('"')
+                                    else:
+                                        iw.wl(
+                                            f"/* skip include syms bc not exists {other} */"
+                                        )
+                            if input_file:
+                                iw.w(f"..{seg.name}.{inc.file}.{section.name.lower()}")
+                                if section_in_rom:
+                                    iw.w(
+                                        f' : AT("_{seg.name}_{inc.file}.{section.name.lower()}_RomStart") '
                                     )
+                                else:
+                                    iw.wl()
+                                    if not segment_in_rom:
+                                        iw.wl("(NOLOAD) /* flags NOLOAD */")
+                                    else:
+                                        # TODO probably optional
+                                        iw.wl("(NOLOAD) /* bss */")
+                                    iw.w(": ")
+                                iw.wl("{")
+                                with iw.indented("  "):
+                                    iw.wl(f"{inc.file}.{section.name.lower()} = ABSOLUTE(.);")
+                                    if section_in_rom:
+                                        iw.wl(
+                                            f".rom = ABSOLUTE(. - _{seg.name}SegmentStart + _{seg.name}SegmentRomStart);"
+                                        )
+                                        iw.wl(
+                                            f"_{seg.name}_{inc.file}.{section.name.lower()}_RomStart = ABSOLUTE(.rom);"
+                                        )
+                                    iw.wl(f"{input_file} ({section.value})")
+                                iw.wl("}")
+                                if section_in_rom:
+                                    iw.wl(
+                                        f".rom = ABSOLUTE(. - _{seg.name}SegmentStart + _{seg.name}SegmentRomStart);"
+                                    )
+                            if post_section_cb:
+                                # TODO very dirty
+                                post_section_cb()
                             if inc.pad_text and section == SectionName.TEXT:
                                 iw.wl(". += 0x10; /* pad_text */")
                             if inc.dataWithRodata and section == SectionName.DATA:
@@ -280,10 +316,6 @@ with ldscript_p.open("w") as f:
                     )
                     if section_in_rom:
                         iw.wl(
-                            ".rom = ABSOLUTE(.rom +"
-                            f" _{seg.name}Segment{section.name.capitalize()}Size);"
-                        )
-                        iw.wl(
                             f"_{seg.name}Segment{section.name.capitalize()}RomEnd"
                             " = ABSOLUTE(.rom);"
                         )
@@ -293,7 +325,6 @@ with ldscript_p.open("w") as f:
                     f"_{seg.name}SegmentRoDataSize = ABSOLUTE(_{seg.name}SegmentRodataSize);"
                 )
                 iw.wl()
-        iw.wl("}")
         iw.wl(f"_{seg.name}SegmentEnd = .;")
         if frankenspec_seg.baseromify:
             if segment_in_rom:

@@ -108,7 +108,7 @@ def detach_and_write(
             if not is_section_symbol:
                 assert '"' not in section_symbols_prefix
                 assert '"' not in detach_section_name
-                if 0:
+                if 1:
                     syms_ldscript.write(
                         f"PROVIDE("
                         f"{sym.name}"
@@ -116,7 +116,8 @@ def detach_and_write(
                         f" + {sym.entry.st_value:#X}"
                         f");\n"
                     )
-                syms_ldscript.write(f"PROVIDE(" f"{sym.name}" f" = 0x69690" f");\n")
+                else:
+                    syms_ldscript.write(f"PROVIDE(" f"{sym.name}" f" = 0x69690" f");\n")
 
         # FIXME this doesn't do a deepcopy?
         # e.g. sym_entry.st_info.type
