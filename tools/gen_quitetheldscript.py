@@ -270,6 +270,13 @@ def write_ldscript(
                                 iw.wl(f"/* {inc.file} (all built) */")
                                 assert inc.file.exists(), inc.file
                                 input_file = inc.file
+                                expected_syms_p = expected_inc_file.with_suffix(
+                                    f".{section.name.lower()}.syms.txt"
+                                )
+                                if expected_syms_p.exists():
+                                    post_section_script.write('INCLUDE "')
+                                    post_section_script.write(str(expected_syms_p))
+                                    post_section_script.write('"\n')
                             elif not inc_sections:
                                 iw.wl(f"/* {inc.file} (all expected) */")
                                 assert expected_inc_file.exists(), expected_inc_file
@@ -283,6 +290,13 @@ def write_ldscript(
                                     extern_syms_includes.append(
                                         input_file_extern_syms_include
                                     )
+                                built_syms_p = inc.file.with_suffix(
+                                    f".{section.name.lower()}.syms.txt"
+                                )
+                                if built_syms_p.exists():
+                                    post_section_script.write('INCLUDE "')
+                                    post_section_script.write(str(built_syms_p))
+                                    post_section_script.write('"\n')
                             else:
                                 # mix and match
                                 # individually-assembled-disassembled-sections

@@ -54,6 +54,16 @@ def detach_and_write(
     if detach_section_index is None:
         return False
 
+    # Compiler-generated elf files typically have basic sections text, data, bss
+    # even if there is nothing inside.
+    # Detaching an empty section does no harm but is useless,
+    # and confusing when comparing with the disassembly
+    # (the disassembly does not "disassemble empty sections" whatever that could mean).
+    # Empty sections resulting from compiling C basically cannot have symbols,
+    # so nothing is lost by acting as if empty sections didn't exist at all.
+    if sections[detach_section_index].header["sh_size"] == 0:
+        return False
+
     reloc_detach_section_index = section_index_by_section_name.get(
         f".rel{detach_section_name}"
     )

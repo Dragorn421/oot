@@ -171,4 +171,6 @@ D_0C000000_unknown = 0x0C000000;
 D_0C001000_unknown = 0x0C001000;
 D_80100AEC_unknown = 0x80100AEC;
 D_0C000000_unknown = 0x0C000000;
+
+gUseCutsceneCam = 0x80119F90;
 #endif
