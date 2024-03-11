@@ -204,34 +204,49 @@ with ldscript_p.open("w") as f:
                     f".rom = 0x{frankenspec_seg.override_rom:08X}; /* OVERRIDE rom */"
                 )
             if segment_in_rom:
-                # TODO remove ABSOLUTE s when it works (pretty sure they're redundant (at least some))
                 iw.wl(f"_{seg.name}SegmentRomStart = .rom;")
+            iw.wl()
             if frankenspec_seg.baseromify:
+                assert segment_in_rom
                 iw.wl("/* baseromify */")
                 baserom_object_p = Path(f"build/{VERSION}/baserom/{seg.name}.o")
                 assert baserom_object_p.exists(), baserom_object_p
-                iw.w(f"..{seg.name} : AT(_{seg.name}SegmentRomStart) ")
-                iw.wl("{")
                 with iw.indented("  "):
-                    iw.wl(f"{baserom_object_p} (*)")
-                iw.wl("}")
-                for section in (
-                    SectionName.TEXT,
-                    SectionName.DATA,
-                    SectionName.RODATA,
-                    SectionName.OVL,
-                    SectionName.BSS,
-                ):
-                    for inc in seg.includes:
-                        expected_inc_file = EXPECTED_P / inc.file
-                        if expected_inc_file.exists():
-                            file = expected_inc_file.with_suffix(
-                                f".{section.name.lower()}.o"
-                            )
-                            if file.exists():
-                                iw.w('INCLUDE "')
-                                iw.w(str(file.with_suffix(".syms.txt")))
-                                iw.wl('"')
+                    iw.w(f"..{seg.name} : AT(_{seg.name}SegmentRomStart) ")
+                    iw.wl("{")
+                    with iw.indented("  "):
+                        iw.wl(f"{baserom_object_p} (*)")
+                    iw.wl("}")
+                    for section in (
+                        SectionName.TEXT,
+                        SectionName.DATA,
+                        SectionName.RODATA,
+                        SectionName.OVL,
+                        SectionName.BSS,
+                    ):
+                        has_written_header_for_section_syms = False
+                        for inc in seg.includes:
+                            expected_inc_file = EXPECTED_P / inc.file
+                            if expected_inc_file.exists():
+                                file = expected_inc_file.with_suffix(
+                                    f".{section.name.lower()}.o"
+                                )
+                                if file.exists():
+                                    if not has_written_header_for_section_syms:
+                                        has_written_header_for_section_syms = True
+                                        iw.wl(
+                                            f"/* symbols from expected {section.name.lower()} */"
+                                        )
+                                    with iw.indented("  "):
+                                        iw.w('INCLUDE "')
+                                        iw.w(str(file.with_suffix(".syms.txt")))
+                                        iw.wl('"')
+                    iw.wl()
+                    iw.wl(
+                        ".rom = ."
+                        f" - _{seg.name}SegmentStart"
+                        f" + _{seg.name}SegmentRomStart;"
+                    )
             else:
                 for section in (
                     SectionName.TEXT,
@@ -241,7 +256,6 @@ with ldscript_p.open("w") as f:
                     SectionName.BSS,
                 ):
                     section_in_rom = section != SectionName.BSS and segment_in_rom
-                    iw.wl()
                     iw.wl(
                         f"/* {seg.name} {section.value}"
                         f" {'(in rom)' if section_in_rom else '(NOLOAD)'} */"
@@ -373,12 +387,15 @@ with ldscript_p.open("w") as f:
                                             '") '
                                         )
                                     else:
-                                        iw.wl()
                                         if not segment_in_rom:
+                                            iw.wl()
                                             iw.wl("(NOLOAD) /* flags NOLOAD */")
                                         else:
-                                            # TODO probably optional
-                                            iw.wl("(NOLOAD) /* bss */")
+                                            # bss section
+                                            assert section == SectionName.BSS
+                                            # no need to mark the output section NOLOAD explicitly,
+                                            # it will inherit being NOBITS from the input bss section
+                                            iw.w(" ")
                                         iw.w(": ")
                                     iw.wl("{")
                                     with iw.indented("  "):
@@ -420,18 +437,18 @@ with ldscript_p.open("w") as f:
                                 f"_{seg.name}Segment{section.name.capitalize()}RomEnd"
                                 " = .rom;"
                             )
-                iw.wl()
+                    iw.wl()
                 # for some reason the existing writes RoData instead of Rodata
-                iw.wl(f"_{seg.name}SegmentRoDataSize = _{seg.name}SegmentRodataSize;")
-                iw.wl()
-        iw.wl(f"_{seg.name}SegmentEnd = .;")
-        if frankenspec_seg.baseromify:
+                iw.wl(
+                    f"_{seg.name}SegmentRoDataSize = _{seg.name}SegmentRodataSize;"
+                    " /* backwards compatibility */"
+                )
+            iw.wl()
+            iw.wl(f"_{seg.name}SegmentEnd = .;")
             if segment_in_rom:
-                iw.wl(".rom +=" f"_{seg.name}SegmentEnd - _{seg.name}SegmentStart;")
-        if segment_in_rom:
-            iw.wl(f"_{seg.name}SegmentRomEnd = .rom;")
-        iw.wl()
-        iw.wl()
+                iw.wl(f"_{seg.name}SegmentRomEnd = .rom;")
+            iw.wl()
+            iw.wl()
     iw.wl("/* Extern symbols for expected sections */")
     with iw.indented("  "):
         for p in extern_syms_includes:
