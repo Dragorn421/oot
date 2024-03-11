@@ -138,34 +138,13 @@ if 0:
     test_indented_writer()
     exit(0)
 
-spec_p = Path(sys.argv[1])
-ldscript_p = Path(sys.argv[2])
-VERSION = sys.argv[3]
-assert VERSION in {"gc-eu-mq", "gc-eu-mq-dbg"}
 
-print(f"{spec_p=}")
-print(f"{ldscript_p=}")
-
-spec = pyspec.parse_spec_p(spec_p)
-
-if VERSION == "gc-eu-mq":
-    frankenspec = pyfrankenspec.parse_frankenspec(Path("frankenspec.json"))
-else:
-    frankenspec = pyfrankenspec.FrankenSpec()
-
-
-if 0:
-    with open(Path(__file__).with_suffix(".dumplog.txt"), "w") as f:
-        kwargs = dict(width=90, stream=f)
-        f.write("spec =\n")
-        pprint(spec, **kwargs)
-        f.write("\n" * 10)
-        f.write("frankenspec =\n")
-        pprint(frankenspec, **kwargs)
-        f.write("\n" * 10)
-
-
-with ldscript_p.open("w") as f:
+def write_ldscript(
+    f: io.TextIOBase,
+    oot_version: str,
+    spec: pyspec.Spec,
+    frankenspec: pyfrankenspec.FrankenSpec,
+):
     iw = IndentedWriter(f)
     iw.wl('LD_FEATURE("SANE_EXPR")')
     iw.wl()
@@ -209,7 +188,7 @@ with ldscript_p.open("w") as f:
             if frankenspec_seg.baseromify:
                 assert segment_in_rom
                 iw.wl("/* baseromify */")
-                baserom_object_p = Path(f"build/{VERSION}/baserom/{seg.name}.o")
+                baserom_object_p = Path(f"build/{oot_version}/baserom/{seg.name}.o")
                 assert baserom_object_p.exists(), baserom_object_p
                 with iw.indented("  "):
                     iw.w(f"..{seg.name} : AT(_{seg.name}SegmentRomStart) ")
@@ -466,7 +445,7 @@ rom_padding .rom : AT(.rom)
 
 """
     )
-    if VERSION != "gc-eu-mq":
+    if oot_version != "gc-eu-mq":
         # TODO ld fails with "memory exhausted" error for gc-eu-mq with these
         # or at least it used to. now it segfaults unless .mdebug is not linked, frankenelf should probably drop mdebug
         iw.wl(
@@ -524,3 +503,34 @@ rom_padding .rom : AT(.rom)
 }
 """
     )
+
+
+def main():
+    spec_p = Path(sys.argv[1])
+    ldscript_p = Path(sys.argv[2])
+    oot_version = sys.argv[3]
+    assert oot_version in {"gc-eu-mq", "gc-eu-mq-dbg"}
+
+    spec = pyspec.parse_spec_p(spec_p)
+
+    if oot_version == "gc-eu-mq":
+        frankenspec = pyfrankenspec.parse_frankenspec(Path("frankenspec.json"))
+    else:
+        frankenspec = pyfrankenspec.FrankenSpec()
+
+    if 0:
+        with open(Path(__file__).with_suffix(".dumplog.txt"), "w") as f:
+            kwargs = dict(width=90, stream=f)
+            f.write("spec =\n")
+            pprint(spec, **kwargs)
+            f.write("\n" * 10)
+            f.write("frankenspec =\n")
+            pprint(frankenspec, **kwargs)
+            f.write("\n" * 10)
+
+    with ldscript_p.open("w") as f:
+        write_ldscript(f, oot_version, spec, frankenspec)
+
+
+if __name__ == "__main__":
+    main()
