@@ -28,7 +28,8 @@ class IndentedWriter:
         if self._is_line_start:
             if lines[0] != "":
                 self._f.write(self.indent_prefix)
-            self._is_line_start = False
+            if lines[0] != "" or len(lines) != 1:
+                self._is_line_start = False
 
         if len(lines) == 1:
             self._f.write(lines[0])
@@ -71,31 +72,71 @@ class IndentedWriter:
 
 
 def test_indented_writer():
-    iw = IndentedWriter(sys.stdout)
+    iw_out = io.StringIO()
+    iw = IndentedWriter(iw_out)
+    expected = ""
     iw.writeline("abc")
+    expected += "abc\n"
     iw.write("de")
     iw.writeline("f")
+    expected += "def\n"
     with iw.indented("  "):
         iw.writeline("ghi")
+        expected += "  ghi\n"
         with iw.indented("  "):
             iw.write("jk")
         iw.writeline("l")
+        expected += "    jkl\n"
         iw.writeline("mno")
+        expected += "  mno\n"
+        with iw.indented("  "):
+            iw.writeline("AB")
+            expected += "    AB\n"
+            iw.write("")
+        iw.writeline("CD")
+        expected += "  CD\n"
     iw.write("p")
     with iw.indented("  "):
         iw.writeline("qr")
+        expected += "pqr\n"
         iw.write("s")
         with iw.indented("  "):
             iw.writeline("tu")
+            expected += "  stu\n"
     iw.writeline("vwx")
+    expected += "vwx\n"
     iw.writeline("a\nb\nc")
+    expected += "a\nb\nc\n"
     with iw.indented("  "):
         iw.writeline("a\nb\nc")
+        expected += "  a\n  b\n  c\n"
+    if iw_out.getvalue() == expected:
+        print("test_indented_writer ok")
+        print(iw_out.getvalue(), end="")
+    else:
+        print("test_indented_writer fail")
+        iw_out_lines = iw_out.getvalue().splitlines(keepends=True)
+        expected_lines = expected.splitlines(keepends=True)
+        n = max(len(iw_out_lines), len(expected_lines))
+        iw_out_lines += [None] * (n - len(iw_out_lines))
+        expected_lines += [None] * (n - len(expected_lines))
+        print(f"msg {'iw_out':15} expected")
+        print(
+            "".join(
+                (
+                    "{:3} ".format("" if iw_out_l == expected_l else "!")
+                    + f"{iw_out_l!r:15} {expected_l!r}"
+                    + "\n"
+                )
+                for iw_out_l, expected_l in zip(iw_out_lines, expected_lines)
+            )
+        )
+        exit(1)
 
 
 if 0:
     test_indented_writer()
-    exit(1)
+    exit(0)
 
 spec_p = Path(sys.argv[1])
 ldscript_p = Path(sys.argv[2])
@@ -113,16 +154,16 @@ else:
     frankenspec = pyfrankenspec.FrankenSpec()
 
 
-with open(Path(__file__).with_suffix(".dumplog.txt"), "w") as f:
-    kwargs = dict(width=90, stream=f)
-    f.write("spec =\n")
-    pprint(spec, **kwargs)
-    f.write("\n" * 10)
-    f.write("frankenspec =\n")
-    pprint(frankenspec, **kwargs)
-    f.write("\n" * 10)
+if 0:
+    with open(Path(__file__).with_suffix(".dumplog.txt"), "w") as f:
+        kwargs = dict(width=90, stream=f)
+        f.write("spec =\n")
+        pprint(spec, **kwargs)
+        f.write("\n" * 10)
+        f.write("frankenspec =\n")
+        pprint(frankenspec, **kwargs)
+        f.write("\n" * 10)
 
-i = 0
 
 with ldscript_p.open("w") as f:
     iw = IndentedWriter(f)
@@ -138,30 +179,35 @@ with ldscript_p.open("w") as f:
         iw.wl()
         iw.wl(f"/* {seg.name} " f"{'(in rom)' if segment_in_rom else '(NOLOAD)'} */")
         iw.wl()
-        if seg.after:
-            iw.wl(f'. = _{seg.after.name}SegmentEnd; /* after "{seg.after.name}" */')
-        if seg.address is not None:
-            iw.wl(f". = 0x{seg.address:X}; /* address 0x{seg.address:X} */")
-        if seg.number is not None:
-            iw.wl(f". = 0x{seg.number:02X}000000; /* number {seg.number} */")
-        if seg.align:
-            iw.wl(f". = ALIGN(0x{seg.align:X}); /* align 0x{seg.align:X} */")
-        if frankenspec_seg.override_vram is not None:
-            iw.wl(f". = 0x{frankenspec_seg.override_vram:08X}; /* OVERRIDE vram */")
-        iw.wl(f"_{seg.name}SegmentStart = .;")
-        if seg.romalign:
-            iw.wl(
-                f".rom = ALIGN(.rom, 0x{seg.romalign:X});"
-                f" /* romalign 0x{seg.romalign:X} */"
-            )
-        if frankenspec_seg.override_rom is not None:
-            assert segment_in_rom, (seg, frankenspec_seg)
-            iw.wl(f".rom = 0x{frankenspec_seg.override_rom:08X}; /* OVERRIDE rom */")
-        if segment_in_rom:
-            # TODO remove ABSOLUTE s when it works (pretty sure they're redundant (at least some))
-            iw.wl(f"_{seg.name}SegmentRomStart = .rom;")
         with iw.indented("  "):
+            if seg.after:
+                iw.wl(
+                    f'. = _{seg.after.name}SegmentEnd; /* after "{seg.after.name}" */'
+                )
+            if seg.address is not None:
+                iw.wl(f". = 0x{seg.address:X}; /* address 0x{seg.address:X} */")
+            if seg.number is not None:
+                iw.wl(f". = 0x{seg.number:02X}000000; /* number {seg.number} */")
+            if seg.align:
+                iw.wl(f". = ALIGN(0x{seg.align:X}); /* align 0x{seg.align:X} */")
+            if frankenspec_seg.override_vram is not None:
+                iw.wl(f". = 0x{frankenspec_seg.override_vram:08X}; /* OVERRIDE vram */")
+            iw.wl(f"_{seg.name}SegmentStart = .;")
+            if seg.romalign:
+                iw.wl(
+                    f".rom = ALIGN(.rom, 0x{seg.romalign:X});"
+                    f" /* romalign 0x{seg.romalign:X} */"
+                )
+            if frankenspec_seg.override_rom is not None:
+                assert segment_in_rom, (seg, frankenspec_seg)
+                iw.wl(
+                    f".rom = 0x{frankenspec_seg.override_rom:08X}; /* OVERRIDE rom */"
+                )
+            if segment_in_rom:
+                # TODO remove ABSOLUTE s when it works (pretty sure they're redundant (at least some))
+                iw.wl(f"_{seg.name}SegmentRomStart = .rom;")
             if frankenspec_seg.baseromify:
+                iw.wl("/* baseromify */")
                 baserom_object_p = Path(f"build/{VERSION}/baserom/{seg.name}.o")
                 assert baserom_object_p.exists(), baserom_object_p
                 iw.w(f"..{seg.name} : AT(_{seg.name}SegmentRomStart) ")
@@ -200,25 +246,22 @@ with ldscript_p.open("w") as f:
                         f"/* {seg.name} {section.value}"
                         f" {'(in rom)' if section_in_rom else '(NOLOAD)'} */"
                     )
-                    iw.wl(f"_{seg.name}Segment{section.name.capitalize()}Start = .;")
-                    if section_in_rom:
-                        iw.wl(
-                            f"_{seg.name}Segment{section.name.capitalize()}RomStart = ABSOLUTE(.rom);"
-                        )
                     with iw.indented("  "):
+                        iw.wl(
+                            f"_{seg.name}Segment{section.name.capitalize()}Start"
+                            " = .;"
+                        )
+                        if section_in_rom:
+                            iw.wl(
+                                f"_{seg.name}Segment{section.name.capitalize()}RomStart"
+                                " = .rom;"
+                            )
+                        iw.wl()
                         for inc in seg.includes:
-                            iw.writeline(f"dot{i} = ABSOLUTE(.);")
-                            i += 1
                             if inc.dataWithRodata and section == SectionName.DATA:
                                 iw_original = iw
                                 dataWithRodata_f = io.StringIO()
                                 iw = IndentedWriter(dataWithRodata_f)
-                            if inc.dataWithRodata and section == SectionName.RODATA:
-                                iw.writeline("/* include_data_with_rodata */")
-                                # FIXME this just assumes dataWithRodata_src is the same, eg that there is only one include_data_with_rodata include
-                                # also this relies on dat being written before rodata
-                                with iw.indented("  "):
-                                    iw.write(dataWithRodata_src)
                             inc_sections = (
                                 frankenspec_seg.frankenelf.get_sections(inc.file)
                                 if frankenspec_seg.frankenelf is not None
@@ -226,14 +269,16 @@ with ldscript_p.open("w") as f:
                             )
                             expected_inc_file = EXPECTED_P / inc.file
                             input_file = None
-                            post_section_cb = None
+                            post_section_script = io.StringIO()
                             if (
                                 frankenspec_seg.frankenelf is None
                                 or inc_sections == pyfrankenspec.ALL_SECTIONS
                             ):
+                                iw.wl(f"/* {inc.file} (all built) */")
                                 assert inc.file.exists(), inc.file
                                 input_file = inc.file
                             elif not inc_sections:
+                                iw.wl(f"/* {inc.file} (all expected) */")
                                 assert expected_inc_file.exists(), expected_inc_file
                                 input_file = expected_inc_file
                                 input_file_extern_syms_include = (
@@ -251,9 +296,15 @@ with ldscript_p.open("w") as f:
                                 # and
                                 # frankenelf'd build objects
                                 if section in inc_sections:
+                                    iw.wl(
+                                        f"/* {inc.file} (built {section.name.lower()}) */"
+                                    )
                                     file = inc.file
                                     other = expected_inc_file
                                 else:
+                                    iw.wl(
+                                        f"/* {inc.file} (expected {section.name.lower()}) */"
+                                    )
                                     file = expected_inc_file
                                     other = inc.file
                                 file = file.with_suffix(f".{section.name.lower()}.o")
@@ -284,93 +335,101 @@ with ldscript_p.open("w") as f:
                                             input_file.with_suffix(f".extern_syms.txt")
                                         )
                                 else:
-                                    iw.wl(
-                                        f"/* skip link section bc not exists {file} */"
+                                    post_section_script.write(
+                                        f"/* skip link section bc not exists {file} */\n"
                                     )
 
-                                def post_section_cb():
-                                    if other.exists():
-                                        # INCLUDE with the PROVIDE symbols must come after
-                                        # the symbols in the intended input are loaded,
-                                        # otherwise the PROVIDE d definitions are kept even
-                                        # if a section does define them later.
-                                        iw.w('INCLUDE "')
-                                        iw.w(str(other.with_suffix(".syms.txt")))
-                                        iw.wl('"')
-                                    else:
-                                        iw.wl(
-                                            f"/* skip include syms bc not exists {other} */"
-                                        )
-
-                            if input_file:
-                                iw.w(f"..{seg.name}.{inc.file}.{section.name.lower()}")
-                                if section_in_rom:
-                                    iw.w(
-                                        f' : AT("_{seg.name}_{inc.file}.{section.name.lower()}_RomStart") '
+                                if other.exists():
+                                    # INCLUDE with the PROVIDE symbols must come after
+                                    # the symbols in the intended input are loaded,
+                                    # otherwise the PROVIDE d definitions are kept even
+                                    # if a section does define them later.
+                                    post_section_script.write('INCLUDE "')
+                                    post_section_script.write(
+                                        str(other.with_suffix(".syms.txt"))
                                     )
+                                    post_section_script.write('"\n')
                                 else:
-                                    iw.wl()
-                                    if not segment_in_rom:
-                                        iw.wl("(NOLOAD) /* flags NOLOAD */")
-                                    else:
-                                        # TODO probably optional
-                                        iw.wl("(NOLOAD) /* bss */")
-                                    iw.w(": ")
-                                iw.wl("{")
-                                with iw.indented("  "):
-                                    iw.wl(
-                                        f"{inc.file}.{section.name.lower()} = ABSOLUTE(.);"
+                                    post_section_script.write(
+                                        f"/* skip include syms bc not exists {other} */\n"
+                                    )
+
+                            with iw.indented("  "):
+                                if inc.dataWithRodata and section == SectionName.RODATA:
+                                    iw.wl("/* include_data_with_rodata */")
+                                    # FIXME this just assumes dataWithRodata_src is the same,
+                                    # eg that there is only one include_data_with_rodata include
+                                    # also this relies on dat being written before rodata
+                                    with iw.indented("  "):
+                                        iw.w(dataWithRodata_src)
+                                if input_file:
+                                    iw.w(
+                                        f"..{seg.name}.{inc.file}.{section.name.lower()}"
                                     )
                                     if section_in_rom:
-                                        iw.wl(
-                                            f".rom = ABSOLUTE(. - _{seg.name}SegmentStart + _{seg.name}SegmentRomStart);"
+                                        iw.w(
+                                            ' : AT("'
+                                            f"_{seg.name}_{inc.file}.{section.name.lower()}_RomStart"
+                                            '") '
                                         )
-                                        iw.wl(
-                                            f"_{seg.name}_{inc.file}.{section.name.lower()}_RomStart = ABSOLUTE(.rom);"
-                                        )
-                                    iw.wl(f"{input_file} ({section.value})")
-                                iw.wl("}")
-                                if section_in_rom:
-                                    iw.wl(
-                                        f".rom = ABSOLUTE(. - _{seg.name}SegmentStart + _{seg.name}SegmentRomStart);"
-                                    )
-                            if post_section_cb:
-                                # TODO very dirty
-                                post_section_cb()
-                            if inc.pad_text and section == SectionName.TEXT:
-                                iw.wl(". += 0x10; /* pad_text */")
+                                    else:
+                                        iw.wl()
+                                        if not segment_in_rom:
+                                            iw.wl("(NOLOAD) /* flags NOLOAD */")
+                                        else:
+                                            # TODO probably optional
+                                            iw.wl("(NOLOAD) /* bss */")
+                                        iw.w(": ")
+                                    iw.wl("{")
+                                    with iw.indented("  "):
+                                        iw.wl(f"{inc.file}.{section.name.lower()} = .;")
+                                        if section_in_rom:
+                                            iw.wl(
+                                                ".rom = ABSOLUTE(."
+                                                f" - _{seg.name}SegmentStart"
+                                                f" + _{seg.name}SegmentRomStart);"
+                                            )
+                                            iw.wl(
+                                                f"_{seg.name}_{inc.file}.{section.name.lower()}_RomStart"
+                                                " = ABSOLUTE(.rom);"
+                                            )
+                                        iw.wl(f"{input_file} ({section.value})")
+                                    iw.wl("}")
+                                iw.w(post_section_script.getvalue())
+                                if inc.pad_text and section == SectionName.TEXT:
+                                    iw.wl(". += 0x10; /* pad_text */")
                             if inc.dataWithRodata and section == SectionName.DATA:
                                 iw = iw_original
                                 dataWithRodata_src = dataWithRodata_f.getvalue()
                                 del dataWithRodata_f
-                    iw.wl(f"_{seg.name}Segment{section.name.capitalize()}End = .;")
-                    iw.wl(
-                        f"_{seg.name}Segment{section.name.capitalize()}Size"
-                        f" = ABSOLUTE(_{seg.name}Segment{section.name.capitalize()}End"
-                        f" - _{seg.name}Segment{section.name.capitalize()}Start);"
-                    )
-                    if section_in_rom:
+                        iw.wl()
+                        if section_in_rom:
+                            iw.wl(
+                                ".rom = ."
+                                f" - _{seg.name}SegmentStart"
+                                f" + _{seg.name}SegmentRomStart;"
+                            )
+                        iw.wl(f"_{seg.name}Segment{section.name.capitalize()}End = .;")
                         iw.wl(
-                            f"_{seg.name}Segment{section.name.capitalize()}RomEnd"
-                            " = ABSOLUTE(.rom);"
+                            f"_{seg.name}Segment{section.name.capitalize()}Size"
+                            f" = _{seg.name}Segment{section.name.capitalize()}End"
+                            f" - _{seg.name}Segment{section.name.capitalize()}Start;"
                         )
+                        if section_in_rom:
+                            iw.wl(
+                                f"_{seg.name}Segment{section.name.capitalize()}RomEnd"
+                                " = .rom;"
+                            )
                 iw.wl()
                 # for some reason the existing writes RoData instead of Rodata
-                iw.wl(
-                    f"_{seg.name}SegmentRoDataSize = ABSOLUTE(_{seg.name}SegmentRodataSize);"
-                )
+                iw.wl(f"_{seg.name}SegmentRoDataSize = _{seg.name}SegmentRodataSize;")
                 iw.wl()
         iw.wl(f"_{seg.name}SegmentEnd = .;")
         if frankenspec_seg.baseromify:
             if segment_in_rom:
-                iw.wl(
-                    ".rom = ABSOLUTE(.rom"
-                    f" + (_{seg.name}SegmentEnd - _{seg.name}SegmentStart));"
-                )
+                iw.wl(".rom +=" f"_{seg.name}SegmentEnd - _{seg.name}SegmentStart;")
         if segment_in_rom:
             iw.wl(f"_{seg.name}SegmentRomEnd = .rom;")
-        # f.write(f"_{seg.name}SegmentSize = _{seg.name}SegmentEnd - _{seg.name}SegmentStart;\n")
-        # f.write(f"_{seg.name}SegmentRomEnd = .rom;\n")
         iw.wl()
         iw.wl()
     iw.wl("/* Extern symbols for expected sections */")
@@ -392,6 +451,7 @@ rom_padding .rom : AT(.rom)
     )
     if VERSION != "gc-eu-mq":
         # TODO ld fails with "memory exhausted" error for gc-eu-mq with these
+        # or at least it used to. now it segfaults unless .mdebug is not linked, frankenelf should probably drop mdebug
         iw.wl(
             """
 /* mdebug sections */
