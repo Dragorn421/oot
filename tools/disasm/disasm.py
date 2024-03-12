@@ -154,6 +154,14 @@ def main():
                     path = basepath.parent / f"{basepath.parent.name}_reloc.s"
                     with path.open("w", encoding="UTF-8") as f:
                         section.disassembleToFile(f)
+                    # monkeypatch for spimdisasm not setting flags for the .ovl section,
+                    # making it not alloc by default since gas doesn't recognize it:
+                    path.write_text(
+                        path.read_text().replace(
+                            ".section .ovl\n",
+                            '.section .ovl, "a"\n',
+                        )
+                    )
                 else:
                     section.saveToFile(str(basepath))
                     with (

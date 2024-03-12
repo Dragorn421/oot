@@ -82,17 +82,16 @@ def test(frankenspec: pyfrankenspec.FrankenSpec, verbose_cpe=True):
     )
 
 
-def okfind_code(frankenspec: pyfrankenspec.FrankenSpec):
-    segment_code = frankenspec.segments["code"]
+def okfind_sections(frankenspec: pyfrankenspec.FrankenSpec, segment_name: str):
+    seg = frankenspec.segments[segment_name]
     for section in (
-        # SectionName.TEXT,
-        # SectionName.DATA,
-        # SectionName.RODATA,
-        # SectionName.OVL,
+        SectionName.TEXT,
+        SectionName.DATA,
+        SectionName.RODATA,
         SectionName.BSS,
     ):
         print(colorama.Fore.CYAN, section, colorama.Fore.RESET)
-        for inc_p, inc_sections in segment_code.frankenelf.perfile.items():
+        for inc_p, inc_sections in seg.frankenelf.perfile.items():
             if section in inc_sections:
                 continue
             inc_sections.add(section)
@@ -101,7 +100,7 @@ def okfind_code(frankenspec: pyfrankenspec.FrankenSpec):
             except subprocess.CalledProcessError as e:
                 if 0:
                     print()
-                    print("test error in okfind_code", section, inc_p)
+                    print("test error in okfind_sections", section, inc_p)
                     print()
                     raise
                 is_ok = False
@@ -128,12 +127,73 @@ def okfind_code(frankenspec: pyfrankenspec.FrankenSpec):
                 )
 
 
+def okfind_unbaseromify(frankenspec: pyfrankenspec.FrankenSpec):
+    for seg_name, seg in frankenspec.segments.items():
+        if seg.baseromify:
+            seg.baseromify = False
+            try:
+                is_ok = test(frankenspec, verbose_cpe=False)
+            except subprocess.CalledProcessError as e:
+                is_ok = False
+                print(
+                    f"{colorama.Fore.RED}ERROR{colorama.Fore.RESET}",
+                    seg_name,
+                )
+                print(e.stderr.decode("utf-8"))
+                print()
+            if is_ok:
+                print(
+                    f"{colorama.Fore.GREEN}OK",
+                    seg_name,
+                    colorama.Fore.RESET,
+                )
+            else:
+                seg.baseromify = True
+                print(
+                    f"{colorama.Fore.YELLOW}not ok{colorama.Fore.RESET}",
+                    seg_name,
+                )
+
+                print("  trying to frankenelf all-expected...")
+                assert seg.frankenelf is None
+                seg.baseromify = False
+                seg.frankenelf = pyfrankenspec.FrankenSpecSegmentFrankenelf(
+                    default=set()
+                )
+                try:
+                    is_ok_with_frankenelf = test(frankenspec, verbose_cpe=False)
+                except subprocess.CalledProcessError as e:
+                    is_ok_with_frankenelf = False
+                    print(
+                        f"  {colorama.Fore.RED}ERROR w/expected{colorama.Fore.RESET}",
+                        seg_name,
+                    )
+                    print(e.stderr.decode("utf-8"))
+                    print()
+                if is_ok_with_frankenelf:
+                    print(
+                        f"  {colorama.Fore.GREEN}OK w/expected",
+                        seg_name,
+                        colorama.Fore.RESET,
+                    )
+                else:
+                    seg.baseromify = True
+                    seg.frankenelf = None
+                    print(
+                        f"  {colorama.Fore.YELLOW}not ok w/expected{colorama.Fore.RESET}",
+                        seg_name,
+                    )
+
+
 def main():
     frankenspec = pyfrankenspec.parse_frankenspec(Path("frankenspec.json"))
 
     assert test(frankenspec), "base frankenspec not even OK..."
 
-    okfind_code(frankenspec)
+    if 1:
+        okfind_sections(frankenspec, "ovl_kaleido_scope")
+    if 0:
+        okfind_unbaseromify(frankenspec)
 
 
 SPEC = pyspec.parse_spec_p(Path("build/gc-eu-mq/spec"))

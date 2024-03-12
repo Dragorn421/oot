@@ -11,6 +11,9 @@ D_0F000000 = 0x0F000000;
 D_06000000 = 0x06000000;
 
 #if !OOT_DEBUG
+// All these symbols are temporary,
+// until gc-eu-mq is matched and the hacks for matching (including these symbols) are cleaned up
+
 // IPL symbols
 leoBootID      = 0x800001A0;
 osTvType       = 0x80000300;
@@ -173,4 +176,51 @@ D_80100AEC_unknown = 0x80100AEC;
 D_0C000000_unknown = 0x0C000000;
 
 gUseCutsceneCam = 0x80119F90;
+
+D_80848FFB_unknown = 0x80848FFB;
+D_0602B060_unknown = 0x0602B060;
+D_0602AF70_unknown = 0x0602AF70;
+D_0602CA38_unknown = 0x0602CA38;
+
+gGreatFairyMagicCs = 0x02000130;
+gGreatFairyDoubleMagicCs = 0x020013E0;
+gGreatFairyDoubleDefenseCs = 0x020025D0;
+
+gRainbowBridgeCs = 0x02002640;
+
+gMoriBigstCol = 0x0600221C;
+gMoriBigstDL = 0x06001E50;
+gMoriElevatorCol = 0x060035F8;
+gMoriElevatorDL = 0x06002AD0;
+gMoriHashigoCol = 0x060037D8;
+gMoriHashigoClaspDL = 0x06004770;
+gMoriHashigoLadderDL = 0x060036B0;
+gMoriHashira1Col = 0x06001AF8;
+gMoriHashira2Col = 0x060089E0;
+gMoriHashiraPlatformsDL = 0x06001300;
+gMoriHashiraGateDL = 0x06008840;
+object_mori_hineri1_Col_0054B8 = 0x060054B8;
+object_mori_hineri1a_Col_003490 = 0x06003490;
+object_mori_hineri1a_Col_003490 = 0x06003490;
+object_mori_hineri2_Col_0043D0 = 0x060043D0;
+object_mori_hineri2_Col_0043D0 = 0x060043D0;
+object_mori_hineri2a_Col_006078 = 0x06006078;
+object_mori_hineri2a_Col_006078 = 0x06006078;
+object_mori_hineri1_DL_0024E0 = 0x060024E0;
+object_mori_hineri1a_DL_001980 = 0x06001980;
+object_mori_hineri2_DL_0020F0 = 0x060020F0;
+object_mori_hineri2a_DL_002B70 = 0x06002B70;
+gMoriIdomizuWaterDL = 0x060049D0;
+gMoriKaitenkabeCol = 0x060063B8;
+gMoriKaitenkabeDL = 0x060056B0;
+gMoriRakkatenjoCol = 0x060087AC;
+gMoriRakkatenjoDL = 0x06007690;
+
+D_06007210_unknown = 0x06007210;
+
+D_06004648_unknown = 0x06004648;
+D_06004848_unknown = 0x06004848;
+
+gDMTOwlCs = 0x0201E6A0;
+
 #endif

@@ -27,8 +27,8 @@ offset,vram,.rodata
 1B240,8082D4A0,src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data
 
 offset,vram,.ovl
-1B2C0,8082D560,src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc
+1B2C0,8082D520,src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc
 
 offset,vram,.bss
 1C9C0,8082EC20,src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope_PAL
-1CA30,8082EC90,.end
+1C9F0,8082EC90,.end
