@@ -154,35 +154,38 @@ def okfind_unbaseromify(frankenspec: pyfrankenspec.FrankenSpec):
                     seg_name,
                 )
 
-                print("  trying to frankenelf all-expected...")
-                assert seg.frankenelf is None
-                seg.baseromify = False
-                seg.frankenelf = pyfrankenspec.FrankenSpecSegmentFrankenelf(
-                    default=set()
-                )
-                try:
-                    is_ok_with_frankenelf = test(frankenspec, verbose_cpe=False)
-                except subprocess.CalledProcessError as e:
-                    is_ok_with_frankenelf = False
-                    print(
-                        f"  {colorama.Fore.RED}ERROR w/expected{colorama.Fore.RESET}",
-                        seg_name,
-                    )
-                    print(e.stderr.decode("utf-8"))
-                    print()
-                if is_ok_with_frankenelf:
-                    print(
-                        f"  {colorama.Fore.GREEN}OK w/expected",
-                        seg_name,
-                        colorama.Fore.RESET,
-                    )
+                if seg_name.endswith("_scene") or seg_name.rstrip("0123456789").endswith("_room_"):
+                    print("  can't try all-expected")
                 else:
-                    seg.baseromify = True
-                    seg.frankenelf = None
-                    print(
-                        f"  {colorama.Fore.YELLOW}not ok w/expected{colorama.Fore.RESET}",
-                        seg_name,
+                    print("  trying to frankenelf all-expected...")
+                    assert seg.frankenelf is None
+                    seg.baseromify = False
+                    seg.frankenelf = pyfrankenspec.FrankenSpecSegmentFrankenelf(
+                        default=set()
                     )
+                    try:
+                        is_ok_with_frankenelf = test(frankenspec, verbose_cpe=False)
+                    except subprocess.CalledProcessError as e:
+                        is_ok_with_frankenelf = False
+                        print(
+                            f"  {colorama.Fore.RED}ERROR w/expected{colorama.Fore.RESET}",
+                            seg_name,
+                        )
+                        print(e.stderr.decode("utf-8"))
+                        print()
+                    if is_ok_with_frankenelf:
+                        print(
+                            f"  {colorama.Fore.GREEN}OK w/expected",
+                            seg_name,
+                            colorama.Fore.RESET,
+                        )
+                    else:
+                        seg.baseromify = True
+                        seg.frankenelf = None
+                        print(
+                            f"  {colorama.Fore.YELLOW}not ok w/expected{colorama.Fore.RESET}",
+                            seg_name,
+                        )
 
 
 def main():
@@ -190,9 +193,9 @@ def main():
 
     assert test(frankenspec), "base frankenspec not even OK..."
 
-    if 1:
-        okfind_sections(frankenspec, "ovl_kaleido_scope")
     if 0:
+        okfind_sections(frankenspec, "ovl_kaleido_scope")
+    if 1:
         okfind_unbaseromify(frankenspec)
 
 
