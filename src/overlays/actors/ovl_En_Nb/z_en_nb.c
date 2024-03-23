@@ -105,7 +105,9 @@ static UNK_PTR sEyeTextures[] = {
     object_nb_00D4E8_Tex,
 };
 
+#if OOT_DEBUG
 static s32 D_80AB4318 = 0;
+#endif
 
 #include "z_en_nb_cutscene_data.inc.c"
 
