@@ -1,3 +1,4 @@
+from __future__ import annotations
 from xml.etree import ElementTree
 from typing import Callable
 

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from ..extase.cdata_resources import (
     CDataResource,
     CDataExt_Struct,

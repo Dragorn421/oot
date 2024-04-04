@@ -1,3 +1,4 @@
+from __future__ import annotations
 import struct
 import abc
 from typing import Sequence, Any

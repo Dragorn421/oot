@@ -1,3 +1,4 @@
+from __future__ import annotations
 import abc
 import io
 from typing import TYPE_CHECKING, Callable, Any, Sequence, Union
