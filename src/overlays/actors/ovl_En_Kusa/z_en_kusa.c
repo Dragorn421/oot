@@ -342,7 +342,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         sp30.x = this->actor.world.pos.x;
-        sp30.y = this->actor.world.pos.y + this->actor.yDistToWater;
+        sp30.y = this->actor.world.pos.y + this->actor.depthInWater;
         sp30.z = this->actor.world.pos.z;
         EffectSsGSplash_Spawn(play, &sp30, NULL, NULL, 0, 400);
         EffectSsGRipple_Spawn(play, &sp30, 150, 650, 0);

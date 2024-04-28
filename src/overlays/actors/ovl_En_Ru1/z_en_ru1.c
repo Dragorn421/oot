@@ -431,7 +431,7 @@ void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
     Actor* thisx = &this->actor;
 
     pos.x = thisx->world.pos.x;
-    pos.y = thisx->world.pos.y + thisx->yDistToWater;
+    pos.y = thisx->world.pos.y + thisx->depthInWater;
     pos.z = thisx->world.pos.z;
     EffectSsGRipple_Spawn(play, &pos, 100, radiusMax, life);
 }
@@ -455,7 +455,7 @@ void EnRu1_SpawnSplash(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
     pos.x = thisx->world.pos.x;
-    pos.y = thisx->world.pos.y + thisx->yDistToWater;
+    pos.y = thisx->world.pos.y + thisx->depthInWater;
     pos.z = thisx->world.pos.z;
 
     EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 1, 0);
@@ -1245,7 +1245,7 @@ s32 func_80AED624(EnRu1* this, PlayState* play) {
         Actor_Kill(thisx);
         return false;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (thisx->yDistToWater > kREG(16) + 50.0f) && (this->action != 33)) {
+               (thisx->depthInWater > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->alpha = 0xFF;
@@ -1478,7 +1478,7 @@ void func_80AEE050(EnRu1* this) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
-            this->unk_358 = (this->actor.yDistToWater - 10.0f) * 0.5f;
+            this->unk_358 = (this->actor.depthInWater - 10.0f) * 0.5f;
             this->unk_354 = this->actor.world.pos.y + thisx->unk_358; // thisx only used here
         } else {
             this->actor.gravity = 0.0f;
@@ -1615,7 +1615,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
             return;
         }
 
-        if (thisx->yDistToWater > 0.0f) {
+        if (thisx->depthInWater > 0.0f) {
             this->action = 29;
             this->unk_350 = 0;
         }

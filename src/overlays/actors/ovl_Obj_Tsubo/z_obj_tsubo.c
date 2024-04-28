@@ -194,7 +194,7 @@ void func_80BA1294(ObjTsubo* this, PlayState* play) {
     s32 pad[2];
 
     spC8 = this->actor.world.pos;
-    spC8.y += this->actor.yDistToWater;
+    spC8.y += this->actor.depthInWater;
     EffectSsGSplash_Spawn(play, &spC8, NULL, NULL, 0, 0x190);
 
     for (var_s2 = 0, var_s1 = 0; var_s2 < 15; var_s2++, var_s1 += 0x4E20) {
@@ -242,7 +242,7 @@ void func_80BA15BC(ObjTsubo* this, PlayState* play) {
 
     if (Actor_HasParent(&this->actor, play)) {
         func_80BA17C4(this);
-    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.depthInWater > 15.0f)) {
         func_80BA1294(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         func_80BA0D60(this, play);
