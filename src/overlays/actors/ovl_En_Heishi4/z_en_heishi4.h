@@ -15,6 +15,14 @@ struct EnHeishi4;
 
 typedef void (*EnHeishi4ActionFunc)(struct EnHeishi4*, PlayState*);
 
+struct DragohackCopyInfoLimb {
+    bool isActive;
+    Vec3f pos;
+    Vec3s rot; // ZYX
+    Vec3f scale;
+    Gfx* dl;
+};
+
 typedef struct EnHeishi4 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
@@ -35,6 +43,7 @@ typedef struct EnHeishi4 {
     /* 0x02B4 */ u8 unk_2B4;
     /* 0x02B6 */ char unk_2B6[7];
     /* 0x02BC */ ColliderCylinder collider;
+    struct DragohackCopyInfoLimb copyInfoLimbs[50];
 } EnHeishi4; // size = 0x0308
 
 #endif

@@ -378,10 +378,68 @@ s32 EnHeishi_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
     return false;
 }
 
+void EnHeishi4_PostLimbDraw(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnHeishi4* this = (EnHeishi4*)thisx;
+    MtxF mf;
+    struct DragohackCopyInfoLimb* cil = &this->copyInfoLimbs[limbIndex];
+
+    assert(limbIndex < ARRAY_COUNT(this->copyInfoLimbs));
+
+    if (*dList == NULL) {
+        return;
+    }
+
+    Matrix_Get(&mf);
+
+    cil->isActive = true;
+    VEC_SET(cil->pos, mf.xw, mf.yw, mf.zw);
+    Matrix_MtxFToZYXRotS(&mf, &cil->rot, 1);
+#define MTX_COLNORM(m, col) sqrtf(SQ((m).x##col) + SQ((m).y##col) + SQ((m).z##col))
+    cil->scale.x = MTX_COLNORM(mf, x);
+    cil->scale.y = MTX_COLNORM(mf, x);
+    cil->scale.z = MTX_COLNORM(mf, x);
+    cil->dl = *dList;
+}
+
+int enNiwLady_drawLimbI = -1;
+
 void EnHeishi4_Draw(Actor* thisx, PlayState* play) {
     EnHeishi4* this = (EnHeishi4*)thisx;
+    int i;
+
+    OPEN_DISPS(play->state.gfxCtx, __FILE__, __LINE__);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi_OverrideLimbDraw, NULL,
-                      this);
+    SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi_OverrideLimbDraw,
+                      EnHeishi4_PostLimbDraw, this);
+
+    Matrix_Push();
+
+    for (i = 0; i < ARRAY_COUNT(this->copyInfoLimbs); i++) {
+        struct DragohackCopyInfoLimb* cil = &this->copyInfoLimbs[i];
+
+        if (!cil->isActive) {
+            continue;
+        }
+
+        if (enNiwLady_drawLimbI >= 0 && enNiwLady_drawLimbI != i) {
+            continue;
+        }
+
+        Matrix_Translate(cil->pos.x, cil->pos.y + 100, cil->pos.z, MTXMODE_NEW);
+        Matrix_RotateZ(BINANG_TO_RAD(cil->rot.z), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(cil->rot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD(cil->rot.x), MTXMODE_APPLY);
+        Matrix_Scale(cil->scale.x, cil->scale.y, cil->scale.z, MTXMODE_APPLY);
+
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, __FILE__, __LINE__),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        assert(cil->dl != NULL);
+        gSPDisplayList(POLY_OPA_DISP++, cil->dl);
+    }
+
+    Matrix_Pop();
+
+    CLOSE_DISPS(play->state.gfxCtx, __FILE__, __LINE__);
 }
