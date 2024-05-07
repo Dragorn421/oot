@@ -45,7 +45,7 @@ For Windows 10 or 11, install WSL and a distribution by following this
 [WSL Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install).
 We recommend using Debian or Ubuntu 20.04 Linux distributions.
 
-For older versions of Windows, install a Linux VM or refer to either [Cygwin](#Cygwin) or [Docker](#Docker) instructions.
+For older versions of Windows, install a Linux VM or refer to [Docker](#Docker) instructions.
 
 ### macOS
 
@@ -146,30 +146,6 @@ md5sum: WARNING: 1 computed checksum did NOT match
 ```
 
 This means that the built ROM isn't the same as the base one, so something went wrong or some part of the code doesn't match.
-
-### Cygwin
-
-If you want to use Cygwin, you will need to:
-
-* Download and install [Git Bash](https://git-scm.com/download/win).
-* Download and install [Cygwin](https://cygwin.com).
-* [Build and install mips-linux-binutils](docs/BUILDING_BINUTILS_CYGWIN.md).
-
-Once mips-linux-binutils is installed you will need to install the following packages using Cygwin's installer:
-
-* libiconv
-* dos2unix
-* python3
-* libpng-devel
-
-Then you can continue from step [step 2](#2-clone-the-repository) of the Linux instructions.
-
-Note that, before building anything, you will need to run the following commands to fix line endings:
-
-```bash
-dos2unix fixle.sh
-./fixle.sh
-```
 
 ### Docker
 
