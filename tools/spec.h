@@ -15,7 +15,8 @@ enum
     STMT_entry,
     STMT_flags,
     STMT_include,
-    STMT_include_data_with_rodata,
+    STMT_include_data_only_within_rodata,
+    STMT_include_no_data,
     STMT_name,
     STMT_number,
     STMT_romalign,
@@ -37,7 +38,8 @@ struct Include
 {
     char *fpath;
     int linkerPadding;
-    uint8_t dataWithRodata;
+    bool dataOnlyWithinRodata;
+    bool noData;
 };
 
 struct Segment
