@@ -78,7 +78,7 @@ extern AnimationHeader D_06008604;
 extern AnimationHeader D_06009A90;
 extern AnimationHeader D_0600C438;
 
-static u8 sJointCopyFlags[] = {
+static u8 sUpperBodyLimbCopyMap[] = {
     false, false, false, false, true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
     true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
     true,  true,  true,  true,  true,  true,  true,  false, false, false, false, false, false, false, false, false,
@@ -1706,15 +1706,15 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
             case 1:
                 Animation_Change(&this->upperSkelanime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2,
                                  2.0f);
-                AnimationContext_SetCopyTrue(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                AnimTaskQueue_AddCopyUsingMap(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                              this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 this->unk_7DE++;
                 break;
 
             case 2:
                 SkelAnime_Update(&this->upperSkelanime);
                 SkelAnime_CopyFrameTableTrue(&this->skelAnime, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                                             this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 break;
 
             case 3:
@@ -1733,7 +1733,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
                                            this->upperSkelanime.jointTable, this->skelAnime.jointTable,
                                            1.0f - (this->upperSkelanime.morphWeight / oldWeight));
                 SkelAnime_CopyFrameTableTrue(&this->skelAnime, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                                             this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 break;
         }
 
