@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 f32 fmodf(f32 x, f32 y) {
     s32 quot;

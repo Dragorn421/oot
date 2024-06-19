@@ -41,7 +41,7 @@
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
 #if OOT_DEBUG
-#pragma increment_block_number 250
+#pragma increment_block_number 128
 #else
 #pragma increment_block_number 128
 #endif
@@ -54,9 +54,9 @@
 // just above (the exact upper bound depends on the block numbers assigned to
 // extern variables declared in headers).
 #if OOT_DEBUG
-#pragma increment_block_number 21
-#else
 #pragma increment_block_number 0
+#else
+#pragma increment_block_number 20
 #endif
 
 void FaultDrawer_Init(void);
