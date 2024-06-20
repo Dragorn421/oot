@@ -1,0 +1,4 @@
+[submodule "libdragon"]
+	path = libdragon
+	url = git@github.com:DragonMinded/libdragon.git
+	branch = trunk
