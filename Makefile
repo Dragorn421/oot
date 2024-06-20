@@ -4,16 +4,23 @@ MAKEFLAGS += --no-builtin-rules
 SHELL = /bin/bash
 .SHELLFLAGS = -o pipefail -c
 
+ifeq ($(N64_GCCPREFIX),)
+  ifeq ($(N64_INST),)
+    $(error neither N64_GCCPREFIX nor N64_INST is set)
+  endif
+  export N64_GCCPREFIX ?= $(N64_INST)
+  $(info N64_GCCPREFIX set to $(N64_GCCPREFIX) (from N64_INST))
+else
+  $(info N64_GCCPREFIX kept as $(N64_GCCPREFIX))
+endif
+N64_INST_REL := build/libdragon
+$(shell mkdir -p $(N64_INST_REL))
+$(shell mkdir -p $(N64_INST_REL)/mips64-elf/include) # temporary workaround for libdragon's make install not creating that folder
+export N64_INST := $(realpath $(N64_INST_REL))
+$(info N64_INST set to $(N64_INST))
+
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
 
-# If COMPARE is 1, check the output md5sum after building
-COMPARE := 1
-# If NON_MATCHING is 1, define the NON_MATCHING C flag when building
-NON_MATCHING := 0
-# If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
-ORIG_COMPILER := 0
-# If COMPILER is "gcc", compile with GCC instead of IDO.
-COMPILER := ido
 # Target game version. Currently the following versions are supported:
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
@@ -22,39 +29,21 @@ COMPILER := ido
 VERSION := gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS := $(shell nproc)
-# Check code syntax with host compiler
-RUN_CC_CHECK := 1
 
 CFLAGS ?=
 CPPFLAGS ?=
 
-# ORIG_COMPILER cannot be combined with a non-IDO compiler. Check for this case and error out if found.
-ifneq ($(COMPILER),ido)
-  ifeq ($(ORIG_COMPILER),1)
-    $(error ORIG_COMPILER can only be used with the IDO compiler. Please check your Makefile variables and try again)
-  endif
-endif
+CFLAGS += -DCOMPILER_GCC
+CPPFLAGS += -DCOMPILER_GCC
 
-ifeq ($(COMPILER),gcc)
-  CFLAGS += -DCOMPILER_GCC
-  CPPFLAGS += -DCOMPILER_GCC
-  NON_MATCHING := 1
-endif
+MIPS_BINUTILS_PREFIX := $(N64_GCCPREFIX)/bin/mips64-elf-
 
-# Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
-# In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
-MIPS_BINUTILS_PREFIX := mips-linux-gnu-
-
-ifeq ($(NON_MATCHING),1)
-  CFLAGS += -DNON_MATCHING -DAVOID_UB
-  CPPFLAGS += -DNON_MATCHING -DAVOID_UB
-  COMPARE := 0
-endif
+CFLAGS += -DNON_MATCHING -DAVOID_UB
+CPPFLAGS += -DNON_MATCHING -DAVOID_UB
 
 # Version-specific settings
 ifeq ($(VERSION),gc-eu)
   DEBUG := 0
-  COMPARE := 0
 else ifeq ($(VERSION),gc-eu-mq)
   DEBUG := 0
   CFLAGS += -DOOT_MQ
@@ -102,31 +91,10 @@ endif
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-  $(error Unable to find $(MIPS_BINUTILS_PREFIX)ld. Please install or build MIPS binutils, commonly mips-linux-gnu. (or set MIPS_BINUTILS_PREFIX if your MIPS binutils install uses another prefix))
+  $(error Unable to find $(MIPS_BINUTILS_PREFIX)ld. Check the libdragon toolchain is correctly installed at $$N64_GCCPREFIX)
 endif
 
-# Detect compiler and set variables appropriately.
-ifeq ($(COMPILER),gcc)
-  CC       := $(MIPS_BINUTILS_PREFIX)gcc
-else ifeq ($(COMPILER),ido)
-  CC       := tools/ido_recomp/$(DETECTED_OS)/7.1/cc
-  CC_OLD   := tools/ido_recomp/$(DETECTED_OS)/5.3/cc
-else
-$(error Unsupported compiler. Please use either ido or gcc as the COMPILER variable.)
-endif
-
-# if ORIG_COMPILER is 1, check that either QEMU_IRIX is set or qemu-irix package installed
-ifeq ($(ORIG_COMPILER),1)
-  ifndef QEMU_IRIX
-    QEMU_IRIX := $(shell which qemu-irix)
-    ifeq (, $(QEMU_IRIX))
-      $(error Please install qemu-irix package or set QEMU_IRIX env var to the full qemu-irix binary path)
-    endif
-  endif
-  CC        = $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
-  CC_OLD    = $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
-endif
-
+CC      := $(MIPS_BINUTILS_PREFIX)gcc
 AS      := $(MIPS_BINUTILS_PREFIX)as
 LD      := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
@@ -136,9 +104,10 @@ NM      := $(MIPS_BINUTILS_PREFIX)nm
 N64_EMULATOR ?=
 
 INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
+INC += -I$(N64_INST_REL)/mips64-elf/include
 
-# Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
+CHECK_WARNINGS += -Werror=implicit-function-declaration
 
 # The `cpp` command behaves differently on macOS (it behaves as if
 # `-traditional-cpp` was passed) so we use `gcc -E` instead.
@@ -154,37 +123,12 @@ PYTHON     ?= $(VENV)/bin/python3
 # preprocessor for this because it won't substitute inside string literals.
 SPEC_REPLACE_VARS := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
-ifeq ($(COMPILER),gcc)
-  OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
-endif
+OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
 
 ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
 
-ifeq ($(COMPILER),gcc)
-  CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -fbuiltin -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS) -funsigned-char
-  MIPS_VERSION := -mips3
-else
-  # Suppress warnings for wrong number of macro arguments (to fake variadic
-  # macros) and Microsoft extensions such as anonymous structs (which the
-  # compiler does support but warns for their usage).
-  CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712
-  MIPS_VERSION := -mips2
-endif
-
-ifeq ($(COMPILER),ido)
-  # Have CC_CHECK pretend to be a MIPS compiler
-  MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
-  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING -DOOT_DEBUG=1 $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
-  ifeq ($(shell getconf LONG_BIT), 32)
-    # Work around memory allocation bug in QEMU
-    export QEMU_GUEST_BASE := 1
-  else
-    # Ensure that gcc (warning check) treats the code as 32-bit
-    CC_CHECK += -m32
-  endif
-else
-  RUN_CC_CHECK := 0
-endif
+CFLAGS += -G 0 $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -fbuiltin -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS) -funsigned-char
+MIPS_VERSION := -mips3
 
 OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
 
@@ -199,11 +143,7 @@ LDSCRIPT := $(ROM:.z64=.ld)
 # description of ROM segments
 SPEC := spec
 
-ifeq ($(COMPILER),ido)
-SRC_DIRS := $(shell find src -type d -not -path src/gcc_fix)
-else
 SRC_DIRS := $(shell find src -type d)
-endif
 
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/text")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
@@ -238,113 +178,19 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),$(BUILD_DIR)/$
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/baserom $(EXTRACTED_DIR)/text $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
 
-ifeq ($(COMPILER),ido)
-$(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
-
-$(BUILD_DIR)/src/code/__osMalloc.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/code_800FC620.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/fp_math.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/rand.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/load.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/loadfragment2.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/logutils.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/padsetup.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/padutils.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/printutils.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/relocation.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/sleep.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
-
-$(BUILD_DIR)/src/code/fault.o: CFLAGS += -trapuv
-$(BUILD_DIR)/src/code/fault.o: OPTFLAGS := -O2 -g3
-$(BUILD_DIR)/src/code/fault_drawer.o: CFLAGS += -trapuv
-$(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
-$(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
-
-ifeq ($(DEBUG),1)
-$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -g
-$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -g
-$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -g
-else
-$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -O2
-endif
-
-$(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
-
-# Use signed chars instead of unsigned for this audio file (needed to match AudioDebug_ScrPrt)
-$(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
-
-# Put string literals in .data for some audio files (needed to match these files with literals)
-$(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
-$(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
-
-ifeq ($(DEBUG),1)
-$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
-$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
-else
-$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2
-endif
-
-$(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
-$(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
-$(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
-$(BUILD_DIR)/src/libultra/libc/llcvt.o: MIPS_VERSION := -mips3 -32
-
-$(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O1
-$(BUILD_DIR)/src/libultra/io/%.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/libultra/rmon/%.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O2
-
-$(BUILD_DIR)/assets/misc/z_select_static/%.o: CFLAGS += -DF3DEX_GBI
-
-$(BUILD_DIR)/src/libultra/gu/%.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/libultra/io/%.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/libultra/libc/%.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/libultra/os/%.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/libultra/rmon/%.o: CC := $(CC_OLD)
-
-$(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
-
-# For using asm_processor on some files:
-#$(BUILD_DIR)/.../%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-
-ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
-# Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
-$(BUILD_DIR)/src/%.o: CC := $(PYTHON) tools/preprocess.py $(CC)
-endif
-
-else
 # Note that if adding additional assets directories for modding reasons these flags must also be used there
 $(BUILD_DIR)/assets/%.o: CFLAGS += -fno-zero-initialized-in-bss -fno-toplevel-reorder
 $(BUILD_DIR)/src/%.o: CFLAGS += -fexec-charset=euc-jp
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/overlays/%.o: CFLAGS += -fno-merge-constants -mno-explicit-relocs -mno-split-addresses
-endif
 
 #### Main Targets ###
 
 all: rom compress
 
 rom: $(ROM)
-ifneq ($(COMPARE),0)
-	@md5sum $(ROM)
-	@md5sum -c $(BASEROM_DIR)/checksum.md5
-endif
 
 compress: $(ROMC)
-ifneq ($(COMPARE),0)
-	@md5sum $(ROMC)
-	@md5sum -c $(BASEROM_DIR)/checksum-compressed.md5
-endif
 
 clean:
 	$(RM) -r $(BUILD_DIR)
@@ -360,6 +206,10 @@ distclean: assetclean
 	$(RM) -r build/
 	$(MAKE) -C tools distclean
 
+libdragon:
+	$(MAKE) -C libdragon
+	$(MAKE) -C libdragon install
+
 venv:
 # Create the virtual environment if it doesn't exist.
 # Delete the virtual environment directory if creation fails.
@@ -367,7 +217,7 @@ venv:
 	$(PYTHON) -m pip install -U pip
 	$(PYTHON) -m pip install -U -r requirements.txt
 
-setup: venv
+setup: libdragon venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(EXTRACTED_DIR)/baserom --dmadata-start `cat $(BASEROM_DIR)/dmadata_start.txt` --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
@@ -388,7 +238,7 @@ endif
 	$(N64_EMULATOR) $<
 
 
-.PHONY: all rom compress clean assetclean distclean venv setup disasm run
+.PHONY: all rom compress clean assetclean distclean libdragon venv setup disasm run
 .DEFAULT_GOAL := rom
 
 #### Various Recipes ####
@@ -466,24 +316,15 @@ $(BUILD_DIR)/src/code/z_game_dlftbls.o: include/tables/gamestate_table.h
 $(BUILD_DIR)/src/code/z_scene_table.o: include/tables/scene_table.h include/tables/entrance_table.h
 
 $(BUILD_DIR)/src/%.o: src/%.c
-ifneq ($(RUN_CC_CHECK),0)
-	$(CC_CHECK) $<
-endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
-ifneq ($(RUN_CC_CHECK),0)
-	$(CC_CHECK) $<
-endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
-ifneq ($(RUN_CC_CHECK),0)
-	$(CC_CHECK) $<
-endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)

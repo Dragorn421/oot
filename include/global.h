@@ -5,4 +5,6 @@
 #include "variables.h"
 #include "macros.h"
 
+#include "libdragon.h"
+
 #endif

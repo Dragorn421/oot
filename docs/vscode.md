@@ -42,24 +42,21 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
     "configurations": [
         {
             "name": "N64 oot-gc-eu-mq-dbg",
-            "compilerPath": "${default}", // Needs to not be "" for -m32 to work
-            "compilerArgs": [
-                "-m32" // Removes integer truncation warnings with gbi macros
-            ],
-            "intelliSenseMode": "${default}", // Shouldn't matter
+            "compilerPath": "${env:N64_GCCPREFIX}/bin/mips64-elf-gcc",
             "includePath": [ // Matches makefile's includes
                 "include",
                 "include/libc",
                 "src",
                 "build/gc-eu-mq-dbg",
                 ".",
-                "extracted/gc-eu-mq-dbg"
+                "extracted/gc-eu-mq-dbg",
+                "build/libdragon/mips64-elf/include"
             ],
             "defines": [
                 "_LANGUAGE_C", // For gbi.h
                 "OOT_DEBUG=1" // If targeting a debug version
             ],
-            "cStandard": "gnu89", // C89 + some GNU extensions from C99 like C++ comments
+            "cStandard": "c17",
             "cppStandard": "${default}" // Only ZAPD uses C++, so doesn't really matter
         }
     ],

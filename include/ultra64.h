@@ -1,13 +1,15 @@
 #ifndef ULTRA64_H
 #define ULTRA64_H
 
+#include "libdragon.h"
+
 #include "libc/assert.h"
 #include "libc/math.h"
-#include "libc/stdarg.h"
+#include "stdarg.h"
 #include "libc/stdbool.h"
-#include "libc/stddef.h"
-#include "libc/stdint.h"
-#include "libc/stdio.h"
+#include "stddef.h"
+#include "stdint.h"
+#include "stdio.h"
 #include "libc/stdlib.h"
 #include "libc/string.h"
 
@@ -17,7 +19,253 @@
 #include "ultra64/libc.h"
 #include "ultra64/xstdio.h"
 #include "ultra64/exception.h"
-#include "ultra64/rcp.h"
+
+// #include "ultra64/rcp.h"
+#define PIF_RAM_START 0x1FC007C0
+#define PIF_RAM_END 0x1FC007FF
+//
+#define CHNL_ERR_NORESP (ERROR_NOT_PRESENT << 6)
+#define CHNL_ERR_OVERRUN (ERROR_BAD_COMMAND << 6)
+#define CHNL_ERR_MASK (3 << 6)
+//
+#define DEVICE_TYPE_CART 0
+#define DEVICE_TYPE_BULK 1
+#define DEVICE_TYPE_64DD 2
+#define DEVICE_TYPE_SRAM 3
+#define DEVICE_TYPE_INIT 7
+//
+#define SP_DMEM_END 0x04000FFF
+#define SP_IMEM_START ((uint32_t)PhysicalAddr(SP_IMEM))
+#define SP_BASE_REG 0x04040000
+#define SP_MEM_ADDR_REG ((uint32_t)PhysicalAddr(SP_DMA_SPADDR))
+#define SP_DRAM_ADDR_REG ((uint32_t)PhysicalAddr(SP_DMA_RAMADDR))
+#define SP_RD_LEN_REG ((uint32_t)PhysicalAddr(SP_DMA_RDLEN))
+#define SP_WR_LEN_REG ((uint32_t)PhysicalAddr(SP_DMA_WRLEN))
+#define SP_STATUS_REG ((uint32_t)PhysicalAddr(SP_STATUS))
+#define SP_DMA_FULL_REG ((uint32_t)PhysicalAddr(SP_DMA_FULL))
+#define SP_DMA_BUSY_REG ((uint32_t)PhysicalAddr(SP_DMA_BUSY))
+#define SP_SEMAPHORE_REG ((uint32_t)PhysicalAddr(SP_SEMAPHORE))
+#define SP_PC_REG ((uint32_t)PhysicalAddr(SP_PC))
+//
+#define SP_CLR_HALT SP_WSTATUS_CLEAR_HALT
+#define SP_SET_HALT SP_WSTATUS_SET_HALT
+#define SP_CLR_BROKE SP_WSTATUS_CLEAR_BROKE
+#define SP_CLR_INTR SP_WSTATUS_CLEAR_INTR
+#define SP_SET_INTR SP_WSTATUS_SET_INTR
+#define SP_CLR_SSTEP SP_WSTATUS_CLEAR_SSTEP
+#define SP_SET_SSTEP SP_WSTATUS_SET_SSTEP
+#define SP_CLR_INTR_BREAK SP_WSTATUS_CLEAR_INTR_BREAK
+#define SP_SET_INTR_BREAK SP_WSTATUS_SET_INTR_BREAK
+#define SP_CLR_SIG0 SP_WSTATUS_CLEAR_SIG0
+#define SP_SET_SIG0 SP_WSTATUS_SET_SIG0
+#define SP_CLR_SIG1 SP_WSTATUS_CLEAR_SIG1
+#define SP_SET_SIG1 SP_WSTATUS_SET_SIG1
+#define SP_CLR_SIG2 SP_WSTATUS_CLEAR_SIG2
+#define SP_SET_SIG2 SP_WSTATUS_SET_SIG2
+#define SP_CLR_SIG3 SP_WSTATUS_CLEAR_SIG3
+#define SP_SET_SIG3 SP_WSTATUS_SET_SIG3
+#define SP_CLR_SIG4 SP_WSTATUS_CLEAR_SIG4
+#define SP_SET_SIG4 SP_WSTATUS_SET_SIG4
+#define SP_CLR_SIG5 SP_WSTATUS_CLEAR_SIG5
+#define SP_SET_SIG5 SP_WSTATUS_SET_SIG5
+#define SP_CLR_SIG6 SP_WSTATUS_CLEAR_SIG6
+#define SP_SET_SIG6 SP_WSTATUS_SET_SIG6
+#define SP_CLR_SIG7 SP_WSTATUS_CLEAR_SIG7
+#define SP_SET_SIG7 SP_WSTATUS_SET_SIG7
+//
+#define SP_STATUS_HALT SP_STATUS_HALTED
+// #define SP_STATUS_BROKE SP_STATUS_BROKE
+// #define SP_STATUS_DMA_BUSY SP_STATUS_DMA_BUSY
+// #define SP_STATUS_DMA_FULL SP_STATUS_DMA_FULL
+#define SP_STATUS_IO_FULL SP_STATUS_IO_BUSY
+// #define SP_STATUS_SSTEP SP_STATUS_SSTEP
+#define SP_STATUS_INTR_BREAK SP_STATUS_INTERRUPT_ON_BREAK
+// #define SP_STATUS_SIG0 SP_STATUS_SIG0
+// #define SP_STATUS_SIG1 SP_STATUS_SIG1
+// #define SP_STATUS_SIG2 SP_STATUS_SIG2
+// #define SP_STATUS_SIG3 SP_STATUS_SIG3
+// #define SP_STATUS_SIG4 SP_STATUS_SIG4
+// #define SP_STATUS_SIG5 SP_STATUS_SIG5
+// #define SP_STATUS_SIG6 SP_STATUS_SIG6
+// #define SP_STATUS_SIG7 SP_STATUS_SIG7
+//
+#define SP_CLR_YIELD SP_CLR_SIG0
+#define SP_SET_YIELD SP_SET_SIG0
+#define SP_STATUS_YIELD SP_STATUS_SIG0
+#define SP_CLR_YIELDED SP_CLR_SIG1
+#define SP_SET_YIELDED SP_SET_SIG1
+#define SP_STATUS_YIELDED SP_STATUS_SIG1
+#define SP_CLR_TASKDONE SP_CLR_SIG2
+#define SP_SET_TASKDONE SP_SET_SIG2
+#define SP_STATUS_TASKDONE SP_STATUS_SIG2
+#define SP_CLR_RSPSIGNAL SP_CLR_SIG3
+#define SP_SET_RSPSIGNAL SP_SET_SIG3
+#define SP_STATUS_RSPSIGNAL SP_STATUS_SIG3
+#define SP_CLR_CPUSIGNAL SP_CLR_SIG4
+#define SP_SET_CPUSIGNAL SP_SET_SIG4
+#define SP_STATUS_CPUSIGNAL SP_STATUS_SIG4
+//
+#define DPC_BASE_REG 0x04100000
+#define DPC_START_REG ((uint32_t)PhysicalAddr(DP_START))
+#define DPC_END_REG ((uint32_t)PhysicalAddr(DP_END))
+#define DPC_CURRENT_REG ((uint32_t)PhysicalAddr(DP_CURRENT))
+#define DPC_STATUS_REG ((uint32_t)PhysicalAddr(DP_STATUS))
+#define DPC_CLOCK_REG ((uint32_t)PhysicalAddr(DP_CLOCK))
+#define DPC_BUFBUSY_REG ((uint32_t)PhysicalAddr(DP_BUSY))
+#define DPC_PIPEBUSY_REG ((uint32_t)PhysicalAddr(DP_PIPE_BUSY))
+#define DPC_TMEM_REG ((uint32_t)PhysicalAddr(DP_TMEM_BUSY))
+//
+#define DPC_CLR_XBUS_DMEM_DMA DP_WSTATUS_RESET_XBUS_DMEM_DMA
+#define DPC_SET_XBUS_DMEM_DMA DP_WSTATUS_SET_XBUS_DMEM_DMA
+#define DPC_CLR_FREEZE DP_WSTATUS_RESET_FREEZE
+#define DPC_SET_FREEZE DP_WSTATUS_SET_FREEZE
+#define DPC_CLR_FLUSH DP_WSTATUS_RESET_FLUSH
+#define DPC_SET_FLUSH DP_WSTATUS_SET_FLUSH
+#define DPC_CLR_TMEM_CTR DP_WSTATUS_RESET_TMEM_COUNTER
+#define DPC_CLR_PIPE_CTR DP_WSTATUS_RESET_PIPE_COUNTER
+#define DPC_CLR_CMD_CTR DP_WSTATUS_RESET_CMD_COUNTER
+#define DPC_CLR_CLOCK_CTR DP_WSTATUS_RESET_CLOCK_COUNTER
+//
+#define DPC_STATUS_XBUS_DMEM_DMA DP_STATUS_DMEM_DMA
+#define DPC_STATUS_FREEZE DP_STATUS_FREEZE
+#define DPC_STATUS_FLUSH DP_STATUS_FLUSH
+#define DPC_STATUS_START_GCLK DP_STATUS_GCLK_ALIVE
+#define DPC_STATUS_TMEM_BUSY DP_STATUS_TMEM_BUSY
+#define DPC_STATUS_PIPE_BUSY DP_STATUS_PIPE_BUSY
+#define DPC_STATUS_CMD_BUSY DP_STATUS_BUSY
+#define DPC_STATUS_CBUF_READY DP_STATUS_BUFFER_READY
+#define DPC_STATUS_DMA_BUSY DP_STATUS_DMA_BUSY
+#define DPC_STATUS_END_VALID DP_STATUS_END_VALID
+#define DPC_STATUS_START_VALID DP_STATUS_START_VALID
+//
+/* libdragon/src/vi.h */
+//
+#define VI_REGISTERS_ADDR 0xA4400000
+#define VI_REGISTERS ((volatile uint32_t*)VI_REGISTERS_ADDR)
+#define VI_CTRL (&VI_REGISTERS[0])
+#define VI_ORIGIN (&VI_REGISTERS[1])
+#define VI_WIDTH (&VI_REGISTERS[2])
+#define VI_V_INTR (&VI_REGISTERS[3])
+#define VI_V_CURRENT (&VI_REGISTERS[4])
+#define VI_BURST (&VI_REGISTERS[5])
+#define VI_V_SYNC (&VI_REGISTERS[6])
+#define VI_H_SYNC (&VI_REGISTERS[7])
+#define VI_H_SYNC_LEAP (&VI_REGISTERS[8])
+#define VI_H_VIDEO (&VI_REGISTERS[9])
+#define VI_V_VIDEO (&VI_REGISTERS[10])
+#define VI_V_BURST (&VI_REGISTERS[11])
+#define VI_X_SCALE (&VI_REGISTERS[12])
+#define VI_Y_SCALE (&VI_REGISTERS[13])
+//
+#define VI_DEDITHER_FILTER_ENABLE (1 << 16)
+#define VI_PIXEL_ADVANCE_DEFAULT (0b0011 << 12)
+#define VI_PIXEL_ADVANCE_BBPLAYER (0b0001 << 12)
+#define VI_AA_MODE_NONE (0b11 << 8)
+#define VI_AA_MODE_RESAMPLE (0b10 << 8)
+#define VI_AA_MODE_RESAMPLE_FETCH_NEEDED (0b01 << 8)
+#define VI_AA_MODE_RESAMPLE_FETCH_ALWAYS (0b00 << 8)
+#define VI_CTRL_SERRATE (1 << 6)
+#define VI_DIVOT_ENABLE (1 << 4)
+#define VI_GAMMA_ENABLE (1 << 3)
+#define VI_GAMMA_DITHER_ENABLE (1 << 2)
+#define VI_CTRL_TYPE (0b11)
+#define VI_CTRL_TYPE_32_BPP (0b11)
+#define VI_CTRL_TYPE_16_BPP (0b10)
+#define VI_CTRL_TYPE_BLANK (0b00)
+/* */
+//
+#define VI_BASE_REG PhysicalAddr(VI_REGISTERS_ADDR)
+#define VI_CONTROL_REG ((uint32_t)VI_CTRL)
+#define VI_STATUS_REG VI_CONTROL_REG
+#define VI_ORIGIN_REG ((uint32_t)VI_ORIGIN)
+#define VI_DRAM_ADDR_REG VI_ORIGIN_REG
+#define VI_WIDTH_REG ((uint32_t)VI_WIDTH)
+#define VI_H_WIDTH_REG VI_WIDTH_REG
+#define VI_INTR_REG ((uint32_t)VI_V_INTR)
+#define VI_V_INTR_REG VI_INTR_REG
+#define VI_CURRENT_REG ((uint32_t)VI_V_CURRENT)
+#define VI_V_CURRENT_LINE_REG VI_CURRENT_REG
+#define VI_BURST_REG ((uint32_t)VI_BURST)
+#define VI_TIMING_REG VI_BURST_REG
+#define VI_V_SYNC_REG ((uint32_t)VI_V_SYNC)
+#define VI_H_SYNC_REG ((uint32_t)VI_H_SYNC)
+#define VI_LEAP_REG ((uint32_t)VI_H_SYNC_LEAP)
+#define VI_H_SYNC_LEAP_REG VI_LEAP_REG
+#define VI_H_START_REG ((uint32_t)VI_H_VIDEO)
+#define VI_H_VIDEO_REG VI_H_START_REG
+#define VI_V_START_REG ((uint32_t)VI_V_VIDEO)
+#define VI_V_VIDEO_REG VI_V_START_REG
+#define VI_V_BURST_REG ((uint32_t)VI_V_BURST)
+#define VI_X_SCALE_REG ((uint32_t)VI_X_SCALE)
+#define VI_Y_SCALE_REG ((uint32_t)VI_Y_SCALE)
+//
+#define VI_CTRL_TYPE_16 VI_CTRL_TYPE_16_BPP
+#define VI_CTRL_TYPE_32 VI_CTRL_TYPE_32_BPP
+#define VI_CTRL_GAMMA_DITHER_ON VI_GAMMA_DITHER_ENABLE
+#define VI_CTRL_GAMMA_ON VI_GAMMA_ENABLE
+#define VI_CTRL_DIVOT_ON VI_DIVOT_ENABLE
+#define VI_CTRL_SERRATE_ON VI_CTRL_SERRATE
+#define VI_CTRL_ANTIALIAS_MASK 0x00300
+#define VI_CTRL_ANTIALIAS_MODE_0 VI_AA_MODE_RESAMPLE_FETCH_ALWAYS
+#define VI_CTRL_ANTIALIAS_MODE_1 VI_AA_MODE_RESAMPLE_FETCH_NEEDED
+#define VI_CTRL_ANTIALIAS_MODE_2 VI_AA_MODE_RESAMPLE
+#define VI_CTRL_ANTIALIAS_MODE_3 VI_AA_MODE_NONE
+#define VI_CTRL_PIXEL_ADV_MASK 0x0F000
+#define VI_CTRL_PIXEL_ADV(n) ((n) == 3 ? VI_PIXEL_ADVANCE_DEFAULT : (((n) << 12) & VI_CTRL_PIXEL_ADV_MASK))
+#define VI_CTRL_DITHER_FILTER_ON VI_DEDITHER_FILTER_ENABLE
+//
+#define VI_NTSC_CLOCK 48681812
+#define VI_PAL_CLOCK 49656530
+#define VI_MPAL_CLOCK 48628316
+//
+#define AI_BASE_REG 0x04500000
+#define AI_DRAM_ADDR_REG (AI_BASE_REG + 0x00)
+#define AI_LEN_REG (AI_BASE_REG + 0x04)
+#define AI_CONTROL_REG (AI_BASE_REG + 0x08)
+#define AI_CONTROL_DMA_ON 1
+#define AI_STATUS_REG (AI_BASE_REG + 0x0C)
+#define AI_STATUS_FIFO_FULL (1 << 31)
+#define AI_DACRATE_REG (AI_BASE_REG + 0x10)
+#define AI_MAX_DAC_RATE 16384
+#define AI_MIN_DAC_RATE 132
+#define AI_BITRATE_REG (AI_BASE_REG + 0x14)
+#define AI_MAX_BIT_RATE 16
+//
+#define PI_BASE_REG 0x04600000
+#define PI_DRAM_ADDR_REG ((uint32_t)PhysicalAddr(PI_DRAM_ADDR))
+#define PI_CART_ADDR_REG ((uint32_t)PhysicalAddr(PI_CART_ADDR))
+#define PI_RD_LEN_REG ((uint32_t)PhysicalAddr(PI_RD_LEN))
+#define PI_WR_LEN_REG ((uint32_t)PhysicalAddr(PI_WR_LEN))
+#define PI_STATUS_REG ((uint32_t)PhysicalAddr(PI_STATUS))
+#define PI_BSD_DOM1_LAT_REG (PI_BASE_REG + 0x14)
+#define PI_BSD_DOM1_PWD_REG (PI_BASE_REG + 0x18)
+#define PI_BSD_DOM1_PGS_REG (PI_BASE_REG + 0x1C)
+#define PI_BSD_DOM1_RLS_REG (PI_BASE_REG + 0x20)
+#define PI_BSD_DOM2_LAT_REG (PI_BASE_REG + 0x24)
+#define PI_BSD_DOM2_PWD_REG (PI_BASE_REG + 0x28)
+#define PI_BSD_DOM2_PGS_REG (PI_BASE_REG + 0x2C)
+#define PI_BSD_DOM2_RLS_REG (PI_BASE_REG + 0x30)
+#define PI_STATUS_DMA_BUSY (1 << 0)
+#define PI_STATUS_IO_BUSY (1 << 1)
+#define PI_STATUS_ERROR (1 << 2)
+#define PI_STATUS_CLR_INTR (1 << 1)
+#define PI_DOM1_ADDR1 0x06000000
+#define PI_DOM1_ADDR2 0x10000000
+//
+#define SI_BASE_REG 0x04800000
+#define SI_DRAM_ADDR_REG (SI_BASE_REG + 0x00)
+#define SI_PIF_ADDR_RD64B_REG (SI_BASE_REG + 0x04)
+#define SI_PIF_ADDR_WR64B_REG (SI_BASE_REG + 0x10)
+#define SI_STATUS_REG (SI_BASE_REG + 0x18)
+#define SI_STATUS_DMA_BUSY (1 << 0)
+#define SI_STATUS_RD_BUSY (1 << 1)
+#define SI_STATUS_DMA_ERROR (1 << 3)
+#define SI_STATUS_INTERRUPT (1 << 12)
+//
+#define IO_READ(addr) (*(vu32*)PHYS_TO_K1(addr))
+#define IO_WRITE(addr, data) (*(vu32*)PHYS_TO_K1(addr) = (u32)(data))
+//
+
 #include "ultra64/thread.h"
 #include "ultra64/convert.h"
 #include "ultra64/time.h"
@@ -30,7 +278,39 @@
 #include "ultra64/mbi.h"
 #include "ultra64/pfs.h"
 #include "ultra64/motor.h"
-#include "ultra64/R4300.h"
+
+// #include "ultra64/R4300.h"
+#define K0BASE ((uint32_t)KSEG0_START_ADDR)
+#define K1BASE 0xA0000000
+#define K2BASE 0xC0000000
+//
+#define UT_VEC K0BASE
+#define XUT_VEC (K0BASE + 0x80)
+#define ECC_VEC (K0BASE + 0x100)
+#define E_VEC (K0BASE + 0x180)
+//
+#define K0_TO_K1(x) ((uint32_t)(x) | 0xA0000000) // UncachedAddr equivalent by name but not in operation
+#define K0_TO_PHYS(x) ((uint32_t)PhysicalAddr(x))
+#define K1_TO_PHYS(x) ((uint32_t)PhysicalAddr(x))
+#define PHYS_TO_K0(x) ((uint32_t)(x) | 0x80000000)
+#define PHYS_TO_K1(x) ((uint32_t)(x) | 0xA0000000)
+//
+#define IS_KSEG0(x) ((uint32_t)(x) >= K0BASE && (uint32_t)(x) < K1BASE)
+#define IS_KSEG1(x) ((uint32_t)(x) >= K1BASE && (uint32_t)(x) < K2BASE)
+//
+#define SR_CU1 0x20000000
+#define SR_EXL 0x00000002
+#define CAUSE_IP5 0x00001000
+//
+#define FPCSR_FS C1_FCR31_FS
+#define FPCSR_CE C1_CAUSE_NOT_IMPLEMENTED
+#define FPCSR_EV C1_ENABLE_INVALID_OP
+#define FPCSR_EZ C1_ENABLE_DIV_BY_0
+#define FPCSR_EO C1_ENABLE_OVERFLOW
+#define FPCSR_EU C1_ENABLE_UNDERFLOW
+#define FPCSR_EI C1_ENABLE_INEXACT_OP
+//
+
 #include "ultra64/ucode.h"
 
 #endif
