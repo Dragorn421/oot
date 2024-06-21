@@ -1,4 +1,87 @@
+#ifdef NON_MATCHING
+
 #include "global.h"
+
+#else
+
+#include "ultra64.h"
+#include "z64game.h"
+#include "gfx.h"
+#include "macros.h"
+#include "regs.h"
+#include "z64actor.h"
+#include "z64effect.h"
+#include "z_lib.h"
+#include "sys_math3d.h"
+#include "z64collision_check.h"
+#include "sfx.h"
+
+#define SAC_ENABLE (1 << 0)
+
+extern Mtx gMtxClear;
+
+typedef struct CollisionContext {
+    /* 0x00 */ char _yeeted_00[0x1464];
+} CollisionContext; // size = 0x1464
+
+typedef struct PlayState {
+    /* 0x00000 */ GameState state;
+    /* 0x000A4 */ char _yeeted_000A4[0x007C0 - 0x000A4];
+    /* 0x007C0 */ CollisionContext colCtx;
+    /* 0x01C24 */ char _yeeted_01C24[0x12518 - 0x01C24];
+} PlayState; // size = 0x12518
+
+typedef struct {
+    /* 0x000 */ s16 colATCount;
+    /* 0x002 */ u16 sacFlags;
+    /* 0x004 */ Collider* colAT[COLLISION_CHECK_AT_MAX];
+    /* 0x0CC */ s32 colACCount;
+    /* 0x0D0 */ Collider* colAC[COLLISION_CHECK_AC_MAX];
+    /* 0x1C0 */ s32 colOCCount;
+    /* 0x1C4 */ Collider* colOC[COLLISION_CHECK_OC_MAX];
+    /* 0x28C */ s32 colLineCount;
+    /* 0x290 */ OcLine* colLine[COLLISION_CHECK_OC_LINE_MAX];
+} CollisionCheckContext; // size = 0x29C
+
+void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
+#if OOT_DEBUG
+void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
+void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
+void* ZeldaArena_MallocDebug(u32 size, const char* file, int line);
+void ZeldaArena_FreeDebug(void* ptr, const char* file, int line);
+#endif
+
+void Math3D_DrawSphere(PlayState* play, Sphere16* sph);
+void Math3D_DrawCylinder(PlayState* play, Cylinder16* cyl);
+
+#if OOT_DEBUG
+void BgCheck_DrawDynaCollision(PlayState*, CollisionContext*);
+void BgCheck_DrawStaticCollision(PlayState*, CollisionContext*);
+#endif
+
+int FrameAdvance_IsEnabled(PlayState* this);
+void Effect_Add(PlayState* play, s32* pIndex, s32 type, u8 arg3, u8 arg4, void* initParams);
+void EffectSsSibuki_SpawnBurst(PlayState* play, Vec3f* pos);
+void EffectSsHitMark_SpawnFixedScale(PlayState* play, s32 type, Vec3f* pos);
+DamageTable* DamageTable_Get(s32 index);
+void Matrix_MultVec3f(Vec3f* src, Vec3f* dest);
+
+void CollisionCheck_ClearContext(PlayState* play, CollisionCheckContext* colChkCtx);
+
+void CollisionCheck_SpawnRedBlood(PlayState* play, Vec3f* v);
+void CollisionCheck_SpawnWaterDroplets(PlayState* play, Vec3f* v);
+void CollisionCheck_SpawnShieldParticles(PlayState* play, Vec3f* v);
+void CollisionCheck_SpawnShieldParticlesMetal(PlayState* play, Vec3f* v);
+void CollisionCheck_SpawnShieldParticlesMetalSfx(PlayState* play, Vec3f* v, Vec3f* pos);
+void CollisionCheck_SpawnShieldParticlesMetal2(PlayState* play, Vec3f* v);
+void CollisionCheck_SpawnShieldParticlesWood(PlayState* play, Vec3f* v, Vec3f* actorPos);
+
+#if OOT_DEBUG
+void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
+#endif
+
+#endif
+
 #include "terminal.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 
@@ -2245,6 +2328,8 @@ void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChk
 #if OOT_DEBUG
 static s8 sBssDummy0;
 static s8 sBssDummy1;
+static s8 sBssDummy1b;
+static s8 sBssDummy1c;
 #endif
 
 void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {

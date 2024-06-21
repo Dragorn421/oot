@@ -1,7 +1,8 @@
 #ifndef Z64EFFECT_H
 #define Z64EFFECT_H
 
-#include "color.h"
+#include "z64light.h" // LightPoint
+#include "color.h" // Color_RGBA8
 
 struct GraphicsContext;
 struct PlayState;
