@@ -125,12 +125,13 @@ SPEC_REPLACE_VARS := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
 OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
 
-ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
+# Not setting the ABI explicitly, like libdragon. It default to O64, also like libdragon.
+ASFLAGS := -march=vr4300 -no-pad-sections -Iinclude
 
-CFLAGS += -G 0 $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -fbuiltin -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS) -funsigned-char
+CFLAGS += -G 0 $(INC) -march=vr4300 -mfix4300 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -fbuiltin -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS) -funsigned-char
 MIPS_VERSION := -mips3
 
-OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
+OBJDUMP_FLAGS := -d -r -z
 
 #### Files ####
 
@@ -250,8 +251,14 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
+LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --emit-relocs
+COMMA:=,
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
-	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --emit-relocs -Map $(MAP) -o $@
+# Not sure what's going on but using ld fails to find libc (-lc),
+# whereas invoking the linker through gcc is fine.
+# gcc -V reports invoking ld with a -L option locating the folder with libc,
+# so maybe ld's default search path for libraries is messed up?
+	$(CC) -o $@ -lc $(patsubst %,-Wl$(COMMA)%,$(LDFLAGS)) -Wl,-Map=$(MAP)
 
 ## Order-only prerequisites
 # These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.

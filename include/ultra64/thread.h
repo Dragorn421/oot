@@ -43,8 +43,7 @@ typedef struct {
     /* 0x0E8 */ u64 lo, hi;
     /* 0x0F8 */ u32 sr, pc, cause, badvaddr, rcp;
     /* 0x10C */ u32 fpcsr;
-    /* 0x110 */ __OSfp  fp0,  fp2,  fp4,  fp6,  fp8, fp10, fp12, fp14;
-    /* 0x150 */ __OSfp fp16, fp18, fp20, fp22, fp24, fp26, fp28, fp30;
+    /* 0x110 */ __OSfp fp[32];
 } __OSThreadContext; // size = 0x190
 
 typedef struct {
@@ -122,22 +121,7 @@ typedef struct {
 #define THREAD_BADVADDR (THREAD_CONTEXT + 0x104)
 #define THREAD_RCP      (THREAD_CONTEXT + 0x108)
 #define THREAD_FPCSR    (THREAD_CONTEXT + 0x10C)
-#define THREAD_FP0      (THREAD_CONTEXT + 0x110)
-#define THREAD_FP2      (THREAD_CONTEXT + 0x118)
-#define THREAD_FP4      (THREAD_CONTEXT + 0x120)
-#define THREAD_FP6      (THREAD_CONTEXT + 0x128)
-#define THREAD_FP8      (THREAD_CONTEXT + 0x130)
-#define THREAD_FP10     (THREAD_CONTEXT + 0x138)
-#define THREAD_FP12     (THREAD_CONTEXT + 0x140)
-#define THREAD_FP14     (THREAD_CONTEXT + 0x148)
-#define THREAD_FP16     (THREAD_CONTEXT + 0x150)
-#define THREAD_FP18     (THREAD_CONTEXT + 0x158)
-#define THREAD_FP20     (THREAD_CONTEXT + 0x160)
-#define THREAD_FP22     (THREAD_CONTEXT + 0x168)
-#define THREAD_FP24     (THREAD_CONTEXT + 0x170)
-#define THREAD_FP26     (THREAD_CONTEXT + 0x178)
-#define THREAD_FP28     (THREAD_CONTEXT + 0x180)
-#define THREAD_FP30     (THREAD_CONTEXT + 0x188)
+#define THREAD_FPREGS(i) (THREAD_CONTEXT + 0x110 + 8 * (i))
 
 #endif
 

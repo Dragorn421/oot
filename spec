@@ -502,7 +502,6 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
 #endif
-    include "$(BUILD_DIR)/src/libultra/mgu/scale.o"
     include "$(BUILD_DIR)/src/libultra/gu/sinf.o"
     include "$(BUILD_DIR)/src/libultra/gu/sins.o"
     include "$(BUILD_DIR)/src/libultra/io/sptask.o"
@@ -569,7 +568,6 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
-    include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"

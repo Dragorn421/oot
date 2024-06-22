@@ -34,7 +34,7 @@ void __osInitialize_common(void) {
     u32 pifdata;
 
     __osFinalrom = true;
-    __osSetSR(__osGetSR() | SR_CU1);
+    __osSetSR(__osGetSR() | SR_CU1 | SR_FR);
     __osSetFpcCsr(FPCSR_FS | FPCSR_EV);
     __osSetWatchLo(0x04900000);
 

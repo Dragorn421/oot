@@ -546,30 +546,11 @@ void Fault_PrintThreadContext(OSThread* thread) {
     Fault_PrintFPCSR(ctx->fpcsr);
     FaultDrawer_Printf("\n");
 
-    Fault_PrintFReg(0, &ctx->fp0.f.f_even);
-    Fault_PrintFReg(2, &ctx->fp2.f.f_even);
-    FaultDrawer_Printf("\n");
-    Fault_PrintFReg(4, &ctx->fp4.f.f_even);
-    Fault_PrintFReg(6, &ctx->fp6.f.f_even);
-    FaultDrawer_Printf("\n");
-    Fault_PrintFReg(8, &ctx->fp8.f.f_even);
-    Fault_PrintFReg(10, &ctx->fp10.f.f_even);
-    FaultDrawer_Printf("\n");
-    Fault_PrintFReg(12, &ctx->fp12.f.f_even);
-    Fault_PrintFReg(14, &ctx->fp14.f.f_even);
-    FaultDrawer_Printf("\n");
-    Fault_PrintFReg(16, &ctx->fp16.f.f_even);
-    Fault_PrintFReg(18, &ctx->fp18.f.f_even);
-    FaultDrawer_Printf("\n");
-    Fault_PrintFReg(20, &ctx->fp20.f.f_even);
-    Fault_PrintFReg(22, &ctx->fp22.f.f_even);
-    FaultDrawer_Printf("\n");
-    Fault_PrintFReg(24, &ctx->fp24.f.f_even);
-    Fault_PrintFReg(26, &ctx->fp26.f.f_even);
-    FaultDrawer_Printf("\n");
-    Fault_PrintFReg(28, &ctx->fp28.f.f_even);
-    Fault_PrintFReg(30, &ctx->fp30.f.f_even);
-    FaultDrawer_Printf("\n");
+    for (int i = 0; i < 32; i += 2) {
+        Fault_PrintFReg(i, &ctx->fp[i].f.f_even);
+        Fault_PrintFReg(i + 1, &ctx->fp[i + 1].f.f_even);
+        FaultDrawer_Printf("\n");
+    }
 
     FaultDrawer_SetCharPad(0, 0);
 }
@@ -605,30 +586,11 @@ void Fault_LogThreadContext(OSThread* thread) {
     Fault_LogFPCSR(ctx->fpcsr);
     osSyncPrintf("\n");
 
-    Fault_LogFReg(0, &ctx->fp0.f.f_even);
-    Fault_LogFReg(2, &ctx->fp2.f.f_even);
-    osSyncPrintf("\n");
-    Fault_LogFReg(4, &ctx->fp4.f.f_even);
-    Fault_LogFReg(6, &ctx->fp6.f.f_even);
-    osSyncPrintf("\n");
-    Fault_LogFReg(8, &ctx->fp8.f.f_even);
-    Fault_LogFReg(10, &ctx->fp10.f.f_even);
-    osSyncPrintf("\n");
-    Fault_LogFReg(12, &ctx->fp12.f.f_even);
-    Fault_LogFReg(14, &ctx->fp14.f.f_even);
-    osSyncPrintf("\n");
-    Fault_LogFReg(16, &ctx->fp16.f.f_even);
-    Fault_LogFReg(18, &ctx->fp18.f.f_even);
-    osSyncPrintf("\n");
-    Fault_LogFReg(20, &ctx->fp20.f.f_even);
-    Fault_LogFReg(22, &ctx->fp22.f.f_even);
-    osSyncPrintf("\n");
-    Fault_LogFReg(24, &ctx->fp24.f.f_even);
-    Fault_LogFReg(26, &ctx->fp26.f.f_even);
-    osSyncPrintf("\n");
-    Fault_LogFReg(28, &ctx->fp28.f.f_even);
-    Fault_LogFReg(30, &ctx->fp30.f.f_even);
-    osSyncPrintf("\n");
+    for (int i = 0; i < 32; i += 2) {
+        Fault_LogFReg(i, &ctx->fp[i].f.f_even);
+        Fault_LogFReg(i + 1, &ctx->fp[i + 1].f.f_even);
+        osSyncPrintf("\n");
+    }
 }
 
 /**

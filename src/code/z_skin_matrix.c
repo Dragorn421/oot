@@ -687,3 +687,15 @@ void func_800A8030(MtxF* mf, f32* arg1) {
     mf->ww = 1.0f;
     mf->zw = 0.0f;
 }
+
+void guScale(Mtx* m, f32 x, f32 y, f32 z) {
+    MtxF mf;
+    SkinMatrix_SetScale(&mf, x, y, z);
+    SkinMatrix_MtxFToMtx(&mf, m);
+}
+
+void guTranslate(Mtx* m, f32 x, f32 y, f32 z) {
+    MtxF mf;
+    SkinMatrix_SetTranslate(&mf, x, y, z);
+    SkinMatrix_MtxFToMtx(&mf, m);
+}

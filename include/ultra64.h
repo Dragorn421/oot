@@ -299,6 +299,7 @@
 #define IS_KSEG1(x) ((uint32_t)(x) >= K1BASE && (uint32_t)(x) < K2BASE)
 //
 #define SR_CU1 0x20000000
+#define SR_FR 0x04000000
 #define SR_EXL 0x00000002
 #define CAUSE_IP5 0x00001000
 //
