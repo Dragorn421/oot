@@ -61,7 +61,7 @@
 /**
  *  Stack Alignment
  */
-#if   (_MIPS_SIM == _ABIO32)
+#if   (_MIPS_SIM == _ABIO32 || _MIPS_SIM == _ABIO64)
 #define NARGSAVE 4      // space for 4 args must be allocated
 #define ALSZ    (8-1)
 #define ALMASK ~(8-1)
@@ -76,9 +76,9 @@
 /**
  *  Register Size
  */
-#if   (_MIPS_ISA == _MIPS_ISA_MIPS1 || _MIPS_ISA == _MIPS_ISA_MIPS2)
+#if !defined(_MIPS_SIM) || _MIPS_SIM == _ABI_O32 || _MIPS_SIM == _ABI_N32
 #define SZREG 4
-#elif (_MIPS_ISA == _MIPS_ISA_MIPS3 || _MIPS_ISA == _MIPS_ISA_MIPS4)
+#else
 #define SZREG 8
 #endif
 

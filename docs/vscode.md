@@ -42,12 +42,10 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
     "configurations": [
         {
             "name": "N64 oot-gc-eu-mq-dbg",
-            "compilerPath": "${default}", // Needs to not be "" for -m32 to work
-            "compilerArgs": [
-                "-m32" // Removes integer truncation warnings with gbi macros
-            ],
-            "intelliSenseMode": "${default}", // Shouldn't matter
-            "includePath": [ // Matches makefile's includes
+            "compilerPath": "${env:N64_GCCPREFIX}/bin/mips64-elf-gcc",
+            "includePath": [
+                "build/libdragon/mips64-elf/include",
+                // Matches Makefile's INC
                 "include",
                 "include/libc",
                 "src",
@@ -57,9 +55,10 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
             ],
             "defines": [
                 "_LANGUAGE_C", // For gbi.h
-                "OOT_DEBUG=1" // If targeting a debug version
+                "OOT_DEBUG=1", // If targeting a debug version
+                "COMPILER_GCC"
             ],
-            "cStandard": "gnu89", // C89 + some GNU extensions from C99 like C++ comments
+            "cStandard": "gnu99",
             "cppStandard": "${default}" // Only ZAPD uses C++, so doesn't really matter
         }
     ],

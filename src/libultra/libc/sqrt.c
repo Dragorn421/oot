@@ -1,6 +1,6 @@
 #include "global.h"
 
-double sqrt(double f) {
+double sqrt_libultra(double f) {
 #ifndef __GNUC__
     return sqrt(f);
 #else

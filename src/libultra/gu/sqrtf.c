@@ -4,6 +4,6 @@
 #define __builtin_sqrtf sqrtf
 #endif
 
-f32 sqrtf(f32 f) {
+f32 sqrtf_libultra(f32 f) {
     return __builtin_sqrtf(f);
 }
