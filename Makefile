@@ -157,8 +157,10 @@ CFLAGS += -Wno-error=unknown-pragmas # #pragma increment_block_number
 CFLAGS += -Wno-error=array-bounds= # (at least) OS_K0_TO_PHYSICAL
 CFLAGS += -Wno-error=address -Wno-error=return-type -Wno-error=switch-unreachable
 
-code_SRCS = $(shell find src/libultra src/boot src/code -name '*.c' -not -name '*.inc.c')
-code_OBJS = $(addprefix $(BUILD_DIR)/,$(code_SRCS:.c=.o))
+ASFLAGS += -Iinclude
+
+code_SRCS := $(shell find src/libultra src/boot src/code src/audio src/buffers \( \( -name '*.c' -not -name '*.inc.c' \) -o -name '*.S' \))
+code_OBJS := $(addprefix $(BUILD_DIR)/,$(patsubst %.S,%.o,$(code_SRCS:.c=.o)))
 
 $(ROM): N64_ROM_TITLE = "oot-$(VERSION)"
 

@@ -11,7 +11,7 @@ void cleararena(void) {
     bzero(_dmadataSegmentStart, osMemSize - OS_K0_TO_PHYSICAL(_dmadataSegmentStart));
 }
 
-void bootproc(void) {
+int main() {
     StackCheck_Init(&sBootThreadInfo, sBootThreadStack, STACK_TOP(sBootThreadStack), 0, -1, "boot");
 
     osMemSize = osGetMemSize();

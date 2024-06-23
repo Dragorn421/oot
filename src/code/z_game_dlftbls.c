@@ -32,7 +32,8 @@
     },
 
 GameStateOverlay gGameStateOverlayTable[] = {
-#include "tables/gamestate_table.h"
+// for now
+//#include "tables/gamestate_table.h"
 };
 
 #undef DEFINE_GAMESTATE

@@ -21,7 +21,8 @@ u32 gObjectTableSize = ARRAY_COUNT(gObjectTable);
 #define DEFINE_OBJECT_UNSET(_0) ROM_FILE_UNSET,
 
 RomFile gObjectTable[] = {
-#include "tables/object_table.h"
+// for now
+//#include "tables/object_table.h"
 };
 
 #undef DEFINE_OBJECT

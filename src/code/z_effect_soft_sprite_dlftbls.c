@@ -30,7 +30,8 @@
     },
 
 EffectSsOverlay gEffectSsOverlayTable[] = {
-#include "tables/effect_ss_table.h"
+// for now
+//#include "tables/effect_ss_table.h"
 };
 
 #undef DEFINE_EFFECT_SS

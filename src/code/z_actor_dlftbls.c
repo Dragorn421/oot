@@ -67,7 +67,8 @@
 #define DEFINE_ACTOR_UNSET(_0) { 0 },
 
 ActorOverlay gActorOverlayTable[] = {
-#include "tables/actor_table.h"
+// for now
+//#include "tables/actor_table.h"
 };
 
 #undef DEFINE_ACTOR

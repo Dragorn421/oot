@@ -57,7 +57,8 @@ EntranceInfo gEntranceTable[] = {
 #define _noneSegmentRomEnd NULL
 
 SceneTableEntry gSceneTable[] = {
-#include "tables/scene_table.h"
+// for now
+//#include "tables/scene_table.h"
 };
 
 #undef _noneSegmentRomStart
