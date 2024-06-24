@@ -107,8 +107,8 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
         this->unk15A = 0;
         this->unk174.base.acFlags |= 4;
-        this->unk174.elements->dim.worldSphere.radius = 8;
-        this->unk174.elements->dim.modelSphere.radius = this->unk174.elements->dim.worldSphere.radius;
+        this->unk174.elements[0].dim.worldSphere.radius = 8;
+        this->unk174.elements[0].dim.modelSphere.radius = this->unk174.elements[0].dim.worldSphere.radius;
         func_80B21B90(this);
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
