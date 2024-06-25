@@ -2,7 +2,9 @@
 #include "quake.h"
 #include "terminal.h"
 
-#pragma increment_block_number 200
+#include "z64frame_advance.h"
+
+#pragma increment_block_number 231
 
 #if OOT_DEBUG
 void* gDebugCutsceneScript = NULL;
@@ -453,8 +455,8 @@ void Play_Init(GameState* thisx) {
 
     Interface_SetSceneRestrictions(this);
     Environment_PlaySceneSequence(this);
-    gSaveContext.seqId = this->sequenceCtx.seqId;
-    gSaveContext.natureAmbienceId = this->sequenceCtx.natureAmbienceId;
+    gSaveContext.seqId = this->sceneSequences.seqId;
+    gSaveContext.natureAmbienceId = this->sceneSequences.natureAmbienceId;
     func_8002DF18(this, GET_PLAYER(this));
     AnimTaskQueue_Update(this, &this->animTaskQueue);
     gSaveContext.respawnFlag = 0;
