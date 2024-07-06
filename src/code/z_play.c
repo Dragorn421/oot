@@ -4,14 +4,7 @@
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number 231
-
-#if OOT_DEBUG
-void* gDebugCutsceneScript = NULL;
-UNK_TYPE D_8012D1F4 = 0; // unused
-#endif
-
-Input* D_8012D1F8 = NULL;
+#pragma increment_block_number 2
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -23,6 +16,13 @@ FaultClient D_801614B8;
 #endif
 
 s16 sTransitionFillTimer;
+
+#if OOT_DEBUG
+void* gDebugCutsceneScript = NULL;
+UNK_TYPE D_8012D1F4 = 0; // unused
+#endif
+
+Input* D_8012D1F8 = NULL;
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
