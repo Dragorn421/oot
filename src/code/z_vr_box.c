@@ -527,6 +527,9 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
             }
             break;
 
+        /*
+        // ootdragon-TODO: load the skybox files
+
         case SKYBOX_BAZAAR:
             skyboxCtx->drawType = SKYBOX_DRAW_256_4FACE;
 
@@ -1009,6 +1012,8 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
             DMA_REQUEST_SYNC(skyboxCtx->palettes, (uintptr_t)_vr_KR3VR_pal_staticSegmentRomStart, size, "../z_vr_box.c",
                              1595);
             break;
+
+        */
 
         case SKYBOX_UNSET_27:
             break;

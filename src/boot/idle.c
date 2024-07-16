@@ -28,12 +28,16 @@ void Main_ThreadEntry(void* arg) {
     DmaMgr_Init();
     PRINTF("codeセグメントロード中...");
     time = osGetTime();
+    /*
+    // ootdragon: this is no longer relevant, boot and code are merged into one blob and fully loaded by libdragon's entrypoint.S
     DMA_REQUEST_SYNC(_codeSegmentStart, (uintptr_t)_codeSegmentRomStart, _codeSegmentRomEnd - _codeSegmentRomStart,
                      "../idle.c", 238);
+    */
     time -= osGetTime();
     PRINTF("\rcodeセグメントロード中...完了\n");
     PRINTF("転送時間 %6.3f\n");
-    bzero(_codeSegmentBssStart, _codeSegmentBssEnd - _codeSegmentBssStart);
+    // ootdragon: this is no longer relevant. libdragon's entrypoint.S zeros bss
+    // bzero(_codeSegmentBssStart, _codeSegmentBssEnd - _codeSegmentBssStart);
     PRINTF("codeセグメントBSSクリア完了\n");
     Main(arg);
     PRINTF("mainx 実行終了\n");
@@ -46,7 +50,7 @@ void Idle_ThreadEntry(void* arg) {
     PRINTF("MAKEOPTION: %s\n", gBuildMakeOption);
     PRINTF(VT_FGCOL(GREEN));
     PRINTF("ＲＡＭサイズは %d キロバイトです(osMemSize/osGetMemSize)\n", (s32)osMemSize / 1024);
-    PRINTF("_bootSegmentEnd(%08x) 以降のＲＡＭ領域はクリアされました(boot)\n", _bootSegmentEnd);
+    // PRINTF("_bootSegmentEnd(%08x) 以降のＲＡＭ領域はクリアされました(boot)\n", _bootSegmentEnd);
     PRINTF("Ｚバッファのサイズは %d キロバイトです\n", 0x96);
     PRINTF("ダイナミックバッファのサイズは %d キロバイトです\n", 0x92);
     PRINTF("ＦＩＦＯバッファのサイズは %d キロバイトです\n", 0x60);

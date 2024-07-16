@@ -8,7 +8,8 @@ StackEntry sIdleThreadInfo;
 STACK(sBootThreadStack, BOOT_STACK_SIZE);
 
 void cleararena(void) {
-    bzero(_dmadataSegmentStart, osMemSize - OS_K0_TO_PHYSICAL(_dmadataSegmentStart));
+    // ootdragon-TODO Not sure what this is for in the game. Not sure if libdragon zeros the whole ram on boot already.
+    // bzero(_dmadataSegmentStart, osMemSize - OS_K0_TO_PHYSICAL(_dmadataSegmentStart));
 }
 
 int main() {

@@ -33,6 +33,9 @@ u32 gDmaMgrVerbose = 0;
 size_t gDmaMgrDmaBuffSize = DMAMGR_DEFAULT_BUFSIZE;
 u32 sDmaMgrIsRomCompressed = false;
 
+// ootdragon-TODO this is just to keep the code compiling for now while addressing linking problems.
+DmaEntry gDmaDataTable[1];
+
 // dmadata filenames
 #define DEFINE_DMA_ENTRY(_0, nameString) nameString,
 
@@ -546,8 +549,11 @@ void DmaMgr_Init(void) {
     DmaEntry* iter;
 
     // DMA the dma data table to RAM
+    // ootdragon-TODO
+    /*
     DmaMgr_DmaRomToRam((uintptr_t)_dmadataSegmentRomStart, _dmadataSegmentStart,
                        (u32)(_dmadataSegmentRomEnd - _dmadataSegmentRomStart));
+    */
     PRINTF("dma_rom_ad[]\n");
 
 #if OOT_DEBUG
@@ -577,12 +583,16 @@ void DmaMgr_Init(void) {
 #endif
 
     // Ensure that the boot segment always follows after the makerom segment.
+    /*
+    // ootdragon-TODO I think this check is irrelevant with libdragon.
+    // The libdragon n64.ld just places things correctly :tm:
     if ((uintptr_t)_bootSegmentRomStart != gDmaDataTable[0].file.vromEnd) {
         PRINTF("_bootSegmentRomStart(%08x) != dma_rom_ad[0].rom_b(%08x)\n", _bootSegmentRomStart,
                gDmaDataTable[0].file.vromEnd);
         //! @bug The main code file where fault.c resides is not yet loaded
         Fault_AddHungupAndCrash("../z_std_dma.c", 1055);
     }
+    */
 
     // Start the DMA manager
     osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgBuf, ARRAY_COUNT(sDmaMgrMsgBuf));
