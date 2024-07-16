@@ -20,6 +20,7 @@ echo "N64_INST set to ${N64_INST}"
 
 set -x
 
+# If building libdragon fails try `make -C libdragon clean`, to clean any previous build files.
 make -C libdragon
 mkdir -p "${N64_INST}/mips64-elf/include" # temporary workaround for libdragon's make install not creating that folder
 make -C libdragon install

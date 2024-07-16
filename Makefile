@@ -80,7 +80,7 @@ clean:
 	$(RM) -r $(BUILD_DIR)
 
 assetclean:
-	$(RM) -r $(ASSET_BIN_DIRS)
+	$(RM) -r assets/code assets/misc assets/objects assets/overlays assets/scenes assets/textures
 	$(RM) -r $(EXTRACTED_DIR)
 	$(RM) -r $(BUILD_DIR)/assets
 	$(RM) -r .extracted-assets.json
@@ -152,10 +152,16 @@ endif
 
 include $(N64_INST)/include/n64.mk
 
-CFLAGS += -Wno-error=maybe-uninitialized -Wno-error=missing-braces -Wno-error=strict-aliasing -Wno-error=format=
+CFLAGS += -Wno-error=maybe-uninitialized
+CFLAGS += -Wno-missing-braces
+CFLAGS += -Wno-error=strict-aliasing -Wno-error=format=
 CFLAGS += -Wno-error=unknown-pragmas # #pragma increment_block_number
 CFLAGS += -Wno-error=array-bounds= # (at least) OS_K0_TO_PHYSICAL
 CFLAGS += -Wno-error=address -Wno-error=return-type -Wno-error=switch-unreachable
+
+# ld: small-data section exceeds 64KB; lower small-data size limit (see option -G)
+# for now just don't use small data
+CFLAGS += -G 0
 
 ASFLAGS += -Iinclude
 
