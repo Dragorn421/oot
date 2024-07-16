@@ -39,6 +39,8 @@ void KaleidoScopeCall_Init(PlayState* play) {
     // "Kaleidoscope replacement construction"
     PRINTF("カレイド・スコープ入れ替え コンストラクト \n");
 
+    // ootdragon-TODO get the update and draw callbacks in the dll
+/*
     sKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr(KaleidoScope_Update);
     sKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr(KaleidoScope_Draw);
 
@@ -46,6 +48,7 @@ void KaleidoScopeCall_Init(PlayState* play) {
     LOG_ADDRESS("kaleido_scope_move_func", sKaleidoScopeUpdateFunc, "../z_kaleido_scope_call.c", 99);
     LOG_ADDRESS("kaleido_scope_draw", KaleidoScope_Draw, "../z_kaleido_scope_call.c", 100);
     LOG_ADDRESS("kaleido_scope_draw_func", sKaleidoScopeDrawFunc, "../z_kaleido_scope_call.c", 101);
+*/
 
     KaleidoSetup_Init(play);
 }
