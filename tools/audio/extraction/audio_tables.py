@@ -10,11 +10,13 @@ from enum import IntEnum
 
 from .util import incbin
 
+
 class AudioStorageMedium(IntEnum):
     MEDIUM_RAM = 0
     MEDIUM_UNK = 1
     MEDIUM_CART = 2
     MEDIUM_DISK_DRIVE = 3
+
 
 class AudioCachePolicy(IntEnum):
     CACHE_LOAD_PERMANENT = 0
@@ -22,6 +24,7 @@ class AudioCachePolicy(IntEnum):
     CACHE_LOAD_TEMPORARY = 2
     CACHE_LOAD_EITHER = 3
     CACHE_LOAD_EITHER_NOSYNC = 4
+
 
 class AudioCodeTable:
     """
@@ -46,9 +49,17 @@ class AudioCodeTable:
             /* 0x0E */ s16 shortData3;
         } AudioTableEntry; // size = 0x10
         """
+
         def __init__(self, data):
-            self.rom_addr, self.size, self.medium, self.cache_policy, self.short_data1, self.short_data2, \
-                self.short_data3 = struct.unpack(">IIbbhhh", data[:0x10])
+            (
+                self.rom_addr,
+                self.size,
+                self.medium,
+                self.cache_policy,
+                self.short_data1,
+                self.short_data2,
+                self.short_data3,
+            ) = struct.unpack(">IIbbhhh", data[:0x10])
 
             self.medium = AudioStorageMedium(self.medium)
             self.cache_policy = AudioCachePolicy(self.cache_policy)
@@ -57,7 +68,7 @@ class AudioCodeTable:
             self.sample_bank_id_2 = (self.short_data1 >> 0) & 0xFF
 
             self.num_instruments = (self.short_data2 >> 8) & 0xFF
-            self.num_drums =       (self.short_data2 >> 0) & 0xFF
+            self.num_drums = (self.short_data2 >> 0) & 0xFF
 
             self.num_sfx = self.short_data3
 
@@ -73,10 +84,10 @@ class AudioCodeTable:
             out += "}\n"
             return out
 
-        def data(self, rom_image : memoryview, offset : int) -> memoryview:
+        def data(self, rom_image: memoryview, offset: int) -> memoryview:
             return incbin(rom_image, self.rom_addr + offset, self.size)
 
-    def __init__(self, rom_image : memoryview, rom_start : int):
+    def __init__(self, rom_image: memoryview, rom_start: int):
         header = incbin(rom_image, rom_start, 0x10)
 
         self.num_entries, self.unk_medium_param, self.rom_addr = struct.unpack(">hhI", header[:8])
@@ -86,7 +97,7 @@ class AudioCodeTable:
 
         self.entries = []
         for i in range(self.num_entries):
-            self.entries.append(AudioCodeTable.AudioCodeTableEntry(self.data[0x10 + 0x10 * i:][:0x10]))
+            self.entries.append(AudioCodeTable.AudioCodeTableEntry(self.data[0x10 + 0x10 * i :][:0x10]))
 
     def __iter__(self) -> AudioCodeTableEntry:
         for e in self.entries:
@@ -100,9 +111,9 @@ class AudioCodeTable:
         out += f"    .numEntries = {self.num_entries}\n"
         out += f"    .unkMediumParam = {self.unk_medium_param}\n"
         out += f"    .romAddr = 0x{self.rom_addr:X}\n"
-        out +=  "    .entries = {\n"
+        out += "    .entries = {\n"
         for entry in self.entries:
             out += str(entry) + "\n"
-        out +=  "    }\n"
+        out += "    }\n"
         out += "}\n"
         return out

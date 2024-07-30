@@ -17,6 +17,7 @@ from .util import XMLWriter
 
 VADPCM_VERSTAMP = 1
 
+
 class AudioSampleCodec(IntEnum):
     CODEC_ADPCM = 0
     CODEC_S8 = 1
@@ -26,8 +27,7 @@ class AudioSampleCodec(IntEnum):
     CODEC_S16 = 5
 
 
-
-class SoundFontSample: # SampleHeader ?
+class SoundFontSample:  # SampleHeader ?
     """
     typedef struct {
         /* 0x00 */ u32 codec : 4;
@@ -40,27 +40,28 @@ class SoundFontSample: # SampleHeader ?
         /* 0x0C */ AdpcmBook* book;
     } SoundFontSample; // size = 0x10
     """
+
     SIZE = 0x10
 
     def __init__(self, data):
         bits, self.sample_addr, self.loop, self.book = struct.unpack(">IIII", data[:0x10])
 
-        self.codec        = AudioSampleCodec((bits >> 28) & 0b1111)
-        self.medium       = AudioStorageMedium((bits >> 26) & 0b11)
-        self.cached       = bool((bits >> 25) & 1)
+        self.codec = AudioSampleCodec((bits >> 28) & 0b1111)
+        self.medium = AudioStorageMedium((bits >> 26) & 0b11)
+        self.cached = bool((bits >> 25) & 1)
         self.is_relocated = bool((bits >> 24) & 1)
-        self.size         = (bits >> 0) & 0b111111111111111111111111
+        self.size = (bits >> 0) & 0b111111111111111111111111
 
         assert self.book != 0
         assert self.loop != 0
         assert self.codec in [AudioSampleCodec.CODEC_ADPCM, AudioSampleCodec.CODEC_SMALL_ADPCM]
         assert self.medium == 0
-        assert not self.is_relocated # Not relocated in ROM
+        assert not self.is_relocated  # Not relocated in ROM
 
-    def to_xml(self, xml : XMLWriter, name : str, rate_override = None, note_override = None):
+    def to_xml(self, xml: XMLWriter, name: str, rate_override=None, note_override=None):
         # <Sample Name="SAMPLE_NAME" SampleRate="32000" BaseNote="C4" IsDD="false" Cached="false">
 
-        attrs = { "Name" : name }
+        attrs = {"Name": name}
         if rate_override is not None:
             attrs["SampleRate"] = rate_override
         if note_override is not None:
@@ -86,7 +87,6 @@ class SoundFontSample: # SampleHeader ?
         return out
 
 
-
 class AdpcmLoop:
     """
     typedef struct {
@@ -102,7 +102,7 @@ class AdpcmLoop:
         self.start, self.end, self.count, self.num_frames = struct.unpack(">IIII", data[:0x10])
 
         # We expect loops to be either "no loop" or "infinite", as these are all that vadpcm_enc could handle.
-        assert self.count in (0,0xFFFFFFFF)
+        assert self.count in (0, 0xFFFFFFFF)
 
         if self.count != 0:
             self.state = tuple(s[0] for s in struct.iter_unpack(">h", data[0x10:0x30]))
@@ -120,15 +120,12 @@ class AdpcmLoop:
         """
         NUM_LOOPS = 1
 
-        return struct.pack(">HHIII16h",
-                           VADPCM_VERSTAMP, NUM_LOOPS,
-                           self.start, self.end, self.count,
-                           *self.state)
+        return struct.pack(">HHIII16h", VADPCM_VERSTAMP, NUM_LOOPS, self.start, self.end, self.count, *self.state)
 
     def __eq__(self, other):
         if not isinstance(other, AdpcmLoop):
             return False
-        other : AdpcmLoop
+        other: AdpcmLoop
 
         start_matches = self.start == other.start
         end_matches = self.end == other.end
@@ -147,6 +144,7 @@ class AdpcmLoop:
         out += "}\n"
         return out
 
+
 class AdpcmBook:
     """
     typedef struct {
@@ -158,8 +156,11 @@ class AdpcmBook:
 
     def __init__(self, data):
         self.order, self.n_predictors = struct.unpack(">ii", data[:8])
-        self.book = tuple(s[0] for s in struct.iter_unpack(">h", data[8:][:2 * 8 * self.order * self.n_predictors]))
-        assert len(self.book) == 8 * self.order * self.n_predictors , (len(self.book), 8 * self.order * self.n_predictors)
+        self.book = tuple(s[0] for s in struct.iter_unpack(">h", data[8:][: 2 * 8 * self.order * self.n_predictors]))
+        assert len(self.book) == 8 * self.order * self.n_predictors, (
+            len(self.book),
+            8 * self.order * self.n_predictors,
+        )
 
     def serialize(self):
         header = struct.pack(">hhh", VADPCM_VERSTAMP, self.order, self.n_predictors)
@@ -169,7 +170,7 @@ class AdpcmBook:
     def __eq__(self, other):
         if not isinstance(other, AdpcmBook):
             return False
-        other : AdpcmBook
+        other: AdpcmBook
 
         order_matches = self.order == other.order
         npredictors_matches = self.n_predictors == other.n_predictors
@@ -184,7 +185,6 @@ class AdpcmBook:
         return out
 
 
-
 class SoundFontSound:
     """
     typedef struct {
@@ -192,6 +192,7 @@ class SoundFontSound:
         /* 0x04 */ f32 tuning;              // frequency scale factor
     } SoundFontSound; // size = 0x8
     """
+
     SIZE = 8
 
     def __init__(self, index, data):
@@ -206,10 +207,10 @@ class SoundFontSound:
             return
 
         assert isinstance(sample, AudioTableSample)
-        sample : AudioTableSample
+        sample: AudioTableSample
 
         assert self.tuning in sample.tuning_map
-        rate,note = sample.tuning_map[self.tuning]
+        rate, note = sample.tuning_map[self.tuning]
 
         self.sample_rate = rate
         self.needs_rate_override = self.sample_rate != sample.sample_rate
@@ -224,13 +225,13 @@ class SoundFontSound:
         out += "}\n"
         return out
 
-    def to_xml(self, xml : XMLWriter, name : str, sample_name_func):
+    def to_xml(self, xml: XMLWriter, name: str, sample_name_func):
         if self.sample == 0 and self.tuning == 0:
             xml.write_element("Effect")
         else:
             attrs = {
-                "Name" : name,
-                "Sample" : sample_name_func(self.sample),
+                "Name": name,
+                "Sample": sample_name_func(self.sample),
             }
             if self.needs_rate_override:
                 attrs["SampleRate"] = self.sample_rate
@@ -238,7 +239,6 @@ class SoundFontSound:
                 attrs["BaseNote"] = self.base_note
 
             xml.write_element("Effect", attrs)
-
 
 
 class Drum:
@@ -251,11 +251,13 @@ class Drum:
         /* 0x0C */ AdsrEnvelope* envelope;
     } Drum; // size = 0x10
     """
+
     SIZE = 0x10
 
     def __init__(self, data):
-        self.release_rate, self.pan, self.is_relocated, self.sample, self.tuning, self.envelope = \
-            struct.unpack(">BBBxIfI", data[:0x10])
+        self.release_rate, self.pan, self.is_relocated, self.sample, self.tuning, self.envelope = struct.unpack(
+            ">BBBxIfI", data[:0x10]
+        )
 
         assert self.is_relocated == 0
 
@@ -270,11 +272,15 @@ class Drum:
         assert isinstance(other, Drum)
 
         # Check general agreement, if these attributes do not match it is certainly not part of the same group
-        if self.sample == other.sample and self.pan == other.pan and self.envelope == other.envelope and \
-           self.release_rate == other.release_rate:
+        if (
+            self.sample == other.sample
+            and self.pan == other.pan
+            and self.envelope == other.envelope
+            and self.release_rate == other.release_rate
+        ):
             # If there is any intersection in the samplerates, assume these are in the same drum group
-            samplerates1 = set(rate for _,rate in rate_from_tuning(self.tuning))
-            samplerates2 = set(rate for _,rate in rate_from_tuning(other.tuning))
+            samplerates1 = set(rate for _, rate in rate_from_tuning(self.tuning))
+            samplerates2 = set(rate for _, rate in rate_from_tuning(other.tuning))
             return len(samplerates1.intersection(samplerates2)) != 0
 
         return False
@@ -291,7 +297,6 @@ class Drum:
         return out
 
 
-
 class Instrument:
     """
     typedef struct {
@@ -305,13 +310,23 @@ class Instrument:
         /* 0x18 */ SoundFontSound highNotesSound;
     } Instrument; // size = 0x20
     """
+
     SIZE = 0x20
 
     def __init__(self, data):
-        self.is_relocated, self.normal_range_lo, self.normal_range_hi, self.release_rate, self.envelope, \
-            self.low_notes_sample, self.low_notes_tuning, \
-            self.normal_notes_sample, self.normal_notes_tuning, \
-            self.high_notes_sample, self.high_notes_tuning = struct.unpack(">BBBBIIfIfIf", data[:0x20])
+        (
+            self.is_relocated,
+            self.normal_range_lo,
+            self.normal_range_hi,
+            self.release_rate,
+            self.envelope,
+            self.low_notes_sample,
+            self.low_notes_tuning,
+            self.normal_notes_sample,
+            self.normal_notes_tuning,
+            self.high_notes_sample,
+            self.high_notes_tuning,
+        ) = struct.unpack(">BBBBIIfIfIf", data[:0x20])
 
         self.program_number = None
         self.offset = None
@@ -350,15 +365,15 @@ class Instrument:
 
         sample_offsets = (self.low_notes_sample, self.normal_notes_sample, self.high_notes_sample)
         tunings = (self.low_notes_tuning, self.normal_notes_tuning, self.high_notes_tuning)
-        for i,(sample_offset,tuning) in enumerate(zip(sample_offsets, tunings)):
+        for i, (sample_offset, tuning) in enumerate(zip(sample_offsets, tunings)):
             sample = sample_lookup_fn(sample_offset)
             if sample is None:
                 continue
             assert isinstance(sample, AudioTableSample)
-            sample : AudioTableSample
+            sample: AudioTableSample
 
             assert tuning in sample.tuning_map
-            rate,note = sample.tuning_map[tuning]
+            rate, note = sample.tuning_map[tuning]
 
             self.sample_rate[i] = rate
             self.needs_rate_override[i] = self.sample_rate[i] != sample.sample_rate
@@ -366,7 +381,7 @@ class Instrument:
             self.base_note[i] = note
             self.needs_note_override[i] = self.base_note[i] != sample.base_note
 
-    def to_xml(self, xml : XMLWriter, name : str, sample_names_func, envelope_name_func):
+    def to_xml(self, xml: XMLWriter, name: str, sample_names_func, envelope_name_func):
         attributes = {}
 
         if not self.unused:
@@ -374,11 +389,13 @@ class Instrument:
             attributes["Name"] = name
 
         # TODO release rate overrides?
-        attributes.update({
-            "Envelope" : envelope_name_func(self.envelope),
-            #"Release"  : self.release_rate,
-            "Sample"   : sample_names_func(self.normal_notes_sample),
-        })
+        attributes.update(
+            {
+                "Envelope": envelope_name_func(self.envelope),
+                # "Release"  : self.release_rate,
+                "Sample": sample_names_func(self.normal_notes_sample),
+            }
+        )
 
         if self.needs_rate_override[1]:
             attributes["SampleRate"] = self.sample_rate[1]

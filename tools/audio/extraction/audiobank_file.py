@@ -20,33 +20,37 @@ from .util import XMLWriter, align, debugm, merge_like_ranges, merge_ranges
 PLOT_DRUM_TUNING = False
 LOG_COVERAGE = False
 
+
 def coverage_log(str):
-    if LOG_COVERAGE: debugm(str)
+    if LOG_COVERAGE:
+        debugm(str)
+
 
 if PLOT_DRUM_TUNING:
     import matplotlib.pyplot as plt
 
 
-
 # dummy types for coverage labeling
+
 
 class Padding:
     pass
 
+
 class SfxListPtr:
     SIZE = 4
+
 
 class DrumsListPtr:
     SIZE = 4
 
+
 class InstrumentPtr:
     SIZE = 4
 
+
 class DrumPtr:
     SIZE = 4
-
-
-
 
 
 class DrumGroup:
@@ -87,7 +91,7 @@ class DrumGroup:
         env_offsets = set(drum.envelope for drum in self.drums)
         assert len(env_offsets) == 1
         self.envelope_offset = env_offsets.pop()
-        self.envelope : Envelope = envelopes[self.envelope_offset]
+        self.envelope: Envelope = envelopes[self.envelope_offset]
 
         # A drum group should use the same release rate
         release_rates = set(drum.release_rate for drum in self.drums)
@@ -110,13 +114,13 @@ class DrumGroup:
         # Fetch sample header
         self.sample_header_offset = sample_header_offset
         sample = sample_lookup_fn(sample_header_offset)
-        sample : AudioTableSample
+        sample: AudioTableSample
 
         # Collect final samplerate and basenotes for each drum in the group
         final_rate = None
         notes = []
         for drum in self:
-            drum : Drum
+            drum: Drum
 
             tuning = drum.tuning
             assert tuning in sample.tuning_map
@@ -132,7 +136,7 @@ class DrumGroup:
 
         # Note values should increase monotonically in a drum group
         note_indices = [pitch_names.index(note) + 21 for note in notes]
-        assert all(v == note_indices[0] + i for i,v in enumerate(note_indices))
+        assert all(v == note_indices[0] + i for i, v in enumerate(note_indices))
 
         # Assign final rate and note.
         # Use first note in the group as the basenote for the whole group, the rest will be filled in during build.
@@ -146,10 +150,10 @@ class DrumGroup:
         self.needs_rate_override = sample.sample_rate != self.sample_rate
         self.needs_note_override = sample.base_note != self.base_note
 
-    def to_xml(self, xml : XMLWriter, name : str, sample_name_func, envelope_name_func):
+    def to_xml(self, xml: XMLWriter, name: str, sample_name_func, envelope_name_func):
         attributes = {
-            "Name"     : name,
-            "Envelope" : envelope_name_func(self.envelope_offset),
+            "Name": name,
+            "Envelope": envelope_name_func(self.envelope_offset),
         }
 
         if self.release_rate != self.envelope.release_rate():
@@ -173,24 +177,27 @@ class DrumGroup:
         xml.write_element("Drum", attributes)
 
 
-
-
-
-
-
 class AudiobankFile:
-    """
-    """
+    """ """
 
-    def __init__(self, rom_image : memoryview, index : int, table_entry : AudioCodeTable.AudioCodeTableEntry,
-                 rom_offset : int, bank1 : AudioTableFile, bank2 : AudioTableFile, bank1_num : int, bank2_num : int,
-                 extraction_xml : Tuple[str, Element] = None):
+    def __init__(
+        self,
+        rom_image: memoryview,
+        index: int,
+        table_entry: AudioCodeTable.AudioCodeTableEntry,
+        rom_offset: int,
+        bank1: AudioTableFile,
+        bank2: AudioTableFile,
+        bank1_num: int,
+        bank2_num: int,
+        extraction_xml: Tuple[str, Element] = None,
+    ):
         self.bank_num = index
-        self.table_entry : AudioCodeTable.AudioCodeTableEntry = table_entry
+        self.table_entry: AudioCodeTable.AudioCodeTableEntry = table_entry
         self.num_instruments = self.table_entry.num_instruments
         self.data = self.table_entry.data(rom_image, rom_offset)
-        self.bank1 : AudioTableFile = bank1
-        self.bank2 : AudioTableFile = bank2
+        self.bank1: AudioTableFile = bank1
+        self.bank2: AudioTableFile = bank2
         self.bank1_num = bank1_num
         self.bank2_num = bank2_num
 
@@ -250,7 +257,6 @@ class AudiobankFile:
 
         self.collect_instruments()
 
-
         # Check Coverage
 
         self.cvg_log()
@@ -261,7 +267,12 @@ class AudiobankFile:
         self.coverage = merge_ranges(self.coverage)
 
         coverage_log("Final Coverage:")
-        coverage_log([[[interval[0][0], interval[0][1].__name__], [interval[1][0], interval[1][1].__name__]] for interval in self.coverage])
+        coverage_log(
+            [
+                [[interval[0][0], interval[0][1].__name__], [interval[1][0], interval[1][1].__name__]]
+                for interval in self.coverage
+            ]
+        )
         coverage_log(f"[[{0}, {len(self.data)}]]")
         assert len(self.coverage) == 1
         coverage_log("OK")
@@ -307,7 +318,7 @@ class AudiobankFile:
                     self.drum_groups.append([None])
                     last_drum = None
             else:
-                drum : Drum
+                drum: Drum
 
                 if not drum.group_continuation(last_drum):
                     # group changed
@@ -324,9 +335,9 @@ class AudiobankFile:
 
             if all(d is None for d in drum_grp):
                 pass
-                #print(f"GROUP EMPTY == [{note_start:2}:{note_end:2}]")
+                # print(f"GROUP EMPTY == [{note_start:2}:{note_end:2}]")
             else:
-                drum_grp : DrumGroup
+                drum_grp: DrumGroup
                 drum_grp.set_range(note_start, note_end)
 
             note_start = note_end + 1
@@ -351,7 +362,7 @@ class AudiobankFile:
         self.instruments = self.read_list_from_offset_list(self.instrument_offset_list, Instrument)
 
         # Record order information
-        for i,instr in enumerate(self.instruments):
+        for i, instr in enumerate(self.instruments):
             if instr is None:
                 # NULL entry in pointer list
                 continue
@@ -362,18 +373,18 @@ class AudiobankFile:
         self.instruments = [instr for instr in self.instruments if instr is not None]
 
         # Build index map for sequence checking
-        self.instrument_index_map = { instr.program_number : instr for instr in self.instruments }
+        self.instrument_index_map = {instr.program_number: instr for instr in self.instruments}
 
         # The struct index records the order of the instrument structures themselves. This is often different than the
         # order they appear in the pointer table, since the pointer table is indexed by program number. We want to emit
         # xml entries in struct order with a property stating their program number as this seems most user-friendly.
-        for i,instr in enumerate(sorted(self.instruments, key=lambda instr : instr.offset)):
-            instr : Instrument
+        for i, instr in enumerate(sorted(self.instruments, key=lambda instr: instr.offset)):
+            instr: Instrument
             instr.struct_index = i
 
         # Read data that this structure references
 
-        for i,instr in enumerate(self.instruments):
+        for i, instr in enumerate(self.instruments):
             # Read the envelope
             self.read_envelope(instr.envelope, instr.release_rate)
 
@@ -439,17 +450,23 @@ class AudiobankFile:
 
             unaccounted_data = self.data[unref_start_offset:unref_end_offset]
 
-            if unref_end_type in [AdpcmBook, AdpcmLoop] and all(b == 0 for b in unaccounted_data) and \
-               unref_end_offset - unref_start_offset < 16 and (unref_end_offset % 16) == 0:
+            if (
+                unref_end_type in [AdpcmBook, AdpcmLoop]
+                and all(b == 0 for b in unaccounted_data)
+                and unref_end_offset - unref_start_offset < 16
+                and (unref_end_offset % 16) == 0
+            ):
                 # Book and Loop structures are aligned to 16 byte boundaries, silently mark padding
                 self.coverage.append([[unref_start_offset, Padding], [unref_end_offset, Padding]])
                 continue
 
-            coverage_log(f"Unaccounted: 0x{unref_start_offset:X}({unref_start_type.__name__}) " + \
-                         f"to 0x{unref_end_offset:X}({unref_end_type.__name__})")
+            coverage_log(
+                f"Unaccounted: 0x{unref_start_offset:X}({unref_start_type.__name__}) "
+                + f"to 0x{unref_end_offset:X}({unref_end_type.__name__})"
+            )
             coverage_log([f"0x{b:02X}" for b in unaccounted_data])
 
-            #coverage_log("assuming this data is of the same type as the data before it")
+            # coverage_log("assuming this data is of the same type as the data before it")
             try:
                 if unref_start_type == Envelope.EnvelopePoint:
                     # Assume it is an envelope if it follows an envelope
@@ -461,7 +478,7 @@ class AudiobankFile:
                     st = self.read_sample_header(unref_start_offset, None, None)
 
                 elif unref_start_type == Instrument:
-                    st : Instrument = self.read_structure(unref_start_offset, unref_start_type)
+                    st: Instrument = self.read_structure(unref_start_offset, unref_start_type)
                     # Check that we already saw the sample header this instrument wants
                     assert st.normal_notes_sample in self.sample_headers
                     assert st.normal_range_hi == 127 or st.high_notes_sample in self.sample_headers
@@ -473,8 +490,8 @@ class AudiobankFile:
 
                     # Assign struct index for this unreferenced instrument
                     new_index = -1
-                    for instr in sorted(self.instruments, key= lambda instr : instr.struct_index):
-                        instr : Instrument
+                    for instr in sorted(self.instruments, key=lambda instr: instr.struct_index):
+                        instr: Instrument
 
                         if instr.offset > unref_start_offset:
                             if new_index == -1:
@@ -492,7 +509,7 @@ class AudiobankFile:
                 else:
                     st = self.read_structure(unref_start_offset, unref_start_type)
                     coverage_log(st)
-                    assert False, "Unhandled coverage case" # !! handle more structures if they appear
+                    assert False, "Unhandled coverage case"  # !! handle more structures if they appear
 
                 coverage_log(st)
             except Exception as e:
@@ -507,16 +524,20 @@ class AudiobankFile:
         end = self.coverage[-1][1][0]
         end_aligned = align(end, 16)
         if end_aligned != len(self.data):
-            print(f"[Soundfont {self.bank_num:2}] Did not reach end of the file?",
-                  f"0x{end_aligned:X} vs 0x{len(self.data):X}")
+            print(
+                f"[Soundfont {self.bank_num:2}] Did not reach end of the file?",
+                f"0x{end_aligned:X} vs 0x{len(self.data):X}",
+            )
             assert all(b == 0 for b in self.data[end_aligned:])
             self.pad_to_size = len(self.data)
 
         self.file_padding = None
 
         if not all(b == 0 for b in self.data[end:]):
-            print(f"[Soundfont {self.bank_num:2}] Non-zero unaccounted data at the end of the file?",
-                  f"From 0x{end:X} to 0x{len(self.data):X}")
+            print(
+                f"[Soundfont {self.bank_num:2}] Non-zero unaccounted data at the end of the file?",
+                f"From 0x{end:X} to 0x{len(self.data):X}",
+            )
             self.file_padding = self.data[end:]
 
     def dump_bin(self, path):
@@ -524,14 +545,14 @@ class AudiobankFile:
             outfile.write(self.data)
 
     def read_loop_size(self, offset):
-        loop_count, = struct.unpack(">I", self.data[offset+8:offset+0xC])
+        (loop_count,) = struct.unpack(">I", self.data[offset + 8 : offset + 0xC])
         return 0x30 if loop_count != 0 else 0x10
 
     def read_loop_struct(self, offset):
         return AdpcmLoop(self.logged_read(offset, self.read_loop_size(offset), AdpcmLoop))
 
     def read_book_size(self, offset):
-        order, npredictors = struct.unpack(">ii", self.data[offset:offset+8])
+        order, npredictors = struct.unpack(">ii", self.data[offset : offset + 8])
         return 8 + 2 * 8 * order * npredictors
 
     def read_sample_header(self, offset, tuning, ob):
@@ -540,7 +561,7 @@ class AudiobankFile:
         if offset in self.sample_headers:
             # Don't re-read a sample header structure if it was already read
             sample_header = self.sample_headers[offset]
-            sample_header : SoundFontSample
+            sample_header: SoundFontSample
         else:
             # Read the new sample header and cache it
             sample_header = self.read_structure(offset, SoundFontSample)
@@ -596,9 +617,10 @@ class AudiobankFile:
             # If we found unreferenced sample data that was not discovered elsewhere there is no tuning value to recover
             # the samplerate from. These need to be handled manually, but this is currently unsupported as this does not
             # occur in zelda64 audio banks.
-            assert sample_header.sample_addr in bank.samples , \
-                   "Unreferenced sample header refers to sample that was not otherwise discovered, cannot " + \
-                   "automatically recover sample rate"
+            assert sample_header.sample_addr in bank.samples, (
+                "Unreferenced sample header refers to sample that was not otherwise discovered, cannot "
+                + "automatically recover sample rate"
+            )
 
         return sample_header
 
@@ -609,8 +631,8 @@ class AudiobankFile:
             points = []
 
             while True:
-                point = Envelope.EnvelopePoint(*struct.unpack(">hh", self.data[offset + size:][:4]))
-                assert point.delay >= -3 # TODO this could be used to determine whether data is really an envelope
+                point = Envelope.EnvelopePoint(*struct.unpack(">hh", self.data[offset + size :][:4]))
+                assert point.delay >= -3  # TODO this could be used to determine whether data is really an envelope
                 points.append(point)
                 size += 4
                 if point.delay < 0:
@@ -618,14 +640,18 @@ class AudiobankFile:
 
             # pad to 0x10 byte boundary
             while (size % 16) != 0:
-                point = Envelope.EnvelopePoint(*struct.unpack(">hh", self.data[offset + size:][:4]))
+                point = Envelope.EnvelopePoint(*struct.unpack(">hh", self.data[offset + size :][:4]))
                 assert point.delay == 0 and point.arg == 0
                 points.append(point)
                 size += 4
         else:
             size = 16
-            points = [Envelope.EnvelopePoint(0, 0), Envelope.EnvelopePoint(0, 0),
-                      Envelope.EnvelopePoint(0, 0), Envelope.EnvelopePoint(0, 0)]
+            points = [
+                Envelope.EnvelopePoint(0, 0),
+                Envelope.EnvelopePoint(0, 0),
+                Envelope.EnvelopePoint(0, 0),
+                Envelope.EnvelopePoint(0, 0),
+            ]
 
         return points, size
 
@@ -666,7 +692,7 @@ class AudiobankFile:
         return [dtype(i, self.logged_read(offset + i * dtype.SIZE, dtype.SIZE, dtype)) for i in range(num)]
 
     def read_pointer(self, offset, ptr_type):
-        return struct.unpack('>I', self.logged_read(offset, 4, ptr_type))[0]
+        return struct.unpack(">I", self.logged_read(offset, 4, ptr_type))[0]
 
     def read_list_from_offset_list(self, offset_list, dtype):
         assert all([b % 0x10 == 0 for b in offset_list])
@@ -681,7 +707,7 @@ class AudiobankFile:
             return []
 
         # Read pointer list contents
-        ptr_list = [i[0] for i in struct.iter_unpack('>I', self.logged_read(offset, 4 * count, ptr_type))]
+        ptr_list = [i[0] for i in struct.iter_unpack(">I", self.logged_read(offset, 4 * count, ptr_type))]
         assert len(ptr_list) == count
 
         # Pointer lists seem to always pad to the next 0x10 byte boundary
@@ -693,24 +719,24 @@ class AudiobankFile:
 
     def sorted_envelopes(self):
         # sort by offset
-        for i,(offset,env) in enumerate(sorted(self.envelopes.items(), key=lambda x : x[0])):
-            yield i,(offset,env)
+        for i, (offset, env) in enumerate(sorted(self.envelopes.items(), key=lambda x: x[0])):
+            yield i, (offset, env)
 
     def envelope_name_func(self, offset):
         return self.envelopes[offset].name
 
     def sorted_sample_headers(self):
-        for i,offset in enumerate(sorted(self.sample_headers)):
-            yield i,(offset,self.sample_headers[offset])
+        for i, offset in enumerate(sorted(self.sample_headers)):
+            yield i, (offset, self.sample_headers[offset])
 
-    def lookup_sample(self, header_offset : int) -> Optional[AudioTableSample]:
+    def lookup_sample(self, header_offset: int) -> Optional[AudioTableSample]:
         if header_offset == 0:
             return None
-        header : SoundFontSample = self.sample_headers[header_offset]
+        header: SoundFontSample = self.sample_headers[header_offset]
         bank = self.bank1 if header.medium == 0 else self.bank2
         return bank.lookup_sample(header.sample_addr)
 
-    def lookup_sample_name(self, sample_header : SoundFontSample):
+    def lookup_sample_name(self, sample_header: SoundFontSample):
         bank = self.bank1 if sample_header.medium == 0 else self.bank2
         name = bank.lookup_sample(sample_header.sample_addr).name
         assert name is not None
@@ -723,8 +749,8 @@ class AudiobankFile:
         # print(f"Finalize soundfont {self.bank_num}")
 
         # Assign envelope names
-        for i,(offset,env) in self.sorted_envelopes():
-            env : Envelope
+        for i, (offset, env) in self.sorted_envelopes():
+            env: Envelope
             env.name = self.envelope_name(i)
 
         # Link Instruments
@@ -745,10 +771,10 @@ class AudiobankFile:
                 continue
 
             if PLOT_DRUM_TUNING:
-                plt.plot(   range(drum_grp.start,drum_grp.end), [drum.tuning for drum in drum_grp])
-                plt.scatter(range(drum_grp.start,drum_grp.end), [drum.tuning for drum in drum_grp])
+                plt.plot(range(drum_grp.start, drum_grp.end), [drum.tuning for drum in drum_grp])
+                plt.scatter(range(drum_grp.start, drum_grp.end), [drum.tuning for drum in drum_grp])
 
-            drum_grp : DrumGroup
+            drum_grp: DrumGroup
             drum_grp.finalize(self.envelopes, self.lookup_sample)
 
         if PLOT_DRUM_TUNING:
@@ -785,67 +811,67 @@ class AudiobankFile:
         else:
             return f"EFFECT_{index}"
 
-    def envelopes_to_xml(self, xml : XMLWriter):
+    def envelopes_to_xml(self, xml: XMLWriter):
         if len(self.envelopes) == 0:
             return
 
         xml.write_start_tag("Envelopes")
 
-        for i,(offset,env) in self.sorted_envelopes():
-            env : Envelope
+        for i, (offset, env) in self.sorted_envelopes():
+            env: Envelope
             env.to_xml(xml, self.envelope_name(i))
 
         xml.write_end_tag()
 
-    def samples_to_xml(self, xml : XMLWriter):
+    def samples_to_xml(self, xml: XMLWriter):
         if len(self.sample_headers) == 0:
             return
 
         xml.write_start_tag("Samples")
 
         # Emit these in the order the sample headers appear in the soundfont
-        for i,(offset,sample_header) in self.sorted_sample_headers():
-            sample_header : SoundFontSample
+        for i, (offset, sample_header) in self.sorted_sample_headers():
+            sample_header: SoundFontSample
             sample_header.to_xml(xml, self.lookup_sample_name(sample_header))
 
         xml.write_end_tag()
 
-    def sfx_to_xml(self, xml : XMLWriter):
+    def sfx_to_xml(self, xml: XMLWriter):
         if len(self.sfx) == 0:
             return
 
         xml.write_start_tag("Effects")
 
-        for i,sfx in enumerate(self.sfx):
+        for i, sfx in enumerate(self.sfx):
             sfx.to_xml(xml, self.effect_name(i), self.sample_name_func)
 
         xml.write_end_tag()
 
-    def drums_to_xml(self, xml : XMLWriter):
+    def drums_to_xml(self, xml: XMLWriter):
         if len(self.drums) == 0:
             return
 
         xml.write_start_tag("Drums")
 
-        for i,drum_grp in enumerate(self.drum_groups):
+        for i, drum_grp in enumerate(self.drum_groups):
             if isinstance(drum_grp, list):
                 for _ in range(len(drum_grp)):
                     xml.write_element("Drum")
             else:
-                drum_grp : DrumGroup
+                drum_grp: DrumGroup
                 drum_grp.to_xml(xml, self.drum_grp_name(i), self.sample_name_func, self.envelope_name_func)
 
         xml.write_end_tag()
 
-    def instruments_to_xml(self, xml : XMLWriter):
+    def instruments_to_xml(self, xml: XMLWriter):
         if len(self.instruments) == 0:
             return
 
         xml.write_start_tag("Instruments")
 
         # Write in struct order
-        for instr in sorted(self.instruments, key=lambda instr : instr.struct_index):
-            instr : Instrument
+        for instr in sorted(self.instruments, key=lambda instr: instr.struct_index):
+            instr: Instrument
             name = self.instrument_name(instr.program_number) if not instr.unused else None
             instr.to_xml(xml, name, self.sample_name_func, self.envelope_name_func)
 
@@ -855,19 +881,19 @@ class AudiobankFile:
         xml = XMLWriter()
 
         start = {
-            "Name"        : name,
-            "Index"       : self.bank_num,
-            "Medium"      : self.table_entry.medium.name,
-            "CachePolicy" : self.table_entry.cache_policy.name,
-            "SampleBank"  : f"$(BUILD_DIR)/{samplebanks_base}/{self.bank1.file_name}.xml",
+            "Name": name,
+            "Index": self.bank_num,
+            "Medium": self.table_entry.medium.name,
+            "CachePolicy": self.table_entry.cache_policy.name,
+            "SampleBank": f"$(BUILD_DIR)/{samplebanks_base}/{self.bank1.file_name}.xml",
         }
 
         # If the samplebank1 index is not the true index (that is it's a pointer), write an Indirect
         if self.bank1_num != self.bank1.bank_num:
             start["Indirect"] = self.bank1_num
 
-        if self.bank2_num != 255: # bank2 is not None if bank2_num != 255
-            start["SampleBankDD"] = f"$(BUILD_DIR)/{samplebanks_base}/{self.bank2.file_name}.xml",
+        if self.bank2_num != 255:  # bank2 is not None if bank2_num != 255
+            start["SampleBankDD"] = (f"$(BUILD_DIR)/{samplebanks_base}/{self.bank2.file_name}.xml",)
             # TODO we should really write an indirect for DD banks too if bank2_num != bank2.bank_num
 
         if self.loops_have_frames:
@@ -903,12 +929,17 @@ class AudiobankFile:
     def write_extraction_xml(self, path):
         xml = XMLWriter()
 
-        xml.write_comment("This file is only for extraction of vanilla data. For other purposes see assets/audio/soundfonts/")
+        xml.write_comment(
+            "This file is only for extraction of vanilla data. For other purposes see assets/audio/soundfonts/"
+        )
 
-        xml.write_start_tag("SoundFont", {
-            "Name"  : self.name,
-            "Index" : self.bank_num,
-        })
+        xml.write_start_tag(
+            "SoundFont",
+            {
+                "Name": self.name,
+                "Index": self.bank_num,
+            },
+        )
 
         # add contents for names
 
@@ -916,9 +947,7 @@ class AudiobankFile:
             xml.write_start_tag("Envelopes")
 
             for i in range(len(self.envelopes)):
-                xml.write_element("Envelope", {
-                    "Name" : self.envelope_name(i)
-                })
+                xml.write_element("Envelope", {"Name": self.envelope_name(i)})
 
             xml.write_end_tag()
 
@@ -926,34 +955,33 @@ class AudiobankFile:
             xml.write_start_tag("Instruments")
 
             # Write in struct order
-            for instr in sorted(self.instruments, key=lambda instr : instr.struct_index):
-                instr : Instrument
+            for instr in sorted(self.instruments, key=lambda instr: instr.struct_index):
+                instr: Instrument
                 if not instr.unused:
-                    xml.write_element("Instrument", {
-                        "ProgramNumber" : instr.program_number,
-                        "Name" : self.instrument_name(instr.program_number),
-                    })
+                    xml.write_element(
+                        "Instrument",
+                        {
+                            "ProgramNumber": instr.program_number,
+                            "Name": self.instrument_name(instr.program_number),
+                        },
+                    )
 
             xml.write_end_tag()
 
         if any(isinstance(dg, DrumGroup) for dg in self.drum_groups):
             xml.write_start_tag("Drums")
 
-            for i,drum_grp in enumerate(self.drum_groups):
+            for i, drum_grp in enumerate(self.drum_groups):
                 if isinstance(drum_grp, DrumGroup):
-                    xml.write_element("Drum", {
-                        "Name" : self.drum_grp_name(i)
-                    })
+                    xml.write_element("Drum", {"Name": self.drum_grp_name(i)})
 
             xml.write_end_tag()
 
         if len(self.sfx) != 0:
             xml.write_start_tag("Effects")
 
-            for i,sfx in enumerate(self.sfx):
-                xml.write_element("Effect", {
-                    "Name" : self.effect_name(i)
-                })
+            for i, sfx in enumerate(self.sfx):
+                xml.write_element("Effect", {"Name": self.effect_name(i)})
 
             xml.write_end_tag()
 

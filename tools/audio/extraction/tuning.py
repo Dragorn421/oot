@@ -15,6 +15,7 @@ from .util import f32, u32_to_f32, f32_to_u32
 # Mirrors gPitchFrequencies in audio driver source.
 # Indexed by z64 note numbers, g_pitch_frequencies[C4] = 1.0 (0x3F800000)
 # Converted to their IEEE-754 binary representation to avoid any string -> float parser trouble as we need exact values.
+# fmt: off
 g_pitch_frequencies = (
     0x3DD744F6, 0x3DE411C3, 0x3DF1A198, 0x3E000000, 0x3E079C84, 0x3E0FACE6, 0x3E1837F8, 0x3E21450F,
     0x3E2ADC0A, 0x3E350508, 0x3E3FC86D, 0x3E4B2FEC, 0x3E5744F6, 0x3E641206, 0x3E71A1DC, 0x3E800000,
@@ -33,8 +34,10 @@ g_pitch_frequencies = (
     0x42879C7D, 0x428FACD7, 0x429837F1, 0x42A14519, 0x42AADC0A, 0x3D6411C3, 0x3D71A198, 0x3D800000,
     0x3D879C41, 0x3D8FACE6, 0x3D9837B5, 0x3DA1450F, 0x3DAADBC6, 0x3DB504C5, 0x3DBFC86D, 0x3DCB302F,
 )
+# fmt: on
 
 # Names for pitch values indexed by z64 note numbers, pitch_names[39] = C4
+# fmt: off
 pitch_names = (
                                                                           "A0", "BF0", "B0",
     "C1",  "DF1",  "D1",  "EF1",  "E1",  "F1",  "GF1",    "G1",    "AF1", "A1", "BF1", "B1",
@@ -50,11 +53,13 @@ pitch_names = (
                                                                                 "BFNEG1", "BNEG1",
     "C0",  "DF0",  "D0",  "EF0",  "E0",  "F0",  "GF0",    "G0",    "AF0",
 )
+# fmt: on
 
 # Floats that are encountered in extraction but cannot be resolved to a match.
 BAD_FLOATS = [0x3E7319E3]
 
-def note_z64_to_midi(note : int) -> int:
+
+def note_z64_to_midi(note: int) -> int:
     """
     Convert a z64 note number to MIDI note number.
 
@@ -63,28 +68,30 @@ def note_z64_to_midi(note : int) -> int:
     """
     return (21 + note) % 128
 
-def recalc_tuning(rate : int, note : str) -> float:
+
+def recalc_tuning(rate: int, note: str) -> float:
     return f32(f32(rate / 32000.0) * u32_to_f32(g_pitch_frequencies[pitch_names.index(note)]))
 
-def rate_from_tuning(tuning : float) -> Tuple[Tuple[str,int]]:
+
+def rate_from_tuning(tuning: float) -> Tuple[Tuple[str, int]]:
     """
     Decompose a tuning value into a pair (samplerate, basenote) that round-trips when ran through `recalc_tuning`
     """
-    matches : List[Tuple[str,int]] = []
-    diffs : List[Tuple[int, Tuple[str,int]]] = []
+    matches: List[Tuple[str, int]] = []
+    diffs: List[Tuple[int, Tuple[str, int]]] = []
 
-    tuning_bits : int = f32_to_u32(tuning)
+    tuning_bits: int = f32_to_u32(tuning)
 
-    def test_value(note_val : int, nominal_rate : int, freq : float):
+    def test_value(note_val: int, nominal_rate: int, freq: float):
         if nominal_rate > 48000:
             # reject samplerate if too high
             return
 
         # recalc tuning and compare to original
 
-        tuning2 : float = f32(f32(nominal_rate / 32000.0) * freq)
+        tuning2: float = f32(f32(nominal_rate / 32000.0) * freq)
 
-        diff : int = abs(f32_to_u32(tuning2) - tuning_bits)
+        diff: int = abs(f32_to_u32(tuning2) - tuning_bits)
 
         if diff == 0:
             matches.append((pitch_names[note_val], nominal_rate))
@@ -94,14 +101,14 @@ def rate_from_tuning(tuning : float) -> Tuple[Tuple[str,int]]:
     # search gPitchFrequencies LUT one by one. We don't exit as soon as a match is found as in general this procedure
     # only recovers the correct (rate,note) pair up to multiples of 2, to get the final value we want to select the
     # "best" of these pairs by an essentially arbitrary ranking (cf `rank_rates_notes`)
-    for note_val,freq_bits in enumerate(g_pitch_frequencies):
-        freq : float = u32_to_f32(freq_bits)
+    for note_val, freq_bits in enumerate(g_pitch_frequencies):
+        freq: float = u32_to_f32(freq_bits)
 
         # compute the "nominal" samplerate for a given basenote by R = 32000 * (t / f)
-        nominal_rate : int = int(f32(tuning / freq) * 32000.0)
+        nominal_rate: int = int(f32(tuning / freq) * 32000.0)
 
         # test nominal value and +/-1
-        test_value(note_val, nominal_rate,     freq)
+        test_value(note_val, nominal_rate, freq)
         test_value(note_val, nominal_rate + 1, freq)
         test_value(note_val, nominal_rate - 1, freq)
 
@@ -109,11 +116,12 @@ def rate_from_tuning(tuning : float) -> Tuple[Tuple[str,int]]:
         return tuple(matches)
 
     # no matches found... check if we expected this, otherwise flag it for special handling
-    assert tuning_bits in BAD_FLOATS , f"0x{tuning_bits:08X}"
+    assert tuning_bits in BAD_FLOATS, f"0x{tuning_bits:08X}"
 
     # just take the closest match and hack it in the soundfont compiler
-    hack_rate = sorted(diffs, key=lambda e : e[0])[0]
+    hack_rate = sorted(diffs, key=lambda e: e[0])[0]
     return (hack_rate[1],)
+
 
 def rank_rates_notes(layouts):
 
@@ -123,45 +131,45 @@ def rank_rates_notes(layouts):
         """
         rank = 0
 
-        if 'C4' in notes and rate > 10000:
+        if "C4" in notes and rate > 10000:
             rank += 10000
-        elif 'C2' in notes and rate > 10000:
+        elif "C2" in notes and rate > 10000:
             rank += 9500
-        elif 'D3' in notes and rate > 10000:
+        elif "D3" in notes and rate > 10000:
             rank += 8500
-        elif 'D4' in notes and rate > 10000:
+        elif "D4" in notes and rate > 10000:
             rank += 8000
-        elif 'G3' in notes:
+        elif "G3" in notes:
             rank += 2000
-        elif 'F3' in notes:
+        elif "F3" in notes:
             rank += 25
-        elif 'C0' in notes:
+        elif "C0" in notes:
             rank += 50
-        elif 'BF2' in notes:
+        elif "BF2" in notes:
             rank += 30
-        elif 'B3' in notes:
+        elif "B3" in notes:
             rank += 25
-        elif 'BF1' in notes:
+        elif "BF1" in notes:
             rank += 25
-        elif 'E2' in notes:
+        elif "E2" in notes:
             rank += 20
-        elif 'F6' in notes:
+        elif "F6" in notes:
             rank += 15
-        elif 'GF2' in notes:
+        elif "GF2" in notes:
             rank += 10
 
         rank += {
-            32000 : 200,
-            16000 : 100,
-            24000 : 50,
-            22050 : 30,
-            20000 : 28,
-            44100 : 25,
-            12000 : 15,
-            8000  : 10,
-            15950 : 5,
-            20050 : 5,
-            31800 : 5,
+            32000: 200,
+            16000: 100,
+            24000: 50,
+            22050: 30,
+            20000: 28,
+            44100: 25,
+            12000: 15,
+            8000: 10,
+            15950: 5,
+            20050: 5,
+            31800: 5,
         }.get(rate, 0)
 
         return rank
@@ -174,22 +182,27 @@ def rank_rates_notes(layouts):
         return layouts[0]
 
     # Ranking is needed, rank each layout
-    ranked = list(sorted(layouts, key=lambda L : rank_rate_note(*L), reverse=True))
+    ranked = list(sorted(layouts, key=lambda L: rank_rate_note(*L), reverse=True))
 
     # Ensure the ranking produced a unique best option
-    assert rank_rate_note(*ranked[0]) != rank_rate_note(*ranked[1]) , ranked
+    assert rank_rate_note(*ranked[0]) != rank_rate_note(*ranked[1]), ranked
 
     # Output best
     return ranked[0]
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Given either a (rate,note) or a tuning, compute all matching rates/notes.")
+    parser = argparse.ArgumentParser(
+        description="Given either a (rate,note) or a tuning, compute all matching rates/notes."
+    )
     parser.add_argument("-t", dest="tuning", required=False, default=None, type=float, help="Tuning value (float)")
     parser.add_argument("-r", dest="rate", required=False, default=None, type=int, help="Sample rate (integer)")
     parser.add_argument("-n", dest="note", required=False, default=None, type=str, help="Base note (note name)")
-    parser.add_argument("--show-result", required=False, default=False, action="store_true", help="Show recalculated tuning value")
+    parser.add_argument(
+        "--show-result", required=False, default=False, action="store_true", help="Show recalculated tuning value"
+    )
     args = parser.parse_args()
 
     if args.tuning is not None:
@@ -197,15 +210,15 @@ if __name__ == '__main__':
         tuning = args.tuning
     elif args.rate is not None and args.note is not None:
         # Calculate target tuning from input rate and note
-        tuning : float = recalc_tuning(args.rate, args.note)
+        tuning: float = recalc_tuning(args.rate, args.note)
     else:
         # Insufficient arguments
         parser.print_help()
         raise SystemExit("Must specify either -t or both -r and -n.")
 
-    notes_rates : Tuple[Tuple[str,int]] = rate_from_tuning(tuning)
+    notes_rates: Tuple[Tuple[str, int]] = rate_from_tuning(tuning)
 
-    for note,rate in notes_rates:
+    for note, rate in notes_rates:
         if args.show_result:
             print(rate, note, "->", recalc_tuning(rate, note))
         else:

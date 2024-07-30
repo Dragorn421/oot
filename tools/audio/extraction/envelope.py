@@ -9,14 +9,16 @@ import collections
 
 from .util import XMLWriter
 
+
 class EnvDelay(int):
     def __str__(self):
         return {
-             0 : "ADSR_DISABLE",
-            -1 : "ADSR_HANG",
-            -2 : "ADSR_GOTO",
-            -3 : "ADSR_RESTART",
+            0: "ADSR_DISABLE",
+            -1: "ADSR_HANG",
+            -2: "ADSR_GOTO",
+            -3: "ADSR_RESTART",
         }.get(self, super().__str__())
+
 
 class Envelope:
     """
@@ -47,35 +49,34 @@ class Envelope:
         def is_hang(self):
             return self.delay == -1 and self.arg == 0
 
-        def to_xml(self, xml : XMLWriter):
-            if self.delay == 0: # Disable
+        def to_xml(self, xml: XMLWriter):
+            if self.delay == 0:  # Disable
                 assert self.arg == 0
                 xml.write_element("Disable")
-            elif self.delay == -1: # Hang
+            elif self.delay == -1:  # Hang
                 assert self.arg == 0
                 xml.write_element("Hang")
-            elif self.delay == -2: # Goto
-                xml.write_element("Goto",
-                    { "Arg" : self.arg }
-                )
-            elif self.delay == -3: # Restart
+            elif self.delay == -2:  # Goto
+                xml.write_element("Goto", {"Arg": self.arg})
+            elif self.delay == -3:  # Restart
                 assert self.arg == 0
                 xml.write_element("Restart")
             else:
                 assert self.delay >= 0
-                xml.write_element("Point",
+                xml.write_element(
+                    "Point",
                     {
-                        "Delay" : self.delay,
-                        "Arg"   : self.arg,
-                    }
+                        "Delay": self.delay,
+                        "Arg": self.arg,
+                    },
                 )
 
     def __init__(self, points, is_zero=False):
-        self.name = None # Assigned when bank is finalized
+        self.name = None  # Assigned when bank is finalized
 
         self.is_zero = is_zero
         self.release_rates = []
-        self._release_rate = None # cached
+        self._release_rate = None  # cached
 
         assert len(points) != 0
         assert type(points[0]) == Envelope.EnvelopePoint
@@ -98,23 +99,24 @@ class Envelope:
             return self._release_rate
 
         rates = collections.Counter(self.release_rates).most_common()
-        assert len(rates) in [0, 1], rates # TODO handle ties?
+        assert len(rates) in [0, 1], rates  # TODO handle ties?
 
         self._release_rate = 0 if len(rates) == 0 else rates[0][0]
         return self._release_rate
 
-    def to_xml(self, xml : XMLWriter, name : str):
+    def to_xml(self, xml: XMLWriter, name: str):
         if self.is_zero:
             return xml.write_element("Envelope")
 
-        xml.write_start_tag("Envelope",
+        xml.write_start_tag(
+            "Envelope",
             {
-                "Name" : name,
-                "Release" : self.release_rate(),
-            }
+                "Name": name,
+                "Release": self.release_rate(),
+            },
         )
 
-        for point in self.points[:-1]: # exclude final hang command, will be added by the soundfont compiler on build
+        for point in self.points[:-1]:  # exclude final hang command, will be added by the soundfont compiler on build
             point.to_xml(xml)
 
         xml.write_end_tag()

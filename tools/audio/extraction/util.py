@@ -7,11 +7,13 @@
 
 import struct, subprocess, sys
 
+
 def debugm(msg):
     """
     Debug message on stderr
     """
     print(msg, file=sys.stderr)
+
 
 def error(msg):
     """
@@ -20,8 +22,10 @@ def error(msg):
     debugm(msg)
     sys.exit(1)
 
+
 def incbin(rom, offset, size):
-    return rom[offset:offset+size]
+    return rom[offset : offset + size]
+
 
 def f32(f):
     """
@@ -29,11 +33,13 @@ def f32(f):
     """
     return struct.unpack("f", struct.pack("f", f))[0]
 
+
 def u32_to_f32(u):
     """
     Convert IEEE-754 binary rep to float
     """
     return struct.unpack(">f", struct.pack(">I", u))[0]
+
 
 def f32_to_u32(f):
     """
@@ -41,11 +47,13 @@ def f32_to_u32(f):
     """
     return struct.unpack(">I", struct.pack(">f", f))[0]
 
+
 def align(x, n):
     """
     Align to next n (power of 2)
     """
     return (x + (n - 1)) & ~(n - 1)
+
 
 def merge_ranges(intervals):
     if len(intervals) == 0:
@@ -64,6 +72,7 @@ def merge_ranges(intervals):
             stack.append(intervals[i])
     return stack
 
+
 def merge_like_ranges(intervals):
     if len(intervals) == 0:
         return []
@@ -81,14 +90,18 @@ def merge_like_ranges(intervals):
             stack.append(intervals[i])
     return stack
 
+
 def list_is_in_order(l):
     return all(l[i] <= l[i + 1] for i in range(len(l) - 1))
+
 
 def program_call(cmd):
     subprocess.check_call(cmd, shell=True)
 
+
 def program_get(cmd):
     return subprocess.check_output(cmd, shell=True).decode("ascii")
+
 
 class XMLWriter:
     """
@@ -108,7 +121,7 @@ class XMLWriter:
         if attributes is None:
             self.contents += f"{indent}{open}{name}{close}\n"
         else:
-            attributes_str = " ".join(f"{k}=\"{v}\"" for k,v in attributes.items())
+            attributes_str = " ".join(f'{k}="{v}"' for k, v in attributes.items())
             self.contents += f"{indent}{open}{name} {attributes_str}{close}\n"
 
     def write_comment(self, comment):
