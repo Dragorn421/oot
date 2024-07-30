@@ -180,7 +180,7 @@ PYTHON     ?= $(VENV)/bin/python3
 SPEC_REPLACE_VARS := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
 # Audio tools
-AUDIO_EXTRACT := $(PYTHON) tools/audio/extraction/audio_extract.py
+AUDIO_EXTRACT := $(PYTHON) -m tools.audio.extraction.audio_extract
 
 CFLAGS += $(CPP_DEFINES)
 CPPFLAGS += $(CPP_DEFINES)

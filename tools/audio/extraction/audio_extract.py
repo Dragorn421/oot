@@ -12,14 +12,14 @@ from typing import Dict, List, Tuple, Union
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
-from audio_tables import AudioCodeTable, AudioStorageMedium
-from audiotable import AudioTableFile
-from audiobank_file import AudiobankFile
+from .audio_tables import AudioCodeTable, AudioStorageMedium
+from .audiotable import AudioTableFile
+from .audiobank_file import AudiobankFile
 
-from util import debugm, error, incbin
+from .util import debugm, error, incbin
 
-from config import GAMEVERSION_ALL_OOT, VERSION_TABLE, GameVersionInfo
-from config import AUDIOTABLE_BUFFER_BUGS, FAKE_BANKS
+from .config import GAMEVERSION_ALL_OOT, VERSION_TABLE, GameVersionInfo
+from .config import AUDIOTABLE_BUFFER_BUGS, FAKE_BANKS
 
 BASEROM_DEBUG = False
 

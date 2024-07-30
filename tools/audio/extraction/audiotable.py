@@ -9,10 +9,10 @@ import struct
 from typing import Dict, Tuple
 from xml.etree.ElementTree import Element
 
-from audio_tables import AudioCodeTable
-from audiobank_structs import AudioSampleCodec, SoundFontSample, AdpcmBook, AdpcmLoop
-from tuning import pitch_names, note_z64_to_midi, recalc_tuning, rate_from_tuning, rank_rates_notes, BAD_FLOATS
-from util import align, error, XMLWriter, f32_to_u32
+from .audio_tables import AudioCodeTable
+from .audiobank_structs import AudioSampleCodec, SoundFontSample, AdpcmBook, AdpcmLoop
+from .tuning import pitch_names, note_z64_to_midi, recalc_tuning, rate_from_tuning, rank_rates_notes, BAD_FLOATS
+from .util import align, error, XMLWriter, f32_to_u32
 
 class AIFCFile:
 

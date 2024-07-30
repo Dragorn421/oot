@@ -7,7 +7,7 @@
 
 import collections
 
-from util import XMLWriter
+from .util import XMLWriter
 
 class EnvDelay(int):
     def __str__(self):

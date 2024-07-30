@@ -11,9 +11,9 @@
 import struct
 from enum import IntEnum
 
-from audio_tables import AudioStorageMedium
-from tuning import rate_from_tuning, pitch_names
-from util import XMLWriter
+from .audio_tables import AudioStorageMedium
+from .tuning import rate_from_tuning, pitch_names
+from .util import XMLWriter
 
 VADPCM_VERSTAMP = 1
 
@@ -199,7 +199,7 @@ class SoundFontSound:
         self.sample, self.tuning = struct.unpack(">If", data[:8])
 
     def finalize(self, sample_lookup_fn):
-        from audiotable import AudioTableSample
+        from .audiotable import AudioTableSample
 
         sample = sample_lookup_fn(self.sample)
         if sample is None:
@@ -341,7 +341,7 @@ class Instrument:
         return out
 
     def finalize(self, sample_lookup_fn):
-        from audiotable import AudioTableSample
+        from .audiotable import AudioTableSample
 
         self.sample_rate = [None] * 3
         self.base_note = [None] * 3

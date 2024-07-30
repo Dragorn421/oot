@@ -9,12 +9,12 @@ import struct
 from typing import Optional, Tuple
 from xml.etree.ElementTree import Element
 
-from audio_tables import AudioCodeTable
-from audiobank_structs import AdpcmBook, AdpcmLoop, Drum, Instrument, SoundFontSample, SoundFontSound
-from envelope import Envelope
-from audiotable import AudioTableFile, AudioTableSample
-from tuning import pitch_names
-from util import XMLWriter, align, debugm, merge_like_ranges, merge_ranges
+from .audio_tables import AudioCodeTable
+from .audiobank_structs import AdpcmBook, AdpcmLoop, Drum, Instrument, SoundFontSample, SoundFontSound
+from .envelope import Envelope
+from .audiotable import AudioTableFile, AudioTableSample
+from .tuning import pitch_names
+from .util import XMLWriter, align, debugm, merge_like_ranges, merge_ranges
 
 # Debug settings
 PLOT_DRUM_TUNING = False

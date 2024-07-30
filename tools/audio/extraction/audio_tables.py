@@ -8,7 +8,7 @@
 import struct
 from enum import IntEnum
 
-from util import incbin
+from .util import incbin
 
 class AudioStorageMedium(IntEnum):
     MEDIUM_RAM = 0
