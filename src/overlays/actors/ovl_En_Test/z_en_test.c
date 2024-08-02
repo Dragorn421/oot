@@ -85,7 +85,7 @@ static u8 sUpperBodyLimbCopyMap[] = {
     false, false, false, false, false, false, false, false, false, false, false, false, false,
 };
 
-ActorInit En_Test_InitVars = {
+ActorProfile En_Test_Profile = {
     /**/ ACTOR_EN_TEST,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

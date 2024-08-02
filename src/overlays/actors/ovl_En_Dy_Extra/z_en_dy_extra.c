@@ -18,7 +18,7 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play);
 void func_809FF7AC(EnDyExtra* this, PlayState* play);
 void func_809FF840(EnDyExtra* this, PlayState* play);
 
-ActorInit En_Dy_Extra_InitVars = {
+ActorProfile En_Dy_Extra_Profile = {
     /**/ ACTOR_EN_DY_EXTRA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

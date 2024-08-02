@@ -32,7 +32,7 @@ void func_80B21EE8(EnTp* this);
 void func_80B21F18(EnTp* this, PlayState* play);
 void func_80B221E8(EnTp* this, PlayState* play);
 
-ActorInit En_Tp_InitVars = {
+ActorProfile En_Tp_Profile = {
     /**/ ACTOR_EN_TP,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

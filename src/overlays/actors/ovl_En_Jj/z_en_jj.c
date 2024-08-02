@@ -20,7 +20,7 @@ void func_80A87CEC(EnJj* this, PlayState* play);
 void func_80A87EF0(EnJj* this, PlayState* play);
 void func_80A87F44(Actor* thisx, PlayState* play);
 
-ActorInit En_Jj_InitVars = {
+ActorProfile En_Jj_Profile = {
     /**/ ACTOR_EN_JJ,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

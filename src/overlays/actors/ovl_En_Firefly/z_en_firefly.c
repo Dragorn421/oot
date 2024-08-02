@@ -21,7 +21,7 @@ void func_80A142F4_Action_Perched_(EnFirefly*, PlayState*);
 void func_80A143B4_Action_SwoopOnPlayer(EnFirefly*, PlayState*);
 void EnFirefly_DrawXlu(Actor*, PlayState*);
 
-ActorInit En_Firefly_InitVars = {
+ActorProfile En_Firefly_Profile = {
     /**/ ACTOR_EN_FIREFLY,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

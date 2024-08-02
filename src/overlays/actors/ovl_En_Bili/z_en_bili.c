@@ -38,7 +38,7 @@ void func_809C1020(EnBili* this, f32 arg1, Vec3f* arg2);
 void func_809C1240(EnBili* this, f32 arg1, Vec3f* arg2);
 s32 EnBili_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx, Gfx** gfx);
 
-ActorInit En_Bili_InitVars = {
+ActorProfile En_Bili_Profile = {
     /**/ ACTOR_EN_BILI,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

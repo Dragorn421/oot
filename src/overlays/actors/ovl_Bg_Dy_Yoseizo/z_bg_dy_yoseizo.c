@@ -40,7 +40,7 @@ void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, PlayState* play);
 void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play);
 
 static s32 D_80875440[3] = { 0x5D, 0x5E, 0x5C };
-ActorInit Bg_Dy_Yoseizo_InitVars = {
+ActorProfile Bg_Dy_Yoseizo_Profile = {
     /**/ ACTOR_BG_DY_YOSEIZO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

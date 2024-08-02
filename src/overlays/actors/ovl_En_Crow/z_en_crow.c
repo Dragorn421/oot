@@ -18,7 +18,7 @@ void func_809E0E2C(EnCrow* this, PlayState* play);
 
 static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 
-ActorInit En_Crow_InitVars = {
+ActorProfile En_Crow_Profile = {
     /**/ ACTOR_EN_CROW,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

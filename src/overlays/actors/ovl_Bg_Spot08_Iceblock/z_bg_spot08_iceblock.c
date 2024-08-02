@@ -16,7 +16,7 @@ void func_808B147C(BgSpot08Iceblock* this);
 void func_808B14A0(BgSpot08Iceblock* this, PlayState* play);
 void func_808B1574(BgSpot08Iceblock* this);
 
-ActorInit Bg_Spot08_Iceblock_InitVars = {
+ActorProfile Bg_Spot08_Iceblock_Profile = {
     /**/ ACTOR_BG_SPOT08_ICEBLOCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

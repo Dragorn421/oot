@@ -23,7 +23,7 @@ extern Gfx D_6000440[];
 extern Gfx D_6000700[];
 extern Gfx D_6007E20[];
 
-ActorInit En_Wood02_InitVars = {
+ActorProfile En_Wood02_Profile = {
     /**/ ACTOR_EN_WOOD02,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

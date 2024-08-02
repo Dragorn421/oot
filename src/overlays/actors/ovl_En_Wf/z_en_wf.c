@@ -158,7 +158,7 @@ static DamageTable D_80B37A88 = {
     },
 };
 
-ActorInit En_Wf_InitVars = {
+ActorProfile En_Wf_Profile = {
     /**/ ACTOR_EN_WF,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

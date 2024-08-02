@@ -23,7 +23,7 @@ void func_8086F464(BgBowlWall* this, PlayState* play);
 void func_8086F718(BgBowlWall* this, PlayState* play);
 void func_8086F7F8(BgBowlWall* this, PlayState* play);
 
-ActorInit Bg_Bowl_Wall_InitVars = {
+ActorProfile Bg_Bowl_Wall_Profile = {
     /**/ ACTOR_BG_BOWL_WALL,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

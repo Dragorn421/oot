@@ -25,7 +25,7 @@ void func_80880C0C(BgHakaTrap* this, PlayState* play);
 
 s32 D_80880F30 = 0;
 
-ActorInit Bg_Haka_Trap_InitVars = {
+ActorProfile Bg_Haka_Trap_Profile = {
     /**/ ACTOR_BG_HAKA_TRAP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

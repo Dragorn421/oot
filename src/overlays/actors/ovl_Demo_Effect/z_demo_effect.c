@@ -65,7 +65,7 @@ void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChann
 extern TransformUpdateIndex D_06000050; // timewarpTransformUpdateIndex
 extern SkelCurveLimbList D_060012E8;    // timewarpLimbList
 
-ActorInit Demo_Effect_InitVars = {
+ActorProfile Demo_Effect_Profile = {
     /**/ ACTOR_DEMO_EFFECT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

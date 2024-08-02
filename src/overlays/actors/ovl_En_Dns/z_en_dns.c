@@ -41,7 +41,7 @@ void EnDns_SetupNoSaleBurrow(EnDns*, PlayState*);
 void EnDns_Burrow(EnDns*, PlayState*);
 void EnDns_PostBurrow(EnDns*, PlayState*);
 
-ActorInit En_Dns_InitVars = {
+ActorProfile En_Dns_Profile = {
     /**/ ACTOR_EN_DNS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

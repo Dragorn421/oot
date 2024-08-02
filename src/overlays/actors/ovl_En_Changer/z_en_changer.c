@@ -11,7 +11,7 @@ void func_809D2CCC(EnChanger* this, PlayState* play);
 void func_809D2D70(EnChanger* this, PlayState* play);
 void func_809D2F74(EnChanger* this, PlayState* play);
 
-ActorInit En_Changer_InitVars = {
+ActorProfile En_Changer_Profile = {
     /**/ ACTOR_EN_CHANGER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

@@ -22,7 +22,7 @@ static s32 D_809C56E0[5] = {
     GI_BOMB_BAG_30, GI_HEART_PIECE, GI_BOMBCHUS_10, GI_BOMBS_1, GI_RUPEE_PURPLE,
 };
 
-ActorInit En_Bom_Bowl_Pit_InitVars = {
+ActorProfile En_Bom_Bowl_Pit_Profile = {
     /**/ ACTOR_EN_BOM_BOWL_PIT,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

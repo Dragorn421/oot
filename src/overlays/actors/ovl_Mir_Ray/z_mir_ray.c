@@ -25,7 +25,7 @@ typedef struct struct_80B8D8A0 {
 
 s32 MirRay_IsInConeFrustum(Vec3f* centerTop, Vec3f* centerBase, f32 x, f32 y, f32 z, s16 radiusTop, s16 radiusBase);
 
-ActorInit Mir_Ray_InitVars = {
+ActorProfile Mir_Ray_Profile = {
     /**/ ACTOR_MIR_RAY,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

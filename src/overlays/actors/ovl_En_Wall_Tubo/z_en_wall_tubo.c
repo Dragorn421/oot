@@ -20,7 +20,7 @@ void func_80B2EE5C(EnWallTubo* this, PlayState* play);
 void func_80B2EE9C(EnWallTubo* this, PlayState* play);
 void func_80B2F0B8(EnWallTubo* this, PlayState* play);
 
-ActorInit En_Wall_Tubo_InitVars = {
+ActorProfile En_Wall_Tubo_Profile = {
     /**/ ACTOR_EN_WALL_TUBO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

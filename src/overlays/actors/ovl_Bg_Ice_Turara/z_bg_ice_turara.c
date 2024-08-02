@@ -26,7 +26,7 @@ static ColliderCylinderInit D_80892620 = {
     { 0, { 0xFFCFFFFF, 0, 4 }, { 0x4FC007CA, 0, 0 }, 1, 1, 0 },
     { 0xD, 0x78, 0, { 0, 0, 0 } },
 };
-ActorInit Bg_Ice_Turara_InitVars = {
+ActorProfile Bg_Ice_Turara_Profile = {
     /**/ ACTOR_BG_ICE_TURARA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

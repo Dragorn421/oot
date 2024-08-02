@@ -70,7 +70,7 @@ static ColliderJntSphInit D_80A17040 = {
     D_80A1701C,
 };
 
-ActorInit En_Fish_InitVars = {
+ActorProfile En_Fish_Profile = {
     /**/ ACTOR_EN_FISH,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

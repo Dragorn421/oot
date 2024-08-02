@@ -63,7 +63,7 @@ static Vec3f D_80B4A090[0x18] = {
 static s16 D_80B4A1B0 = 0;
 static s16 D_80B4A1B4 = 1;
 
-ActorInit En_Zf_InitVars = {
+ActorProfile En_Zf_Profile = {
     /**/ ACTOR_EN_ZF,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

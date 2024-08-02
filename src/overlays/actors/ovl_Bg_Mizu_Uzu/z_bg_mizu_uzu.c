@@ -14,7 +14,7 @@ void BgMizuUzu_Destroy(Actor* thisx, PlayState* play);
 void BgMizuUzu_Update(Actor* thisx, PlayState* play);
 void BgMizuUzu_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Mizu_Uzu_InitVars = {
+ActorProfile Bg_Mizu_Uzu_Profile = {
     /**/ ACTOR_BG_MIZU_UZU,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
