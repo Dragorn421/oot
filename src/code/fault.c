@@ -40,24 +40,11 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
-#if OOT_DEBUG
-#pragma increment_block_number 128
-#else
-#pragma increment_block_number 128
-#endif
-
 #include "global.h"
 #include "terminal.h"
 #include "alloca.h"
 
-// For retail BSS ordering, the block number of sFaultInstance must be 0 or
-// just above (the exact upper bound depends on the block numbers assigned to
-// extern variables declared in headers).
-#if OOT_DEBUG
-#pragma increment_block_number 0
-#else
-#pragma increment_block_number 20
-#endif
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:0"
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);
