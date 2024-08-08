@@ -8,7 +8,7 @@
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex) {
 #if OOT_NTSC
     DmaMgr_RequestSync(&font->charTexBuf[codePointIndex],
-                       (uintptr_t)_kanjiSegmentRomStart + Kanji_OffsetFromShiftJIS(character), FONT_CHAR_TEX_SIZE);
+                       (uintptr_t)_kanjiSegmentRomStart + func_800D71F0(character), FONT_CHAR_TEX_SIZE);
 #endif
 }
 
@@ -61,7 +61,7 @@ void Font_LoadOrderedFont(Font* font) {
         }
 
         if (font->msgBufWide[codePointIndex] != MESSAGE_WIDE_NEWLINE) {
-            offset = Kanji_OffsetFromShiftJIS(font->msgBufWide[codePointIndex]);
+            offset = func_800D71F0(font->msgBufWide[codePointIndex]);
             DmaMgr_RequestSync(&font->fontBuf[fontBufIndex * 8], (uintptr_t)_kanjiSegmentRomStart + offset,
                                FONT_CHAR_TEX_SIZE);
             fontBufIndex += FONT_CHAR_TEX_SIZE / 8;

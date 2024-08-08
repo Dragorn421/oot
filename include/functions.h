@@ -786,7 +786,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize);
 void KaleidoSetup_Update(PlayState* play);
 void KaleidoSetup_Init(PlayState* play);
 void KaleidoSetup_Destroy(PlayState* play);
-s32 Kanji_OffsetFromShiftJIS(s32 character);
+s32 func_800D71F0(s32 character);
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);

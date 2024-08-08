@@ -1,6 +1,6 @@
 #include "z64.h"
 
-#pragma increment_block_number 100
+#pragma increment_block_number ""
 
 ALIGNED(16) u64 gGfxSPTaskOutputBuffer[0x3000];
 
