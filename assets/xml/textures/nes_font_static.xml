@@ -139,6 +139,5 @@
         <Texture Name="gMsgCharCRightButtonTex" OutName="msg_char_c_right_button" Format="i4" Width="16" Height="16" Offset="0x4400"/>
         <Texture Name="gMsgCharZTargetSignTex" OutName="msg_char_z_target_sign" Format="i4" Width="16" Height="16" Offset="0x4480"/>
         <Texture Name="gMsgCharAnalogStickTex" OutName="msg_char_analog_stick" Format="i4" Width="16" Height="16" Offset="0x4500"/>
-        <Texture Name="gMsgCharDPadTex" OutName="msg_char_dpad" Format="i4" Width="16" Height="16" Offset="0x4580"/>
      </File>
 </Root>

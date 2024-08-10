@@ -4,7 +4,7 @@
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-us:3"
+#pragma increment_block_number "gc-jp:2 gc-jp-ce:2 gc-jp-mq:2 gc-us:2 gc-us-mq:2"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -170,10 +170,12 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
-#if OOT_NTSC
+#if OOT_VERSION < OOT_GC_EU_MQ_DBG
                 HUNGUP_AND_CRASH("../z_play.c", 2287);
-#else
+#elif OOT_VERSION < OOT_GC_JP_CE
                 HUNGUP_AND_CRASH("../z_play.c", 2290);
+#else
+                HUNGUP_AND_CRASH("../z_play.c", 2293);
 #endif
                 break;
         }
