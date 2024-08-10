@@ -1559,7 +1559,6 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2672);
-    if (1) {}
 
     if ((this->spinAttackState >= 2) && SkelAnime_Update(&this->skelAnime)) {
         if (this->spinAttackState == 2) {

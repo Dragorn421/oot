@@ -209,7 +209,6 @@ void func_80893C68(BgJyaBigmirror* this, PlayState* play) {
     Matrix_Scale(0.1f, (this->unk170 * -0.00078125f) + 1.3901563f, 0.1f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    if (1) {}
     gSPDisplayList(POLY_XLU_DISP++, gBigMirror1DL);
     if (temp_v0 != NULL) {
         Matrix_SetTranslateRotateYXZ(temp_v0->world.pos.x, temp_v0->world.pos.y, temp_v0->world.pos.z, &D_80893F4C);
