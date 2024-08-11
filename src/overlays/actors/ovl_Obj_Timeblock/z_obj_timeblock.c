@@ -153,7 +153,7 @@ s32 func_80BA032C(ObjTimeblock* this, PlayState* play) {
         return 0;
     }
     if ((this->dyna.actor.xzDistToPlayer <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7])) {
-        func_8002DBD0(&this->dyna.actor, &sp1C, &GET_PLAYER(play)->actor.world.pos);
+        Actor_WorldToActorCoords(&this->dyna.actor, &sp1C, &GET_PLAYER(play)->actor.world.pos);
         temp_fv1 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
         if ((temp_fv1 < fabsf(sp1C.x)) || (temp_fv1 < fabsf(sp1C.z))) {
             return 1;

@@ -163,7 +163,7 @@ void func_8087FFC0(BgHakaTrap* this, PlayState* play) {
     f32 sp24_sinShapeRotY;
     Player* player = GET_PLAYER(play);
 
-    func_8002DBD0(&this->dyna.actor, &sp28, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &sp28, &player->actor.world.pos);
     sp24_sinShapeRotY = Math_SinS(this->dyna.actor.shape.rot.y);
     temp_fv0_cosShapeRotY = Math_CosS(this->dyna.actor.shape.rot.y);
     if (this->dyna.actor.params == BG_HAKA_TRAP_GUILLOTINE) {
@@ -361,7 +361,7 @@ void func_808809E4(BgHakaTrap* this, PlayState* play, s16 arg2) {
     Player* player = GET_PLAYER(play);
     Vec3f sp18;
 
-    func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &sp18, &player->actor.world.pos);
     if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
         (GET_PLAYER(play)->currentBoots != 1)) {
         player->pushedSpeed = (((500.0f - sp18.z) * 0.06f) + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
