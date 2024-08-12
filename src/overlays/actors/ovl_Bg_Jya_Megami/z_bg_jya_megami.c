@@ -53,7 +53,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef struct {
+typedef struct BgJyaMegamiPieceInit {
     /* 0x00 */ Vec3f unk_00;
     /* 0x0C */ f32 velX;
     /* 0x10 */ s16 rotVelX;

@@ -37,7 +37,7 @@ typedef struct EnTest {
     /* 0x8DC */ ColliderCylinder shieldCollider;
 } EnTest; // size = 0x928
 
-typedef enum {
+typedef enum StalfosType {
     /* 0 */ STALFOS_TYPE_INVISIBLE,
     /* 1 */ STALFOS_TYPE_1,
     /* 2 */ STALFOS_TYPE_2,

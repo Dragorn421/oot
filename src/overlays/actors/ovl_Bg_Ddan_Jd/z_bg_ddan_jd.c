@@ -33,7 +33,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-typedef enum {
+typedef enum BgDdanJdState {
     STATE_GO_BOTTOM,
     STATE_GO_MIDDLE_FROM_BOTTOM,
     STATE_GO_MIDDLE_FROM_TOP,

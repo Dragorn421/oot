@@ -32,7 +32,7 @@ typedef struct EnNb {
     /* 0x0300 */ NpcInteractInfo interactInfo;
 } EnNb; // size = 0x0328
 
-typedef enum {
+typedef enum EnNbType {
     /* 0x02 */ NB_TYPE_DEMO02 = 2,
     /* 0x03 */ NB_TYPE_KIDNAPPED,
     /* 0x04 */ NB_TYPE_KNUCKLE,

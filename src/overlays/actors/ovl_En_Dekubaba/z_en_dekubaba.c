@@ -1105,7 +1105,7 @@ void EnDekubaba_Draw(Actor* thisx, PlayState* play) {
             gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dekubaba.c", 2797),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_003070);
-        };
+        }
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2804);
 }

@@ -8,7 +8,7 @@ struct EnTr;
 
 typedef void (*EnTrActionFunc)(struct EnTr*, PlayState*);
 
-typedef enum {
+typedef enum KotakeKoumeLimb {
     /*  0 */ KOTAKE_KOUME_LIMB_NONE,
     /*  1 */ KOTAKE_KOUME_LIMB_PELVIS,
     /*  2 */ KOTAKE_KOUME_LIMB_LEFT_THIGH,

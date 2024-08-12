@@ -2041,8 +2041,6 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
                 v = this->unk3F6 >> 2;
                 EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &this->unk4FC[v], 150, 150, 150, 250, 235, 245, 255,
                                                1.4f);
-                if (1) {}
-                if (1) {}
             }
         }
     } else {

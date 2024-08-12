@@ -25,7 +25,7 @@ void EnNwc_Idle(EnNwc* this, PlayState* play);
 #define CHICK_BG_FLOOR (1 << 0)
 #define CHICK_BG_WALL (1 << 1)
 
-typedef enum {
+typedef enum ChickTypes {
     CHICK_NONE,
     CHICK_NORMAL
 } ChickTypes;
