@@ -3,8 +3,8 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-#define SIZE_PARAM (((u16)this->dyna.actor.params >> 0xC) & 0xF)
-#define TIMER_PARAM (((u16)this->dyna.actor.params >> 6) & 0x3F)
+#define SIZE_PARAM PARAMS_GET_U((u16)this->dyna.actor.params, 12, 4)
+#define TIMER_PARAM PARAMS_GET_U((u16)this->dyna.actor.params, 6, 6)
 
 void BgMizuShutter_Init(Actor* thisx, PlayState* play);
 void BgMizuShutter_Destroy(Actor* thisx, PlayState* play);
@@ -71,10 +71,10 @@ void BgMizuShutter_Init(Actor* thisx, PlayState* play) {
         this->openPos.y += this->dyna.actor.world.pos.y;
         this->openPos.z += this->dyna.actor.world.pos.z;
         if (this->timerMax != 0x3F * 20) {
-            Flags_UnsetSwitch(play, (u16)this->dyna.actor.params & 0x3F);
+            Flags_UnsetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 0, 6));
             this->dyna.actor.world.pos = this->closedPos;
         }
-        if (Flags_GetSwitch(play, (u16)this->dyna.actor.params & 0x3F)) {
+        if (Flags_GetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 0, 6))) {
             this->dyna.actor.world.pos = this->openPos;
             this->actionFunc = BgMizuShutter_WaitForTimer;
         } else {
@@ -91,7 +91,7 @@ void BgMizuShutter_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (u16)this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 0, 6))) {
         if (ABS(this->dyna.actor.world.rot.x) > 0x2C60) {
             OnePointCutscene_Init(play, 4510, -99, &this->dyna.actor, CAM_ID_MAIN);
         } else {
@@ -110,7 +110,7 @@ void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, PlayState* play) {
 }
 
 void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (u16)this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 0, 6))) {
         Math_SmoothStepToF(&this->dyna.actor.world.pos.x, this->openPos.x, 1.0f, 4.0f, 0.1f);
         Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->openPos.y, 1.0f, 4.0f, 0.1f);
         Math_SmoothStepToF(&this->dyna.actor.world.pos.z, this->openPos.z, 1.0f, 4.0f, 0.1f);
@@ -140,7 +140,7 @@ void BgMizuShutter_WaitForTimer(BgMizuShutter* this, PlayState* play) {
         func_8002F994(&this->dyna.actor, this->timer);
         if (this->timer == 0) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_CLOSE);
-            Flags_UnsetSwitch(play, (u16)this->dyna.actor.params & 0x3F);
+            Flags_UnsetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 0, 6));
             this->actionFunc = BgMizuShutter_Move;
         }
     }

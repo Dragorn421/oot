@@ -107,7 +107,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->unk2FC = (this->actor.world.rot.z + 1) * 40.0f;
     this->actor.world.rot.z = 0;
     this->actor.shape.rot.z = 0;
-    switch (thisx->params & 0xFF) {
+    switch (PARAMS_GET_S(thisx->params, 0, 8)) {
         case 0:
             func_80A32BD0(this, 0);
             if (func_80A330A0() != 0) {
@@ -142,7 +142,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     this->unk2F6 = this->actor.world.rot.y;
-    this->unk300 = ((thisx->params & 0xFF00) >> 8) * 0xA;
+    this->unk300 = PARAMS_GET_S(thisx->params, 8, 8) * 0xA;
 }
 
 void EnGe2_Destroy(Actor* thisx, PlayState* play) {
@@ -385,7 +385,7 @@ void func_80A3381C(EnGe2* this, PlayState* play) {
 
 void func_80A33930(EnGe2* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        switch (this->actor.params & 0xFF) {
+        switch (PARAMS_GET_S(this->actor.params, 0, 8)) {
             case 0:
                 func_80A32BD0(this, 1);
                 break;
@@ -474,7 +474,7 @@ void func_80A33D10(Actor* thisx, PlayState* play) {
     func_80A33BE8(this, play);
     this->unk308(this, play);
     if (Actor_TalkOfferAccepted(thisx, play)) {
-        if ((thisx->params & 0xFF) == 0) {
+        if (PARAMS_GET_S(thisx->params, 0, 8) == 0) {
             thisx->speed = 0.0f;
             func_80A32BD0(this, 8);
         }
@@ -526,13 +526,14 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
                 PRINTF("\x1b[32m発見!!!!!!!!!!!!\n\x1b[m");
                 func_80A33B7C(this, play);
             }
-            if (((this->actor.params & 0xFF) == 1) && (this->actor.xzDistToPlayer < 100.0f)) {
+            if ((PARAMS_GET_S(this->actor.params, 0, 8) == 1) && (this->actor.xzDistToPlayer < 100.0f)) {
                 PRINTF("\x1b[32m発見!!!!!!!!!!!!\n\x1b[m");
                 func_80A33B7C(this, play);
             }
         }
     }
-    if (!(this->unk2F4 & 4) && (((this->actor.params & 0xFF) == 0) || ((this->actor.params & 0xFF) == 1))) {
+    if (!(this->unk2F4 & 4) &&
+        ((PARAMS_GET_S(this->actor.params, 0, 8) == 0) || (PARAMS_GET_S(this->actor.params, 0, 8) == 1))) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk14C.base);
     }
     func_80A33C8C(this, play);
@@ -549,8 +550,8 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
     Collider_UpdateCylinder(&this->actor, &this->unk14C);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    if ((this->unk14C.base.acFlags & AC_HIT) &&
-        (((this->unk14C.elem.acHitElem == NULL)) || !(this->unk14C.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT))) {
+    if ((this->unk14C.base.acFlags & AC_HIT) && (((this->unk14C.elem.acHitElem == NULL)) ||
+                                                 !(this->unk14C.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT))) {
         this->actor.colorFilterTimer = 0;
         func_80A32BD0(this, 3);
         this->unk305 = 0x64;

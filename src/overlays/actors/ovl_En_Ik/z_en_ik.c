@@ -8,6 +8,7 @@
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/objects/object_ik/object_ik.h"
 #include "terminal.h"
+#include "z64actor.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -202,7 +203,7 @@ void func_80A74398(Actor* thisx, PlayState* play) {
     this->unk_2FC = 0;
     thisx->colChkInfo.health = 30;
     thisx->gravity = -1.0f;
-    this->switchFlags = (thisx->params >> 8) & 0xFF;
+    this->switchFlags = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (thisx->params == 0) {

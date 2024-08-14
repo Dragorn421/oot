@@ -105,10 +105,10 @@ void func_80A9B07C(EnKusa* this, PlayState* play) {
     s16 var_v0;
     s32 temp_v0;
 
-    switch (this->actor.params & 3) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
         case ENKUSA_TYPE_0:
         case ENKUSA_TYPE_2:
-            var_v0 = (this->actor.params >> 8) & 0xF;
+            var_v0 = PARAMS_GET_U(this->actor.params, 8, 4);
             if (var_v0 >= 0xD) {
                 var_v0 = 0;
             }
@@ -212,7 +212,7 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, D_80A9C200[this->actor.params & 3]);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, D_80A9C200[PARAMS_GET_U(this->actor.params, 0, 2)]);
     if (this->requiredObjectSlot < 0) {
         PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_en_kusa.c", 0x231);
         Actor_Kill(&this->actor);
@@ -261,10 +261,10 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
         func_80A9B21C(this, play);
         func_80A9B07C(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
-        if ((this->actor.params >> 4) & 1) {
+        if (PARAMS_GET_U(this->actor.params, 4, 1)) {
             func_80A9B574(this, play);
         }
-        if ((this->actor.params & 3) == ENKUSA_TYPE_0) {
+        if (PARAMS_GET_U(this->actor.params, 0, 2) == ENKUSA_TYPE_0) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -329,7 +329,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
         }
         func_80A9B21C(this, play);
         func_80A9B07C(this, play);
-        switch (this->actor.params & 3) {
+        switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
             case ENKUSA_TYPE_0:
             case ENKUSA_TYPE_2:
                 Actor_Kill(&this->actor);
@@ -371,7 +371,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
 }
 
 void EnKusa_SetupCut(EnKusa* this) {
-    switch (this->actor.params & 3) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
         case ENKUSA_TYPE_2:
             func_80A9AFA0(this, EnKusa_DoNothing);
             break;
@@ -441,6 +441,6 @@ void func_80A9C164(Actor* thisx, PlayState* play) {
     if (thisx->flags & ACTOR_FLAG_ENKUSA_CUT) {
         Gfx_DrawDListOpa(play, object_kusa_DL_0002E0);
     } else {
-        Gfx_DrawDListOpa(play, D_80A9C294[thisx->params & 3]);
+        Gfx_DrawDListOpa(play, D_80A9C294[PARAMS_GET_U(thisx->params, 0, 2)]);
     }
 }

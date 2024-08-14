@@ -79,9 +79,10 @@ static InitChainEntry D_80BA1BC8[] = {
 void func_80BA0D60(ObjTsubo* this, PlayState* play) {
     s16 temp_v0;
 
-    temp_v0 = this->actor.params & 0x1F;
+    temp_v0 = PARAMS_GET_U(this->actor.params, 0, 5);
     if ((temp_v0 >= 0) && (temp_v0 < ITEM00_MAX)) {
-        Item_DropCollectible(play, &this->actor.world.pos, (s16)(temp_v0 | (((this->actor.params >> 9) & 0x3F) << 8)));
+        Item_DropCollectible(play, &this->actor.world.pos,
+                             (s16)(temp_v0 | (PARAMS_GET_U(this->actor.params, 9, 6) << 8)));
     }
 }
 
@@ -129,7 +130,7 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
     if (func_80BA0DF4(this, play) == 0) {
         Actor_Kill(&this->actor);
     } else {
-        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, D_80BA1B80[(this->actor.params >> 8) & 1]);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, D_80BA1B80[PARAMS_GET_U(this->actor.params, 8, 1)]);
         if (this->requiredObjectSlot < 0) {
             PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
             Actor_Kill(&this->actor);
@@ -178,7 +179,8 @@ void func_80BA100C(ObjTsubo* this, PlayState* play) {
         }
         EffectSsKakera_Spawn(play, &spC8, &spBC, &this->actor.world.pos, -240, var_s0, 0xA, 0xA, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 0x20, 60, -1,
-                             D_80BA1B80[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+                             D_80BA1B80[PARAMS_GET_U(this->actor.params, 8, 1)],
+                             D_80BA1B8C[PARAMS_GET_U(this->actor.params, 8, 1)]);
     }
     func_80033480(play, &this->actor.world.pos, 30.0f, 4, 0x14, 0x32, 1U);
 }
@@ -214,7 +216,8 @@ void func_80BA1294(ObjTsubo* this, PlayState* play) {
         }
         EffectSsKakera_Spawn(play, &spC8, &spBC, &this->actor.world.pos, -180, var_s0, 0x1E, 0x1E, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 0x20, 70, -1,
-                             D_80BA1B80[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+                             D_80BA1B80[PARAMS_GET_U(this->actor.params, 8, 1)],
+                             D_80BA1B8C[PARAMS_GET_U(this->actor.params, 8, 1)]);
     }
 }
 
@@ -338,5 +341,5 @@ void ObjTsubo_Update(Actor* thisx, PlayState* play) {
 }
 
 void func_80BA1B0C(Actor* thisx, PlayState* play) {
-    Gfx_DrawDListOpa(play, D_80BA1B84[(thisx->params >> 8) & 1]);
+    Gfx_DrawDListOpa(play, D_80BA1B84[PARAMS_GET_U(thisx->params, 8, 1)]);
 }

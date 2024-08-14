@@ -78,7 +78,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     } else {
         this->actor.uncullZoneForward = 1200.0f;
     }
-    switch (this->actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 8)) {
         case 0x0:
             this->unk2AE = 2;
             this->unk2B4 = func_80A31880;
@@ -284,7 +284,7 @@ void func_80A311E0(EnGe1* this, PlayState* play) {
 void func_80A31234(EnGe1* this, PlayState* play) {
     if (this->unk2AC & 4) {
         this->unk2B4 = func_80A311E0;
-        Flags_SetSwitch(play, ((s16)this->actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         this->unk2AF = 0x32;
         Message_CloseTextbox(play);
     } else if ((this->unk198.curFrame == 15.0f) || (this->unk198.curFrame == 19.0f)) {
@@ -372,7 +372,7 @@ void func_80A315F0(EnGe1* this, PlayState* play) {
 void func_80A31644(EnGe1* this, PlayState* play) {
     if (this->unk2AC & 4) {
         this->unk2B4 = func_80A315F0;
-        Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         this->unk2AF = 0x32;
         Message_CloseTextbox(play);
     } else if ((this->unk198.curFrame == 15.0f) || (this->unk198.curFrame == 19.0f)) {
@@ -393,7 +393,7 @@ void func_80A316F4(EnGe1* this, PlayState* play) {
 }
 
 void func_80A317C0(EnGe1* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         func_80A30C70(this, play, 0x6018U, 100.0f, func_80A3157C);
     } else {
         func_80A30C70(this, play, 0x6017U, 100.0f, func_80A316F4);

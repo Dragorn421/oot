@@ -137,7 +137,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
 
     scale = 1.0f;
     var_t0_sp4E = 0;
-    this->unk14C = (this->actor.params >> 8) & 0xFF;
+    this->unk14C = PARAMS_GET_U(this->actor.params, 8, 8);
     if (this->actor.home.rot.z != 0) {
         this->actor.shape.rot.z = 0;
         this->actor.home.rot.z = (this->actor.home.rot.z << 8) | this->unk14C;
@@ -146,7 +146,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
     } else if (this->unk14C & 0x80) {
         this->unk14C = -1;
     }
-    this->actor.params = this->actor.params & 0xFF;
+    this->actor.params = PARAMS_GET_U(this->actor.params, 0, 8);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (this->actor.params < EN_WOOD_02_TYPE_11) {
         Collider_InitCylinder(play, &this->unk158);

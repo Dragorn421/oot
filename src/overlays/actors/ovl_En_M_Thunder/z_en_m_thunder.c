@@ -59,7 +59,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
     player = GET_PLAYER(play);
     Collider_InitCylinder(play, &this->unk14C);
     Collider_SetCylinder(play, &this->unk14C, &this->actor, &D_80AA0420);
-    this->unk1C7 = (this->actor.params & 0xFF) - 1;
+    this->unk1C7 = PARAMS_GET_U(this->actor.params, 0, 8) - 1;
     Lights_PointNoGlowSetInfo(&this->unk19C, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                               255, 255, 255, 0);
     this->unk198 = LightContext_InsertLight(play, &play->lightCtx, &this->unk19C);
@@ -78,8 +78,8 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (((gSaveContext.save.info.playerData.isMagicAcquired) == 0) ||
             (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
-            (((((this->actor.params & 0xFF00) >> 8) != 0)) &&
-             (Magic_RequestChange(play, (s16)((this->actor.params & 0xFF00) >> 8), MAGIC_CONSUME_NOW) == 0))) {
+            ((PARAMS_GET_S(this->actor.params, 8, 8) != 0) &&
+             (Magic_RequestChange(play, PARAMS_GET_S(this->actor.params, 8, 8), MAGIC_CONSUME_NOW) == 0))) {
             Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4U,
@@ -152,8 +152,8 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
     if ((this->unk1CA == 0) && (player->unk_858 >= 0.10f)) {
         if ((gSaveContext.magicState != MAGIC_STATE_IDLE) ||
-            ((((this->actor.params & 0xFF00) >> 8) != 0) &&
-             (Magic_RequestChange(play, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_WAIT_PREVIEW) == 0))) {
+            ((PARAMS_GET_S(this->actor.params, 8, 8) != 0) &&
+             (Magic_RequestChange(play, PARAMS_GET_S(this->actor.params, 8, 8), MAGIC_CONSUME_WAIT_PREVIEW) == 0))) {
             func_80A9F350(this, play);
             EnMThunder_SetupAction(this, func_80A9F350);
             this->unk1C8 = 0;
@@ -181,7 +181,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
             return;
         }
         player->stateFlags2 &= ~PLAYER_STATE2_17;
-        if (((this->actor.params & 0xFF00) >> 8) != 0) {
+        if (PARAMS_GET_S(this->actor.params, 8, 8) != 0) {
             gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
         }
         if (player->unk_858 < 0.85f) {

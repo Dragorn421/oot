@@ -57,11 +57,11 @@ s32 func_80B9FFA0(ObjTimeblock* this) {
     s32 var_a1;
     s32 var_v1;
 
-    if (!((this->dyna.actor.params >> 0xA) & 1)) {
+    if (!PARAMS_GET_U(this->dyna.actor.params, 10, 1)) {
         if (this->unk177 == 0) {
             return this->unk175;
         }
-        if ((this->dyna.actor.params >> 0xF) & 1) {
+        if (PARAMS_GET_U(this->dyna.actor.params, 15, 1)) {
             var_a1 = 1;
         } else {
             var_a1 = 0;
@@ -79,12 +79,12 @@ s32 func_80B9FFA0(ObjTimeblock* this) {
             return this->unk174 ^ var_a1 ^ var_v1_2;
         }
     }
-    return (((this->dyna.actor.params >> 0xF) & 1) ? 1 : 0) ^ this->unk174;
+    return (PARAMS_GET_U(this->dyna.actor.params, 15, 1) ? 1 : 0) ^ this->unk174;
 }
 
 void func_80BA0058(ObjTimeblock* this, PlayState* play) {
     Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
-                this->dyna.actor.world.pos.z, 0, 0, 0, (D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk8));
+                this->dyna.actor.world.pos.z, 0, 0, 0, (D_80BA0AF0[PARAMS_GET_U(this->dyna.actor.params, 8, 1)].unk8));
 }
 
 void func_80BA00CC(PlayState* play, s32 arg1) {
@@ -106,28 +106,28 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &sp2C);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp2C);
     Actor_ProcessInitChain(&this->dyna.actor, D_80BA0B28);
-    Actor_SetScale(&this->dyna.actor, D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk0);
-    if ((this->dyna.actor.params >> 6) & 1) {
+    Actor_SetScale(&this->dyna.actor, D_80BA0AF0[PARAMS_GET_U(this->dyna.actor.params, 8, 1)].unk0);
+    if (PARAMS_GET_U(this->dyna.actor.params, 6, 1)) {
         this->unk177 = 0;
-    } else if ((this->dyna.actor.params & 0x3F) < 0x38) {
+    } else if (PARAMS_GET_U(this->dyna.actor.params, 0, 6) < 0x38) {
         this->unk177 = 2;
     } else {
         this->unk177 = 1;
     }
     this->unk168 = func_80BA040C;
-    Actor_SetFocus(&this->dyna.actor, D_80BA0AF0[(this->dyna.actor.params >> 8) & 1].unk4);
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    Actor_SetFocus(&this->dyna.actor, D_80BA0AF0[PARAMS_GET_U(this->dyna.actor.params, 8, 1)].unk4);
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         this->unk174 = 1;
     } else {
         this->unk174 = 0;
     }
-    if ((this->dyna.actor.params >> 0xF) & 1) {
+    if (PARAMS_GET_U(this->dyna.actor.params, 15, 1)) {
         this->unk175 = 1;
     } else {
         this->unk175 = 0;
     }
     this->unk178 = func_80B9FFA0(this);
-    if (((this->dyna.actor.params >> 0xA) & 1) == 0) {
+    if (PARAMS_GET_U(this->dyna.actor.params, 10, 1) == 0) {
         func_80BA0514(this);
     } else if (this->unk178 != 0) {
         func_80BA0758(this);
@@ -135,8 +135,8 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
         func_80BA083C(this);
     }
     PRINTF("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n", this->dyna.actor.params & 0xFFFF,
-           this->unk177, this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 0xB) & 7,
-           (this->dyna.actor.params >> 0xA) & 1);
+           this->unk177, this->dyna.actor.home.rot.z & 7, PARAMS_GET_U(this->dyna.actor.params, 11, 3),
+           PARAMS_GET_U(this->dyna.actor.params, 10, 1));
 }
 
 void ObjTimeblock_Destroy(Actor* thisx, PlayState* play) {
@@ -152,7 +152,7 @@ s32 func_80BA032C(ObjTimeblock* this, PlayState* play) {
     if ((this->unk178 != 0) && (DynaPolyActor_IsPlayerAbove(&this->dyna) != 0)) {
         return 0;
     }
-    if ((this->dyna.actor.xzDistToPlayer <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7])) {
+    if ((this->dyna.actor.xzDistToPlayer <= D_80BA0B08[PARAMS_GET_U(this->dyna.actor.params, 11, 3)])) {
         Actor_WorldToActorCoords(&this->dyna.actor, &sp1C, &GET_PLAYER(play)->actor.world.pos);
         temp_fv1 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
         if ((temp_fv1 < fabsf(sp1C.x)) || (temp_fv1 < fabsf(sp1C.z))) {
@@ -217,7 +217,7 @@ void func_80BA0524(ObjTimeblock* this, PlayState* play) {
         if (this->unk177 == 0) {
             this->dyna.actor.params ^= 0x8000;
         } else {
-            func_80BA00CC(play, this->dyna.actor.params & 0x3F);
+            func_80BA00CC(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         }
     }
     this->unk172 = play->msgCtx.lastPlayedSong;
@@ -225,12 +225,12 @@ void func_80BA0524(ObjTimeblock* this, PlayState* play) {
         this->unk170 -= 1;
         if (this->unk170 == 0) {
             if (this->unk177 == 0) {
-                if ((this->dyna.actor.params >> 0xF) & 1) {
+                if (PARAMS_GET_U(this->dyna.actor.params, 15, 1)) {
                     this->unk175 = 1;
                 } else {
                     this->unk175 = 0;
                 }
-            } else if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) != 0) {
+            } else if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) != 0) {
                 this->unk174 = 1;
             } else {
                 this->unk174 = 0;
@@ -251,7 +251,7 @@ void func_80BA06AC(ObjTimeblock* this, PlayState* play) {
     s32 sp24;
     s16 temp_v0;
 
-    sp24 = this->dyna.actor.params & 0x3F;
+    sp24 = PARAMS_GET_U(this->dyna.actor.params, 0, 6);
     temp_v0 = this->unk170;
     this->unk172 = play->msgCtx.lastPlayedSong;
     if (temp_v0 > 0) {
@@ -283,7 +283,7 @@ void func_80BA0768(ObjTimeblock* this, PlayState* play) {
         this->unk16C = 0xA0;
         OnePointCutscene_Attention(play, &this->dyna.actor);
         PRINTF("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", play->state.frames);
-        func_80BA00CC(play, this->dyna.actor.params & 0x3F);
+        func_80BA00CC(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
     }
     func_80BA06AC(this, play);
     if (this->unk16C == 0x32) {
@@ -300,7 +300,7 @@ void func_80BA083C(ObjTimeblock* this) {
 
 void func_80BA084C(ObjTimeblock* this, PlayState* play) {
     s32 var_v1;
-    s32 flag = this->dyna.actor.params & 0x3F;
+    s32 flag = PARAMS_GET_U(this->dyna.actor.params, 0, 6);
 
     if (Flags_GetSwitch(play, flag) != 0) {
         var_v1 = 1;
@@ -308,7 +308,7 @@ void func_80BA084C(ObjTimeblock* this, PlayState* play) {
         var_v1 = 0;
     }
     if (this->unk176 ^ var_v1) {
-        if (((((s16)this->dyna.actor.params >> 0xF) & 1) ? 1 : 0) ^ var_v1) {
+        if ((PARAMS_GET_U(this->dyna.actor.params, 15, 1) ? 1 : 0) ^ var_v1) {
             if (this->unk16C <= 0) {
                 func_80BA0058(this, play);
                 this->unk16C = 0xA0;

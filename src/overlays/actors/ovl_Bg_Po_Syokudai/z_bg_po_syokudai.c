@@ -48,7 +48,7 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, D_808A89CC);
-    this->unk14C = (thisx->params >> 8) & 0xFF;
+    this->unk14C = PARAMS_GET_U(thisx->params, 8, 8);
     this->actor.params &= 0x3F;
     this->actor.colChkInfo.mass = 0xFF;
     this->unk150 = LightContext_InsertLight(play, &play->lightCtx, &this->unk154);

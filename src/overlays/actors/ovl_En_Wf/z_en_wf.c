@@ -196,7 +196,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.health = 8;
     this->actor.colChkInfo.cylRadius = 50;
     this->actor.colChkInfo.cylHeight = 100;
-    this->unk2FC = ((s16)thisx->params >> 8) & 0xFF;
+    this->unk2FC = PARAMS_GET_U(thisx->params, 8, 8);
     this->actor.params &= 0xFF;
     this->unk302 = 0;
     this->unk2F4 = 10.0f;

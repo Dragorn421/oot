@@ -64,7 +64,7 @@ void func_808B0968(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* arg
 }
 
 void func_808B09F0(BgSpot08Iceblock* this) {
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case 0xFF:
             this->dyna.actor.params = 0x10;
             break;
@@ -96,7 +96,7 @@ void func_808B0AE0(BgSpot08Iceblock* this) {
     f32 var_fv0;
     f32 sp18;
 
-    switch (this->dyna.actor.params & 0xF0) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 4, 4)) {
         case 0:
             sp18 = 0.15f;
             break;
@@ -168,7 +168,7 @@ void func_808B0CE0(BgSpot08Iceblock* this, PlayState* play) {
     f32 temp_fv0_2;
     f32 temp_fv1;
 
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case 0x11:
             sp84 = 0;
             break;
@@ -232,7 +232,7 @@ void func_808B1054(BgSpot08Iceblock* this, PlayState* play) {
 
     sp44 = Math_SinS(this->dyna.actor.home.rot.y) * 100.0f;
     temp_fv1 = Math_CosS(this->dyna.actor.home.rot.y) * 100.0f;
-    if (!(this->dyna.actor.params & 0x100)) {
+    if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 8, 1)) {
         Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT08_ICEBLOCK,
                            this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,
                            this->dyna.actor.home.rot.x, this->dyna.actor.home.rot.y, this->dyna.actor.home.rot.z,
@@ -254,7 +254,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
 
     PRINTF("(spot08 流氷)(arg_data 0x%04x)\n", this->dyna.actor.params);
     func_808B09F0(this);
-    switch (this->dyna.actor.params & 0x200) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 9, 1)) {
         case 0:
             var_a2 = &gZorasFountainIcebergCol;
             break;
@@ -263,7 +263,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
             var_a2 = &gZorasFountainIceRampCol;
             break;
     }
-    temp_v0_2 = this->dyna.actor.params & 0xF;
+    temp_v0_2 = PARAMS_GET_U(this->dyna.actor.params, 0, 4);
     if ((temp_v0_2 == 2) || (temp_v0_2 == 3)) {
         func_808B0968(this, play, var_a2, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     } else {
@@ -274,7 +274,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
         return;
     }
     Actor_ProcessInitChain(&this->dyna.actor, D_808B16F8);
-    switch (this->dyna.actor.params & 0xF0) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 4, 4)) {
         case 0:
             Actor_SetScale(&this->dyna.actor, 0.2f);
             break;
@@ -291,7 +291,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     this->unk18E = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
     this->unk168.y = 1.0f;
     this->unk180.x = 1.0f;
-    switch (this->dyna.actor.params & 0xF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 4)) {
         case 0:
         case 1:
             func_808B1388(this);
@@ -355,7 +355,7 @@ void func_808B14A0(BgSpot08Iceblock* this, PlayState* play) {
     func_808B0A84(this);
     func_808B0AE0(this);
     func_808B0B8C(this);
-    if (!(this->dyna.actor.params & 0x100)) {
+    if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 8, 1)) {
         this->dyna.actor.world.rot.y += 0x190;
         temp_fv1 = Math_SinS(this->dyna.actor.world.rot.y) * 100.0f;
         temp_fa0 = Math_CosS(this->dyna.actor.world.rot.y) * 100.0f;
@@ -392,7 +392,7 @@ void BgSpot08Iceblock_Draw(Actor* thisx, PlayState* play) {
     Gfx* sp1C;
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
 
-    switch (this->dyna.actor.params & 0x200) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 9, 1)) {
         case 0x0:
             sp1C = gZorasFountainIcebergDL;
             break;

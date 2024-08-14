@@ -67,7 +67,7 @@ void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     func_808B2F90(this, play, &gGerudoFortressWastelandGateCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
 
-    if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         func_808B3274(this);
     } else {
         func_808B30C0(this);
@@ -90,7 +90,7 @@ void func_808B30C0(BgSpot12Gate* this) {
 void func_808B30D8(BgSpot12Gate* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
-    if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         func_808B3134(this);
         OnePointCutscene_Init(play, 4160, -99, thisx, CAM_ID_MAIN);
     }

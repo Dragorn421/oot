@@ -60,13 +60,13 @@ void func_808C0C50(BgZg* this) {
 
 s32 func_808C0C98(BgZg* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
-    s32 flag = (thisx->params >> 8) & 0xFF;
+    s32 flag = PARAMS_GET_U(thisx->params, 8, 8);
 
     return Flags_GetSwitch(play, flag);
 }
 
 s32 func_808C0CC8(BgZg* this) {
-    s32 flag = this->dyna.actor.params & 0xFF;
+    s32 flag = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
 
     return flag;
 }
