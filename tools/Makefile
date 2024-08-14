@@ -1,5 +1,5 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
-PROGRAMS := elf2rom makeromfs mkdmadata mkldscript spec_ls_seg vtxdis
+PROGRAMS := elf2rom makeromfs mkdmadata mkldscript preprocess_pragmas spec_ls_seg vtxdis
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
   CC := clang
@@ -33,12 +33,13 @@ distclean: clean
 
 .PHONY: all clean distclean
 
-elf2rom_SOURCES    := elf2rom.c elf32.c n64chksum.c util.c
-makeromfs_SOURCES  := makeromfs.c n64chksum.c util.c
-mkdmadata_SOURCES  := mkdmadata.c spec.c util.c
-mkldscript_SOURCES := mkldscript.c spec.c util.c
-spec_ls_seg_SOURCES := spec_ls_seg.c spec.c util.c
-vtxdis_SOURCES     := vtxdis.c
+elf2rom_SOURCES            := elf2rom.c elf32.c n64chksum.c util.c
+makeromfs_SOURCES          := makeromfs.c n64chksum.c util.c
+mkdmadata_SOURCES          := mkdmadata.c spec.c util.c
+mkldscript_SOURCES         := mkldscript.c spec.c util.c
+preprocess_pragmas_SOURCES := preprocess_pragmas.c
+spec_ls_seg_SOURCES        := spec_ls_seg.c spec.c util.c
+vtxdis_SOURCES             := vtxdis.c
 
 define COMPILE =
 $(1): $($1_SOURCES)

@@ -4,6 +4,7 @@ elf2rom
 makeromfs
 mkdmadata
 mkldscript
+preprocess_pragmas
 spec_ls_seg
 vtxdis
 yaz0
