@@ -5,13 +5,13 @@
 [jenkins]: https://jenkins.deco.mp/job/OOT/job/main
 [jenkins-badge]: https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.deco.mp%2Fjob%2FOOT%2Fjob%2Fmain
 
-[progress]: https://zelda64.dev/progress.html
-[progress-badge]: https://img.shields.io/endpoint?url=https://zelda64.dev/reports/progress_shield.json
+[progress]: https://zelda.deco.mp/games/oot
+[progress-badge]: https://img.shields.io/endpoint?url=https://zelda.deco.mp/assets/csv/progress-oot-shield.json
 
 [contributors]: https://github.com/zeldaret/oot/graphs/contributors
 [contributors-badge]: https://img.shields.io/github/contributors/zeldaret/oot
 
-[discord]: https://discord.zelda64.dev
+[discord]: https://discord.zelda.deco.mp
 [discord-badge]: https://img.shields.io/discord/688807550715560050?color=%237289DA&logo=discord&logoColor=%23FFFFFF
 
 ```diff
@@ -33,9 +33,9 @@ It builds the following ROM:
 
 **Note: This repository does not include any of the assets necessary to build the ROM. A prior copy of the game is required to extract the needed assets.**
 
-**Website:** <https://zelda64.dev>
+**Website:** <https://zelda.deco.mp>
 
-**Discord:** <https://discord.zelda64.dev>
+**Discord:** <https://discord.zelda.deco.mp>
 
 ## Installation
 
@@ -181,4 +181,4 @@ Once inside the container, you can follow steps [4](#4-setup-the-rom-and-build-p
 All contributions are welcome. This is a group effort, and even small contributions can make a difference.
 Some tasks also don't require much knowledge to get started.
 
-Most discussions happen on our [Discord Server](https://discord.zelda64.dev), where you are welcome to ask if you need help getting started, or if you have any questions regarding this project and other decompilation projects.
+Most discussions happen on our [Discord Server][discord], where you are welcome to ask if you need help getting started, or if you have any questions regarding this project and other decompilation projects.
