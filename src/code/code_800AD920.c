@@ -29,6 +29,7 @@ void func_800AD950(struct_80166500* this) {
 // Draw
 void func_800AD958(struct_80166500* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
+    s32 pad;
     u16* tex = D_0E000000;
     s32 fmt = !this->useRgba ? G_IM_FMT_IA : G_IM_FMT_RGBA;
     s32 y;

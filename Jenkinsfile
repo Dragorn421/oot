@@ -45,28 +45,14 @@ pipeline {
         }
         stage('Build gc-eu-mq-dbg') {
             steps {
-<<<<<<< HEAD
-                sh 'mkdir reports'
-                sh 'python3 progress.py csv >> reports/progress.csv'
-                sh 'python3 progress.py csv -m >> reports/progress_matching.csv'
-                sh 'python3 progress.py shield-json > reports/progress_shield.json'
-                stash includes: 'reports/*', name: 'reports'
-=======
                 sh 'ln -s /usr/local/etc/roms/oot-gc-eu-mq-dbg.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
                 sh 'make -j setup VERSION=gc-eu-mq-dbg'
                 sh 'make -j RUN_CC_CHECK=0 VERSION=gc-eu-mq-dbg'
                 sh 'make clean assetclean VERSION=gc-eu-mq-dbg'
->>>>>>> 70716be96d (Build all GC retail ROMs in Jenkins (#2027))
             }
         }
         stage('Build gc-us') {
             steps {
-<<<<<<< HEAD
-                unstash 'reports'
-                sh 'cat reports/progress.csv >> /var/www/html/reports/progress.csv'
-                sh 'cat reports/progress_matching.csv >> /var/www/html/reports/progress_matching.csv'
-                sh 'cat reports/progress_shield.json > /var/www/html/reports/progress_shield.json'
-=======
                 sh 'ln -s /usr/local/etc/roms/oot-gc-us.z64 baseroms/gc-us/baserom.z64'
                 sh 'make -j setup VERSION=gc-us'
                 sh 'make -j RUN_CC_CHECK=0 VERSION=gc-us'
@@ -103,7 +89,6 @@ pipeline {
                 sh 'make -j setup VERSION=gc-us-mq'
                 sh 'make -j RUN_CC_CHECK=0 VERSION=gc-us-mq'
                 sh 'make clean assetclean VERSION=gc-us-mq'
->>>>>>> 70716be96d (Build all GC retail ROMs in Jenkins (#2027))
             }
         }
     }
