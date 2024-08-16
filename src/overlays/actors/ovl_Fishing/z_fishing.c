@@ -10,8 +10,11 @@
 #include "assets/objects/object_fish/object_fish.h"
 #include "ichain.h"
 #include "terminal.h"
+#if PLATFORM_N64
+#include "cic6105.h"
+#endif
 
-#pragma increment_block_number "gc-eu:215 gc-eu-mq:215 gc-jp:217 gc-jp-ce:217 gc-jp-mq:217 gc-us:217 gc-us-mq:217"
+#pragma increment_block_number "gc-eu:214 gc-eu-mq:214 gc-jp:216 gc-jp-ce:216 gc-jp-mq:216 gc-us:216 gc-us-mq:216"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -852,7 +855,14 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
     if (thisx->params < EN_FISH_PARAM) {
         FishingGroupFish* fish;
 
+#if PLATFORM_N64
+        // Anti-piracy check, if the check fails the line can't be reeled in if
+        // a fish is caught and the fish will always let go after 50 frames.
+        sReelLock = !(B_80008EE0 == 0xAD090010);
+#else
         sReelLock = 0;
+#endif
+
         sFishingMain = this;
         Collider_InitJntSph(play, &sFishingMain->collider);
         Collider_SetJntSph(play, &sFishingMain->collider, thisx, &sJntSphInit, sFishingMain->colliderElements);
