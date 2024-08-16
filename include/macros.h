@@ -1,6 +1,8 @@
 #ifndef MACROS_H
 #define MACROS_H
 
+#define _2(jp, en) jp
+
 // OOT versions in build order
 #define OOT_GC_JP 1
 #define OOT_GC_JP_MQ 2
