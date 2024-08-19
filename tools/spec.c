@@ -136,8 +136,6 @@ static const char *const stmtNames[] =
     [STMT_entry]     = "entry",
     [STMT_flags]     = "flags",
     [STMT_include]   = "include",
-    [STMT_include_data_only_within_rodata] = "include_data_only_within_rodata",
-    [STMT_include_no_data] = "include_no_data",
     [STMT_name]      = "name",
     [STMT_number]    = "number",
     [STMT_romalign]  = "romalign",
@@ -178,8 +176,7 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
             if (currSeg != NULL)
             {
                 // ensure no duplicates (except for 'include' or 'pad_text')
-                if (stmt != STMT_include && stmt != STMT_include_data_only_within_rodata &&
-                    stmt != STMT_include_no_data && stmt != STMT_pad_text &&
+                if (stmt != STMT_include && stmt != STMT_pad_text &&
                     (currSeg->fields & (1 << stmt)))
                     util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtName);
 
@@ -232,8 +229,6 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
                         util_fatal_error("line %i: alignment is not a power of two", lineNum);
                     break;
                 case STMT_include:
-                case STMT_include_data_only_within_rodata:
-                case STMT_include_no_data:
                     currSeg->includesCount++;
                     currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
 
@@ -241,8 +236,6 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
                         util_fatal_error("line %i: invalid filename", lineNum);
 
                     currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
-                    currSeg->includes[currSeg->includesCount - 1].dataOnlyWithinRodata = (stmt == STMT_include_data_only_within_rodata);
-                    currSeg->includes[currSeg->includesCount - 1].noData = (stmt == STMT_include_no_data);
                     break;
                  case STMT_increment:
                     if (!parse_number(args, &currSeg->increment))
