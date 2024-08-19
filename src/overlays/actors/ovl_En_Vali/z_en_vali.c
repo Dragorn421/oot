@@ -317,7 +317,7 @@ void func_80B2716C(EnVali* this, PlayState* play) {
     if (var_v1 >= 0x29) {
         var_v1 = 0x50 - var_v1;
     }
-    this->actor.shape.rot.y += (s16)(s32)((var_v1 + 4) * 0.4f * 182.04445f);
+    this->actor.shape.rot.y += DEG_TO_BINANG((var_v1 + 4) * 0.4f);
     if (this->actor.xzDistToPlayer > 250.0f) {
         func_80B26E40(this);
     }
