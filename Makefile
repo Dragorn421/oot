@@ -423,13 +423,9 @@ $(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 
 ifeq ($(DEBUG),1)
-$(BUILD_DIR)/src/code/code_801068B0.o: OPTFLAGS := -g
-$(BUILD_DIR)/src/code/code_80106860.o: OPTFLAGS := -g
-$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -g
+$(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 else
-$(BUILD_DIR)/src/code/code_801068B0.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/code_80106860.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O2
 endif
 
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
@@ -440,14 +436,6 @@ $(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
 # Put string literals in .data for some audio files (needed to match these files with literals)
 $(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
 $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
-
-ifeq ($(DEBUG),1)
-$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
-$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
-else
-$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2
-endif
 
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
