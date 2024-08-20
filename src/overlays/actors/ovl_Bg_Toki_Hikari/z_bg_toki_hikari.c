@@ -9,11 +9,11 @@ void BgTokiHikari_Update(Actor* thisx, PlayState* play);
 void BgTokiHikari_Draw(Actor* thisx, PlayState* play);
 
 void func_808B9F98(BgTokiHikari* this, PlayState* play);
-void func_808BA018(BgTokiHikari* this, PlayState* play);
+void func_808BA018(Actor* thisx, PlayState* play);
 void func_808BA204(BgTokiHikari* this, PlayState* play);
 void func_808BA22C(BgTokiHikari* this, PlayState* play);
 void func_808BA274(BgTokiHikari* this, PlayState* play);
-void func_808BA2CC(BgTokiHikari* this, PlayState* play);
+void func_808BA2CC(Actor* thisx, PlayState* play);
 
 ActorProfile Bg_Toki_Hikari_Profile = {
     /**/ ACTOR_BG_TOKI_HIKARI,
@@ -66,21 +66,17 @@ void BgTokiHikari_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgTokiHikari_Draw(Actor* thisx, PlayState* play) {
-    s16 temp_v0;
-    BgTokiHikari* this = (BgTokiHikari*)thisx;
-
-    temp_v0 = this->actor.params;
-    switch (temp_v0) { /* irregular */
+    switch (thisx->params) {
         case 0:
-            func_808BA018(this, play);
+            func_808BA018(thisx, play);
             return;
         case 1:
-            func_808BA2CC(this, play);
+            func_808BA2CC(thisx, play);
             return;
     }
 }
 
-void func_808BA018(BgTokiHikari* this, PlayState* play) {
+void func_808BA018(Actor* thisx, PlayState* play) {
     PlayState* play2 = (PlayState*)play;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0xF6);
@@ -128,8 +124,9 @@ void func_808BA274(BgTokiHikari* this, PlayState* play) {
     Actor_Kill(&this->actor);
 }
 
-void func_808BA2CC(BgTokiHikari* this, PlayState* play) {
-    s32 pad[2];
+void func_808BA2CC(Actor* thisx, PlayState* play) {
+    BgTokiHikari* this = (BgTokiHikari*)thisx;
+    s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0x15E);
     Matrix_Translate(0.0f, 276.0f, 1122.0f, 0U);
