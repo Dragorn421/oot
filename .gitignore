@@ -2,10 +2,12 @@
 __pycache__/
 .pyc
 
-# Text editor remnants
+# IDE files
 .vscode/
 .vs/
 .idea/
+.cache/
+compile_commands.json
 
 # Project-specific ignores
 .make_options.mk
