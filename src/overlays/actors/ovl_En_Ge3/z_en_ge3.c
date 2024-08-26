@@ -231,6 +231,7 @@ s32 func_80A34E58(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg
 
         case 6:
             arg4->x += this->unk300.y;
+#if PLATFORM_GC
             FALLTHROUGH;
         default:
             OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 547);
@@ -256,6 +257,7 @@ s32 func_80A34E58(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg
                     break;
             }
             CLOSE_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 566);
+#endif
             break;
     }
     return 0;
