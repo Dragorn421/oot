@@ -23,28 +23,31 @@ def get_c_file(directory):
             if file.endswith(".c") and "data" not in file:
                 return file
 
-def import_c_file(in_file):
+def import_c_file(in_file, version):
     in_file = os.path.relpath(in_file, root_dir)
-    cpp_command = ["cpp", "-P", "-Iinclude", "-Isrc", "-undef", "-DM2CTX", "-D__sgi", "-D_LANGUAGE_C",
+    cpp_command = ["cpp", "-nostdinc", "-P", "-Iinclude", "-Iinclude/libc", "-Isrc", f"-Ibuild/{version}", "-I.", f"-Iextracted/{version}", "-undef", "-DM2CTX", "-D__sgi", "-D_LANGUAGE_C",
                    "-DNON_MATCHING", "-D_Static_assert(x, y)=", "-D__attribute__(x)=", in_file]
     try:
         return subprocess.check_output(cpp_command, cwd=root_dir, encoding="utf-8")
     except subprocess.CalledProcessError:
         print(
             "Failed to preprocess input file, when running command:\n"
-            + cpp_command,
+            + " ".join(cpp_command),
             file=sys.stderr,
             )
         sys.exit(1)
 
 def main():
+    version = "gc-eu-mq-dbg"
     if len(sys.argv) > 1:
         arg = sys.argv[1]
         if arg == "-h" or arg == "--help":
-            sys.exit("Usage: ./m2ctx.py path/to/file.c\n" \
+            sys.exit("Usage: ./m2ctx.py path/to/file.c [version]\n" \
             "or ./m2ctx.py (from an actor or gamestate's asm dir)\n" \
             "Output will be saved in oot/ctx.c")
         c_file_path = Path.cwd() / sys.argv[1]
+        if len(sys.argv) > 2:
+            version = sys.argv[2]
     else:
         this_dir = Path.cwd()
         c_dir_path = get_c_dir(this_dir.name)
@@ -53,7 +56,7 @@ def main():
         c_file = get_c_file(c_dir_path)
         c_file_path = os.path.join(c_dir_path, c_file)
     
-    output = import_c_file(c_file_path)
+    output = import_c_file(c_file_path, version)
 
     with open(os.path.join(root_dir, "ctx.c"), "w", encoding="UTF-8") as f:
         f.write(output)
