@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ge3.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -231,9 +232,11 @@ s32 func_80A34E58(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg
 
         case 6:
             arg4->x += this->unk300.y;
-#if PLATFORM_GC
+#if OOT_VERSION >= PAL_1_1
             FALLTHROUGH;
         default:
+            // This is a hack to fix a bug present before PAL 1.1, where the actor's clothes can change color
+            // depending on what was drawn earlier in the frame.
             OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 547);
             switch (arg1) {
                 case 3:
