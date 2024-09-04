@@ -476,7 +476,7 @@ s32 func_80B44CF0(PlayState* play, EnZf* this) {
             return true;
         }
     }
-    if (!Actor_OtherIsTargeted(play, &this->actor)) {
+    if (!Actor_OtherIsLockedOn(play, &this->actor)) {
         return true;
     }
     if (this->actor.params == -2) {
@@ -738,7 +738,7 @@ void func_80B45748(EnZf* this, PlayState* play) {
                 }
             }
         }
-        if (Actor_OtherIsTargeted(play, &this->actor) != 0) {
+        if (Actor_OtherIsLockedOn(play, &this->actor) != 0) {
             sp40 = 100.0f;
         }
         if (this->actor.xzDistToPlayer <= (70.0f + sp40)) {
@@ -788,7 +788,7 @@ void func_80B45748(EnZf* this, PlayState* play) {
             if (!func_80B44E8C(play, this)) {
                 if ((this->actor.xzDistToPlayer < 180.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
                     Actor_IsFacingPlayer(&this->actor, 0x71C)) {
-                    if (Actor_IsTargeted(play, &this->actor)) {
+                    if (Actor_IsLockedOn(play, &this->actor)) {
                         if (Rand_ZeroOne() < 0.1f) {
                             this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                             func_80B45E30(this);
@@ -989,7 +989,7 @@ void func_80B463E4(EnZf* this, PlayState* play) {
                 }
             }
         }
-        if (Actor_OtherIsTargeted(play, &this->actor) != 0) {
+        if (Actor_OtherIsLockedOn(play, &this->actor) != 0) {
             sp3C = 100.0f;
         }
         if (this->actor.xzDistToPlayer <= (70.0f + sp3C)) {
@@ -1082,7 +1082,7 @@ void func_80B46AE0(EnZf* this, PlayState* play) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                         func_80B483E4(this, play);
                     } else if (player->stateFlags1 & (PLAYER_STATE1_4 | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
-                        if (this->actor.isTargeted != 0) {
+                        if (this->actor.isLockedOn != 0) {
                             func_80B46A24(this);
                         } else {
                             func_80B483E4(this, play);
@@ -1639,7 +1639,7 @@ void func_80B48578(EnZf* this, PlayState* play) {
         this->actor.speed -= 0.125f;
     }
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x4000;
-    if (Actor_OtherIsTargeted(play, &this->actor) != 0) {
+    if (Actor_OtherIsLockedOn(play, &this->actor) != 0) {
         sp40 = 100.0f;
     }
     if (this->actor.xzDistToPlayer <= (70.0f + sp40)) {

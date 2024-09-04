@@ -335,7 +335,7 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk268 = func_809EFC9C;
     } else {
-        if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.isTargeted != 0)) {
+        if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.isLockedOn != 0)) {
             this->actor.flags |= ACTOR_FLAG_16;
         } else {
             this->actor.flags &= ~ACTOR_FLAG_16;

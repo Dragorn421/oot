@@ -294,7 +294,7 @@ void EnTest_ChooseRandomAction(EnTest* this, PlayState* play) {
         case 5:
         case 6:
             if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 170.0f) &&
-                Actor_IsFacingPlayer(&this->actor, 0x71C) && Actor_IsTargeted(play, &this->actor)) {
+                Actor_IsFacingPlayer(&this->actor, 0x71C) && Actor_IsLockedOn(play, &this->actor)) {
                 EnTest_SetupJumpslash(this);
                 break;
             }
@@ -354,7 +354,7 @@ void EnTest_ChooseAction(EnTest* this, PlayState* play) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 EnTest_SetupJumpBack(this);
             } else if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 170.0f)) {
-                if (Actor_IsFacingPlayer(&this->actor, 0x71C) && !Actor_IsTargeted(play, &this->actor)) {
+                if (Actor_IsFacingPlayer(&this->actor, 0x71C) && !Actor_IsLockedOn(play, &this->actor)) {
                     EnTest_SetupJumpslash(this);
                 }
             } else {
@@ -364,7 +364,7 @@ void EnTest_ChooseAction(EnTest* this, PlayState* play) {
             if (this->actor.xzDistToPlayer < 110.0f) {
                 if (Rand_ZeroOne() > 0.2f) {
                     if (player->stateFlags1 & PLAYER_STATE1_4) {
-                        if (this->actor.isTargeted) {
+                        if (this->actor.isLockedOn) {
                             EnTest_SetupSlashDown(this);
                         } else {
                             func_808627C4(this, play);
@@ -471,7 +471,7 @@ void EnTest_Idle(EnTest* this, PlayState* play) {
             if (Actor_IsFacingPlayer(&this->actor, 0x1555)) {
                 if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
                     (Rand_ZeroOne() < 0.3f)) {
-                    if (Actor_IsTargeted(play, &this->actor)) {
+                    if (Actor_IsLockedOn(play, &this->actor)) {
                         EnTest_SetupJumpslash(this);
                     } else {
                         func_808627C4(this, play);
@@ -536,7 +536,7 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
     if (!EnTest_ReactToProjectile(play, this)) {
         this->timer++;
 
-        if (Actor_OtherIsTargeted(play, &this->actor)) {
+        if (Actor_OtherIsLockedOn(play, &this->actor)) {
             checkDist = 150.0f;
         }
 
@@ -618,13 +618,13 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
 
         if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
             (Actor_IsFacingPlayer(&this->actor, 0x71C))) {
-            if (Actor_IsTargeted(play, &this->actor)) {
+            if (Actor_IsLockedOn(play, &this->actor)) {
                 if (Rand_ZeroOne() < 0.1f) {
                     EnTest_SetupJumpslash(this);
                     return;
                 }
             } else if (player->heldItemAction != PLAYER_IA_NONE) {
-                if (this->actor.isTargeted) {
+                if (this->actor.isLockedOn) {
                     if ((play->gameplayFrames % 2) != 0) {
                         func_808627C4(this, play);
                         return;
@@ -650,7 +650,7 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         if (this->actor.xzDistToPlayer < 110.0f) {
             if (Rand_ZeroOne() > 0.2f) {
                 if (player->stateFlags1 & PLAYER_STATE1_4) {
-                    if (this->actor.isTargeted) {
+                    if (this->actor.isLockedOn) {
                         EnTest_SetupSlashDown(this);
                     } else {
                         func_808627C4(this, play);
@@ -809,7 +809,7 @@ void func_80860F84(EnTest* this, PlayState* play) {
             }
         }
 
-        if (Actor_OtherIsTargeted(play, &this->actor)) {
+        if (Actor_OtherIsLockedOn(play, &this->actor)) {
             checkDist = 200.0f;
         }
 
@@ -940,7 +940,7 @@ void EnTest_SlashDownEnd(EnTest* this, PlayState* play) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 EnTest_SetupJumpBack(this);
             } else if (player->stateFlags1 & PLAYER_STATE1_4) {
-                if (this->actor.isTargeted) {
+                if (this->actor.isLockedOn) {
                     EnTest_SetupSlashDown(this);
                 } else if ((play->gameplayFrames % 2) != 0) {
                     func_808627C4(this, play);
@@ -1308,7 +1308,7 @@ void EnTest_Stunned(EnTest* this, PlayState* play) {
 
 // a variation of sidestep
 void func_808627C4(EnTest* this, PlayState* play) {
-    if (Actor_OtherIsTargeted(play, &this->actor)) {
+    if (Actor_OtherIsLockedOn(play, &this->actor)) {
         func_80860EC0(this);
         return;
     }
@@ -1385,7 +1385,7 @@ void func_808628C8(EnTest* this, PlayState* play) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
 
-    if (Actor_OtherIsTargeted(play, &this->actor)) {
+    if (Actor_OtherIsLockedOn(play, &this->actor)) {
         checkDist = 200.0f;
     }
 
@@ -1421,9 +1421,9 @@ void func_808628C8(EnTest* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        if (Actor_OtherIsTargeted(play, &this->actor)) {
+        if (Actor_OtherIsLockedOn(play, &this->actor)) {
             EnTest_SetupIdle(this);
-        } else if (Actor_IsTargeted(play, &this->actor)) {
+        } else if (Actor_IsLockedOn(play, &this->actor)) {
             if (!EnTest_ReactToProjectile(play, this)) {
                 EnTest_ChooseAction(this, play);
             }
@@ -1971,7 +1971,7 @@ s32 EnTest_ReactToProjectile(PlayState* play, EnTest* this) {
         }
 
         if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &projectileActor->world.pos) < 200.0f) {
-            if (Actor_IsTargeted(play, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
+            if (Actor_IsLockedOn(play, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
                 EnTest_SetupJumpUp(this);
             } else if (ABS(yawToProjectile) < 0x2000) {
                 EnTest_SetupStopAndBlock(this);
@@ -1984,7 +1984,7 @@ s32 EnTest_ReactToProjectile(PlayState* play, EnTest* this) {
             return true;
         }
 
-        if (Actor_IsTargeted(play, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
+        if (Actor_IsLockedOn(play, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
             EnTest_SetupJumpUp(this);
             return true;
         }
