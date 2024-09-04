@@ -11,7 +11,7 @@
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-eu:10 gc-eu-mq:10 gc-jp:12 gc-jp-ce:12 gc-jp-mq:12 gc-us:12 gc-us-mq:12"
+#pragma increment_block_number "gc-eu:4 gc-eu-mq:4 gc-jp:6 gc-jp-ce:6 gc-jp-mq:6 gc-us:6 gc-us-mq:6"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -244,8 +244,8 @@ void Play_Destroy(GameState* thisx) {
     ZeldaArena_Cleanup();
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_14 != NULL)) {
-        B_80121AF0->unk_14(this);
+    if ((B_80121220 != NULL) && (B_80121220->unk_14 != NULL)) {
+        B_80121220->unk_14(this);
     }
 #endif
 
@@ -280,8 +280,8 @@ void Play_Init(GameState* thisx) {
     GameState_Realloc(&this->state, 0x1D4790);
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_10 != NULL)) {
-        B_80121AF0->unk_10(this);
+    if ((B_80121220 != NULL) && (B_80121220->unk_10 != NULL)) {
+        B_80121220->unk_10(this);
     }
 #endif
 
@@ -389,7 +389,7 @@ void Play_Init(GameState* thisx) {
 #endif
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL && B_80121AF0->unk_54 != NULL && B_80121AF0->unk_54(this))) {
+    if ((B_80121220 != NULL && B_80121220->unk_54 != NULL && B_80121220->unk_54(this))) {
     } else {
         Cutscene_HandleEntranceTriggers(this);
     }
@@ -1500,7 +1500,7 @@ void* Play_LoadFileFromDiskDrive(PlayState* this, RomFile* file) {
 
     size = file->vromEnd - file->vromStart;
     allocp = THA_AllocTailAlign16(&this->state.tha, size);
-    func_801C8510_unknown(allocp, file->vromStart, size);
+    func_801C7C1C(allocp, file->vromStart, size);
 
     return allocp;
 }
@@ -1538,8 +1538,8 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     u32 size;
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_48 != NULL)) {
-        scene = B_80121AF0->unk_48(sceneId, gSceneTable);
+    if ((B_80121220 != NULL) && (B_80121220->unk_48 != NULL)) {
+        scene = B_80121220->unk_48(sceneId, gSceneTable);
     } else {
         scene = &gSceneTable[sceneId];
         scene->unk_13 = 0;
@@ -1556,7 +1556,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     PRINTF("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (scene->unk_12 > 0)) {
+    if ((B_80121220 != NULL) && (scene->unk_12 > 0)) {
         this->sceneSegment = Play_LoadFileFromDiskDrive(this, &scene->sceneFile);
         scene->unk_13 = 1;
     } else {
@@ -1575,8 +1575,8 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     Play_InitScene(this, spawn);
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_0C != NULL)) {
-        B_80121AF0->unk_0C(this);
+    if ((B_80121220 != NULL) && (B_80121220->unk_0C != NULL)) {
+        B_80121220->unk_0C(this);
     }
 #endif
 
