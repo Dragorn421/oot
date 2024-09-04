@@ -466,7 +466,7 @@ s32 func_80B44B14(Vec3f* arg0, s16 arg1, s16 arg2, PlayState* play) {
 s32 func_80B44CF0(PlayState* play, EnZf* this) {
     s32 pad;
     Player* player;
-    Actor* temp_v0;
+    Actor* playerFocusActor;
 
     player = GET_PLAYER(play);
     if (this->actor.params >= 0) {
@@ -480,17 +480,17 @@ s32 func_80B44CF0(PlayState* play, EnZf* this) {
         return true;
     }
     if (this->actor.params == -2) {
-        temp_v0 = player->unk_664;
-        if (temp_v0 == NULL) {
+        playerFocusActor = player->focusActor;
+        if (playerFocusActor == NULL) {
             return false;
         }
-        if (temp_v0->category != ACTORCAT_ENEMY) {
+        if (playerFocusActor->category != ACTORCAT_ENEMY) {
             return true;
         }
-        if (temp_v0->id != ACTOR_EN_ZF) {
+        if (playerFocusActor->id != ACTOR_EN_ZF) {
             return false;
         }
-        if (temp_v0->colorFilterTimer != 0) {
+        if (playerFocusActor->colorFilterTimer != 0) {
             return true;
         }
     }
