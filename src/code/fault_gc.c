@@ -40,12 +40,7 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
-
-// Include versions.h first and redefine FAULT_VERSION
-// This allows this file to compile even when versions.h uses FAULT_N64
-#include "versions.h"
-#undef FAULT_VERSION
-#define FAULT_VERSION FAULT_GC
+#if PLATFORM_GC
 
 #include "global.h"
 #include "alloca.h"
@@ -1337,3 +1332,5 @@ NORETURN void Fault_AddHungupAndCrash(const char* file, int line) {
     sprintf(msg, "HungUp %s:%d", file, line);
     Fault_AddHungupAndCrashImpl(msg, NULL);
 }
+
+#endif
