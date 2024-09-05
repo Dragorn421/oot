@@ -79,7 +79,7 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
         }
     }
     this->unk242 = (u16)(s32)Rand_ZeroFloat(4.99f);
-    this->actor.targetMode = 1;
+    this->actor.targetMode = TARGET_MODE_1;
     this->actionFunc = func_809C3820;
 }
 

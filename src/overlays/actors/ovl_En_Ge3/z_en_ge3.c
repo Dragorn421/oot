@@ -82,7 +82,7 @@ void EnGe3_Init(Actor* thisx, PlayState* play) {
     func_80A34620(this, 0);
     this->unk310 = func_80A34B90;
     this->unk30C = 0;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
 }

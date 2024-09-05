@@ -178,7 +178,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E9000, &D_809E8FD8);
         this->actor.colChkInfo.health = 4;
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
-        this->actor.targetMode = 2;
+        this->actor.targetMode = TARGET_MODE_2;
     } else {
         this->unk230 = 1.0f;
         for (var_a0 = 0; var_a0 < D_809E8FC8.count; var_a0++) {
@@ -189,7 +189,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E8FE0, &D_809E8FD8);
         this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
-        this->actor.targetMode = 1;
+        this->actor.targetMode = TARGET_MODE_1;
     }
     func_809E5ABC(this);
     this->unk1C6 = 0;

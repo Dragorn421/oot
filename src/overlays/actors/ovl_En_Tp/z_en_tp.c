@@ -94,7 +94,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     s64 new_var;
 
     Actor_ProcessInitChain(&this->actor, D_80B22AE4);
-    this->actor.targetMode = 3;
+    this->actor.targetMode = TARGET_MODE_3;
     this->actor.colChkInfo.damageTable = &D_80B22AC4;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
     this->unk150 = 0;

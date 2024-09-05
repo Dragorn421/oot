@@ -216,7 +216,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
 
     player = GET_PLAYER(play);
     Actor_ProcessInitChain(&this->actor, D_80B4A274);
-    this->actor.targetMode = 3;
+    this->actor.targetMode = TARGET_MODE_3;
     this->unk3FC = PARAMS_GET_S(thisx->params, 8, 8);
     this->actor.params &= 0xFF;
     if (this->actor.params & 0x80) {
