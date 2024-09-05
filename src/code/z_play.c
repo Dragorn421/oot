@@ -469,7 +469,8 @@ void Play_Init(GameState* thisx) {
 
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
-    while (!func_800973FC(this, &this->roomCtx)) {
+    // Busyloop until the room loads
+    while (!Room_ProcessRoomRequest(this, &this->roomCtx)) {
         ; // Empty Loop
     }
 
@@ -951,7 +952,7 @@ void Play_Update(PlayState* this) {
                     }
                 } else {
                     PLAY_LOG(3606);
-                    func_800973FC(this, &this->roomCtx);
+                    Room_ProcessRoomRequest(this, &this->roomCtx);
 
                     PLAY_LOG(3612);
                     CollisionCheck_AT(this, &this->colChkCtx);
@@ -1525,8 +1526,8 @@ void Play_InitScene(PlayState* this, s32 spawn) {
 
     Object_InitContext(this, &this->objectCtx);
     LightContext_Init(this, &this->lightCtx);
-    TransitionActor_InitContext(&this->state, &this->transiActorCtx);
-    func_80096FD4(this, &this->roomCtx.curRoom);
+    Scene_ResetTransitionActorList(&this->state, &this->transitionActors);
+    Room_Init(this, &this->roomCtx.curRoom);
     R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
     gSaveContext.worldMapArea = WORLD_MAP_AREA_HYRULE_FIELD;
     Scene_ExecuteCommands(this, this->sceneSegment);
@@ -1580,7 +1581,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     }
 #endif
 
-    size = func_80096FE8(this, &this->roomCtx);
+    size = Room_SetupFirstRoom(this, &this->roomCtx);
 
     PRINTF("ROOM SIZE=%fK\n", size / 1024.0f);
 }
@@ -1914,7 +1915,7 @@ s32 func_800C0D34(PlayState* this, Actor* actor, s16* yaw) {
         return 0;
     }
 
-    transitionActor = &this->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(actor)];
+    transitionActor = &this->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(actor)];
     frontRoom = transitionActor->sides[0].room;
 
     if (frontRoom == transitionActor->sides[1].room) {

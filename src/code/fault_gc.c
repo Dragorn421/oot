@@ -42,14 +42,14 @@
  */
 #if PLATFORM_GC
 
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-eu-mq-dbg:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224" \
+                               "gc-us-mq:224"
+
 #include "global.h"
 #include "alloca.h"
 #include "fault.h"
 #include "stack.h"
 #include "terminal.h"
-
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:222 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64" \
-                               "gc-us-mq:64"
 
 void Fault_Init(void);
 void Fault_SetOsSyncPrintfEnabled(u32 enabled);
