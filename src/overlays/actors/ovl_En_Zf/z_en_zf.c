@@ -7,7 +7,7 @@
 #include "z_en_zf.h"
 #include "assets/objects/object_zf/object_zf.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
 
 void EnZf_Init(Actor* thisx, PlayState* play);
 void EnZf_Destroy(Actor* thisx, PlayState* play);
@@ -559,7 +559,7 @@ void func_80B450AC(EnZf* this) {
     this->unk3E4 = 1;
     this->unk3DC = 0;
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     func_80B44050(this, func_80B45174);
 }
@@ -567,7 +567,7 @@ void func_80B450AC(EnZf* this) {
 void func_80B45174(EnZf* this, PlayState* play) {
     if (this->unk3F0 == 1) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         if (this->actor.params == 0) {
             func_800F5ACC(NA_BGM_MINI_BOSS);
         }
@@ -577,7 +577,7 @@ void func_80B45174(EnZf* this, PlayState* play) {
             this->unk3F0 -= 1;
         } else if (this->actor.xzDistToPlayer <= 160.0f) {
             this->unk3F0 = 0;
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
         }
         this->actor.world.pos.y = this->actor.floorHeight + 300.0f;
@@ -1738,7 +1738,7 @@ void func_80B48CEC(EnZf* this) {
         this->unk3E4 = 1;
     }
     this->unk3DC = 0xF;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (D_80B4A1B4 != -1) {
         temp_v0 = this->actor.prev;
         if (temp_v0 != NULL) {

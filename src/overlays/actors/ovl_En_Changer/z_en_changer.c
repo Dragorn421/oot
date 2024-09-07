@@ -140,7 +140,7 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
                     sRightChestPositions[play->roomCtx.curRoom.num].z, 0, 0, 0,
                     ((this->unk15E_r & 0x1F) << 8) + (sp66_rightChestThing & 0xFF));
     }
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk14C = func_809D2CCC;
 }
 

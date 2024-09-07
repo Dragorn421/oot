@@ -9,7 +9,7 @@
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 #include "z64item.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnDns_Init(Actor* thisx, PlayState* play);
 void EnDns_Destroy(Actor* thisx, PlayState* play);
@@ -421,7 +421,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
             this->unk2C0->payment(this);
             this->unk2BD = 1;
             this->isColliderEnabled = 0;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
             this->unk268 = EnDns_Burrow;
         }
@@ -429,7 +429,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
         this->unk2C0->payment(this);
         this->unk2BD = 1;
         this->isColliderEnabled = 0;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->unk268 = EnDns_Burrow;
     }
@@ -438,7 +438,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
 void EnDns_SetupNoSaleBurrow(EnDns* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         this->isColliderEnabled = 0;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->unk268 = EnDns_Burrow;
     }

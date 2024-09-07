@@ -11,7 +11,7 @@
 #include "z64actor.h"
 #include "z64bgcheck.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
 void EnRu1_Init(Actor* thisx, PlayState* play);
 void EnRu1_Destroy(Actor* thisx, PlayState* play);
@@ -1527,7 +1527,7 @@ s32 func_80AEE264(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
     if (!Actor_TalkOfferAccepted(thisx, play)) {
-        thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
         if (GET_INFTABLE(INFTABLE_143)) {
             thisx->textId = 0x404E;
             Actor_OfferTalkNearColChkInfoCylinder(thisx, play);
@@ -1863,7 +1863,7 @@ s32 func_80AEF0BC(EnRu1* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->action = 26;
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
         return true;
     }
     return false;
@@ -1903,7 +1903,7 @@ void func_80AEF29C(EnRu1* this, PlayState* play) {
 void func_80AEF2AC(EnRu1* this, PlayState* play) {
     this->action = 24;
     this->drawConfig = 1;
-    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
 }
 
 void func_80AEF2D0(EnRu1* this, PlayState* play) {
@@ -2063,7 +2063,7 @@ void func_80AEF930(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
     if (func_80AEB104(this) == 3) {
-        thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
         thisx->textId = 0x4048;
         Message_ContinueTextbox(play, thisx->textId);
         func_80AEF4A8(this, play);
@@ -2163,7 +2163,7 @@ void func_80AEFC54(EnRu1* this, PlayState* play) {
         this->action = 41;
         this->unk_28C = EnRu1_FindSwitch(play);
         func_80AEB0EC(this, 1);
-        thisx->flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+        thisx->flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
     } else {
         Actor_Kill(thisx);
     }
@@ -2195,7 +2195,7 @@ s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
     if (!Actor_TalkOfferAccepted(thisx, play)) {
-        thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
         thisx->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUTO);
         if (thisx->textId == 0) {
             thisx->textId = 0x402C;
@@ -2208,7 +2208,7 @@ s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
 
 s32 func_80AEFE38(EnRu1* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
         return true;
     }
     return false;

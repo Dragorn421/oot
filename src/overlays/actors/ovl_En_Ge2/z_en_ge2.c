@@ -3,7 +3,7 @@
 #include "assets/objects/object_gla/object_gla.h"
 #include "z64collision_check.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 void EnGe2_Init(Actor* thisx, PlayState* play);
 void EnGe2_Destroy(Actor* thisx, PlayState* play);
@@ -263,7 +263,7 @@ void func_80A3334C(EnGe2* this, PlayState* play) {
     s32 temp_v0;
     Vec3f sp38;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (this->unk2F4 & 2) {
         temp_v0 = play->state.frames * 0x2800;
         sp38.x = this->actor.focus.pos.x + (Math_CosS(temp_v0) * 5.0f);

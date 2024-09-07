@@ -8,7 +8,7 @@
 #include "assets/objects/object_skb/object_skb.h"
 #include "z64.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
 
 typedef enum StalchildBehavior {
     SKB_BEHAVIOR_BURIED,
@@ -188,7 +188,7 @@ void EnSkb_DecideNextAction(EnSkb* this) {
 void EnSkb_SetupRiseFromGround(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->unk14C, &object_skb_001854_Anim, 1.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_APPEAR);
     func_80AFC9A0(this, EnSkb_RiseFromGround);
 }
@@ -197,7 +197,7 @@ void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
     if (this->unk14C.curFrame < 4.0f) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     } else {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     }
     Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 800.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 25.0f, 1.0f, 2.5f, 0.0f);
@@ -214,7 +214,7 @@ void EnSkb_SetupDespawn(EnSkb* this) {
                      0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->setColliderAT = false;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     func_80AFC9A0(this, EnSkb_Despawn);
@@ -384,7 +384,7 @@ void EnSkb_SetupDeath(EnSkb* this, PlayState* play) {
         this->actor.speed = -6.0f;
     }
     this->actionState = SKB_BEHAVIOR_DYING;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BodyBreak_Alloc(&this->bodyBreak, 18, play);
     this->breakFlags |= 4;
     EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 40);

@@ -5,7 +5,7 @@
 #include "quake.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 /*
 FLAGS
@@ -962,10 +962,10 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
 
     if (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_DMT_BIGGORON) {
         if (!(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             return false;
         } else {
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             return true;
         }
     }
@@ -1297,7 +1297,7 @@ void EnGo2_GetDustData(EnGo2* this, s32 index2) {
 
 void EnGo2_RollingAnimation(EnGo2* this, PlayState* play) {
     if (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_DMT_BIGGORON) {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_10);
         this->skelAnime.playSpeed = -0.5f;
     } else {
@@ -1602,7 +1602,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
             break;
         case GORON_DMT_BIGGORON:
             this->actor.shape.shadowDraw = NULL;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD) &&
                 (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS)) {
                 this->eyeMouthTexState = 1;
@@ -1681,7 +1681,7 @@ void func_80A46B40(EnGo2* this, PlayState* play) {
     } else {
         if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
             if (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_DMT_BIGGORON) {
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             }
             func_80A454CC(this);
             this->unk_211 = true;
@@ -1829,7 +1829,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
     switch (this->goronState) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_5);
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.shape.rot.y += 0x5B0;
             this->trackingMode = NPC_TRACKING_NONE;
             this->animTimer = this->skelAnime.endFrame + 60.0f + 60.0f; // eyeDrops animation timer
@@ -1860,7 +1860,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
             }
             if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                 this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
                 this->skelAnime.playSpeed = 0.0f;
                 this->skelAnime.curFrame = this->skelAnime.endFrame;
