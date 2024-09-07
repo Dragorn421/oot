@@ -71,7 +71,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->unk2B0 = &object_ge1_000228_Anim;
     this->unk2B8 = func_80A323B0;
-    this->actor.targetMode = TARGET_MODE_6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
     if (play->sceneId == SCENE_GERUDO_VALLEY) {
         this->actor.uncullZoneForward = 1000.0f;
@@ -117,7 +117,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
                 Actor_Kill(&this->actor);
                 return;
             }
-            this->actor.targetMode = TARGET_MODE_3;
+            this->actor.attentionRangeType = ATTENTION_RANGE_3;
             this->unk2AE = 0;
             PRINTF("\x1b[36mやぶさめ ゲルド EVENT_INF(0) = %x\n\x1b[m", gSaveContext.eventInf[0]);
             if (GET_EVENTINF(EVENTINF_HORSES_08)) {

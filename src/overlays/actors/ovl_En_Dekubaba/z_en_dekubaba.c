@@ -146,7 +146,7 @@ static DamageTable D_809E9000 = {
     },
 };
 static InitChainEntry D_809E9020[] = {
-    ICHAIN_F32(targetArrowOffset, 1500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 1500, ICHAIN_STOP),
 };
 static Color_RGBA8 D_809E9024 = { 0x69, 0xFF, 0x69, 0xFF };
 static Color_RGBA8 D_809E9028 = { 0x96, 0xFA, 0x96, 0 };
@@ -178,7 +178,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E9000, &D_809E8FD8);
         this->actor.colChkInfo.health = 4;
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
-        this->actor.targetMode = TARGET_MODE_2;
+        this->actor.attentionRangeType = ATTENTION_RANGE_2;
     } else {
         this->unk230 = 1.0f;
         for (var_a0 = 0; var_a0 < D_809E8FC8.count; var_a0++) {
@@ -189,7 +189,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E8FE0, &D_809E8FD8);
         this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
-        this->actor.targetMode = TARGET_MODE_1;
+        this->actor.attentionRangeType = ATTENTION_RANGE_1;
     }
     func_809E5ABC(this);
     this->unk1C6 = 0;

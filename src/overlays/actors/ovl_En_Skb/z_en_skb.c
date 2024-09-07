@@ -100,7 +100,7 @@ ActorProfile En_Skb_Profile = {
 static Vec3f D_80AFE0B8 = { 0.0f, 8.0f, 0.0f };
 static Vec3f D_80AFE0C4 = { 0.0f, -1.5f, 0.0f };
 static InitChainEntry D_80AFE0D0[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
 

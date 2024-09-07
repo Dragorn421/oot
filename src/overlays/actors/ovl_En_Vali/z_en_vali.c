@@ -89,7 +89,7 @@ static DamageTable D_80B28924 = {
 static InitChainEntry D_80B28944[3] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BARI, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 5000, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5000, ICHAIN_STOP),
 };
 static Color_RGBA8 D_80B28950 = { 255, 255, 255, 255 };
 static Color_RGBA8 D_80B28954 = { 200, 255, 255, 255 };

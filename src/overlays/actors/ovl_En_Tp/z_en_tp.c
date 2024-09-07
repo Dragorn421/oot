@@ -78,7 +78,7 @@ static DamageTable D_80B22AC4 = {
     },
 };
 static InitChainEntry D_80B22AE4[] = {
-    ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 10, ICHAIN_STOP),
 };
 
 void func_80B20DE0(EnTp* this, void (*arg1)(EnTp*, PlayState*)) {
@@ -94,7 +94,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     s64 new_var;
 
     Actor_ProcessInitChain(&this->actor, D_80B22AE4);
-    this->actor.targetMode = TARGET_MODE_3;
+    this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->actor.colChkInfo.damageTable = &D_80B22AC4;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
     this->unk150 = 0;

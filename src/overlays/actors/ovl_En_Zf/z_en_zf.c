@@ -122,7 +122,7 @@ static DamageTable D_80B4A254 = {
     },
 };
 static InitChainEntry D_80B4A274[3] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
 };
@@ -216,7 +216,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
 
     player = GET_PLAYER(play);
     Actor_ProcessInitChain(&this->actor, D_80B4A274);
-    this->actor.targetMode = TARGET_MODE_3;
+    this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->unk3FC = PARAMS_GET_S(thisx->params, 8, 8);
     this->actor.params &= 0xFF;
     if (this->actor.params & 0x80) {

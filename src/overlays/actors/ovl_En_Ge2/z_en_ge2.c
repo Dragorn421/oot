@@ -112,7 +112,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
             func_80A32BD0(this, 0);
             if (func_80A330A0() != 0) {
                 this->actor.update = func_80A33D10;
-                this->actor.targetMode = TARGET_MODE_6;
+                this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
 
@@ -120,7 +120,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
             func_80A32BD0(this, 7);
             if (func_80A330A0() != 0) {
                 this->actor.update = func_80A33D10;
-                this->actor.targetMode = TARGET_MODE_6;
+                this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
 
@@ -128,7 +128,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
             func_80A32BD0(this, 8);
             this->actor.update = func_80A33DE0;
             this->unk308 = func_80A33AFC;
-            this->actor.targetMode = TARGET_MODE_6;
+            this->actor.attentionRangeType = ATTENTION_RANGE_6;
             break;
 
         default:
@@ -539,7 +539,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     func_80A33C8C(this, play);
     if ((func_80A330A0() != 0) && !(this->unk2F4 & 4)) {
         this->actor.update = func_80A33D10;
-        this->actor.targetMode = TARGET_MODE_6;
+        this->actor.attentionRangeType = ATTENTION_RANGE_6;
     }
 }
 
@@ -562,7 +562,7 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk14C.base);
     if (func_80A330A0() != 0) {
         this->actor.update = func_80A33D10;
-        this->actor.targetMode = TARGET_MODE_6;
+        this->actor.attentionRangeType = ATTENTION_RANGE_6;
         this->actor.colorFilterTimer = 0;
     } else if (this->actor.colorFilterTimer == 0) {
         this->actor.update = EnGe2_Update;

@@ -171,7 +171,7 @@ ActorProfile En_Wf_Profile = {
 };
 
 static InitChainEntry D_80B37AC8[2] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000, ICHAIN_STOP),
 };
 static Vec3f D_80B37AD0 = { 0.0f, 0.5f, 0.0f };
