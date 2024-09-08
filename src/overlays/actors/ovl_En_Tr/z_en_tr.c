@@ -121,7 +121,7 @@ void func_80B22E6C(EnTr* this, PlayState* play) {
             this->actor.child = NULL;
         }
     }
-    func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
 void func_80B22F1C(EnTr* this, PlayState* play) {
@@ -158,7 +158,7 @@ void func_80B22F28(EnTr* this, PlayState* play) {
                     EnTr_SetRotFromCue(this, play, this->cueChannel);
                     break;
             }
-            func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
         }
     }
 }
@@ -188,7 +188,7 @@ void func_80B230D8(EnTr* this, PlayState* play) {
                 this->actor.velocity.z = this->actor.world.pos.z - sp34.z;
             }
             if (play->csCtx.curFrame < 670) {
-                func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
+                Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
             }
         }
     }
@@ -272,7 +272,7 @@ void func_80B23690(EnTr* this, PlayState* play) {
     if (this->unk2D6 > 0) {
         this->unk2D6--;
     }
-    func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
 void func_80B23820(EnTr* this, PlayState* play) {

@@ -186,7 +186,7 @@ void func_808801B8(BgHakaTrap* this, PlayState* play) {
 
     if ((D_80880F30 == 0) && (Player_InCsMode(play) == 0)) {
         if (Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x, 0.5f) == 0) {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
         } else {
             if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) {
                 D_80881018 |= 1;
@@ -215,7 +215,7 @@ void func_808802D8(BgHakaTrap* this, PlayState* play) {
     if (this->unk168 != 0) {
         this->unk168--;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
     for (var_s0 = 0; var_s0 < 2; var_s0++) {
         sp94.x = (Rand_ZeroOne() * ((this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) ? -30.0f : 30.0f)) +
                  this->dyna.actor.world.pos.x;
@@ -320,7 +320,7 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
         this->dyna.actor.velocity.y = 0.0f;
     }
     if (this->dyna.actor.velocity.y >= 0.01f) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
     }
     if (this->unk168 == 0) {
         this->dyna.actor.velocity.y = 0.0f;
@@ -384,7 +384,7 @@ void func_80880AE8(BgHakaTrap* this, PlayState* play) {
     }
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
     if (this->dyna.actor.world.rot.z > 0x1800) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
     }
     func_808809E4(this, play, this->dyna.actor.world.rot.z);
 }
@@ -393,7 +393,7 @@ void func_80880C0C(BgHakaTrap* this, PlayState* play) {
     if (this->unk168 != 0) {
         this->unk168--;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
     if (this->unk168 == 0) {
         this->unk168 = 1;
         this->actionFunc = func_80880AE8;

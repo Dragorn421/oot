@@ -323,7 +323,7 @@ void func_809C02B8(EnBili* this, PlayState* play) {
         }
     }
     SkelAnime_Update(&this->unk14C);
-    func_8002F974(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
     if (this->unk196 != 0) {
         this->unk196--;
     }

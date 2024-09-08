@@ -124,7 +124,7 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
                                               (temp_fv0 * temp_v0_2->dim.modelSphere.center.z);
     }
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk168.base);
-    func_8002F974(&this->dyna.actor, 0x2033U);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, 0x2033U);
 }
 
 Gfx* func_8088C70C(GraphicsContext** arg0, BgHidanRsekizou* arg1, s16 arg2, MtxF* arg3, s32 arg4, Gfx* arg5) {

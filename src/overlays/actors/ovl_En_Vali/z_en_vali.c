@@ -277,7 +277,7 @@ void func_80B26E9C(EnVali* this, PlayState* play) {
             EffectSsLightning_Spawn(play, &sp8C, &D_80B28950, &D_80B28954, 17, temp_v0, 6, 2);
         }
     }
-    func_8002F974(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
 }
 
 void func_80B27098(EnVali* this, PlayState* play) {
