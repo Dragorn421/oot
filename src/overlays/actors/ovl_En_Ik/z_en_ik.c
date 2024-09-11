@@ -858,8 +858,7 @@ void EnIk_PostLimbDraw3(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
         BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 26, 27, 28, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
     }
     if (limbIndex == 12) {
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1217),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1217);
         if (this->actor.params != 0) {
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_019E08);
         } else {
@@ -897,26 +896,22 @@ void EnIk_PostLimbDraw3(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     switch (limbIndex) {
         case 22:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1270),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1270);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
         case 24:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1275),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1275);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
         case 26:
             if (!(this->unk_2FA & 1)) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1281),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1281);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
             }
             break;
         case 27:
             if (!(this->unk_2FA & 1)) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1288),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1288);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
             }
             break;
@@ -1173,27 +1168,23 @@ void EnIk_PostLimbDraw2(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_curFrame(&this->actor) < 30.0f) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 267),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 267);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016D88);
             }
         } break;
         case 22:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 274),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 274);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
         case 24:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 280),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 280);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
         case 26: {
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_curFrame(&this->actor) < 30.0f) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 288),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 288);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
             }
         } break;
@@ -1201,8 +1192,7 @@ void EnIk_PostLimbDraw2(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_curFrame(&this->actor) < 30.0f) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 297),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 297);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
             }
         } break;
@@ -1332,28 +1322,23 @@ void EnIk_PostLimbDraw1(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     switch (limbIndex) {
         case 12:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 575),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 575);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016D88);
             break;
         case 22:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 581),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 581);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
         case 24:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 587),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 587);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
         case 26:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 593),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 593);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
             break;
         case 27:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 599),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 599);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
             break;
     }

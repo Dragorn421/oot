@@ -323,8 +323,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 0x34C);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_m_thunder.c", 0x355),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_m_thunder.c", 853);
     switch (this->unk1C6) {
         case 0:
         case 1:
@@ -376,8 +375,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
         var_t1 = 0x14;
     }
     Matrix_Scale(1.0f, var_fa1, var_fa1, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_m_thunder.c", 0x3C0),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_m_thunder.c", 960);
     gSPSegment(POLY_XLU_DISP++, 9,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->gameplayFrames * 5) & 0xFF, 0U, 32, 32, 1,
                                 (play->gameplayFrames * 0x14) & 0xFF, (play->gameplayFrames * var_t1) & 0xFF, 8, 8));
