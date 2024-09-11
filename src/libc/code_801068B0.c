@@ -1,10 +1,10 @@
-#include "global.h"
+#include "string.h"
 
 // memmove used in __osMalloc.c
 void* func_801068B0(void* dst, void* src, size_t size) {
-    u8* spC = dst;
-    u8* sp8 = src;
-    register s32 a3;
+    char* spC = dst;
+    char* sp8 = src;
+    register int a3;
 
     if (spC == sp8) {
         return dst;
