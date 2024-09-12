@@ -121,7 +121,7 @@ static ColliderJntSphElementInit D_809E8ECC[7] = {
 
 static ColliderJntSphInit D_809E8FC8 = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -221,7 +221,7 @@ void func_809E5ABC(EnDekubaba* this) {
     this->actor.world.pos.z = this->actor.home.pos.z;
     this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * this->unk230);
     Actor_SetScale(&this->actor, this->unk230 * 0.01f * 0.5f);
-    this->unk238.base.colType = COLTYPE_HARD;
+    this->unk238.base.colMaterial = COL_MATERIAL_HARD;
     this->unk238.base.acFlags |= AC_HARD;
     this->unk1C6 = 0x2D;
     for (i = 1; i < 7; i++) {
@@ -243,7 +243,7 @@ void func_809E5D28(EnDekubaba* this) {
     for (i = 2; i < 7; i++) {
         this->unk238.elements[i].base.ocElemFlags |= 1;
     }
-    this->unk238.base.colType = COLTYPE_HIT6;
+    this->unk238.base.colMaterial = COL_MATERIAL_HIT6;
     this->unk238.base.acFlags &= ~AC_HARD;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DUMMY482);
     this->unk1C0 = func_809E65A0;
@@ -864,7 +864,7 @@ void func_809E8140(EnDekubaba* this, PlayState* play) {
     if (this->unk238.base.acFlags & AC_HIT) {
         this->unk238.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->unk238, true);
-        if ((this->unk238.base.colType != COLTYPE_HARD) &&
+        if ((this->unk238.base.colMaterial != COL_MATERIAL_HARD) &&
             (((this->actor.colChkInfo.damageEffect != 0)) || (this->actor.colChkInfo.damage != 0))) {
             var_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
             if (this->unk1C0 != func_809E79EC) {
@@ -906,7 +906,7 @@ void func_809E8140(EnDekubaba* this, PlayState* play) {
         } else {
             return;
         }
-    } else if ((play->actorCtx.unk_02 != 0) && (this->unk238.base.colType != COLTYPE_HARD) &&
+    } else if ((play->actorCtx.unk_02 != 0) && (this->unk238.base.colMaterial != COL_MATERIAL_HARD) &&
                (this->unk1C0 != func_809E79EC) && (this->unk1C0 != func_809E78DC) &&
                (this->actor.colChkInfo.health != 0)) {
         this->actor.colChkInfo.health--;

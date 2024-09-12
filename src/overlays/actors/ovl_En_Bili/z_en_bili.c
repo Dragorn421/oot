@@ -52,7 +52,7 @@ ActorProfile En_Bili_Profile = {
 
 static ColliderCylinderInit D_809C1640 = {
     {
-        COLTYPE_HIT8,
+        COL_MATERIAL_HIT8,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,

@@ -100,7 +100,7 @@ static ColliderJntSphElementInit D_80B37990[4] = {
 
 static ColliderJntSphInit D_80B37A20 = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -113,7 +113,7 @@ static ColliderJntSphInit D_80B37A20 = {
 
 static ColliderCylinderInit D_80B37A30 = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -133,7 +133,7 @@ static ColliderCylinderInit D_80B37A30 = {
 
 static ColliderCylinderInit D_80B37A5C = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,

@@ -41,7 +41,7 @@ ActorProfile En_Vali_Profile = {
 
 static ColliderQuadInit D_80B288A0 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -61,7 +61,7 @@ static ColliderQuadInit D_80B288A0 = {
 
 static ColliderCylinderInit D_80B288F0 = {
     {
-        COLTYPE_HIT8,
+        COL_MATERIAL_HIT8,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,

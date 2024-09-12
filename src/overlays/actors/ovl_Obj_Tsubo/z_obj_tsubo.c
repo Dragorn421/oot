@@ -51,7 +51,7 @@ static Gfx* D_80BA1B8C[2] = { D_5017A60, object_tsubo_DL_001960 };
 
 static ColliderCylinderInit D_80BA1B94 = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_PLAYER,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,

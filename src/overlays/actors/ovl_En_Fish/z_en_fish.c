@@ -59,7 +59,7 @@ static ColliderJntSphElementInit D_80A1701C[1] = {
 
 static ColliderJntSphInit D_80A17040 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
