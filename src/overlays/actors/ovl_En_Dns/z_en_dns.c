@@ -9,7 +9,7 @@
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 #include "z64item.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnDns_Init(Actor* thisx, PlayState* play);
 void EnDns_Destroy(Actor* thisx, PlayState* play);

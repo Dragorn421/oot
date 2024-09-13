@@ -7,7 +7,7 @@
 #include "z_en_ge3.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnGe3_Init(Actor* thisx, PlayState* play);
 void EnGe3_Destroy(Actor* thisx, PlayState* play);

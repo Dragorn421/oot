@@ -3,7 +3,7 @@
 #include "assets/objects/object_gla/object_gla.h"
 #include "z64collision_check.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnGe2_Init(Actor* thisx, PlayState* play);
 void EnGe2_Destroy(Actor* thisx, PlayState* play);
