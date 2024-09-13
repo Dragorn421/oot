@@ -1081,7 +1081,8 @@ void func_80B46AE0(EnZf* this, PlayState* play) {
                     if (var_v0_2 > 0x3E80) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                         func_80B483E4(this, play);
-                    } else if (player->stateFlags1 & (PLAYER_STATE1_4 | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
+                    } else if (player->stateFlags1 &
+                               (PLAYER_STATE1_HOSTILE_LOCK_ON | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
                         if (this->actor.isLockedOn != 0) {
                             func_80B46A24(this);
                         } else {
