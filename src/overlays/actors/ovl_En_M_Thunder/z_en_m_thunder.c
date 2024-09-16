@@ -136,7 +136,7 @@ void func_80A9F350(EnMThunder* this, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -219,7 +219,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         this->unk1AC = 1.0f;
         return;
     }
-    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK)) {
         if (this->actor.child != NULL) {
             this->actor.child->parent = NULL;
         }
