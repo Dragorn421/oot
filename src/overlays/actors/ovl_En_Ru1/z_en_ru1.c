@@ -7,6 +7,7 @@
 #include "z_en_ru1.h"
 #include "assets/objects/object_ru1/object_ru1.h"
 #include "terminal.h"
+#include "versions.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "z64actor.h"
 #include "z64bgcheck.h"
@@ -2065,7 +2066,11 @@ void func_80AEF930(EnRu1* this, PlayState* play) {
     if (func_80AEB104(this) == 3) {
         thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         thisx->textId = 0x4048;
+#if !OOT_PAL_N64
         Message_ContinueTextbox(play, thisx->textId);
+#else
+        Message_StartTextbox(play, thisx->textId, NULL);
+#endif
         func_80AEF4A8(this, play);
         this->action = 43;
         this->drawConfig = 0;
