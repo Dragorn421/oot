@@ -34,6 +34,7 @@
  */
 #include "global.h"
 #include "terminal.h"
+#include "fault.h"
 
 vu32 gIrqMgrResetStatus = IRQ_RESET_STATUS_IDLE;
 volatile OSTime sIrqMgrResetTime = 0;
@@ -117,10 +118,15 @@ void IrqMgr_SendMesgToClients(IrqMgr* irqMgr, OSMesg msg) {
 
     for (client = irqMgr->clients; client != NULL; client = client->prev) {
         if (MQ_IS_FULL(client->queue)) {
-            PRINTF(VT_COL(RED, WHITE) T("irqmgr_SendMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n",
-                                        "irqmgr_SendMesgForClient: Message queue is overflowing mq=%08x cnt=%d\n")
-                       VT_RST,
-                   client->queue, MQ_GET_COUNT(client->queue));
+            // Only print the warning about the queue being full if the fault manager isn't active.
+            // If it is active, it's common for the faulted thread to be the one supposed to pull messages from the full
+            // queue, so the warning serves no purpose besides spamming the console.
+            if (FAULT_FAULTED_THREAD == NULL) {
+                PRINTF(VT_COL(RED, WHITE)
+                           T("irqmgr_SendMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n",
+                             "irqmgr_SendMesgForClient: Message queue is overflowing mq=%08x cnt=%d\n") VT_RST,
+                       client->queue, MQ_GET_COUNT(client->queue));
+            }
         } else {
             osSendMesg(client->queue, msg, OS_MESG_NOBLOCK);
         }
