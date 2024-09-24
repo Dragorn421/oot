@@ -11,7 +11,7 @@
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-eu:18 gc-eu-mq:18 gc-jp:20 gc-jp-ce:20 gc-jp-mq:20 gc-us:20 gc-us-mq:20 ntsc-1.2:7"
+#pragma increment_block_number "gc-eu:16 gc-eu-mq:16 gc-jp:18 gc-jp-ce:18 gc-jp-mq:18 gc-us:18 gc-us-mq:18 ntsc-1.2:5"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
