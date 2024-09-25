@@ -213,7 +213,7 @@ s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
 #pragma increment_block_number "gc-eu:112 gc-eu-mq:112 gc-jp:216 gc-jp-ce:216 gc-jp-mq:216 gc-us:216 gc-us-mq:216" \
-                               "ntsc-1.2:224"
+                               "ntsc-1.2:216"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
