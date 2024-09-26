@@ -1189,7 +1189,9 @@ void func_80B37038(EnWf* this, PlayState* play) {
         if (this->actor.colChkInfo.damageEffect != 6) {
             this->unk2E6 = this->actor.colChkInfo.damageEffect;
             Actor_SetDropFlag(&this->actor, &this->unk424.elem, true);
+#if OOT_VERSION >= PAL_1_0
             this->unk2F8 = 0;
+#endif
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
                 if (this->unk2D4 != 0xF) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
