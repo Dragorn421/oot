@@ -1,4 +1,5 @@
 #include "z_en_insect.h"
+#include "global.h"
 #include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

@@ -1,4 +1,5 @@
 #include "z_en_fish.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
