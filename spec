@@ -954,7 +954,15 @@ endseg
 beginseg
     // TODO
     name "n64dd"
+#if OOT_VERSION == PAL_1_0
+    address 0x801C4EC0
+#endif
+#if OOT_VERSION == NTSC_1_2
     address 0x801C7740
+#endif
+#if OOT_VERSION == PAL_1_1
+    address 0x801C4F00
+#endif
     include "$(BUILD_DIR)/baserom/n64dd.o"
     include "$(BUILD_DIR)/data/n64dd.bss.o"
 endseg

@@ -1146,7 +1146,7 @@ void func_80A774BC(EnIk* this, PlayState* play) {
 void func_80A774F8(EnIk* this, PlayState* play) {
     if (EnIk_GetCue(play, 4) == NULL) {
 #if OOT_PAL_N64
-        Flags_SetSwitch(play, this->switchFlag);
+        Flags_SetSwitch(play, this->switchFlags);
 #endif
         Actor_Kill(&this->actor);
     }
