@@ -12,7 +12,7 @@
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-eu:16 gc-eu-mq:16 gc-jp:18 gc-jp-ce:18 gc-jp-mq:18 gc-us:18 gc-us-mq:18 ntsc-1.2:5" \
+#pragma increment_block_number "gc-eu:14 gc-eu-mq:14 gc-jp:16 gc-jp-ce:16 gc-jp-mq:16 gc-us:16 gc-us-mq:16 ntsc-1.2:3" \
                                "pal-1.0:1 pal-1.1:1"
 
 TransitionTile gTransitionTile;

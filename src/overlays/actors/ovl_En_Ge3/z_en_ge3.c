@@ -131,7 +131,7 @@ void func_80A34A20(EnGe3* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->unk310 = func_80A34A80;
         this->actor.update = func_80A34D68;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
     func_80A347F4(this, play);
 }
@@ -152,7 +152,7 @@ void func_80A34AA0(EnGe3* this, PlayState* play) {
 void func_80A34B00(EnGe3* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->unk310 = func_80A34AA0;
         Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
@@ -167,7 +167,7 @@ void func_80A34B90(EnGe3* this, PlayState* play) {
             this->unk30C |= 4;
         }
         this->actor.textId = 0x6004;
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalkExchange(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     func_80A3490C(this, play);

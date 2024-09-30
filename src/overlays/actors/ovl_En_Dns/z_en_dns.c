@@ -336,9 +336,9 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
         this->unk268 = func_809EFC9C;
     } else {
         if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.isLockedOn != 0)) {
-            this->actor.flags |= ACTOR_FLAG_16;
+            this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_16;
+            this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);

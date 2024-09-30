@@ -462,7 +462,7 @@ void func_80A31A5C(EnGe1* this, PlayState* play) {
     s32 var_a2;
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->unk2B4 = func_80A3196C;
     }
     if (this->unk2AC & 2) {
@@ -484,7 +484,7 @@ void func_80A31A5C(EnGe1* this, PlayState* play) {
 void func_80A31B20(EnGe1* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk2B4 = func_80A31A5C;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else {
         Actor_OfferTalk(&this->actor, play, 200.0f);
     }
@@ -507,7 +507,7 @@ void func_80A31BE8(EnGe1* this, PlayState* play) {
 
     player = GET_PLAYER(play);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         switch (play->msgCtx.choiceIndex) {
             case 0:
                 if (gSaveContext.save.info.playerData.rupees < 20) {
@@ -570,7 +570,7 @@ void func_80A31E2C(EnGe1* this, PlayState* play) {
     // see the other occurrence of this for more details.
     PRINTF("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.save.info.highScores[0]);
 #endif
-    this->actor.flags |= ACTOR_FLAG_16;
+    this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     if (gSaveContext.save.info.highScores[0] < gSaveContext.minigameScore) {
         gSaveContext.save.info.highScores[0] = gSaveContext.minigameScore;
     }
