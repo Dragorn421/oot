@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tp.h"
+#include "versions.h"
 #include "assets/objects/object_tp/object_tp.h"
 #include "z64actor.h"
 
@@ -257,7 +258,12 @@ void func_80B214CC(EnTp* this, PlayState* play) {
             EffectSsDeadDb_Spawn(play, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
         } else {
-            for (var_s1 = 0; var_s1 < 1; var_s1++) {
+#if OOT_VERSION < NTSC_1_1
+            for (var_s1 = 0; var_s1 < 2; var_s1++)
+#else
+            for (var_s1 = 0; var_s1 < 1; var_s1++)
+#endif
+            {
                 temp_v0 = (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
                                              this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0xA);
                 if (temp_v0 != NULL) {

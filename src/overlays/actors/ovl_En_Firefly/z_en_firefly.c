@@ -1,4 +1,5 @@
 #include "z_en_firefly.h"
+#include "versions.h"
 #include "assets/objects/object_firefly/object_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
@@ -489,7 +490,11 @@ void func_80A141F0_Action(EnFirefly* this, PlayState* play) {
 }
 
 void func_80A14294_Action(EnFirefly* this, PlayState* play) {
+#if OOT_VERSION < NTSC_1_1
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+#else
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+#endif
         this->actor.colorFilterTimer = 0;
         func_80A13444_Setup(this);
     } else {

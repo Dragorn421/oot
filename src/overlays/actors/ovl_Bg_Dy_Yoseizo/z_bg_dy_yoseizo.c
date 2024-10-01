@@ -8,11 +8,16 @@
 #include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "assets/objects/object_dy_obj/object_dy_obj.h"
+#include "versions.h"
 #include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 #include "variables.h"
 
+#if OOT_VERSION < NTSC_1_1
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#else
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#endif
 
 void BgDyYoseizo_Init(Actor* thisx, PlayState* play2);
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play);
@@ -91,12 +96,28 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
         PRINTF("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim, this->unk194,
                            this->unk23C, 28);
+#if OOT_VERSION < NTSC_1_1
+        if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->fountainType != FAIRY_UPGRADE_MAGIC)) {
+            Actor_Kill(&this->actor);
+            return;
+        }
+#endif
     } else {
         PRINTF("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim, this->unk194,
                            this->unk23C, 28);
+#if OOT_VERSION < NTSC_1_1
+        if (!gSaveContext.save.info.playerData.isMagicAcquired) {
+            Actor_Kill(&this->actor);
+            return;
+        }
+#endif
     }
+#if OOT_VERSION < NTSC_1_1
+    this->actionFunc = func_80872DE4;
+#else
     this->actionFunc = func_80872D20;
+#endif
 }
 
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play) {
@@ -166,6 +187,7 @@ void func_80872C58(BgDyYoseizo* this, PlayState* play) {
     }
 }
 
+#if OOT_VERSION >= NTSC_1_1
 void func_80872D20(BgDyYoseizo* this, PlayState* play) {
     if (Flags_GetSwitch(play, 0x38)) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
@@ -184,9 +206,21 @@ void func_80872D20(BgDyYoseizo* this, PlayState* play) {
         this->actionFunc = func_80872DE4;
     }
 }
+#endif
 
 void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
     s32 var_v1;
+
+#if OOT_VERSION < NTSC_1_1
+    if (!Flags_GetSwitch(play, 0x38)) {
+        return;
+    }
+
+    if (play->msgCtx.ocarinaMode != OCARINA_MODE_04) {
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+        return;
+    }
+#endif
 
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     PRINTF("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", play->msgCtx.ocarinaMode);
@@ -301,12 +335,16 @@ void func_8087328C(BgDyYoseizo* this, PlayState* play) {
                          ANIMMODE_ONCE, -10.0f);
     }
     Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
     this->actionFunc = func_80873380;
 }
 
 void func_80873380(BgDyYoseizo* this, PlayState* play) {
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
     Math_ApproachF(&this->actor.world.pos.y, this->unk30C, this->unk314, 100.0f);
     Math_ApproachF(&this->unk308, 0.035f, this->unk318, 0.005f);
     Math_ApproachF(&this->unk314, 0.8f, 0.1f, 0.02f);
@@ -331,7 +369,9 @@ void func_808734DC(BgDyYoseizo* this, PlayState* play) {
     f32 sp1C;
 
     sp1C = this->skelAnime.curFrame;
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
     if ((this->unk32C * 1273.0f) <= this->unk324) {
         this->unk324 = 0.0f;
     }
@@ -342,7 +382,9 @@ void func_808734DC(BgDyYoseizo* this, PlayState* play) {
 }
 
 void func_8087358C(BgDyYoseizo* this, PlayState* play) {
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
         Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
@@ -359,7 +401,9 @@ void func_8087358C(BgDyYoseizo* this, PlayState* play) {
 }
 
 void func_808736A4(BgDyYoseizo* this, PlayState* play) {
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
     this->unk324 = this->skelAnime.curFrame * 1273.0f;
     if (this->unk324 >= (this->unk32C * 1273.0f)) {
         this->unk324 = 0.0f;

@@ -1,4 +1,5 @@
 #include "z_en_bili.h"
+#include "versions.h"
 #include "assets/objects/object_bl/object_bl.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
@@ -468,7 +469,11 @@ void func_809C09E0(EnBili* this, PlayState* play) {
     if (!(this->actor.flags & ACTOR_FLAG_15)) {
         this->actor.gravity = -1.0f;
     }
+#if OOT_VERSION < NTSC_1_1
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+#else
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+#endif
         this->actor.colorFilterTimer = 0;
         func_809BFCE8(this);
     } else {
