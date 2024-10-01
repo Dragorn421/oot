@@ -43,6 +43,7 @@
 #include "z64skybox.h"
 #include "z64sram.h"
 #include "z64view.h"
+#include "zelda_arena.h"
 #include "alignment.h"
 #include "audiothread_cmd.h"
 #include "seqcmd.h"
