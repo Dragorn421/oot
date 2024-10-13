@@ -1,5 +1,6 @@
 #include "z_en_changer.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0
 
@@ -175,7 +176,7 @@ void func_809D2D70(EnChanger* this, PlayState* play) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, 0xF);
                     Flags_SetSwitch(play, 0x32);
                 } else {
-                    temp_s0 = (s16)(this->unk162 - 0x72) + 0xA;
+                    temp_s0 = (s16)(this->unk162 - GI_RUPEE_GREEN_LOSE) + EXITEM_GREEN_RUPEE_CHEST;
                     PRINTF("\x1b[32m☆☆☆☆☆ 右宝開く ☆☆☆☆☆ %d\n\x1b[m", temp_s0);
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, temp_s0);
                 }
@@ -188,7 +189,7 @@ void func_809D2D70(EnChanger* this, PlayState* play) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, 0xF);
                     Flags_SetSwitch(play, 0x32);
                 } else {
-                    temp_s0 = (s16)(this->unk160 - 0x72) + 0xA;
+                    temp_s0 = (s16)(this->unk160 - GI_RUPEE_GREEN_LOSE) + EXITEM_GREEN_RUPEE_CHEST;
                     PRINTF("\x1b[32m☆☆☆☆☆ 左宝開く ☆☆☆☆☆ %d\n\x1b[m", temp_s0);
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, temp_s0);
                 }
