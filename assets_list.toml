@@ -1,0 +1,4562 @@
+['misc/link_animetion']
+srcs = 'assets/misc/link_animetion/link_animetion.c'
+segment = 7
+
+['textures/icon_item_static']
+srcs = 'assets/textures/icon_item_static/icon_item_static.c'
+segment = 8
+
+['textures/icon_item_24_static']
+srcs = 'assets/textures/icon_item_24_static/icon_item_24_static.c'
+segment = 9
+
+['textures/icon_item_field_static']
+srcs = 'assets/textures/icon_item_field_static/icon_item_field_static.c'
+segment = 12
+
+['textures/icon_item_dungeon_static']
+srcs = 'assets/textures/icon_item_dungeon_static/icon_item_dungeon_static.c'
+segment = 12
+
+['textures/icon_item_gameover_static']
+srcs = 'assets/textures/icon_item_gameover_static/icon_item_gameover_static.c'
+segment = 12
+
+['textures/icon_item_nes_static']
+srcs = 'assets/textures/icon_item_nes_static/icon_item_nes_static.c'
+segment = 13
+
+['textures/icon_item_ger_static']
+srcs = 'assets/textures/icon_item_ger_static/icon_item_ger_static.c'
+segment = 13
+
+['textures/icon_item_fra_static']
+srcs = 'assets/textures/icon_item_fra_static/icon_item_fra_static.c'
+segment = 13
+
+['textures/item_name_static']
+srcs = 'assets/textures/item_name_static/item_name_static.c'
+segment = 10
+
+['textures/map_name_static']
+srcs = 'assets/textures/map_name_static/map_name_static.c'
+segment = 11
+
+['textures/do_action_static']
+srcs = 'assets/textures/do_action_static/do_action_static.c'
+segment = 7
+
+['textures/message_static']
+srcs = 'assets/textures/message_static/message_static.c'
+segment = 7
+
+['textures/message_texture_static']
+srcs = 'assets/textures/message_texture_static/message_texture_static.c'
+segment = 9
+
+['textures/nes_font_static']
+srcs = 'assets/textures/nes_font_static/nes_font_static.c'
+segment = 10
+
+['textures/map_grand_static']
+srcs = 'assets/textures/map_grand_static/map_grand_static.c'
+segment = 11
+
+['textures/map_48x85_static']
+srcs = 'assets/textures/map_48x85_static/map_48x85_static.c'
+segment = 11
+
+['textures/map_i_static']
+srcs = 'assets/textures/map_i_static/map_i_static.c'
+segment = 11
+
+['objects/gameplay_keep']
+srcs = 'assets/objects/gameplay_keep/gameplay_keep.c'
+depends = 'misc/link_animetion'
+segment = 4
+
+['objects/gameplay_field_keep']
+srcs = 'assets/objects/gameplay_field_keep/gameplay_field_keep.c'
+segment = 5
+
+['objects/gameplay_dangeon_keep']
+srcs = 'assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.c'
+segment = 5
+
+['objects/object_link_boy']
+srcs = 'assets/objects/object_link_boy/object_link_boy.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_link_child']
+srcs = 'assets/objects/object_link_child/object_link_child.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_box']
+srcs = 'assets/objects/object_box/object_box.c'
+segment = 6
+
+['objects/object_human']
+srcs = 'assets/objects/object_human/object_human.c'
+segment = 6
+
+['objects/object_okuta']
+srcs = 'assets/objects/object_okuta/object_okuta.c'
+segment = 6
+
+['objects/object_poh']
+srcs = 'assets/objects/object_poh/object_poh.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_wallmaster']
+srcs = 'assets/objects/object_wallmaster/object_wallmaster.c'
+segment = 6
+
+['objects/object_dy_obj']
+srcs = 'assets/objects/object_dy_obj/object_dy_obj.c'
+segment = 6
+
+['objects/object_firefly']
+srcs = 'assets/objects/object_firefly/object_firefly.c'
+segment = 6
+
+['objects/object_dodongo']
+srcs = 'assets/objects/object_dodongo/object_dodongo.c'
+segment = 6
+
+['objects/object_fire']
+srcs = 'assets/objects/object_fire/object_fire.c'
+segment = 6
+
+['objects/object_niw']
+srcs = 'assets/objects/object_niw/object_niw.c'
+segment = 6
+
+['objects/object_tite']
+srcs = 'assets/objects/object_tite/object_tite.c'
+segment = 6
+
+['objects/object_reeba']
+srcs = 'assets/objects/object_reeba/object_reeba.c'
+segment = 6
+
+['objects/object_peehat']
+srcs = 'assets/objects/object_peehat/object_peehat.c'
+segment = 6
+
+['objects/object_kingdodongo']
+srcs = 'assets/objects/object_kingdodongo/object_kingdodongo.c'
+segment = 6
+
+['objects/object_horse']
+srcs = 'assets/objects/object_horse/object_horse.c'
+segment = 6
+
+['objects/object_zf']
+srcs = 'assets/objects/object_zf/object_zf.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_goma']
+srcs = 'assets/objects/object_goma/object_goma.c'
+segment = 6
+
+['objects/object_zl1']
+srcs = 'assets/objects/object_zl1/object_zl1.c'
+segment = 6
+
+['objects/object_gol']
+srcs = 'assets/objects/object_gol/object_gol.c'
+segment = 6
+
+['objects/object_bubble']
+srcs = 'assets/objects/object_bubble/object_bubble.c'
+segment = 6
+
+['objects/object_dodojr']
+srcs = 'assets/objects/object_dodojr/object_dodojr.c'
+segment = 6
+
+['objects/object_torch2']
+srcs = 'assets/objects/object_torch2/object_torch2.c'
+segment = 6
+
+['objects/object_bl']
+srcs = 'assets/objects/object_bl/object_bl.c'
+segment = 6
+
+['objects/object_tp']
+srcs = 'assets/objects/object_tp/object_tp.c'
+segment = 6
+
+['objects/object_oA1']
+srcs = 'assets/objects/object_oA1/object_oA1.c'
+segment = 6
+
+['objects/object_st']
+srcs = 'assets/objects/object_st/object_st.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_bw']
+srcs = 'assets/objects/object_bw/object_bw.c'
+segment = 6
+
+['objects/object_ei']
+srcs = 'assets/objects/object_ei/object_ei.c'
+segment = 6
+
+['objects/object_horse_normal']
+srcs = 'assets/objects/object_horse_normal/object_horse_normal.c'
+segment = 6
+
+['objects/object_oB1']
+srcs = 'assets/objects/object_oB1/object_oB1.c'
+segment = 6
+
+['objects/object_o_anime']
+srcs = 'assets/objects/object_o_anime/object_o_anime.c'
+segment = 6
+
+['objects/object_spot04_objects']
+srcs = 'assets/objects/object_spot04_objects/object_spot04_objects.c'
+segment = 6
+
+['objects/object_ddan_objects']
+srcs = 'assets/objects/object_ddan_objects/object_ddan_objects.c'
+segment = 6
+
+['objects/object_hidan_objects']
+srcs = 'assets/objects/object_hidan_objects/object_hidan_objects.c'
+segment = 6
+
+['objects/object_horse_ganon']
+srcs = 'assets/objects/object_horse_ganon/object_horse_ganon.c'
+segment = 6
+
+['objects/object_oA2']
+srcs = 'assets/objects/object_oA2/object_oA2.c'
+segment = 6
+
+['objects/object_spot00_objects']
+srcs = 'assets/objects/object_spot00_objects/object_spot00_objects.c'
+segment = 6
+
+['objects/object_mb']
+srcs = 'assets/objects/object_mb/object_mb.c'
+segment = 6
+
+['objects/object_bombf']
+srcs = 'assets/objects/object_bombf/object_bombf.c'
+segment = 6
+
+['objects/object_sk2']
+srcs = 'assets/objects/object_sk2/object_sk2.c'
+segment = 6
+
+['objects/object_oE1']
+srcs = 'assets/objects/object_oE1/object_oE1.c'
+segment = 6
+
+['objects/object_oE_anime']
+srcs = 'assets/objects/object_oE_anime/object_oE_anime.c'
+segment = 6
+
+['objects/object_oE2']
+srcs = 'assets/objects/object_oE2/object_oE2.c'
+segment = 6
+
+['objects/object_ydan_objects']
+srcs = 'assets/objects/object_ydan_objects/object_ydan_objects.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gnd']
+srcs = 'assets/objects/object_gnd/object_gnd.c'
+segment = 6
+
+['objects/object_am']
+srcs = 'assets/objects/object_am/object_am.c'
+segment = 6
+
+['objects/object_dekubaba']
+srcs = 'assets/objects/object_dekubaba/object_dekubaba.c'
+segment = 6
+
+['objects/object_oA3']
+srcs = 'assets/objects/object_oA3/object_oA3.c'
+segment = 6
+
+['objects/object_oA4']
+srcs = 'assets/objects/object_oA4/object_oA4.c'
+segment = 6
+
+['objects/object_oA5']
+srcs = 'assets/objects/object_oA5/object_oA5.c'
+segment = 6
+
+['objects/object_oA6']
+srcs = 'assets/objects/object_oA6/object_oA6.c'
+segment = 6
+
+['objects/object_oA7']
+srcs = 'assets/objects/object_oA7/object_oA7.c'
+segment = 6
+
+['objects/object_jj']
+srcs = 'assets/objects/object_jj/object_jj.c'
+segment = 6
+
+['objects/object_oA8']
+srcs = 'assets/objects/object_oA8/object_oA8.c'
+segment = 6
+
+['objects/object_oA9']
+srcs = 'assets/objects/object_oA9/object_oA9.c'
+segment = 6
+
+['objects/object_oB2']
+srcs = 'assets/objects/object_oB2/object_oB2.c'
+segment = 6
+
+['objects/object_oB3']
+srcs = 'assets/objects/object_oB3/object_oB3.c'
+segment = 6
+
+['objects/object_oB4']
+srcs = 'assets/objects/object_oB4/object_oB4.c'
+segment = 6
+
+['objects/object_horse_zelda']
+srcs = 'assets/objects/object_horse_zelda/object_horse_zelda.c'
+segment = 6
+
+['objects/object_opening_demo1']
+srcs = 'assets/objects/object_opening_demo1/object_opening_demo1.c'
+segment = 6
+
+['objects/object_warp1']
+srcs = 'assets/objects/object_warp1/object_warp1.c'
+segment = 6
+
+['objects/object_b_heart']
+srcs = 'assets/objects/object_b_heart/object_b_heart.c'
+segment = 6
+
+['objects/object_dekunuts']
+srcs = 'assets/objects/object_dekunuts/object_dekunuts.c'
+segment = 6
+
+['objects/object_oE3']
+srcs = 'assets/objects/object_oE3/object_oE3.c'
+segment = 6
+
+['objects/object_oE4']
+srcs = 'assets/objects/object_oE4/object_oE4.c'
+segment = 6
+
+['objects/object_menkuri_objects']
+srcs = 'assets/objects/object_menkuri_objects/object_menkuri_objects.c'
+segment = 6
+
+['objects/object_oE5']
+srcs = 'assets/objects/object_oE5/object_oE5.c'
+segment = 6
+
+['objects/object_oE6']
+srcs = 'assets/objects/object_oE6/object_oE6.c'
+segment = 6
+
+['objects/object_oE7']
+srcs = 'assets/objects/object_oE7/object_oE7.c'
+segment = 6
+
+['objects/object_oE8']
+srcs = 'assets/objects/object_oE8/object_oE8.c'
+segment = 6
+
+['objects/object_oE9']
+srcs = 'assets/objects/object_oE9/object_oE9.c'
+segment = 6
+
+['objects/object_oE10']
+srcs = 'assets/objects/object_oE10/object_oE10.c'
+segment = 6
+
+['objects/object_oE11']
+srcs = 'assets/objects/object_oE11/object_oE11.c'
+segment = 6
+
+['objects/object_oE12']
+srcs = 'assets/objects/object_oE12/object_oE12.c'
+segment = 6
+
+['objects/object_vali']
+srcs = 'assets/objects/object_vali/object_vali.c'
+segment = 6
+
+['objects/object_oA10']
+srcs = 'assets/objects/object_oA10/object_oA10.c'
+segment = 6
+
+['objects/object_oA11']
+srcs = 'assets/objects/object_oA11/object_oA11.c'
+segment = 6
+
+['objects/object_mizu_objects']
+srcs = 'assets/objects/object_mizu_objects/object_mizu_objects.c'
+segment = 6
+
+['objects/object_fhg']
+srcs = 'assets/objects/object_fhg/object_fhg.c'
+segment = 6
+
+['objects/object_ossan']
+srcs = 'assets/objects/object_ossan/object_ossan.c'
+segment = 6
+
+['objects/object_mori_hineri1']
+srcs = 'assets/objects/object_mori_hineri1/object_mori_hineri1.c'
+depends = 'objects/object_mori_tex'
+segment = 6
+
+['objects/object_Bb']
+srcs = 'assets/objects/object_Bb/object_Bb.c'
+segment = 6
+
+['objects/object_toki_objects']
+srcs = 'assets/objects/object_toki_objects/object_toki_objects.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_yukabyun']
+srcs = 'assets/objects/object_yukabyun/object_yukabyun.c'
+segment = 6
+
+['objects/object_zl2']
+srcs = 'assets/objects/object_zl2/object_zl2.c'
+segment = 6
+
+['objects/object_mjin']
+srcs = 'assets/objects/object_mjin/object_mjin.c'
+segment = 6
+
+['objects/object_mjin_flash']
+srcs = 'assets/objects/object_mjin_flash/object_mjin_flash.c'
+segment = 6
+
+['objects/object_mjin_dark']
+srcs = 'assets/objects/object_mjin_dark/object_mjin_dark.c'
+segment = 6
+
+['objects/object_mjin_flame']
+srcs = 'assets/objects/object_mjin_flame/object_mjin_flame.c'
+segment = 6
+
+['objects/object_mjin_ice']
+srcs = 'assets/objects/object_mjin_ice/object_mjin_ice.c'
+segment = 6
+
+['objects/object_mjin_soul']
+srcs = 'assets/objects/object_mjin_soul/object_mjin_soul.c'
+segment = 6
+
+['objects/object_mjin_wind']
+srcs = 'assets/objects/object_mjin_wind/object_mjin_wind.c'
+segment = 6
+
+['objects/object_mjin_oka']
+srcs = 'assets/objects/object_mjin_oka/object_mjin_oka.c'
+segment = 6
+
+['objects/object_haka_objects']
+srcs = 'assets/objects/object_haka_objects/object_haka_objects.c'
+segment = 6
+
+['objects/object_spot06_objects']
+srcs = 'assets/objects/object_spot06_objects/object_spot06_objects.c'
+segment = 6
+
+['objects/object_ice_objects']
+srcs = 'assets/objects/object_ice_objects/object_ice_objects.c'
+segment = 6
+
+['objects/object_relay_objects']
+srcs = 'assets/objects/object_relay_objects/object_relay_objects.c'
+segment = 6
+
+['objects/object_mori_hineri1a']
+srcs = 'assets/objects/object_mori_hineri1a/object_mori_hineri1a.c'
+depends = 'objects/object_mori_tex'
+segment = 6
+
+['objects/object_mori_hineri2']
+srcs = 'assets/objects/object_mori_hineri2/object_mori_hineri2.c'
+depends = 'objects/object_mori_tex'
+segment = 6
+
+['objects/object_mori_hineri2a']
+srcs = 'assets/objects/object_mori_hineri2a/object_mori_hineri2a.c'
+depends = 'objects/object_mori_tex'
+segment = 6
+
+['objects/object_mori_objects']
+srcs = 'assets/objects/object_mori_objects/object_mori_objects.c'
+depends = 'objects/object_mori_tex'
+segment = 6
+
+['objects/object_mori_tex']
+srcs = 'assets/objects/object_mori_tex/object_mori_tex.c'
+segment = 8
+
+['objects/object_spot08_obj']
+srcs = 'assets/objects/object_spot08_obj/object_spot08_obj.c'
+segment = 6
+
+['objects/object_warp2']
+srcs = 'assets/objects/object_warp2/object_warp2.c'
+segment = 6
+
+['objects/object_hata']
+srcs = 'assets/objects/object_hata/object_hata.c'
+segment = 6
+
+['objects/object_bird']
+srcs = 'assets/objects/object_bird/object_bird.c'
+segment = 6
+
+['objects/object_wood02']
+srcs = 'assets/objects/object_wood02/object_wood02.c'
+depends = 'objects/gameplay_field_keep'
+segment = 6
+
+['objects/object_lightbox']
+srcs = 'assets/objects/object_lightbox/object_lightbox.c'
+segment = 6
+
+['objects/object_pu_box']
+srcs = 'assets/objects/object_pu_box/object_pu_box.c'
+segment = 6
+
+['objects/object_trap']
+srcs = 'assets/objects/object_trap/object_trap.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_vase']
+srcs = 'assets/objects/object_vase/object_vase.c'
+segment = 6
+
+['objects/object_im']
+srcs = 'assets/objects/object_im/object_im.c'
+segment = 6
+
+['objects/object_ta']
+srcs = 'assets/objects/object_ta/object_ta.c'
+segment = 6
+
+['objects/object_tk']
+srcs = 'assets/objects/object_tk/object_tk.c'
+segment = 6
+
+['objects/object_xc']
+srcs = 'assets/objects/object_xc/object_xc.c'
+segment = 6
+
+['objects/object_vm']
+srcs = 'assets/objects/object_vm/object_vm.c'
+segment = 6
+
+['objects/object_bv']
+srcs = 'assets/objects/object_bv/object_bv.c'
+segment = 6
+
+['objects/object_hakach_objects']
+srcs = 'assets/objects/object_hakach_objects/object_hakach_objects.c'
+segment = 6
+
+['objects/object_efc_crystal_light']
+srcs = 'assets/objects/object_efc_crystal_light/object_efc_crystal_light.c'
+segment = 6
+
+['objects/object_efc_fire_ball']
+srcs = 'assets/objects/object_efc_fire_ball/object_efc_fire_ball.c'
+segment = 6
+
+['objects/object_efc_flash']
+srcs = 'assets/objects/object_efc_flash/object_efc_flash.c'
+segment = 6
+
+['objects/object_efc_lgt_shower']
+srcs = 'assets/objects/object_efc_lgt_shower/object_efc_lgt_shower.c'
+segment = 6
+
+['objects/object_efc_star_field']
+srcs = 'assets/objects/object_efc_star_field/object_efc_star_field.c'
+segment = 6
+
+['objects/object_god_lgt']
+srcs = 'assets/objects/object_god_lgt/object_god_lgt.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_light_ring']
+srcs = 'assets/objects/object_light_ring/object_light_ring.c'
+segment = 6
+
+['objects/object_triforce_spot']
+srcs = 'assets/objects/object_triforce_spot/object_triforce_spot.c'
+segment = 6
+
+['objects/object_medal']
+srcs = 'assets/objects/object_medal/object_medal.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_bdan_objects']
+srcs = 'assets/objects/object_bdan_objects/object_bdan_objects.c'
+segment = 6
+
+['objects/object_sd']
+srcs = 'assets/objects/object_sd/object_sd.c'
+segment = 6
+
+['objects/object_rd']
+srcs = 'assets/objects/object_rd/object_rd.c'
+segment = 6
+
+['objects/object_po_sisters']
+srcs = 'assets/objects/object_po_sisters/object_po_sisters.c'
+segment = 6
+
+['objects/object_heavy_object']
+srcs = 'assets/objects/object_heavy_object/object_heavy_object.c'
+segment = 6
+
+['objects/object_gndd']
+srcs = 'assets/objects/object_gndd/object_gndd.c'
+segment = 6
+
+['objects/object_fd']
+srcs = 'assets/objects/object_fd/object_fd.c'
+segment = 6
+
+['objects/object_du']
+srcs = 'assets/objects/object_du/object_du.c'
+segment = 6
+
+['objects/object_fw']
+srcs = 'assets/objects/object_fw/object_fw.c'
+segment = 6
+
+['objects/object_horse_link_child']
+srcs = 'assets/objects/object_horse_link_child/object_horse_link_child.c'
+segment = 6
+
+['objects/object_spot02_objects']
+srcs = 'assets/objects/object_spot02_objects/object_spot02_objects.c'
+segment = 6
+
+['objects/object_haka']
+srcs = 'assets/objects/object_haka/object_haka.c'
+segment = 6
+
+['objects/object_ru1']
+srcs = 'assets/objects/object_ru1/object_ru1.c'
+segment = 6
+
+['objects/object_syokudai']
+srcs = 'assets/objects/object_syokudai/object_syokudai.c'
+depends = 'objects/gameplay_dangeon_keep'
+segment = 6
+
+['objects/object_fd2']
+srcs = 'assets/objects/object_fd2/object_fd2.c'
+segment = 6
+
+['objects/object_dh']
+srcs = 'assets/objects/object_dh/object_dh.c'
+segment = 6
+
+['objects/object_rl']
+srcs = 'assets/objects/object_rl/object_rl.c'
+segment = 6
+
+['objects/object_efc_tw']
+srcs = 'assets/objects/object_efc_tw/object_efc_tw.c'
+segment = 6
+
+['objects/object_demo_tre_lgt']
+srcs = 'assets/objects/object_demo_tre_lgt/object_demo_tre_lgt.c'
+segment = 6
+
+['objects/object_gi_key']
+srcs = 'assets/objects/object_gi_key/object_gi_key.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_mir_ray']
+srcs = 'assets/objects/object_mir_ray/object_mir_ray.c'
+segment = 6
+
+['objects/object_brob']
+srcs = 'assets/objects/object_brob/object_brob.c'
+segment = 6
+
+['objects/object_gi_jewel']
+srcs = 'assets/objects/object_gi_jewel/object_gi_jewel.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_spot09_obj']
+srcs = 'assets/objects/object_spot09_obj/object_spot09_obj.c'
+segment = 6
+
+['objects/object_spot18_obj']
+srcs = 'assets/objects/object_spot18_obj/object_spot18_obj.c'
+segment = 6
+
+['objects/object_bdoor']
+srcs = 'assets/objects/object_bdoor/object_bdoor.c'
+depends = 'objects/gameplay_dangeon_keep'
+segment = 6
+
+['objects/object_spot17_obj']
+srcs = 'assets/objects/object_spot17_obj/object_spot17_obj.c'
+segment = 6
+
+['objects/object_shop_dungen']
+srcs = 'assets/objects/object_shop_dungen/object_shop_dungen.c'
+segment = 6
+
+['objects/object_nb']
+srcs = 'assets/objects/object_nb/object_nb.c'
+segment = 6
+
+['objects/object_mo']
+srcs = 'assets/objects/object_mo/object_mo.c'
+segment = 6
+
+['objects/object_sb']
+srcs = 'assets/objects/object_sb/object_sb.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_melody']
+srcs = 'assets/objects/object_gi_melody/object_gi_melody.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_heart']
+srcs = 'assets/objects/object_gi_heart/object_gi_heart.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_compass']
+srcs = 'assets/objects/object_gi_compass/object_gi_compass.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_bosskey']
+srcs = 'assets/objects/object_gi_bosskey/object_gi_bosskey.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_medal']
+srcs = 'assets/objects/object_gi_medal/object_gi_medal.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_nuts']
+srcs = 'assets/objects/object_gi_nuts/object_gi_nuts.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_sa']
+srcs = 'assets/objects/object_sa/object_sa.c'
+segment = 6
+
+['objects/object_gi_hearts']
+srcs = 'assets/objects/object_gi_hearts/object_gi_hearts.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_arrowcase']
+srcs = 'assets/objects/object_gi_arrowcase/object_gi_arrowcase.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_bombpouch']
+srcs = 'assets/objects/object_gi_bombpouch/object_gi_bombpouch.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_in']
+srcs = 'assets/objects/object_in/object_in.c'
+segment = 6
+
+['objects/object_tr']
+srcs = 'assets/objects/object_tr/object_tr.c'
+segment = 6
+
+['objects/object_spot16_obj']
+srcs = 'assets/objects/object_spot16_obj/object_spot16_obj.c'
+segment = 6
+
+['objects/object_oE1s']
+srcs = 'assets/objects/object_oE1s/object_oE1s.c'
+segment = 6
+
+['objects/object_oE4s']
+srcs = 'assets/objects/object_oE4s/object_oE4s.c'
+segment = 6
+
+['objects/object_os_anime']
+srcs = 'assets/objects/object_os_anime/object_os_anime.c'
+segment = 6
+
+['objects/object_gi_bottle']
+srcs = 'assets/objects/object_gi_bottle/object_gi_bottle.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_stick']
+srcs = 'assets/objects/object_gi_stick/object_gi_stick.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_map']
+srcs = 'assets/objects/object_gi_map/object_gi_map.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_oF1d_map']
+srcs = 'assets/objects/object_oF1d_map/object_oF1d_map.c'
+segment = 6
+
+['objects/object_ru2']
+srcs = 'assets/objects/object_ru2/object_ru2.c'
+segment = 6
+
+['objects/object_gi_shield_1']
+srcs = 'assets/objects/object_gi_shield_1/object_gi_shield_1.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_dekujr']
+srcs = 'assets/objects/object_dekujr/object_dekujr.c'
+segment = 6
+
+['objects/object_gi_magicpot']
+srcs = 'assets/objects/object_gi_magicpot/object_gi_magicpot.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_bomb_1']
+srcs = 'assets/objects/object_gi_bomb_1/object_gi_bomb_1.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_oF1s']
+srcs = 'assets/objects/object_oF1s/object_oF1s.c'
+segment = 6
+
+['objects/object_ma2']
+srcs = 'assets/objects/object_ma2/object_ma2.c'
+segment = 6
+
+['objects/object_gi_purse']
+srcs = 'assets/objects/object_gi_purse/object_gi_purse.c'
+segment = 6
+
+['objects/object_hni']
+srcs = 'assets/objects/object_hni/object_hni.c'
+segment = 6
+
+['objects/object_tw']
+srcs = 'assets/objects/object_tw/object_tw.c'
+segment = 6
+
+['objects/object_rr']
+srcs = 'assets/objects/object_rr/object_rr.c'
+segment = 6
+
+['objects/object_bxa']
+srcs = 'assets/objects/object_bxa/object_bxa.c'
+segment = 6
+
+['objects/object_anubice']
+srcs = 'assets/objects/object_anubice/object_anubice.c'
+segment = 6
+
+['objects/object_gi_gerudo']
+srcs = 'assets/objects/object_gi_gerudo/object_gi_gerudo.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_arrow']
+srcs = 'assets/objects/object_gi_arrow/object_gi_arrow.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_bomb_2']
+srcs = 'assets/objects/object_gi_bomb_2/object_gi_bomb_2.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_egg']
+srcs = 'assets/objects/object_gi_egg/object_gi_egg.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_scale']
+srcs = 'assets/objects/object_gi_scale/object_gi_scale.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_shield_2']
+srcs = 'assets/objects/object_gi_shield_2/object_gi_shield_2.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_hookshot']
+srcs = 'assets/objects/object_gi_hookshot/object_gi_hookshot.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_ocarina']
+srcs = 'assets/objects/object_gi_ocarina/object_gi_ocarina.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_milk']
+srcs = 'assets/objects/object_gi_milk/object_gi_milk.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_ma1']
+srcs = 'assets/objects/object_ma1/object_ma1.c'
+segment = 6
+
+['objects/object_ganon']
+srcs = 'assets/objects/object_ganon/object_ganon.c'
+segment = 6
+
+['objects/object_sst']
+srcs = 'assets/objects/object_sst/object_sst.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_ny']
+srcs = 'assets/objects/object_ny/object_ny.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_fr']
+srcs = 'assets/objects/object_fr/object_fr.c'
+segment = 6
+
+['objects/object_gi_pachinko']
+srcs = 'assets/objects/object_gi_pachinko/object_gi_pachinko.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_boomerang']
+srcs = 'assets/objects/object_gi_boomerang/object_gi_boomerang.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_bow']
+srcs = 'assets/objects/object_gi_bow/object_gi_bow.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_glasses']
+srcs = 'assets/objects/object_gi_glasses/object_gi_glasses.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_liquid']
+srcs = 'assets/objects/object_gi_liquid/object_gi_liquid.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_ani']
+srcs = 'assets/objects/object_ani/object_ani.c'
+segment = 6
+
+['objects/object_demo_6k']
+srcs = 'assets/objects/object_demo_6k/object_demo_6k.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_shield_3']
+srcs = 'assets/objects/object_gi_shield_3/object_gi_shield_3.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_letter']
+srcs = 'assets/objects/object_gi_letter/object_gi_letter.c'
+segment = 6
+
+['objects/object_spot15_obj']
+srcs = 'assets/objects/object_spot15_obj/object_spot15_obj.c'
+segment = 6
+
+['objects/object_jya_obj']
+srcs = 'assets/objects/object_jya_obj/object_jya_obj.c'
+segment = 6
+
+['objects/object_gi_clothes']
+srcs = 'assets/objects/object_gi_clothes/object_gi_clothes.c'
+segment = 6
+
+['objects/object_gi_bean']
+srcs = 'assets/objects/object_gi_bean/object_gi_bean.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_fish']
+srcs = 'assets/objects/object_gi_fish/object_gi_fish.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_saw']
+srcs = 'assets/objects/object_gi_saw/object_gi_saw.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_hammer']
+srcs = 'assets/objects/object_gi_hammer/object_gi_hammer.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_grass']
+srcs = 'assets/objects/object_gi_grass/object_gi_grass.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_longsword']
+srcs = 'assets/objects/object_gi_longsword/object_gi_longsword.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_spot01_objects']
+srcs = 'assets/objects/object_spot01_objects/object_spot01_objects.c'
+segment = 6
+
+['objects/object_md']
+srcs = 'assets/objects/object_md/object_md.c'
+segment = 6
+
+['objects/object_km1']
+srcs = 'assets/objects/object_km1/object_km1.c'
+segment = 6
+
+['objects/object_kw1']
+srcs = 'assets/objects/object_kw1/object_kw1.c'
+segment = 6
+
+['objects/object_zo']
+srcs = 'assets/objects/object_zo/object_zo.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_kz']
+srcs = 'assets/objects/object_kz/object_kz.c'
+segment = 6
+
+['objects/object_umajump']
+srcs = 'assets/objects/object_umajump/object_umajump.c'
+segment = 6
+
+['objects/object_masterkokiri']
+srcs = 'assets/objects/object_masterkokiri/object_masterkokiri.c'
+segment = 6
+
+['objects/object_masterkokirihead']
+srcs = 'assets/objects/object_masterkokirihead/object_masterkokirihead.c'
+segment = 6
+
+['objects/object_mastergolon']
+srcs = 'assets/objects/object_mastergolon/object_mastergolon.c'
+segment = 6
+
+['objects/object_masterzoora']
+srcs = 'assets/objects/object_masterzoora/object_masterzoora.c'
+segment = 6
+
+['objects/object_aob']
+srcs = 'assets/objects/object_aob/object_aob.c'
+segment = 6
+
+['objects/object_ik']
+srcs = 'assets/objects/object_ik/object_ik.c'
+segment = 6
+
+['objects/object_ahg']
+srcs = 'assets/objects/object_ahg/object_ahg.c'
+segment = 6
+
+['objects/object_cne']
+srcs = 'assets/objects/object_cne/object_cne.c'
+segment = 6
+
+['objects/object_gi_niwatori']
+srcs = 'assets/objects/object_gi_niwatori/object_gi_niwatori.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_skj']
+srcs = 'assets/objects/object_skj/object_skj.c'
+segment = 6
+
+['objects/object_gi_bottle_letter']
+srcs = 'assets/objects/object_gi_bottle_letter/object_gi_bottle_letter.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_bji']
+srcs = 'assets/objects/object_bji/object_bji.c'
+segment = 6
+
+['objects/object_bba']
+srcs = 'assets/objects/object_bba/object_bba.c'
+segment = 6
+
+['objects/object_gi_ocarina_0']
+srcs = 'assets/objects/object_gi_ocarina_0/object_gi_ocarina_0.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_ds']
+srcs = 'assets/objects/object_ds/object_ds.c'
+segment = 6
+
+['objects/object_ane']
+srcs = 'assets/objects/object_ane/object_ane.c'
+segment = 6
+
+['objects/object_boj']
+srcs = 'assets/objects/object_boj/object_boj.c'
+segment = 6
+
+['objects/object_spot03_object']
+srcs = 'assets/objects/object_spot03_object/object_spot03_object.c'
+segment = 6
+
+['objects/object_spot07_object']
+srcs = 'assets/objects/object_spot07_object/object_spot07_object.c'
+segment = 6
+
+['objects/object_fz']
+srcs = 'assets/objects/object_fz/object_fz.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_bob']
+srcs = 'assets/objects/object_bob/object_bob.c'
+segment = 6
+
+['objects/object_ge1']
+srcs = 'assets/objects/object_ge1/object_ge1.c'
+segment = 6
+
+['objects/object_yabusame_point']
+srcs = 'assets/objects/object_yabusame_point/object_yabusame_point.c'
+segment = 6
+
+['objects/object_gi_boots_2']
+srcs = 'assets/objects/object_gi_boots_2/object_gi_boots_2.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_seed']
+srcs = 'assets/objects/object_gi_seed/object_gi_seed.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gnd_magic']
+srcs = 'assets/objects/object_gnd_magic/object_gnd_magic.c'
+segment = 6
+
+['objects/object_d_elevator']
+srcs = 'assets/objects/object_d_elevator/object_d_elevator.c'
+segment = 6
+
+['objects/object_d_hsblock']
+srcs = 'assets/objects/object_d_hsblock/object_d_hsblock.c'
+segment = 6
+
+['objects/object_d_lift']
+srcs = 'assets/objects/object_d_lift/object_d_lift.c'
+segment = 6
+
+['objects/object_mamenoki']
+srcs = 'assets/objects/object_mamenoki/object_mamenoki.c'
+segment = 6
+
+['objects/object_goroiwa']
+srcs = 'assets/objects/object_goroiwa/object_goroiwa.c'
+segment = 6
+
+['objects/object_toryo']
+srcs = 'assets/objects/object_toryo/object_toryo.c'
+segment = 6
+
+['objects/object_daiku']
+srcs = 'assets/objects/object_daiku/object_daiku.c'
+segment = 6
+
+['objects/object_nwc']
+srcs = 'assets/objects/object_nwc/object_nwc.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_blkobj']
+srcs = 'assets/objects/object_blkobj/object_blkobj.c'
+segment = 6
+
+['objects/object_gm']
+srcs = 'assets/objects/object_gm/object_gm.c'
+segment = 6
+
+['objects/object_ms']
+srcs = 'assets/objects/object_ms/object_ms.c'
+segment = 6
+
+['objects/object_hs']
+srcs = 'assets/objects/object_hs/object_hs.c'
+segment = 6
+
+['objects/object_ingate']
+srcs = 'assets/objects/object_ingate/object_ingate.c'
+segment = 6
+
+['objects/object_lightswitch']
+srcs = 'assets/objects/object_lightswitch/object_lightswitch.c'
+segment = 6
+
+['objects/object_kusa']
+srcs = 'assets/objects/object_kusa/object_kusa.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_tsubo']
+srcs = 'assets/objects/object_tsubo/object_tsubo.c'
+segment = 6
+
+['objects/object_gi_gloves']
+srcs = 'assets/objects/object_gi_gloves/object_gi_gloves.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_coin']
+srcs = 'assets/objects/object_gi_coin/object_gi_coin.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_kanban']
+srcs = 'assets/objects/object_kanban/object_kanban.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gjyo_objects']
+srcs = 'assets/objects/object_gjyo_objects/object_gjyo_objects.c'
+segment = 6
+
+['objects/object_owl']
+srcs = 'assets/objects/object_owl/object_owl.c'
+segment = 6
+
+['objects/object_mk']
+srcs = 'assets/objects/object_mk/object_mk.c'
+segment = 6
+
+['objects/object_fu']
+srcs = 'assets/objects/object_fu/object_fu.c'
+segment = 6
+
+['objects/object_gi_ki_tan_mask']
+srcs = 'assets/objects/object_gi_ki_tan_mask/object_gi_ki_tan_mask.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_redead_mask']
+srcs = 'assets/objects/object_gi_redead_mask/object_gi_redead_mask.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_skj_mask']
+srcs = 'assets/objects/object_gi_skj_mask/object_gi_skj_mask.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_rabit_mask']
+srcs = 'assets/objects/object_gi_rabit_mask/object_gi_rabit_mask.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_truth_mask']
+srcs = 'assets/objects/object_gi_truth_mask/object_gi_truth_mask.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_ganon_objects']
+srcs = 'assets/objects/object_ganon_objects/object_ganon_objects.c'
+segment = 6
+
+['objects/object_siofuki']
+srcs = 'assets/objects/object_siofuki/object_siofuki.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_stream']
+srcs = 'assets/objects/object_stream/object_stream.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_mm']
+srcs = 'assets/objects/object_mm/object_mm.c'
+segment = 6
+
+['objects/object_fa']
+srcs = 'assets/objects/object_fa/object_fa.c'
+segment = 6
+
+['objects/object_os']
+srcs = 'assets/objects/object_os/object_os.c'
+segment = 6
+
+['objects/object_gi_eye_lotion']
+srcs = 'assets/objects/object_gi_eye_lotion/object_gi_eye_lotion.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_powder']
+srcs = 'assets/objects/object_gi_powder/object_gi_powder.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_mushroom']
+srcs = 'assets/objects/object_gi_mushroom/object_gi_mushroom.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_ticketstone']
+srcs = 'assets/objects/object_gi_ticketstone/object_gi_ticketstone.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_brokensword']
+srcs = 'assets/objects/object_gi_brokensword/object_gi_brokensword.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_js']
+srcs = 'assets/objects/object_js/object_js.c'
+segment = 6
+
+['objects/object_cs']
+srcs = 'assets/objects/object_cs/object_cs.c'
+segment = 6
+
+['objects/object_gi_prescription']
+srcs = 'assets/objects/object_gi_prescription/object_gi_prescription.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_bracelet']
+srcs = 'assets/objects/object_gi_bracelet/object_gi_bracelet.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_soldout']
+srcs = 'assets/objects/object_gi_soldout/object_gi_soldout.c'
+segment = 6
+
+['objects/object_gi_frog']
+srcs = 'assets/objects/object_gi_frog/object_gi_frog.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_mag']
+srcs = 'assets/objects/object_mag/object_mag.c'
+segment = 6
+
+['objects/object_door_gerudo']
+srcs = 'assets/objects/object_door_gerudo/object_door_gerudo.c'
+segment = 6
+
+['objects/object_gt']
+srcs = 'assets/objects/object_gt/object_gt.c'
+segment = 6
+
+['objects/object_efc_erupc']
+srcs = 'assets/objects/object_efc_erupc/object_efc_erupc.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_zl2_anime1']
+srcs = 'assets/objects/object_zl2_anime1/object_zl2_anime1.c'
+segment = 6
+
+['objects/object_zl2_anime2']
+srcs = 'assets/objects/object_zl2_anime2/object_zl2_anime2.c'
+segment = 6
+
+['objects/object_gi_golonmask']
+srcs = 'assets/objects/object_gi_golonmask/object_gi_golonmask.c'
+segment = 6
+
+['objects/object_gi_zoramask']
+srcs = 'assets/objects/object_gi_zoramask/object_gi_zoramask.c'
+segment = 6
+
+['objects/object_gi_gerudomask']
+srcs = 'assets/objects/object_gi_gerudomask/object_gi_gerudomask.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_ganon2']
+srcs = 'assets/objects/object_ganon2/object_ganon2.c'
+segment = 6
+
+['objects/object_ka']
+srcs = 'assets/objects/object_ka/object_ka.c'
+segment = 6
+
+['objects/object_ts']
+srcs = 'assets/objects/object_ts/object_ts.c'
+segment = 6
+
+['objects/object_zg']
+srcs = 'assets/objects/object_zg/object_zg.c'
+segment = 6
+
+['objects/object_gi_hoverboots']
+srcs = 'assets/objects/object_gi_hoverboots/object_gi_hoverboots.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_m_arrow']
+srcs = 'assets/objects/object_gi_m_arrow/object_gi_m_arrow.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_ds2']
+srcs = 'assets/objects/object_ds2/object_ds2.c'
+segment = 6
+
+['objects/object_ec']
+srcs = 'assets/objects/object_ec/object_ec.c'
+segment = 6
+
+['objects/object_fish']
+srcs = 'assets/objects/object_fish/object_fish.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_sutaru']
+srcs = 'assets/objects/object_gi_sutaru/object_gi_sutaru.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_goddess']
+srcs = 'assets/objects/object_gi_goddess/object_gi_goddess.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_ssh']
+srcs = 'assets/objects/object_ssh/object_ssh.c'
+segment = 6
+
+['objects/object_bigokuta']
+srcs = 'assets/objects/object_bigokuta/object_bigokuta.c'
+segment = 6
+
+['objects/object_bg']
+srcs = 'assets/objects/object_bg/object_bg.c'
+segment = 6
+
+['objects/object_spot05_objects']
+srcs = 'assets/objects/object_spot05_objects/object_spot05_objects.c'
+segment = 6
+
+['objects/object_spot12_obj']
+srcs = 'assets/objects/object_spot12_obj/object_spot12_obj.c'
+segment = 6
+
+['objects/object_bombiwa']
+srcs = 'assets/objects/object_bombiwa/object_bombiwa.c'
+segment = 6
+
+['objects/object_hintnuts']
+srcs = 'assets/objects/object_hintnuts/object_hintnuts.c'
+segment = 6
+
+['objects/object_rs']
+srcs = 'assets/objects/object_rs/object_rs.c'
+segment = 6
+
+['objects/object_spot00_break']
+srcs = 'assets/objects/object_spot00_break/object_spot00_break.c'
+segment = 6
+
+['objects/object_gla']
+srcs = 'assets/objects/object_gla/object_gla.c'
+segment = 6
+
+['objects/object_shopnuts']
+srcs = 'assets/objects/object_shopnuts/object_shopnuts.c'
+segment = 6
+
+['objects/object_geldb']
+srcs = 'assets/objects/object_geldb/object_geldb.c'
+segment = 6
+
+['objects/object_gr']
+srcs = 'assets/objects/object_gr/object_gr.c'
+segment = 6
+
+['objects/object_dog']
+srcs = 'assets/objects/object_dog/object_dog.c'
+segment = 6
+
+['objects/object_jya_iron']
+srcs = 'assets/objects/object_jya_iron/object_jya_iron.c'
+segment = 6
+
+['objects/object_jya_door']
+srcs = 'assets/objects/object_jya_door/object_jya_door.c'
+segment = 6
+
+['objects/object_spot01_objects2']
+srcs = 'assets/objects/object_spot01_objects2/object_spot01_objects2.c'
+segment = 6
+
+['objects/object_spot11_obj']
+srcs = 'assets/objects/object_spot11_obj/object_spot11_obj.c'
+segment = 6
+
+['objects/object_kibako2']
+srcs = 'assets/objects/object_kibako2/object_kibako2.c'
+segment = 6
+
+['objects/object_dns']
+srcs = 'assets/objects/object_dns/object_dns.c'
+segment = 6
+
+['objects/object_dnk']
+srcs = 'assets/objects/object_dnk/object_dnk.c'
+segment = 6
+
+['objects/object_gi_fire']
+srcs = 'assets/objects/object_gi_fire/object_gi_fire.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_insect']
+srcs = 'assets/objects/object_gi_insect/object_gi_insect.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_butterfly']
+srcs = 'assets/objects/object_gi_butterfly/object_gi_butterfly.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_ghost']
+srcs = 'assets/objects/object_gi_ghost/object_gi_ghost.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_gi_soul']
+srcs = 'assets/objects/object_gi_soul/object_gi_soul.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_bowl']
+srcs = 'assets/objects/object_bowl/object_bowl.c'
+segment = 6
+
+['objects/object_po_field']
+srcs = 'assets/objects/object_po_field/object_po_field.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_demo_kekkai']
+srcs = 'assets/objects/object_demo_kekkai/object_demo_kekkai.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_efc_doughnut']
+srcs = 'assets/objects/object_efc_doughnut/object_efc_doughnut.c'
+segment = 6
+
+['objects/object_gi_dekupouch']
+srcs = 'assets/objects/object_gi_dekupouch/object_gi_dekupouch.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_ganon_anime1']
+srcs = 'assets/objects/object_ganon_anime1/object_ganon_anime1.c'
+segment = 6
+
+['objects/object_ganon_anime2']
+srcs = 'assets/objects/object_ganon_anime2/object_ganon_anime2.c'
+segment = 6
+
+['objects/object_ganon_anime3']
+srcs = 'assets/objects/object_ganon_anime3/object_ganon_anime3.c'
+segment = 6
+
+['objects/object_gi_rupy']
+srcs = 'assets/objects/object_gi_rupy/object_gi_rupy.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_spot01_matoya']
+srcs = 'assets/objects/object_spot01_matoya/object_spot01_matoya.c'
+segment = 6
+
+['objects/object_spot01_matoyab']
+srcs = 'assets/objects/object_spot01_matoyab/object_spot01_matoyab.c'
+segment = 6
+
+['objects/object_po_composer']
+srcs = 'assets/objects/object_po_composer/object_po_composer.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_mu']
+srcs = 'assets/objects/object_mu/object_mu.c'
+segment = 6
+
+['objects/object_wf']
+srcs = 'assets/objects/object_wf/object_wf.c'
+segment = 6
+
+['objects/object_skb']
+srcs = 'assets/objects/object_skb/object_skb.c'
+segment = 6
+
+['objects/object_gj']
+srcs = 'assets/objects/object_gj/object_gj.c'
+segment = 6
+
+['objects/object_geff']
+srcs = 'assets/objects/object_geff/object_geff.c'
+segment = 6
+
+['objects/object_haka_door']
+srcs = 'assets/objects/object_haka_door/object_haka_door.c'
+segment = 6
+
+['objects/object_gs']
+srcs = 'assets/objects/object_gs/object_gs.c'
+segment = 6
+
+['objects/object_ps']
+srcs = 'assets/objects/object_ps/object_ps.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_bwall']
+srcs = 'assets/objects/object_bwall/object_bwall.c'
+segment = 6
+
+['objects/object_crow']
+srcs = 'assets/objects/object_crow/object_crow.c'
+segment = 6
+
+['objects/object_cow']
+srcs = 'assets/objects/object_cow/object_cow.c'
+segment = 6
+
+['objects/object_cob']
+srcs = 'assets/objects/object_cob/object_cob.c'
+segment = 6
+
+['objects/object_gi_sword_1']
+srcs = 'assets/objects/object_gi_sword_1/object_gi_sword_1.c'
+depends = 'objects/gameplay_keep'
+segment = 6
+
+['objects/object_door_killer']
+srcs = 'assets/objects/object_door_killer/object_door_killer.c'
+segment = 6
+
+['objects/object_ouke_haka']
+srcs = 'assets/objects/object_ouke_haka/object_ouke_haka.c'
+segment = 6
+
+['objects/object_timeblock']
+srcs = 'assets/objects/object_timeblock/object_timeblock.c'
+segment = 6
+
+['objects/object_zl4']
+srcs = 'assets/objects/object_zl4/object_zl4.c'
+segment = 6
+
+['textures/place_title_cards/g_pn_01']
+srcs = 'assets/textures/place_title_cards/g_pn_01.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_02']
+srcs = 'assets/textures/place_title_cards/g_pn_02.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_03']
+srcs = 'assets/textures/place_title_cards/g_pn_03.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_04']
+srcs = 'assets/textures/place_title_cards/g_pn_04.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_05']
+srcs = 'assets/textures/place_title_cards/g_pn_05.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_06']
+srcs = 'assets/textures/place_title_cards/g_pn_06.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_07']
+srcs = 'assets/textures/place_title_cards/g_pn_07.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_08']
+srcs = 'assets/textures/place_title_cards/g_pn_08.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_09']
+srcs = 'assets/textures/place_title_cards/g_pn_09.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_10']
+srcs = 'assets/textures/place_title_cards/g_pn_10.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_11']
+srcs = 'assets/textures/place_title_cards/g_pn_11.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_12']
+srcs = 'assets/textures/place_title_cards/g_pn_12.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_13']
+srcs = 'assets/textures/place_title_cards/g_pn_13.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_14']
+srcs = 'assets/textures/place_title_cards/g_pn_14.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_15']
+srcs = 'assets/textures/place_title_cards/g_pn_15.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_16']
+srcs = 'assets/textures/place_title_cards/g_pn_16.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_17']
+srcs = 'assets/textures/place_title_cards/g_pn_17.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_18']
+srcs = 'assets/textures/place_title_cards/g_pn_18.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_19']
+srcs = 'assets/textures/place_title_cards/g_pn_19.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_20']
+srcs = 'assets/textures/place_title_cards/g_pn_20.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_21']
+srcs = 'assets/textures/place_title_cards/g_pn_21.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_22']
+srcs = 'assets/textures/place_title_cards/g_pn_22.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_23']
+srcs = 'assets/textures/place_title_cards/g_pn_23.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_24']
+srcs = 'assets/textures/place_title_cards/g_pn_24.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_25']
+srcs = 'assets/textures/place_title_cards/g_pn_25.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_26']
+srcs = 'assets/textures/place_title_cards/g_pn_26.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_27']
+srcs = 'assets/textures/place_title_cards/g_pn_27.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_28']
+srcs = 'assets/textures/place_title_cards/g_pn_28.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_29']
+srcs = 'assets/textures/place_title_cards/g_pn_29.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_30']
+srcs = 'assets/textures/place_title_cards/g_pn_30.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_31']
+srcs = 'assets/textures/place_title_cards/g_pn_31.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_32']
+srcs = 'assets/textures/place_title_cards/g_pn_32.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_33']
+srcs = 'assets/textures/place_title_cards/g_pn_33.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_34']
+srcs = 'assets/textures/place_title_cards/g_pn_34.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_35']
+srcs = 'assets/textures/place_title_cards/g_pn_35.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_36']
+srcs = 'assets/textures/place_title_cards/g_pn_36.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_37']
+srcs = 'assets/textures/place_title_cards/g_pn_37.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_38']
+srcs = 'assets/textures/place_title_cards/g_pn_38.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_39']
+srcs = 'assets/textures/place_title_cards/g_pn_39.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_40']
+srcs = 'assets/textures/place_title_cards/g_pn_40.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_41']
+srcs = 'assets/textures/place_title_cards/g_pn_41.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_42']
+srcs = 'assets/textures/place_title_cards/g_pn_42.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_43']
+srcs = 'assets/textures/place_title_cards/g_pn_43.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_44']
+srcs = 'assets/textures/place_title_cards/g_pn_44.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_45']
+srcs = 'assets/textures/place_title_cards/g_pn_45.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_46']
+srcs = 'assets/textures/place_title_cards/g_pn_46.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_47']
+srcs = 'assets/textures/place_title_cards/g_pn_47.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_48']
+srcs = 'assets/textures/place_title_cards/g_pn_48.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_49']
+srcs = 'assets/textures/place_title_cards/g_pn_49.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_50']
+srcs = 'assets/textures/place_title_cards/g_pn_50.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_51']
+srcs = 'assets/textures/place_title_cards/g_pn_51.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_52']
+srcs = 'assets/textures/place_title_cards/g_pn_52.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_53']
+srcs = 'assets/textures/place_title_cards/g_pn_53.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_54']
+srcs = 'assets/textures/place_title_cards/g_pn_54.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_55']
+srcs = 'assets/textures/place_title_cards/g_pn_55.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_56']
+srcs = 'assets/textures/place_title_cards/g_pn_56.c'
+segment = 0 # None
+
+['textures/place_title_cards/g_pn_57']
+srcs = 'assets/textures/place_title_cards/g_pn_57.c'
+segment = 0 # None
+
+['misc/z_select_static']
+srcs = 'assets/misc/z_select_static/z_select_static.c'
+segment = 1
+
+['textures/nintendo_rogo_static']
+srcs = 'assets/textures/nintendo_rogo_static/nintendo_rogo_static.c'
+segment = 1
+
+['textures/title_static']
+srcs = 'assets/textures/title_static/title_static.c'
+segment = 1
+
+['textures/parameter_static']
+srcs = 'assets/textures/parameter_static/parameter_static.c'
+segment = 2
+
+['textures/skyboxes/vr_fine0_static']
+srcs = 'assets/textures/skyboxes/vr_fine0_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_fine0_pal_static']
+srcs = 'assets/textures/skyboxes/vr_fine0_pal_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_fine1_static']
+srcs = 'assets/textures/skyboxes/vr_fine1_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_fine1_pal_static']
+srcs = 'assets/textures/skyboxes/vr_fine1_pal_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_fine2_static']
+srcs = 'assets/textures/skyboxes/vr_fine2_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_fine2_pal_static']
+srcs = 'assets/textures/skyboxes/vr_fine2_pal_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_fine3_static']
+srcs = 'assets/textures/skyboxes/vr_fine3_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_fine3_pal_static']
+srcs = 'assets/textures/skyboxes/vr_fine3_pal_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_cloud0_static']
+srcs = 'assets/textures/skyboxes/vr_cloud0_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_cloud0_pal_static']
+srcs = 'assets/textures/skyboxes/vr_cloud0_pal_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_cloud1_static']
+srcs = 'assets/textures/skyboxes/vr_cloud1_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_cloud1_pal_static']
+srcs = 'assets/textures/skyboxes/vr_cloud1_pal_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_cloud2_static']
+srcs = 'assets/textures/skyboxes/vr_cloud2_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_cloud2_pal_static']
+srcs = 'assets/textures/skyboxes/vr_cloud2_pal_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_cloud3_static']
+srcs = 'assets/textures/skyboxes/vr_cloud3_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_cloud3_pal_static']
+srcs = 'assets/textures/skyboxes/vr_cloud3_pal_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_holy0_static']
+srcs = 'assets/textures/skyboxes/vr_holy0_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_holy0_pal_static']
+srcs = 'assets/textures/skyboxes/vr_holy0_pal_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_holy1_static']
+srcs = 'assets/textures/skyboxes/vr_holy1_static.c'
+segment = 0 # None
+
+['textures/skyboxes/vr_holy1_pal_static']
+srcs = 'assets/textures/skyboxes/vr_holy1_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_MDVR_static']
+srcs = 'assets/textures/backgrounds/vr_MDVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_MDVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_MDVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_MNVR_static']
+srcs = 'assets/textures/backgrounds/vr_MNVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_MNVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_MNVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_RUVR_static']
+srcs = 'assets/textures/backgrounds/vr_RUVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_RUVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_RUVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_LHVR_static']
+srcs = 'assets/textures/backgrounds/vr_LHVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_LHVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_LHVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_KHVR_static']
+srcs = 'assets/textures/backgrounds/vr_KHVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_KHVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_KHVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_K3VR_static']
+srcs = 'assets/textures/backgrounds/vr_K3VR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_K3VR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_K3VR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_K4VR_static']
+srcs = 'assets/textures/backgrounds/vr_K4VR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_K4VR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_K4VR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_K5VR_static']
+srcs = 'assets/textures/backgrounds/vr_K5VR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_K5VR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_K5VR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_SP1a_static']
+srcs = 'assets/textures/backgrounds/vr_SP1a_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_SP1a_pal_static']
+srcs = 'assets/textures/backgrounds/vr_SP1a_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_MLVR_static']
+srcs = 'assets/textures/backgrounds/vr_MLVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_MLVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_MLVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_KKRVR_static']
+srcs = 'assets/textures/backgrounds/vr_KKRVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_KKRVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_KKRVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_KR3VR_static']
+srcs = 'assets/textures/backgrounds/vr_KR3VR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_KR3VR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_KR3VR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_IPVR_static']
+srcs = 'assets/textures/backgrounds/vr_IPVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_IPVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_IPVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_KSVR_static']
+srcs = 'assets/textures/backgrounds/vr_KSVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_KSVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_KSVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_GLVR_static']
+srcs = 'assets/textures/backgrounds/vr_GLVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_GLVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_GLVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_ZRVR_static']
+srcs = 'assets/textures/backgrounds/vr_ZRVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_ZRVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_ZRVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_DGVR_static']
+srcs = 'assets/textures/backgrounds/vr_DGVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_DGVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_DGVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_ALVR_static']
+srcs = 'assets/textures/backgrounds/vr_ALVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_ALVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_ALVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_NSVR_static']
+srcs = 'assets/textures/backgrounds/vr_NSVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_NSVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_NSVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_LBVR_static']
+srcs = 'assets/textures/backgrounds/vr_LBVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_LBVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_LBVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_TTVR_static']
+srcs = 'assets/textures/backgrounds/vr_TTVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_TTVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_TTVR_pal_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_FCVR_static']
+srcs = 'assets/textures/backgrounds/vr_FCVR_static.c'
+segment = 0 # None
+
+['textures/backgrounds/vr_FCVR_pal_static']
+srcs = 'assets/textures/backgrounds/vr_FCVR_pal_static.c'
+segment = 0 # None
+
+['scenes/dungeons/ydan/ydan_scene']
+srcs = 'assets/scenes/dungeons/ydan/ydan_scene.c'
+depends = ['scenes/dungeons/ydan/ydan_room_0', 'scenes/dungeons/ydan/ydan_room_1', 'scenes/dungeons/ydan/ydan_room_2', 'scenes/dungeons/ydan/ydan_room_3', 'scenes/dungeons/ydan/ydan_room_4', 'scenes/dungeons/ydan/ydan_room_5', 'scenes/dungeons/ydan/ydan_room_6', 'scenes/dungeons/ydan/ydan_room_7', 'scenes/dungeons/ydan/ydan_room_8', 'scenes/dungeons/ydan/ydan_room_9', 'scenes/dungeons/ydan/ydan_room_10', 'scenes/dungeons/ydan/ydan_room_11']
+segment = 2
+
+['scenes/dungeons/ydan/ydan_room_0']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_0.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_1']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_1.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_2']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_2.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_3']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_3.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_4']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_4.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_5']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_5.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_6']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_6.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_7']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_7.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_8']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_8.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_9']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_9.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_10']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_10.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ydan/ydan_room_11']
+srcs = 'assets/scenes/dungeons/ydan/ydan_room_11.c'
+depends = 'scenes/dungeons/ydan/ydan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_scene']
+srcs = 'assets/scenes/dungeons/ddan/ddan_scene.c'
+depends = ['scenes/dungeons/ddan/ddan_room_0', 'scenes/dungeons/ddan/ddan_room_1', 'scenes/dungeons/ddan/ddan_room_2', 'scenes/dungeons/ddan/ddan_room_3', 'scenes/dungeons/ddan/ddan_room_4', 'scenes/dungeons/ddan/ddan_room_5', 'scenes/dungeons/ddan/ddan_room_6', 'scenes/dungeons/ddan/ddan_room_7', 'scenes/dungeons/ddan/ddan_room_8', 'scenes/dungeons/ddan/ddan_room_9', 'scenes/dungeons/ddan/ddan_room_10', 'scenes/dungeons/ddan/ddan_room_11', 'scenes/dungeons/ddan/ddan_room_12', 'scenes/dungeons/ddan/ddan_room_13', 'scenes/dungeons/ddan/ddan_room_14', 'scenes/dungeons/ddan/ddan_room_15', 'scenes/dungeons/ddan/ddan_room_16']
+segment = 2
+
+['scenes/dungeons/ddan/ddan_room_0']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_0.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_1']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_1.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_2']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_2.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_3']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_3.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_4']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_4.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_5']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_5.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_6']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_6.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_7']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_7.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_8']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_8.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_9']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_9.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_10']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_10.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_11']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_11.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_12']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_12.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_13']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_13.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_14']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_14.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_15']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_15.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/ddan/ddan_room_16']
+srcs = 'assets/scenes/dungeons/ddan/ddan_room_16.c'
+depends = 'scenes/dungeons/ddan/ddan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_scene']
+srcs = 'assets/scenes/dungeons/bdan/bdan_scene.c'
+depends = ['scenes/dungeons/bdan/bdan_room_0', 'scenes/dungeons/bdan/bdan_room_1', 'scenes/dungeons/bdan/bdan_room_2', 'scenes/dungeons/bdan/bdan_room_3', 'scenes/dungeons/bdan/bdan_room_4', 'scenes/dungeons/bdan/bdan_room_5', 'scenes/dungeons/bdan/bdan_room_6', 'scenes/dungeons/bdan/bdan_room_7', 'scenes/dungeons/bdan/bdan_room_8', 'scenes/dungeons/bdan/bdan_room_9', 'scenes/dungeons/bdan/bdan_room_10', 'scenes/dungeons/bdan/bdan_room_11', 'scenes/dungeons/bdan/bdan_room_12', 'scenes/dungeons/bdan/bdan_room_13', 'scenes/dungeons/bdan/bdan_room_14', 'scenes/dungeons/bdan/bdan_room_15']
+segment = 2
+
+['scenes/dungeons/bdan/bdan_room_0']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_0.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_1']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_1.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_2']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_2.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_3']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_3.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_4']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_4.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_5']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_5.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_6']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_6.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_7']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_7.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_8']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_8.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_9']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_9.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_10']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_10.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_11']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_11.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_12']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_12.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_13']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_13.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_14']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_14.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/bdan/bdan_room_15']
+srcs = 'assets/scenes/dungeons/bdan/bdan_room_15.c'
+depends = 'scenes/dungeons/bdan/bdan_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_scene']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_scene.c'
+depends = ['scenes/dungeons/Bmori1/Bmori1_room_0', 'scenes/dungeons/Bmori1/Bmori1_room_1', 'scenes/dungeons/Bmori1/Bmori1_room_2', 'scenes/dungeons/Bmori1/Bmori1_room_3', 'scenes/dungeons/Bmori1/Bmori1_room_4', 'scenes/dungeons/Bmori1/Bmori1_room_5', 'scenes/dungeons/Bmori1/Bmori1_room_6', 'scenes/dungeons/Bmori1/Bmori1_room_7', 'scenes/dungeons/Bmori1/Bmori1_room_8', 'scenes/dungeons/Bmori1/Bmori1_room_9', 'scenes/dungeons/Bmori1/Bmori1_room_10', 'scenes/dungeons/Bmori1/Bmori1_room_11', 'scenes/dungeons/Bmori1/Bmori1_room_12', 'scenes/dungeons/Bmori1/Bmori1_room_13', 'scenes/dungeons/Bmori1/Bmori1_room_14', 'scenes/dungeons/Bmori1/Bmori1_room_15', 'scenes/dungeons/Bmori1/Bmori1_room_16', 'scenes/dungeons/Bmori1/Bmori1_room_17', 'scenes/dungeons/Bmori1/Bmori1_room_18', 'scenes/dungeons/Bmori1/Bmori1_room_19', 'scenes/dungeons/Bmori1/Bmori1_room_20', 'scenes/dungeons/Bmori1/Bmori1_room_21', 'scenes/dungeons/Bmori1/Bmori1_room_22']
+segment = 2
+
+['scenes/dungeons/Bmori1/Bmori1_room_0']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_0.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_1']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_1.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_2']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_2.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_3']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_3.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_4']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_4.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_5']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_5.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_6']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_6.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_7']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_7.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_8']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_8.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_9']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_9.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_10']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_10.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_11']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_11.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_12']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_12.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_13']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_13.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_14']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_14.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_15']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_15.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_16']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_16.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_17']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_17.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_18']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_18.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_19']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_19.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_20']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_20.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_21']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_21.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/Bmori1/Bmori1_room_22']
+srcs = 'assets/scenes/dungeons/Bmori1/Bmori1_room_22.c'
+depends = 'scenes/dungeons/Bmori1/Bmori1_scene'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_scene']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_scene.c'
+depends = ['scenes/dungeons/HIDAN/HIDAN_room_0', 'scenes/dungeons/HIDAN/HIDAN_room_1', 'scenes/dungeons/HIDAN/HIDAN_room_2', 'scenes/dungeons/HIDAN/HIDAN_room_3', 'scenes/dungeons/HIDAN/HIDAN_room_4', 'scenes/dungeons/HIDAN/HIDAN_room_5', 'scenes/dungeons/HIDAN/HIDAN_room_6', 'scenes/dungeons/HIDAN/HIDAN_room_7', 'scenes/dungeons/HIDAN/HIDAN_room_8', 'scenes/dungeons/HIDAN/HIDAN_room_9', 'scenes/dungeons/HIDAN/HIDAN_room_10', 'scenes/dungeons/HIDAN/HIDAN_room_11', 'scenes/dungeons/HIDAN/HIDAN_room_12', 'scenes/dungeons/HIDAN/HIDAN_room_13', 'scenes/dungeons/HIDAN/HIDAN_room_14', 'scenes/dungeons/HIDAN/HIDAN_room_15', 'scenes/dungeons/HIDAN/HIDAN_room_16', 'scenes/dungeons/HIDAN/HIDAN_room_17', 'scenes/dungeons/HIDAN/HIDAN_room_18', 'scenes/dungeons/HIDAN/HIDAN_room_19', 'scenes/dungeons/HIDAN/HIDAN_room_20', 'scenes/dungeons/HIDAN/HIDAN_room_21', 'scenes/dungeons/HIDAN/HIDAN_room_22', 'scenes/dungeons/HIDAN/HIDAN_room_23', 'scenes/dungeons/HIDAN/HIDAN_room_24', 'scenes/dungeons/HIDAN/HIDAN_room_25', 'scenes/dungeons/HIDAN/HIDAN_room_26']
+segment = 2
+
+['scenes/dungeons/HIDAN/HIDAN_room_0']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_0.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_1']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_1.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_2']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_2.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_3']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_3.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_4']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_4.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_5']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_5.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_6']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_6.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_7']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_7.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_8']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_8.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_9']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_9.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_10']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_10.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_11']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_11.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_12']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_12.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_13']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_13.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_14']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_14.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_15']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_15.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_16']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_16.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_17']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_17.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_18']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_18.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_19']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_19.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_20']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_20.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_21']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_21.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_22']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_22.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_23']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_23.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_24']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_24.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_25']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_25.c'
+segment = 3
+
+['scenes/dungeons/HIDAN/HIDAN_room_26']
+srcs = 'assets/scenes/dungeons/HIDAN/HIDAN_room_26.c'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_scene']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_scene.c'
+depends = ['scenes/dungeons/MIZUsin/MIZUsin_room_0', 'scenes/dungeons/MIZUsin/MIZUsin_room_1', 'scenes/dungeons/MIZUsin/MIZUsin_room_2', 'scenes/dungeons/MIZUsin/MIZUsin_room_3', 'scenes/dungeons/MIZUsin/MIZUsin_room_4', 'scenes/dungeons/MIZUsin/MIZUsin_room_5', 'scenes/dungeons/MIZUsin/MIZUsin_room_6', 'scenes/dungeons/MIZUsin/MIZUsin_room_7', 'scenes/dungeons/MIZUsin/MIZUsin_room_8', 'scenes/dungeons/MIZUsin/MIZUsin_room_9', 'scenes/dungeons/MIZUsin/MIZUsin_room_10', 'scenes/dungeons/MIZUsin/MIZUsin_room_11', 'scenes/dungeons/MIZUsin/MIZUsin_room_12', 'scenes/dungeons/MIZUsin/MIZUsin_room_13', 'scenes/dungeons/MIZUsin/MIZUsin_room_14', 'scenes/dungeons/MIZUsin/MIZUsin_room_15', 'scenes/dungeons/MIZUsin/MIZUsin_room_16', 'scenes/dungeons/MIZUsin/MIZUsin_room_17', 'scenes/dungeons/MIZUsin/MIZUsin_room_18', 'scenes/dungeons/MIZUsin/MIZUsin_room_19', 'scenes/dungeons/MIZUsin/MIZUsin_room_20', 'scenes/dungeons/MIZUsin/MIZUsin_room_21', 'scenes/dungeons/MIZUsin/MIZUsin_room_22']
+segment = 2
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_0']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_0.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_1']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_1.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_2']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_2.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_3']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_3.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_4']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_4.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_5']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_5.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_6']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_6.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_7']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_7.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_8']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_8.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_9']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_9.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_10']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_10.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_11']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_11.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_12']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_12.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_13']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_13.c'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_14']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_14.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_15']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_15.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_16']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_16.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_17']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_17.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_18']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_18.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_19']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_19.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_20']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_20.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_21']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_21.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/MIZUsin/MIZUsin_room_22']
+srcs = 'assets/scenes/dungeons/MIZUsin/MIZUsin_room_22.c'
+depends = 'scenes/dungeons/MIZUsin/MIZUsin_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_scene']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_scene.c'
+depends = ['scenes/dungeons/jyasinzou/jyasinzou_room_0', 'scenes/dungeons/jyasinzou/jyasinzou_room_1', 'scenes/dungeons/jyasinzou/jyasinzou_room_2', 'scenes/dungeons/jyasinzou/jyasinzou_room_3', 'scenes/dungeons/jyasinzou/jyasinzou_room_4', 'scenes/dungeons/jyasinzou/jyasinzou_room_5', 'scenes/dungeons/jyasinzou/jyasinzou_room_6', 'scenes/dungeons/jyasinzou/jyasinzou_room_7', 'scenes/dungeons/jyasinzou/jyasinzou_room_8', 'scenes/dungeons/jyasinzou/jyasinzou_room_9', 'scenes/dungeons/jyasinzou/jyasinzou_room_10', 'scenes/dungeons/jyasinzou/jyasinzou_room_11', 'scenes/dungeons/jyasinzou/jyasinzou_room_12', 'scenes/dungeons/jyasinzou/jyasinzou_room_13', 'scenes/dungeons/jyasinzou/jyasinzou_room_14', 'scenes/dungeons/jyasinzou/jyasinzou_room_15', 'scenes/dungeons/jyasinzou/jyasinzou_room_16', 'scenes/dungeons/jyasinzou/jyasinzou_room_17', 'scenes/dungeons/jyasinzou/jyasinzou_room_18', 'scenes/dungeons/jyasinzou/jyasinzou_room_19', 'scenes/dungeons/jyasinzou/jyasinzou_room_20', 'scenes/dungeons/jyasinzou/jyasinzou_room_21', 'scenes/dungeons/jyasinzou/jyasinzou_room_22', 'scenes/dungeons/jyasinzou/jyasinzou_room_23', 'scenes/dungeons/jyasinzou/jyasinzou_room_24', 'scenes/dungeons/jyasinzou/jyasinzou_room_25', 'scenes/dungeons/jyasinzou/jyasinzou_room_26', 'scenes/dungeons/jyasinzou/jyasinzou_room_27', 'scenes/dungeons/jyasinzou/jyasinzou_room_28']
+segment = 2
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_0']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_0.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_1']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_1.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_2']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_2.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_3']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_3.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_4']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_4.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_5']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_5.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_6']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_6.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_7']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_7.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_8']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_8.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_9']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_9.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_10']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_10.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_11']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_11.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_12']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_12.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_13']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_13.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_14']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_14.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_15']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_15.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_16']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_16.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_17']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_17.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_18']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_18.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_19']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_19.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_20']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_20.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_21']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_21.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_22']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_22.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_23']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_23.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_24']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_24.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_25']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_25.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_26']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_26.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_27']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_27.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/jyasinzou/jyasinzou_room_28']
+srcs = 'assets/scenes/dungeons/jyasinzou/jyasinzou_room_28.c'
+depends = 'scenes/dungeons/jyasinzou/jyasinzou_scene'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_scene']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_scene.c'
+depends = ['scenes/dungeons/HAKAdan/HAKAdan_room_0', 'scenes/dungeons/HAKAdan/HAKAdan_room_1', 'scenes/dungeons/HAKAdan/HAKAdan_room_2', 'scenes/dungeons/HAKAdan/HAKAdan_room_3', 'scenes/dungeons/HAKAdan/HAKAdan_room_4', 'scenes/dungeons/HAKAdan/HAKAdan_room_5', 'scenes/dungeons/HAKAdan/HAKAdan_room_6', 'scenes/dungeons/HAKAdan/HAKAdan_room_7', 'scenes/dungeons/HAKAdan/HAKAdan_room_8', 'scenes/dungeons/HAKAdan/HAKAdan_room_9', 'scenes/dungeons/HAKAdan/HAKAdan_room_10', 'scenes/dungeons/HAKAdan/HAKAdan_room_11', 'scenes/dungeons/HAKAdan/HAKAdan_room_12', 'scenes/dungeons/HAKAdan/HAKAdan_room_13', 'scenes/dungeons/HAKAdan/HAKAdan_room_14', 'scenes/dungeons/HAKAdan/HAKAdan_room_15', 'scenes/dungeons/HAKAdan/HAKAdan_room_16', 'scenes/dungeons/HAKAdan/HAKAdan_room_17', 'scenes/dungeons/HAKAdan/HAKAdan_room_18', 'scenes/dungeons/HAKAdan/HAKAdan_room_19', 'scenes/dungeons/HAKAdan/HAKAdan_room_20', 'scenes/dungeons/HAKAdan/HAKAdan_room_21', 'scenes/dungeons/HAKAdan/HAKAdan_room_22']
+segment = 2
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_0']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_0.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_1']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_1.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_2']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_2.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_3']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_3.c'
+depends = 'scenes/dungeons/HAKAdan/HAKAdan_scene'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_4']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_4.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_5']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_5.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_6']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_6.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_7']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_7.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_8']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_8.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_9']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_9.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_10']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_10.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_11']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_11.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_12']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_12.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_13']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_13.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_14']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_14.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_15']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_15.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_16']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_16.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_17']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_17.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_18']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_18.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_19']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_19.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_20']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_20.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_21']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_21.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan/HAKAdan_room_22']
+srcs = 'assets/scenes/dungeons/HAKAdan/HAKAdan_room_22.c'
+segment = 3
+
+['scenes/dungeons/HAKAdanCH/HAKAdanCH_scene']
+srcs = 'assets/scenes/dungeons/HAKAdanCH/HAKAdanCH_scene.c'
+depends = ['scenes/dungeons/HAKAdanCH/HAKAdanCH_room_0', 'scenes/dungeons/HAKAdanCH/HAKAdanCH_room_1', 'scenes/dungeons/HAKAdanCH/HAKAdanCH_room_2', 'scenes/dungeons/HAKAdanCH/HAKAdanCH_room_3', 'scenes/dungeons/HAKAdanCH/HAKAdanCH_room_4', 'scenes/dungeons/HAKAdanCH/HAKAdanCH_room_5', 'scenes/dungeons/HAKAdanCH/HAKAdanCH_room_6']
+segment = 2
+
+['scenes/dungeons/HAKAdanCH/HAKAdanCH_room_0']
+srcs = 'assets/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_0.c'
+segment = 3
+
+['scenes/dungeons/HAKAdanCH/HAKAdanCH_room_1']
+srcs = 'assets/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_1.c'
+segment = 3
+
+['scenes/dungeons/HAKAdanCH/HAKAdanCH_room_2']
+srcs = 'assets/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_2.c'
+segment = 3
+
+['scenes/dungeons/HAKAdanCH/HAKAdanCH_room_3']
+srcs = 'assets/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_3.c'
+segment = 3
+
+['scenes/dungeons/HAKAdanCH/HAKAdanCH_room_4']
+srcs = 'assets/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_4.c'
+segment = 3
+
+['scenes/dungeons/HAKAdanCH/HAKAdanCH_room_5']
+srcs = 'assets/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_5.c'
+segment = 3
+
+['scenes/dungeons/HAKAdanCH/HAKAdanCH_room_6']
+srcs = 'assets/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_6.c'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_scene']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.c'
+depends = ['scenes/dungeons/ice_doukutu/ice_doukutu_room_0', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_1', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_2', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_3', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_4', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_5', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_6', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_7', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_8', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_9', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_10', 'scenes/dungeons/ice_doukutu/ice_doukutu_room_11']
+segment = 2
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_0']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_0.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_1']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_1.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_2']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_2.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_3']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_3.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_4']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_4.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_5']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_5.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_6']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_6.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_7']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_7.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_8']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_8.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_9']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_9.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_10']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_10.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/ice_doukutu/ice_doukutu_room_11']
+srcs = 'assets/scenes/dungeons/ice_doukutu/ice_doukutu_room_11.c'
+depends = 'scenes/dungeons/ice_doukutu/ice_doukutu_scene'
+segment = 3
+
+['scenes/dungeons/men/men_scene']
+srcs = 'assets/scenes/dungeons/men/men_scene.c'
+depends = ['scenes/dungeons/men/men_room_0', 'scenes/dungeons/men/men_room_1', 'scenes/dungeons/men/men_room_2', 'scenes/dungeons/men/men_room_3', 'scenes/dungeons/men/men_room_4', 'scenes/dungeons/men/men_room_5', 'scenes/dungeons/men/men_room_6', 'scenes/dungeons/men/men_room_7', 'scenes/dungeons/men/men_room_8', 'scenes/dungeons/men/men_room_9', 'scenes/dungeons/men/men_room_10']
+segment = 2
+
+['scenes/dungeons/men/men_room_0']
+srcs = 'assets/scenes/dungeons/men/men_room_0.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_1']
+srcs = 'assets/scenes/dungeons/men/men_room_1.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_2']
+srcs = 'assets/scenes/dungeons/men/men_room_2.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_3']
+srcs = 'assets/scenes/dungeons/men/men_room_3.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_4']
+srcs = 'assets/scenes/dungeons/men/men_room_4.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_5']
+srcs = 'assets/scenes/dungeons/men/men_room_5.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_6']
+srcs = 'assets/scenes/dungeons/men/men_room_6.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_7']
+srcs = 'assets/scenes/dungeons/men/men_room_7.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_8']
+srcs = 'assets/scenes/dungeons/men/men_room_8.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_9']
+srcs = 'assets/scenes/dungeons/men/men_room_9.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/men/men_room_10']
+srcs = 'assets/scenes/dungeons/men/men_room_10.c'
+depends = 'scenes/dungeons/men/men_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_scene']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_scene.c'
+depends = ['scenes/dungeons/ganontika/ganontika_room_0', 'scenes/dungeons/ganontika/ganontika_room_1', 'scenes/dungeons/ganontika/ganontika_room_2', 'scenes/dungeons/ganontika/ganontika_room_3', 'scenes/dungeons/ganontika/ganontika_room_4', 'scenes/dungeons/ganontika/ganontika_room_5', 'scenes/dungeons/ganontika/ganontika_room_6', 'scenes/dungeons/ganontika/ganontika_room_7', 'scenes/dungeons/ganontika/ganontika_room_8', 'scenes/dungeons/ganontika/ganontika_room_9', 'scenes/dungeons/ganontika/ganontika_room_10', 'scenes/dungeons/ganontika/ganontika_room_11', 'scenes/dungeons/ganontika/ganontika_room_12', 'scenes/dungeons/ganontika/ganontika_room_13', 'scenes/dungeons/ganontika/ganontika_room_14', 'scenes/dungeons/ganontika/ganontika_room_15', 'scenes/dungeons/ganontika/ganontika_room_16', 'scenes/dungeons/ganontika/ganontika_room_17', 'scenes/dungeons/ganontika/ganontika_room_18', 'scenes/dungeons/ganontika/ganontika_room_19']
+segment = 2
+
+['scenes/dungeons/ganontika/ganontika_room_0']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_0.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_1']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_1.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_2']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_2.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_3']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_3.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_4']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_4.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_5']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_5.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_6']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_6.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_7']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_7.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_8']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_8.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_9']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_9.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_10']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_10.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_11']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_11.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_12']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_12.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_13']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_13.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_14']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_14.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_15']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_15.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_16']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_16.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_17']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_17.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_18']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_18.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/dungeons/ganontika/ganontika_room_19']
+srcs = 'assets/scenes/dungeons/ganontika/ganontika_room_19.c'
+depends = 'scenes/dungeons/ganontika/ganontika_scene'
+segment = 3
+
+['scenes/test_levels/syotes/syotes_scene']
+srcs = 'assets/scenes/test_levels/syotes/syotes_scene.c'
+depends = 'scenes/test_levels/syotes/syotes_room_0'
+segment = 2
+
+['scenes/test_levels/syotes/syotes_room_0']
+srcs = 'assets/scenes/test_levels/syotes/syotes_room_0.c'
+segment = 3
+
+['scenes/test_levels/syotes2/syotes2_scene']
+srcs = 'assets/scenes/test_levels/syotes2/syotes2_scene.c'
+depends = 'scenes/test_levels/syotes2/syotes2_room_0'
+segment = 2
+
+['scenes/test_levels/syotes2/syotes2_room_0']
+srcs = 'assets/scenes/test_levels/syotes2/syotes2_room_0.c'
+segment = 3
+
+['scenes/test_levels/depth_test/depth_test_scene']
+srcs = 'assets/scenes/test_levels/depth_test/depth_test_scene.c'
+depends = 'scenes/test_levels/depth_test/depth_test_room_0'
+segment = 2
+
+['scenes/test_levels/depth_test/depth_test_room_0']
+srcs = 'assets/scenes/test_levels/depth_test/depth_test_room_0.c'
+segment = 3
+
+['scenes/overworld/spot00/spot00_scene']
+srcs = 'assets/scenes/overworld/spot00/spot00_scene.c'
+depends = 'scenes/overworld/spot00/spot00_room_0'
+segment = 2
+
+['scenes/overworld/spot00/spot00_room_0']
+srcs = 'assets/scenes/overworld/spot00/spot00_room_0.c'
+depends = 'scenes/overworld/spot00/spot00_scene'
+segment = 3
+
+['scenes/overworld/spot01/spot01_scene']
+srcs = 'assets/scenes/overworld/spot01/spot01_scene.c'
+depends = 'scenes/overworld/spot01/spot01_room_0'
+segment = 2
+
+['scenes/overworld/spot01/spot01_room_0']
+srcs = 'assets/scenes/overworld/spot01/spot01_room_0.c'
+depends = 'scenes/overworld/spot01/spot01_scene'
+segment = 3
+
+['scenes/overworld/spot02/spot02_scene']
+srcs = 'assets/scenes/overworld/spot02/spot02_scene.c'
+depends = ['scenes/overworld/spot02/spot02_room_0', 'scenes/overworld/spot02/spot02_room_1']
+segment = 2
+
+['scenes/overworld/spot02/spot02_room_0']
+srcs = 'assets/scenes/overworld/spot02/spot02_room_0.c'
+depends = 'scenes/overworld/spot02/spot02_scene'
+segment = 3
+
+['scenes/overworld/spot02/spot02_room_1']
+srcs = 'assets/scenes/overworld/spot02/spot02_room_1.c'
+depends = 'scenes/overworld/spot02/spot02_scene'
+segment = 3
+
+['scenes/overworld/spot03/spot03_scene']
+srcs = 'assets/scenes/overworld/spot03/spot03_scene.c'
+depends = ['scenes/overworld/spot03/spot03_room_0', 'scenes/overworld/spot03/spot03_room_1']
+segment = 2
+
+['scenes/overworld/spot03/spot03_room_0']
+srcs = 'assets/scenes/overworld/spot03/spot03_room_0.c'
+segment = 3
+
+['scenes/overworld/spot03/spot03_room_1']
+srcs = 'assets/scenes/overworld/spot03/spot03_room_1.c'
+segment = 3
+
+['scenes/overworld/spot04/spot04_scene']
+srcs = 'assets/scenes/overworld/spot04/spot04_scene.c'
+depends = ['scenes/overworld/spot04/spot04_room_0', 'scenes/overworld/spot04/spot04_room_1', 'scenes/overworld/spot04/spot04_room_2']
+segment = 2
+
+['scenes/overworld/spot04/spot04_room_0']
+srcs = 'assets/scenes/overworld/spot04/spot04_room_0.c'
+depends = 'scenes/overworld/spot04/spot04_scene'
+segment = 3
+
+['scenes/overworld/spot04/spot04_room_1']
+srcs = 'assets/scenes/overworld/spot04/spot04_room_1.c'
+depends = 'scenes/overworld/spot04/spot04_scene'
+segment = 3
+
+['scenes/overworld/spot04/spot04_room_2']
+srcs = 'assets/scenes/overworld/spot04/spot04_room_2.c'
+depends = 'scenes/overworld/spot04/spot04_scene'
+segment = 3
+
+['scenes/overworld/spot05/spot05_scene']
+srcs = 'assets/scenes/overworld/spot05/spot05_scene.c'
+depends = 'scenes/overworld/spot05/spot05_room_0'
+segment = 2
+
+['scenes/overworld/spot05/spot05_room_0']
+srcs = 'assets/scenes/overworld/spot05/spot05_room_0.c'
+segment = 3
+
+['scenes/overworld/spot06/spot06_scene']
+srcs = 'assets/scenes/overworld/spot06/spot06_scene.c'
+depends = 'scenes/overworld/spot06/spot06_room_0'
+segment = 2
+
+['scenes/overworld/spot06/spot06_room_0']
+srcs = 'assets/scenes/overworld/spot06/spot06_room_0.c'
+depends = 'scenes/overworld/spot06/spot06_scene'
+segment = 3
+
+['scenes/overworld/spot07/spot07_scene']
+srcs = 'assets/scenes/overworld/spot07/spot07_scene.c'
+depends = ['scenes/overworld/spot07/spot07_room_0', 'scenes/overworld/spot07/spot07_room_1']
+segment = 2
+
+['scenes/overworld/spot07/spot07_room_0']
+srcs = 'assets/scenes/overworld/spot07/spot07_room_0.c'
+depends = 'scenes/overworld/spot07/spot07_scene'
+segment = 3
+
+['scenes/overworld/spot07/spot07_room_1']
+srcs = 'assets/scenes/overworld/spot07/spot07_room_1.c'
+depends = 'scenes/overworld/spot07/spot07_scene'
+segment = 3
+
+['scenes/overworld/spot08/spot08_scene']
+srcs = 'assets/scenes/overworld/spot08/spot08_scene.c'
+depends = 'scenes/overworld/spot08/spot08_room_0'
+segment = 2
+
+['scenes/overworld/spot08/spot08_room_0']
+srcs = 'assets/scenes/overworld/spot08/spot08_room_0.c'
+depends = 'scenes/overworld/spot08/spot08_scene'
+segment = 3
+
+['scenes/overworld/spot09/spot09_scene']
+srcs = 'assets/scenes/overworld/spot09/spot09_scene.c'
+depends = 'scenes/overworld/spot09/spot09_room_0'
+segment = 2
+
+['scenes/overworld/spot09/spot09_room_0']
+srcs = 'assets/scenes/overworld/spot09/spot09_room_0.c'
+depends = 'scenes/overworld/spot09/spot09_scene'
+segment = 3
+
+['scenes/overworld/spot10/spot10_scene']
+srcs = 'assets/scenes/overworld/spot10/spot10_scene.c'
+depends = ['scenes/overworld/spot10/spot10_room_0', 'scenes/overworld/spot10/spot10_room_1', 'scenes/overworld/spot10/spot10_room_2', 'scenes/overworld/spot10/spot10_room_3', 'scenes/overworld/spot10/spot10_room_4', 'scenes/overworld/spot10/spot10_room_5', 'scenes/overworld/spot10/spot10_room_6', 'scenes/overworld/spot10/spot10_room_7', 'scenes/overworld/spot10/spot10_room_8', 'scenes/overworld/spot10/spot10_room_9']
+segment = 2
+
+['scenes/overworld/spot10/spot10_room_0']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_0.c'
+segment = 3
+
+['scenes/overworld/spot10/spot10_room_1']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_1.c'
+segment = 3
+
+['scenes/overworld/spot10/spot10_room_2']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_2.c'
+segment = 3
+
+['scenes/overworld/spot10/spot10_room_3']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_3.c'
+segment = 3
+
+['scenes/overworld/spot10/spot10_room_4']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_4.c'
+segment = 3
+
+['scenes/overworld/spot10/spot10_room_5']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_5.c'
+segment = 3
+
+['scenes/overworld/spot10/spot10_room_6']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_6.c'
+segment = 3
+
+['scenes/overworld/spot10/spot10_room_7']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_7.c'
+segment = 3
+
+['scenes/overworld/spot10/spot10_room_8']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_8.c'
+segment = 3
+
+['scenes/overworld/spot10/spot10_room_9']
+srcs = 'assets/scenes/overworld/spot10/spot10_room_9.c'
+segment = 3
+
+['scenes/overworld/spot11/spot11_scene']
+srcs = 'assets/scenes/overworld/spot11/spot11_scene.c'
+depends = 'scenes/overworld/spot11/spot11_room_0'
+segment = 2
+
+['scenes/overworld/spot11/spot11_room_0']
+srcs = 'assets/scenes/overworld/spot11/spot11_room_0.c'
+depends = 'scenes/overworld/spot11/spot11_scene'
+segment = 3
+
+['scenes/overworld/spot12/spot12_scene']
+srcs = 'assets/scenes/overworld/spot12/spot12_scene.c'
+depends = ['scenes/overworld/spot12/spot12_room_0', 'scenes/overworld/spot12/spot12_room_1']
+segment = 2
+
+['scenes/overworld/spot12/spot12_room_0']
+srcs = 'assets/scenes/overworld/spot12/spot12_room_0.c'
+depends = 'scenes/overworld/spot12/spot12_scene'
+segment = 3
+
+['scenes/overworld/spot12/spot12_room_1']
+srcs = 'assets/scenes/overworld/spot12/spot12_room_1.c'
+depends = 'scenes/overworld/spot12/spot12_scene'
+segment = 3
+
+['scenes/overworld/spot13/spot13_scene']
+srcs = 'assets/scenes/overworld/spot13/spot13_scene.c'
+depends = ['scenes/overworld/spot13/spot13_room_0', 'scenes/overworld/spot13/spot13_room_1']
+segment = 2
+
+['scenes/overworld/spot13/spot13_room_0']
+srcs = 'assets/scenes/overworld/spot13/spot13_room_0.c'
+segment = 3
+
+['scenes/overworld/spot13/spot13_room_1']
+srcs = 'assets/scenes/overworld/spot13/spot13_room_1.c'
+segment = 3
+
+['scenes/overworld/spot15/spot15_scene']
+srcs = 'assets/scenes/overworld/spot15/spot15_scene.c'
+depends = 'scenes/overworld/spot15/spot15_room_0'
+segment = 2
+
+['scenes/overworld/spot15/spot15_room_0']
+srcs = 'assets/scenes/overworld/spot15/spot15_room_0.c'
+depends = 'scenes/overworld/spot15/spot15_scene'
+segment = 3
+
+['scenes/overworld/spot16/spot16_scene']
+srcs = 'assets/scenes/overworld/spot16/spot16_scene.c'
+depends = 'scenes/overworld/spot16/spot16_room_0'
+segment = 2
+
+['scenes/overworld/spot16/spot16_room_0']
+srcs = 'assets/scenes/overworld/spot16/spot16_room_0.c'
+depends = 'scenes/overworld/spot16/spot16_scene'
+segment = 3
+
+['scenes/overworld/spot17/spot17_scene']
+srcs = 'assets/scenes/overworld/spot17/spot17_scene.c'
+depends = ['scenes/overworld/spot17/spot17_room_0', 'scenes/overworld/spot17/spot17_room_1']
+segment = 2
+
+['scenes/overworld/spot17/spot17_room_0']
+srcs = 'assets/scenes/overworld/spot17/spot17_room_0.c'
+depends = 'scenes/overworld/spot17/spot17_scene'
+segment = 3
+
+['scenes/overworld/spot17/spot17_room_1']
+srcs = 'assets/scenes/overworld/spot17/spot17_room_1.c'
+depends = 'scenes/overworld/spot17/spot17_scene'
+segment = 3
+
+['scenes/overworld/spot18/spot18_scene']
+srcs = 'assets/scenes/overworld/spot18/spot18_scene.c'
+depends = ['scenes/overworld/spot18/spot18_room_0', 'scenes/overworld/spot18/spot18_room_1', 'scenes/overworld/spot18/spot18_room_2', 'scenes/overworld/spot18/spot18_room_3']
+segment = 2
+
+['scenes/overworld/spot18/spot18_room_0']
+srcs = 'assets/scenes/overworld/spot18/spot18_room_0.c'
+depends = 'scenes/overworld/spot18/spot18_scene'
+segment = 3
+
+['scenes/overworld/spot18/spot18_room_1']
+srcs = 'assets/scenes/overworld/spot18/spot18_room_1.c'
+depends = 'scenes/overworld/spot18/spot18_scene'
+segment = 3
+
+['scenes/overworld/spot18/spot18_room_2']
+srcs = 'assets/scenes/overworld/spot18/spot18_room_2.c'
+depends = 'scenes/overworld/spot18/spot18_scene'
+segment = 3
+
+['scenes/overworld/spot18/spot18_room_3']
+srcs = 'assets/scenes/overworld/spot18/spot18_room_3.c'
+depends = 'scenes/overworld/spot18/spot18_scene'
+segment = 3
+
+['scenes/misc/market_day/market_day_scene']
+srcs = 'assets/scenes/misc/market_day/market_day_scene.c'
+depends = 'scenes/misc/market_day/market_day_room_0'
+segment = 2
+
+['scenes/misc/market_day/market_day_room_0']
+srcs = 'assets/scenes/misc/market_day/market_day_room_0.c'
+segment = 3
+
+['scenes/misc/market_night/market_night_scene']
+srcs = 'assets/scenes/misc/market_night/market_night_scene.c'
+depends = 'scenes/misc/market_night/market_night_room_0'
+segment = 2
+
+['scenes/misc/market_night/market_night_room_0']
+srcs = 'assets/scenes/misc/market_night/market_night_room_0.c'
+segment = 3
+
+['scenes/test_levels/testroom/testroom_scene']
+srcs = 'assets/scenes/test_levels/testroom/testroom_scene.c'
+depends = ['scenes/test_levels/testroom/testroom_room_0', 'scenes/test_levels/testroom/testroom_room_1', 'scenes/test_levels/testroom/testroom_room_2', 'scenes/test_levels/testroom/testroom_room_3', 'scenes/test_levels/testroom/testroom_room_4']
+segment = 2
+
+['scenes/test_levels/testroom/testroom_room_0']
+srcs = 'assets/scenes/test_levels/testroom/testroom_room_0.c'
+segment = 3
+
+['scenes/test_levels/testroom/testroom_room_1']
+srcs = 'assets/scenes/test_levels/testroom/testroom_room_1.c'
+segment = 3
+
+['scenes/test_levels/testroom/testroom_room_2']
+srcs = 'assets/scenes/test_levels/testroom/testroom_room_2.c'
+segment = 3
+
+['scenes/test_levels/testroom/testroom_room_3']
+srcs = 'assets/scenes/test_levels/testroom/testroom_room_3.c'
+segment = 3
+
+['scenes/test_levels/testroom/testroom_room_4']
+srcs = 'assets/scenes/test_levels/testroom/testroom_room_4.c'
+segment = 3
+
+['scenes/indoors/kenjyanoma/kenjyanoma_scene']
+srcs = 'assets/scenes/indoors/kenjyanoma/kenjyanoma_scene.c'
+depends = 'scenes/indoors/kenjyanoma/kenjyanoma_room_0'
+segment = 2
+
+['scenes/indoors/kenjyanoma/kenjyanoma_room_0']
+srcs = 'assets/scenes/indoors/kenjyanoma/kenjyanoma_room_0.c'
+segment = 3
+
+['scenes/indoors/tokinoma/tokinoma_scene']
+srcs = 'assets/scenes/indoors/tokinoma/tokinoma_scene.c'
+depends = ['scenes/indoors/tokinoma/tokinoma_room_0', 'scenes/indoors/tokinoma/tokinoma_room_1']
+segment = 2
+
+['scenes/indoors/tokinoma/tokinoma_room_0']
+srcs = 'assets/scenes/indoors/tokinoma/tokinoma_room_0.c'
+depends = 'scenes/indoors/tokinoma/tokinoma_scene'
+segment = 3
+
+['scenes/indoors/tokinoma/tokinoma_room_1']
+srcs = 'assets/scenes/indoors/tokinoma/tokinoma_room_1.c'
+depends = 'scenes/indoors/tokinoma/tokinoma_scene'
+segment = 3
+
+['scenes/test_levels/sutaru/sutaru_scene']
+srcs = 'assets/scenes/test_levels/sutaru/sutaru_scene.c'
+depends = 'scenes/test_levels/sutaru/sutaru_room_0'
+segment = 2
+
+['scenes/test_levels/sutaru/sutaru_room_0']
+srcs = 'assets/scenes/test_levels/sutaru/sutaru_room_0.c'
+segment = 3
+
+['scenes/indoors/link_home/link_home_scene']
+srcs = 'assets/scenes/indoors/link_home/link_home_scene.c'
+depends = 'scenes/indoors/link_home/link_home_room_0'
+segment = 2
+
+['scenes/indoors/link_home/link_home_room_0']
+srcs = 'assets/scenes/indoors/link_home/link_home_room_0.c'
+segment = 3
+
+['scenes/shops/kokiri_shop/kokiri_shop_scene']
+srcs = 'assets/scenes/shops/kokiri_shop/kokiri_shop_scene.c'
+depends = 'scenes/shops/kokiri_shop/kokiri_shop_room_0'
+segment = 2
+
+['scenes/shops/kokiri_shop/kokiri_shop_room_0']
+srcs = 'assets/scenes/shops/kokiri_shop/kokiri_shop_room_0.c'
+segment = 3
+
+['scenes/indoors/kokiri_home/kokiri_home_scene']
+srcs = 'assets/scenes/indoors/kokiri_home/kokiri_home_scene.c'
+depends = 'scenes/indoors/kokiri_home/kokiri_home_room_0'
+segment = 2
+
+['scenes/indoors/kokiri_home/kokiri_home_room_0']
+srcs = 'assets/scenes/indoors/kokiri_home/kokiri_home_room_0.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_scene']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_scene.c'
+depends = ['scenes/misc/kakusiana/kakusiana_room_0', 'scenes/misc/kakusiana/kakusiana_room_1', 'scenes/misc/kakusiana/kakusiana_room_2', 'scenes/misc/kakusiana/kakusiana_room_3', 'scenes/misc/kakusiana/kakusiana_room_4', 'scenes/misc/kakusiana/kakusiana_room_5', 'scenes/misc/kakusiana/kakusiana_room_6', 'scenes/misc/kakusiana/kakusiana_room_7', 'scenes/misc/kakusiana/kakusiana_room_8', 'scenes/misc/kakusiana/kakusiana_room_9', 'scenes/misc/kakusiana/kakusiana_room_10', 'scenes/misc/kakusiana/kakusiana_room_11', 'scenes/misc/kakusiana/kakusiana_room_12', 'scenes/misc/kakusiana/kakusiana_room_13']
+segment = 2
+
+['scenes/misc/kakusiana/kakusiana_room_0']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_0.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_1']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_1.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_2']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_2.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_3']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_3.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_4']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_4.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_5']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_5.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_6']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_6.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_7']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_7.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_8']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_8.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_9']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_9.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_10']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_10.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_11']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_11.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_12']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_12.c'
+segment = 3
+
+['scenes/misc/kakusiana/kakusiana_room_13']
+srcs = 'assets/scenes/misc/kakusiana/kakusiana_room_13.c'
+segment = 3
+
+['scenes/misc/entra/entra_scene']
+srcs = 'assets/scenes/misc/entra/entra_scene.c'
+depends = 'scenes/misc/entra/entra_room_0'
+segment = 2
+
+['scenes/misc/entra/entra_room_0']
+srcs = 'assets/scenes/misc/entra/entra_room_0.c'
+segment = 3
+
+['scenes/dungeons/moribossroom/moribossroom_scene']
+srcs = 'assets/scenes/dungeons/moribossroom/moribossroom_scene.c'
+depends = ['scenes/dungeons/moribossroom/moribossroom_room_0', 'scenes/dungeons/moribossroom/moribossroom_room_1']
+segment = 2
+
+['scenes/dungeons/moribossroom/moribossroom_room_0']
+srcs = 'assets/scenes/dungeons/moribossroom/moribossroom_room_0.c'
+segment = 3
+
+['scenes/dungeons/moribossroom/moribossroom_room_1']
+srcs = 'assets/scenes/dungeons/moribossroom/moribossroom_room_1.c'
+segment = 3
+
+['scenes/indoors/syatekijyou/syatekijyou_scene']
+srcs = 'assets/scenes/indoors/syatekijyou/syatekijyou_scene.c'
+depends = 'scenes/indoors/syatekijyou/syatekijyou_room_0'
+segment = 2
+
+['scenes/indoors/syatekijyou/syatekijyou_room_0']
+srcs = 'assets/scenes/indoors/syatekijyou/syatekijyou_room_0.c'
+segment = 3
+
+['scenes/shops/shop1/shop1_scene']
+srcs = 'assets/scenes/shops/shop1/shop1_scene.c'
+depends = 'scenes/shops/shop1/shop1_room_0'
+segment = 2
+
+['scenes/shops/shop1/shop1_room_0']
+srcs = 'assets/scenes/shops/shop1/shop1_room_0.c'
+segment = 3
+
+['scenes/indoors/hairal_niwa/hairal_niwa_scene']
+srcs = 'assets/scenes/indoors/hairal_niwa/hairal_niwa_scene.c'
+depends = 'scenes/indoors/hairal_niwa/hairal_niwa_room_0'
+segment = 2
+
+['scenes/indoors/hairal_niwa/hairal_niwa_room_0']
+srcs = 'assets/scenes/indoors/hairal_niwa/hairal_niwa_room_0.c'
+segment = 3
+
+['scenes/overworld/ganon_tou/ganon_tou_scene']
+srcs = 'assets/scenes/overworld/ganon_tou/ganon_tou_scene.c'
+depends = 'scenes/overworld/ganon_tou/ganon_tou_room_0'
+segment = 2
+
+['scenes/overworld/ganon_tou/ganon_tou_room_0']
+srcs = 'assets/scenes/overworld/ganon_tou/ganon_tou_room_0.c'
+depends = 'scenes/overworld/ganon_tou/ganon_tou_scene'
+segment = 3
+
+['scenes/test_levels/sasatest/sasatest_scene']
+srcs = 'assets/scenes/test_levels/sasatest/sasatest_scene.c'
+depends = 'scenes/test_levels/sasatest/sasatest_room_0'
+segment = 2
+
+['scenes/test_levels/sasatest/sasatest_room_0']
+srcs = 'assets/scenes/test_levels/sasatest/sasatest_room_0.c'
+segment = 3
+
+['scenes/misc/market_alley/market_alley_scene']
+srcs = 'assets/scenes/misc/market_alley/market_alley_scene.c'
+depends = 'scenes/misc/market_alley/market_alley_room_0'
+segment = 2
+
+['scenes/misc/market_alley/market_alley_room_0']
+srcs = 'assets/scenes/misc/market_alley/market_alley_room_0.c'
+segment = 3
+
+['scenes/overworld/spot20/spot20_scene']
+srcs = 'assets/scenes/overworld/spot20/spot20_scene.c'
+depends = 'scenes/overworld/spot20/spot20_room_0'
+segment = 2
+
+['scenes/overworld/spot20/spot20_room_0']
+srcs = 'assets/scenes/overworld/spot20/spot20_room_0.c'
+depends = 'scenes/overworld/spot20/spot20_scene'
+segment = 3
+
+['scenes/misc/market_ruins/market_ruins_scene']
+srcs = 'assets/scenes/misc/market_ruins/market_ruins_scene.c'
+depends = 'scenes/misc/market_ruins/market_ruins_room_0'
+segment = 2
+
+['scenes/misc/market_ruins/market_ruins_room_0']
+srcs = 'assets/scenes/misc/market_ruins/market_ruins_room_0.c'
+segment = 3
+
+['scenes/misc/entra_n/entra_n_scene']
+srcs = 'assets/scenes/misc/entra_n/entra_n_scene.c'
+depends = 'scenes/misc/entra_n/entra_n_room_0'
+segment = 2
+
+['scenes/misc/entra_n/entra_n_room_0']
+srcs = 'assets/scenes/misc/entra_n/entra_n_room_0.c'
+segment = 3
+
+['scenes/misc/enrui/enrui_scene']
+srcs = 'assets/scenes/misc/enrui/enrui_scene.c'
+depends = 'scenes/misc/enrui/enrui_room_0'
+segment = 2
+
+['scenes/misc/enrui/enrui_room_0']
+srcs = 'assets/scenes/misc/enrui/enrui_room_0.c'
+segment = 3
+
+['scenes/misc/market_alley_n/market_alley_n_scene']
+srcs = 'assets/scenes/misc/market_alley_n/market_alley_n_scene.c'
+depends = 'scenes/misc/market_alley_n/market_alley_n_room_0'
+segment = 2
+
+['scenes/misc/market_alley_n/market_alley_n_room_0']
+srcs = 'assets/scenes/misc/market_alley_n/market_alley_n_room_0.c'
+segment = 3
+
+['scenes/misc/hiral_demo/hiral_demo_scene']
+srcs = 'assets/scenes/misc/hiral_demo/hiral_demo_scene.c'
+depends = 'scenes/misc/hiral_demo/hiral_demo_room_0'
+segment = 2
+
+['scenes/misc/hiral_demo/hiral_demo_room_0']
+srcs = 'assets/scenes/misc/hiral_demo/hiral_demo_room_0.c'
+segment = 3
+
+['scenes/indoors/kokiri_home3/kokiri_home3_scene']
+srcs = 'assets/scenes/indoors/kokiri_home3/kokiri_home3_scene.c'
+depends = 'scenes/indoors/kokiri_home3/kokiri_home3_room_0'
+segment = 2
+
+['scenes/indoors/kokiri_home3/kokiri_home3_room_0']
+srcs = 'assets/scenes/indoors/kokiri_home3/kokiri_home3_room_0.c'
+segment = 3
+
+['scenes/indoors/malon_stable/malon_stable_scene']
+srcs = 'assets/scenes/indoors/malon_stable/malon_stable_scene.c'
+depends = 'scenes/indoors/malon_stable/malon_stable_room_0'
+segment = 2
+
+['scenes/indoors/malon_stable/malon_stable_room_0']
+srcs = 'assets/scenes/indoors/malon_stable/malon_stable_room_0.c'
+segment = 3
+
+['scenes/indoors/kakariko/kakariko_scene']
+srcs = 'assets/scenes/indoors/kakariko/kakariko_scene.c'
+depends = 'scenes/indoors/kakariko/kakariko_room_0'
+segment = 2
+
+['scenes/indoors/kakariko/kakariko_room_0']
+srcs = 'assets/scenes/indoors/kakariko/kakariko_room_0.c'
+segment = 3
+
+['scenes/dungeons/bdan_boss/bdan_boss_scene']
+srcs = 'assets/scenes/dungeons/bdan_boss/bdan_boss_scene.c'
+depends = ['scenes/dungeons/bdan_boss/bdan_boss_room_0', 'scenes/dungeons/bdan_boss/bdan_boss_room_1']
+segment = 2
+
+['scenes/dungeons/bdan_boss/bdan_boss_room_0']
+srcs = 'assets/scenes/dungeons/bdan_boss/bdan_boss_room_0.c'
+segment = 3
+
+['scenes/dungeons/bdan_boss/bdan_boss_room_1']
+srcs = 'assets/scenes/dungeons/bdan_boss/bdan_boss_room_1.c'
+segment = 3
+
+['scenes/dungeons/FIRE_bs/FIRE_bs_scene']
+srcs = 'assets/scenes/dungeons/FIRE_bs/FIRE_bs_scene.c'
+depends = ['scenes/dungeons/FIRE_bs/FIRE_bs_room_0', 'scenes/dungeons/FIRE_bs/FIRE_bs_room_1']
+segment = 2
+
+['scenes/dungeons/FIRE_bs/FIRE_bs_room_0']
+srcs = 'assets/scenes/dungeons/FIRE_bs/FIRE_bs_room_0.c'
+segment = 3
+
+['scenes/dungeons/FIRE_bs/FIRE_bs_room_1']
+srcs = 'assets/scenes/dungeons/FIRE_bs/FIRE_bs_room_1.c'
+segment = 3
+
+['scenes/indoors/hut/hut_scene']
+srcs = 'assets/scenes/indoors/hut/hut_scene.c'
+depends = 'scenes/indoors/hut/hut_room_0'
+segment = 2
+
+['scenes/indoors/hut/hut_room_0']
+srcs = 'assets/scenes/indoors/hut/hut_room_0.c'
+segment = 3
+
+['scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene']
+srcs = 'assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.c'
+depends = 'scenes/indoors/daiyousei_izumi/daiyousei_izumi_room_0'
+segment = 2
+
+['scenes/indoors/daiyousei_izumi/daiyousei_izumi_room_0']
+srcs = 'assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_room_0.c'
+segment = 3
+
+['scenes/misc/hakaana/hakaana_scene']
+srcs = 'assets/scenes/misc/hakaana/hakaana_scene.c'
+depends = 'scenes/misc/hakaana/hakaana_room_0'
+segment = 2
+
+['scenes/misc/hakaana/hakaana_room_0']
+srcs = 'assets/scenes/misc/hakaana/hakaana_room_0.c'
+segment = 3
+
+['scenes/indoors/yousei_izumi_tate/yousei_izumi_tate_scene']
+srcs = 'assets/scenes/indoors/yousei_izumi_tate/yousei_izumi_tate_scene.c'
+depends = 'scenes/indoors/yousei_izumi_tate/yousei_izumi_tate_room_0'
+segment = 2
+
+['scenes/indoors/yousei_izumi_tate/yousei_izumi_tate_room_0']
+srcs = 'assets/scenes/indoors/yousei_izumi_tate/yousei_izumi_tate_room_0.c'
+segment = 3
+
+['scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene']
+srcs = 'assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.c'
+depends = 'scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_room_0'
+segment = 2
+
+['scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_room_0']
+srcs = 'assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_room_0.c'
+segment = 3
+
+['scenes/shops/golon/golon_scene']
+srcs = 'assets/scenes/shops/golon/golon_scene.c'
+depends = 'scenes/shops/golon/golon_room_0'
+segment = 2
+
+['scenes/shops/golon/golon_room_0']
+srcs = 'assets/scenes/shops/golon/golon_room_0.c'
+segment = 3
+
+['scenes/shops/zoora/zoora_scene']
+srcs = 'assets/scenes/shops/zoora/zoora_scene.c'
+depends = 'scenes/shops/zoora/zoora_room_0'
+segment = 2
+
+['scenes/shops/zoora/zoora_room_0']
+srcs = 'assets/scenes/shops/zoora/zoora_room_0.c'
+segment = 3
+
+['scenes/shops/drag/drag_scene']
+srcs = 'assets/scenes/shops/drag/drag_scene.c'
+depends = 'scenes/shops/drag/drag_room_0'
+segment = 2
+
+['scenes/shops/drag/drag_room_0']
+srcs = 'assets/scenes/shops/drag/drag_room_0.c'
+segment = 3
+
+['scenes/shops/alley_shop/alley_shop_scene']
+srcs = 'assets/scenes/shops/alley_shop/alley_shop_scene.c'
+depends = 'scenes/shops/alley_shop/alley_shop_room_0'
+segment = 2
+
+['scenes/shops/alley_shop/alley_shop_room_0']
+srcs = 'assets/scenes/shops/alley_shop/alley_shop_room_0.c'
+segment = 3
+
+['scenes/shops/night_shop/night_shop_scene']
+srcs = 'assets/scenes/shops/night_shop/night_shop_scene.c'
+depends = 'scenes/shops/night_shop/night_shop_room_0'
+segment = 2
+
+['scenes/shops/night_shop/night_shop_room_0']
+srcs = 'assets/scenes/shops/night_shop/night_shop_room_0.c'
+segment = 3
+
+['scenes/indoors/impa/impa_scene']
+srcs = 'assets/scenes/indoors/impa/impa_scene.c'
+depends = 'scenes/indoors/impa/impa_room_0'
+segment = 2
+
+['scenes/indoors/impa/impa_room_0']
+srcs = 'assets/scenes/indoors/impa/impa_room_0.c'
+segment = 3
+
+['scenes/indoors/labo/labo_scene']
+srcs = 'assets/scenes/indoors/labo/labo_scene.c'
+depends = 'scenes/indoors/labo/labo_room_0'
+segment = 2
+
+['scenes/indoors/labo/labo_room_0']
+srcs = 'assets/scenes/indoors/labo/labo_room_0.c'
+segment = 3
+
+['scenes/indoors/tent/tent_scene']
+srcs = 'assets/scenes/indoors/tent/tent_scene.c'
+depends = 'scenes/indoors/tent/tent_room_0'
+segment = 2
+
+['scenes/indoors/tent/tent_room_0']
+srcs = 'assets/scenes/indoors/tent/tent_room_0.c'
+segment = 3
+
+['scenes/indoors/nakaniwa/nakaniwa_scene']
+srcs = 'assets/scenes/indoors/nakaniwa/nakaniwa_scene.c'
+depends = 'scenes/indoors/nakaniwa/nakaniwa_room_0'
+segment = 2
+
+['scenes/indoors/nakaniwa/nakaniwa_room_0']
+srcs = 'assets/scenes/indoors/nakaniwa/nakaniwa_room_0.c'
+segment = 3
+
+['scenes/dungeons/ddan_boss/ddan_boss_scene']
+srcs = 'assets/scenes/dungeons/ddan_boss/ddan_boss_scene.c'
+depends = ['scenes/dungeons/ddan_boss/ddan_boss_room_0', 'scenes/dungeons/ddan_boss/ddan_boss_room_1']
+segment = 2
+
+['scenes/dungeons/ddan_boss/ddan_boss_room_0']
+srcs = 'assets/scenes/dungeons/ddan_boss/ddan_boss_room_0.c'
+segment = 3
+
+['scenes/dungeons/ddan_boss/ddan_boss_room_1']
+srcs = 'assets/scenes/dungeons/ddan_boss/ddan_boss_room_1.c'
+segment = 3
+
+['scenes/dungeons/ydan_boss/ydan_boss_scene']
+srcs = 'assets/scenes/dungeons/ydan_boss/ydan_boss_scene.c'
+depends = ['scenes/dungeons/ydan_boss/ydan_boss_room_0', 'scenes/dungeons/ydan_boss/ydan_boss_room_1']
+segment = 2
+
+['scenes/dungeons/ydan_boss/ydan_boss_room_0']
+srcs = 'assets/scenes/dungeons/ydan_boss/ydan_boss_room_0.c'
+segment = 3
+
+['scenes/dungeons/ydan_boss/ydan_boss_room_1']
+srcs = 'assets/scenes/dungeons/ydan_boss/ydan_boss_room_1.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan_bs/HAKAdan_bs_scene']
+srcs = 'assets/scenes/dungeons/HAKAdan_bs/HAKAdan_bs_scene.c'
+depends = ['scenes/dungeons/HAKAdan_bs/HAKAdan_bs_room_0', 'scenes/dungeons/HAKAdan_bs/HAKAdan_bs_room_1']
+segment = 2
+
+['scenes/dungeons/HAKAdan_bs/HAKAdan_bs_room_0']
+srcs = 'assets/scenes/dungeons/HAKAdan_bs/HAKAdan_bs_room_0.c'
+segment = 3
+
+['scenes/dungeons/HAKAdan_bs/HAKAdan_bs_room_1']
+srcs = 'assets/scenes/dungeons/HAKAdan_bs/HAKAdan_bs_room_1.c'
+segment = 3
+
+['scenes/dungeons/MIZUsin_bs/MIZUsin_bs_scene']
+srcs = 'assets/scenes/dungeons/MIZUsin_bs/MIZUsin_bs_scene.c'
+depends = ['scenes/dungeons/MIZUsin_bs/MIZUsin_bs_room_0', 'scenes/dungeons/MIZUsin_bs/MIZUsin_bs_room_1']
+segment = 2
+
+['scenes/dungeons/MIZUsin_bs/MIZUsin_bs_room_0']
+srcs = 'assets/scenes/dungeons/MIZUsin_bs/MIZUsin_bs_room_0.c'
+segment = 3
+
+['scenes/dungeons/MIZUsin_bs/MIZUsin_bs_room_1']
+srcs = 'assets/scenes/dungeons/MIZUsin_bs/MIZUsin_bs_room_1.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_scene']
+srcs = 'assets/scenes/dungeons/ganon/ganon_scene.c'
+depends = ['scenes/dungeons/ganon/ganon_room_0', 'scenes/dungeons/ganon/ganon_room_1', 'scenes/dungeons/ganon/ganon_room_2', 'scenes/dungeons/ganon/ganon_room_3', 'scenes/dungeons/ganon/ganon_room_4', 'scenes/dungeons/ganon/ganon_room_5', 'scenes/dungeons/ganon/ganon_room_6', 'scenes/dungeons/ganon/ganon_room_7', 'scenes/dungeons/ganon/ganon_room_8', 'scenes/dungeons/ganon/ganon_room_9']
+segment = 2
+
+['scenes/dungeons/ganon/ganon_room_0']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_0.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_room_1']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_1.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_room_2']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_2.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_room_3']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_3.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_room_4']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_4.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_room_5']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_5.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_room_6']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_6.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_room_7']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_7.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_room_8']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_8.c'
+segment = 3
+
+['scenes/dungeons/ganon/ganon_room_9']
+srcs = 'assets/scenes/dungeons/ganon/ganon_room_9.c'
+segment = 3
+
+['scenes/dungeons/ganon_boss/ganon_boss_scene']
+srcs = 'assets/scenes/dungeons/ganon_boss/ganon_boss_scene.c'
+depends = 'scenes/dungeons/ganon_boss/ganon_boss_room_0'
+segment = 2
+
+['scenes/dungeons/ganon_boss/ganon_boss_room_0']
+srcs = 'assets/scenes/dungeons/ganon_boss/ganon_boss_room_0.c'
+segment = 3
+
+['scenes/dungeons/jyasinboss/jyasinboss_scene']
+srcs = 'assets/scenes/dungeons/jyasinboss/jyasinboss_scene.c'
+depends = ['scenes/dungeons/jyasinboss/jyasinboss_room_0', 'scenes/dungeons/jyasinboss/jyasinboss_room_1', 'scenes/dungeons/jyasinboss/jyasinboss_room_2', 'scenes/dungeons/jyasinboss/jyasinboss_room_3']
+segment = 2
+
+['scenes/dungeons/jyasinboss/jyasinboss_room_0']
+srcs = 'assets/scenes/dungeons/jyasinboss/jyasinboss_room_0.c'
+depends = 'scenes/dungeons/jyasinboss/jyasinboss_scene'
+segment = 3
+
+['scenes/dungeons/jyasinboss/jyasinboss_room_1']
+srcs = 'assets/scenes/dungeons/jyasinboss/jyasinboss_room_1.c'
+depends = 'scenes/dungeons/jyasinboss/jyasinboss_scene'
+segment = 3
+
+['scenes/dungeons/jyasinboss/jyasinboss_room_2']
+srcs = 'assets/scenes/dungeons/jyasinboss/jyasinboss_room_2.c'
+depends = 'scenes/dungeons/jyasinboss/jyasinboss_scene'
+segment = 3
+
+['scenes/dungeons/jyasinboss/jyasinboss_room_3']
+srcs = 'assets/scenes/dungeons/jyasinboss/jyasinboss_room_3.c'
+segment = 3
+
+['scenes/indoors/kokiri_home4/kokiri_home4_scene']
+srcs = 'assets/scenes/indoors/kokiri_home4/kokiri_home4_scene.c'
+depends = 'scenes/indoors/kokiri_home4/kokiri_home4_room_0'
+segment = 2
+
+['scenes/indoors/kokiri_home4/kokiri_home4_room_0']
+srcs = 'assets/scenes/indoors/kokiri_home4/kokiri_home4_room_0.c'
+segment = 3
+
+['scenes/indoors/kokiri_home5/kokiri_home5_scene']
+srcs = 'assets/scenes/indoors/kokiri_home5/kokiri_home5_scene.c'
+depends = 'scenes/indoors/kokiri_home5/kokiri_home5_room_0'
+segment = 2
+
+['scenes/indoors/kokiri_home5/kokiri_home5_room_0']
+srcs = 'assets/scenes/indoors/kokiri_home5/kokiri_home5_room_0.c'
+segment = 3
+
+['scenes/dungeons/ganon_final/ganon_final_scene']
+srcs = 'assets/scenes/dungeons/ganon_final/ganon_final_scene.c'
+depends = 'scenes/dungeons/ganon_final/ganon_final_room_0'
+segment = 2
+
+['scenes/dungeons/ganon_final/ganon_final_room_0']
+srcs = 'assets/scenes/dungeons/ganon_final/ganon_final_room_0.c'
+segment = 3
+
+['scenes/misc/kakariko3/kakariko3_scene']
+srcs = 'assets/scenes/misc/kakariko3/kakariko3_scene.c'
+depends = 'scenes/misc/kakariko3/kakariko3_room_0'
+segment = 2
+
+['scenes/misc/kakariko3/kakariko3_room_0']
+srcs = 'assets/scenes/misc/kakariko3/kakariko3_room_0.c'
+segment = 3
+
+['scenes/indoors/hairal_niwa2/hairal_niwa2_scene']
+srcs = 'assets/scenes/indoors/hairal_niwa2/hairal_niwa2_scene.c'
+depends = 'scenes/indoors/hairal_niwa2/hairal_niwa2_room_0'
+segment = 2
+
+['scenes/indoors/hairal_niwa2/hairal_niwa2_room_0']
+srcs = 'assets/scenes/indoors/hairal_niwa2/hairal_niwa2_room_0.c'
+segment = 3
+
+['scenes/indoors/hakasitarelay/hakasitarelay_scene']
+srcs = 'assets/scenes/indoors/hakasitarelay/hakasitarelay_scene.c'
+depends = ['scenes/indoors/hakasitarelay/hakasitarelay_room_0', 'scenes/indoors/hakasitarelay/hakasitarelay_room_1', 'scenes/indoors/hakasitarelay/hakasitarelay_room_2', 'scenes/indoors/hakasitarelay/hakasitarelay_room_3', 'scenes/indoors/hakasitarelay/hakasitarelay_room_4', 'scenes/indoors/hakasitarelay/hakasitarelay_room_5', 'scenes/indoors/hakasitarelay/hakasitarelay_room_6']
+segment = 2
+
+['scenes/indoors/hakasitarelay/hakasitarelay_room_0']
+srcs = 'assets/scenes/indoors/hakasitarelay/hakasitarelay_room_0.c'
+segment = 3
+
+['scenes/indoors/hakasitarelay/hakasitarelay_room_1']
+srcs = 'assets/scenes/indoors/hakasitarelay/hakasitarelay_room_1.c'
+segment = 3
+
+['scenes/indoors/hakasitarelay/hakasitarelay_room_2']
+srcs = 'assets/scenes/indoors/hakasitarelay/hakasitarelay_room_2.c'
+segment = 3
+
+['scenes/indoors/hakasitarelay/hakasitarelay_room_3']
+srcs = 'assets/scenes/indoors/hakasitarelay/hakasitarelay_room_3.c'
+segment = 3
+
+['scenes/indoors/hakasitarelay/hakasitarelay_room_4']
+srcs = 'assets/scenes/indoors/hakasitarelay/hakasitarelay_room_4.c'
+segment = 3
+
+['scenes/indoors/hakasitarelay/hakasitarelay_room_5']
+srcs = 'assets/scenes/indoors/hakasitarelay/hakasitarelay_room_5.c'
+segment = 3
+
+['scenes/indoors/hakasitarelay/hakasitarelay_room_6']
+srcs = 'assets/scenes/indoors/hakasitarelay/hakasitarelay_room_6.c'
+segment = 3
+
+['scenes/misc/shrine/shrine_scene']
+srcs = 'assets/scenes/misc/shrine/shrine_scene.c'
+depends = 'scenes/misc/shrine/shrine_room_0'
+segment = 2
+
+['scenes/misc/shrine/shrine_room_0']
+srcs = 'assets/scenes/misc/shrine/shrine_room_0.c'
+segment = 3
+
+['scenes/misc/turibori/turibori_scene']
+srcs = 'assets/scenes/misc/turibori/turibori_scene.c'
+depends = 'scenes/misc/turibori/turibori_room_0'
+segment = 2
+
+['scenes/misc/turibori/turibori_room_0']
+srcs = 'assets/scenes/misc/turibori/turibori_room_0.c'
+segment = 3
+
+['scenes/misc/shrine_n/shrine_n_scene']
+srcs = 'assets/scenes/misc/shrine_n/shrine_n_scene.c'
+depends = 'scenes/misc/shrine_n/shrine_n_room_0'
+segment = 2
+
+['scenes/misc/shrine_n/shrine_n_room_0']
+srcs = 'assets/scenes/misc/shrine_n/shrine_n_room_0.c'
+segment = 3
+
+['scenes/misc/shrine_r/shrine_r_scene']
+srcs = 'assets/scenes/misc/shrine_r/shrine_r_scene.c'
+depends = 'scenes/misc/shrine_r/shrine_r_room_0'
+segment = 2
+
+['scenes/misc/shrine_r/shrine_r_room_0']
+srcs = 'assets/scenes/misc/shrine_r/shrine_r_room_0.c'
+segment = 3
+
+['scenes/misc/hakaana2/hakaana2_scene']
+srcs = 'assets/scenes/misc/hakaana2/hakaana2_scene.c'
+depends = 'scenes/misc/hakaana2/hakaana2_room_0'
+segment = 2
+
+['scenes/misc/hakaana2/hakaana2_room_0']
+srcs = 'assets/scenes/misc/hakaana2/hakaana2_room_0.c'
+segment = 3
+
+['scenes/dungeons/gerudoway/gerudoway_scene']
+srcs = 'assets/scenes/dungeons/gerudoway/gerudoway_scene.c'
+depends = ['scenes/dungeons/gerudoway/gerudoway_room_0', 'scenes/dungeons/gerudoway/gerudoway_room_1', 'scenes/dungeons/gerudoway/gerudoway_room_2', 'scenes/dungeons/gerudoway/gerudoway_room_3', 'scenes/dungeons/gerudoway/gerudoway_room_4', 'scenes/dungeons/gerudoway/gerudoway_room_5']
+segment = 2
+
+['scenes/dungeons/gerudoway/gerudoway_room_0']
+srcs = 'assets/scenes/dungeons/gerudoway/gerudoway_room_0.c'
+depends = 'scenes/dungeons/gerudoway/gerudoway_scene'
+segment = 3
+
+['scenes/dungeons/gerudoway/gerudoway_room_1']
+srcs = 'assets/scenes/dungeons/gerudoway/gerudoway_room_1.c'
+depends = 'scenes/dungeons/gerudoway/gerudoway_scene'
+segment = 3
+
+['scenes/dungeons/gerudoway/gerudoway_room_2']
+srcs = 'assets/scenes/dungeons/gerudoway/gerudoway_room_2.c'
+depends = 'scenes/dungeons/gerudoway/gerudoway_scene'
+segment = 3
+
+['scenes/dungeons/gerudoway/gerudoway_room_3']
+srcs = 'assets/scenes/dungeons/gerudoway/gerudoway_room_3.c'
+depends = 'scenes/dungeons/gerudoway/gerudoway_scene'
+segment = 3
+
+['scenes/dungeons/gerudoway/gerudoway_room_4']
+srcs = 'assets/scenes/dungeons/gerudoway/gerudoway_room_4.c'
+depends = 'scenes/dungeons/gerudoway/gerudoway_scene'
+segment = 3
+
+['scenes/dungeons/gerudoway/gerudoway_room_5']
+srcs = 'assets/scenes/dungeons/gerudoway/gerudoway_room_5.c'
+depends = 'scenes/dungeons/gerudoway/gerudoway_scene'
+segment = 3
+
+['scenes/indoors/hairal_niwa_n/hairal_niwa_n_scene']
+srcs = 'assets/scenes/indoors/hairal_niwa_n/hairal_niwa_n_scene.c'
+depends = 'scenes/indoors/hairal_niwa_n/hairal_niwa_n_room_0'
+segment = 2
+
+['scenes/indoors/hairal_niwa_n/hairal_niwa_n_room_0']
+srcs = 'assets/scenes/indoors/hairal_niwa_n/hairal_niwa_n_room_0.c'
+segment = 3
+
+['scenes/indoors/bowling/bowling_scene']
+srcs = 'assets/scenes/indoors/bowling/bowling_scene.c'
+depends = 'scenes/indoors/bowling/bowling_room_0'
+segment = 2
+
+['scenes/indoors/bowling/bowling_room_0']
+srcs = 'assets/scenes/indoors/bowling/bowling_room_0.c'
+segment = 3
+
+['scenes/misc/hakaana_ouke/hakaana_ouke_scene']
+srcs = 'assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.c'
+depends = ['scenes/misc/hakaana_ouke/hakaana_ouke_room_0', 'scenes/misc/hakaana_ouke/hakaana_ouke_room_1', 'scenes/misc/hakaana_ouke/hakaana_ouke_room_2']
+segment = 2
+
+['scenes/misc/hakaana_ouke/hakaana_ouke_room_0']
+srcs = 'assets/scenes/misc/hakaana_ouke/hakaana_ouke_room_0.c'
+depends = 'scenes/misc/hakaana_ouke/hakaana_ouke_scene'
+segment = 3
+
+['scenes/misc/hakaana_ouke/hakaana_ouke_room_1']
+srcs = 'assets/scenes/misc/hakaana_ouke/hakaana_ouke_room_1.c'
+depends = 'scenes/misc/hakaana_ouke/hakaana_ouke_scene'
+segment = 3
+
+['scenes/misc/hakaana_ouke/hakaana_ouke_room_2']
+srcs = 'assets/scenes/misc/hakaana_ouke/hakaana_ouke_room_2.c'
+depends = 'scenes/misc/hakaana_ouke/hakaana_ouke_scene'
+segment = 3
+
+['scenes/indoors/hylia_labo/hylia_labo_scene']
+srcs = 'assets/scenes/indoors/hylia_labo/hylia_labo_scene.c'
+depends = 'scenes/indoors/hylia_labo/hylia_labo_room_0'
+segment = 2
+
+['scenes/indoors/hylia_labo/hylia_labo_room_0']
+srcs = 'assets/scenes/indoors/hylia_labo/hylia_labo_room_0.c'
+segment = 3
+
+['scenes/indoors/souko/souko_scene']
+srcs = 'assets/scenes/indoors/souko/souko_scene.c'
+depends = ['scenes/indoors/souko/souko_room_0', 'scenes/indoors/souko/souko_room_1', 'scenes/indoors/souko/souko_room_2']
+segment = 2
+
+['scenes/indoors/souko/souko_room_0']
+srcs = 'assets/scenes/indoors/souko/souko_room_0.c'
+depends = 'scenes/indoors/souko/souko_scene'
+segment = 3
+
+['scenes/indoors/souko/souko_room_1']
+srcs = 'assets/scenes/indoors/souko/souko_room_1.c'
+depends = 'scenes/indoors/souko/souko_scene'
+segment = 3
+
+['scenes/indoors/souko/souko_room_2']
+srcs = 'assets/scenes/indoors/souko/souko_room_2.c'
+depends = 'scenes/indoors/souko/souko_scene'
+segment = 3
+
+['scenes/indoors/miharigoya/miharigoya_scene']
+srcs = 'assets/scenes/indoors/miharigoya/miharigoya_scene.c'
+depends = 'scenes/indoors/miharigoya/miharigoya_room_0'
+segment = 2
+
+['scenes/indoors/miharigoya/miharigoya_room_0']
+srcs = 'assets/scenes/indoors/miharigoya/miharigoya_room_0.c'
+depends = 'scenes/indoors/miharigoya/miharigoya_scene'
+segment = 3
+
+['scenes/indoors/mahouya/mahouya_scene']
+srcs = 'assets/scenes/indoors/mahouya/mahouya_scene.c'
+depends = 'scenes/indoors/mahouya/mahouya_room_0'
+segment = 2
+
+['scenes/indoors/mahouya/mahouya_room_0']
+srcs = 'assets/scenes/indoors/mahouya/mahouya_room_0.c'
+segment = 3
+
+['scenes/indoors/takaraya/takaraya_scene']
+srcs = 'assets/scenes/indoors/takaraya/takaraya_scene.c'
+depends = ['scenes/indoors/takaraya/takaraya_room_0', 'scenes/indoors/takaraya/takaraya_room_1', 'scenes/indoors/takaraya/takaraya_room_2', 'scenes/indoors/takaraya/takaraya_room_3', 'scenes/indoors/takaraya/takaraya_room_4', 'scenes/indoors/takaraya/takaraya_room_5', 'scenes/indoors/takaraya/takaraya_room_6']
+segment = 2
+
+['scenes/indoors/takaraya/takaraya_room_0']
+srcs = 'assets/scenes/indoors/takaraya/takaraya_room_0.c'
+segment = 3
+
+['scenes/indoors/takaraya/takaraya_room_1']
+srcs = 'assets/scenes/indoors/takaraya/takaraya_room_1.c'
+segment = 3
+
+['scenes/indoors/takaraya/takaraya_room_2']
+srcs = 'assets/scenes/indoors/takaraya/takaraya_room_2.c'
+segment = 3
+
+['scenes/indoors/takaraya/takaraya_room_3']
+srcs = 'assets/scenes/indoors/takaraya/takaraya_room_3.c'
+segment = 3
+
+['scenes/indoors/takaraya/takaraya_room_4']
+srcs = 'assets/scenes/indoors/takaraya/takaraya_room_4.c'
+segment = 3
+
+['scenes/indoors/takaraya/takaraya_room_5']
+srcs = 'assets/scenes/indoors/takaraya/takaraya_room_5.c'
+segment = 3
+
+['scenes/indoors/takaraya/takaraya_room_6']
+srcs = 'assets/scenes/indoors/takaraya/takaraya_room_6.c'
+segment = 3
+
+['scenes/dungeons/ganon_sonogo/ganon_sonogo_scene']
+srcs = 'assets/scenes/dungeons/ganon_sonogo/ganon_sonogo_scene.c'
+depends = ['scenes/dungeons/ganon_sonogo/ganon_sonogo_room_0', 'scenes/dungeons/ganon_sonogo/ganon_sonogo_room_1', 'scenes/dungeons/ganon_sonogo/ganon_sonogo_room_2', 'scenes/dungeons/ganon_sonogo/ganon_sonogo_room_3', 'scenes/dungeons/ganon_sonogo/ganon_sonogo_room_4']
+segment = 2
+
+['scenes/dungeons/ganon_sonogo/ganon_sonogo_room_0']
+srcs = 'assets/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_0.c'
+segment = 3
+
+['scenes/dungeons/ganon_sonogo/ganon_sonogo_room_1']
+srcs = 'assets/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_1.c'
+segment = 3
+
+['scenes/dungeons/ganon_sonogo/ganon_sonogo_room_2']
+srcs = 'assets/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_2.c'
+segment = 3
+
+['scenes/dungeons/ganon_sonogo/ganon_sonogo_room_3']
+srcs = 'assets/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_3.c'
+segment = 3
+
+['scenes/dungeons/ganon_sonogo/ganon_sonogo_room_4']
+srcs = 'assets/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_4.c'
+segment = 3
+
+['scenes/dungeons/ganon_demo/ganon_demo_scene']
+srcs = 'assets/scenes/dungeons/ganon_demo/ganon_demo_scene.c'
+depends = 'scenes/dungeons/ganon_demo/ganon_demo_room_0'
+segment = 2
+
+['scenes/dungeons/ganon_demo/ganon_demo_room_0']
+srcs = 'assets/scenes/dungeons/ganon_demo/ganon_demo_room_0.c'
+segment = 3
+
+['scenes/test_levels/besitu/besitu_scene']
+srcs = 'assets/scenes/test_levels/besitu/besitu_scene.c'
+depends = 'scenes/test_levels/besitu/besitu_room_0'
+segment = 2
+
+['scenes/test_levels/besitu/besitu_room_0']
+srcs = 'assets/scenes/test_levels/besitu/besitu_room_0.c'
+segment = 3
+
+['scenes/shops/face_shop/face_shop_scene']
+srcs = 'assets/scenes/shops/face_shop/face_shop_scene.c'
+depends = 'scenes/shops/face_shop/face_shop_room_0'
+segment = 2
+
+['scenes/shops/face_shop/face_shop_room_0']
+srcs = 'assets/scenes/shops/face_shop/face_shop_room_0.c'
+segment = 3
+
+['scenes/misc/kinsuta/kinsuta_scene']
+srcs = 'assets/scenes/misc/kinsuta/kinsuta_scene.c'
+depends = 'scenes/misc/kinsuta/kinsuta_room_0'
+segment = 2
+
+['scenes/misc/kinsuta/kinsuta_room_0']
+srcs = 'assets/scenes/misc/kinsuta/kinsuta_room_0.c'
+segment = 3
+
+['scenes/dungeons/ganontikasonogo/ganontikasonogo_scene']
+srcs = 'assets/scenes/dungeons/ganontikasonogo/ganontikasonogo_scene.c'
+depends = ['scenes/dungeons/ganontikasonogo/ganontikasonogo_room_0', 'scenes/dungeons/ganontikasonogo/ganontikasonogo_room_1']
+segment = 2
+
+['scenes/dungeons/ganontikasonogo/ganontikasonogo_room_0']
+srcs = 'assets/scenes/dungeons/ganontikasonogo/ganontikasonogo_room_0.c'
+segment = 3
+
+['scenes/dungeons/ganontikasonogo/ganontikasonogo_room_1']
+srcs = 'assets/scenes/dungeons/ganontikasonogo/ganontikasonogo_room_1.c'
+segment = 3
+
+['scenes/test_levels/test01/test01_scene']
+srcs = 'assets/scenes/test_levels/test01/test01_scene.c'
+depends = 'scenes/test_levels/test01/test01_room_0'
+segment = 2
+
+['scenes/test_levels/test01/test01_room_0']
+srcs = 'assets/scenes/test_levels/test01/test01_room_0.c'
+segment = 3

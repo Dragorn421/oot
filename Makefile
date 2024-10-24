@@ -138,11 +138,15 @@ $(BUILD_DIR)/src/code/z_effect_soft_sprite_dlftbls.o: include/tables/effect_ss_t
 $(BUILD_DIR)/src/code/z_game_dlftbls.o: include/tables/gamestate_table.h
 $(BUILD_DIR)/src/code/z_scene_table.o: include/tables/scene_table.h include/tables/entrance_table.h
 
-# for build_assets_jank.sh
 $(BUILD_DIR)/%.inc.c: %.png
 	mkdir -p $(dir $@)
 	tools/ZAPD/ZAPD.out btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
-
+$(BUILD_DIR)/%.bin.inc.c: %.bin
+	mkdir -p $(dir $@)
+	tools/ZAPD/ZAPD.out bblb -eh -i $< -o $@
+$(BUILD_DIR)/%.jpg.inc.c: %.jpg
+	mkdir -p $(dir $@)
+	tools/ZAPD/ZAPD.out bren -eh -i $< -o $@
 
 export N64_INST := build/libdragon
 $(info Using N64_INST = $(N64_INST))
@@ -158,6 +162,7 @@ CFLAGS += -Wno-error=strict-aliasing -Wno-error=format=
 CFLAGS += -Wno-error=unknown-pragmas # #pragma increment_block_number
 CFLAGS += -Wno-error=array-bounds= # (at least) OS_K0_TO_PHYSICAL
 CFLAGS += -Wno-error=address -Wno-error=return-type -Wno-error=switch-unreachable
+CFLAGS += -Wno-unused-variable
 
 # ld: small-data section exceeds 64KB; lower small-data size limit (see option -G)
 # for now just don't use small data
@@ -168,8 +173,58 @@ ASFLAGS += -Iinclude
 code_SRCS := $(shell find src/libultra src/boot src/code src/audio src/buffers \( \( -name '*.c' -not -name '*.inc.c' \) -o -name '*.S' \))
 code_OBJS := $(addprefix $(BUILD_DIR)/,$(patsubst %.S,%.o,$(code_SRCS:.c=.o)))
 
+assets_PNGS := $(shell find assets -name '*.png')
+assets_BINS := $(shell find assets -name '*.bin')
+assets_JPGS := $(shell find assets -name '*.jpg')
+assets_INCC := $(addprefix $(BUILD_DIR)/,$(assets_PNGS:.png=.inc.c) $(assets_BINS:.bin=.bin.inc.c) $(assets_JPGS:.jpg=.jpg.inc.c))
+assets_SRCS := $(shell find assets/misc assets/objects assets/scenes assets/textures \( -name '*.c' -not -name '*.inc.c' \))
+assets_OBJS := $(addprefix $(BUILD_DIR)/,$(assets_SRCS:.c=.o))
+
+# TODO check if this works for building the required .inc.c
+# | needed otherwise assets_incc_intermediary is remade everytime, causing all assets to be remade
+assets_incc_intermediary: $(assets_INCC)
+$(assets_OBJS): | assets_incc_intermediary
+
+$(assets_OBJS): CFLAGS := $(filter-out -fdata-sections -g,$(CFLAGS)) -fno-zero-initialized-in-bss
+
+dlls_OBJS :=
+ifeq ($(wildcard dlls.mk),)
+  $(error Run mkdllsmk.py to generate dlls.mk)
+endif
+include dlls.mk
+
+$(BUILD_DIR)/src/overlays/%/dll.partial.o:
+	@mkdir -p $(dir $@)
+	@echo "    [LD] $@"
+	$(N64_LD) -r -Tdllcode.ld $^ -o $@
+
+$(BUILD_DIR)/src/overlays/%/dll.o: $(BUILD_DIR)/src/overlays/%/dll.partial.o
+	@mkdir -p $(dir $@)
+	@echo "    [mkdllrel] $@"
+	python3 tools/mkdllrel.py $< $(@:.o=.bin)
+	$(N64_OBJCOPY) --add-section dll.rel=$(@:.o=.bin) $< $@
+
 $(ROM): N64_ROM_TITLE = "oot-$(VERSION)"
 
-$(ELF): $(code_OBJS)
+$(ELF): $(BUILD_DIR)/ldscript.ld $(code_OBJS) $(assets_OBJS) $(dlls_OBJS)
+	@mkdir -p $(dir $@)
+	@echo "    [LD] $@"
+	$(N64_CXX) -o $@ $(code_OBJS) $(assets_OBJS) $(dlls_OBJS) -lc -T$(BUILD_DIR)/ldscript.ld -Tundefined_syms.ld $(patsubst %,-Wl$(COMMA)%,$(filter-out -Tn64.ld,$(LDFLAGS))) -Wl,-Map=$(@:.elf=.map)
+	$(N64_SIZE) -G $@
+
+$(BUILD_DIR)/ldscript.ld: tools/mkldscript.py
+	@mkdir -p $(dir $@)
+	@echo "    [mkldscript] $@"
+	python3 tools/mkldscript.py $@
 
 #-include $(wildcard $(BUILD_DIR)/*.d)
+
+src/code/z_fbdemo_wipe1.c: assets/code/fbdemo_wipe1/z_fbdemo_wipe1.c
+assets/code/fbdemo_wipe1/z_fbdemo_wipe1.c: $(BUILD_DIR)/assets/code/fbdemo_wipe1/trans_wipe.i4.inc.c
+
+src/code/z_fbdemo_circle.c: assets/code/fbdemo_circle/z_fbdemo_circle.c
+assets/code/fbdemo_circle/z_fbdemo_circle.c: \
+  $(BUILD_DIR)/assets/code/fbdemo_circle/trans_circle_normal.i8.inc.c \
+  $(BUILD_DIR)/assets/code/fbdemo_circle/trans_circle_wave.i8.inc.c \
+  $(BUILD_DIR)/assets/code/fbdemo_circle/trans_circle_ripple.i8.inc.c \
+  $(BUILD_DIR)/assets/code/fbdemo_circle/trans_circle_starburst.i8.inc.c
