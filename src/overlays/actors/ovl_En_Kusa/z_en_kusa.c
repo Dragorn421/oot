@@ -234,7 +234,7 @@ void EnKusa_SetupWaitForObject(EnKusa* this) {
 
 void EnKusa_WaitForObject(EnKusa* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
+        if (this->actor.flags & ACTOR_FLAG_GRASS_DESTROYED) {
             EnKusa_SetupCut(this);
         } else {
             EnKusa_SetupMain(this);
@@ -269,7 +269,7 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
             return;
         }
         EnKusa_SetupCut(this);
-        this->actor.flags |= ACTOR_FLAG_ENKUSA_CUT;
+        this->actor.flags |= ACTOR_FLAG_GRASS_DESTROYED;
     } else {
         if (!(this->unk150.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
             this->unk150.base.ocFlags1 |= OC1_TYPE_PLAYER;
@@ -410,7 +410,7 @@ void EnKusa_SetupRegrow(EnKusa* this) {
     func_80A9AFA0(this, EnKusa_Regrow);
     EnKusa_SetScaleSmall(this);
     this->actor.shape.rot = this->actor.home.rot;
-    this->actor.flags &= ~ACTOR_FLAG_ENKUSA_CUT;
+    this->actor.flags &= ~ACTOR_FLAG_GRASS_DESTROYED;
 }
 
 void EnKusa_Regrow(EnKusa* this, PlayState* play) {
@@ -430,7 +430,7 @@ void EnKusa_Update(Actor* thisx, PlayState* play) {
     EnKusa* this = (EnKusa*)thisx;
     this->unk19C += 1;
     this->actionFunc(this, play);
-    if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
+    if (this->actor.flags & ACTOR_FLAG_GRASS_DESTROYED) {
         this->actor.shape.yOffset = -6.25f;
     } else {
         this->actor.shape.yOffset = 0.0f;
@@ -438,7 +438,7 @@ void EnKusa_Update(Actor* thisx, PlayState* play) {
 }
 
 void func_80A9C164(Actor* thisx, PlayState* play) {
-    if (thisx->flags & ACTOR_FLAG_ENKUSA_CUT) {
+    if (thisx->flags & ACTOR_FLAG_GRASS_DESTROYED) {
         Gfx_DrawDListOpa(play, object_kusa_DL_0002E0);
     } else {
         Gfx_DrawDListOpa(play, D_80A9C294[PARAMS_GET_U(thisx->params, 0, 2)]);
