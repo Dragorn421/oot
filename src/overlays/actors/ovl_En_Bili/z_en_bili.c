@@ -2,7 +2,8 @@
 #include "versions.h"
 #include "assets/objects/object_bl/object_bl.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_CAN_ATTACH_TO_ARROW)
 
 void EnBili_Init(Actor* thisx, PlayState* play);
 void EnBili_Destroy(Actor* thisx, PlayState* play);
@@ -206,7 +207,7 @@ void func_809BFD94(EnBili* this, PlayState* play) {
     s32 var_s0;
     Vec3f sp80;
 
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         this->actor.gravity = -1.0f;
     }
     this->actor.velocity.y = 0.0f;
@@ -393,7 +394,7 @@ void func_809C067C(EnBili* this, PlayState* play) {
 
 void func_809C06E0(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->unk14C);
-    if (this->actor.flags & ACTOR_FLAG_15) {
+    if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
         this->actor.colorFilterTimer = 0x14;
     } else {
         if (this->unk196 != 0) {
@@ -413,7 +414,7 @@ void func_809C0754(EnBili* this, PlayState* play) {
     s32 var_s1;
 
     if (this->actor.draw != NULL) {
-        if (!(this->actor.flags & ACTOR_FLAG_15)) {
+        if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
             this->actor.draw = NULL;
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
         } else {
@@ -466,7 +467,7 @@ void func_809C09E0(EnBili* this, PlayState* play) {
     if (this->unk196 != 0) {
         this->unk196--;
     }
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         this->actor.gravity = -1.0f;
     }
 #if OOT_VERSION < NTSC_1_1
