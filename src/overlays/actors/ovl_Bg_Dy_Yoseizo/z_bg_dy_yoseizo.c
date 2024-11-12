@@ -97,7 +97,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim, this->unk194,
                            this->unk23C, 28);
 #if OOT_VERSION < NTSC_1_1
-        if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->fountainType != FAIRY_UPGRADE_MAGIC)) {
+        if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->unk2EC != 0)) {
             Actor_Kill(&this->actor);
             return;
         }

@@ -956,6 +956,12 @@ endseg
 beginseg
     // TODO
     name "n64dd"
+#if OOT_VERSION == NTSC_1_0
+    address 0x801C6E80
+#endif
+#if OOT_VERSION == NTSC_1_1
+    address 0x801C7040
+#endif
 #if OOT_VERSION == PAL_1_0
     address 0x801C4EC0
 #endif

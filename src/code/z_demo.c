@@ -125,7 +125,7 @@ u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
 #pragma increment_block_number "gc-eu:188 gc-eu-mq:184 gc-jp:188 gc-jp-ce:188 gc-jp-mq:192 gc-us:188 gc-us-mq:192" \
-                               "ntsc-1.2:192 pal-1.0:176 pal-1.1:176"
+                               "ntsc-1.0:176 ntsc-1.1:176 ntsc-1.2:192 pal-1.0:176 pal-1.1:176"
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
