@@ -23,7 +23,7 @@ extern struct IrqMgr gIrqMgr;
 #include "n64dd.h"
 #endif
 
-#pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
                                "ntsc-1.0:148 ntsc-1.1:148 ntsc-1.2:148 pal-1.0:146 pal-1.1:146"
 
 extern u8 _buffersSegmentEnd[];
@@ -57,7 +57,7 @@ AudioMgr sAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Main_LogSystemHeap(void) {
     PRINTF(VT_FGCOL(GREEN));
     PRINTF(
@@ -100,7 +100,7 @@ void Main(void* arg) {
            fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     {
         void* debugHeapStart;
         u32 debugHeapSize;
@@ -125,7 +125,7 @@ void Main(void* arg) {
     osCreateMesgQueue(&sSerialEventQueue, sSerialMsgBuf, ARRAY_COUNT(sSerialMsgBuf));
     osSetEventMesg(OS_EVENT_SI, &sSerialEventQueue, NULL);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Main_LogSystemHeap();
 #endif
 

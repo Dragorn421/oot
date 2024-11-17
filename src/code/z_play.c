@@ -12,7 +12,7 @@
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-eu:30 gc-eu-mq:30 gc-jp:32 gc-jp-ce:32 gc-jp-mq:32 gc-us:32 gc-us-mq:32" \
+#pragma increment_block_number "gc-eu:31 gc-eu-mq:31 gc-jp:33 gc-jp-ce:33 gc-jp-mq:33 gc-us:33 gc-us-mq:33" \
                                "ntsc-1.0:19 ntsc-1.1:19 ntsc-1.2:19 pal-1.0:17 pal-1.1:17"
 
 TransitionTile gTransitionTile;
@@ -20,13 +20,13 @@ s32 gTransitionTileState;
 VisMono D_80161498;
 Color_RGBA8_u32 gVisMonoColor;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 FaultClient D_801614B8;
 #endif
 
 s16 sTransitionFillTimer;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* gDebugCutsceneScript = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
 #endif
@@ -37,7 +37,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
 // This macro prints the number "1" with a file and line number if R_ENABLE_PLAY_LOGS is enabled.
 // For example, it can be used to trace the play state execution at a high level.
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define PLAY_LOG(line)                            \
     do {                                          \
         if (R_ENABLE_PLAY_LOGS) {                 \
@@ -257,7 +257,7 @@ void Play_Destroy(GameState* thisx) {
     }
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Fault_RemoveClient(&D_801614B8);
 #endif
 }
@@ -281,7 +281,7 @@ void Play_Init(GameState* thisx) {
         return;
     }
 
-#if OOT_DEBUG
+#if PLATFORM_GC && DEBUG_FEATURES
     SystemArena_Display();
 #endif
 
@@ -471,7 +471,7 @@ void Play_Init(GameState* thisx) {
     PRINTF(T("ゼルダヒープ %08x-%08x\n", "Zelda Heap %08x-%08x\n"), zAllocAligned,
            (u8*)zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
 
-#if OOT_DEBUG
+#if PLATFORM_GC && DEBUG_FEATURES
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
 #endif
 
@@ -508,7 +508,7 @@ void Play_Init(GameState* thisx) {
     AnimTaskQueue_Update(this, &this->animTaskQueue);
     gSaveContext.respawnFlag = 0;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (R_USE_DEBUG_CUTSCENE) {
         static u64 sDebugCutsceneScriptBuf[0xA00];
 
@@ -527,10 +527,12 @@ void Play_Update(PlayState* this) {
     s32 isPaused;
     s32 pad1;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if ((SREG(1) < 0) || (DREG(0) != 0)) {
         SREG(1) = 0;
+#if PLATFORM_GC
         ZeldaArena_Display();
+#endif
     }
 
     if ((R_HREG_MODE == HREG_MODE_PRINT_OBJECT_TABLE) && (R_PRINT_OBJECT_TABLE_TRIGGER < 0)) {
@@ -616,7 +618,7 @@ void Play_Update(PlayState* this) {
                         }
                     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                     if (!R_TRANS_DBG_ENABLED) {
                         Play_SetupTransition(this, this->transitionType);
                     } else {
@@ -934,7 +936,7 @@ void Play_Update(PlayState* this) {
             PLAY_LOG(3555);
             AnimTaskQueue_Reset(&this->animTaskQueue);
 
-            if (!OOT_DEBUG) {}
+            if (!DEBUG_FEATURES) {}
 
             PLAY_LOG(3561);
             Object_UpdateEntries(&this->objectCtx);
@@ -1142,7 +1144,7 @@ void Play_Draw(PlayState* this) {
 
     Gfx_SetupFrame(gfxCtx, 0, 0, 0);
 
-    if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_RUN_DRAW) {
+    if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_RUN_DRAW) {
         POLY_OPA_DISP = Play_SetFog(this, POLY_OPA_DISP);
         POLY_XLU_DISP = Play_SetFog(this, POLY_XLU_DISP);
 
@@ -1165,7 +1167,7 @@ void Play_Draw(PlayState* this) {
 
         gSPSegment(POLY_OPA_DISP++, 0x01, this->billboardMtx);
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_COVER_ELEMENTS) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_COVER_ELEMENTS) {
             Gfx* gfxP;
             Gfx* sp1CC = POLY_OPA_DISP;
 
@@ -1234,7 +1236,7 @@ void Play_Draw(PlayState* this) {
             goto Play_Draw_DrawOverlayElements;
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
             if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
                 if ((this->skyboxId == SKYBOX_NORMAL_SKY) || (this->skyboxId == SKYBOX_CUTSCENE_MAP)) {
                     Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
@@ -1247,32 +1249,34 @@ void Play_Draw(PlayState* this) {
             }
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) ||
+            (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
             if (!this->envCtx.sunMoonDisabled) {
                 Environment_DrawSunAndMoon(this);
             }
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) ||
+            (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
             Environment_DrawSkyboxFilters(this);
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTNING)) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTNING)) {
             Environment_UpdateLightningStrike(this);
             Environment_DrawLightning(this, 0);
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTS)) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTS)) {
             sp228 = LightContext_NewLights(&this->lightCtx, gfxCtx);
             Lights_BindAll(sp228, this->lightCtx.listHead, NULL);
             Lights_Draw(sp228, gfxCtx);
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
             if (VREG(94) == 0) {
                 s32 roomDrawFlags;
 
-                if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY)) {
+                if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY)) {
                     roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
                 } else {
                     roomDrawFlags = R_PLAY_DRAW_ROOM_FLAGS;
@@ -1283,7 +1287,7 @@ void Play_Draw(PlayState* this) {
             }
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
             if ((this->skyboxCtx.drawType != SKYBOX_DRAW_128) &&
                 (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
                 Vec3f quakeOffset;
@@ -1298,15 +1302,15 @@ void Play_Draw(PlayState* this) {
             Environment_DrawRain(this, &this->view, gfxCtx);
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
             Environment_FillScreen(gfxCtx, 0, 0, 0, this->bgCoverAlpha, FILL_SCREEN_OPA);
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
             func_800315AC(this, &this->actorCtx);
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
             if (!this->envCtx.sunMoonDisabled) {
                 sp21C.x = this->view.eye.x + this->envCtx.sunPos.x;
                 sp21C.y = this->view.eye.y + this->envCtx.sunPos.y;
@@ -1316,7 +1320,7 @@ void Play_Draw(PlayState* this) {
             Environment_DrawCustomLensFlare(this);
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SCREEN_FILLS) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SCREEN_FILLS) {
             if (MREG(64) != 0) {
                 Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68),
                                        FILL_SCREEN_OPA | FILL_SCREEN_XLU);
@@ -1333,13 +1337,13 @@ void Play_Draw(PlayState* this) {
             }
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SANDSTORM) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SANDSTORM) {
             if (this->envCtx.sandstormState != SANDSTORM_OFF) {
                 Environment_DrawSandstorm(this, this->envCtx.sandstormState);
             }
         }
 
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_DEBUG_OBJECTS) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_DEBUG_OBJECTS) {
             DebugDisplay_DrawObjects(this);
         }
 
@@ -1366,7 +1370,7 @@ void Play_Draw(PlayState* this) {
         }
 
     Play_Draw_DrawOverlayElements:
-        if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_OVERLAY_ELEMENTS) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_OVERLAY_ELEMENTS) {
             Play_DrawOverlayElements(this);
         }
     }
@@ -1396,7 +1400,7 @@ void Play_Main(GameState* thisx) {
 
     PLAY_LOG(4556);
 
-    if (OOT_DEBUG && (R_HREG_MODE == HREG_MODE_PLAY) && (R_PLAY_INIT != HREG_MODE_PLAY)) {
+    if (DEBUG_FEATURES && (R_HREG_MODE == HREG_MODE_PLAY) && (R_PLAY_INIT != HREG_MODE_PLAY)) {
         R_PLAY_RUN_UPDATE = true;
         R_PLAY_RUN_DRAW = true;
         R_PLAY_DRAW_SKYBOX = true;
@@ -1414,7 +1418,7 @@ void Play_Main(GameState* thisx) {
         R_PLAY_INIT = HREG_MODE_PLAY;
     }
 
-    if (!OOT_DEBUG || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_RUN_UPDATE) {
+    if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_RUN_UPDATE) {
         Play_Update(this);
     }
 

@@ -51,7 +51,7 @@ void func_808B2F90(BgSpot12Gate* this, PlayState* play, CollisionHeader* collisi
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad[2];
 

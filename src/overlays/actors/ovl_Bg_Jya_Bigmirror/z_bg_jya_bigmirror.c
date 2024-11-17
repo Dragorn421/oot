@@ -76,7 +76,7 @@ void func_80893750(BgJyaBigmirror* this2, PlayState* play) {
                 } else {
                     this->unk15C &= ~D_80893F1C[i];
                 }
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 if (new_var->unk0->update == NULL) {
                     PRINTF("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
                 }
@@ -143,7 +143,7 @@ void func_8089399C(BgJyaBigmirror* this2, PlayState* play) {
                     this->unk160[var_s1] =
                         Actor_Spawn(&play->actorCtx, play, 0xB7, D_80893F28[var_s1].x, D_80893F28[var_s1].y,
                                     D_80893F28[var_s1].z, 0, 0, 0, D_80893F20[var_s1]);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                     if (this->unk160[var_s1] == NULL) {
                         PRINTF("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
                     }

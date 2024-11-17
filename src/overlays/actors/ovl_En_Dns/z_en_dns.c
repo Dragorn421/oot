@@ -70,7 +70,7 @@ static u16 sStartingTextIds[] = {
     0x10DC, // DNS_TYPE_DEKU_STICK_UPGRADE
     0x10DD, // DNS_TYPE_DEKU_NUT_UPGRADE
 };
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sItemDebugTxt[] = {
     "デクの実売り            ", // DNS_TYPE_DEKU_NUTS_5
     "デクの棒売り            ", // DNS_TYPE_DEKU_STICKS_1

@@ -273,7 +273,7 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
         }
     }
     if (var_v1 != 0) {
-        if (!IS_CUTSCENE_LAYER || !OOT_DEBUG) {
+        if (!IS_CUTSCENE_LAYER || !DEBUG_FEATURES) {
             if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 switch (this->unk2EC) {
                     case 0:

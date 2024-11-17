@@ -53,7 +53,7 @@ void func_808B0968(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* arg
     CollisionHeader_GetVirtual(arg2, &sp30);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp30);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
