@@ -157,17 +157,17 @@ s32 func_80835C08(Player* this, PlayState* play);
 void Player_UseItem(PlayState* play, Player* this, s32 item);
 void func_80839F90(Player* this, PlayState* play);
 s32 func_8083C61C(PlayState* play, Player* this);
-void func_8083CA20(PlayState* play, Player* this);
-void func_8083CA54(PlayState* play, Player* this);
-void func_8083CA9C(PlayState* play, Player* this);
-void func_80846648(PlayState* play, Player* this);
-void func_80846660(PlayState* play, Player* this);
-void func_808467D4(PlayState* play, Player* this);
-void func_808468A8(PlayState* play, Player* this);
-void func_808468E8(PlayState* play, Player* this);
-void func_80846978(PlayState* play, Player* this);
-void func_808469BC(PlayState* play, Player* this);
-void func_80846A68(PlayState* play, Player* this);
+void Player_StartMode13(PlayState* play, Player* this);
+void Player_StartMode14(PlayState* play, Player* this);
+void Player_StartMode15(PlayState* play, Player* this);
+void Player_StartMode0(PlayState* play, Player* this);
+void Player_StartMode2(PlayState* play, Player* this);
+void Player_StartMode1(PlayState* play, Player* this);
+void Player_StartMode3(PlayState* play, Player* this);
+void Player_StartMode4(PlayState* play, Player* this);
+void Player_StartMode7(PlayState* play, Player* this);
+void Player_StartMode5(PlayState* play, Player* this);
+void Player_StartMode6(PlayState* play, Player* this);
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input);
 void func_8084FF7C(Player* this);
 void func_8085002C(Player* this);
@@ -346,14 +346,14 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 
 // .bss part 1
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:64 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:64 pal-1.1:64"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:64" \
+                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:64 pal-1.1:64"
 
 static s32 D_80858AA0;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
                                "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 static s32 sSavedCurrentMask;
@@ -6686,13 +6686,13 @@ s32 func_8083C910(PlayState* play, Player* this, f32 arg2) {
     return 1;
 }
 
-void func_8083CA20(PlayState* play, Player* this) {
+void Player_StartMode13(PlayState* play, Player* this) {
     if (func_8083C910(play, this, 180.0f)) {
         this->av2.actionVar2 = -20;
     }
 }
 
-void func_8083CA54(PlayState* play, Player* this) {
+void Player_StartMode14(PlayState* play, Player* this) {
     this->speedXZ = 2.0f;
     gSaveContext.entranceSpeed = 2.0f;
     if (func_8083C910(play, this, 120.0f)) {
@@ -6700,7 +6700,7 @@ void func_8083CA54(PlayState* play, Player* this) {
     }
 }
 
-void func_8083CA9C(PlayState* play, Player* this) {
+void Player_StartMode15(PlayState* play, Player* this) {
     if (gSaveContext.entranceSpeed < 0.1f) {
         gSaveContext.entranceSpeed = 0.1f;
     }
@@ -10508,12 +10508,12 @@ static ColliderQuadInit D_808546A0 = {
 void func_8084663C(Actor* thisx, PlayState* play) {
 }
 
-void func_80846648(PlayState* play, Player* this) {
+void Player_StartMode0(PlayState* play, Player* this) {
     this->actor.update = func_8084663C;
     this->actor.draw = NULL;
 }
 
-void func_80846660(PlayState* play, Player* this) {
+void Player_StartMode2(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F710, 0);
     if ((play->sceneId == SCENE_LAKE_HYLIA) && IS_CUTSCENE_LAYER) {
         this->av1.actionVar1 = 1;
@@ -10546,7 +10546,7 @@ void func_80846720(PlayState* play, Player* this, s32 arg2) {
 
 static Vec3f D_808546F4 = { -1.0f, 69.0f, 20.0f };
 
-void func_808467D4(PlayState* play, Player* this) {
+void Player_StartMode1(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084E9AC, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
     Math_Vec3f_Copy(&this->actor.world.pos, &D_808546F4);
@@ -10563,14 +10563,14 @@ void func_808467D4(PlayState* play, Player* this) {
     this->av2.actionVar2 = 20;
 }
 
-void func_808468A8(PlayState* play, Player* this) {
+void Player_StartMode3(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F9A0, 0);
     Player_StartAnimMovement(play, this,
                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_ENABLE_MOVEMENT |
                                  ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
-void func_808468E8(PlayState* play, Player* this) {
+void Player_StartMode4(PlayState* play, Player* this) {
     func_808389E8(this, &gPlayerAnim_link_normal_jump, 12.0f, play);
     Player_SetupAction(play, this, Player_Action_8084F9C0, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
@@ -10578,11 +10578,11 @@ void func_808468E8(PlayState* play, Player* this) {
     OnePointCutscene_Init(play, 5110, 40, &this->actor, CAM_ID_MAIN);
 }
 
-void func_80846978(PlayState* play, Player* this) {
+void Player_StartMode7(PlayState* play, Player* this) {
     func_80837C0C(play, this, PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE, 2.0f, 2.0f, this->actor.shape.rot.y + 0x8000, 0);
 }
 
-void func_808469BC(PlayState* play, Player* this) {
+void Player_StartMode5(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F698, 0);
     this->actor.draw = NULL;
     this->stateFlags1 |= PLAYER_STATE1_29;
@@ -10595,7 +10595,7 @@ Actor* Player_SpawnMagicSpell(PlayState* play, Player* this, s32 spell) {
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
 }
 
-void func_80846A68(PlayState* play, Player* this) {
+void Player_StartMode6(PlayState* play, Player* this) {
     this->actor.draw = NULL;
     Player_SetupAction(play, this, Player_Action_8085076C, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
@@ -10640,20 +10640,31 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
     Collider_SetQuad(play, &this->shieldQuad, &this->actor, &D_808546A0);
 }
 
-static void (*D_80854738[])(PlayState* play, Player* this) = {
-    func_80846648, func_808467D4, func_80846660, func_808468A8, func_808468E8, func_808469BC,
-    func_80846A68, func_80846978, func_8083CA54, func_8083CA54, func_8083CA54, func_8083CA54,
-    func_8083CA54, func_8083CA20, func_8083CA54, func_8083CA9C,
+static void (*sStartModeFuncs[PLAYER_START_MODE_MAX])(PlayState* play, Player* this) = {
+    Player_StartMode0,  // PLAYER_START_MODE_0
+    Player_StartMode1,  // PLAYER_START_MODE_1
+    Player_StartMode2,  // PLAYER_START_MODE_2
+    Player_StartMode3,  // PLAYER_START_MODE_3
+    Player_StartMode4,  // PLAYER_START_MODE_4
+    Player_StartMode5,  // PLAYER_START_MODE_5
+    Player_StartMode6,  // PLAYER_START_MODE_6
+    Player_StartMode7,  // PLAYER_START_MODE_7
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_8
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_9
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_10
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_11
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_12
+    Player_StartMode13, // PLAYER_START_MODE_13
+    Player_StartMode14, // PLAYER_START_MODE_14
+    Player_StartMode15, // PLAYER_START_MODE_15
 };
-
-static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
 
 void Player_Init(Actor* thisx, PlayState* play2) {
     Player* this = (Player*)thisx;
     PlayState* play = play2;
     SceneTableEntry* scene = play->loadedScene;
     u32 titleFileSize;
-    s32 initMode;
+    s32 startMode;
     s32 respawnFlag;
     s32 respawnMode;
 
@@ -10675,9 +10686,12 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     this->heldItemId = ITEM_NONE;
 
     Player_UseItem(play, this, ITEM_NONE);
+
     Player_SetEquipmentData(play, this);
     this->prevBoots = this->currentBoots;
+
     Player_InitCommon(this, play, gPlayerSkelHeaders[((void)0, gSaveContext.save.linkAge)]);
+
     // `giObjectSegment` is used for both "get item" objects and title cards. The maximum size for
     // get item objects is 0x2000 (see the assert in func_8083AE40), and the maximum size for
     // title cards is 0x1000 * LANGUAGE_MAX since each title card image includes all languages.
@@ -10713,6 +10727,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
     if ((respawnFlag == 0) || (respawnFlag < -1)) {
         titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
+
         if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
             if (!IS_CUTSCENE_LAYER &&
                 (gEntranceTable[(0, gSaveContext.save.entranceIndex) + (0, gSaveContext.sceneLayer)].field &
@@ -10727,6 +10742,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
                 TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144, 24, 20);
             }
         }
+
         gSaveContext.showTitleCard = true;
     }
 
@@ -10740,18 +10756,22 @@ void Player_Init(Actor* thisx, PlayState* play2) {
         gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] |= gBitFlags[play->sceneId];
     }
 
-    initMode = PARAMS_GET_S(thisx->params, 8, 4);
-    if ((initMode == 5) || (initMode == 6)) {
+    startMode = PLAYER_GET_START_MODE(thisx);
+
+    if ((startMode == PLAYER_START_MODE_5) || (startMode == PLAYER_START_MODE_6)) {
         if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
-            initMode = 13;
+            startMode = PLAYER_START_MODE_13;
         }
     }
 
-    D_80854738[initMode](play, this);
+    sStartModeFuncs[startMode](play, this);
 
-    if (initMode != 0) {
+    if (startMode != PLAYER_START_MODE_0) {
         if ((gSaveContext.gameMode == GAMEMODE_NORMAL) || (gSaveContext.gameMode == GAMEMODE_END_CREDITS)) {
-            this->naviActor = Player_SpawnFairy(play, this, &thisx->world.pos, &D_80854778, FAIRY_NAVI);
+            static Vec3f sNaviSpawnPosOffset = { 0.0f, 50.0f, 0.0f };
+
+            this->naviActor = Player_SpawnFairy(play, this, &thisx->world.pos, &sNaviSpawnPosOffset, FAIRY_NAVI);
+
             if (gSaveContext.dogParams != 0) {
                 gSaveContext.dogParams |= 0x8000;
             }
