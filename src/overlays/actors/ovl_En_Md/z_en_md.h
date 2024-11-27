@@ -43,8 +43,8 @@ typedef struct EnMd {
     /* 0x20E */ s16 unk20E;
     /* 0x210 */ s16 unk210;
     /* 0x212 */ s16 unk212;
-    /* 0x214 */ s16 unk214[ENMD_LIMB_MAX];
-    /* 0x236 */ s16 unk236[ENMD_LIMB_MAX];
+    /* 0x214 */ s16 fidgetTableY[ENMD_LIMB_MAX];
+    /* 0x236 */ s16 fidgetTableZ[ENMD_LIMB_MAX];
     /* 0x258 */ Vec3s unk258[ENMD_LIMB_MAX];
     /* 0x2BE */ Vec3s unk2BE[ENMD_LIMB_MAX];
 } EnMd; // size = 0x0324

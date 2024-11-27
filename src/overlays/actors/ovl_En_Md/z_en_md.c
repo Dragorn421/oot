@@ -671,7 +671,7 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
 
 void func_80AAB874(EnMd* this, PlayState* play) {
     if (this->unk14C.animation == &gMidoHandsOnHipsIdleAnim) {
-        func_80034F54(play, this->unk214, this->unk236, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
     } else if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (this->unk20B != 7)) {
         func_80AAA92C(this, 7);
     }
@@ -680,7 +680,7 @@ void func_80AAB874(EnMd* this, PlayState* play) {
 
 void func_80AAB8F8(EnMd* this, PlayState* play) {
     if (this->unk14C.animation == &gMidoHandsOnHipsIdleAnim) {
-        func_80034F54(play, this->unk214, this->unk236, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
     }
     func_80AAA93C(this);
 }
@@ -724,7 +724,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
         this->actor.speed = 1.5f;
     } else {
         if (this->unk14C.animation == &gMidoHandsOnHipsIdleAnim) {
-            func_80034F54(play, this->unk214, this->unk236, ENMD_LIMB_MAX);
+            Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
         }
         if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (play->sceneId == SCENE_LOST_WOODS)) {
             if (sp2C->stateFlags2 & PLAYER_STATE2_24) {
@@ -759,7 +759,7 @@ void func_80AABC10(EnMd* this, PlayState* play) {
 }
 
 void func_80AABD0C(EnMd* this, PlayState* play) {
-    func_80034F54(play, this->unk214, this->unk236, ENMD_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
     func_80AAA93C(this);
     if ((func_80AAB370(this, play) == 0) || (this->unk212 != 0)) {
         this->actor.shape.rot = this->actor.world.rot;
@@ -810,8 +810,8 @@ s32 func_80AABEF0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
     }
     if ((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM) ||
         (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
-        rot->y += (Math_SinS(this->unk214[limbIndex]) * 200.0f);
-        rot->z += (Math_CosS(this->unk236[limbIndex]) * 200.0f);
+        rot->y += (Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE);
+        rot->z += (Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE);
     }
     return 0;
 }

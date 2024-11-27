@@ -356,7 +356,7 @@ s16 func_80B44870(Vec3f* arg0, s16 arg1, s16 arg2, PlayState* play) {
         }
     }
     for (; var_s0 >= var_s7; var_s0--) {
-#if !OOT_DEBUG
+#if !DEBUG_FEATURES
         if (0) {}
 #endif
         if (var_s0 == arg1) {
@@ -1630,7 +1630,7 @@ void func_80B48578(EnZf* this, PlayState* play) {
                 }
             }
         }
-#if !OOT_DEBUG
+#if !DEBUG_FEATURES
         if (1) {} //! FAKE
 #endif
     }

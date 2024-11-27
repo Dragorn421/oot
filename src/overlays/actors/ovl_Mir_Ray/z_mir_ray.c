@@ -258,7 +258,7 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, D_80B8E838);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     PRINTF("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     LogUtils_LogThreadId("../z_mir_ray.c", 518);
     PRINTF("this->actor.arg_data = %d\n", this->actor.params);
 #endif

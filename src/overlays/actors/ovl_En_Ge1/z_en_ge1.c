@@ -559,7 +559,7 @@ void func_80A31DE4(EnGe1* this, PlayState* play) {
 
 void func_80A31E2C(EnGe1* this, PlayState* play) {
     CLEAR_EVENTINF(EVENTINF_HORSES_08);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     LogUtils_LogThreadId("../z_en_ge1.c", 0x456);
     PRINTF("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
     if (1) {}
@@ -708,8 +708,10 @@ s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, V
         return 0;
     }
     if ((arg1 == 8) || (arg1 == 10) || (arg1 == 13)) {
-        arg4->y += (Math_SinS((s16)(play->state.frames * ((arg1 * 0x32) + 0x814))) * 200.0f);
-        arg4->z += (Math_CosS((s16)(play->state.frames * ((arg1 * 0x32) + 0x940))) * 200.0f);
+        arg4->y +=
+            (Math_SinS((s16)(play->state.frames * ((arg1 * FIDGET_FREQ_LIMB) + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE);
+        arg4->z +=
+            (Math_CosS((s16)(play->state.frames * ((arg1 * FIDGET_FREQ_LIMB) + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE);
     }
     return 0;
 }
