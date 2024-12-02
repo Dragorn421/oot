@@ -42,8 +42,8 @@
  */
 #if PLATFORM_GC
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-eu-mq-dbg:176 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192" \
-                               "gc-us-mq:192"
+#pragma increment_block_number "gc-eu:112 gc-eu-mq:112 gc-eu-mq-dbg:96 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128" \
+                               "gc-us-mq:128"
 
 #include "global.h"
 #include "alloca.h"
@@ -1327,9 +1327,7 @@ NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
 
     // Since the above line triggers an exception and transfers execution to the fault handler
     // this function does not return and the rest of the function is unreachable.
-#ifdef __GNUC__
-    __builtin_unreachable();
-#endif
+    UNREACHABLE();
 }
 
 /**

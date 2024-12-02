@@ -7,7 +7,7 @@
 #include "n64dd.h"
 #endif
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
@@ -449,8 +449,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 }
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
-    OSTime startTime;
-    OSTime endTime;
+    UNUSED_NDEBUG OSTime startTime;
+    UNUSED_NDEBUG OSTime endTime;
 
     PRINTF(T("game コンストラクタ開始\n", "game constructor start\n"));
     gameState->gfxCtx = gfxCtx;
