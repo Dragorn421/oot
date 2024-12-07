@@ -209,7 +209,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
             this->unk30F = 0;
             this->unk310 = 0;
             this->unk311 = 0;
-            if (GET_EVENTCHKINF(EVENTCHKINF_3A)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU)) {
                 func_80A87800(this, func_80A87BEC);
             } else {
                 func_80A87800(this, func_80A87C30);
@@ -324,7 +324,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
     gSaveContext.cutsceneTrigger = 1;
     DynaPoly_DisableCollision(play, &play->colCtx.dyna, temp_v1->dyna.bgId);
     Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
-    SET_EVENTCHKINF(EVENTCHKINF_3A);
+    SET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU);
     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 }
 
