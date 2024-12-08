@@ -42,7 +42,7 @@ void BgTokiHikari_Init(Actor* thisx, PlayState* play) {
             this->unk150 = func_808B9F98;
             return;
         case 1:
-            if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
                 this->unk150 = func_808BA204;
                 this->unk14C = 0.0f;
                 return;
