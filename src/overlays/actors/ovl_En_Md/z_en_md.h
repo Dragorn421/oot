@@ -29,16 +29,21 @@ typedef enum EnMdLimb {
 
 typedef void (*EnMdActionFunc)(struct EnMd*, PlayState*);
 
+#define ENMD_GET_PATH_INDEX(this) PARAMS_GET_S(this->actor.params, 8, 8)
+#define ENMD_GET_PATH_INDEX_NOSHIFT(this) PARAMS_GET_NOSHIFT(this->actor.params, 8, 8)
+
+#define ENMD_PATH_NONE 0xFF
+
 typedef struct EnMd {
     /* 0x000 */ Actor actor;
     /* 0x14C */ SkelAnime unk14C;
     /* 0x190 */ EnMdActionFunc unk190;
     /* 0x194 */ ColliderCylinder unk194;
-    /* 0x01E0 */ NpcInteractInfo interactInfo;
-    /* 0x208 */ u8 unk208;
-    /* 0x209 */ u8 unk209;
-    /* 0x20A */ u8 unk20A;
-    /* 0x20B */ u8 unk20B;
+    /* 0x1E0 */ NpcInteractInfo interactInfo;
+    /* 0x208 */ u8 messageEntry;      // tracks message state changes, like with `BOX_BREAK` or `TEXTID`
+    /* 0x209 */ u8 messageState;      // last known result of `Message_GetState`
+    /* 0x20A */ u8 animSequenceEntry; // each one changes animation info and waits
+    /* 0x20B */ u8 animSequence;
     /* 0x20C */ s16 unk20C;
     /* 0x20E */ s16 unk20E;
     /* 0x210 */ s16 unk210;
