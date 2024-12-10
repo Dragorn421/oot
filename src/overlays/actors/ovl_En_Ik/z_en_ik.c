@@ -1419,7 +1419,7 @@ void func_80A781CC(Actor* thisx, PlayState* play) {
         Cutscene_SetScript(play, gSpiritBossNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
-        SET_EVENTCHKINF(EVENTCHKINF_3C);
+        SET_EVENTCHKINF(EVENTCHKINF_DEFEATED_NABOORU_KNUCKLE);
         func_80A7735C(this, play);
     }
 }
@@ -1428,7 +1428,7 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
     s32 flag = this->actor.params & 0xFF00;
 
-    if (((this->actor.params & 0xFF) == 0 && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
+    if (((this->actor.params & 0xFF) == 0 && GET_EVENTCHKINF(EVENTCHKINF_DEFEATED_NABOORU_KNUCKLE)) ||
         (flag != 0 && Flags_GetSwitch(play, flag >> 8))) {
         Actor_Kill(&this->actor);
     } else {
