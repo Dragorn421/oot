@@ -2,7 +2,7 @@
 #include "assets/objects/object_fhg/object_fhg.h"
 #include "z64cutscene.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void DemoExt_Init(Actor* thisx, PlayState* play);
 void DemoExt_Destroy(Actor* thisx, PlayState* play);

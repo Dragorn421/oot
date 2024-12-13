@@ -4,7 +4,7 @@
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_kusa/object_kusa.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_THROW_ONLY)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_THROW_ONLY)
 
 void EnKusa_Init(Actor* thisx, PlayState* play);
 void EnKusa_Destroy(Actor* thisx, PlayState* play2);
@@ -64,8 +64,8 @@ static s16 sFragmentScales[8] = {
 };
 static InitChainEntry D_80A9C27C[6] = {
     ICHAIN_VEC3F_DIV1000(scale, 400, ICHAIN_CONTINUE),         ICHAIN_F32_DIV1000(gravity, -3200, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(minVelocityY, -17000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),         ICHAIN_F32(uncullZoneDownward, 120, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(minVelocityY, -17000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 100, ICHAIN_CONTINUE),      ICHAIN_F32(cullingVolumeDownward, 120, ICHAIN_STOP),
 };
 static Gfx* D_80A9C294[3] = {
     gFieldBushDL,
@@ -201,7 +201,7 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, D_80A9C27C);
     if (play->csCtx.state != CS_STATE_IDLE) {
-        this->actor.uncullZoneForward += 1000.0f;
+        this->actor.cullingVolumeDistance += 1000.0f;
     }
     func_80A9B630(&this->actor, play);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &D_80A9C234);
@@ -241,13 +241,13 @@ void EnKusa_WaitForObject(EnKusa* this, PlayState* play) {
         }
         this->actor.draw = func_80A9C164;
         this->actor.objectSlot = this->requiredObjectSlot;
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 }
 
 void EnKusa_SetupMain(EnKusa* this) {
     func_80A9AFA0(this, EnKusa_Main);
-    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void EnKusa_Main(EnKusa* this, PlayState* play) {
@@ -290,7 +290,7 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
 void func_80A9BA98(EnKusa* this) {
     func_80A9AFA0(this, func_80A9BAD8);
     this->actor.room = -1;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void func_80A9BAD8(EnKusa* this, PlayState* play) {

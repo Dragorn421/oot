@@ -38,7 +38,7 @@ ActorProfile Bg_Ice_Turara_Profile = {
     /**/ BgIceTurara_Draw,
 };
 static InitChainEntry D_8089266C[] = {
-    ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 600, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -3, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -30, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

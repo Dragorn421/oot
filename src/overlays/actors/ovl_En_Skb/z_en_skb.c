@@ -8,7 +8,7 @@
 #include "assets/objects/object_skb/object_skb.h"
 #include "z64.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum StalchildBehavior {
     SKB_BEHAVIOR_BURIED,

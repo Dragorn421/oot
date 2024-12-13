@@ -85,9 +85,9 @@ ActorProfile En_Fish_Profile = {
 
 static InitChainEntry D_80A17070[4] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 900, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 40, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 700, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 900, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 40, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 700, ICHAIN_STOP),
 };
 
 typedef struct struct_80A17080 {
@@ -136,7 +136,7 @@ void func_80A153AC(EnFish* this2) {
         this->actor.shape.yOffset = 600.0f;
         D_80A17014 = 10.0f;
         D_80A17018 = 0.0f;
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         func_80A15310(this);
     }
 }
@@ -160,7 +160,7 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
     this->unk24C = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
     this->unk24E = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
     if (sp3A == 0) {
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
         func_80A15F24(this);
     } else if (sp3A == 1) {
@@ -459,7 +459,7 @@ void func_80A163DC(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->actor.shape.yOffset = 0.0f;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->unk248 = 0xC8;
     func_80A152AC(this);
     this->unk244 = func_80A16450;

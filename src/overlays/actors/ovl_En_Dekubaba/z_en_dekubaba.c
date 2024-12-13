@@ -314,7 +314,7 @@ void func_809E6170(EnDekubaba* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->actor.speed = this->unk230 * 3.0f;
     this->unk238.base.acFlags &= ~AC_ON;
-    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
     this->unk1C0 = func_809E7BB0;
 }
 
@@ -364,7 +364,7 @@ void func_809E645C(EnDekubaba* this, PlayState* arg1) {
     this->actor.velocity.y = 0.0f;
     this->actor.shape.shadowScale = 3.0f;
     Actor_ChangeCategory(arg1, &arg1->actorCtx, &this->actor, ACTORCAT_MISC);
-    this->actor.flags &= ~ACTOR_FLAG_5;
+    this->actor.flags &= ~ACTOR_FLAG_DRAW_CULLING_DISABLED;
     this->unk1C6 = 0xC8;
     this->unk1C0 = func_809E80D8;
 }

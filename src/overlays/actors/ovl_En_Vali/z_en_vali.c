@@ -7,7 +7,8 @@
 #include "z_en_vali.h"
 #include "assets/objects/object_vali/object_vali.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnVali_Init(Actor* thisx, PlayState* play);
 void EnVali_Destroy(Actor* thisx, PlayState* play);
@@ -180,7 +181,7 @@ void func_80B268FC(EnVali* this) {
     this->unk2FC.dim.quad[1].y = temp_fv0;
     this->unk37C.dim.quad[0].y = temp_fv0;
     this->unk37C.dim.quad[1].y = temp_fv0;
-    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->unk3FC.base.acFlags |= AC_ON;
     this->unk195 = 0;
     this->unk190 = func_80B2716C;
@@ -254,7 +255,7 @@ void func_80B26DE0(EnVali* this) {
 
 void func_80B26E40(EnVali* this) {
     Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_0014AC, 10.0f);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk190 = func_80B278A0;
 }

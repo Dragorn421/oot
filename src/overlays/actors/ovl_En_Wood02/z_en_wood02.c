@@ -74,11 +74,11 @@ s32 EnWood02_IsInUncullZone(EnWood02* this, PlayState* play, Vec3f* pos) {
     } else {
         invW = fabsf(1.0f / this->actor.projectedW);
     }
-    if ((-this->actor.uncullZoneScale < this->actor.projectedPos.z) &&
-        (this->actor.projectedPos.z < (this->actor.uncullZoneForward + this->actor.uncullZoneScale)) &&
-        (((fabsf(this->actor.projectedPos.x) - this->actor.uncullZoneScale) * invW) < 1.0f)) {
-        if ((((this->actor.projectedPos.y + this->actor.uncullZoneDownward) * invW) > -1.0f) &&
-            (((this->actor.projectedPos.y - this->actor.uncullZoneScale) * invW) < 1.0f)) {
+    if ((-this->actor.cullingVolumeScale < this->actor.projectedPos.z) &&
+        (this->actor.projectedPos.z < (this->actor.cullingVolumeDistance + this->actor.cullingVolumeScale)) &&
+        (((fabsf(this->actor.projectedPos.x) - this->actor.cullingVolumeScale) * invW) < 1.0f)) {
+        if ((((this->actor.projectedPos.y + this->actor.cullingVolumeDownward) * invW) > -1.0f) &&
+            (((this->actor.projectedPos.y - this->actor.cullingVolumeScale) * invW) < 1.0f)) {
             return true;
         }
     }
@@ -166,9 +166,9 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
         case EN_WOOD_02_TYPE_12:
         case EN_WOOD_02_TYPE_18:
             scale = 1.5f;
-            this->actor.uncullZoneForward = 4000.0f;
-            this->actor.uncullZoneScale = 2000.0f;
-            this->actor.uncullZoneDownward = 2400.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
+            this->actor.cullingVolumeScale = 2000.0f;
+            this->actor.cullingVolumeDownward = 2400.0f;
             break;
 
         case EN_WOOD_02_TYPE_3:
@@ -190,16 +190,16 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
         case EN_WOOD_02_TYPE_10:
         case EN_WOOD_02_TYPE_11:
         case EN_WOOD_02_TYPE_17:
-            this->actor.uncullZoneForward = 4000.0f;
-            this->actor.uncullZoneScale = 800.0f;
-            this->actor.uncullZoneDownward = 1800.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
+            this->actor.cullingVolumeScale = 800.0f;
+            this->actor.cullingVolumeDownward = 1800.0f;
             break;
 
         case EN_WOOD_02_TYPE_2:
             scale = 0.6f;
-            this->actor.uncullZoneForward = 4000.0f;
-            this->actor.uncullZoneScale = 400.0f;
-            this->actor.uncullZoneDownward = 1000.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
+            this->actor.cullingVolumeScale = 400.0f;
+            this->actor.cullingVolumeDownward = 1000.0f;
             break;
 
         case EN_WOOD_02_TYPE_23:
@@ -240,7 +240,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
             this->actor.world.pos.x += sSin * sSpawnDistances[5];
             this->actor.world.pos.z += sCos * sSpawnDistances[5];
         } else {
-            this->actor.flags |= ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         }
         this->actor.world.pos.y += 200.0f;
         floorY =
@@ -274,7 +274,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if ((this->unk153 == 1) && (this->actor.parent != NULL)) {
-        if (!(this->actor.flags & ACTOR_FLAG_6)) {
+        if (!(this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
             v = this->unk14E[0];
             var_v0 = 0;
             if (this->unk14C < 0) {

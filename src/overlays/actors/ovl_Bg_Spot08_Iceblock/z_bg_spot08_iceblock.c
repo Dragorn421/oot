@@ -35,9 +35,9 @@ static f32 D_808B16D4[3] = { 0.96f, 0.96f, 0.98f };
 static f32 D_808B16E0[3] = { 0.22495104f, 0.22495104f, 0.03489947f };
 static f32 D_808B16EC[3] = { 0.97437006f, 0.97437006f, 0.99939084f };
 static InitChainEntry D_808B16F8[] = {
-    ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2200, ICHAIN_STOP),
 };
 
 void func_808B0960(BgSpot08Iceblock* this, void (*arg1)(BgSpot08Iceblock*, PlayState*)) {

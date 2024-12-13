@@ -99,7 +99,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = &func_80880484;
         } else {
             DynaPolyActor_Init((DynaPolyActor*)this, DYNA_TRANSFORM_POS);
-            this->dyna.actor.flags |= ACTOR_FLAG_4;
+            this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_CRUSHER) {
                 CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &sp2C);
                 this->unk168 = 0x1E;
@@ -136,7 +136,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
     } else {
         this->unk168 = 0x28;
         this->actionFunc = &func_808809B0;
-        this->dyna.actor.uncullZoneScale = 500.0f;
+        this->dyna.actor.cullingVolumeScale = 500.0f;
     }
     CollisionCheck_SetInfo(&this->dyna.actor.colChkInfo, NULL, &D_80881008);
 }

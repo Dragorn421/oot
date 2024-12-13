@@ -59,8 +59,8 @@ static ColliderJntSphElementInit D_8088CC80[6] = {
 ColliderJntSphInit D_8088CD58 = { { 0xA, 0x11, 0, 0, 0x20, 0 }, 6, D_8088CC80 };
 InitChainEntry D_8088CD68[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1500, ICHAIN_STOP),
 };
 
 static void* sFireballsTexs[] = {

@@ -7,7 +7,7 @@
 #include "z_en_jj.h"
 #include "assets/objects/object_jj/object_jj.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnJj_Init(Actor* thisx, PlayState* play);
 void EnJj_Destroy(Actor* thisx, PlayState* play);
@@ -180,9 +180,9 @@ static ColliderCylinderInit D_80A88CB4 = {
 
 static InitChainEntry D_80A88CE0[] = {
     ICHAIN_VEC3F_DIV1000(scale, 87, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 3300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 3300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1100, ICHAIN_STOP),
 };
 static Vec3f D_80A88CF0 = { -1589.0f, 53.0f, -43.0f };
 static s32 D_80A88CFC[5] = { 0x06007698, 0x06007A98, 0x06007E98, 0, 0 };

@@ -7,7 +7,7 @@
 #include "z_en_daiku_kakariko.h"
 #include "assets/objects/object_daiku/object_daiku.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum KakarikoCarpenterType {
     /* 0x0 */ CARPENTER_ICHIRO,  // Red and purple pants, normal hair
@@ -157,8 +157,7 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_daiku_Skel_007958, NULL, this->jointTable, this->morphTable,
-                       17);
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_daiku_Skel_007958, NULL, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
 
@@ -172,7 +171,7 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
 
     this->actor.gravity = 0.0f;
     this->runSpeed = 3.0f;
-    this->actor.uncullZoneForward = 1200.0f;
+    this->actor.cullingVolumeDistance = 1200.0f;
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->currentAnimIndex = -1;
 

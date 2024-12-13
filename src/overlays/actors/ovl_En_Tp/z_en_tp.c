@@ -112,7 +112,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
         this->unk174.elements[0].dim.modelSphere.radius = this->unk174.elements[0].dim.worldSphere.radius;
         func_80B21B90(this);
         this->actor.focus.pos = this->actor.world.pos;
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         Actor_SetScale(&this->actor, 1.5f);
         for (var_s1 = 0; var_s1 < 7; var_s1++) {
             if (((0 * var_s1) != 0) && ((0 * var_s1) != 0)) {}
@@ -125,7 +125,8 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
                 temp_v0_2->unk1D4 = this;
                 Actor_SetScale(&temp_v0_2->actor, 0.3f);
                 if (var_s1 == 2) {
-                    temp_v0_2->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4;
+                    temp_v0_2->actor.flags |=
+                        ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                     temp_v0_2->unk150 = 1;
                 }
                 temp_v0_2->unk15C = var_s1 * -5;

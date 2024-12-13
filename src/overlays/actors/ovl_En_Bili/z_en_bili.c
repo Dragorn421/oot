@@ -179,7 +179,7 @@ void func_809BFC48(EnBili* this) {
     this->unk196 = 0x14;
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk1D4.base.acFlags &= ~AC_ON;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 20);
     this->unk190 = func_809C06E0;
@@ -517,7 +517,7 @@ void func_809C0A70(EnBili* this, PlayState* play) {
                 func_809BFC48(this);
             }
             if (this->unk1D4.elem.acHitElem->atDmgInfo.dmgFlags & DMG_ARROW) {
-                this->actor.flags |= ACTOR_FLAG_4;
+                this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             }
         }
     }
