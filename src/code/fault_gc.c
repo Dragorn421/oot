@@ -42,8 +42,8 @@
  */
 #if PLATFORM_GC
 
-#pragma increment_block_number "gc-eu:112 gc-eu-mq:112 gc-eu-mq-dbg:96 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128" \
-                               "gc-us-mq:128"
+#pragma increment_block_number "gc-eu:96 gc-eu-mq:96 gc-eu-mq-dbg:96 gc-jp:96 gc-jp-ce:96 gc-jp-mq:96 gc-us:96" \
+                               "gc-us-mq:96"
 
 #include "global.h"
 #include "alloca.h"
