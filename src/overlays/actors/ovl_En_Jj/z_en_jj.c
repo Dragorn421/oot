@@ -34,7 +34,7 @@ ActorProfile En_Jj_Profile = {
 
 static s32 sPad = 0;
 
-static CutsceneData D_80A88164[0x2D4] = {
+static CutsceneData gJabuInhalingCs[0x2D4] = {
     { 0x1A },        { 0x65D },       { 0xA },         { 4 },           { 0x50000 },     { 0xF00000 },
     { 0x40000000 },  { -0x6C4 },      { 0x34 },        { -0x2C },       { -0x6C4 },      { 0x34 },
     { -0x2C },       { 0x0F671408 },  { 0 },           { 1 },           { 0x300F0 },     { 0xFF0000 },
@@ -320,7 +320,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
         return;
     }
     func_80A87800(this, func_80A87EF0);
-    play->csCtx.script = D_80A88164;
+    play->csCtx.script = gJabuInhalingCs;
     gSaveContext.cutsceneTrigger = 1;
     DynaPoly_DisableCollision(play, &play->colCtx.dyna, temp_v1->dyna.bgId);
     Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
