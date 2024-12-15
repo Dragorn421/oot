@@ -71,6 +71,7 @@ For macOS, use homebrew to install the following dependencies:
 * python3
 * md5sha1sum
 * libpng
+* libiconv
 
 You can install them with the following commands:
 
