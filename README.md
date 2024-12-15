@@ -76,7 +76,7 @@ You can install them with the following commands:
 
 ```bash
 brew update
-brew install coreutils make python3 md5sha1sum libpng
+brew install coreutils make python3 md5sha1sum libpng libiconv
 ```
 
 You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
