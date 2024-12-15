@@ -6,14 +6,15 @@
 #include "quake.h"
 #include "terminal.h"
 #include "versions.h"
+#include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-eu:31 gc-eu-mq:31 gc-jp:33 gc-jp-ce:33 gc-jp-mq:33 gc-us:33 gc-us-mq:33" \
-                               "ntsc-1.0:19 ntsc-1.1:19 ntsc-1.2:19 pal-1.0:17 pal-1.1:17"
+#pragma increment_block_number "gc-eu:24 gc-eu-mq:24 gc-jp:26 gc-jp-ce:26 gc-jp-mq:26 gc-us:26 gc-us-mq:26" \
+                               "ntsc-1.0:12 ntsc-1.1:12 ntsc-1.2:12 pal-1.0:10 pal-1.1:10"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -179,21 +180,7 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
-#if OOT_VERSION < NTSC_1_1
-                HUNGUP_AND_CRASH("../z_play.c", 2263);
-#elif OOT_VERSION < PAL_1_0
-                HUNGUP_AND_CRASH("../z_play.c", 2266);
-#elif OOT_VERSION < PAL_1_1
-                HUNGUP_AND_CRASH("../z_play.c", 2269);
-#elif OOT_VERSION < GC_JP
-                HUNGUP_AND_CRASH("../z_play.c", 2272);
-#elif OOT_VERSION < GC_EU_MQ_DBG
-                HUNGUP_AND_CRASH("../z_play.c", 2287);
-#elif OOT_VERSION < GC_JP_CE
-                HUNGUP_AND_CRASH("../z_play.c", 2290);
-#else
-                HUNGUP_AND_CRASH("../z_play.c", 2293);
-#endif
+                HUNGUP_AND_CRASH("../z_play.c", LN5(2263, 2266, 2269, 2272, 2287, 2290, 2293));
                 break;
         }
     }

@@ -7,6 +7,7 @@
 #include "stackcheck.h"
 #include "versions.h"
 #include "z64audio.h"
+#include "line_numbers.h"
 
 #pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
@@ -95,15 +96,7 @@ void func_801C7898(void) {
 
 void func_801C78D8(void) {
     if (D_80121213 != 0) {
-        Fault_AddHungupAndCrash("../z_n64dd.c",
-#if OOT_VERSION == NTSC_1_0
-                                503
-#elif OOT_VERSION == NTSC_1_1
-                                551
-#else
-                                573
-#endif
-        );
+        Fault_AddHungupAndCrash("../z_n64dd.c", LN2(503, 551, 573));
     }
     D_80121213 = 1;
 }
