@@ -1,4 +1,5 @@
 #include "z_en_ge1.h"
+#include "z64horse.h"
 #include "assets/objects/object_ge1/object_ge1.h"
 #include "z64.h"
 
@@ -186,7 +187,7 @@ void func_80A30E08(EnGe1* this, PlayState* play) {
     if (this->unk2AF > 0) {
         this->unk2AF--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {

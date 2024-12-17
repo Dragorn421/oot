@@ -1,5 +1,6 @@
 #include "z_en_ge2.h"
 #include "macros.h"
+#include "z64horse.h"
 #include "assets/objects/object_gla/object_gla.h"
 #include "z64collision_check.h"
 
@@ -213,7 +214,7 @@ void func_80A330CC(EnGe2* this, PlayState* play) {
     if (this->unk305 > 0) {
         this->unk305--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
@@ -236,7 +237,7 @@ void func_80A331A0(EnGe2* this, PlayState* play) {
     if (this->unk305 > 0) {
         this->unk305--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {

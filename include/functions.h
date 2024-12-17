@@ -81,13 +81,6 @@ void SkelCurve_SetAnim(SkelAnimeCurve* skelCurve, TransformUpdateIndex* transUpd
 s32 SkelCurve_Update(PlayState* play, SkelAnimeCurve* skelCurve);
 void SkelCurve_Draw(Actor* actor, PlayState* play, SkelAnimeCurve* skelCurve,
                     OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data);
-// ? func_8006CFC0(?);
-void func_8006D074(PlayState* play);
-void func_8006D0AC(PlayState* play);
-// ? func_8006D0EC(?);
-// ? func_8006D684(?);
-void func_8006DC68(PlayState* play, Player* player);
-void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
 
 s32 func_800D71F0(s32 character);
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
