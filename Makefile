@@ -806,7 +806,7 @@ ifneq ($(RUN_CC_CHECK),0)
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $(@:.o=.tmp) $<
 	$(LD) -r -T linker_scripts/data_with_rodata.ld -o $@ $(@:.o=.tmp)
-	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
+	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
 ifneq ($(RUN_CC_CHECK),0)

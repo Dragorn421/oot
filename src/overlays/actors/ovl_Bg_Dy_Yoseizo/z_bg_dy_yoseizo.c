@@ -67,7 +67,8 @@ static Color_RGB8 D_80875488[9] = {
 static Vec3f D_808754A4 = { 0.0f, 0.0f, 0.0f };
 static s16 D_808754B0[4] = { 2, 0, 1, 0 };
 static s16 D_808754B8[4] = { 0x11, 0x10, 0x12, 0 };
-static s16 D_808754C0[] = { ITEMGETINF_18_MASK, ITEMGETINF_19_MASK, ITEMGETINF_1A_MASK };
+static s16 D_808754C0[] = { ITEMGETINF_MASK(ITEMGETINF_18), ITEMGETINF_MASK(ITEMGETINF_19),
+                            ITEMGETINF_MASK(ITEMGETINF_1A) };
 static u8 D_808754C8[4] = { 0xD, 5, 0x13, 0 };
 
 static void* D_808754CC[] = {
@@ -754,7 +755,7 @@ void func_80874304(BgDyYoseizo* this, PlayState* play) {
                     this->unk300 = 1;
                     gSaveContext.healthAccumulator = 0x140;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
-                    gSaveContext.save.info.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= D_808754C0[var_v1];
+                    gSaveContext.save.info.itemGetInf[ITEMGETINF_INDEX_18_19_1A] |= D_808754C0[var_v1];
                     Item_Give(play, D_808754C8[var_v1]);
                 }
             } else {
