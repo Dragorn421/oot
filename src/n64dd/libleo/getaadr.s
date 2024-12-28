@@ -1,41 +1,33 @@
 #include "ultra64/asm.h"
+#include "ultra64/regdef.h"
 
-.set noat
-.set noreorder
-.set gp=64
-
-.section .text
+.text
 
 LEAF(LeoGetAAdr)
-    bltz       $a0, .L801D0498
-     slti      $at, $a0, 0x908
-    beqz       $at, .L801D0498
-     nop
-    lui        $v1, %hi(D_801D04A0)
-    sll        $t0, $a0, 2
-    addiu      $v1, $v1, %lo(D_801D04A0)
-    add        $t1, $t0, $v1
-    lbu        $t8, 0x2($t1)
-    lhu        $t9, 0x0($t1)
-    lui        $at, (0x7EE80 >> 16)
-    andi       $t2, $t8, 0xF
-    addi       $t3, $t2, 0x1
-    sw         $t3, 0x0($a2)
-    lb         $t0, 0x3($t1)
-    srl        $t4, $t8, 4
-    ori        $at, $at, (0x7EE80 & 0xFFFF)
-    andi       $t5, $t0, 0x1
-    sll        $t6, $t5, 4
-    or         $t7, $t6, $t4
-    sw         $t7, 0x0($a1)
-    sll        $v0, $t9, 1
-    sra        $v1, $t0, 1
-    sw         $v1, 0x0($a3)
-    jr         $ra
-     add       $v0, $v0, $at
+    bltz    a0, .L801D0498
+    bge     a0, 0x908, .L801D0498
+    sll     t0, a0, 2
+    la      v1, D_801D04A0
+    add     t1, t0, v1
+    lbu     t8, 2(t1)
+    lhu     t9, 0(t1)
+    andi    t2, t8, 0xF
+    addi    t3, t2, 1
+    sw      t3, (a2)
+    lb      t0, 3(t1)
+    srl     t4, t8, 4
+    andi    t5, t0, 1
+    sll     t6, t5, 4
+    or      t7, t6, t4
+    sw      t7, (a1)
+    sll     v0, t9, 1
+    sra     v1, t0, 1
+    sw      v1, (a3)
+    add     v0, v0, 0x7EE80
+    jr      ra
   .L801D0498:
-    jr         $ra
-     addiu     $v0, $zero, -0x1
+    li      v0, -1
+    jr      ra
 END(LeoGetAAdr)
 
 DATA(D_801D04A0)

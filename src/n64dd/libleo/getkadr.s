@@ -1,64 +1,46 @@
 #include "ultra64/asm.h"
+#include "ultra64/regdef.h"
 
-.set noat
-.set noreorder
-.set gp=64
-
-.section .text
-
-.balign 16
+.text
 
 LEAF(LeoGetKAdr)
-    ori        $at, $zero, 0x8140
-    slt        $at, $a0, $at
-    bnez       $at, .L801CF9E0
-     ori       $at, $zero, 0x9873
-    slt        $at, $a0, $at
-    beqz       $at, .L801CF9E0
-     ori       $at, $zero, 0x8800
-    slt        $at, $a0, $at
-    bnez       $at, .L801CF994
-     addiu     $a2, $zero, 0xBC
-    srl        $a1, $a0, 8
-    addi       $a1, $a1, -0x88
-    multu      $a2, $a1
-    andi       $a3, $a0, 0xFF
-    addi       $a3, $a3, -0x40
-    slti       $at, $a3, 0x40
-    mflo       $a2
-    bnel       $at, $zero, .L801CF984
-     mflo      $a2
-    addi       $a3, $a3, -0x1
-    mflo       $a2
+    blt     a0, 0x8140, .L801CF9E0
+    bge     a0, 0x9873, .L801CF9E0
+    li      a2, 0xBC
+    blt     a0, 0x8800, .L801CF994
+    srl     a1, a0, 8
+    addi    a1, a1, -0x88
+    mul     a2, a2, a1
+    andi    a3, a0, 0xFF
+    addi    a3, a3, -0x40
+    blt     a3, 0x40, .L801CF984
+    addi    a3, a3, -1
   .L801CF984:
-    addi       $a3, $a3, 0x30A
-    add        $a3, $a3, $a2
-    jr         $ra
-     sll       $v0, $a3, 7
+    mflo    a2
+    addi    a3, a3, 0x30A
+    add     a3, a3, a2
+    sll     v0, a3, 7
+    jr      ra
   .L801CF994:
-    srl        $a1, $a0, 8
-    addi       $a1, $a1, -0x81
-    multu      $a2, $a1
-    andi       $a3, $a0, 0xFF
-    addi       $a3, $a3, -0x40
-    slti       $at, $a3, 0x40
-    mflo       $a2
-    bnel       $at, $zero, .L801CF9C0
-     mflo      $a2
-    addi       $a3, $a3, -0x1
-    mflo       $a2
+    srl     a1, a0, 8
+    addi    a1, a1, -0x81
+    mul     a2, a2, a1
+    andi    a3, a0, 0xFF
+    addi    a3, a3, -0x40
+    blt     a3, 0x40, .L801CF9C0
+    addi    a3, a3, -1
   .L801CF9C0:
-    add        $a3, $a3, $a2
-    lui        $a2, %hi(D_801CF9E8)
-    sll        $a3, $a3, 1
-    addiu      $a2, $a2, %lo(D_801CF9E8)
-    add        $a3, $a3, $a2
-    lh         $a2, 0x0($a3)
-    jr         $ra
-     sll       $v0, $a2, 7
+    mflo    a2
+    add     a3, a3, a2
+    sll     a3, a3, 1
+    la      a2, D_801CF9E8
+    add     a3, a3, a2
+    lh      a2, (a3)
+    sll     v0, a2, 7
+    jr      ra
   .L801CF9E0:
-    jr         $ra
-     addiu     $v0, $zero, -0x1
+    li      v0, -1
+    jr      ra
 END(LeoGetKAdr)
 
 DATA(D_801CF9E8)
