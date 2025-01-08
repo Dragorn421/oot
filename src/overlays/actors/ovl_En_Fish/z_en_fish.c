@@ -382,9 +382,9 @@ void func_80A15F84(EnFish* this, PlayState* play) {
         func_80A163DC(this);
     } else if ((this->unk248 <= 0) && (this->actor.params == 0) &&
                (this->actor.floorHeight < (BGCHECK_Y_MIN + 10.0f))) {
-        PRINTF("\x1b[43;30m");
+        PRINTF_COLOR_WARNING();
         PRINTF("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
-        PRINTF("\x1b[m");
+        PRINTF_RST();
         Actor_Kill(&this->actor);
     }
 }

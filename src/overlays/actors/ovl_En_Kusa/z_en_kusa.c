@@ -94,9 +94,9 @@ s32 func_80A9AFAC(EnKusa* this, PlayState* play, f32 arg2) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return 1;
     } else {
-        PRINTF("\x1b[43;30m");
+        PRINTF_COLOR_WARNING();
         PRINTF("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
-        PRINTF("\x1b[m");
+        PRINTF_RST();
         return 0;
     }
 }

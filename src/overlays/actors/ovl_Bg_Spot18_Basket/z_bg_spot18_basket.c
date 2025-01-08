@@ -154,9 +154,9 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
                        actor->world.pos.z, actor->shape.rot.x, actor->shape.rot.y + 0x1555, actor->shape.rot.z, -1);
 
     if (actor->child == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         Actor_Kill(actor);
     }
 }
