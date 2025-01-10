@@ -67,6 +67,7 @@ D_60017C0 = 0x60017C0;
 D_6001960 = 0x6001960;
 
 #if PLATFORM_IQUE
+gzip_decompress = 0x80002C3C;
 __divdi3 = 0x80008010;
 __moddi3 = 0x800085F0;
 __udivdi3 = 0x80008B80;
