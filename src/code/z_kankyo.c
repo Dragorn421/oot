@@ -1,5 +1,5 @@
 #pragma increment_block_number "gc-eu:152 gc-eu-mq:152 gc-jp:144 gc-jp-ce:144 gc-jp-mq:144 gc-us:144 gc-us-mq:144" \
-                               "ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144 pal-1.0:164 pal-1.1:164"
+                               "ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144 pal-1.0:160 pal-1.1:160"
 
 #include "global.h"
 #include "ultra64.h"
@@ -214,7 +214,7 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-#pragma increment_block_number "gc-eu:244 gc-eu-mq:244 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
+#pragma increment_block_number "gc-eu:242 gc-eu-mq:242 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
                                "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:242 pal-1.1:242"
 
 LightNode* sNGameOverLightNode;
