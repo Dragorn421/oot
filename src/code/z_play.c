@@ -1625,7 +1625,7 @@ s16 Play_CreateSubCamera(PlayState* this) {
     return camId;
 }
 
-s16 Play_GetActiveCamId(PlayState* this) {
+s32 Play_GetActiveCamId(PlayState* this) {
     return this->activeCamId;
 }
 
