@@ -84,6 +84,9 @@ void SkelCurve_Draw(Actor* actor, PlayState* play, SkelAnimeCurve* skelCurve,
                     OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data);
 
 s32 func_800D71F0(s32 character);
+#if PLATFORM_IQUE
+void Font_LoadCharCHN(Font* font, u16 character, u16 codePointIndex);
+#endif
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);
