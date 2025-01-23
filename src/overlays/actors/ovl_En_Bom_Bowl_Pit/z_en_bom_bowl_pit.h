@@ -2,11 +2,11 @@
 #define Z_EN_BOM_BOWL_PIT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBomBowlPit;
 
-typedef void (*EnBomBowlPitActionFunc)(struct EnBomBowlPit*, PlayState*);
+typedef void (*EnBomBowlPitActionFunc)(struct EnBomBowlPit*, struct PlayState*);
 
 typedef struct EnBomBowlPit {
     /* 0x0000 */ Actor actor;

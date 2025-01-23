@@ -5,10 +5,20 @@
  */
 
 #include "z_en_wall_tubo.h"
-#include "quake.h"
 #include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
+
+#include "rand.h"
+#include "regs.h"
+#include "sfx.h"
+#include "quake.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "functions.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

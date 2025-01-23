@@ -2,11 +2,11 @@
 #define Z_EN_WALL_TUBO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnWallTubo;
 
-typedef void (*EnWallTuboActionFunc)(struct EnWallTubo*, PlayState*);
+typedef void (*EnWallTuboActionFunc)(struct EnWallTubo*, struct PlayState*);
 
 typedef struct EnWallTubo {
     /* 0x000 */ Actor actor;
