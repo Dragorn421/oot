@@ -11,10 +11,11 @@
 #include "n64dd.h"
 #endif
 
+#include "z64debug_display.h"
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-eu:12 gc-eu-mq:12 gc-jp:14 gc-jp-ce:14 gc-jp-mq:14 gc-us:14 gc-us-mq:14 ntsc-1.0:0" \
-                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:254 pal-1.1:254"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:2 gc-jp-ce:2 gc-jp-mq:2 gc-us:2 gc-us-mq:2 ntsc-1.0:244" \
+                               "ntsc-1.1:244 ntsc-1.2:244 pal-1.0:242 pal-1.1:242"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
