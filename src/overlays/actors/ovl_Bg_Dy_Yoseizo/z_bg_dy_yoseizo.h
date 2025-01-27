@@ -2,7 +2,7 @@
 #define Z_BG_DY_YOSEIZO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #define BG_DY_YOSEIZO_EFFECT_COUNT 200
 
@@ -25,11 +25,11 @@ typedef struct BgDyYoseizoEffect {
 
 struct BgDyYoseizo;
 
-typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, PlayState*);
+typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, struct PlayState*);
 
 typedef struct BgDyYoseizo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ void (*actionFunc)(struct BgDyYoseizo*, PlayState*);
+    /* 0x014C */ void (*actionFunc)(struct BgDyYoseizo*, struct PlayState*);
     /* 0x0150 */ SkelAnime skelAnime;
     /* 0x0194 */ Vec3s unk194[28];
     /* 0x023C */ Vec3s unk23C[28];

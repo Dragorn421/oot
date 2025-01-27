@@ -2,11 +2,11 @@
 #define Z_DEMO_EFFECT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct DemoEffect;
 
-typedef void (*DemoEffectFunc)(struct DemoEffect* this, PlayState* play);
+typedef void (*DemoEffectFunc)(struct DemoEffect* this, struct PlayState* play);
 
 typedef struct DemoEffectFireBall {
     /* 0x00 */ u8 timer;

@@ -2,13 +2,13 @@
 #define Z_BG_SPOT08_ICEBLOCK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot08Iceblock;
 
 typedef struct BgSpot08Iceblock {
     /* 0x000 */ DynaPolyActor dyna;
-    /* 0x164 */ void (*unk164)(struct BgSpot08Iceblock*, PlayState*);
+    /* 0x164 */ void (*unk164)(struct BgSpot08Iceblock*, struct PlayState*);
     /* 0x168 */ Vec3f unk168;
     /* 0x174 */ Vec3f unk174;
     /* 0x180 */ Vec3f unk180;
