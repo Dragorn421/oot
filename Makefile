@@ -409,8 +409,8 @@ MAP      := $(ROM:.z64=.map)
 LDSCRIPT := $(ROM:.z64=.ld)
 
 # description of ROM segments
-SPEC := spec
-SPEC_INCLUDES := $(wildcard spec_includes/*.inc)
+SPEC := spec/spec
+SPEC_INCLUDES := $(wildcard spec/*.inc)
 
 SRC_DIRS := $(shell find src -type d)
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
@@ -492,7 +492,7 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_BIN_EXTRACTED:.bin=.bin.inc.c),$(f:
                    $(foreach f,$(ASSET_FILES_BIN_COMMITTED:.bin=.bin.inc.c),$(BUILD_DIR)/$f)
 
 # Find all .o files included in the spec
-SPEC_O_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(BUILD_DIR_REPLACE) | sed -n -E 's/^[ \t]*include[ \t]*"([a-zA-Z0-9/_.-]+\.o)"/\1/p')
+SPEC_O_FILES := $(shell $(CPP) $(CPPFLAGS) -I. $(SPEC) | $(BUILD_DIR_REPLACE) | sed -n -E 's/^[ \t]*include[ \t]*"([a-zA-Z0-9/_.-]+\.o)"/\1/p')
 
 # Split out reloc files
 O_FILES := $(filter-out %_reloc.o,$(SPEC_O_FILES))
@@ -789,10 +789,10 @@ $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(RELOC_O_FILES) $(LD
 $(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
 	$(CPP) -I include $(CPPFLAGS) $< > $@
 
-$(BUILD_DIR)/$(SPEC): $(SPEC) $(SPEC_INCLUDES)
-	$(CPP) $(CPPFLAGS) $< | $(BUILD_DIR_REPLACE) > $@
+$(BUILD_DIR)/spec: $(SPEC) $(SPEC_INCLUDES)
+	$(CPP) $(CPPFLAGS) -I. $< | $(BUILD_DIR_REPLACE) > $@
 
-$(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
+$(LDSCRIPT): $(BUILD_DIR)/spec
 	$(MKLDSCRIPT) $< $@
 
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
@@ -916,7 +916,7 @@ endif
 $(BUILD_DIR)/src/code/z_message_z_game_over.o: $(BUILD_DIR)/src/code/z_message.o $(BUILD_DIR)/src/code/z_game_over.o
 	$(LD) -r -T linker_scripts/data_with_rodata.ld -o $@ $^
 
-$(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)/$(SPEC)
+$(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)/spec
 	$(MKDMADATA) $< $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt
 
 # Dependencies for files that may include the dmadata header automatically generated from the spec file
@@ -938,8 +938,8 @@ $(BUILD_DIR)/src/audio/sfx_params.o: include/tables/sfx/*.h
 o_files: $(O_FILES)
 $(RELOC_O_FILES): | o_files
 .PHONY: o_files
-$(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/$(SPEC)
-	$(FADO) -M $(@:.o=.d) -n $(notdir $*) -o $(@:.o=.s) $$($(SPEC_LS_SEG) $(BUILD_DIR)/$(SPEC) $(notdir $*) | grep -v _reloc.o)
+$(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
+	$(FADO) -M $(@:.o=.d) -n $(notdir $*) -o $(@:.o=.s) $$($(SPEC_LS_SEG) $(BUILD_DIR)/spec $(notdir $*) | grep -v _reloc.o)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 $(BUILD_DIR)/src/%.o: src/%.c
