@@ -6,6 +6,10 @@
                                "ntsc-1.0:208 ntsc-1.1:208 ntsc-1.2:208 pal-1.0:192 pal-1.1:192"
 
 ALIGNED(16) SaveContext gSaveContext;
+#if PLATFORM_IQUE
+// Unknown bss padding, placed here for matching
+char sUnknownBssPadding[0x20];
+#endif
 u32 D_8015FA88;
 u32 D_8015FA8C;
 

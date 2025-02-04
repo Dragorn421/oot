@@ -128,7 +128,7 @@ void Font_LoadOrderedFont(Font* font) {
         }
 
         if (msgBufWide[codePointIndex] != MESSAGE_WIDE_NEWLINE) {
-            offset = Kanji_OffsetFromShiftJIS(msgBufWide[codePointIndex]);
+            offset = func_800D71F0(msgBufWide[codePointIndex]);
             DMA_REQUEST_SYNC(&font->fontBuf[fontBufIndex * 8], (uintptr_t)_kanjiSegmentRomStart + offset,
                              FONT_CHAR_TEX_SIZE, "../z_kanfont.c", UNK_LINE);
             fontBufIndex += FONT_CHAR_TEX_SIZE / 8;
