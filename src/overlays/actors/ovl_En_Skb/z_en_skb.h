@@ -2,7 +2,7 @@
 #define Z_EN_SKB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSkb;
 
@@ -15,7 +15,7 @@ typedef struct EnSkb {
     /* 0x281 */ u8 setColliderAT;
     /* 0x282 */ u8 lastDamageEffect;
     /* 0x283 */ u8 breakFlags;
-    /* 0x284 */ void (*unk284)(struct EnSkb*, PlayState*);
+    /* 0x284 */ void (*unk284)(struct EnSkb*, struct PlayState*);
     /* 0x288 */ s16 headlessYawOffset;
     /* 0x28A */ char pad28A[2];
     /* 0x28C */ BodyBreak bodyBreak;

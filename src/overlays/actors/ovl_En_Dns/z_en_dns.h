@@ -2,7 +2,7 @@
 #define Z_EN_DNS_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 
 #define DNS_GET_TYPE(thisx) ((thisx)->params)
@@ -50,7 +50,7 @@ typedef struct EnDns {
     /* 0x14C */ SkelAnime unk14C;
     /* 0x190 */ Vec3s unk190[BUSINESS_SCRUB_LIMB_MAX];
     /* 0x1FC */ Vec3s unk1FC[BUSINESS_SCRUB_LIMB_MAX];
-    /* 0x268 */ void (*unk268)(struct EnDns*, PlayState*);
+    /* 0x268 */ void (*unk268)(struct EnDns*, struct PlayState*);
     /* 0x26C */ ColliderCylinder unk26C;
     /* 0x2B8 */ s16 unk2B8;
     /* 0x2BA */ u8 animIndex;

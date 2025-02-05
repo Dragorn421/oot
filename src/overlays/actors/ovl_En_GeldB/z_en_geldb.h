@@ -2,11 +2,11 @@
 #define Z_EN_GELDB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGeldB;
 
-typedef void (*EnGeldBActionFunc)(struct EnGeldB*, PlayState*);
+typedef void (*EnGeldBActionFunc)(struct EnGeldB*, struct PlayState*);
 
 typedef struct EnGeldB {
     /* 0x0000 */ Actor actor;

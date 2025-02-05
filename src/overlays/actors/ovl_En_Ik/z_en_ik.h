@@ -2,11 +2,11 @@
 #define Z_EN_IK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnIk;
 
-typedef void (*EnIkActionFunc)(struct EnIk*, PlayState*);
+typedef void (*EnIkActionFunc)(struct EnIk*, struct PlayState*);
 
 typedef struct EnIk {
     /* 0x0000 */ Actor actor;

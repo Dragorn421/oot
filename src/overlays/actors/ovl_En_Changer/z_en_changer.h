@@ -2,11 +2,11 @@
 #define Z_EN_CHANGER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnChanger;
 
-typedef void (*EnChangerActionFunc)(struct EnChanger*, PlayState*);
+typedef void (*EnChangerActionFunc)(struct EnChanger*, struct PlayState*);
 
 typedef struct EnChanger {
     /* 0x000 */ Actor actor;
