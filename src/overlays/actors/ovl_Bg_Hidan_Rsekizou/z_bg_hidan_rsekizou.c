@@ -179,7 +179,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568);
     gSPDisplayList(POLY_OPA_DISP++, gFireTempleSpinningFlamethrowerDL);
-    Matrix_MtxFCopy(&sp5C, &gMtxFClear);
+    Matrix_MtxFCopy(&sp5C, &gIdentityMtxF);
     POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
     if ((s16)((Camera_GetCamDirYaw(play->cameraPtrs[play->activeCamId]) - this->dyna.actor.shape.rot.y) - 0x2E6C) >=
         0) {
