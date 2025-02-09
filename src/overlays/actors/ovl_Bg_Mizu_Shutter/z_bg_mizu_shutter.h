@@ -2,13 +2,13 @@
 #define Z_BG_MIZU_SHUTTER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #define BGMIZUSHUTTER_PARAM(size, timer, switchFlag) (size << 0xC) | (timer << 0x6) | switchFlag
 
 struct BgMizuShutter;
 
-typedef void (*BgMizuShutterActionFunc)(struct BgMizuShutter*, PlayState*);
+typedef void (*BgMizuShutterActionFunc)(struct BgMizuShutter*, struct PlayState*);
 
 typedef struct BgMizuShutter {
     /* 0x0000 */ DynaPolyActor dyna;
