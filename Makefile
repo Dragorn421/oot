@@ -924,6 +924,7 @@ endif
 # Incremental link to move z_message and z_game_over data into rodata
 $(BUILD_DIR)/src/code/z_message_z_game_over.o: $(BUILD_DIR)/src/code/z_message.o $(BUILD_DIR)/src/code/z_game_over.o
 	$(LD) -r -G 0 -T linker_scripts/data_with_rodata.ld -o $@ $^
+	$(PYTHON) tools/patch_data_with_rodata_mdebug.py $@
 
 $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)/spec
 	$(MKDMADATA) $< $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt
@@ -973,6 +974,7 @@ ifneq ($(RUN_CC_CHECK),0)
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $(@:.o=.tmp) $<
 	$(LD) -r -T linker_scripts/data_with_rodata.ld -o $@ $(@:.o=.tmp)
+	$(PYTHON) tools/patch_data_with_rodata_mdebug.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/assets/%.inc.c: assets/%.png
@@ -1127,6 +1129,7 @@ ifneq ($(RUN_CC_CHECK),0)
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $(@:.o=.tmp) $<
 	$(LD) -r -T linker_scripts/data_with_rodata.ld $(@:.o=.tmp) -o $@
+	$(PYTHON) tools/patch_data_with_rodata_mdebug.py $@
 	@$(RM) $(@:.o=.tmp)
 
 $(BUILD_DIR)/assets/audio/sequence_font_table.o: $(BUILD_DIR)/assets/audio/sequence_font_table.s
