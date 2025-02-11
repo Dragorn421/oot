@@ -86,7 +86,7 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, &this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, &this->colliderElements);
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
