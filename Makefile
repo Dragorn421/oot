@@ -989,35 +989,18 @@ $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
 
 # Assets from assets/
 
-$(BUILD_DIR)/assets/%.u64.inc.c: assets/%.u64.png
-	$(PYTHON) tools/assets/build_from_png.py $< $(@:.inc.c=.bin)
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u64 <$(@:.inc.c=.bin) >>$@
-
-# same as above rule but u32
-$(BUILD_DIR)/assets/%.u32.inc.c: assets/%.u32.png
-	$(PYTHON) tools/assets/build_from_png.py $< $(@:.inc.c=.bin)
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u32 <$(@:.inc.c=.bin) >>$@
-
-$(BUILD_DIR)/assets/%.u8.inc.c: assets/%.u8.bin
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u8 <$< >>$@
-
-$(BUILD_DIR)/assets/%.u64.jpg.inc.c: assets/%.u64.jpg
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u64 <$< >>$@
+# TODO copypaste from below
 
 # Assets from extracted/
 
 $(BUILD_DIR)/assets/%.u64.inc.c: $(EXTRACTED_DIR)/assets/%.u64.png
-	$(PYTHON) tools/assets/build_from_png.py $< $(@:.inc.c=.bin)
+	tools/assets/build_from_png/build_from_png $< $(@:.inc.c=.bin)
 	@echo // From file://`realpath $<` >$@
 	tools/assets/bin2c/bin2c u64 <$(@:.inc.c=.bin) >>$@
 
 # same as above rule but u32
 $(BUILD_DIR)/assets/%.u32.inc.c: $(EXTRACTED_DIR)/assets/%.u32.png
-	$(PYTHON) tools/assets/build_from_png.py $< $(@:.inc.c=.bin)
+	tools/assets/build_from_png/build_from_png $< $(@:.inc.c=.bin)
 	@echo // From file://`realpath $<` >$@
 	tools/assets/bin2c/bin2c u32 <$(@:.inc.c=.bin) >>$@
 
