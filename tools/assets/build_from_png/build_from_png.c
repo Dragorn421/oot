@@ -145,8 +145,10 @@ int main(int argc, char** argv) {
     usage:
         fprintf(stderr, "Usage: build_from_png path/to/file.png path/to/file.bin\n");
         fprintf(stderr, "The png file should be named like:\n");
-        fprintf(stderr, " - texName.format[.u32|.u64].png (non-ci formats)\n");
-        fprintf(stderr, " - texName.ci[4|8].tlut_tlutName[_u32|_u64][.u32|.u64].png\n");
+        fprintf(stderr, " - texName.format[.u32|.u64].png (non-ci formats or ci formats with a non-shared tlut)\n");
+        fprintf(stderr, " - texName.ci[4|8].tlut_tlutName[_u32|_u64][.u32|.u64].png (ci formats with a shared tlut)\n");
+        fprintf(stderr, "For ci formats with a tlut that is not shared, the bin file should be named like:\n");
+        fprintf(stderr, " - texName.format[.u32|.u64].bin\n");
         return EXIT_FAILURE;
     }
     const char* png_p = argv[1];
@@ -176,14 +178,30 @@ int main(int argc, char** argv) {
         n64texconv_image_free(img);
         return EXIT_FAILURE;
     }
+    free(img_bin);
 
     if (fmt->fmt == G_IM_FMT_CI) {
+        assert(img->pal != NULL);
         // TODO ...
-        n64texconv_palette_to_bin(img->pal, false);
+        if (tlut_name == NULL) {
+            // pal_bin_p = bin_p:.uXX.bin=.tlut.rgba16.u64.bin
+            if (!strendswith(bin_p, ".bin")) {
+                fprintf(stderr, "\n");
+                n64texconv_image_free(img);
+                return EXIT_FAILURE;
+            }
+            char *pal_bin_p
+            void* pal_bin = n64texconv_palette_to_bin(img->pal, false);
+            if (!write_bytes(pal_bin_p, pal_bin, img->pal->count)) {
+                free(pal_bin);
+                n64texconv_image_free(img);
+                return EXIT_FAILURE;
+            }
+        } else {
+        }
     }
 
     free(tlut_name);
-    free(img_bin);
     n64texconv_image_free(img);
     return EXIT_SUCCESS;
 }
