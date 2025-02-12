@@ -1,6 +1,14 @@
 #include "z_demo_ext.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+#include "z64skin.h"
+
 #include "assets/objects/object_fhg/object_fhg.h"
-#include "z64cutscene.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

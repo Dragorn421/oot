@@ -2,7 +2,7 @@
 #define Z_EN_GE2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGe2;
 
@@ -27,7 +27,7 @@ typedef struct EnGe2 {
     /* 0x305 */ u8 unk305;
     /* 0x306 */ u8 unk306;
     /* 0x307 */ char pad307[1];
-    /* 0x308 */ void (*unk308)(struct EnGe2*, PlayState*);
+    /* 0x308 */ void (*unk308)(struct EnGe2*, struct PlayState*);
 } EnGe2; // size = 0x30C
 
 #endif

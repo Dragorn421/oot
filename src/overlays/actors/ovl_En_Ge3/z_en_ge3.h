@@ -2,7 +2,7 @@
 #define Z_EN_GE3_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGe3;
 
@@ -18,7 +18,7 @@ typedef struct EnGe3 {
     /* 0x306 */ Vec3s unk306;
     /* 0x30C */ u16 unk30C;
     /* 0x30E */ char pad30E[2];
-    /* 0x310 */ void (*unk310)(struct EnGe3*, PlayState*);
+    /* 0x310 */ void (*unk310)(struct EnGe3*, struct PlayState*);
 } EnGe3; // size = 0x314
 
 #endif

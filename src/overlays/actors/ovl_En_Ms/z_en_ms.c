@@ -5,6 +5,14 @@
  */
 
 #include "z_en_ms.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "z64play.h"
+
+#include "global.h"
+
 #include "assets/objects/object_ms/object_ms.h"
 #include "z64item.h"
 

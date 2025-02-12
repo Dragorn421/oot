@@ -1,8 +1,17 @@
 #include "z_en_ge2.h"
-#include "macros.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
 #include "z64horse.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_gla/object_gla.h"
-#include "z64collision_check.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
