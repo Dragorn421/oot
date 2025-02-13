@@ -12,15 +12,15 @@
 #include "gfx_setupdl.h"
 #include "regs.h"
 #include "segmented_address.h"
+#include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64effect.h"
+#include "z64face_reaction.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
 
 #include "assets/objects/object_ru1/object_ru1.h"
 
