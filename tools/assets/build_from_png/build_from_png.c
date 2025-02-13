@@ -1,7 +1,11 @@
 #include <assert.h>
+#include <dirent.h>
+#include <errno.h>
+#include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 
 #include "../../n64texconv/src/libn64texconv/n64texconv.h"
 
@@ -26,19 +30,21 @@ static const struct fmt_info {
 
 #define strequ(s1, s2) (strcmp(s1, s2) == 0)
 #define strstartswith(s, prefix) (strncmp(s, prefix, strlen(prefix)) == 0)
-bool strendswith(const char* s, const char* suffix) {
+static bool strendswith(const char* s, const char* suffix) {
     size_t len_s = strlen(s);
     size_t len_suffix = strlen(suffix);
     return (len_s >= len_suffix) && (strncmp(s + len_s - len_suffix, suffix, len_suffix) == 0);
 }
 
-bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep, char** tlut_namep,
-                 int* tlut_elem_sizep) {
+static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep, char** tlut_namep,
+                        int* tlut_elem_sizep, bool print_err) {
     // The last 4 (or less) suffixes, without the '.'
     const int max_n_suffixes = 4;
     char* png_p_suffixes[max_n_suffixes];
     int n_suffixes_found = 0;
-    for (size_t i = strlen(png_p_buf) - 1; i >= 0; i--) {
+    size_t i = strlen(png_p_buf);
+    while (i != 0) {
+        i--;
         if (png_p_buf[i] == '.') {
             png_p_suffixes[n_suffixes_found] = &png_p_buf[i + 1];
             n_suffixes_found++;
@@ -50,7 +56,9 @@ bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep,
     }
 
     if (n_suffixes_found == 0 || !strequ(png_p_suffixes[0], "png")) {
-        fprintf(stderr, "png path doesn't end with .png\n");
+        if (print_err) {
+            fprintf(stderr, "png path doesn't end with .png\n");
+        }
         return false;
     }
     int i_suffix = 1;
@@ -67,13 +75,17 @@ bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep,
         i_suffix++;
     }
     if (i_suffix >= n_suffixes_found) {
-        fprintf(stderr, "png path is missing a .format suffix\n");
+        if (print_err) {
+            fprintf(stderr, "png path is missing a .format suffix\n");
+        }
         return false;
     }
     i_suffix_fmt = i_suffix;
 
     if (i_suffix_elemtype < 0) {
-        fprintf(stderr, "png path is missing a .u32 or .u64 suffix\n");
+        if (print_err) {
+            fprintf(stderr, "png path is missing a .u32 or .u64 suffix\n");
+        }
         return false;
     } else {
         if (strequ(png_p_suffixes[i_suffix_elemtype], "u64")) {
@@ -95,7 +107,9 @@ bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep,
     }
 
     if (fmt == NULL) {
-        fprintf(stderr, "png path is missing a .format suffix\n");
+        if (print_err) {
+            fprintf(stderr, "png path is missing a .format suffix\n");
+        }
         return false;
     }
 
@@ -105,12 +119,16 @@ bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep,
         } else if (strendswith(png_p_suffixes[i_suffix_tlut], "_u32")) {
             *tlut_elem_sizep = 4;
         } else {
-            fprintf(stderr, "png path with ci format has a .tlut_ suffix without a _u32 or _u64 suffix\n");
+            if (print_err) {
+                fprintf(stderr, "png path with ci format has a .tlut_ suffix without a _u32 or _u64 suffix\n");
+            }
             return false;
         }
         // extract "ABC" from the "tlut_ABC_uXX" suffix
         if (strlen(png_p_suffixes[i_suffix_tlut]) <= strlen("tlut__uXX")) {
-            fprintf(stderr, "png path with ci format has a bad .tlut_ suffix\n");
+            if (print_err) {
+                fprintf(stderr, "png path with ci format has a bad .tlut_ suffix\n");
+            }
             return false;
         }
         png_p_suffixes[i_suffix_tlut][strlen(png_p_suffixes[i_suffix_tlut]) - strlen("_uXX")] = '\0';
@@ -122,7 +140,7 @@ bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep,
     return true;
 }
 
-bool write_bytes(const char* path, void* data, size_t nbytes) {
+static bool write_bytes(const char* path, void* data, size_t nbytes) {
     FILE* f = fopen(path, "wb");
     if (f == NULL) {
         perror("fopen");
@@ -138,6 +156,163 @@ bool write_bytes(const char* path, void* data, size_t nbytes) {
         return false;
     }
     return true;
+}
+
+static void free_dir_list(char** dir_list) {
+    for (size_t i = 0; dir_list[i] != NULL; i++) {
+        free(dir_list[i]);
+    }
+    free(dir_list);
+}
+
+/**
+ * Returns a NULL-terminated array of filenames in `dir_p`,
+ * or NULL if an error happens.
+ */
+static char** new_dir_list(const char* dir_p) {
+    DIR* dir = opendir(dir_p);
+    if (dir == NULL) {
+        perror("opendir");
+        return NULL;
+    }
+
+    size_t len_dir_list = 0;
+    size_t maxlen_dir_list = 16;
+    char** dir_list = malloc(sizeof(char* [maxlen_dir_list]));
+
+    while (true) {
+        errno = 0;
+        struct dirent* dirent = readdir(dir);
+        if (dirent == NULL) {
+            if (errno != 0) {
+                perror("readdir");
+                assert(len_dir_list < maxlen_dir_list);
+                dir_list[len_dir_list] = NULL;
+                free_dir_list(dir_list);
+                return NULL;
+            }
+            break;
+        }
+        assert(len_dir_list < maxlen_dir_list);
+        dir_list[len_dir_list] = strdup(dirent->d_name);
+        len_dir_list++;
+
+        if (len_dir_list >= maxlen_dir_list) {
+            maxlen_dir_list *= 2;
+            dir_list = realloc(dir_list, sizeof(char* [maxlen_dir_list]));
+        }
+    }
+
+    assert(len_dir_list < maxlen_dir_list);
+    dir_list[len_dir_list] = NULL;
+
+    if (closedir(dir) != 0) {
+        perror("closedir");
+        free_dir_list(dir_list);
+        return NULL;
+    }
+    return dir_list;
+}
+
+static bool handle_non_ci(const char* png_p, const struct fmt_info* fmt, const char* bin_p) {
+    struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
+    void* img_bin = n64texconv_image_to_bin(img, false, false);
+    size_t nbytes = texel_size_bytes(img->width * img->height, img->siz);
+    bool success = write_bytes(bin_p, img_bin, nbytes);
+    free(img_bin);
+    n64texconv_image_free(img);
+    return success;
+}
+
+static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt, const char* bin_p, char* tlut_name,
+                                  int tlut_elem_size) {
+    char* png_dir_p_buf = strdup(png_p);
+    const char* const png_dir_p = strdup(dirname(png_dir_p_buf));
+    const size_t len_png_dir_p = strlen(png_dir_p);
+    free(png_dir_p_buf);
+    char** png_dir_list = new_dir_list(png_dir_p);
+    if (png_dir_list == NULL) {
+        fprintf(stderr, "Couldn't list files in %s\n", png_dir_p);
+        return false;
+    }
+
+    size_t len_pngs_with_tlut = 0;
+    size_t maxlen_pngs_with_tlut = 16;
+    char** pngs_with_tlut = malloc(sizeof(char* [maxlen_pngs_with_tlut]));
+
+    for (size_t i = 0; png_dir_list[i] != NULL; i++) {
+        char* direntry_name_buf = strdup(png_dir_list[i]);
+        const struct fmt_info* direntry_fmt;
+        int direntry_elem_size;
+        char* direntry_tlut_name;
+        int direntry_tlut_elem_size;
+        if (parse_png_p(direntry_name_buf, &direntry_fmt, &direntry_elem_size, &direntry_tlut_name,
+                        &direntry_tlut_elem_size, false)) {
+            if (direntry_fmt->fmt == G_IM_FMT_CI) {
+                if (strequ(tlut_name, direntry_tlut_name)) {
+                    assert(direntry_fmt == fmt);
+                    assert(direntry_tlut_elem_size == tlut_elem_size);
+
+                    assert(len_pngs_with_tlut < maxlen_pngs_with_tlut);
+                    char* other_png_p = malloc(len_png_dir_p + strlen("/") + strlen(png_dir_list[i]) + 1);
+                    sprintf(other_png_p, "%s/%s", png_dir_p, png_dir_list[i]);
+                    pngs_with_tlut[len_pngs_with_tlut] = other_png_p;
+                    len_pngs_with_tlut++;
+                    if (len_pngs_with_tlut >= maxlen_pngs_with_tlut) {
+                        maxlen_pngs_with_tlut *= 2;
+                        pngs_with_tlut = realloc(pngs_with_tlut, sizeof(char* [maxlen_pngs_with_tlut]));
+                    }
+                }
+            }
+        }
+        free(direntry_name_buf);
+    }
+    assert(len_pngs_with_tlut < maxlen_pngs_with_tlut);
+    pngs_with_tlut[len_pngs_with_tlut] = NULL;
+
+    free_dir_list(png_dir_list);
+
+    struct n64_image* ref_img = n64texconv_image_from_png(png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
+    bool all_other_pngs_match_ref_img_pal = true;
+
+    bool success = true;
+
+    for (size_t i = 0; pngs_with_tlut[i] != NULL; i++) {
+        fprintf(stderr, "%s\n", pngs_with_tlut[i]);
+        struct n64_image* other_img =
+            n64texconv_image_from_png(pngs_with_tlut[i], G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
+        if (other_img == NULL) {
+            success = false;
+            break;
+        }
+        bool pal_matches_ref =
+            other_img->pal->count == ref_img->pal->count &&
+            memcmp(other_img->pal->texels, ref_img->pal->texels, sizeof(struct color[ref_img->pal->count])) == 0;
+        n64texconv_image_free(other_img);
+        if (!pal_matches_ref) {
+            all_other_pngs_match_ref_img_pal = false;
+            break;
+        }
+    }
+    n64texconv_image_free(ref_img);
+
+    if (success) {
+        if (all_other_pngs_match_ref_img_pal) {
+            // write matching palette, and matching color indices for all pngs
+            // TODO
+        } else {
+            // co-palettize all pngs
+            // TODO
+        }
+    }
+
+    for (size_t i = 0; pngs_with_tlut[i] != NULL; i++) {
+        free(pngs_with_tlut[i]);
+    }
+    free(pngs_with_tlut);
+
+    return false; // TODO
+    return success;
 }
 
 int main(int argc, char** argv) {
@@ -161,47 +336,32 @@ int main(int argc, char** argv) {
 
     {
         char* png_p_buf = strdup(png_p);
-        bool success = parse_png_p(png_p_buf, &fmt, &elem_size, &tlut_name, &tlut_elem_size);
+        bool success = parse_png_p(png_p_buf, &fmt, &elem_size, &tlut_name, &tlut_elem_size, true);
         free(png_p_buf);
         if (!success) {
             goto usage;
         }
     }
 
-    struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
+    bool success;
 
-    void* img_bin = n64texconv_image_to_bin(img, false, false);
-    size_t nbytes = texel_size_bytes(img->width * img->height, img->siz);
-    if (!write_bytes(bin_p, img_bin, nbytes)) {
-        free(tlut_name);
-        free(img_bin);
-        n64texconv_image_free(img);
-        return EXIT_FAILURE;
-    }
-    free(img_bin);
-
-    if (fmt->fmt == G_IM_FMT_CI) {
-        assert(img->pal != NULL);
-        // TODO ...
+    if (fmt->fmt != G_IM_FMT_CI) {
+        success = handle_non_ci(png_p, fmt, bin_p);
+    } else {
         if (tlut_name == NULL) {
+            assert(false);
+            // TODO path not needed yet. see dlist_resource.TextureResource.get_filename_stem
             // pal_bin_p = bin_p:.uXX.bin=.tlut.rgba16.u64.bin
             if (!strendswith(bin_p, ".bin")) {
-                fprintf(stderr, "\n");
-                n64texconv_image_free(img);
+                fprintf(stderr, "out bin file doesn't end with .bin\n");
                 return EXIT_FAILURE;
             }
-            char *pal_bin_p
-            void* pal_bin = n64texconv_palette_to_bin(img->pal, false);
-            if (!write_bytes(pal_bin_p, pal_bin, img->pal->count)) {
-                free(pal_bin);
-                n64texconv_image_free(img);
-                return EXIT_FAILURE;
-            }
+            success = false;
         } else {
+            success = handle_ci_shared_tlut(png_p, fmt, bin_p, tlut_name, tlut_elem_size);
+            free(tlut_name);
         }
     }
 
-    free(tlut_name);
-    n64texconv_image_free(img);
-    return EXIT_SUCCESS;
+    return success ? EXIT_SUCCESS : EXIT_FAILURE;
 }
