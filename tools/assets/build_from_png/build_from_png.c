@@ -296,16 +296,15 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             assert(pngs_with_tlut[i].img != NULL);
         }
 
+        char* pal_inc_c_p =
+            malloc(len_out_dir_p + strlen("/") + strlen(tlut_name) + strlen(".tlut.rgba16.uXX.inc.c") + 1);
+        assert(tlut_elem_size == 8 || tlut_elem_size == 4);
+        sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.%s.inc.c", out_dir_p, tlut_name, tlut_elem_size == 8 ? "u64" : "u32");
+
         if (all_other_pngs_match_ref_img_pal) {
             // write matching palette, and matching color indices for all pngs
 
-            char* pal_inc_c_p =
-                malloc(len_out_dir_p + strlen("/") + strlen(tlut_name) + strlen(".tlut.rgba16.uXX.inc.c") + 1);
-            assert(tlut_elem_size == 8 || tlut_elem_size == 4);
-            sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.%s.inc.c", out_dir_p, tlut_name,
-                    tlut_elem_size == 8 ? "u64" : "u32");
             n64texconv_palette_to_c_file(pal_inc_c_p, ref_img->pal, false, tlut_elem_size);
-            free(pal_inc_c_p);
 
             for (size_t i = 0; i < len_pngs_with_tlut; i++) {
                 char* other_png_p_buf = strdup(pngs_with_tlut[i].png_p);
@@ -320,8 +319,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             }
         } else {
             // co-palettize all pngs
-            // TODO
-            success = false;
+            const bool copaletize_write_out_pngs = true;
 
             const size_t num_images = len_pngs_with_tlut;
             uint8_t* out_indices[num_images];
@@ -330,6 +328,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             size_t heights[num_images];
             for (size_t i = 0; i < len_pngs_with_tlut; i++) {
                 assert(pngs_with_tlut[i].img != NULL);
+                out_indices[i] = malloc(pngs_with_tlut[i].img->width * pngs_with_tlut[i].img->height);
                 texels[i] = pngs_with_tlut[i].img->texels;
                 widths[i] = pngs_with_tlut[i].img->width;
                 heights[i] = pngs_with_tlut[i].img->height;
@@ -337,13 +336,70 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             const unsigned int max_colors = fmt->siz == G_IM_SIZ_8b ? 256 : 16;
             struct color out_pal[max_colors];
             size_t out_pal_count;
-            const float dither_level = 0.0f;
+            const float dither_level = 0.5f;
 
             success = n64texconv_quantize_shared(out_indices, out_pal, &out_pal_count, texels, widths, heights,
                                                  num_images, max_colors, dither_level) == 0;
 
-            success = false; // TODO
+            struct n64_palette pal = { out_pal, G_IM_FMT_RGBA, out_pal_count };
+            if (success) {
+                success = n64texconv_palette_to_c_file(pal_inc_c_p, &pal, false, tlut_elem_size) == 0;
+            }
+            if (success) {
+                if (copaletize_write_out_pngs) {
+                    char* pal_out_png_p = strdup(pal_inc_c_p);
+                    assert(strendswith(pal_inc_c_p, ".inc.c"));
+                    pal_out_png_p[strlen(pal_out_png_p) - strlen(".inc.c")] = '\0';
+                    strcat(pal_out_png_p, ".png");
+                    success = n64texconv_palette_to_png(pal_out_png_p, &pal) == 0;
+                    free(pal_out_png_p);
+                }
+            }
+            if (success) {
+                for (size_t i = 0; i < len_pngs_with_tlut; i++) {
+                    char* other_png_p_buf = strdup(pngs_with_tlut[i].png_p);
+                    char* other_png_stem = basename(other_png_p_buf);
+                    assert(strendswith(other_png_stem, ".png"));                    // checked by parse_png_p
+                    other_png_stem[strlen(other_png_stem) - strlen(".png")] = '\0'; // cut off .png suffix
+                    char* inc_c_p = malloc(len_out_dir_p + strlen("/") + strlen(other_png_stem) + strlen(".inc.c") + 1);
+                    sprintf(inc_c_p, "%s/%s.inc.c", out_dir_p, other_png_stem);
+                    free(other_png_p_buf);
+
+                    struct n64_image img = {
+                        pngs_with_tlut[i].img->width,
+                        pngs_with_tlut[i].img->height,
+                        G_IM_FMT_CI,
+                        fmt->siz,
+                        &pal,
+                        pngs_with_tlut[i].img->texels,
+                        out_indices[i],
+                    };
+
+                    success = n64texconv_image_to_c_file(inc_c_p, &img, false, false, pngs_with_tlut[i].elem_size) == 0;
+                    if (!success) {
+                        break;
+                    }
+
+                    if (copaletize_write_out_pngs) {
+                        char* out_png_p = strdup(inc_c_p);
+                        assert(strendswith(inc_c_p, ".inc.c"));
+                        out_png_p[strlen(out_png_p) - strlen(".inc.c")] = '\0';
+                        strcat(out_png_p, ".png");
+                        success = n64texconv_image_to_png(out_png_p, &img, false) == 0;
+                        free(out_png_p);
+                        if (!success) {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            for (size_t i = 0; i < num_images; i++) {
+                free(out_indices[i]);
+            }
         }
+
+        free(pal_inc_c_p);
     }
 
     n64texconv_image_free(ref_img);
