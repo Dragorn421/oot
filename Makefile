@@ -993,16 +993,8 @@ $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
 
 # Assets from extracted/
 
-$(BUILD_DIR)/assets/%.u64.inc.c: $(EXTRACTED_DIR)/assets/%.u64.png
-	tools/assets/build_from_png/build_from_png $< $(@:.inc.c=.bin)
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u64 <$(@:.inc.c=.bin) >>$@
-
-# same as above rule but u32
-$(BUILD_DIR)/assets/%.u32.inc.c: $(EXTRACTED_DIR)/assets/%.u32.png
-	tools/assets/build_from_png/build_from_png $< $(@:.inc.c=.bin)
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u32 <$(@:.inc.c=.bin) >>$@
+$(BUILD_DIR)/assets/%.inc.c: $(EXTRACTED_DIR)/assets/%.png
+	tools/assets/build_from_png/build_from_png $< $(dir $@)
 
 $(BUILD_DIR)/assets/%.u8.inc.c: $(EXTRACTED_DIR)/assets/%.u8.bin
 	@echo // From file://`realpath $<` >$@
