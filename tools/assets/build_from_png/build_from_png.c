@@ -197,7 +197,7 @@ static char** new_dir_list(const char* dir_p) {
     return dir_list;
 }
 
-static bool handle_non_ci(const char* png_p, const struct fmt_info* fmt, int elem_size, const char* out_dir_p) {
+static char* make_inc_c_p(const char* png_p, const char* out_dir_p) {
     char* png_p_buf = strdup(png_p);
     char* png_stem = basename(png_p_buf);
     assert(strendswith(png_stem, ".png"));              // checked by parse_png_p
@@ -205,9 +205,38 @@ static bool handle_non_ci(const char* png_p, const struct fmt_info* fmt, int ele
     char* inc_c_p = malloc(strlen(out_dir_p) + strlen("/") + strlen(png_stem) + strlen(".inc.c") + 1);
     sprintf(inc_c_p, "%s/%s.inc.c", out_dir_p, png_stem);
     free(png_p_buf);
+    return inc_c_p;
+}
+
+static bool handle_non_ci(const char* png_p, const struct fmt_info* fmt, int elem_size, const char* out_dir_p) {
+    char* inc_c_p = make_inc_c_p(png_p, out_dir_p);
 
     struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
     bool success = n64texconv_image_to_c_file(inc_c_p, img, false, false, elem_size) == 0;
+    n64texconv_image_free(img);
+    free(inc_c_p);
+    return success;
+}
+
+static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, int elem_size, const char* out_dir_p) {
+    const int tlut_elem_size = 8;
+    char* inc_c_p = make_inc_c_p(png_p, out_dir_p);
+
+    char* png_p_buf = strdup(png_p);
+    char* png_stem = basename(png_p_buf);
+    // parse_png_p ensured these suffixes
+    assert(strlen(png_stem) >= strlen(".ciX.uXX.png"));
+    png_stem[strlen(png_stem) - strlen(".ciX.uXX.png")] = '\0';
+    char* pal_inc_c_p =
+        malloc(strlen(out_dir_p) + strlen("/") + strlen(png_stem) + strlen(".tlut.rgba16.u64.inc.c") + 1);
+    sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.u64.inc.c", out_dir_p, png_stem);
+    free(png_p_buf);
+
+    struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
+    bool success = n64texconv_image_to_c_file(inc_c_p, img, false, false, elem_size) == 0;
+    if (success) {
+        success = n64texconv_palette_to_c_file(pal_inc_c_p, img->pal, false, tlut_elem_size) == 0;
+    }
     n64texconv_image_free(img);
     free(inc_c_p);
     return success;
@@ -240,11 +269,11 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             char* direntry_name_buf = strdup(in_dir_list[i]);
             const struct fmt_info* direntry_fmt;
             int direntry_elem_size;
-            char* direntry_tlut_name;
-            int direntry_tlut_elem_size;
+            char* direntry_tlut_name = NULL;
+            int direntry_tlut_elem_size = -1;
             if (parse_png_p(direntry_name_buf, &direntry_fmt, &direntry_elem_size, &direntry_tlut_name,
                             &direntry_tlut_elem_size, false)) {
-                if (direntry_fmt->fmt == G_IM_FMT_CI) {
+                if (direntry_fmt->fmt == G_IM_FMT_CI && direntry_tlut_name != NULL) {
                     if (strequ(tlut_name, direntry_tlut_name)) {
                         // TODO change asserts to errors and fail
                         assert(direntry_fmt == fmt);
@@ -325,18 +354,19 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             fprintf(stderr, "Matching data detected!\n");
 #endif
 
-            n64texconv_palette_to_c_file(pal_inc_c_p, ref_img->pal, false, tlut_elem_size);
+            success = n64texconv_palette_to_c_file(pal_inc_c_p, ref_img->pal, false, tlut_elem_size) == 0;
 
-            for (size_t i = 0; i < len_pngs_with_tlut; i++) {
-                char* other_png_p_buf = strdup(pngs_with_tlut[i].png_p);
-                char* other_png_stem = basename(other_png_p_buf);
-                assert(strendswith(other_png_stem, ".png"));                    // checked by parse_png_p
-                other_png_stem[strlen(other_png_stem) - strlen(".png")] = '\0'; // cut off .png suffix
-                char* inc_c_p = malloc(len_out_dir_p + strlen("/") + strlen(other_png_stem) + strlen(".inc.c") + 1);
-                sprintf(inc_c_p, "%s/%s.inc.c", out_dir_p, other_png_stem);
-                free(other_png_p_buf);
+            if (success) {
+                for (size_t i = 0; i < len_pngs_with_tlut; i++) {
+                    char* inc_c_p = make_inc_c_p(pngs_with_tlut[i].png_p, out_dir_p);
 
-                n64texconv_image_to_c_file(inc_c_p, pngs_with_tlut[i].img, false, false, pngs_with_tlut[i].elem_size);
+                    success = n64texconv_image_to_c_file(inc_c_p, pngs_with_tlut[i].img, false, false,
+                                                         pngs_with_tlut[i].elem_size) == 0;
+                    free(inc_c_p);
+                    if (!success) {
+                        break;
+                    }
+                }
             }
         } else {
             // co-palettize all pngs
@@ -473,9 +503,7 @@ int main(int argc, char** argv) {
         success = handle_non_ci(png_p, fmt, elem_size, out_dir_p);
     } else {
         if (tlut_name == NULL) {
-            assert(false);
-            // TODO path not needed yet. see dlist_resource.TextureResource.get_filename_stem
-            success = false;
+            success = handle_ci_single(png_p, fmt, elem_size, out_dir_p);
         } else {
             success = handle_ci_shared_tlut(png_p, fmt, out_dir_p, in_dirs, num_in_dirs, tlut_name, tlut_elem_size);
             free(tlut_name);
