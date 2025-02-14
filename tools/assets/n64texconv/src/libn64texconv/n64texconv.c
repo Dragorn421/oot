@@ -497,11 +497,17 @@ static int
 n64texconv_data_sync(struct color *texels, uint8_t *color_indices, size_t ntexels, int fmt, int siz, size_t pal_count)
 {
     assert(texels != NULL);
+    assert(fmt >= 0);
+    assert(fmt < FMT_MAX);
+    assert(siz >= 0);
+    assert(siz < SIZ_MAX);
 
     void *temp = malloc(texel_size_bytes(ntexels, siz));
     if (temp == NULL)
         return -1;
 
+    assert(FMT_SIZ(fmt, siz) >= 0);
+    assert(FMT_SIZ(fmt, siz) < 32);
     struct texel_layout *layout = &texel_layouts[FMT_SIZ(fmt, siz)];
     assert(layout != NULL);
     if (fmt == G_IM_FMT_CI) {
@@ -528,6 +534,8 @@ static int
 n64texconv_palette_sync(struct n64_palette *pal)
 {
     assert(pal != NULL);
+    assert(pal->fmt >= 0);
+    assert(pal->fmt < FMT_MAX);
     return n64texconv_data_sync(pal->texels, NULL, pal->count, pal->fmt, G_IM_SIZ_16b, 0);
 }
 
@@ -628,6 +636,8 @@ struct n64_palette *
 n64texconv_palette_from_bin(void *data, size_t count, int fmt)
 {
     assert(data != NULL);
+    assert(fmt >= 0);
+    assert(fmt < FMT_MAX);
 
     // Reserve new palette
     struct n64_palette *pal = n64texconv_palette_new(count, fmt);
@@ -1087,6 +1097,7 @@ n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensi
     if (img->fmt == G_IM_FMT_CI) {
         assert(img->color_indices != NULL); // CI textures must have color indices
         assert(img->pal != NULL);           // Writing CI to png must have a palette supplied
+        assert(img->pal->fmt >= 0);
         n64texconv_palette_sync(img->pal);
     }
 
@@ -1134,6 +1145,7 @@ n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensi
         // Write palette
         struct spng_plte plte = { 0 };
         plte.n_entries = pal->count;
+        assert(pal->count <= 256);
         memcpy(plte.entries, pal->texels, pal->count * 4);
         rv = spng_set_plte(ctx, &plte);
         assert(rv == 0);
