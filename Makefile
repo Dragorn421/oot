@@ -989,12 +989,21 @@ $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
 
 # Assets from assets/
 
-# TODO copypaste from below
+$(BUILD_DIR)/assets/%.inc.c: assets/%.png
+	tools/assets/build_from_png/build_from_png $< $(dir $@) assets/$(dir $*) $(wildcard $(EXTRACTED_DIR)/assets/$(dir $*))
+
+$(BUILD_DIR)/assets/%.u8.inc.c: assets/%.u8.bin
+	@echo // From file://`realpath $<` >$@
+	tools/assets/bin2c/bin2c u8 <$< >>$@
+
+$(BUILD_DIR)/assets/%.u64.jpg.inc.c: assets/%.u64.jpg
+	@echo // From file://`realpath $<` >$@
+	tools/assets/bin2c/bin2c u64 <$< >>$@
 
 # Assets from extracted/
 
 $(BUILD_DIR)/assets/%.inc.c: $(EXTRACTED_DIR)/assets/%.png
-	tools/assets/build_from_png/build_from_png $< $(dir $@)
+	tools/assets/build_from_png/build_from_png $< $(dir $@) $(wildcard assets/$(dir $*)) $(EXTRACTED_DIR)/assets/$(dir $*)
 
 $(BUILD_DIR)/assets/%.u8.inc.c: $(EXTRACTED_DIR)/assets/%.u8.bin
 	@echo // From file://`realpath $<` >$@

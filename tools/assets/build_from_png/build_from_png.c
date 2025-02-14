@@ -213,61 +213,75 @@ static bool handle_non_ci(const char* png_p, const struct fmt_info* fmt, int ele
     return success;
 }
 
-static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt, const char* out_dir_p, char* tlut_name,
-                                  int tlut_elem_size) {
-    char* png_dir_p_buf = strdup(png_p);
-    const char* const png_dir_p = strdup(dirname(png_dir_p_buf));
-    const size_t len_png_dir_p = strlen(png_dir_p);
-    free(png_dir_p_buf);
-
+static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt, const char* out_dir_p, char** in_dirs,
+                                  int num_in_dirs, char* tlut_name, int tlut_elem_size) {
     const size_t len_out_dir_p = strlen(out_dir_p);
-
-    char** png_dir_list = new_dir_list(png_dir_p);
-    if (png_dir_list == NULL) {
-        fprintf(stderr, "Couldn't list files in %s\n", png_dir_p);
-        return false;
-    }
 
     size_t len_pngs_with_tlut = 0;
     size_t maxlen_pngs_with_tlut = 16;
     struct other_png_info {
         char* png_p;
+        char* name; // pointer into png_p; don't free
         int elem_size;
         struct n64_image* img;
     }* pngs_with_tlut = malloc(sizeof(struct other_png_info[maxlen_pngs_with_tlut]));
 
-    for (size_t i = 0; png_dir_list[i] != NULL; i++) {
-        char* direntry_name_buf = strdup(png_dir_list[i]);
-        const struct fmt_info* direntry_fmt;
-        int direntry_elem_size;
-        char* direntry_tlut_name;
-        int direntry_tlut_elem_size;
-        if (parse_png_p(direntry_name_buf, &direntry_fmt, &direntry_elem_size, &direntry_tlut_name,
-                        &direntry_tlut_elem_size, false)) {
-            if (direntry_fmt->fmt == G_IM_FMT_CI) {
-                if (strequ(tlut_name, direntry_tlut_name)) {
-                    assert(direntry_fmt == fmt);
-                    assert(direntry_tlut_elem_size == tlut_elem_size);
+    for (int j = 0; j < num_in_dirs; j++) {
+        const char* in_dir_p = in_dirs[j];
+        const size_t len_in_dir_p = strlen(in_dir_p);
 
-                    if (len_pngs_with_tlut == maxlen_pngs_with_tlut) {
-                        maxlen_pngs_with_tlut *= 2;
-                        pngs_with_tlut = realloc(pngs_with_tlut, sizeof(struct other_png_info[maxlen_pngs_with_tlut]));
+        char** in_dir_list = new_dir_list(in_dir_p);
+        if (in_dir_list == NULL) {
+            fprintf(stderr, "Couldn't list files in %s\n", in_dir_p);
+            return false;
+        }
+
+        for (size_t i = 0; in_dir_list[i] != NULL; i++) {
+            char* direntry_name_buf = strdup(in_dir_list[i]);
+            const struct fmt_info* direntry_fmt;
+            int direntry_elem_size;
+            char* direntry_tlut_name;
+            int direntry_tlut_elem_size;
+            if (parse_png_p(direntry_name_buf, &direntry_fmt, &direntry_elem_size, &direntry_tlut_name,
+                            &direntry_tlut_elem_size, false)) {
+                if (direntry_fmt->fmt == G_IM_FMT_CI) {
+                    if (strequ(tlut_name, direntry_tlut_name)) {
+                        // TODO change asserts to errors and fail
+                        assert(direntry_fmt == fmt);
+                        assert(direntry_tlut_elem_size == tlut_elem_size);
+
+                        bool png_name_already_found = false;
+                        for (size_t k = 0; k < len_pngs_with_tlut; k++) {
+                            if (strequ(pngs_with_tlut[k].name, in_dir_list[i])) {
+                                png_name_already_found = true;
+                                break;
+                            }
+                        }
+
+                        if (!png_name_already_found) {
+                            if (len_pngs_with_tlut == maxlen_pngs_with_tlut) {
+                                maxlen_pngs_with_tlut *= 2;
+                                pngs_with_tlut =
+                                    realloc(pngs_with_tlut, sizeof(struct other_png_info[maxlen_pngs_with_tlut]));
+                            }
+                            assert(len_pngs_with_tlut < maxlen_pngs_with_tlut);
+                            char* other_png_p = malloc(len_in_dir_p + strlen("/") + strlen(in_dir_list[i]) + 1);
+                            sprintf(other_png_p, "%s/%s", in_dir_p, in_dir_list[i]);
+                            pngs_with_tlut[len_pngs_with_tlut].png_p = other_png_p;
+                            pngs_with_tlut[len_pngs_with_tlut].name = other_png_p + len_in_dir_p + strlen("/");
+                            pngs_with_tlut[len_pngs_with_tlut].elem_size = direntry_elem_size;
+                            pngs_with_tlut[len_pngs_with_tlut].img = NULL;
+                            len_pngs_with_tlut++;
+                        }
                     }
-                    assert(len_pngs_with_tlut < maxlen_pngs_with_tlut);
-                    char* other_png_p = malloc(len_png_dir_p + strlen("/") + strlen(png_dir_list[i]) + 1);
-                    sprintf(other_png_p, "%s/%s", png_dir_p, png_dir_list[i]);
-                    pngs_with_tlut[len_pngs_with_tlut].png_p = other_png_p;
-                    pngs_with_tlut[len_pngs_with_tlut].elem_size = direntry_elem_size;
-                    pngs_with_tlut[len_pngs_with_tlut].img = NULL;
-                    len_pngs_with_tlut++;
                 }
             }
+            free(direntry_name_buf);
         }
-        free(direntry_name_buf);
-    }
-    assert(len_pngs_with_tlut <= maxlen_pngs_with_tlut);
+        assert(len_pngs_with_tlut <= maxlen_pngs_with_tlut);
 
-    free_dir_list(png_dir_list);
+        free_dir_list(in_dir_list);
+    }
 
     struct n64_image* ref_img = n64texconv_image_from_png(png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
     bool all_other_pngs_match_ref_img_pal = true;
@@ -295,6 +309,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
     if (success) {
         for (size_t i = 0; i < len_pngs_with_tlut; i++) {
             assert(pngs_with_tlut[i].img != NULL);
+#ifdef VERBOSE
+            fprintf(stderr, "%s %s\n", pngs_with_tlut[i].name, pngs_with_tlut[i].png_p);
+#endif
         }
 
         char* pal_inc_c_p =
@@ -304,6 +321,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
 
         if (all_other_pngs_match_ref_img_pal) {
             // write matching palette, and matching color indices for all pngs
+#ifdef VERBOSE
+            fprintf(stderr, "Matching data detected!\n");
+#endif
 
             n64texconv_palette_to_c_file(pal_inc_c_p, ref_img->pal, false, tlut_elem_size);
 
@@ -320,6 +340,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             }
         } else {
             // co-palettize all pngs
+#ifdef VERBOSE
+            fprintf(stderr, "Modded data detected!\n");
+#endif
             const bool copaletize_write_out_pngs = true;
 
             const size_t num_images = len_pngs_with_tlut;
@@ -417,9 +440,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
 }
 
 int main(int argc, char** argv) {
-    if (argc != 3) {
+    if (argc < 3) {
     usage:
-        fprintf(stderr, "Usage: build_from_png path/to/file.png path/to/out/folder/\n");
+        fprintf(stderr, "Usage: build_from_png path/to/file.png path/to/out/folder/ [path/to/input/folder1/ ...]\n");
         fprintf(stderr, "The png file should be named like:\n");
         fprintf(stderr, " - texName.format[.u32|.u64].png (non-ci formats or ci formats with a non-shared tlut)\n");
         fprintf(stderr, " - texName.ci[4|8].tlut_tlutName[_u32|_u64][.u32|.u64].png (ci formats with a shared tlut)\n");
@@ -427,6 +450,8 @@ int main(int argc, char** argv) {
     }
     const char* png_p = argv[1];
     const char* out_dir_p = argv[2];
+    char** in_dirs = argv + 3;
+    const int num_in_dirs = argc - 3;
 
     const struct fmt_info* fmt;
     int elem_size;
@@ -452,7 +477,7 @@ int main(int argc, char** argv) {
             // TODO path not needed yet. see dlist_resource.TextureResource.get_filename_stem
             success = false;
         } else {
-            success = handle_ci_shared_tlut(png_p, fmt, out_dir_p, tlut_name, tlut_elem_size);
+            success = handle_ci_shared_tlut(png_p, fmt, out_dir_p, in_dirs, num_in_dirs, tlut_name, tlut_elem_size);
             free(tlut_name);
         }
     }
