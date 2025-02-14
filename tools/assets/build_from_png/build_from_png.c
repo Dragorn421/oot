@@ -297,9 +297,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             char* pal_inc_c_p =
                 malloc(len_out_dir_p + strlen("/") + strlen(tlut_name) + strlen(".tlut.rgba16.uXX.inc.c") + 1);
             assert(tlut_elem_size == 8 || tlut_elem_size == 4);
-            sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.%s.inc.c", out_dir_p, tlut_name, tlut_elem_size == 8 ? "u64" : "u32");
+            sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.%s.inc.c", out_dir_p, tlut_name,
+                    tlut_elem_size == 8 ? "u64" : "u32");
             n64texconv_palette_to_c_file(pal_inc_c_p, ref_img->pal, false, tlut_elem_size);
-            fprintf(stderr, "TLUT: %s\n", pal_inc_c_p);
             free(pal_inc_c_p);
 
             for (size_t i = 0; i < len_pngs_with_tlut; i++) {
@@ -310,9 +310,6 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                 char* inc_c_p = malloc(len_out_dir_p + strlen("/") + strlen(other_png_stem) + strlen(".inc.c") + 1);
                 sprintf(inc_c_p, "%s/%s.inc.c", out_dir_p, other_png_stem);
                 free(other_png_p_buf);
-
-                fprintf(stderr, "%s\n", pngs_with_tlut[i].png_p);
-                fprintf(stderr, " -> %s\n", inc_c_p);
 
                 n64texconv_image_to_c_file(inc_c_p, pngs_with_tlut[i].img, false, false, pngs_with_tlut[i].elem_size);
             }
