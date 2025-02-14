@@ -281,16 +281,21 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             success = false;
             break;
         }
-        bool pal_matches_ref =
-            other_img->pal->count == ref_img->pal->count &&
-            memcmp(other_img->pal->texels, ref_img->pal->texels, sizeof(struct color[ref_img->pal->count])) == 0;
-        if (!pal_matches_ref) {
-            all_other_pngs_match_ref_img_pal = false;
-            break;
+        if (all_other_pngs_match_ref_img_pal) {
+            bool pal_matches_ref =
+                other_img->pal->count == ref_img->pal->count &&
+                memcmp(other_img->pal->texels, ref_img->pal->texels, sizeof(struct color[ref_img->pal->count])) == 0;
+            if (!pal_matches_ref) {
+                all_other_pngs_match_ref_img_pal = false;
+            }
         }
     }
 
     if (success) {
+        for (size_t i = 0; i < len_pngs_with_tlut; i++) {
+            assert(pngs_with_tlut[i].img != NULL);
+        }
+
         if (all_other_pngs_match_ref_img_pal) {
             // write matching palette, and matching color indices for all pngs
 
@@ -316,8 +321,28 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         } else {
             // co-palettize all pngs
             // TODO
-            assert(false);
             success = false;
+
+            const size_t num_images = len_pngs_with_tlut;
+            uint8_t* out_indices[num_images];
+            struct color* texels[num_images];
+            size_t widths[num_images];
+            size_t heights[num_images];
+            for (size_t i = 0; i < len_pngs_with_tlut; i++) {
+                assert(pngs_with_tlut[i].img != NULL);
+                texels[i] = pngs_with_tlut[i].img->texels;
+                widths[i] = pngs_with_tlut[i].img->width;
+                heights[i] = pngs_with_tlut[i].img->height;
+            }
+            const unsigned int max_colors = fmt->siz == G_IM_SIZ_8b ? 256 : 16;
+            struct color out_pal[max_colors];
+            size_t out_pal_count;
+            const float dither_level = 0.0f;
+
+            success = n64texconv_quantize_shared(out_indices, out_pal, &out_pal_count, texels, widths, heights,
+                                                 num_images, max_colors, dither_level) == 0;
+
+            success = false; // TODO
         }
     }
 

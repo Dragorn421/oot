@@ -115,7 +115,7 @@ n64texconv_quantize(uint8_t *out_indices, struct color *out_pal, size_t *out_pal
     liq_attr_destroy(attr);
 }
 
-UNUSED static int
+int
 n64texconv_quantize_shared(uint8_t **out_indices, struct color *out_pal, size_t *out_pal_count, struct color **texels,
                            size_t *widths, size_t *heights, size_t num_images, unsigned int max_colors,
                            float dither_level)
