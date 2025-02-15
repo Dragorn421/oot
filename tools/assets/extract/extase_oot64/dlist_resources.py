@@ -172,9 +172,8 @@ G_IM_SIZ_n64teconv_by_n64 = {
 def write_n64_image_to_png(
     path: Path, width: int, height: int, fmt: G_IM_FMT, siz: G_IM_SIZ, data: memoryview
 ):
-    # TODO improve copies made of data
     n64texconv.N64Image.from_bin(
-        bytes(data),
+        data,
         width,
         height,
         G_IM_FMT_n64teconv_by_n64[fmt],
@@ -193,30 +192,16 @@ def write_n64_image_to_png_color_indexed(
     tlut_count: int,
     tlut_fmt: G_IM_FMT,
 ):
-    # TODO improve copies made of data
-    """
-    # FIXME this crashes mysteriously
+    assert tlut_count * 2 == len(tlut_data)
     n64texconv.N64Image.from_bin(
-        bytes(data),
+        data,
         width,
         height,
         G_IM_FMT_n64teconv_by_n64[fmt],
         G_IM_SIZ_n64teconv_by_n64[siz],
         n64texconv.N64Palette.from_bin(
-            bytes(tlut_data), G_IM_FMT_n64teconv_by_n64[tlut_fmt]
+            tlut_data, G_IM_FMT_n64teconv_by_n64[tlut_fmt]
         ),
-    ).to_png(str(path), False)
-    """
-    pal = n64texconv.N64Palette.from_bin(
-        bytes(tlut_data), G_IM_FMT_n64teconv_by_n64[tlut_fmt]
-    )
-    n64texconv.N64Image.from_bin(
-        bytes(data),
-        width,
-        height,
-        G_IM_FMT_n64teconv_by_n64[fmt],
-        G_IM_SIZ_n64teconv_by_n64[siz],
-        pal,
     ).to_png(str(path), False)
 
 

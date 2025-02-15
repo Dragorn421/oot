@@ -205,10 +205,10 @@ class N64Palette(Structure):
         return deref(ln64texconv.n64texconv_palette_from_png(path.encode("utf-8"), fmt))
 
     @staticmethod
-    def from_bin(data : bytes, fmt : int) -> Optional["N64Palette"]:
+    def from_bin(data : bytes | memoryview, fmt : int) -> Optional["N64Palette"]:
         if fmt not in (G_IM_FMT_RGBA, G_IM_FMT_IA):
             raise ValueError("Palette format must be either G_IM_FMT_RGBA or G_IM_FMT_IA")
-        buffer = create_string_buffer(data, len(data))
+        buffer = (c_uint8 * len(data)).from_buffer_copy(data)
         return deref(ln64texconv.n64texconv_palette_from_bin(buffer, len(data) // 2, fmt))
 
     def to_png(self, outpath : str) -> bool:
@@ -315,7 +315,7 @@ class N64Image(Structure):
         return deref(ln64texconv.n64texconv_image_from_png(path.encode("utf-8"), fmt, siz, pal_fmt))
 
     @staticmethod
-    def from_bin(data : bytes, width : int, height : int, fmt : int, siz : int, pal : Optional[N64Palette] = None,
+    def from_bin(data : bytes | memoryview, width : int, height : int, fmt : int, siz : int, pal : Optional[N64Palette] = None,
                  preswapped : bool = False) -> Optional["N64Image"]:
         if not any((fmt, siz) == fmtsiz for fmtsiz in VALID_FORMAT_COMBINATIONS):
             raise ValueError(f"Invalid fmt/siz combination ({fmt_name(fmt)}, {siz_name(siz)})")
@@ -323,8 +323,10 @@ class N64Image(Structure):
         if len(data) < expected_size:
             raise ValueError(f"Not enough data to extract the specified image. " +
                              f"Expected at least 0x{expected_size:X} bytes but only got 0x{len(data):X} bytes")
-        buffer = create_string_buffer(data, len(data))
-        return deref(ln64texconv.n64texconv_image_from_bin(buffer, width, height, fmt, siz, None if pal is None else byref(pal), preswapped))
+        buffer = (c_uint8 * len(data)).from_buffer_copy(data)
+        img = deref(ln64texconv.n64texconv_image_from_bin(buffer, width, height, fmt, siz, None if pal is None else byref(pal), preswapped))
+        img._pal_for_prevent_gc = pal
+        return img
 
     def reformat(self, fmt : int, siz : int, pal : Optional[N64Palette] = None) -> Optional["N64Image"]:
         if not any((fmt, siz) == fmtsiz for fmtsiz in VALID_FORMAT_COMBINATIONS):
