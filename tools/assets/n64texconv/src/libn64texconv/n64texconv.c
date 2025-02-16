@@ -115,6 +115,10 @@ n64texconv_quantize(uint8_t *out_indices, struct color *out_pal, size_t *out_pal
     liq_attr_destroy(attr);
 }
 
+/**
+ * out_indices, out_pal, out_pal_count, texels, widths, heights are all arrays of size num_images
+ * texels[i] and out_indices[i] are arrays of size widths[i] * heights[i]
+ */
 int
 n64texconv_quantize_shared(uint8_t **out_indices, struct color *out_pal, size_t *out_pal_count, struct color **texels,
                            size_t *widths, size_t *heights, size_t num_images, unsigned int max_colors,
@@ -724,6 +728,7 @@ n64texconv_palette_to_c(char **out, size_t *size_out, struct n64_palette *pal, b
     void *bin = n64texconv_palette_to_bin(pal, pad_to_8b);
     if (bin == NULL)
         return -1;
+    nbytes = pad_to_8b ? ALIGN8(nbytes) : nbytes;
     int rv = bin2c(out, size_out, bin, nbytes, 0, byte_width);
     free(bin);
     return rv;
@@ -742,6 +747,7 @@ n64texconv_palette_to_c_file(const char *out_path, struct n64_palette *pal, bool
     void *bin = n64texconv_palette_to_bin(pal, pad_to_8b);
     if (bin == NULL)
         return -1;
+    nbytes = pad_to_8b ? ALIGN8(nbytes) : nbytes;
     int rv = bin2c_file(out_path, bin, nbytes, 0, byte_width);
     free(bin);
     return rv;
@@ -862,6 +868,7 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
     struct n64_palette *pal = NULL;
 
     if (fmt == G_IM_FMT_CI) {
+        assert(siz == G_IM_SIZ_4b || siz == G_IM_SIZ_8b);
         assert(pal_fmt != FMT_NONE);
 
         if (ihdr.color_type == SPNG_COLOR_TYPE_INDEXED) {
@@ -869,6 +876,16 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
             struct spng_plte plte;
             rv = spng_get_plte(ctx, &plte);
             assert(rv == 0); // must have a palette chunk if it's indexed
+
+            // Palette should not have 0 entries
+            if (plte.n_entries == 0)
+                goto error_post_create_img;
+
+            // Palette must have sufficiently few colors for the target format
+            // TODO could re-quantize instead but this may be surprising to a user
+            size_t max_colors = (siz == G_IM_SIZ_8b ? 256 : 16);
+            if (plte.n_entries > max_colors)
+                goto error_post_create_img;
 
             pal = n64texconv_palette_new(plte.n_entries, pal_fmt);
             if (pal == NULL)
@@ -1234,6 +1251,7 @@ n64texconv_image_to_c(char **out, size_t *size_out, struct n64_image *img, bool 
     void *bin = n64texconv_image_to_bin(img, pad_to_8b, preswap);
     if (bin == NULL)
         return -1;
+    nbytes = pad_to_8b ? ALIGN8(nbytes) : nbytes;
     int rv = bin2c(out, size_out, bin, nbytes, 0, byte_width);
     free(bin);
     return rv;
@@ -1250,6 +1268,7 @@ n64texconv_image_to_c_file(const char *out_path, struct n64_image *img, bool pad
     void *bin = n64texconv_image_to_bin(img, pad_to_8b, preswap);
     if (bin == NULL)
         return -1;
+    nbytes = pad_to_8b ? ALIGN8(nbytes) : nbytes;
     int rv = bin2c_file(out_path, bin, nbytes, 0, byte_width);
     free(bin);
     return rv;
