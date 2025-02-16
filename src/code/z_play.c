@@ -1,21 +1,39 @@
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
-
-#include "global.h"
+#include "libu64/debug.h"
+#include "controller.h"
 #include "fault.h"
-#include "quake.h"
-#include "terminal.h"
-#include "versions.h"
+#include "gfx.h"
+#include "gfxalloc.h"
+#include "kaleido_manager.h"
+#include "letterbox.h"
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
-
+#include "one_point_cutscene.h"
+#include "quake.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "versions.h"
+#include "zelda_arena.h"
+#include "z64cutscene_flags.h"
 #include "z64debug_display.h"
+#include "z64effect.h"
 #include "z64frame_advance.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
 
-#pragma increment_block_number "gc-eu:2 gc-eu-mq:2 gc-jp:4 gc-jp-ce:4 gc-jp-mq:4 gc-us:4 gc-us-mq:4 ique-cn:4" \
-                               "ntsc-1.0:246 ntsc-1.1:246 ntsc-1.2:246 pal-1.0:244 pal-1.1:244"
+#include "global.h"
+
+#pragma increment_block_number "gc-eu:73 gc-eu-mq:73 gc-jp:75 gc-jp-ce:75 gc-jp-mq:75 gc-us:75 gc-us-mq:75 ique-cn:75" \
+                               "ntsc-1.0:83 ntsc-1.1:83 ntsc-1.2:83 pal-1.0:81 pal-1.1:81"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
