@@ -322,6 +322,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             n64texconv_image_from_png(pngs_with_tlut[i].png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
         pngs_with_tlut[i].img = other_img;
         if (other_img == NULL) {
+            fprintf(stderr, "Could not read png %s\n", pngs_with_tlut[i].png_p);
             success = false;
             break;
         }
@@ -355,6 +356,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
 #endif
 
             success = n64texconv_palette_to_c_file(pal_inc_c_p, ref_img->pal, false, tlut_elem_size) == 0;
+            if (!success) {
+                fprintf(stderr, "Could not write palette to %s\n", pal_inc_c_p);
+            }
 
             if (success) {
                 for (size_t i = 0; i < len_pngs_with_tlut; i++) {
@@ -362,6 +366,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
 
                     success = n64texconv_image_to_c_file(inc_c_p, pngs_with_tlut[i].img, false, false,
                                                          pngs_with_tlut[i].elem_size) == 0;
+                    if (!success) {
+                        fprintf(stderr, "Could not write image to %s\n", inc_c_p);
+                    }
                     free(inc_c_p);
                     if (!success) {
                         break;
@@ -394,10 +401,17 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
 
             success = n64texconv_quantize_shared(out_indices, out_pal, &out_pal_count, texels, widths, heights,
                                                  num_images, max_colors, dither_level) == 0;
+            if (!success) {
+                fprintf(stderr, "Could not co-palettize images\n");
+            }
 
             struct n64_palette pal = { out_pal, G_IM_FMT_RGBA, out_pal_count };
             if (success) {
-                success = n64texconv_palette_to_c_file(pal_inc_c_p, &pal, false, tlut_elem_size) == 0;
+                int ret = n64texconv_palette_to_c_file(pal_inc_c_p, &pal, true, tlut_elem_size);
+                success = ret == 0;
+                if (!success) {
+                    fprintf(stderr, "Could not write generated palette to %s (%d)\n", pal_inc_c_p, ret);
+                }
             }
             if (success) {
                 if (copaletize_write_out_pngs) {
@@ -406,6 +420,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                     pal_out_png_p[strlen(pal_out_png_p) - strlen(".inc.c")] = '\0';
                     strcat(pal_out_png_p, ".png");
                     success = n64texconv_palette_to_png(pal_out_png_p, &pal) == 0;
+                    if (!success) {
+                        fprintf(stderr, "Could not write generated palette to png %s\n", pal_out_png_p);
+                    }
                     free(pal_out_png_p);
                 }
             }
@@ -431,6 +448,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
 
                     success = n64texconv_image_to_c_file(inc_c_p, &img, false, false, pngs_with_tlut[i].elem_size) == 0;
                     if (!success) {
+                        fprintf(stderr, "Could not write palettized image to %s\n", inc_c_p);
                         break;
                     }
 
@@ -440,6 +458,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                         out_png_p[strlen(out_png_p) - strlen(".inc.c")] = '\0';
                         strcat(out_png_p, ".png");
                         success = n64texconv_image_to_png(out_png_p, &img, false) == 0;
+                        if (!success) {
+                            fprintf(stderr, "Could not write palettized image to png %s\n", out_png_p);
+                        }
                         free(out_png_p);
                         if (!success) {
                             break;
@@ -461,6 +482,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
     for (size_t i = 0; i < len_pngs_with_tlut; i++) {
         free(pngs_with_tlut[i].png_p);
         if (pngs_with_tlut[i].img != NULL) {
+            n64texconv_palette_free(pngs_with_tlut[i].img->pal);
             n64texconv_image_free(pngs_with_tlut[i].img);
         }
     }

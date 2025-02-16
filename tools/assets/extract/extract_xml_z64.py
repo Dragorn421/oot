@@ -1,5 +1,6 @@
 import dataclasses
 from pathlib import Path
+import shutil
 
 from ..descriptor.base import (
     BaseromFileBackingMemory,
@@ -263,6 +264,13 @@ def process_pool(
     # 5)
 
     for rescoll, file in file_by_rescoll.items():
+        # Delete any previous extraction
+        # This is required in case a CI png was renamed, so that it doesn't wrongly get co-paletted with the new ones
+        try:
+            shutil.rmtree(extraction_ctx.extracted_path / "assets" / rescoll.out_path)
+        except FileNotFoundError:
+            pass
+
         file.set_source_path(
             extraction_ctx.extracted_path / "assets" / rescoll.out_path
         )

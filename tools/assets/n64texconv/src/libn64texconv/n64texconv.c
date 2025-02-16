@@ -746,6 +746,9 @@ n64texconv_palette_to_c_file(const char *out_path, struct n64_palette *pal, bool
     assert(pal != NULL);
 
     size_t nbytes = texel_size_bytes(pal->count, G_IM_SIZ_16b);
+    if (pad_to_8b) {
+        nbytes = (nbytes + 7) / 8 * 8;
+    }
     void *bin = n64texconv_palette_to_bin(pal, pad_to_8b);
     if (bin == NULL)
         return -1;
