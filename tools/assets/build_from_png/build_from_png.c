@@ -234,11 +234,18 @@ static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, int 
 
     struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
     bool success = n64texconv_image_to_c_file(inc_c_p, img, false, false, elem_size) == 0;
+    if (!success) {
+        fprintf(stderr, "Could not write image to %s\n", inc_c_p);
+    }
     if (success) {
-        success = n64texconv_palette_to_c_file(pal_inc_c_p, img->pal, false, tlut_elem_size) == 0;
+        success = n64texconv_palette_to_c_file(pal_inc_c_p, img->pal, true, tlut_elem_size) == 0;
+        if (!success) {
+            fprintf(stderr, "Could not write palette to %s\n", pal_inc_c_p);
+        }
     }
     n64texconv_image_free(img);
     free(inc_c_p);
+    free(pal_inc_c_p);
     return success;
 }
 
@@ -355,9 +362,12 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             fprintf(stderr, "Matching data detected!\n");
 #endif
 
-            success = n64texconv_palette_to_c_file(pal_inc_c_p, ref_img->pal, false, tlut_elem_size) == 0;
+            // pass pad_to_8b=true to account for the case where this is in fact not matching data
+            // (the png was silently palettized by n64texconv)
+            int ret = n64texconv_palette_to_c_file(pal_inc_c_p, ref_img->pal, true, tlut_elem_size);
+            success = ret == 0;
             if (!success) {
-                fprintf(stderr, "Could not write palette to %s\n", pal_inc_c_p);
+                fprintf(stderr, "Could not write palette to %s (%d)\n", pal_inc_c_p, ret);
             }
 
             if (success) {
