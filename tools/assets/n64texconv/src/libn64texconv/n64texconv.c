@@ -882,43 +882,52 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
                 goto error_post_create_img;
 
             // Palette must have sufficiently few colors for the target format
-            // TODO could re-quantize instead but this may be surprising to a user
             size_t max_colors = (siz == G_IM_SIZ_8b ? 256 : 16);
-            if (plte.n_entries > max_colors)
-                goto error_post_create_img;
+            if (plte.n_entries > max_colors) {
+                // re-quantize
+                rv = spng_decode_image(ctx, (void *)img->texels, nbytes, SPNG_FMT_RGBA8, 0);
+                assert(rv == 0);
 
-            pal = n64texconv_palette_new(plte.n_entries, pal_fmt);
-            if (pal == NULL)
-                goto error_post_create_img;
+                pal = n64texconv_palette_new(max_colors, pal_fmt);
+                if (pal == NULL)
+                    goto error_post_create_img;
 
-            struct spng_trns trns;
-            rv = spng_get_trns(ctx, &trns);
-            if (rv == 0) {
-                // Read palette transparency from here
-                assert(trns.n_type3_entries == plte.n_entries);
-                for (size_t i = 0; i < plte.n_entries; i++) {
-                    pal->texels[i].r = plte.entries[i].red;
-                    pal->texels[i].g = plte.entries[i].green;
-                    pal->texels[i].b = plte.entries[i].blue;
-                    pal->texels[i].a = trns.type3_alpha[i];
-                }
+                n64texconv_quantize(img->color_indices, pal->texels, &pal->count, img->texels, width, height,
+                                    max_colors, 0.5f);
             } else {
-                // Treat as opaque if trns is not present
-                for (size_t i = 0; i < plte.n_entries; i++) {
-                    pal->texels[i].r = plte.entries[i].red;
-                    pal->texels[i].g = plte.entries[i].green;
-                    pal->texels[i].b = plte.entries[i].blue;
-                    pal->texels[i].a = 0xFF;
-                }
-            }
+                pal = n64texconv_palette_new(plte.n_entries, pal_fmt);
+                if (pal == NULL)
+                    goto error_post_create_img;
 
-            // Fill color indices
-            size_t nidxbytes;
-            rv = spng_decoded_image_size(ctx, SPNG_FMT_RAW, &nidxbytes);
-            assert(rv == 0);
-            assert(nidxbytes * 4 == nbytes);
-            rv = spng_decode_image(ctx, (void *)img->color_indices, nidxbytes, SPNG_FMT_RAW, 0);
-            assert(rv == 0);
+                struct spng_trns trns;
+                rv = spng_get_trns(ctx, &trns);
+                if (rv == 0) {
+                    // Read palette transparency from here
+                    assert(trns.n_type3_entries == plte.n_entries);
+                    for (size_t i = 0; i < plte.n_entries; i++) {
+                        pal->texels[i].r = plte.entries[i].red;
+                        pal->texels[i].g = plte.entries[i].green;
+                        pal->texels[i].b = plte.entries[i].blue;
+                        pal->texels[i].a = trns.type3_alpha[i];
+                    }
+                } else {
+                    // Treat as opaque if trns is not present
+                    for (size_t i = 0; i < plte.n_entries; i++) {
+                        pal->texels[i].r = plte.entries[i].red;
+                        pal->texels[i].g = plte.entries[i].green;
+                        pal->texels[i].b = plte.entries[i].blue;
+                        pal->texels[i].a = 0xFF;
+                    }
+                }
+
+                // Fill color indices
+                size_t nidxbytes;
+                rv = spng_decoded_image_size(ctx, SPNG_FMT_RAW, &nidxbytes);
+                assert(rv == 0);
+                assert(nidxbytes * 4 == nbytes);
+                rv = spng_decode_image(ctx, (void *)img->color_indices, nidxbytes, SPNG_FMT_RAW, 0);
+                assert(rv == 0);
+            }
         } else {
             // Input is not an indexed png, quantize and generate palette
             rv = spng_decode_image(ctx, (void *)img->texels, nbytes, SPNG_FMT_RGBA8, 0);
