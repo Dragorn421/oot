@@ -310,6 +310,14 @@ def process_pool_wrapped(extraction_ctx, pd):
         ) from e
 
 
+# Make interrupting with ^C less jank
+# https://stackoverflow.com/questions/72967793/keyboardinterrupt-with-python-multiprocessing-pool
+def set_sigint_ignored():
+    import signal
+
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
+
 def main():
     import argparse
     import json
@@ -453,14 +461,16 @@ def main():
                 pools_desc_to_extract = pools_desc_modified
 
             if pools_desc_to_extract:
-                with multiprocessing.Pool(processes=args.use_multiprocessing) as pool:
-                    pool.starmap(
-                        process_pool_wrapped,
-                        zip(
-                            [extraction_ctx] * len(pools_desc_to_extract),
-                            pools_desc_to_extract,
-                        ),
-                    )
+                with multiprocessing.Pool(
+                    processes=args.use_multiprocessing,
+                    initializer=set_sigint_ignored,
+                ) as pool:
+                    async_results = [
+                        pool.apply_async(process_pool_wrapped, (extraction_ctx, pd))
+                        for pd in pools_desc_to_extract
+                    ]
+                    while async_results:
+                        async_results.pop(0).get()
                 for pool_desc in pools_desc_to_extract:
                     set_pool_desc_modified(pool_desc)
                 print("All done!")
