@@ -198,6 +198,7 @@ def write_n64_image_to_png_color_indexed(
 ):
     if verbose:
         print(__file__, "> write_n64_image_to_png_color_indexed")
+        n64texconv.VERBOSE = True
     assert fmt == G_IM_FMT.CI
     assert siz in {G_IM_SIZ._4b, G_IM_SIZ._8b}
     if siz == G_IM_SIZ._8b:
@@ -514,6 +515,7 @@ class TextureResource(Resource):
                 import sys
 
                 sys.stdout.flush()
+            n64texconv.VERBOSE = False
         else:
             if verbose:
                 print(__file__, "non-CI")

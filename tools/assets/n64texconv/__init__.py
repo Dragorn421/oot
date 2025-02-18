@@ -45,10 +45,20 @@ class RefCounter:
         return self.ref_counts[key]
 
     def rm_ref(self, ptr, free_func):
+        if VERBOSE:
+            print(__file__, "> rm_ref")
         if not isinstance(ptr, POINTER(N64Palette)):
+            if VERBOSE:
+                print(__file__, "cast...")
             ptr = cast(ptr, POINTER(N64Palette))
+        if VERBOSE:
+            print(__file__, "if not ptr...")
         if not ptr:
+            if VERBOSE:
+                print(__file__, "< rm_ref (early)")
             return
+        if VERBOSE:
+            print(__file__, "int.from_bytes()...")
         key = int.from_bytes(ptr, byteorder=sys.byteorder, signed=False)
         assert key in self.ref_counts
         count = self.ref_counts.pop(key)
@@ -57,6 +67,9 @@ class RefCounter:
             free_func(ptr)
         else:
             self.ref_counts[key] = count
+        if VERBOSE:
+            print(__file__, "< rm_ref")
+
 
 # Simple reference counter for C allocations
 _object_refcount = RefCounter()
@@ -230,6 +243,8 @@ class N64Palette(Structure):
         return deref(pal)
 
     def __del__(self):
+        if VERBOSE:
+            print(__file__, "N64Palette.__del__")
         # Free the underlying palette structure only if the refcount is 0
         _object_refcount.rm_ref(byref(self), ln64texconv.n64texconv_palette_free)
 
@@ -330,6 +345,9 @@ ln64texconv.n64texconv_palette_to_c.restype = c_int
 ln64texconv.n64texconv_palette_to_c_file.argtypes = [c_char_p, POINTER(N64Palette), c_bool, c_uint]
 ln64texconv.n64texconv_palette_to_c_file.restype = c_int
 
+VERBOSE = False
+
+
 # struct n64_image
 class N64Image(Structure):
     _fields_ = [
@@ -354,9 +372,24 @@ class N64Image(Structure):
         return deref(ln64texconv.n64texconv_image_new(width, height, fmt, siz, pal))
 
     def __del__(self):
+        if VERBOSE:
+            print(__file__, "> N64Image.__del__")
+            import sys
+
+            sys.stdout.flush()
         ln64texconv.n64texconv_image_free(byref(self))
+        if VERBOSE:
+            print(__file__, "_object_refcount.rm_ref()...")
+            import sys
+
+            sys.stdout.flush()
         # Also free the palette if the reference count drops to 0
         _object_refcount.rm_ref(self.pal, ln64texconv.n64texconv_palette_free)
+        if VERBOSE:
+            print(__file__, "< N64Image.__del__")
+            import sys
+
+            sys.stdout.flush()
 
     def copy(self) -> Optional["N64Image"]:
         _object_refcount.add_ref(self.pal)
