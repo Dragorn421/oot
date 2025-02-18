@@ -475,7 +475,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                         assert(strendswith(inc_c_p, ".inc.c"));
                         out_png_p[strlen(out_png_p) - strlen(".inc.c")] = '\0';
                         strcat(out_png_p, ".png");
-                        success = n64texconv_image_to_png(out_png_p, &img, false) == 0;
+                        success = n64texconv_image_to_png(out_png_p, &img, false, false) == 0;
                         if (!success) {
                             fprintf(stderr, "Could not write palettized image to png %s\n", out_png_p);
                         }

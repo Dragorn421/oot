@@ -101,6 +101,9 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
 def process_pool(
     extraction_ctx: ExtractionContext, pool_desc: ResourcesDescCollectionsPool
 ):
+    VERBOSE1 = VERBOSE3 = any(
+        _c.out_path.name == "backgrounds" for _c in pool_desc.collections
+    )
     colls_str = (
         "["
         + " + ".join(set(map(str, (_c.out_path for _c in pool_desc.collections))))
@@ -112,7 +115,7 @@ def process_pool(
         try:
             import rich
 
-            rich.print(f"[b]{colls_str}[/b]")
+            # rich.print(f"[b]{colls_str}[/b]")
         except:
             print(colls_str)
 
@@ -270,6 +273,9 @@ def process_pool(
 
     # 5)
 
+    if VERBOSE3:
+        print(f"{colls_str} set paths... ")
+
     for rescoll, file in file_by_rescoll.items():
         file.set_source_path(
             extraction_ctx.extracted_path / "assets" / rescoll.out_path
@@ -281,13 +287,20 @@ def process_pool(
             Path("assets") / rescoll.out_path,
         )
 
+    if VERBOSE3:
+        print(f"{colls_str} write... ")
+
     for file, file_memctx in memctx_by_file.items():
         # write to extracted/
         if WRITE_EXTRACT:
-            file.write_resources_extracted(file_memctx)
+            if VERBOSE3:
+                print(f"{colls_str} {file.name} write resources... ")
+            file.write_resources_extracted(file_memctx, verbose=VERBOSE3)
 
         # "source" refers to the main .c and .h `#include`ing all the extracted resources
         if WRITE_SOURCE:
+            if VERBOSE3:
+                print(f"{colls_str} {file.name} write source... ")
             file.write_source()
 
     if VERBOSE1:
@@ -466,13 +479,62 @@ def main():
                     initializer=set_sigint_ignored,
                 ) as pool:
                     async_results = [
-                        pool.apply_async(process_pool_wrapped, (extraction_ctx, pd))
+                        (
+                            pd,
+                            pool.apply_async(
+                                process_pool_wrapped, (extraction_ctx, pd)
+                            ),
+                        )
                         for pd in pools_desc_to_extract
                     ]
-                    while async_results:
-                        async_results.pop(0).get()
-                for pool_desc in pools_desc_to_extract:
-                    set_pool_desc_modified(pool_desc)
+                    try:
+                        while async_results:
+                            still_waiting_for_async_results = []
+                            any_finished = False
+                            for pd, ar in async_results:
+                                try:
+                                    ar.get(0)
+                                except multiprocessing.TimeoutError:
+                                    still_waiting_for_async_results.append((pd, ar))
+                                else:
+                                    if 0:
+                                        print(
+                                            "["
+                                            + " + ".join(
+                                                set(
+                                                    map(
+                                                        str,
+                                                        (
+                                                            _c.out_path
+                                                            for _c in pd.collections
+                                                        ),
+                                                    )
+                                                )
+                                            )
+                                            + "]"
+                                            + " FINISHED (.get(0) returned)"
+                                        )
+                                    any_finished = True
+                                    set_pool_desc_modified(pd)
+                            async_results = still_waiting_for_async_results
+                            if not any_finished:
+                                import time
+
+                                time.sleep(0.001)
+                    except KeyboardInterrupt:
+                        print()
+                        for pd, _ in async_results:
+                            colls_str = (
+                                "["
+                                + " + ".join(
+                                    set(
+                                        map(str, (_c.out_path for _c in pd.collections))
+                                    )
+                                )
+                                + "]"
+                            )
+                            print(f"{colls_str} KeyboardInterrupt before finished")
+                        raise
                 print("All done!")
             else:
                 print("Nothing to do")

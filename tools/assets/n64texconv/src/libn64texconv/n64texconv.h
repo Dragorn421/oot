@@ -97,13 +97,13 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt);
 
 struct n64_image *
 n64texconv_image_from_bin(void *data, size_t width, size_t height, int fmt, int siz, struct n64_palette *pal,
-                          bool preswapped);
+                          bool preswapped, bool verbose);
 
 struct n64_image *
 n64texconv_image_reformat(struct n64_image *img, int fmt, int siz, struct n64_palette *pal);
 
 int
-n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensity_alpha);
+n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensity_alpha, bool verbose);
 
 void *
 n64texconv_image_to_bin(struct n64_image *img, bool pad_to_8b, bool preswap);

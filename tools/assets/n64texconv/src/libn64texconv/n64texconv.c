@@ -958,7 +958,7 @@ error_post_open_png:
 
 struct n64_image *
 n64texconv_image_from_bin(void *data, size_t width, size_t height, int fmt, int siz, struct n64_palette *pal,
-                          bool preswapped)
+                          bool preswapped, bool verbose)
 {
     assert(data != NULL);
     assert((fmt == G_IM_FMT_CI && pal != NULL) || (fmt != G_IM_FMT_CI && pal == NULL));
@@ -982,6 +982,14 @@ n64texconv_image_from_bin(void *data, size_t width, size_t height, int fmt, int 
     } else {
         layout->unpack(img->texels, data, ntexels);
     }
+
+    if (verbose) {
+        fprintf(stderr, "%s:%d n64texconv_image_from_bin NOPPED (partially)\n", __FILE__, __LINE__);
+        // when commented: hangs
+        // when uncommented: doesn't hang
+        // return NULL;
+    }
+
     return img;
 }
 
@@ -1092,8 +1100,15 @@ n64texconv_image_reformat(struct n64_image *img, int fmt, int siz, struct n64_pa
  * facilitate matching in a roundtrip of 'bin -> png -> file -> png -> bin'.
  */
 int
-n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensity_alpha)
+n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensity_alpha, bool verbose)
 {
+    if (verbose) {
+        fprintf(stderr, "%s:%d n64texconv_image_to_png NOPPED\n", __FILE__, __LINE__);
+        return 0;
+    }
+
+    if (verbose)
+        fprintf(stderr, "%s:%d > n64texconv_image_to_png\n", __FILE__, __LINE__);
     assert(outpath != NULL);
     assert(img != NULL);
 
@@ -1107,20 +1122,32 @@ n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensi
     if (img->fmt == G_IM_FMT_CI) {
         assert(img->color_indices != NULL); // CI textures must have color indices
         assert(img->pal != NULL);           // Writing CI to png must have a palette supplied
+        if (verbose)
+            fprintf(stderr, "%s:%d n64texconv_palette_sync...\n", __FILE__, __LINE__);
         n64texconv_palette_sync(img->pal);
     }
 
+    if (verbose)
+        fprintf(stderr, "%s:%d n64texconv_image_sync...\n", __FILE__, __LINE__);
     // Ensure output is visually precise
     n64texconv_image_sync(img);
 
     // Write the png, either truecolor or indexed
 
+    if (verbose)
+        fprintf(stderr, "%s:%d fopen...\n", __FILE__, __LINE__);
     FILE *png = fopen(outpath, "wb");
     if (png == NULL)
         return -1;
+    if (verbose)
+        fprintf(stderr, "%s:%d spng_ctx_new...\n", __FILE__, __LINE__);
     struct spng_ctx *ctx = spng_ctx_new(SPNG_CTX_ENCODER);
+    if (verbose)
+        fprintf(stderr, "%s:%d spng_set_png_file...\n", __FILE__, __LINE__);
     int rv = spng_set_png_file(ctx, png);
     assert(rv == 0);
+    if (verbose)
+        fprintf(stderr, "%s:%d spng_set_image_limits...\n", __FILE__, __LINE__);
     rv = spng_set_image_limits(ctx, img->width, img->height);
     assert(rv == 0);
 
@@ -1140,6 +1167,8 @@ n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensi
         .filter_method = 0,
         .interlace_method = 0,
     };
+    if (verbose)
+        fprintf(stderr, "%s:%d spng_set_ihdr...\n", __FILE__, __LINE__);
     rv = spng_set_ihdr(ctx, &ihdr);
     assert(rv == 0);
 
@@ -1147,6 +1176,8 @@ n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensi
         struct n64_palette *pal = img->pal;
         assert(pal != NULL);
 
+        if (verbose)
+            fprintf(stderr, "%s:%d n64texconv_palette_sync...\n", __FILE__, __LINE__);
         // Ensure palette is visually precise
         rv = n64texconv_palette_sync(pal);
         assert(rv == 0);
@@ -1155,7 +1186,11 @@ n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensi
         struct spng_plte plte = { 0 };
         plte.n_entries = pal->count;
         assert(pal->count <= 256);
+        if (verbose)
+            fprintf(stderr, "%s:%d memcpy...\n", __FILE__, __LINE__);
         memcpy(plte.entries, pal->texels, pal->count * 4);
+        if (verbose)
+            fprintf(stderr, "%s:%d spng_set_plte...\n", __FILE__, __LINE__);
         rv = spng_set_plte(ctx, &plte);
         assert(rv == 0);
 
@@ -1165,9 +1200,13 @@ n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensi
         for (size_t i = 0; i < pal->count; i++) {
             trns.type3_alpha[i] = pal->texels[i].a;
         }
+        if (verbose)
+            fprintf(stderr, "%s:%d spng_set_trns...\n", __FILE__, __LINE__);
         rv = spng_set_trns(ctx, &trns);
         assert(rv == 0);
 
+        if (verbose)
+            fprintf(stderr, "%s:%d spng_encode_image...\n", __FILE__, __LINE__);
         // Write color indices
         rv = spng_encode_image(ctx, img->color_indices, ntexels * sizeof(uint8_t), SPNG_FMT_PNG, SPNG_ENCODE_FINALIZE);
         assert(rv == 0);
@@ -1193,7 +1232,11 @@ n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensi
             free(out);
     }
 
+    if (verbose)
+        fprintf(stderr, "%s:%d spng_ctx_free...\n", __FILE__, __LINE__);
     spng_ctx_free(ctx);
+    if (verbose)
+        fprintf(stderr, "%s:%d fclose...\n", __FILE__, __LINE__);
     fclose(png);
 
     return 0;

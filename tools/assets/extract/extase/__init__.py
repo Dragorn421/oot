@@ -603,13 +603,22 @@ class File:
         for resource in self._resources:
             resource.set_paths(extracted_path, build_path, out_path)
 
-    def write_resources_extracted(self, file_memory_context: "MemoryContext"):
+    def write_resources_extracted(self, file_memory_context: "MemoryContext", verbose=False):
         for resource in self._resources:
+            if verbose:
+                print(__file__, f"{resource=}")
             assert resource.is_data_parsed, resource
             resource_memory_context = file_memory_context  # TODO
             try:
+                if verbose:
+                    print(__file__, "mkdir...")
                 resource.extract_to_path.parent.mkdir(parents=True, exist_ok=True)
-                resource.write_extracted(resource_memory_context)
+                if verbose:
+                    print(__file__, "resource.write_extracted...")
+                if resource.__class__.__name__ == "TextureResource":
+                    resource.write_extracted(resource_memory_context, verbose=verbose)
+                else:
+                    resource.write_extracted(resource_memory_context)
             except:
                 print("Couldn't write extracted resource", resource)
                 raise

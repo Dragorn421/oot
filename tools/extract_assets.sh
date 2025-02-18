@@ -10,4 +10,7 @@ then
 fi
 
 v=$1
+
+set -x
+
 .venv/bin/python3 -m tools.assets.extract extracted/$v/baserom extracted/$v -v $v "${@:2}"

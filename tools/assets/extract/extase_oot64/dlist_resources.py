@@ -194,16 +194,42 @@ def write_n64_image_to_png_color_indexed(
     tlut_data: memoryview,
     tlut_count: int,
     tlut_fmt: G_IM_FMT,
+    verbose=False,
 ):
+    if verbose:
+        print(__file__, "> write_n64_image_to_png_color_indexed")
+    assert fmt == G_IM_FMT.CI
+    assert siz in {G_IM_SIZ._4b, G_IM_SIZ._8b}
+    if siz == G_IM_SIZ._8b:
+        assert max(data) < tlut_count
+    else:
+        assert max(max(b & 0xF, b >> 4) for b in data) < tlut_count
     assert tlut_count * 2 == len(tlut_data)
-    n64texconv.N64Image.from_bin(
+    if verbose:
+        print(__file__, "pal...")
+    pal = n64texconv.N64Palette.from_bin(
+        tlut_data, G_IM_FMT_n64texconv_by_n64[tlut_fmt]
+    )
+    if verbose:
+        print(__file__, "img...")
+    img = n64texconv.N64Image.from_bin(
         data,
         width,
         height,
         G_IM_FMT_n64texconv_by_n64[fmt],
         G_IM_SIZ_n64texconv_by_n64[siz],
-        n64texconv.N64Palette.from_bin(tlut_data, G_IM_FMT_n64texconv_by_n64[tlut_fmt]),
-    ).to_png(str(path), False)
+        pal,
+        verbose=verbose,
+    )
+    if not verbose:
+        if verbose:
+            print(__file__, "img.to_png()...")
+        img.to_png(str(path), False, verbose=verbose)
+    if verbose:
+        print(__file__, "< write_n64_image_to_png_color_indexed")
+        import sys
+
+        sys.stdout.flush()
 
 
 class TextureResource(Resource):
@@ -400,7 +426,9 @@ class TextureResource(Resource):
         else:
             return f"{self.name}.{format_name}.{self.elem_type}"
 
-    def write_extracted(self, memory_context):
+    def write_extracted(self, memory_context, verbose=False):
+        if verbose:
+            print(__file__, f"{self.is_tlut()=}")
         if self.is_tlut():
             # TLUTs are extracted as part of the color-indexed textures using them
 
@@ -453,11 +481,18 @@ class TextureResource(Resource):
         data = self.file.data[self.range_start : self.range_end]
         assert len(data) == self.range_end - self.range_start
         if self.fmt == G_IM_FMT.CI:
+            if verbose:
+                print(__file__, "CI")
+
             tlut_data = self.resource_tlut.file.data[
                 self.resource_tlut.range_start : self.resource_tlut.range_end
             ]
             tlut_count = self.resource_tlut.tlut_get_count()
             tlut_fmt = self.resource_tlut.fmt
+            if verbose:
+                print(
+                    __file__, self.__class__, "write_n64_image_to_png_color_indexed..."
+                )
             write_n64_image_to_png_color_indexed(
                 self.extract_to_path,
                 self.width,
@@ -468,11 +503,29 @@ class TextureResource(Resource):
                 tlut_data,
                 tlut_count,
                 tlut_fmt,
+                verbose=verbose,
             )
+            if verbose:
+                print(
+                    __file__,
+                    self.__class__,
+                    "write_n64_image_to_png_color_indexed returned",
+                )
+                import sys
+
+                sys.stdout.flush()
         else:
+            if verbose:
+                print(__file__, "non-CI")
+
             write_n64_image_to_png(
                 self.extract_to_path, self.width, self.height, self.fmt, self.siz, data
             )
+        if verbose:
+            print(__file__, self.__class__, "< write_extracted")
+            import sys
+
+            sys.stdout.flush()
 
     def write_c_declaration(self, h: io.TextIOBase):
         if self.is_tlut():

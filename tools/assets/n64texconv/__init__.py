@@ -376,7 +376,7 @@ class N64Image(Structure):
 
     @staticmethod
     def from_bin(data : bytes | memoryview, width : int, height : int, fmt : int, siz : int, pal : Optional[N64Palette] = None,
-                 preswapped : bool = False) -> Optional["N64Image"]:
+                 preswapped : bool = False, verbose=False) -> Optional["N64Image"]:
         if not any((fmt, siz) == fmtsiz for fmtsiz in VALID_FORMAT_COMBINATIONS):
             raise ValueError(f"Invalid fmt/siz combination ({fmt_name(fmt)}, {siz_name(siz)})")
         expected_size = texel_size_bytes(width * height, siz)
@@ -387,7 +387,7 @@ class N64Image(Structure):
         if pal:
             pal = byref(pal)
             _object_refcount.add_ref(pal)
-        img = ln64texconv.n64texconv_image_from_bin(buffer, width, height, fmt, siz, pal, preswapped)
+        img = ln64texconv.n64texconv_image_from_bin(buffer, width, height, fmt, siz, pal, preswapped, verbose)
         return deref(img)
 
     def reformat(self, fmt : int, siz : int, pal : Optional[N64Palette] = None) -> Optional["N64Image"]:
@@ -398,8 +398,13 @@ class N64Image(Structure):
             _object_refcount.add_ref(pal)
         return deref(ln64texconv.n64texconv_image_reformat(byref(self), fmt, siz, pal))
 
-    def to_png(self, outpath : str, intensity_alpha : bool) -> bool:
-        return ln64texconv.n64texconv_image_to_png(outpath.encode("utf-8"), byref(self), intensity_alpha) == 0
+    def to_png(self, outpath : str, intensity_alpha : bool, verbose=False) -> bool:
+        if verbose:
+            print(__file__, "> to_png")
+        rv = ln64texconv.n64texconv_image_to_png(outpath.encode("utf-8"), byref(self), intensity_alpha, verbose)
+        if verbose:
+            print(__file__, "< to_png")
+        return rv == 0
 
     def to_bin(self, pad_to_8b : bool, preswap : bool) -> Optional[bytes]:
         nbytes = texel_size_bytes(self.width * self.height, self.siz)
@@ -443,16 +448,16 @@ ln64texconv.n64texconv_image_copy.restype = POINTER(N64Image)
 ln64texconv.n64texconv_image_from_png.argtypes = [c_char_p, c_int, c_int, c_int]
 ln64texconv.n64texconv_image_from_png.restype = POINTER(N64Image)
 
-# struct n64_image *n64texconv_image_from_bin(void *data, size_t width, size_t height, int fmt, int siz, struct n64_palette *pal, bool preswapped);
-ln64texconv.n64texconv_image_from_bin.argtypes = [c_void_p, c_size_t, c_size_t, c_int, c_int, POINTER(N64Palette), c_bool]
+# struct n64_image *n64texconv_image_from_bin(void *data, size_t width, size_t height, int fmt, int siz, struct n64_palette *pal, bool preswapped, bool verbose);
+ln64texconv.n64texconv_image_from_bin.argtypes = [c_void_p, c_size_t, c_size_t, c_int, c_int, POINTER(N64Palette), c_bool, c_bool]
 ln64texconv.n64texconv_image_from_bin.restype = POINTER(N64Image)
 
 # struct n64_image *n64texconv_image_reformat(struct n64_image *img, int fmt, int siz, struct n64_palette *pal);
 ln64texconv.n64texconv_image_reformat.argtypes = [POINTER(N64Image), c_int, c_int, POINTER(N64Palette)]
 ln64texconv.n64texconv_image_reformat.restype = POINTER(N64Image)
 
-# int n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensity_alpha);
-ln64texconv.n64texconv_image_to_png.argtypes = [c_char_p, POINTER(N64Image), c_bool]
+# int n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensity_alpha, bool verbose);
+ln64texconv.n64texconv_image_to_png.argtypes = [c_char_p, POINTER(N64Image), c_bool, c_bool]
 ln64texconv.n64texconv_image_to_png.restype = c_int
 
 # void *n64texconv_image_to_bin(struct n64_image *img, bool pad_to_8b, bool preswap);
