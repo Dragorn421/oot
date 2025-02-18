@@ -23,9 +23,9 @@ from . import z64_resource_handlers
 # main
 #
 
-VERBOSE1 = False
+VERBOSE1 = True
 VERBOSE2 = False
-VERBOSE3 = False
+VERBOSE3 = True
 
 # "options"
 RM_SOURCE = True
@@ -285,6 +285,8 @@ def process_pool(
         if WRITE_SOURCE:
             file.write_source()
 
+    if VERBOSE1:
+        print("< process_pool", colls_str)
 
 def process_pool_wrapped(extraction_ctx, pd):
     try:
