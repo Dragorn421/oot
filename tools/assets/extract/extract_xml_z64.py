@@ -84,7 +84,7 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
 
         file_resources_by_desc[resource_desc] = resource
 
-    if VERBOSE1:
+    if VERBOSE2:
         print(file)
         print(file.name, file._resources)
 
@@ -101,15 +101,20 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
 def process_pool(
     extraction_ctx: ExtractionContext, pool_desc: ResourcesDescCollectionsPool
 ):
+    colls_str = (
+        "["
+        + " + ".join(set(map(str, (_c.out_path for _c in pool_desc.collections))))
+        + "]"
+    )
     if VERBOSE1:
-        print("> process_pool")
-    colls_str = " + ".join(set(map(str, (_c.out_path for _c in pool_desc.collections))))
-    try:
-        import rich
+        print(f"{colls_str} > process_pool")
+    else:
+        try:
+            import rich
 
-        rich.print(f"[b]{colls_str}[/b]")
-    except:
-        print(colls_str)
+            rich.print(f"[b]{colls_str}[/b]")
+        except:
+            print(colls_str)
 
     file_by_rescoll: dict[ResourcesDescCollection, File] = dict()
 
@@ -223,7 +228,7 @@ def process_pool(
             any_progress = False
             for file, file_memctx in memctx_by_file.items():
                 if VERBOSE3:
-                    print(file.name, ".try_parse_resources_data()")
+                    print(f"{colls_str} {file.name} .try_parse_resources_data()")
                 if file.try_parse_resources_data(file_memctx):
                     any_progress = True
             if not any_progress:
@@ -233,14 +238,14 @@ def process_pool(
             file.check_non_parsed_resources()
 
     if VERBOSE3:
-        print("parse_all_files() ...")
+        print(f"{colls_str} parse_all_files() ...")
     parse_all_files()
 
     for file in memctx_by_file.keys():
         file.commit_resource_buffers()
 
     if VERBOSE3:
-        print("parse new resources (resource buffers) ...")
+        print(f"{colls_str} parse new resources (resource buffers) ...")
     parse_all_files()  # parse new resources (resource buffers)
 
     for file in memctx_by_file.keys():
@@ -250,7 +255,7 @@ def process_pool(
     # 4) add dummy (binary) resources for the unaccounted gaps
 
     if VERBOSE3:
-        print("unaccounted...")
+        print(f"{colls_str} unaccounted... ")
 
     for file in memctx_by_file.keys():
         file.add_unaccounted_resources(I_D_OMEGALUL=I_D_OMEGALUL)
@@ -286,7 +291,8 @@ def process_pool(
             file.write_source()
 
     if VERBOSE1:
-        print("< process_pool", colls_str)
+        print(f"{colls_str} < process_pool")
+
 
 def process_pool_wrapped(extraction_ctx, pd):
     try:
@@ -324,7 +330,9 @@ def main():
         help="Output directory to place files in",
     )
     parser.add_argument("-v", dest="oot_version", default="gc-eu-mq-dbg")
-    parser.add_argument("-j", dest="use_multiprocessing", nargs="?", default=False, type=int)
+    parser.add_argument(
+        "-j", dest="use_multiprocessing", nargs="?", default=False, type=int
+    )
     parser.add_argument("-f", dest="force", action="store_true")
     parser.add_argument("-s", dest="single", default=None)
     parser.add_argument("-r", dest="single_is_regex", default=None, action="store_true")
