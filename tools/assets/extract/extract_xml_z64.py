@@ -445,7 +445,7 @@ def main():
                 pools_desc_to_extract = pools_desc_modified
 
             if pools_desc_to_extract:
-                with multiprocessing.Pool() as pool:
+                with multiprocessing.Pool(processes=1) as pool:
                     pool.starmap(
                         process_pool_wrapped,
                         zip(
