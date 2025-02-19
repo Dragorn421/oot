@@ -1,4 +1,5 @@
 #include "libu64/debug.h"
+#include "buffers.h"
 #include "controller.h"
 #include "fault.h"
 #include "gfx.h"
@@ -32,8 +33,8 @@
 
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:73 gc-eu-mq:73 gc-jp:75 gc-jp-ce:75 gc-jp-mq:75 gc-us:75 gc-us-mq:75 ique-cn:75" \
-                               "ntsc-1.0:83 ntsc-1.1:83 ntsc-1.2:83 pal-1.0:81 pal-1.1:81"
+#pragma increment_block_number "gc-eu:92 gc-eu-mq:92 gc-jp:94 gc-jp-ce:94 gc-jp-mq:94 gc-us:94 gc-us-mq:94 ique-cn:94" \
+                               "ntsc-1.0:102 ntsc-1.1:102 ntsc-1.2:102 pal-1.0:100 pal-1.1:100"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
