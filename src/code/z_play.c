@@ -2,6 +2,7 @@
 #include "buffers.h"
 #include "controller.h"
 #include "fault.h"
+#include "file_select_state.h"
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "kaleido_manager.h"
@@ -20,6 +21,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "title_setup_state.h"
 #include "versions.h"
 #include "zelda_arena.h"
 #include "z64cutscene_flags.h"
@@ -33,8 +35,8 @@
 
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:92 gc-eu-mq:92 gc-jp:94 gc-jp-ce:94 gc-jp-mq:94 gc-us:94 gc-us-mq:94 ique-cn:94" \
-                               "ntsc-1.0:102 ntsc-1.1:102 ntsc-1.2:102 pal-1.0:100 pal-1.1:100"
+#pragma increment_block_number "gc-eu:123 gc-eu-mq:123 gc-jp:125 gc-jp-ce:125 gc-jp-mq:125 gc-us:125 gc-us-mq:125" \
+                               "ique-cn:125 ntsc-1.0:133 ntsc-1.1:133 ntsc-1.2:133 pal-1.0:131 pal-1.1:131"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;

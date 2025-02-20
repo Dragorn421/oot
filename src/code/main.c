@@ -27,8 +27,8 @@ extern struct IrqMgr gIrqMgr;
 
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:96 gc-eu-mq:96 gc-jp:96 gc-jp-ce:96 gc-jp-mq:96 gc-us:96 gc-us-mq:96 ique-cn:96" \
-                               "ntsc-1.0:80 ntsc-1.1:80 ntsc-1.2:80 pal-1.0:78 pal-1.1:78"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
+                               "ntsc-1.0:105 ntsc-1.1:105 ntsc-1.2:105 pal-1.0:103 pal-1.1:103"
 
 extern u8 _buffersSegmentEnd[];
 
