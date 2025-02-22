@@ -53,20 +53,8 @@ void SkelCurve_Draw(Actor* actor, PlayState* play, SkelAnimeCurve* skelCurve,
 void MapMark_Init(PlayState* play);
 void MapMark_ClearPointers(PlayState* play);
 void MapMark_Draw(PlayState* play);
-void PreNmiBuff_Init(PreNmiBuff* this);
-void PreNmiBuff_SetReset(PreNmiBuff* this);
-u32 PreNmiBuff_IsResetting(PreNmiBuff* this);
 void Sched_FlushTaskQueue(void);
 
-void ViMode_LogPrint(OSViMode* osViMode);
-void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,
-                      s32 width, s32 height, s32 leftAdjust, s32 rightAdjust, s32 upperAdjust, s32 lowerAdjust);
-void ViMode_Save(ViMode* viMode);
-void ViMode_Load(ViMode* viMode);
-void ViMode_Init(ViMode* viMode);
-void ViMode_Destroy(ViMode* viMode);
-void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures);
-void ViMode_Update(ViMode* viMode, Input* input);
 void func_800ACE70(struct_801664F0* this);
 void func_800ACE90(struct_801664F0* this);
 void func_800ACE98(struct_801664F0* this, Gfx** gfxp);
@@ -157,12 +145,7 @@ void func_800D3210(void);
 
 void RcpUtils_PrintRegisterStatus(void);
 void RcpUtils_Reset(void);
-void* Overlay_AllocateAndLoad(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd);
-void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlRelocs, void* vramStart);
-size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr);
-// ? func_800FC800(?);
-// ? func_800FC83C(?);
-// ? func_800FCAB4(?);
+
 void SystemHeap_Init(void* start, u32 size);
 
 f32 absf(f32);
