@@ -28,12 +28,6 @@ OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
 
 void FlagSet_Update(PlayState* play);
-void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
-void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
-
-void ActorOverlayTable_LogPrint(void);
-void ActorOverlayTable_Init(void);
-void ActorOverlayTable_Cleanup(void);
 
 void SaveContext_Init(void);
 
@@ -122,12 +116,6 @@ void func_800C213C(PreRender* this, Gfx** gfxp);
 void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxp);
 void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxp);
 void PreRender_ApplyFilters(PreRender* this);
-void Graph_InitTHGA(GraphicsContext* gfxCtx);
-GameStateOverlay* Graph_GetNextGameState(GameState* gameState);
-void Graph_Init(GraphicsContext* gfxCtx);
-void Graph_Destroy(GraphicsContext* gfxCtx);
-void Graph_TaskSet00(GraphicsContext* gfxCtx);
-void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
 void Graph_ThreadEntry(void*);
 
 ListAlloc* ListAlloc_Init(ListAlloc* this);

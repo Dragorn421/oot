@@ -23,6 +23,7 @@
 #include "terminal.h"
 #include "title_setup_state.h"
 #include "versions.h"
+#include "z_actor_dlftbls.h"
 #include "zelda_arena.h"
 #include "z64cutscene_flags.h"
 #include "z64debug_display.h"
@@ -35,8 +36,8 @@
 
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:156 gc-eu-mq:156 gc-jp:158 gc-jp-ce:158 gc-jp-mq:158 gc-us:158 gc-us-mq:158" \
-                               "ique-cn:158 ntsc-1.0:166 ntsc-1.1:166 ntsc-1.2:166 pal-1.0:164 pal-1.1:164"
+#pragma increment_block_number "gc-eu:161 gc-eu-mq:161 gc-jp:163 gc-jp-ce:163 gc-jp-mq:163 gc-us:163 gc-us-mq:163" \
+                               "ique-cn:163 ntsc-1.0:171 ntsc-1.1:171 ntsc-1.2:171 pal-1.0:169 pal-1.1:169"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -325,7 +326,7 @@ void Play_Init(GameState* thisx) {
     Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_CHECK_BG_ALT | CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG |
                                                       CAM_STATE_EXTERNAL_FINISHED | CAM_STATE_CAM_FUNC_FINISH |
                                                       CAM_STATE_LOCK_MODE | CAM_STATE_DISTORTION | CAM_STATE_PLAY_INIT);
-    Sram_Init(this, &this->sramCtx);
+    Sram_Init(&this->state, &this->sramCtx);
     Regs_InitData(this);
     Message_Init(this);
     GameOver_Init(this);
