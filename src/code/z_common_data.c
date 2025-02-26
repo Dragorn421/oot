@@ -1,14 +1,14 @@
+#include "alignment.h"
 #include "region.h"
 #include "sequence.h"
 #include "versions.h"
+#include "z_locale.h"
 #include "z64environment.h"
 #include "z64save.h"
 #include "z64transition.h"
 
-#include "global.h"
-
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:176" \
-                               "ntsc-1.1:176 ntsc-1.2:176 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 ALIGNED(16) SaveContext gSaveContext;
 #if PLATFORM_IQUE

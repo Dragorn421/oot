@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "n64dd.h"
 #include "n64dd_internal.h"
-#include "variables.h"
+#include "z_locale.h"
 
 #pragma increment_block_number ""
 

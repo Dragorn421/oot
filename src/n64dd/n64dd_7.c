@@ -1,6 +1,7 @@
 #include "ultra64.h"
 #include "n64dd.h"
 #include "n64dd_internal.h"
+#include "libc64/aprintf.h"
 #include "functions.h"
 
 typedef struct struct_801CAF10 {
