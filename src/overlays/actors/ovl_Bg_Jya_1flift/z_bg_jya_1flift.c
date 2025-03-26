@@ -102,8 +102,8 @@ void BgJya1flift_InitCollision(Actor* thisx, PlayState* play) {
 
 void BgJya1flift_Init(Actor* thisx, PlayState* play) {
     BgJya1flift* this = (BgJya1flift*)thisx;
-    // "1 F lift"
-    PRINTF("(１Ｆリフト)(flag %d)(room %d)\n", sHasSpawned, play->roomCtx.curRoom.num);
+
+    PRINTF(T("(１Ｆリフト)", "(1F lift)") "(flag %d)(room %d)\n", sHasSpawned, play->roomCtx.curRoom.num);
     this->hasInitialized = false;
     if (sHasSpawned) {
         Actor_Kill(thisx);

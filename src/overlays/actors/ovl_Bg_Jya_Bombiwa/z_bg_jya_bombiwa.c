@@ -94,10 +94,9 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
 
     if (PARAMS_GET_U(thisx->params, 0, 6) != 0x29) {
         PRINTF_COLOR_WARNING();
-
-        // "Warning: Switch Number changed (%s %d)(SW %d)"
-        PRINTF("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n", "../z_bg_jya_bombiwa.c", 218,
-               PARAMS_GET_U(thisx->params, 0, 6));
+        PRINTF(T("Ｗａｒｎｉｎｇ : Switch Number が変更された",
+                 "Warning : Switch Number has been changed") "(%s %d)(SW %d)\n",
+               "../z_bg_jya_bombiwa.c", 218, PARAMS_GET_U(thisx->params, 0, 6));
         PRINTF_RST();
     }
     BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, 0);
@@ -107,8 +106,7 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
     } else {
         Actor_ProcessInitChain(thisx, sInitChain);
 
-        // "Rock destroyed by jya bomb"
-        PRINTF("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", thisx->params);
+        PRINTF(T("(jya 爆弾で破壊岩)", "(jya bomb destroys rocks)") "(arg_data 0x%04x)\n", thisx->params);
     }
 }
 
