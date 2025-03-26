@@ -16,6 +16,7 @@ extern struct IrqMgr gIrqMgr;
 #include "audiomgr.h"
 #include "debug_arena.h"
 #include "fault.h"
+#include "gfx.h"
 #include "padmgr.h"
 #include "prenmi_buff.h"
 #include "regs.h"
@@ -34,7 +35,7 @@ extern struct IrqMgr gIrqMgr;
 #include "global.h"
 
 #pragma increment_block_number "gc-eu:32 gc-eu-mq:32 gc-jp:32 gc-jp-ce:32 gc-jp-mq:32 gc-us:32 gc-us-mq:32 ique-cn:32" \
-                               "ntsc-1.0:244 ntsc-1.1:244 ntsc-1.2:244 pal-1.0:242 pal-1.1:242"
+                               "ntsc-1.0:237 ntsc-1.1:237 ntsc-1.2:237 pal-1.0:235 pal-1.1:235"
 
 extern u8 _buffersSegmentEnd[];
 

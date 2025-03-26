@@ -36,7 +36,7 @@
 #include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:16 pal-1.0:14 pal-1.1:14"
+                               "ntsc-1.2:22 pal-1.0:20 pal-1.1:20"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;

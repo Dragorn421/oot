@@ -1,4 +1,4 @@
-#pragma increment_block_number "gc-eu:32 gc-eu-mq:32 gc-jp:32 gc-jp-ce:32 gc-jp-mq:32 gc-us:32 gc-us-mq:32 ique-cn:32" \
+#pragma increment_block_number "gc-eu:48 gc-eu-mq:48 gc-jp:48 gc-jp-ce:48 gc-jp-mq:48 gc-us:48 gc-us-mq:48 ique-cn:48" \
                                "ntsc-1.0:48 ntsc-1.1:48 ntsc-1.2:48 pal-1.0:48 pal-1.1:48"
 
 #include "libu64/debug.h"

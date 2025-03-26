@@ -26,4 +26,19 @@ typedef struct PreRender {
     /* 0x4C */ u32 unk_4C;
 } PreRender; // size = 0x50
 
+void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg);
+void PreRender_Init(PreRender* this);
+void PreRender_SetValues(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf);
+void PreRender_Destroy(PreRender* this);
+void func_800C170C(PreRender* this, Gfx** gfxp, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a);
+void func_800C1AE8(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave);
+void PreRender_SaveZBuffer(PreRender* this, Gfx** gfxp);
+void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxp);
+void PreRender_DrawCoverage(PreRender* this, Gfx** gfxp);
+void PreRender_RestoreZBuffer(PreRender* this, Gfx** gfxp);
+void func_800C213C(PreRender* this, Gfx** gfxp);
+void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxp);
+void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxp);
+void PreRender_ApplyFilters(PreRender* this);
+
 #endif
