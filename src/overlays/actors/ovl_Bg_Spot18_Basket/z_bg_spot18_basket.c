@@ -167,7 +167,8 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
 
     if (actor->child == NULL) {
         PRINTF_COLOR_RED();
-        PRINTF("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
+        PRINTF(T("Ｅｒｒｏｒ : 変化壷蓋発生失敗", "Error : Failed to generate the change pot cover") "(%s %d)\n",
+               "../z_bg_spot18_basket.c", 351);
         PRINTF_RST();
         Actor_Kill(actor);
     }
