@@ -786,14 +786,14 @@ beginseg
     include "$(BUILD_DIR)/src/libc/code_801068B0.o"
 #elif PLATFORM_GC
     include "$(BUILD_DIR)/src/libc/sqrt.o"
-    include "$(BUILD_DIR)/src/libc/absf.o"
+    include "$(BUILD_DIR)/src/libc/fabsf.o"
     include "$(BUILD_DIR)/src/libc/fmodf.o"
     include "$(BUILD_DIR)/src/libc/code_80106860.o"
     include "$(BUILD_DIR)/src/libc/code_801068B0.o"
 #elif PLATFORM_IQUE
     include "$(BUILD_DIR)/src/libc/fmodf.o"
     include "$(BUILD_DIR)/src/libc/code_801068B0.o"
-    include "$(BUILD_DIR)/src/libc/absf.o"
+    include "$(BUILD_DIR)/src/libc/fabsf.o"
     include "$(BUILD_DIR)/src/libc/sqrt.o"
 #endif
 
