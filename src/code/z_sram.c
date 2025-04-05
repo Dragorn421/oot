@@ -1,5 +1,6 @@
 #include "file_select_state.h"
 #include "controller.h"
+#include "memory_utils.h"
 #include "terminal.h"
 #include "versions.h"
 #include "z64game.h"
@@ -9,6 +10,7 @@
 #include "z64sram.h"
 #include "z64ss_sram.h"
 
+#include "functions.h"
 #include "global.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)

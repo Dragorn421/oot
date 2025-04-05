@@ -24,6 +24,11 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "title_setup_state.h"
+#include "transition_circle.h"
+#include "transition_fade.h"
+#include "transition_tile.h"
+#include "transition_triforce.h"
+#include "transition_wipe.h"
 #include "versions.h"
 #include "z_actor_dlftbls.h"
 #include "zelda_arena.h"
@@ -36,6 +41,7 @@
 #include "z64player.h"
 #include "z64save.h"
 
+#include "functions.h"
 #include "global.h"
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:2 gc-jp-ce:2 gc-jp-mq:2 gc-us:2 gc-us-mq:2 ique-cn:2" \

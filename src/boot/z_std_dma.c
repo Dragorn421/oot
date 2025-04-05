@@ -23,6 +23,9 @@
 #include "libu64/debug.h"
 #include "attributes.h"
 #include "fault.h"
+#if PLATFORM_IQUE
+#include "inflate.h"
+#endif
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
@@ -31,12 +34,15 @@
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#if !PLATFORM_IQUE
+#include "yaz0.h"
+#endif
 #include "z64thread.h"
 
 #include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:22 pal-1.0:20 pal-1.1:20"
+                               "ntsc-1.2:18 pal-1.0:16 pal-1.1:16"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;

@@ -1,3 +1,4 @@
+#include "sys_cfb.h"
 #include "ultra64.h"
 #include "versions.h"
 
@@ -13,6 +14,8 @@ extern struct PadMgr gPadMgr;
 extern struct IrqMgr gIrqMgr;
 
 #include "libc64/malloc.h"
+#include "libu64/rcp_utils.h"
+#include "libu64/runtime.h"
 #include "audiomgr.h"
 #include "debug_arena.h"
 #include "fault.h"
@@ -35,7 +38,7 @@ extern struct IrqMgr gIrqMgr;
 #include "global.h"
 
 #pragma increment_block_number "gc-eu:32 gc-eu-mq:32 gc-jp:32 gc-jp-ce:32 gc-jp-mq:32 gc-us:32 gc-us-mq:32 ique-cn:32" \
-                               "ntsc-1.0:237 ntsc-1.1:237 ntsc-1.2:237 pal-1.0:235 pal-1.1:235"
+                               "ntsc-1.0:231 ntsc-1.1:231 ntsc-1.2:231 pal-1.0:229 pal-1.1:229"
 
 extern u8 _buffersSegmentEnd[];
 

@@ -9,6 +9,7 @@
 #include "macros.h"
 #include "main.h"
 #include "map_select_state.h"
+#include "memory_utils.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -31,6 +32,7 @@
 #include "z64ss_sram.h"
 #include "z64view.h"
 
+#include "functions.h"
 #include "global.h"
 
 #if OOT_PAL_N64

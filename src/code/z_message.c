@@ -4,6 +4,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
+#include "memory_utils.h"
 #include "message_data_static.h"
 #if PLATFORM_N64
 #include "n64dd.h"
@@ -19,6 +20,7 @@
 #include "z64player.h"
 #include "z64save.h"
 
+#include "functions.h"
 #include "global.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
