@@ -43,7 +43,6 @@
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-eu-mq-dbg:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0" \
                                "ique-cn:0"
 
-#include "global.h"
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 #include "alloca.h"
@@ -55,7 +54,7 @@
 #include "terminal.h"
 #include "z64thread.h"
 
-#include "macros.h"
+#include "global.h"
 
 void Fault_Init(void);
 void Fault_SetOsSyncPrintfEnabled(u32 enabled);
