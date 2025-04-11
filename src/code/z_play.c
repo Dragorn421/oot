@@ -44,8 +44,8 @@
 #include "functions.h"
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:49 gc-eu-mq:49 gc-jp:51 gc-jp-ce:51 gc-jp-mq:51 gc-us:51 gc-us-mq:51 ique-cn:51" \
-                               "ntsc-1.0:52 ntsc-1.1:52 ntsc-1.2:52 pal-1.0:50 pal-1.1:50"
+#pragma increment_block_number "gc-eu:72 gc-eu-mq:72 gc-jp:74 gc-jp-ce:74 gc-jp-mq:74 gc-us:74 gc-us-mq:74 ique-cn:74" \
+                               "ntsc-1.0:75 ntsc-1.1:75 ntsc-1.2:75 pal-1.0:73 pal-1.1:73"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
