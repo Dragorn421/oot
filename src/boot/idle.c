@@ -1,4 +1,5 @@
 #include "buffers.h"
+#include "build.h"
 #include "idle.h"
 #include "main.h"
 #include "segment_symbols.h"
@@ -12,7 +13,7 @@
 #include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:138 ntsc-1.1:138 ntsc-1.2:138 pal-1.0:136 pal-1.1:136"
+                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 OSThread sMainThread;
 #if OOT_VERSION < PAL_1_0

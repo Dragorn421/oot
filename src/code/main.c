@@ -3,13 +3,13 @@
 #include "versions.h"
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 // Declared before including other headers for BSS ordering
 extern uintptr_t gSegments[NUM_SEGMENTS];
 
 #pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
-                               "ique-cn:252 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:128 pal-1.1:128"
+                               "ique-cn:252 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 extern struct PreNmiBuff* gAppNmiBufferPtr;
 extern struct Scheduler gScheduler;
@@ -23,9 +23,11 @@ extern struct IrqMgr gIrqMgr;
 #include "debug_arena.h"
 #include "fault.h"
 #include "gfx.h"
+#include "idle.h"
 #include "padmgr.h"
 #include "prenmi_buff.h"
 #include "regs.h"
+#include "segment_symbols.h"
 #include "segmented_address.h"
 #include "stack.h"
 #include "stackcheck.h"
@@ -41,7 +43,7 @@ extern struct IrqMgr gIrqMgr;
 #include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:66 ntsc-1.1:66 ntsc-1.2:66 pal-1.0:128 pal-1.1:128"
+                               "ique-cn:128 ntsc-1.0:71 ntsc-1.1:71 ntsc-1.2:71 pal-1.0:69 pal-1.1:69"
 
 extern u8 _buffersSegmentEnd[];
 
