@@ -32,6 +32,7 @@
 #include "versions.h"
 #include "z_actor_dlftbls.h"
 #include "zelda_arena.h"
+#include "z64audio.h"
 #include "z64cutscene_flags.h"
 #include "z64debug_display.h"
 #include "z64effect.h"
@@ -44,8 +45,8 @@
 #include "functions.h"
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:99 gc-eu-mq:99 gc-jp:99 gc-jp-ce:99 gc-jp-mq:99 gc-us:99 gc-us-mq:99 ique-cn:99" \
-                               "ntsc-1.0:99 ntsc-1.1:99 ntsc-1.2:99 pal-1.0:99 pal-1.1:99"
+#pragma increment_block_number "gc-eu:109 gc-eu-mq:109 gc-jp:109 gc-jp-ce:109 gc-jp-mq:109 gc-us:109 gc-us-mq:109" \
+                               "ique-cn:109 ntsc-1.0:109 ntsc-1.1:109 ntsc-1.2:109 pal-1.0:109 pal-1.1:109"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;

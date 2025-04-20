@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
+
 #include "macros.h"
 
 u16 leoLba_to_phys(u32 lba) {

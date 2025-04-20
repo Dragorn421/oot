@@ -1,6 +1,5 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
-#include "variables.h"
 
 OSPiHandle __LeoDiskHandle;
 OSPiHandle* __osDiskHandle;

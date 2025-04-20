@@ -43,7 +43,7 @@ extern struct IrqMgr gIrqMgr;
 #include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:71 ntsc-1.1:71 ntsc-1.2:71 pal-1.0:69 pal-1.1:69"
+                               "ique-cn:128 ntsc-1.0:43 ntsc-1.1:43 ntsc-1.2:43 pal-1.0:41 pal-1.1:41"
 
 extern u8 _buffersSegmentEnd[];
 
