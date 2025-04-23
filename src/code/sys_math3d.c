@@ -1,9 +1,13 @@
+#include "sys_math3d.h"
+
+#include "printf.h"
+#include "terminal.h"
+#include "translation.h"
 #include "ultra64.h"
 #include "z_lib.h"
 #include "z64math.h"
-#include "terminal.h"
+
 #include "macros.h"
-#include "sys_math3d.h"
 
 #pragma increment_block_number "gc-eu:1 gc-eu-mq:1 gc-jp:1 gc-jp-ce:1 gc-jp-mq:1 gc-us:1 gc-us-mq:1 ique-cn:247" \
                                "ntsc-1.0:240 ntsc-1.1:240 ntsc-1.2:240 pal-1.0:240 pal-1.1:240"

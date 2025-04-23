@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
-#include "macros.h"
+#include "printf.h"
 #include "quake.h"
 #include "rand.h"
 #include "sfx.h"

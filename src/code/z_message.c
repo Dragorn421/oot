@@ -9,10 +9,12 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "segment_symbols.h"
 #include "sequence.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64ocarina.h"
@@ -25,8 +27,8 @@
 
 #include "assets/textures/parameter_static/parameter_static.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:112" \
-                               "ntsc-1.1:112 ntsc-1.2:112 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:224" \
+                               "ntsc-1.1:224 ntsc-1.2:224 pal-1.0:0 pal-1.1:0"
 
 #if !PLATFORM_IQUE
 #define MSG_BUF_DECODED (msgCtx->msgBufDecoded)

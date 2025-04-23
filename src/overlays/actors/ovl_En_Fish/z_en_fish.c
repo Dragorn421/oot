@@ -3,6 +3,7 @@
 #include "libc64/qrand.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "z_lib.h"
 #include "z64item.h"
