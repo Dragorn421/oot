@@ -7,6 +7,7 @@
 #include "z_bg_jya_haheniron.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
 #include "z_lib.h"

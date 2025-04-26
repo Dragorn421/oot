@@ -1,6 +1,6 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
-#include "macros.h"
+#include "array_count.h"
 
 s32 __leoResetCalled = 0;
 s32 __leoQueuesCreated = 0;

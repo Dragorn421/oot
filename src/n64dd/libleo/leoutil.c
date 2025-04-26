@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
+#include "array_count.h"
 
 #include "macros.h"
 
