@@ -17,6 +17,7 @@
 
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
+#include "avoid_ub.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

@@ -3,6 +3,7 @@
 #include "libc64/sprintf.h"
 #include "controller.h"
 #include "fault.h"
+#include "gfx.h"
 #include "padmgr.h"
 #include "segmented_address.h"
 #include "stack.h"
@@ -13,7 +14,7 @@
 
 #include "global.h"
 
-#pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
 
 typedef struct FaultMgr {
     OSThread thread;

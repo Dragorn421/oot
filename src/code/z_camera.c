@@ -5,6 +5,7 @@
 #include "attributes.h"
 #include "controller.h"
 #include "db_camera.h"
+#include "gfx.h"
 #include "letterbox.h"
 #include "one_point_cutscene.h"
 #include "quake.h"
@@ -25,8 +26,8 @@
 #include "z64save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ique-cn:64" \
-                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
@@ -3660,7 +3661,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:92 ntsc-1.1:92 ntsc-1.2:92 pal-1.0:92 pal-1.1:92"
+                               "ique-cn:128 ntsc-1.0:114 ntsc-1.1:114 ntsc-1.2:114 pal-1.0:114 pal-1.1:114"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;
