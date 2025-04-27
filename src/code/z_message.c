@@ -25,7 +25,6 @@
 #include "z64save.h"
 
 #include "functions.h"
-#include "global.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 

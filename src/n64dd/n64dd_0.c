@@ -1,15 +1,17 @@
 #include "ultra64.h"
 #include "n64dd.h"
 #include "n64dd_internal.h"
-#include "fault.h"
 #include "libc64/sleep.h"
+#include "array_count.h"
+#include "fault.h"
+#include "gfx.h"
 #include "stackcheck.h"
 #include "sys_freeze.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "line_numbers.h"
 
-#pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 s32 func_801C8310(struct_801E1598* arg0);
 

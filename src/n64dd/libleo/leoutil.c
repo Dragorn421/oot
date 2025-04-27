@@ -2,8 +2,6 @@
 #include "ultra64/leo_internal.h"
 #include "array_count.h"
 
-#include "macros.h"
-
 u16 leoLba_to_phys(u32 lba) {
     u16 vzone_num;
     u16 zone_slba;

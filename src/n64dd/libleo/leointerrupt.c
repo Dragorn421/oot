@@ -1,7 +1,6 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
 #include "ultra64/internal.h"
-#include "variables.h"
 
 void __osLeoAbnormalResume(void);
 void __osLeoResume(void);

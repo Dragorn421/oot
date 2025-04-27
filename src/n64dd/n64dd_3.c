@@ -1,9 +1,8 @@
 #include "ultra64.h"
 #include "n64dd.h"
 #include "n64dd_internal.h"
-#include "attributes.h"
 #include "libc64/sleep.h"
-#include "variables.h"
+#include "attributes.h"
 
 // TODO move to a header once we can easily fix bss orderings
 extern struct_801E1590 D_801E1590;

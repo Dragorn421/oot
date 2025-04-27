@@ -13,8 +13,6 @@
 #include "z64thread.h"
 #include "translation.h"
 
-#include "global.h"
-
 #pragma increment_block_number "ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
 
 typedef struct FaultMgr {

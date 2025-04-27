@@ -9,7 +9,6 @@
 #include "gfxalloc.h"
 
 #include "functions.h"
-#include "macros.h"
 #include "z64.h"
 
 // Height of the fragments the color frame buffer (CFB) is split into.

@@ -2,7 +2,7 @@
 #include "n64dd.h"
 #include "n64dd_internal.h"
 #include "libc64/aprintf.h"
-#include "functions.h"
+#include "attributes.h"
 
 typedef struct struct_801CAF10 {
     /* 0x00 */ struct struct_801CAF10* (*unk0)(struct struct_801CAF10*, u8*, s32);

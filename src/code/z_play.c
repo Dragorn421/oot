@@ -47,7 +47,7 @@
 #include "z64save.h"
 
 #include "functions.h"
-#include "global.h"
+#include "z64.h"
 
 #pragma increment_block_number "gc-eu:157 gc-eu-mq:157 gc-jp:157 gc-jp-ce:157 gc-jp-mq:157 gc-us:157 gc-us-mq:157" \
                                "ique-cn:157 ntsc-1.0:157 ntsc-1.1:157 ntsc-1.2:157 pal-1.0:157 pal-1.1:157"

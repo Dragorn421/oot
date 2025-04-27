@@ -1,7 +1,5 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
-#include "functions.h"
-#include "variables.h"
 
 s32 LeoCJCreateLeoManager(s32 comPri, s32 intPri, void** cmdBuf, s32 cmdMsgCnt) {
     OSPiHandle* driveRomHandle;
