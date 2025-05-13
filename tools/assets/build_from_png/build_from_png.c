@@ -3,6 +3,8 @@
 
 // Note: this is statically linked with GPL binaries, making the binary GPL-licensed
 
+#define VERBOSE
+
 #include <assert.h>
 #include <dirent.h>
 #include <errno.h>
@@ -15,7 +17,10 @@
 
 #include "../n64texconv/src/libn64texconv/n64texconv.h"
 
-#define NUM_FORMATS 9
+#define G_IM_SIZ_7lo SIZ_MAX
+#define G_IM_SIZ_7hi (SIZ_MAX + 1)
+
+#define NUM_FORMATS 11
 static const struct fmt_info {
     const char* name;
     int fmt;
@@ -31,6 +36,8 @@ static const struct fmt_info {
     { "ia16",   G_IM_FMT_IA,   G_IM_SIZ_16b, },
     { "rgba16", G_IM_FMT_RGBA, G_IM_SIZ_16b, },
     { "rgba32", G_IM_FMT_RGBA, G_IM_SIZ_32b, },
+    { "ci7lo",  G_IM_FMT_CI,   G_IM_SIZ_7lo, },
+    { "ci7hi",  G_IM_FMT_CI,   G_IM_SIZ_7hi, },
     // clang-format on
 };
 
@@ -241,6 +248,10 @@ static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, int 
     sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.inc.c", out_dir_p, png_stem);
     free(png_p_buf);
 
+    assert(fmt->fmt == G_IM_FMT_CI);
+    // ci7lo and ci7hi are not supported for non-palette-sharing images, for simplicity
+    assert(fmt->siz == G_IM_SIZ_4b || fmt->siz == G_IM_SIZ_8b);
+
     struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
     bool success = n64texconv_image_to_c_file(inc_c_p, img, false, false, elem_size) == 0;
     if (!success) {
@@ -329,17 +340,29 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         free_dir_list(in_dir_list);
     }
 
-    struct n64_image* ref_img = n64texconv_image_from_png(png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
+    const int fmt_siz_for_n64texconv = fmt->siz == G_IM_SIZ_4b ? G_IM_SIZ_4b : G_IM_SIZ_8b;
+
+    struct n64_image* ref_img = n64texconv_image_from_png(png_p, G_IM_FMT_CI, fmt_siz_for_n64texconv, G_IM_FMT_RGBA);
+    if (ref_img == NULL) {
+        fprintf(stderr, "Could not read png %s\n", png_p);
+
+        for (size_t i = 0; i < len_pngs_with_tlut; i++) {
+            free(pngs_with_tlut[i].png_p);
+        }
+        free(pngs_with_tlut);
+
+        return false;
+    }
     bool all_other_pngs_match_ref_img_pal = true;
 
     bool success = true;
 
     for (size_t i = 0; i < len_pngs_with_tlut; i++) {
         struct n64_image* other_img =
-            n64texconv_image_from_png(pngs_with_tlut[i].png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
+            n64texconv_image_from_png(pngs_with_tlut[i].png_p, G_IM_FMT_CI, fmt_siz_for_n64texconv, G_IM_FMT_RGBA);
         pngs_with_tlut[i].img = other_img;
         if (other_img == NULL) {
-            fprintf(stderr, "Could not read png %s\n", pngs_with_tlut[i].png_p);
+            fprintf(stderr, "Could not read other png %s\n", pngs_with_tlut[i].png_p);
             success = false;
             break;
         }
@@ -366,7 +389,11 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         assert(tlut_elem_size == 8 || tlut_elem_size == 4);
         sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16%s.inc.c", out_dir_p, tlut_name, tlut_elem_size == 8 ? "" : ".u32");
 
-        if (all_other_pngs_match_ref_img_pal) {
+        const unsigned int max_colors = fmt->siz == G_IM_SIZ_8b                                ? 256
+                                        : fmt->siz == G_IM_SIZ_7lo || fmt->siz == G_IM_SIZ_7hi ? 128
+                                                                                               : 16;
+
+        if (all_other_pngs_match_ref_img_pal && ref_img->pal->count <= max_colors) {
             // write matching palette, and matching color indices for all pngs
 #ifdef VERBOSE
             fprintf(stderr, "Matching data detected!\n");
@@ -385,8 +412,21 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                 for (size_t i = 0; i < len_pngs_with_tlut; i++) {
                     char* inc_c_p = make_inc_c_p(pngs_with_tlut[i].png_p, out_dir_p);
 
-                    success = n64texconv_image_to_c_file(inc_c_p, pngs_with_tlut[i].img, false, false,
-                                                         pngs_with_tlut[i].elem_size) == 0;
+                    if (fmt->siz != G_IM_SIZ_7hi) {
+                        success = n64texconv_image_to_c_file(inc_c_p, pngs_with_tlut[i].img, false, false,
+                                                             pngs_with_tlut[i].elem_size) == 0;
+                    } else {
+                        struct n64_image img = *pngs_with_tlut[i].img;
+                        uint8_t color_indices[img.width * img.height];
+                        for (size_t i = 0; i < img.width * img.height; i++) {
+                            assert(img.color_indices[i] < 128);
+                            color_indices[i] = 128 + img.color_indices[i];
+                        }
+                        img.color_indices = color_indices;
+                        img.pal->count = 256;
+                        success =
+                            n64texconv_image_to_c_file(inc_c_p, &img, false, false, pngs_with_tlut[i].elem_size) == 0;
+                    }
                     if (!success) {
                         fprintf(stderr, "Could not write image to %s\n", inc_c_p);
                     }
@@ -415,7 +455,6 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                 widths[i] = pngs_with_tlut[i].img->width;
                 heights[i] = pngs_with_tlut[i].img->height;
             }
-            const unsigned int max_colors = fmt->siz == G_IM_SIZ_8b ? 256 : 16;
             struct color out_pal[max_colors];
             size_t out_pal_count;
             const float dither_level = 0.5f;
@@ -461,7 +500,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                         pngs_with_tlut[i].img->width,
                         pngs_with_tlut[i].img->height,
                         G_IM_FMT_CI,
-                        fmt->siz,
+                        fmt_siz_for_n64texconv,
                         &pal,
                         pngs_with_tlut[i].img->texels,
                         out_indices[i],

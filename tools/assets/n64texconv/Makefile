@@ -21,7 +21,7 @@ else
 endif
 
 CFLAGS := $(WFLAGS) $(ARCHFLAGS) -MD -MMD -std=gnu11 -fPIC -ffunction-sections -fdata-sections $(INC)
-OPTFLAGS := -O3
+OPTFLAGS := -O3 -ggdb3
 LDFLAGS :=
 LDLIBS := $(OMPFLAGS) -lz -lm
 AR := ar

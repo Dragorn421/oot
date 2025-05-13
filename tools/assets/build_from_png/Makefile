@@ -1,4 +1,4 @@
-CFLAGS := -Wall -Werror -O3
+CFLAGS := -Wall -Werror -O3 -ggdb3
 
 ifeq ($(shell $(CC) --version | grep clang),)
   OMPFLAGS := -fopenmp
