@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_zf" Segment="6">
         <Texture Name="object_zf_TLUT_000000" OutName="tlut_00000000" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
         <Texture Name="object_zf_Tex_000200" OutName="tex_00000200" Format="ci8" Width="8" Height="8" Offset="0x200" TlutOffset="0x0"/>
@@ -107,7 +108,7 @@
         <DList Name="object_zf_DL_00D798" Offset="0xD798"/>
         <DList Name="object_zf_DL_00D968" Offset="0xD968"/>
         <DList Name="object_zf_DL_00DAA0" Offset="0xDAA0"/>
-        <DList Name="object_zf_DL_00DD20" Offset="0xDD20"/>
+        <DList Name="object_zf_DL_00DD20" Offset="0xDD20" RawPointers="0x07000000"/>
         <DList Name="object_zf_DL_00E198" Offset="0xE198"/>
         <DList Name="object_zf_DL_00E3E8" Offset="0xE3E8"/>
         <DList Name="object_zf_DL_00E7E0" Offset="0xE7E0"/>

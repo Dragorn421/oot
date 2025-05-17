@@ -36,6 +36,7 @@
         <Texture Name="object_nb_00A570_Tex" Format="ci8" Width="16" Height="16" Offset="0xA570" TlutOffset="0x096B0"/>
         <Texture Name="object_nb_00A670_Tex" Format="rgba16" Width="32" Height="32" Offset="0xA670"/>
         <Texture Name="object_nb_00AE70_TLUT" Format="rgba16" Width="4" Height="59" Offset="0xAE70"/>
+        <Texture Name="object_nb_00B048_TLUT" Format="rgba16" Width="16" Height="16" Offset="0xB048"/>
         <Texture Name="object_nb_00B248_Tex" Format="ci8" Width="8" Height="8" Offset="0xB248" TlutOffset="0x0AE70"/>
         <Texture Name="object_nb_00B288_Tex" Format="ci8" Width="8" Height="4" Offset="0xB288" TlutOffset="0x0AE70"/>
         <Texture Name="object_nb_00B2A8_Tex" Format="ci8" Width="8" Height="16" Offset="0xB2A8" TlutOffset="0x0AE70"/>

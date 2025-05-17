@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_jewel" Segment="6">
         <DList Name="gGiKokiriEmeraldSetting" Offset="0x10E0"/>
         <DList Name="gGiKokiriEmeraldGem" Offset="0x1240"/>
