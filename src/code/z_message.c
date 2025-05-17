@@ -186,6 +186,21 @@ MessageTableEntry sNesMessageEntryTable[] = {
     { 0xFFFF, 0, NULL },
 };
 
+const char* sGerMessageEntryTable[] = {
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) _message_##textId##_ger,
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
+#include "assets/text/message_data.h"
+#undef DEFINE_MESSAGE
+#undef DEFINE_MESSAGE_NES
+#undef DEFINE_MESSAGE_JPN
+#undef DEFINE_MESSAGE_FFFC
+    NULL,
+};
+
 #else
 
 MessageTableEntry sNesMessageEntryTable[] = {
@@ -248,6 +263,7 @@ MessageTableEntry sStaffMessageEntryTable[] = {
 #if OOT_NTSC
 MessageTableEntry* sJpnMessageEntryTablePtr = sJpnMessageEntryTable;
 MessageTableEntry* sNesMessageEntryTablePtr = sNesMessageEntryTable;
+const char** sGerMessageEntryTablePtr = sGerMessageEntryTable;
 #else
 MessageTableEntry* sNesMessageEntryTablePtr = sNesMessageEntryTable;
 const char** sGerMessageEntryTablePtr = sGerMessageEntryTable;
@@ -551,6 +567,47 @@ void Message_FindMessageNES(PlayState* play, u16 textId) {
     font->charTexBuf[0] = messageTableEntry->typePos;
     messageTableEntry++;
     nextSeg = messageTableEntry->segment;
+    font->msgOffset = foundSeg - seg;
+    font->msgLength = nextSeg - foundSeg;
+}
+
+void Message_FindMessageGER(PlayState* play, u16 textId) {
+    const char* foundSeg;
+    const char* nextSeg;
+    Font* font = &play->msgCtx.font;
+    MessageTableEntry* messageTableEntry = sNesMessageEntryTablePtr;
+    const char** languageSegmentTable;
+    const char* seg;
+
+    languageSegmentTable = sGerMessageEntryTablePtr;
+    seg = messageTableEntry->segment;
+
+    while (messageTableEntry->textId != 0xFFFF) {
+        if (messageTableEntry->textId == textId) {
+            foundSeg = *languageSegmentTable;
+            font->charTexBuf[0] = messageTableEntry->typePos;
+            languageSegmentTable++;
+            nextSeg = *languageSegmentTable;
+            font->msgOffset = foundSeg - seg;
+            font->msgLength = nextSeg - foundSeg;
+            PRINTF(T(" メッセージが,見つかった！！！ = %x  (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)\n",
+                        "Message found!!! = %x  (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)\n"),
+                    textId, font->msgOffset, font->msgLength, foundSeg, seg, nextSeg);
+            return;
+        }
+        messageTableEntry++;
+        languageSegmentTable++;
+    }
+
+    PRINTF(T(" メッセージが,見つからなかった！！！ = %x\n", "Message not found!!! = %x\n"), textId);
+    messageTableEntry = sNesMessageEntryTablePtr;
+
+    languageSegmentTable = sGerMessageEntryTablePtr;
+    foundSeg = *languageSegmentTable;
+    font->charTexBuf[0] = messageTableEntry->typePos;
+    languageSegmentTable++;
+    nextSeg = *languageSegmentTable;
+
     font->msgOffset = foundSeg - seg;
     font->msgLength = nextSeg - foundSeg;
 }
@@ -2646,7 +2703,8 @@ void Message_OpenText(PlayState* play, u16 textId) {
 #endif
     } else {
 #if OOT_NTSC
-        if (gSaveContext.language == LANGUAGE_JPN) {
+      switch(gSaveContext.language){
+        case LANGUAGE_JPN:
             Message_FindMessageJPN(play, textId);
             msgCtx->msgLength = font->msgLength;
 #if PLATFORM_N64
@@ -2660,7 +2718,8 @@ void Message_OpenText(PlayState* play, u16 textId) {
             DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", UNK_LINE);
 #endif
-        } else {
+            break;
+        case LANGUAGE_ENG:
             Message_FindMessageNES(play, textId);
             msgCtx->msgLength = font->msgLength;
 #if PLATFORM_N64
@@ -2674,7 +2733,17 @@ void Message_OpenText(PlayState* play, u16 textId) {
             DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", UNK_LINE);
 #endif
-        }
+            break;
+        case LANGUAGE_GER:
+            Message_FindMessageGER(play, textId);
+            msgCtx->msgLength = font->msgLength;
+            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
+                             font->msgLength, "../z_message_PAL.c", UNK_LINE);
+            break;
+        default:
+            assert(false);
+            break;
+      }
 #else
         if (gSaveContext.language == LANGUAGE_ENG) {
             Message_FindMessagePAL(play, textId);
@@ -4492,6 +4561,7 @@ void Message_SetTables(void) {
 #if OOT_NTSC
     sJpnMessageEntryTablePtr = sJpnMessageEntryTable;
     sNesMessageEntryTablePtr = sNesMessageEntryTable;
+    sGerMessageEntryTablePtr = sGerMessageEntryTable;
 #else
     sNesMessageEntryTablePtr = sNesMessageEntryTable;
     sGerMessageEntryTablePtr = sGerMessageEntryTable;

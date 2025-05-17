@@ -65,6 +65,8 @@ DECLARE_SEGMENT(jpn_message_data_static)
 DECLARE_ROM_SEGMENT(jpn_message_data_static)
 DECLARE_SEGMENT(nes_message_data_static)
 DECLARE_ROM_SEGMENT(nes_message_data_static)
+DECLARE_SEGMENT(ger_message_data_static)
+DECLARE_ROM_SEGMENT(ger_message_data_static)
 #else
 DECLARE_SEGMENT(nes_message_data_static)
 DECLARE_ROM_SEGMENT(nes_message_data_static)

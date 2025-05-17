@@ -40,7 +40,8 @@ typedef struct MessageTableEntry {
 
 #if OOT_NTSC
 #define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
-    extern const char _message_##textId##_nes[];
+    extern const char _message_##textId##_nes[]; \
+    extern const char _message_##textId##_ger[];
 
 #define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     extern const char _message_##textId##_jpn[];

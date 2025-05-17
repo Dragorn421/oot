@@ -45,4 +45,5 @@ void SaveContext_Init(void) {
 #elif OOT_VERSION == GC_JP_CE
     gSaveContext.language = LANGUAGE_JPN;
 #endif
+    gSaveContext.language = LANGUAGE_GER;
 }

@@ -1,3 +1,5 @@
+#include "versions.h"
+
 #define MESSAGE_DATA_STATIC
 
 #include "message_data_fmt.h"
@@ -14,4 +16,8 @@
 #define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     /* Not Present */
 
+#if OOT_NTSC
+#include "build/gc-eu-mq-dbg/assets/text/message_data.enc.nes.h"
+#else
 #include "assets/text/message_data.enc.nes.h"
+#endif

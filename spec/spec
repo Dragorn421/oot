@@ -457,7 +457,6 @@ beginseg
     number 7
 endseg
 
-#if OOT_PAL
 beginseg
     name "ger_message_data_static"
     romalign 0x1000
@@ -465,6 +464,7 @@ beginseg
     number 7
 endseg
 
+#if OOT_PAL
 beginseg
     name "fra_message_data_static"
     romalign 0x1000
