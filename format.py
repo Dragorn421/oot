@@ -165,11 +165,6 @@ def list_files_to_format():
         + glob.glob("assets/**/*.h", recursive=True)
     )
 
-    # Do not format assets/text/ files
-    for assets_text_f in glob.glob("assets/text/**/*.c", recursive=True):
-        if assets_text_f in files:
-            files.remove(assets_text_f)
-
     return files, extra_files
 
 
