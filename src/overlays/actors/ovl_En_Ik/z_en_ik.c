@@ -1276,7 +1276,8 @@ void func_80A779DC(EnIk* this, PlayState* play) {
                     func_80A77474(this, play);
                     break;
                 default:
-                    PRINTF("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Ik_inConfrontion_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
 
             this->cueId = nextCueId;
