@@ -5,14 +5,14 @@
 #define BADCASTI (u32)
 #define STATIC
 
-#include "libc/assert.h"
-#include "libc/math.h"
-#include "libc/stdarg.h"
-#include "libc/stdbool.h"
-#include "libc/stddef.h"
-#include "libc/stdint.h"
-#include "libc/stdlib.h"
-#include "libc/string.h"
+#include "assert.h"
+#include "math.h"
+#include "stdarg.h"
+#include "stdbool.h"
+#include "stddef.h"
+#include "stdint.h"
+#include "stdlib.h"
+#include "string.h"
 
 #include "ultra64/ultratypes.h"
 #include "unk.h"
