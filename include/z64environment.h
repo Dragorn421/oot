@@ -232,6 +232,13 @@ typedef struct EnvironmentContext {
     /* 0xEA */ u8 skyboxFilterColor[4];
     /* 0xEE */ u8 precipitation[PRECIP_MAX];
     /* 0xF3 */ char unk_F3[0x09];
+    struct {
+        Vec3f dir;
+        Vec3f dirAxis;
+        struct {
+            float h, s, v;
+        } color;
+    } disco[2];
 } EnvironmentContext; // size = 0xFC
 
 extern u8 gSkyboxIsChanging;

@@ -1,3 +1,5 @@
+#include "rand.h"
+#include "z64skin_matrix.h"
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ique-cn:128 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
@@ -280,6 +282,102 @@ void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param) {
     Lights_GlowCheck(play);
 }
 
+void environment_rand_unit_vec3f(Vec3f* vec) {
+    f32 norm;
+
+    do {
+        vec->x = Rand_CenteredFloat(2 * 1);
+        vec->y = Rand_CenteredFloat(2 * 1);
+        vec->z = Rand_CenteredFloat(2 * 1);
+
+        norm = Math3D_Vec3fMagnitude(vec);
+    } while (IS_ZERO(norm));
+
+    Math_Vec3f_Scale(vec, 1 / norm);
+}
+
+// from https://stackoverflow.com/a/6930407
+struct rgb {
+    float r; // a fraction between 0 and 1
+    float g; // a fraction between 0 and 1
+    float b; // a fraction between 0 and 1
+};
+struct hsv {
+    float h; // angle in degrees
+    float s; // a fraction between 0 and 1
+    float v; // a fraction between 0 and 1
+};
+struct rgb hsv2rgb(struct hsv in) {
+    float hh, p, q, t, ff;
+    long i;
+    struct rgb out;
+
+    if (in.s <= 0.0f) { // < is bogus, just shuts up warnings
+        out.r = in.v;
+        out.g = in.v;
+        out.b = in.v;
+        return out;
+    }
+    hh = in.h;
+    if (hh >= 360.0f) {
+        hh = 0.0f;
+    }
+    hh /= 60.0f;
+    i = (long)hh;
+    ff = hh - i;
+    p = in.v * (1.0f - in.s);
+    q = in.v * (1.0f - (in.s * ff));
+    t = in.v * (1.0f - (in.s * (1.0f - ff)));
+
+    switch (i) {
+        case 0:
+            out.r = in.v;
+            out.g = t;
+            out.b = p;
+            break;
+        case 1:
+            out.r = q;
+            out.g = in.v;
+            out.b = p;
+            break;
+        case 2:
+            out.r = p;
+            out.g = in.v;
+            out.b = t;
+            break;
+
+        case 3:
+            out.r = p;
+            out.g = q;
+            out.b = in.v;
+            break;
+        case 4:
+            out.r = t;
+            out.g = p;
+            out.b = in.v;
+            break;
+        case 5:
+        default:
+            out.r = in.v;
+            out.g = p;
+            out.b = q;
+            break;
+    }
+    return out;
+}
+void environment_disco_init(EnvironmentContext* envCtx) {
+    int i;
+
+    for (i = 0; i < ARRAY_COUNT(envCtx->disco); i++) {
+        environment_rand_unit_vec3f(&envCtx->disco[i].dir);
+        environment_rand_unit_vec3f(&envCtx->disco[i].dirAxis);
+
+        envCtx->disco[i].color.h = Rand_ZeroFloat(360.0f);
+        envCtx->disco[i].color.s = 1; // Rand_ZeroFloat(0.4f) + 0.3f;
+        envCtx->disco[i].color.v = 1; // Rand_ZeroFloat(0.4f) + 0.3f;
+    }
+}
+
 void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) {
     u8 i;
     PlayState* play = play2;
@@ -483,6 +581,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     gCustomLensFlareOn = false;
     Rumble_Reset();
+
+    environment_disco_init(envCtx);
 }
 
 u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
@@ -1309,6 +1409,43 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         envCtx->dirLight2.params.dir.x = envCtx->lightSettings.light2Dir[0];
         envCtx->dirLight2.params.dir.y = envCtx->lightSettings.light2Dir[1];
         envCtx->dirLight2.params.dir.z = envCtx->lightSettings.light2Dir[2];
+
+        for (i = 0; i < 2; i++) {
+            LightInfo* li = i == 0 ? &envCtx->dirLight1 : &envCtx->dirLight2;
+            MtxF mf;
+            Vec3f vec;
+            struct hsv hsv;
+            struct rgb rgb;
+
+            // dirAxis = normalized(dirAxis + 0.1 * randUnitVec)
+            environment_rand_unit_vec3f(&vec);
+            Math_Vec3f_Scale(&vec, 0.1f);
+            Math_Vec3f_Sum(&envCtx->disco[i].dirAxis, &vec, &envCtx->disco[i].dirAxis);
+            Math_Vec3f_Scale(&envCtx->disco[i].dirAxis, 1 / Math3D_Vec3fMagnitude(&envCtx->disco[i].dirAxis));
+
+            // rotate dir around dirAxis
+            SkinMatrix_SetRotateAxis(&mf, DEG_TO_BINANG(360.0f / 30), envCtx->disco[i].dirAxis.x,
+                                     envCtx->disco[i].dirAxis.y, envCtx->disco[i].dirAxis.z);
+            Matrix_MultVec3fExt(&envCtx->disco[i].dir, &vec, &mf);
+            envCtx->disco[i].dir = vec;
+
+            li->params.dir.x = envCtx->disco[i].dir.x * 127;
+            li->params.dir.y = envCtx->disco[i].dir.y * 127;
+            li->params.dir.z = envCtx->disco[i].dir.z * 127;
+
+            envCtx->disco[i].color.h += Rand_ZeroFloat(360.0f / 20);
+            if (envCtx->disco[i].color.h >= 360.0f) {
+                envCtx->disco[i].color.h -= 360.0f;
+            }
+
+            hsv.h = envCtx->disco[i].color.h;
+            hsv.s = envCtx->disco[i].color.s;
+            hsv.v = envCtx->disco[i].color.v;
+            rgb = hsv2rgb(hsv);
+            li->params.dir.color[0] = rgb.r * 255;
+            li->params.dir.color[1] = rgb.g * 255;
+            li->params.dir.color[2] = rgb.b * 255;
+        }
 
         // Adjust fog near and far if necessary
 
