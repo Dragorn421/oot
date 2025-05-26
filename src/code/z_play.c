@@ -12,6 +12,7 @@
 #include "kaleido_manager.h"
 #include "letterbox.h"
 #include "line_numbers.h"
+#include "moreram.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -67,6 +68,10 @@ UNK_TYPE D_8012D1F4 = 0; // unused
 #endif
 
 Input* D_8012D1F8 = NULL;
+
+#if DEBUG_FEATURES
+static FaultAddrConvClient sActorFaultAddrConvClient;
+#endif
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
@@ -279,9 +284,54 @@ void Play_Destroy(GameState* thisx) {
 #endif
 
 #if DEBUG_FEATURES
+    Fault_RemoveAddrConvClient(&sActorFaultAddrConvClient);
     Fault_RemoveClient(&D_801614B8);
 #endif
 }
+
+#if DEBUG_FEATURES
+uintptr_t Actor_FaultAddrConv(uintptr_t addr, void* arg) {
+    int actor_id;
+    int n_matches = 0;
+    uintptr_t latest_match;
+
+    // Loop over the actor overlay table
+    for (actor_id = 0; actor_id < ACTOR_ID_MAX; actor_id++) {
+        ActorOverlay* ovlEntry = &gActorOverlayTable[actor_id];
+
+        // If the overlay is currently loaded in memory
+        if (ovlEntry->loadedRamAddr != NULL) {
+
+            uintptr_t loadedRamAddr = (uintptr_t)ovlEntry->loadedRamAddr;
+
+            uintptr_t vramStart = (uintptr_t)ovlEntry->vramStart;
+            uintptr_t vramEnd = (uintptr_t)ovlEntry->vramEnd;
+
+            uintptr_t ramStart = loadedRamAddr;
+            uintptr_t ramEnd = loadedRamAddr + (vramEnd - vramStart);
+
+            // If the input ram address `addr` falls within the ram range of the overlay
+            if (ramStart <= addr && addr < ramEnd) {
+                // Compute the vram equivalent of the input ram address
+                uintptr_t addr_vram = addr - loadedRamAddr + vramStart;
+
+                n_matches += 1;
+                latest_match = addr_vram;
+            }
+        }
+    }
+
+    // If exactly one overlay matches return the translated vram address
+    if (n_matches == 1) {
+        return latest_match;
+    }
+    // otherwise if 0 matches then nothing was found
+    // or if 2+ matches then something is wrong, don't report an address
+    else {
+        return 0;
+    }
+}
+#endif
 
 void Play_Init(GameState* thisx) {
     PlayState* this = (PlayState*)thisx;
@@ -306,7 +356,22 @@ void Play_Init(GameState* thisx) {
     SystemArena_Display();
 #endif
 
+#if USE_8MiB_RAM
+    // Request to allocate more memory in the GameState arena, which is used in the play state to allocate memory
+    // initially, during Play_Init. While the play state is running, allocations use the ZeldaArena (see below).
+    // This is mainly to be able to bump up the space size in Object_InitContext.
+    // Another big consumer of memory in the GameState arena is collision, cf BgCheck_Allocate.
+    // A lot of other systems allocate memory from the GameState arena, cf GAME_STATE_ALLOC uses, but it's mostly
+    // constant amounts that don't scale with map size.
+    // The unused memory in the GameState arena once all other allocations are done is used for initializing the
+    // ZeldaArena, cf the ZeldaArena_Init call below.
+    // For uses of ZeldaArena, see ZELDA_ARENA_MALLOC uses. It is mostly about spawning actors.
+
+    // Note: you may be able to request more than 4MiB here, I don't quite know
+    GameState_Realloc(&this->state, 4 * 1024 * 1024);
+#else
     GameState_Realloc(&this->state, 0x1D4790);
+#endif
 
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_10 != NULL)) {
@@ -497,6 +562,12 @@ void Play_Init(GameState* thisx) {
 #endif
 
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
+
+#if DEBUG_FEATURES
+    // Allows filling the (VPC) column in the crash handler when the cpu faults inside actor overlays.
+    // That VPC address can then be looked up directly in the map file or with sym_info.py
+    Fault_AddAddrConvClient(&sActorFaultAddrConvClient, Actor_FaultAddrConv, NULL);
+#endif
 
     // Busyloop until the room loads
     while (!Room_ProcessRoomRequest(this, &this->roomCtx)) {

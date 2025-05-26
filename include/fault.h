@@ -103,6 +103,7 @@ extern vs32 gFaultMsgId;
 extern vs32 gFaultDisplayEnable;
 extern volatile OSThread* gFaultFaultedThread;
 
+#define FAULT_FAULTED_THREAD gFaultFaultedThread
 #define FAULT_MSG_ID gFaultMsgId
 
 #else
@@ -128,6 +129,7 @@ typedef struct FaultMgr {
 
 extern FaultMgr gFaultMgr;
 
+#define FAULT_FAULTED_THREAD gFaultMgr.faultedThread
 #define FAULT_MSG_ID gFaultMgr.msgId
 
 #endif
