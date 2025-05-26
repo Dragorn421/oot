@@ -191,10 +191,11 @@ void Graph_Destroy(GraphicsContext* gfxCtx) {
 #endif
 }
 
-void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 #if DEBUG_FEATURES
-    static Gfx* sPrevTaskWorkBuffer = NULL;
+Gfx* sPrevTaskWorkBuffer = NULL;
 #endif
+
+void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     OSTask_t* task = &gfxCtx->task.list.t;
     OSScTask* scTask = &gfxCtx->task;
 
@@ -226,7 +227,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
                 R_HREG_MODE = HREG_MODE_UCODE_DISAS;
                 R_UCODE_DISAS_TOGGLE = 1;
                 R_UCODE_DISAS_LOG_LEVEL = 2;
-                Graph_DisassembleUCode(sPrevTaskWorkBuffer);
+                // Graph_DisassembleUCode(sPrevTaskWorkBuffer);
             }
 #endif
 
@@ -547,36 +548,32 @@ void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
 
 #if DEBUG_FEATURES
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line) {
-    if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_LOG_MODE != 4) {
-        dispRefs[0] = gfxCtx->polyOpa.p;
-        dispRefs[1] = gfxCtx->polyXlu.p;
-        dispRefs[2] = gfxCtx->overlay.p;
+    dispRefs[0] = gfxCtx->polyOpa.p;
+    dispRefs[1] = gfxCtx->polyXlu.p;
+    dispRefs[2] = gfxCtx->overlay.p;
 
-        gDPNoOpOpenDisp(gfxCtx->polyOpa.p++, file, line);
-        gDPNoOpOpenDisp(gfxCtx->polyXlu.p++, file, line);
-        gDPNoOpOpenDisp(gfxCtx->overlay.p++, file, line);
-    }
+    gDPNoOpOpenDisp(gfxCtx->polyOpa.p++, file, line);
+    gDPNoOpOpenDisp(gfxCtx->polyXlu.p++, file, line);
+    gDPNoOpOpenDisp(gfxCtx->overlay.p++, file, line);
 }
 
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line) {
-    if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_LOG_MODE != 4) {
-        if (dispRefs[0] + 1 == gfxCtx->polyOpa.p) {
-            gfxCtx->polyOpa.p = dispRefs[0];
-        } else {
-            gDPNoOpCloseDisp(gfxCtx->polyOpa.p++, file, line);
-        }
+    if (dispRefs[0] + 1 == gfxCtx->polyOpa.p) {
+        gfxCtx->polyOpa.p = dispRefs[0];
+    } else {
+        gDPNoOpCloseDisp(gfxCtx->polyOpa.p++, file, line);
+    }
 
-        if (dispRefs[1] + 1 == gfxCtx->polyXlu.p) {
-            gfxCtx->polyXlu.p = dispRefs[1];
-        } else {
-            gDPNoOpCloseDisp(gfxCtx->polyXlu.p++, file, line);
-        }
+    if (dispRefs[1] + 1 == gfxCtx->polyXlu.p) {
+        gfxCtx->polyXlu.p = dispRefs[1];
+    } else {
+        gDPNoOpCloseDisp(gfxCtx->polyXlu.p++, file, line);
+    }
 
-        if (dispRefs[2] + 1 == gfxCtx->overlay.p) {
-            gfxCtx->overlay.p = dispRefs[2];
-        } else {
-            gDPNoOpCloseDisp(gfxCtx->overlay.p++, file, line);
-        }
+    if (dispRefs[2] + 1 == gfxCtx->overlay.p) {
+        gfxCtx->overlay.p = dispRefs[2];
+    } else {
+        gDPNoOpCloseDisp(gfxCtx->overlay.p++, file, line);
     }
 }
 #endif

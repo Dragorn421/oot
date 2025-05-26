@@ -20,7 +20,7 @@ NON_MATCHING ?= 1
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler.
 ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
-COMPILER ?= ido
+COMPILER ?= gcc
 # Target game version. Ensure the corresponding input ROM is placed in baseroms/$(VERSION)/baserom.z64.
 # Currently the following versions are supported:
 #   ntsc-1.0       N64 NTSC 1.0 (Japan/US depending on REGION)
@@ -195,7 +195,7 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
-BUILD_DIR := build/$(VERSION)
+BUILD_DIR := build/mod_add_item
 EXPECTED_DIR := expected/$(BUILD_DIR)
 BASEROM_DIR := baseroms/$(VERSION)
 EXTRACTED_DIR := extracted/$(VERSION)
@@ -356,7 +356,7 @@ ifeq ($(COMPILER),gcc)
   # Use -Og instead of -Os to optimize less, making debugging easier
   # For learning about using gdb with OoT64 see:
   # https://github.com/Dragorn421/z64-romhack-tutorials/blob/master/debugging/gdb/index.md
-  OPTFLAGS := -Os -ggdb -ffast-math -fno-unsafe-math-optimizations
+  OPTFLAGS := -Os -ggdb3 -ffast-math -fno-unsafe-math-optimizations
 endif
 
 GBI_DEFINES := -DF3DEX_GBI_2
