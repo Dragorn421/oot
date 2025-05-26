@@ -147,6 +147,7 @@ void* gItemIcons[] = {
     gItemIconSwordKokiriTex,       // ITEM_SWORD_KOKIRI
     gItemIconSwordMasterTex,       // ITEM_SWORD_MASTER
     gItemIconSwordBiggoronTex,     // ITEM_SWORD_BIGGORON
+    gItemIconDragornTex,           // ITEM_DRAGORN
     gItemIconShieldDekuTex,        // ITEM_SHIELD_DEKU
     gItemIconShieldHylianTex,      // ITEM_SHIELD_HYLIAN
     gItemIconShieldMirrorTex,      // ITEM_SHIELD_MIRROR

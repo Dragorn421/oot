@@ -214,6 +214,7 @@ typedef enum ItemID {
     /* 0x3B */ ITEM_SWORD_KOKIRI,
     /* 0x3C */ ITEM_SWORD_MASTER,
     /* 0x3D */ ITEM_SWORD_BIGGORON,
+    ITEM_DRAGORN,
     /* 0x3E */ ITEM_SHIELD_DEKU,
     /* 0x3F */ ITEM_SHIELD_HYLIAN,
     /* 0x40 */ ITEM_SHIELD_MIRROR,

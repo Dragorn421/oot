@@ -163,6 +163,7 @@ void Player_InitDekuStickIA(PlayState* play, Player* this);
 void Player_InitExplosiveIA(PlayState* play, Player* this);
 void Player_InitHookshotIA(PlayState* play, Player* this);
 void Player_InitBoomerangIA(PlayState* play, Player* this);
+void Player_InitDragornIA(PlayState* play, Player* this);
 
 s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play);
 s32 func_8083485C(Player* this, PlayState* play);
@@ -180,6 +181,7 @@ s32 func_808358F0(Player* this, PlayState* play);
 s32 func_808359FC(Player* this, PlayState* play);
 s32 func_80835B60(Player* this, PlayState* play);
 s32 func_80835C08(Player* this, PlayState* play);
+s32 Player_UpperAction_Dragorn(Player* this, PlayState* play);
 
 void Player_UseItem(PlayState* play, Player* this, s32 item);
 void func_80839F90(Player* this, PlayState* play);
@@ -1365,6 +1367,7 @@ static s8 sItemActions[] = {
     PLAYER_IA_SWORD_KOKIRI,        // ITEM_SWORD_KOKIRI
     PLAYER_IA_SWORD_MASTER,        // ITEM_SWORD_MASTER
     PLAYER_IA_SWORD_BIGGORON,      // ITEM_SWORD_BIGGORON
+    PLAYER_IA_DRAGORN,             // ITEM_DRAGORN
 };
 
 static s32 (*sItemActionUpdateFuncs[])(Player* this, PlayState* play) = {
@@ -1435,6 +1438,7 @@ static s32 (*sItemActionUpdateFuncs[])(Player* this, PlayState* play) = {
     func_8083485C,                 // PLAYER_IA_MASK_GERUDO
     func_8083485C,                 // PLAYER_IA_MASK_TRUTH
     func_8083485C,                 // PLAYER_IA_LENS_OF_TRUTH
+    Player_UpperAction_Dragorn,    // PLAYER_IA_DRAGORN
 };
 
 static void (*sItemActionInitFuncs[])(PlayState* play, Player* this) = {
@@ -1505,6 +1509,7 @@ static void (*sItemActionInitFuncs[])(PlayState* play, Player* this) = {
     Player_InitDefaultIA,        // PLAYER_IA_MASK_GERUDO
     Player_InitDefaultIA,        // PLAYER_IA_MASK_TRUTH
     Player_InitDefaultIA,        // PLAYER_IA_LENS_OF_TRUTH
+    Player_InitDragornIA,        // PLAYER_IA_DRAGORN
 };
 
 typedef enum ItemChangeType {
@@ -3580,7 +3585,7 @@ void Player_UseItem(PlayState* play, Player* this, s32 item) {
                 } else {
                     Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 }
-            } else if (itemAction >= PLAYER_IA_MASK_KEATON) {
+            } else if ((itemAction >= PLAYER_IA_MASK_KEATON) && (itemAction <= PLAYER_IA_MASK_TRUTH)) {
                 // Handle wearable masks
                 if (this->currentMask != PLAYER_MASK_NONE) {
                     this->currentMask = PLAYER_MASK_NONE;
@@ -3590,7 +3595,7 @@ void Player_UseItem(PlayState* play, Player* this, s32 item) {
 
                 func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
             } else if (((itemAction >= PLAYER_IA_OCARINA_FAIRY) && (itemAction <= PLAYER_IA_OCARINA_OF_TIME)) ||
-                       (itemAction >= PLAYER_IA_BOTTLE_FISH)) {
+                       ((itemAction >= PLAYER_IA_BOTTLE_FISH) && (itemAction <= PLAYER_IA_CLAIM_CHECK))) {
                 // Handle "cutscene items"
                 if (!Player_CheckHostileLockOn(this) ||
                     ((itemAction >= PLAYER_IA_BOTTLE_POTION_RED) && (itemAction <= PLAYER_IA_BOTTLE_FAIRY))) {
@@ -16219,4 +16224,17 @@ void Player_StartTalking(PlayState* play, Actor* actor) {
         this->naviActor->flags |= ACTOR_FLAG_TALK;
         func_80835EA4(play, 0xB);
     }
+}
+
+void Player_InitDragornIA(PlayState* play, Player* this) {
+    PRINTF("Player_InitDragornIA\n");
+}
+
+s32 Player_UpperAction_Dragorn(Player* this, PlayState* play) {
+    if (sUseHeldItem) {
+        PRINTF("Player_UpperAction_Dragorn\n");
+        PRINTF("sUseHeldItem = %s\n", sUseHeldItem ? "true" : "false");
+        PRINTF("sHeldItemButtonIsHeldDown = %s\n", sHeldItemButtonIsHeldDown ? "true" : "false");
+    }
+    return false;
 }

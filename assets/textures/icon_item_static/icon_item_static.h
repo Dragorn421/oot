@@ -69,6 +69,7 @@ extern u64 gItemIconBowLightTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 
 extern u64 gItemIconSwordKokiriTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];
 extern u64 gItemIconSwordMasterTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];
 extern u64 gItemIconSwordBiggoronTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];
+extern u64 gItemIconDragornTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];
 extern u64 gItemIconShieldDekuTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];
 extern u64 gItemIconShieldHylianTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];
 extern u64 gItemIconShieldMirrorTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];

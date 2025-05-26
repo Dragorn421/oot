@@ -250,6 +250,10 @@ u64 gItemIconSwordBiggoronTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32
 #include "assets/textures/icon_item_static/gItemIconSwordBiggoronTex.rgba32.inc.c"
 };
 
+u64 gItemIconDragornTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
+#include "assets/textures/icon_item_static/gItemIconDragornTex.rgba32.inc.c"
+};
+
 u64 gItemIconShieldDekuTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconShieldDekuTex.rgba32.inc.c"
 };
