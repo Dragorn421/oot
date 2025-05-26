@@ -1193,3 +1193,5 @@ void* gLinkChildLimbs[] = {
 FlexSkeletonHeader gLinkChildSkel = {
 #include "assets/objects/object_link_child/gLinkChildSkel.inc.c"
 };
+
+#include "gLinkChildLeftHandDragornDL.c"

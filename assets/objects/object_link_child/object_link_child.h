@@ -85,3 +85,5 @@ extern Gfx gLinkChildBunnyHoodDL[114];
 extern FlexSkeletonHeader gLinkChildSkel;
 
 #endif
+
+#include "gLinkChildLeftHandDragornDL.h"

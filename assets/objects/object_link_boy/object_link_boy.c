@@ -1312,3 +1312,5 @@ void* gLinkAdultLimbs[] = {
 FlexSkeletonHeader gLinkAdultSkel = {
 #include "assets/objects/object_link_boy/gLinkAdultSkel.inc.c"
 };
+
+#include "gLinkAdultLeftHandDragornDL.c"

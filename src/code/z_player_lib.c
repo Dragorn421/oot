@@ -219,7 +219,7 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
     PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_GERUDO
     PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_TRUTH
     PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_LENS_OF_TRUTH
-    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_DRAGORN
+    PLAYER_MODELGROUP_DRAGORN,          // PLAYER_IA_DRAGORN
 };
 
 typedef struct EnvHazardTextTriggerEntry {
@@ -283,6 +283,9 @@ u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX] = {
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_SWORD */
     { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_DRAGORN */
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_DRAGORN, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_18,
       PLAYER_MODELTYPE_WAIST },
 };
 
@@ -509,6 +512,13 @@ Gfx* sPlayerLeftHandBottleDLs[] = {
     gLinkChildLeftHandUpNearDL,
 };
 
+Gfx* sPlayerLeftHandDragornDLs[] = {
+    gLinkAdultLeftHandDragornDL,
+    gLinkChildLeftHandDragornDL,
+    gLinkAdultLeftHandDragornDL,
+    gLinkChildLeftHandDragornDL,
+};
+
 Gfx* sFirstPersonLeftForearmDLs[] = {
     gLinkAdultRightArmOutNearDL,
     NULL,
@@ -544,6 +554,7 @@ Gfx** sPlayerDListGroups[PLAYER_MODELTYPE_MAX] = {
     sPlayerLeftHandHammerDLs,         // PLAYER_MODELTYPE_LH_HAMMER
     gPlayerLeftHandBoomerangDLs,      // PLAYER_MODELTYPE_LH_BOOMERANG
     sPlayerLeftHandBottleDLs,         // PLAYER_MODELTYPE_LH_BOTTLE
+    sPlayerLeftHandDragornDLs,        // PLAYER_MODELTYPE_LH_DRAGORN
     sPlayerRightHandOpenDLs,          // PLAYER_MODELTYPE_RH_OPEN
     sPlayerRightHandClosedDLs,        // PLAYER_MODELTYPE_RH_CLOSED
     sPlayerRightHandShieldDLs,        // PLAYER_MODELTYPE_RH_SHIELD

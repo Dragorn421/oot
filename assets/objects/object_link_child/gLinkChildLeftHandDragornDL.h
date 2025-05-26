@@ -1,0 +1,22 @@
+#ifndef GLINKCHILDLEFTHANDDRAGORNDL_H
+#define GLINKCHILDLEFTHANDDRAGORNDL_H
+
+#include "ultra64.h"
+#include "object_link_child.h"
+
+extern u64 gLinkChildLeftHandDragornDL_gItemIconDragornTex_rgba32_ci8[];
+extern u64 gLinkChildLeftHandDragornDL_gItemIconDragornTex_rgba32_pal_rgba16[];
+extern u64 gLinkChildLeftHandDragornDL_hand_ci8_png_002_ci8[];
+extern u64 gLinkChildLeftHandDragornDL_hand_ci8_png_002_pal_rgba16[];
+extern Vtx gLinkChildLeftHandDragornDL_gLinkChildLeftHandDragornDL_mesh_layer_Opaque_vtx_cull[8];
+extern Vtx gLinkChildLeftHandDragornDL_gLinkChildLeftHandDragornDL_mesh_layer_Opaque_vtx_0[4];
+extern Gfx gLinkChildLeftHandDragornDL_gLinkChildLeftHandDragornDL_mesh_layer_Opaque_tri_0[];
+extern Vtx gLinkChildLeftHandDragornDL_gLinkChildLeftHandDragornDL_mesh_layer_Opaque_vtx_1[126];
+extern Gfx gLinkChildLeftHandDragornDL_gLinkChildLeftHandDragornDL_mesh_layer_Opaque_tri_1[];
+extern Gfx mat_gLinkChildLeftHandDragornDL_f3dlite_material_layerOpaque[];
+extern Gfx mat_revert_gLinkChildLeftHandDragornDL_f3dlite_material_layerOpaque[];
+extern Gfx mat_gLinkChildLeftHandDragornDL_f3dlite_material_004_layerOpaque[];
+extern Gfx mat_revert_gLinkChildLeftHandDragornDL_f3dlite_material_004_layerOpaque[];
+extern Gfx gLinkChildLeftHandDragornDL[];
+
+#endif

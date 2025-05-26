@@ -333,7 +333,8 @@ typedef enum PlayerModelGroup {
     /* 0x0D */ PLAYER_MODELGROUP_OOT, // ocarina of time
     /* 0x0E */ PLAYER_MODELGROUP_BOTTLE, // bottles (drawn separately)
     /* 0x0F */ PLAYER_MODELGROUP_SWORD, // hold sword and no shield, even if one is equipped
-    /* 0x10 */ PLAYER_MODELGROUP_MAX
+    PLAYER_MODELGROUP_DRAGORN,
+    PLAYER_MODELGROUP_MAX
 } PlayerModelGroup;
 
 typedef enum PlayerModelGroupEntry {
@@ -355,6 +356,7 @@ typedef enum PlayerModelType {
     /* 0x05 */ PLAYER_MODELTYPE_LH_HAMMER, // holding hammer (child: empty hand)
     /* 0x06 */ PLAYER_MODELTYPE_LH_BOOMERANG, // holding boomerang (adult: empty hand)
     /* 0x07 */ PLAYER_MODELTYPE_LH_BOTTLE, // holding bottle (bottle drawn separately)
+    PLAYER_MODELTYPE_LH_DRAGORN,
     // right hand
     /* 0x08 */ PLAYER_MODELTYPE_RH_OPEN, // empty open hand
     /* 0x09 */ PLAYER_MODELTYPE_RH_CLOSED, // empty closed hand
