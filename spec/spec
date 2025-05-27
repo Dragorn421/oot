@@ -993,10 +993,18 @@ endseg
 #endif
 
 beginseg
+    name "ovl_item_dragorn"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_item_dragorn/item_dragorn.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_item_dragorn/ovl_item_dragorn_reloc.o"
+    compress
+endseg
+
+beginseg
     name "gameplay_keep"
     compress
     romalign 0x1000
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gDragornDL.o"
     number 4
 endseg
 

@@ -16,12 +16,15 @@
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
+#include "libc64/math64.h"
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
+#include "libu64/gfxprint.h"
 #include "array_count.h"
 #include "avoid_ub.h"
 #include "controller.h"
 #include "gfx.h"
+#include "gfxalloc.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "letterbox.h"
@@ -12187,6 +12190,34 @@ static Vec3s D_80854864 = { 0, 0, 0 };
 void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList, OverrideLimbDrawOpa overrideLimbDraw) {
     OPEN_DISPS(play->state.gfxCtx, "../z_player.c", 19228);
 
+    {
+        GfxPrint printer;
+        Gfx *gfxRef, *gfx;
+
+        GfxPrint_Init(&printer);
+
+        gfxRef = POLY_OPA_DISP;
+        gfx = Gfx_Open(gfxRef);
+        gSPDisplayList(OVERLAY_DISP++, gfx);
+
+        GfxPrint_Open(&printer, gfx);
+
+        GfxPrint_SetColor(&printer, 255, 255, 255, 255);
+
+        GfxPrint_SetPos(&printer, 0, 7);
+        GfxPrint_Printf(&printer, " pos %.1f %.1f %.1f\n", this->actor.world.pos.x, this->actor.world.pos.y,
+                        this->actor.world.pos.z);
+        GfxPrint_Printf(&printer, " shape.rot.y 0x%04hx\n", this->actor.shape.rot.y);
+
+        gfx = GfxPrint_Close(&printer);
+
+        gSPEndDisplayList(gfx++);
+        Gfx_Close(gfxRef, gfx);
+        POLY_OPA_DISP = gfx;
+
+        GfxPrint_Destroy(&printer);
+    }
+
     gSPSegment(POLY_OPA_DISP++, 0x0C, cullDList);
     gSPSegment(POLY_XLU_DISP++, 0x0C, cullDList);
 
@@ -16232,9 +16263,71 @@ void Player_InitDragornIA(PlayState* play, Player* this) {
 
 s32 Player_UpperAction_Dragorn(Player* this, PlayState* play) {
     if (sUseHeldItem) {
-        PRINTF("Player_UpperAction_Dragorn\n");
-        PRINTF("sUseHeldItem = %s\n", sUseHeldItem ? "true" : "false");
-        PRINTF("sHeldItemButtonIsHeldDown = %s\n", sHeldItemButtonIsHeldDown ? "true" : "false");
+        s32 res;
+        Vec3f vec, posA, posB, posResult;
+        CollisionPoly* colPoly;
+
+        PRINTF("> Player_UpperAction_Dragorn\n");
+
+        Matrix_Push();
+
+        posA = this->actor.world.pos;
+        posA.y += 50.0f;
+        posB = posA;
+        Matrix_Translate(posA.x, posA.y, posA.z, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_APPLY);
+        vec.x = 0.0f;
+        vec.y = 0.0f;
+        vec.z = 1000.0f;
+        Matrix_MultVec3f(&vec, &posB);
+
+        PRINTF("posA = %.1f %.1f %.1f\n", posA.x, posA.y, posA.z);
+        PRINTF("posB = %.1f %.1f %.1f\n", posB.x, posB.y, posB.z);
+
+        res = BgCheck_AnyLineTest1(&play->colCtx, &posA, &posB, &posResult, &colPoly, true);
+        if (res) {
+            Vec3f polyNormal, axis;
+            f32 axisNorm;
+            static Vec3f forwardModel = { 0.0f, 0.0f, 1.0f };
+            f32 angle;
+            MtxF mf;
+            Vec3s rot;
+
+            PRINTF("posResult = %.1f %.1f %.1f\n", posResult.x, posResult.y, posResult.z);
+
+            polyNormal.x = COLPOLY_GET_NORMAL(colPoly->normal.x);
+            polyNormal.y = COLPOLY_GET_NORMAL(colPoly->normal.y);
+            polyNormal.z = COLPOLY_GET_NORMAL(colPoly->normal.z);
+
+            Math3D_Vec3f_Cross(&forwardModel, &polyNormal, &axis);
+            axisNorm = Math3D_Vec3fMagnitude(&axis);
+
+            if (axisNorm != 0.0f) {
+                Math_Vec3f_Scale(&axis, 1.0f / axisNorm);
+                angle = Math_FAcosF(Math3D_Cos(&forwardModel, &polyNormal));
+                Matrix_RotateAxis(angle, &axis, MTXMODE_NEW);
+                Matrix_Get(&mf);
+                Matrix_MtxFToYXZRotS(&mf, &rot, 0);
+
+                PRINTF("rot = 0x%04hX 0x%04hX 0x%04hX\n", rot.x, rot.y, rot.z);
+            } else {
+                // forwardModel and polyNormal are colinear
+                rot.x = 0;
+                rot.y = Math3D_Cos(&forwardModel, &polyNormal) < 0 ? 0x8000 : 0;
+                rot.z = 0;
+            }
+
+            vec = polyNormal;
+            Math_Vec3f_Scale(&vec, 5.0f);
+            Math_Vec3f_Sum(&posResult, &vec, &posResult);
+
+            Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_DRAGORN, posResult.x, posResult.y, posResult.z, rot.x, rot.y,
+                        rot.z, 0);
+        }
+
+        Matrix_Pop();
+
+        PRINTF("< Player_UpperAction_Dragorn\n");
     }
     return false;
 }
