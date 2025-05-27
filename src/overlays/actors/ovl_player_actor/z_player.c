@@ -12192,7 +12192,7 @@ static Vec3s D_80854864 = { 0, 0, 0 };
 void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList, OverrideLimbDrawOpa overrideLimbDraw) {
     OPEN_DISPS(play->state.gfxCtx, "../z_player.c", 19228);
 
-    {
+    if (0) {
         GfxPrint printer;
         Gfx *gfxRef, *gfx;
 
