@@ -280,6 +280,13 @@ u8 gItemSlots[] = {
     SLOT_TRADE_ADULT,   // ITEM_EYEBALL_FROG
     SLOT_TRADE_ADULT,   // ITEM_EYE_DROPS
     SLOT_TRADE_ADULT,   // ITEM_CLAIM_CHECK
+    0,                  // ITEM_BOW_FIRE (unused)
+    0,                  // ITEM_BOW_ICE (unused)
+    0,                  // ITEM_BOW_LIGHT (unused)
+    0,                  // ITEM_SWORD_KOKIRI (unused)
+    0,                  // ITEM_SWORD_MASTER (unused)
+    0,                  // ITEM_SWORD_BIGGORON (unused)
+    SLOT_BOTTLE_2,      // ITEM_DRAGORN
 };
 
 void Inventory_ChangeEquipment(s16 equipment, u16 value) {

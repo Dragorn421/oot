@@ -1,5 +1,21 @@
 #include "text/message_data.h"
 
+DEFINE_MESSAGE(0x00FF, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_BOTTOM,
+MSG(/* MISSING */)
+,
+MSG(
+ITEM_ICON(ITEM_DRAGORN) QUICKTEXT_ENABLE "You got " COLOR(RED) "Street Art" COLOR(DEFAULT) "!"
+)
+,
+MSG(
+"missing translation"
+)
+,
+MSG(
+"missing translation"
+)
+)
+
 /*
  * The following two messages should be kept last and in this order.
  * Message 0xFFFD must be last to not break the message debugger (see R_MESSAGE_DEBUGGER_TEXTID).

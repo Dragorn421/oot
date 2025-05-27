@@ -278,8 +278,8 @@ static SavePlayerData sDebugSavePlayerData = {
 };
 
 static ItemEquips sDebugSaveEquips = {
-    { ITEM_SWORD_MASTER, ITEM_DRAGORN, ITEM_BOMB, ITEM_OCARINA_FAIRY }, // buttonItems
-    { SLOT_BOTTLE_2, SLOT_BOMB, SLOT_OCARINA },                         // cButtonSlots
+    { ITEM_SWORD_MASTER, ITEM_BOW, ITEM_BOMB, ITEM_OCARINA_FAIRY }, // buttonItems
+    { SLOT_BOW, SLOT_BOMB, SLOT_OCARINA },                          // cButtonSlots
     // equipment
     (EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4)) | (EQUIP_VALUE_SHIELD_HYLIAN << (EQUIP_TYPE_SHIELD * 4)) |
         (EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4)) | (EQUIP_VALUE_BOOTS_KOKIRI << (EQUIP_TYPE_BOOTS * 4)),
@@ -307,7 +307,7 @@ static Inventory sDebugSaveInventory = {
         ITEM_ARROW_LIGHT,         // SLOT_ARROW_LIGHT
         ITEM_NAYRUS_LOVE,         // SLOT_NAYRUS_LOVE
         ITEM_BOTTLE_EMPTY,        // SLOT_BOTTLE_1
-        ITEM_DRAGORN,             // SLOT_BOTTLE_2
+        ITEM_NONE,                // SLOT_BOTTLE_2
         ITEM_BOTTLE_POTION_GREEN, // SLOT_BOTTLE_3
         ITEM_BOTTLE_POTION_BLUE,  // SLOT_BOTTLE_4
         ITEM_POCKET_EGG,          // SLOT_TRADE_ADULT

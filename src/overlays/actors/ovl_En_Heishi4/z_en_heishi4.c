@@ -1,5 +1,6 @@
 #include "z_en_heishi4.h"
 
+#include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -352,6 +353,11 @@ void EnHeishi4_Update(Actor* thisx, PlayState* play) {
     EnHeishi4* this = (EnHeishi4*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(play);
+
+    if (play->state.input[0].press.button & BTN_A) {
+        PRINTF("Actor_OfferGetItem(GI_DRAGORN) by %p\n", thisx);
+        Actor_OfferGetItem(thisx, play, GI_DRAGORN, thisx->xzDistToPlayer + 10.0f, thisx->yDistToPlayer + 10.0f);
+    }
 
     thisx->world.pos.x = this->pos.x;
     thisx->world.pos.y = this->pos.y;

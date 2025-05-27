@@ -4056,6 +4056,13 @@ beginseg
 endseg
 
 beginseg
+    name "object_gi_dragorn"
+    compress
+    include "$(BUILD_DIR)/assets/objects/object_gi_dragorn/object_gi_dragorn.o"
+    number 6
+endseg
+
+beginseg
     name "g_pn_01"
     compress
     romalign 0x1000

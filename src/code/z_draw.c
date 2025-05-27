@@ -82,6 +82,7 @@
 #include "assets/objects/object_gi_rupy/object_gi_rupy.h"
 #include "assets/objects/object_gi_sword_1/object_gi_sword_1.h"
 #include "assets/objects/object_st/object_st.h"
+#include "assets/objects/object_gi_dragorn/object_gi_dragorn.h"
 
 // "Get Item" Model Draw Functions
 void GetItem_DrawMaskOrBombchu(PlayState* play, s16 drawId);
@@ -372,6 +373,8 @@ DrawItemTableEntry sDrawItemTable[] = {
     { GetItem_DrawOpa0, { gGiKokiriSwordDL } },
     // gold skulltula token, OBJECT_ST
     { GetItem_DrawSkullToken, { gSkulltulaTokenDL, gSkulltulaTokenFlameDL } },
+    // GID_DRAGORN
+    { GetItem_DrawOpa0, { gObjectGiDragornDL } },
 };
 
 /**

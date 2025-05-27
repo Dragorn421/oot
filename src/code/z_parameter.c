@@ -1896,6 +1896,10 @@ u8 Item_CheckObtainability(u8 item) {
     PRINTF("item_get_non_setting=%d  pt=%d  z=%x\n", item, slot, gSaveContext.save.info.inventory.items[slot]);
     PRINTF_RST();
 
+    if (item == ITEM_DRAGORN) {
+        return ITEM_NONE;
+    }
+
     if ((item >= ITEM_MEDALLION_FOREST) && (item <= ITEM_MEDALLION_LIGHT)) {
         return ITEM_NONE;
     } else if ((item >= ITEM_KOKIRI_EMERALD) && (item <= ITEM_SKULL_TOKEN)) {
