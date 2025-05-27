@@ -10,7 +10,6 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
-#include "terminal.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
