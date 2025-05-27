@@ -1396,6 +1396,8 @@ u8 Item_Give(PlayState* play, u8 item) {
     s16 slot;
     s16 temp;
 
+    PRINTF("Item_Give\n");
+
     slot = SLOT(item);
     if (item >= ITEM_DEKU_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
