@@ -6,6 +6,48 @@
         <Texture Name="object_wf_Tex_000200" OutName="tex_00000200" Format="rgba16" Width="8" Height="8" Offset="0x200"/>
         <Texture Name="object_wf_Tex_000280" OutName="tex_00000280" Format="rgba16" Width="8" Height="8" Offset="0x280"/>
         <Blob Name="object_wf_Blob_000300" Size="0x200" Offset="0x300"/>
+        <Array Name="object_wf_Vtx_000500" Count="19" Offset="0x500">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_000630" Count="12" Offset="0x630">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_0006F0" Count="21" Offset="0x6F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_000840" Count="23" Offset="0x840">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_0009B0" Count="19" Offset="0x9B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_000AE0" Count="12" Offset="0xAE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_000BA0" Count="21" Offset="0xBA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_000CF0" Count="23" Offset="0xCF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_000E60" Count="29" Offset="0xE60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_001030" Count="35" Offset="0x1030">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_001260" Count="29" Offset="0x1260">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_001430" Count="35" Offset="0x1430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_001660" Count="34" Offset="0x1660">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_001880" Count="26" Offset="0x1880">
+            <Vtx/>
+        </Array>
         <DList Name="object_wf_DL_001A20" Offset="0x1A20"/>
         <DList Name="object_wf_DL_001AE8" Offset="0x1AE8"/>
         <DList Name="object_wf_DL_001BD8" Offset="0x1BD8"/>
@@ -21,6 +63,21 @@
         <DList Name="object_wf_DL_0025A0" Offset="0x25A0"/>
         <DList Name="object_wf_DL_0026C8" Offset="0x26C8"/>
         <Blob Name="object_wf_Blob_0027D8" Size="0x400" Offset="0x27D8"/>
+        <Array Name="object_wf_Vtx_002BD8" Count="5" Offset="0x2BD8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_002C28" Count="18" Offset="0x2C28">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_002D48" Count="18" Offset="0x2D48">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_002E68" Count="90" Offset="0x2E68">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_003408" Count="8" Offset="0x3408">
+            <Vtx/>
+        </Array>
         <DList Name="object_wf_DL_003488" Offset="0x3488"/>
         <DList Name="object_wf_DL_003528" Offset="0x3528"/>
         <DList Name="object_wf_DL_0035F0" Offset="0x35F0"/>
@@ -57,6 +114,48 @@
         <Blob Name="object_wf_zeroes_Blob_005440" Size="0x40" Offset="0x5440"/>
         <Animation Name="object_wf_Anim_0057A0" Offset="0x57A0"/>
         <Blob Name="object_wf_zeroes_Blob_0057B0" Size="0x20" Offset="0x57B0"/>
+        <Array Name="object_wf_Vtx_0057D0" Count="19" Offset="0x57D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_005900" Count="12" Offset="0x5900">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_0059C0" Count="23" Offset="0x59C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_005B30" Count="26" Offset="0x5B30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_005CD0" Count="19" Offset="0x5CD0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_005E00" Count="12" Offset="0x5E00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_005EC0" Count="23" Offset="0x5EC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_006030" Count="26" Offset="0x6030">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_0061D0" Count="40" Offset="0x61D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_006450" Count="26" Offset="0x6450">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_0065F0" Count="40" Offset="0x65F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_006870" Count="26" Offset="0x6870">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_006A10" Count="34" Offset="0x6A10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_006C30" Count="26" Offset="0x6C30">
+            <Vtx/>
+        </Array>
         <DList Name="object_wf_DL_006DD0" Offset="0x6DD0"/>
         <DList Name="object_wf_DL_006E98" Offset="0x6E98"/>
         <DList Name="object_wf_DL_006F88" Offset="0x6F88"/>
@@ -78,6 +177,21 @@
         <Texture Name="object_wf_Tex_008268" OutName="tex_00008268" Format="rgba16" Width="8" Height="8" Offset="0x8268"/>
         <Texture Name="object_wf_Tex_0082E8" OutName="tex_000082E8" Format="rgba16" Width="8" Height="8" Offset="0x82E8"/>
         <Blob Name="object_wf_Blob_008368" Size="0x400" Offset="0x8368"/>
+        <Array Name="object_wf_Vtx_008768" Count="5" Offset="0x8768">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_0087B8" Count="12" Offset="0x87B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_008878" Count="12" Offset="0x8878">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_008938" Count="90" Offset="0x8938">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wf_Vtx_008ED8" Count="8" Offset="0x8ED8">
+            <Vtx/>
+        </Array>
         <DList Name="object_wf_DL_008F58" Offset="0x8F58"/>
         <DList Name="object_wf_DL_008FF8" Offset="0x8FF8"/>
         <DList Name="object_wf_DL_0090C0" Offset="0x90C0"/>
