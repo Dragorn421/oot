@@ -9,6 +9,7 @@
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"
@@ -584,8 +585,8 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
     } else {
         if (this->insectFlags & INSECT_FLAG_FOUND_SOIL) {
             PRINTF_COLOR_WARNING();
-            // "warning: target Actor is NULL"
-            PRINTF("warning:目標 Actor が NULL (%s %d)\n", "../z_en_mushi.c", 1046);
+            PRINTF(T("warning:目標 Actor が NULL (%s %d)\n", "warning: target Actor is NULL (%s %d)\n"),
+                   "../z_en_mushi.c", 1046);
             PRINTF_RST();
         }
         distanceSq = 40.0f;
@@ -712,8 +713,8 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
                (this->insectFlags & INSECT_FLAG_0) && this->lifeTimer <= 0 && this->actionTimer <= 0 &&
                this->actor.floorHeight < -31990.0f) {
         PRINTF_COLOR_WARNING();
-        // "BG missing? To do Actor_delete"
-        PRINTF("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_mushi.c", 1197);
+        PRINTF(T("BG 抜け？ Actor_delete します(%s %d)\n", "BG missing? To do Actor_delete (%s %d)\n"),
+               "../z_en_mushi.c", 1197);
         PRINTF_RST();
         Actor_Kill(&this->actor);
     }
