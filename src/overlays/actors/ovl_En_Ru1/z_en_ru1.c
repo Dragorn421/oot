@@ -321,8 +321,8 @@ BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
         }
         actorIt = actorIt->next;
     }
-    // "There is no stand"
-    PRINTF(VT_FGCOL(RED) "お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    PRINTF(VT_FGCOL(RED) T("お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n", "There is no stand!!!!!!!!!!!!!!!!!!!!!!!!!\n")
+               VT_RST);
     return NULL;
 }
 
