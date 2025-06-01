@@ -889,7 +889,8 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->damageReaction != REDEAD_DMG_REACTION_ICE_MAGIC &&
-        ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) || (this->damageReaction != REDEAD_DMG_REACTION_FIRE_MAGIC))) {
+        ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) ||
+         (this->damageReaction != REDEAD_DMG_REACTION_FIRE_MAGIC))) {
         if (this->playerStunWaitTimer != 0) {
             this->playerStunWaitTimer--;
         }

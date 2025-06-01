@@ -757,7 +757,8 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         this->damageReaction = this->actor.colChkInfo.damageReaction;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if ((this->damageReaction == EN_IK_DMG_REACTION_NONE) || (this->damageReaction == EN_IK_DMG_REACTION_SPARKS_NO_DMG) ||
+        if ((this->damageReaction == EN_IK_DMG_REACTION_NONE) ||
+            (this->damageReaction == EN_IK_DMG_REACTION_SPARKS_NO_DMG) ||
             ((this->armorStatusFlag == 0) && (this->damageReaction == EN_IK_DMG_REACTION_PROJECTILE))) {
             if (this->damageReaction != EN_IK_DMG_REACTION_NONE) {
                 // spawn sparks and don't damage
