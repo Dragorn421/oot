@@ -412,7 +412,6 @@ assets/overlays/ovl_file_choose/ovl_file_choose.c
 assets/overlays/ovl_Magic_Dark/ovl_Magic_Dark.c
 assets/overlays/ovl_Magic_Fire/ovl_Magic_Fire.c
 assets/overlays/ovl_Magic_Wind/ovl_Magic_Wind.c
-assets/overlays/ovl_Oceff_Spot/ovl_Oceff_Spot.c
 assets/overlays/ovl_Oceff_Storm/ovl_Oceff_Storm.c
 assets/overlays/ovl_Oceff_Wipe2/ovl_Oceff_Wipe2.c
 assets/overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c
