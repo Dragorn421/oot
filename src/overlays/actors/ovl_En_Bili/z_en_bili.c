@@ -500,17 +500,17 @@ void func_809C0A70(EnBili* this, PlayState* play) {
     if ((this->actor.colChkInfo.health != 0) && (this->unk1D4.base.acFlags & AC_HIT)) {
         this->unk1D4.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->unk1D4.elem, true);
-        if ((((this->actor.colChkInfo.damageEffect != 0)) || (this->actor.colChkInfo.damage != 0))) {
+        if ((((this->actor.colChkInfo.damageReaction != 0)) || (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
-            if (this->actor.colChkInfo.damageEffect == 1) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->unk190 != func_809C0980) {
                     func_809BFD18(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 0xF) {
+            } else if (this->actor.colChkInfo.damageReaction == 0xF) {
                 if (this->unk190 != func_809C0980) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 10);
                     if (this->actor.colChkInfo.health == 0) {
@@ -520,12 +520,12 @@ void func_809C0A70(EnBili* this, PlayState* play) {
                 } else {
                     func_809BFC48(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 2) {
+            } else if (this->actor.colChkInfo.damageReaction == 2) {
                 func_809BFC48(this);
                 this->unk196 = 2;
-            } else if (this->actor.colChkInfo.damageEffect == 3) {
+            } else if (this->actor.colChkInfo.damageReaction == 3) {
                 func_809BFD94(this, play);
-            } else if (this->actor.colChkInfo.damageEffect == 0xE) {
+            } else if (this->actor.colChkInfo.damageReaction == 0xE) {
                 func_809BFBC4(this);
             } else {
                 func_809BFC48(this);

@@ -13,7 +13,7 @@ typedef struct EnSkb {
     /* 0x208 */ Vec3s unk208[20];
     /* 0x280 */ u8 actionState;
     /* 0x281 */ u8 setColliderAT;
-    /* 0x282 */ u8 lastDamageEffect;
+    /* 0x282 */ u8 lastDamageReaction;
     /* 0x283 */ u8 breakFlags;
     /* 0x284 */ void (*unk284)(struct EnSkb*, struct PlayState*);
     /* 0x288 */ s16 headlessYawOffset;

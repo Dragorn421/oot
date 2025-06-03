@@ -567,12 +567,12 @@ void func_80A1450C_ReactToAC(EnFirefly* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elements->base, true);
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
-            if (this->actor.colChkInfo.damageEffect == 2) {
+            if (this->actor.colChkInfo.damageReaction == 2) {
                 if (this->actor.params == 4) {
                     this->actor.colChkInfo.health = 0;
                     Enemy_StartFinishingBlow(play, &this->actor);
@@ -584,18 +584,18 @@ void func_80A1450C_ReactToAC(EnFirefly* this, PlayState* play) {
                         func_80A132F4_Setup(this);
                     }
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 3) {
+            } else if (this->actor.colChkInfo.damageReaction == 3) {
                 if (this->actor.params == 4) {
                     func_80A133A0_Setup(this);
                 } else {
                     func_80A135A8_Setup(this, play);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 1) {
+            } else if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->actionFunc != func_80A141F0_Action) {
                     func_80A13538_Setup(this);
                 }
             } else {
-                if ((this->actor.colChkInfo.damageEffect == 0xF) && (this->actor.params == 4)) {
+                if ((this->actor.colChkInfo.damageReaction == 0xF) && (this->actor.params == 4)) {
                     func_80A1448C_SpawnFireEffects(this, play);
                 }
                 func_80A133A0_Setup(this);

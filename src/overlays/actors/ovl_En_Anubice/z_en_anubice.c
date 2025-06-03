@@ -388,7 +388,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
 
         if (this->col.base.acFlags & 2) {
             this->col.base.acFlags &= ~2;
-            if (this->actor.colChkInfo.damageEffect == 2) {
+            if (this->actor.colChkInfo.damageReaction == 2) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 Enemy_StartFinishingBlow(play, &this->actor);

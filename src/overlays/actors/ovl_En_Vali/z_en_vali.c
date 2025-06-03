@@ -482,23 +482,23 @@ void func_80B278A0(EnVali* this, PlayState* play) {
 void func_80B2790C(EnVali* this, PlayState* play) {
     if ((this->unk3FC.base.acFlags & AC_HIT)) {
         this->unk3FC.base.acFlags &= ~AC_HIT;
-        if (((Actor_SetDropFlag(&this->actor, &this->unk3FC.elem, true), (this->actor.colChkInfo.damageEffect != 0)) ||
+        if (((Actor_SetDropFlag(&this->actor, &this->unk3FC.elem, true), (this->actor.colChkInfo.damageReaction != 0)) ||
              (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             } else {
-                if ((this->actor.colChkInfo.damageEffect != 1) && (this->actor.colChkInfo.damageEffect != 0xE)) {
+                if ((this->actor.colChkInfo.damageReaction != 1) && (this->actor.colChkInfo.damageReaction != 0xE)) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DAMAGE);
                 }
             }
-            if (this->actor.colChkInfo.damageEffect == 1) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->unk190 != func_80B27654) {
                     func_80B26D54(this);
                 }
             } else {
-                if (this->actor.colChkInfo.damageEffect == 0xF) {
+                if (this->actor.colChkInfo.damageReaction == 0xF) {
                     if (this->unk190 != func_80B27654) {
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
                         this->actor.params = 1;
@@ -506,11 +506,11 @@ void func_80B2790C(EnVali* this, PlayState* play) {
                     } else {
                         func_80B26B4C(this);
                     }
-                } else if (this->actor.colChkInfo.damageEffect == 2) {
+                } else if (this->actor.colChkInfo.damageReaction == 2) {
                     func_80B26BF8(this);
-                } else if (this->actor.colChkInfo.damageEffect == 3) {
+                } else if (this->actor.colChkInfo.damageReaction == 3) {
                     func_80B26DE0(this);
-                } else if (this->actor.colChkInfo.damageEffect == 0xE) {
+                } else if (this->actor.colChkInfo.damageReaction == 0xE) {
                     if (this->unk195 == 0) {
                         this->unk195 = 0x14;
                     }

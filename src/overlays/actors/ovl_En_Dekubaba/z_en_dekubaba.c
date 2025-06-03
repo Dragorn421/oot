@@ -879,11 +879,11 @@ void func_809E8140(EnDekubaba* this, PlayState* play) {
         this->unk238.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->unk238, true);
         if ((this->unk238.base.colMaterial != COL_MATERIAL_HARD) &&
-            (((this->actor.colChkInfo.damageEffect != 0)) || (this->actor.colChkInfo.damage != 0))) {
+            (((this->actor.colChkInfo.damageReaction != 0)) || (this->actor.colChkInfo.damage != 0))) {
             var_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
             if (this->unk1C0 != func_809E79EC) {
-                if ((this->actor.colChkInfo.damageEffect == 0xE) || (this->actor.colChkInfo.damageEffect == 1)) {
-                    if (this->actor.colChkInfo.damageEffect == 0xE) {
+                if ((this->actor.colChkInfo.damageReaction == 0xE) || (this->actor.colChkInfo.damageReaction == 1)) {
+                    if (this->actor.colChkInfo.damageReaction == 0xE) {
                         var_s0 = this->actor.colChkInfo.health;
                     }
                     func_809E60A8(this, 2);
@@ -895,13 +895,14 @@ void func_809E8140(EnDekubaba* this, PlayState* play) {
                 } else {
                     func_809E60A8(this, 0);
                 }
-            } else if ((this->actor.colChkInfo.damageEffect == 0xE) || (this->actor.colChkInfo.damageEffect == 0xF)) {
+            } else if ((this->actor.colChkInfo.damageReaction == 0xE) ||
+                       (this->actor.colChkInfo.damageReaction == 0xF)) {
                 if (var_s0 > 0) {
                     func_809E63EC(this);
                 } else {
                     func_809E6170(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect != 1) {
+            } else if (this->actor.colChkInfo.damageReaction != 1) {
                 func_809E60A8(this, 0);
             } else {
                 return;
@@ -911,7 +912,7 @@ void func_809E8140(EnDekubaba* this, PlayState* play) {
             } else {
                 this->actor.colChkInfo.health = var_s0;
             }
-            if (this->actor.colChkInfo.damageEffect == 2) {
+            if (this->actor.colChkInfo.damageReaction == 2) {
                 new_var2 = this->unk230 * 70.0f;
                 for (i = 0; i < 4; i++) {
                     EffectSsEnFire_SpawnVec3f(play, &this->actor, &this->actor.world.pos, new_var2, 0, 0, i);

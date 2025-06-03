@@ -1834,10 +1834,10 @@ void func_80B490B4(EnZf* this, PlayState* play) {
     if ((this->unk418.base.acFlags & AC_HIT) && (this->unk3DC < 0xF)) {
         this->unk418.base.acFlags &= ~AC_HIT;
         if ((((this->actor.params < 0)) || (D_80B4A1B4 != this->actor.params)) &&
-            ((this->actor.colChkInfo.damageEffect != 6))) {
-            this->unk410 = this->actor.colChkInfo.damageEffect;
+            ((this->actor.colChkInfo.damageReaction != 6))) {
+            this->unk410 = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->unk418.elem, false);
-            if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
+            if ((this->actor.colChkInfo.damageReaction == 1) || (this->actor.colChkInfo.damageReaction == 0xF)) {
                 if (this->unk3DC != 0xE) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -1873,7 +1873,7 @@ void EnZf_Update(Actor* thisx, PlayState* play) {
     s32 pad[2];
 
     func_80B490B4(this, play);
-    if (this->actor.colChkInfo.damageEffect != 6) {
+    if (this->actor.colChkInfo.damageReaction != 6) {
         this->unk3F8 = false;
         if ((this->unk3E4 != 1) && (this->unk3DC != 0x13)) {
             if (this->actor.speed != 0.0f) {

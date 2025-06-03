@@ -509,9 +509,9 @@ void func_80B221E8(EnTp* this, PlayState* play) {
         }
         this->unk174.base.acFlags &= ~2;
         Actor_SetDropFlagJntSph(&this->actor, &this->unk174, true);
-        this->unk158 = this->actor.colChkInfo.damageEffect;
-        if (this->actor.colChkInfo.damageEffect != 0) {
-            if (this->actor.colChkInfo.damageEffect == 1) {
+        this->unk158 = this->actor.colChkInfo.damageReaction;
+        if (this->actor.colChkInfo.damageReaction != 0) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 var_s4 = 1;
             }
             if (var_s2 == 0) {
@@ -522,7 +522,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
                 new_var = this->unk1D4;
                 if (new_var->actor.params < 0) {
                     func_80B21454(new_var);
-                    new_var->unk158 = this->actor.colChkInfo.damageEffect;
+                    new_var->unk158 = this->actor.colChkInfo.damageReaction;
                     new_var->actor.params = 0xC;
                 }
             } else {

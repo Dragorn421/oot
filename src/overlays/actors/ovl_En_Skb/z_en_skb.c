@@ -438,11 +438,11 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
         EnSkb_SetupDeath(this, play);
     } else if ((this->actionState >= SKB_BEHAVIOR_ATTACKING) && (this->unk2A4.base.acFlags & AC_HIT)) {
         this->unk2A4.base.acFlags &= ~AC_HIT;
-        if (((this->actor.colChkInfo.damageEffect != 6))) {
-            this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
+        if (((this->actor.colChkInfo.damageReaction != 6))) {
+            this->lastDamageReaction = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->unk2A4.elements[1].base, true);
             this->setColliderAT = false;
-            if (this->actor.colChkInfo.damageEffect == 1) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->actionState != SKB_BEHAVIOR_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -450,7 +450,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                 }
             } else {
                 colorFilterDuration = 8;
-                if (this->actor.colChkInfo.damageEffect == 7) {
+                if (this->actor.colChkInfo.damageReaction == 7) {
                     sp52 = this->actor.scale.y * 7500.0f;
                     for (var_s0 = 4; var_s0 >= 0; var_s0--) {
                         sp54 = this->actor.world.pos;
@@ -468,8 +468,8 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                 } else {
                     player = GET_PLAYER(play);
                     if ((this->breakFlags == 0) &&
-                        (((this->actor.colChkInfo.damageEffect == 0xD)) ||
-                         ((this->actor.colChkInfo.damageEffect == 0xE) &&
+                        (((this->actor.colChkInfo.damageReaction == 0xD)) ||
+                         ((this->actor.colChkInfo.damageReaction == 0xE) &&
                           (((((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H))) &&
                             (player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H)) ||
                            (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT) ||

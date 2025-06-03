@@ -1204,13 +1204,13 @@ void func_80B37038(EnWf* this, PlayState* play) {
         }
         this->unk424.base.acFlags &= ~AC_HIT;
         this->unk470.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 6) {
-            this->unk2E6 = this->actor.colChkInfo.damageEffect;
+        if (this->actor.colChkInfo.damageReaction != 6) {
+            this->unk2E6 = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->unk424.elem, true);
 #if OOT_VERSION >= PAL_1_0
             this->unk2F8 = 0;
 #endif
-            if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
+            if ((this->actor.colChkInfo.damageReaction == 1) || (this->actor.colChkInfo.damageReaction == 0xF)) {
                 if (this->unk2D4 != 0xF) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -1237,7 +1237,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     func_80B37038(this, play);
-    if (this->actor.colChkInfo.damageEffect != 6) {
+    if (this->actor.colChkInfo.damageReaction != 6) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 32.0f, 30.0f, 60.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
