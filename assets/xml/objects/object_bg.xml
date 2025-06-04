@@ -2,6 +2,36 @@
     <File Name="object_bg" Segment="6">
         <Animation Name="object_bg_000080_Anim" Offset="0x80"/>
         <Animation Name="object_bg_000710_Anim" Offset="0x710"/>
+        <Array Name="object_bg_000720_Vtx" Count="221" Offset="0x720">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bg_0014F0_Vtx" Count="31" Offset="0x14F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bg_0016E0_Vtx" Count="38" Offset="0x16E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bg_001940_Vtx" Count="29" Offset="0x1940">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bg_001B10_Vtx" Count="53" Offset="0x1B10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bg_001E60_Vtx" Count="36" Offset="0x1E60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bg_0020A0_Vtx" Count="29" Offset="0x20A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bg_002270_Vtx" Count="49" Offset="0x2270">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bg_002580_Vtx" Count="137" Offset="0x2580">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bg_002E10_Vtx" Count="13" Offset="0x2E10">
+            <Vtx/>
+        </Array>
         <DList Name="object_bg_002EE0_DL" Offset="0x2EE0"/>
         <DList Name="object_bg_0033C8_DL" Offset="0x33C8"/>
         <DList Name="object_bg_003520_DL" Offset="0x3520"/>
