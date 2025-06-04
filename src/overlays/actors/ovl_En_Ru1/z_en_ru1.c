@@ -382,25 +382,25 @@ void func_80AEB220(EnRu1* this, PlayState* play) {
 }
 #endif
 
-void func_80AEB264(EnRu1* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
+void EnRu1_AnimationChange(EnRu1* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 playReversed) {
     s32 pad[2];
     AnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     f32 frameCount = Animation_GetLastFrame(animHeader);
     f32 playbackSpeed;
-    f32 unk0;
-    f32 fc;
+    f32 startFrame;
+    f32 endFrame;
 
-    if (arg4 == 0) {
-        unk0 = 0.0f;
-        fc = frameCount;
+    if (!playReversed) {
+        startFrame = 0.0f;
+        endFrame = frameCount;
         playbackSpeed = 1.0f;
     } else {
-        unk0 = frameCount;
-        fc = 0.0f;
+        startFrame = frameCount;
+        endFrame = 0.0f;
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animHeader, playbackSpeed, unk0, fc, arg2, morphFrames);
+    Animation_Change(&this->skelAnime, animHeader, playbackSpeed, startFrame, endFrame, mode, morphFrames);
 }
 
 s32 EnRu1_UpdateSkelAnime(EnRu1* this) {
@@ -427,7 +427,7 @@ void func_80AEB3CC(EnRu1* this) {
 }
 
 void EnRu1_InitOutsideJabuJabu(EnRu1* this, PlayState* play) {
-    func_80AEB264(this, &gRutoChildWaitHandsBehindBackAnim, 0, 0, 0);
+    EnRu1_AnimationChange(this, &gRutoChildWaitHandsBehindBackAnim, ANIMMODE_LOOP, 0, false);
     this->action = 0;
     this->drawConfig = 1;
     EnRu1_SetEyeIndex(this, 4);
@@ -788,14 +788,14 @@ void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
     if (!GET_INFTABLE(INFTABLE_141)) {
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = 7;
         EnRu1_SetMouthIndex(this, 1);
     } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
 
-            func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+            EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
             actorRoom = thisx->room;
             this->action = 22;
             thisx->room = -1;
@@ -1038,7 +1038,7 @@ void func_80AECCB0(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitInBossRoom(EnRu1* this, PlayState* play) {
-    func_80AEB264(this, &gRutoChildWaitHandsOnHipsAnim, 0, 0, 0);
+    EnRu1_AnimationChange(this, &gRutoChildWaitHandsOnHipsAnim, ANIMMODE_LOOP, 0, false);
     this->action = 15;
     this->actor.shape.yOffset = -10000.0f;
     EnRu1_SetEyeIndex(this, 5);
@@ -1212,7 +1212,7 @@ void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
 
-            func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+            EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
             actorRoom = thisx->room;
             this->action = 22;
             thisx->room = -1;
@@ -1985,7 +1985,7 @@ void func_80AEF540(EnRu1* this) {
         EnRu1_SetEyeIndex(this, 3);
         EnRu1_SetMouthIndex(this, 2);
         if (this->skelAnime.mode != 2) {
-            func_80AEB264(this, &gRutoChildShutterAnim, 2, -8.0f, 0);
+            EnRu1_AnimationChange(this, &gRutoChildShutterAnim, ANIMMODE_ONCE, -8.0f, false);
             func_80AEF51C(this);
         }
     }
@@ -2181,7 +2181,7 @@ void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_146)) {
         s32 pad;
 
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = 41;
         this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
         EnRu1_SetPlatformCamSetting(this, 1);
@@ -2204,7 +2204,7 @@ void EnRu1_InitBesideKingZora(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
     if (GET_EVENTCHKINF(EVENTCHKINF_37) && LINK_IS_CHILD) {
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         thisx->flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->action = 44;
         this->drawConfig = 1;
@@ -2274,7 +2274,7 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
 
     if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
         (!(func_80AEB020(this, play)))) {
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         actorRoom = thisx->room;
         this->action = 22;
         thisx->room = -1;
@@ -2291,7 +2291,7 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
 
 #if DEBUG_FEATURES
 void func_80AF0050(EnRu1* this, PlayState* play) {
-    func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+    EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
     this->action = 36;
     this->roomNum1 = this->actor.room;
     this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
