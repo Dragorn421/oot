@@ -5,6 +5,45 @@
         <Animation Name="object_vali_Anim_000B34" Offset="0xB34"/>
         <Animation Name="object_vali_Anim_000D9C" Offset="0xD9C"/>
         <Animation Name="object_vali_Anim_0014AC" Offset="0x14AC"/>
+        <Array Name="object_vali_Vtx_0014C0" Count="53" Offset="0x14C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_001810" Count="4" Offset="0x1810">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_001850" Count="46" Offset="0x1850">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_001B30" Count="18" Offset="0x1B30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_001C50" Count="18" Offset="0x1C50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_001D70" Count="12" Offset="0x1D70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_001E30" Count="18" Offset="0x1E30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_001F50" Count="19" Offset="0x1F50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_002080" Count="20" Offset="0x2080">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_0021C0" Count="12" Offset="0x21C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_002280" Count="18" Offset="0x2280">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_0023A0" Count="19" Offset="0x23A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_vali_Vtx_0024D0" Count="20" Offset="0x24D0">
+            <Vtx/>
+        </Array>
         <DList Name="object_vali_DL_002610" Offset="0x2610"/>
         <DList Name="object_vali_DL_002740" Offset="0x2740"/>
         <DList Name="object_vali_DL_0027D8" Offset="0x27D8"/>
