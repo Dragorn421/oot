@@ -33,6 +33,51 @@
         <Texture Name="object_ge1_002788_Tex" Format="rgba16" Width="8" Height="8" Offset="0x2788"/>
         <Texture Name="object_ge1_002808_Tex" Format="rgba16" Width="16" Height="16" Offset="0x2808"/>
         <Texture Name="object_ge1_002A08_Tex" Format="ci8" Width="16" Height="16" Offset="0x2A08" TlutOffset="0x2808"/>
+        <Array Name="object_ge1_002B08_Vtx" Count="123" Offset="0x2B08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_0032B8_Vtx" Count="55" Offset="0x32B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_003628_Vtx" Count="24" Offset="0x3628">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_0037A8_Vtx" Count="24" Offset="0x37A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_003928_Vtx" Count="55" Offset="0x3928">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_003C98_Vtx" Count="24" Offset="0x3C98">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_003E18_Vtx" Count="24" Offset="0x3E18">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_003F98_Vtx" Count="118" Offset="0x3F98">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_0046F8_Vtx" Count="49" Offset="0x46F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_004A08_Vtx" Count="32" Offset="0x4A08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_004C08_Vtx" Count="28" Offset="0x4C08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_004DC8_Vtx" Count="49" Offset="0x4DC8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_0050D8_Vtx" Count="32" Offset="0x50D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_0052D8_Vtx" Count="28" Offset="0x52D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_005498_Vtx" Count="23" Offset="0x5498">
+            <Vtx/>
+        </Array>
         <DList Name="object_ge1_005608_DL" Offset="0x5608"/>
         <DList Name="object_ge1_005C38_DL" Offset="0x5C38"/>
         <DList Name="object_ge1_006040_DL" Offset="0x6040"/>
@@ -48,6 +93,15 @@
         <DList Name="object_ge1_0070B0_DL" Offset="0x70B0"/>
         <DList Name="object_ge1_0071E0_DL" Offset="0x71E0"/>
         <DList Name="object_ge1_0073A8_DL" Offset="0x73A8"/>
+        <Array Name="object_ge1_007588_Vtx" Count="161" Offset="0x7588">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_007F98_Vtx" Count="125" Offset="0x7F98">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ge1_008768_Vtx" Count="163" Offset="0x8768">
+            <Vtx/>
+        </Array>
         <DList Name="object_ge1_009198_DL" Offset="0x9198"/>
         <DList Name="object_ge1_009430_DL" Offset="0x9430"/>
         <DList Name="object_ge1_009690_DL" Offset="0x9690"/>

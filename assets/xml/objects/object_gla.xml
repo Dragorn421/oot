@@ -5,6 +5,36 @@
         <Animation Name="object_gla_0011F4_Anim" Offset="0x11F4"/>
         <Animation Name="object_gla_0015D0_Anim" Offset="0x15D0"/>
         <Animation Name="object_gla_001B3C_Anim" Offset="0x1B3C"/>
+        <Array Name="object_gla_001B50_Vtx" Count="30" Offset="0x1B50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_001D30_Vtx" Count="25" Offset="0x1D30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_001EC0_Vtx" Count="30" Offset="0x1EC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_0020A0_Vtx" Count="25" Offset="0x20A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_002230_Vtx" Count="97" Offset="0x2230">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_002840_Vtx" Count="53" Offset="0x2840">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_002B90_Vtx" Count="32" Offset="0x2B90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_002D90_Vtx" Count="53" Offset="0x2D90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_0030E0_Vtx" Count="32" Offset="0x30E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_0032E0_Vtx" Count="38" Offset="0x32E0">
+            <Vtx/>
+        </Array>
         <DList Name="object_gla_003540_DL" Offset="0x3540"/>
         <DList Name="object_gla_0039E0_DL" Offset="0x39E0"/>
         <DList Name="object_gla_003B18_DL" Offset="0x3B18"/>
@@ -31,6 +61,30 @@
         <Texture Name="object_gla_005978_Tex" Format="i8" Width="8" Height="16" Offset="0x5978"/>
         <Texture Name="object_gla_0059F8_Tex" Format="ci8" Width="16" Height="16" Offset="0x59F8" TlutOffset="0x4D08"/>
         <Texture Name="object_gla_005AF8_Tex" Format="i8" Width="16" Height="16" Offset="0x5AF8"/>
+        <Array Name="object_gla_005FF8_Vtx" Count="43" Offset="0x5FF8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_0062A8_Vtx" Count="43" Offset="0x62A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_006558_Vtx" Count="34" Offset="0x6558">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_006778_Vtx" Count="34" Offset="0x6778">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_006998_Vtx" Count="25" Offset="0x6998">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_006B28_Vtx" Count="12" Offset="0x6B28">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_006BE8_Vtx" Count="14" Offset="0x6BE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gla_006CC8_Vtx" Count="203" Offset="0x6CC8">
+            <Vtx/>
+        </Array>
         <DList Name="object_gla_007978_DL" Offset="0x7978"/>
         <DList Name="object_gla_007B38_DL" Offset="0x7B38"/>
         <DList Name="object_gla_007CF8_DL" Offset="0x7CF8"/>
