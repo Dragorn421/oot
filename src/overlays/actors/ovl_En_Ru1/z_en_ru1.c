@@ -312,7 +312,7 @@ s32 func_80AEB020(EnRu1* this, PlayState* play) {
     return false;
 }
 
-BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
+BgBdanObjects* EnRu1_FindBigOctoPlatform(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BG].head;
 
     while (actorIt != NULL) {
@@ -326,15 +326,15 @@ BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
     return NULL;
 }
 
-void func_80AEB0EC(EnRu1* this, s32 cameraSetting) {
-    if (this->unk_28C != NULL) {
-        this->unk_28C->cameraSetting = cameraSetting;
+void EnRu1_SetPlatformCamSetting(EnRu1* this, s32 cameraSetting) {
+    if (this->bigOctoPlatform != NULL) {
+        this->bigOctoPlatform->cameraSetting = cameraSetting;
     }
 }
 
-s32 func_80AEB104(EnRu1* this) {
-    if (this->unk_28C != NULL) {
-        return this->unk_28C->cameraSetting;
+s32 EnRu1_GetPlatformCamSetting(EnRu1* this) {
+    if (this->bigOctoPlatform != NULL) {
+        return this->bigOctoPlatform->cameraSetting;
     } else {
         return 0;
     }
@@ -372,7 +372,7 @@ void func_80AEB1D8(EnRu1* this) {
     thisx->speed = 0.0f;
     thisx->gravity = 0.0f;
     thisx->minVelocityY = 0.0f;
-    func_80AEB0EC(this, 0);
+    EnRu1_SetPlatformCamSetting(this, 0);
 }
 
 void func_80AEB220(EnRu1* this, PlayState* play) {
@@ -1595,7 +1595,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
-            this->unk_28C = (BgBdanObjects*)dynaActor;
+            this->bigOctoPlatform = (BgBdanObjects*)dynaActor;
             this->actor.shape.shadowAlpha = 0;
             return true;
         }
@@ -1981,7 +1981,7 @@ void func_80AEF51C(EnRu1* this) {
 }
 
 void func_80AEF540(EnRu1* this) {
-    if (func_80AEB104(this) == 2) {
+    if (EnRu1_GetPlatformCamSetting(this) == 2) {
         EnRu1_SetEyeIndex(this, 3);
         EnRu1_SetMouthIndex(this, 2);
         if (this->skelAnime.mode != 2) {
@@ -2071,7 +2071,7 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
         Flags_SetSwitch(play, func_80AEADE0(this));
-        func_80AEB0EC(this, 1);
+        EnRu1_SetPlatformCamSetting(this, 1);
         this->action = 42;
         this->actor.room = curRoomNum;
     }
@@ -2080,7 +2080,7 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
 void func_80AEF930(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
-    if (func_80AEB104(this) == 3) {
+    if (EnRu1_GetPlatformCamSetting(this) == 3) {
         thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         thisx->textId = 0x4048;
 #if !OOT_PAL_N64
@@ -2096,7 +2096,7 @@ void func_80AEF930(EnRu1* this, PlayState* play) {
 
 void func_80AEF99C(EnRu1* this, PlayState* play) {
     if (func_80AEB1B4(play) != 0) {
-        func_80AEB0EC(this, 4);
+        EnRu1_SetPlatformCamSetting(this, 4);
         Actor_Kill(&this->actor);
     }
 }
@@ -2183,8 +2183,8 @@ void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
 
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 41;
-        this->unk_28C = EnRu1_FindSwitch(play);
-        func_80AEB0EC(this, 1);
+        this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
+        EnRu1_SetPlatformCamSetting(this, 1);
         thisx->flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
         Actor_Kill(thisx);
@@ -2192,11 +2192,11 @@ void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEFCE8(EnRu1* this, PlayState* play) {
-    this->unk_28C = EnRu1_FindSwitch(play);
-    if (this->unk_28C != NULL) {
+    this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
+    if (this->bigOctoPlatform != NULL) {
         this->action = 42;
         this->drawConfig = 1;
-        func_80AEB0EC(this, 1);
+        EnRu1_SetPlatformCamSetting(this, 1);
     }
 }
 
@@ -2294,7 +2294,7 @@ void func_80AF0050(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
     this->action = 36;
     this->roomNum1 = this->actor.room;
-    this->unk_28C = EnRu1_FindSwitch(play);
+    this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
     this->actor.room = -1;
 }
 #endif
