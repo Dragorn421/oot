@@ -2,7 +2,7 @@
 #define Z_BG_DY_YOSEIZO_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #define BG_DY_YOSEIZO_EFFECT_COUNT 200
 

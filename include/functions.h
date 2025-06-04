@@ -2,8 +2,8 @@
 #define FUNCTIONS_H
 
 #include "z64.h"
-#include "z64animation.h"
-#include "z64play.h"
+#include "animation.h"
+#include "play_state.h"
 
 void* MemCopy(void* dest, void* src, s32 size);
 

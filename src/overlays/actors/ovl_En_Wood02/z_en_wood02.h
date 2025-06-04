@@ -2,7 +2,7 @@
 #define Z_EN_WOOD02_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum EnWood02Type {
     /*  0 */ EN_WOOD_02_TYPE_0,

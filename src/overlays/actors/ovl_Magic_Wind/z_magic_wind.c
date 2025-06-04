@@ -12,8 +12,8 @@
 #include "printf.h"
 #include "sfx.h"
 #include "translation.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "functions.h"
 

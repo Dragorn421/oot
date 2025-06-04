@@ -16,12 +16,12 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64draw.h"
-#include "z64cutscene_flags.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "draw.h"
+#include "cutscene_flags.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "functions.h"
 

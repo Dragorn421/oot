@@ -5,8 +5,8 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "zelda_arena.h"
-#include "z64actor.h"
-#include "z64play.h"
+#include "actor.h"
+#include "play_state.h"
 
 #include "functions.h"
 

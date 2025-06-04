@@ -6,8 +6,8 @@
 #include "printf.h"
 #include "sfx.h"
 #include "translation.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "functions.h"
 

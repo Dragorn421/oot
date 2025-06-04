@@ -10,8 +10,8 @@
 #include "sfx.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"

@@ -40,8 +40,8 @@ extern struct IrqMgr gIrqMgr;
 #include "cic6105.h"
 #include "n64dd.h"
 #endif
-#include "z64debug.h"
-#include "z64thread.h"
+#include "debug.h"
+#include "thread.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ique-cn:128 ntsc-1.0:59 ntsc-1.1:59 ntsc-1.2:59 pal-1.0:57 pal-1.1:57"

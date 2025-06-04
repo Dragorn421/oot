@@ -2,7 +2,7 @@
 #define Z_BG_MIZU_SHUTTER_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #define BGMIZUSHUTTER_PARAM(size, timer, switchFlag) (size << 0xC) | (timer << 0x6) | switchFlag
 

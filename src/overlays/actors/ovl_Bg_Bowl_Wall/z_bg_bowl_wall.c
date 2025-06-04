@@ -15,9 +15,9 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64bgcheck.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "bgcheck.h"
+#include "effect.h"
+#include "play_state.h"
 #include "assets/objects/object_bowl/object_bowl.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
