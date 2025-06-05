@@ -141,7 +141,7 @@ void EnAnubice_Init(Actor* thisx, PlayState* play) {
     SkelAnime_Init(play, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable, 16);
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n", "☆☆☆☆☆ Anubis occurrence ☆☆☆☆☆ \n") VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n", "☆☆☆☆☆ Anubis spawn ☆☆☆☆☆ \n") VT_RST);
 
     this->actor.naviEnemyId = NAVI_ENEMY_ANUBIS;
 
