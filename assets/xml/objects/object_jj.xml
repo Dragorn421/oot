@@ -3,6 +3,39 @@
         <Collision Name="object_jj_000A1C_Col" Offset="0xA1C"/>
         <Collision Name="object_jj_001830_Col" Offset="0x1830"/>
         <Animation Name="object_jj_001F4C_Anim" Offset="0x1F4C"/>
+        <Array Name="object_jj_001F60_Vtx" Count="4" Offset="0x1F60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_001FA0_Vtx" Count="4" Offset="0x1FA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_001FE0_Vtx" Count="365" Offset="0x1FE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_0036B0_Vtx" Count="8" Offset="0x36B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_003730_Vtx" Count="16" Offset="0x3730">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_003830_Vtx" Count="16" Offset="0x3830">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_003930_Vtx" Count="8" Offset="0x3930">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_0039B0_Vtx" Count="12" Offset="0x39B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_003A70_Vtx" Count="16" Offset="0x3A70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_003B70_Vtx" Count="14" Offset="0x3B70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_jj_003C50_Vtx" Count="133" Offset="0x3C50">
+            <Vtx/>
+        </Array>
         <DList Name="object_jj_0044A0_DL" Offset="0x44A0"/>
         <DList Name="object_jj_004578_DL" Offset="0x4578"/>
         <DList Name="object_jj_004648_DL" Offset="0x4648"/>
