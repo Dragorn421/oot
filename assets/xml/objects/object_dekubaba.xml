@@ -26,11 +26,11 @@
             <Vtx/>
         </Array>
         <DList Name="object_dekubaba_DL_001828" Offset="0x1828"/>
-        <Texture Name="object_dekubaba_Tex_0018D0" OutName="tex_000018D0" Format="rgba16" Width="16" Height="32" Offset="0x18D0"/>
-        <Texture Name="object_dekubaba_Tex_001CD0" OutName="tex_00001CD0" Format="rgba16" Width="32" Height="32" Offset="0x1CD0"/>
-        <Texture Name="object_dekubaba_Tex_0024D0" OutName="tex_000024D0" Format="rgba16" Width="16" Height="32" Offset="0x24D0"/>
-        <Texture Name="object_dekubaba_Tex_0028D0" OutName="tex_000028D0" Format="rgba16" Width="8" Height="8" Offset="0x28D0"/>
-        <Texture Name="object_dekubaba_Tex_002950" OutName="tex_00002950" Format="rgba16" Width="8" Height="8" Offset="0x2950"/>
+        <Texture Name="object_dekubaba_Tex_0018D0" Format="rgba16" Width="16" Height="32" Offset="0x18D0"/>
+        <Texture Name="object_dekubaba_Tex_001CD0" Format="rgba16" Width="32" Height="32" Offset="0x1CD0"/>
+        <Texture Name="object_dekubaba_Tex_0024D0" Format="rgba16" Width="16" Height="32" Offset="0x24D0"/>
+        <Texture Name="object_dekubaba_Tex_0028D0" Format="rgba16" Width="8" Height="8" Offset="0x28D0"/>
+        <Texture Name="object_dekubaba_Tex_002950" Format="rgba16" Width="8" Height="8" Offset="0x2950"/>
         <Limb Name="object_dekubaba_Limb_0029D0" LimbType="Standard" Offset="0x29D0"/>
         <Limb Name="object_dekubaba_Limb_0029DC" LimbType="Standard" Offset="0x29DC"/>
         <Limb Name="object_dekubaba_Limb_0029E8" LimbType="Standard" Offset="0x29E8"/>
@@ -43,6 +43,6 @@
             <Vtx/>
         </Array>
         <DList Name="object_dekubaba_DL_003070" Offset="0x3070"/>
-        <Texture Name="object_dekubaba_Tex_0031C0" OutName="tex_000031C0" Format="rgba16" Width="32" Height="32" Offset="0x31C0"/>
+        <Texture Name="object_dekubaba_Tex_0031C0" Format="rgba16" Width="32" Height="32" Offset="0x31C0"/>
     </File>
 </Root>
