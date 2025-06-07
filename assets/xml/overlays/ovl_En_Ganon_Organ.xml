@@ -1,6 +1,12 @@
 <Root>
     <File Name="ovl_En_Ganon_Organ">
+        <Array Name="sGanonOrgan1Vtx" Count="800" Offset="0x16C0">
+            <Vtx/>
+        </Array>
         <DList Name="sGanonOrgan1DL" Offset="0x48C0"/>
+        <Array Name="sGanonOrgan2Vtx" Count="266" Offset="0x5628">
+            <Vtx/>
+        </Array>
         <DList Name="sGanonOrgan2DL" Offset="0x66C8"/>
     </File>
 </Root>
