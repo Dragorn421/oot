@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#include "assets/objects/object_anubice/object_anubice.h"
+
 struct EnAnubice;
 
 typedef void (*EnAnubiceActionFunc)(struct EnAnubice*, struct PlayState*);
