@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
+#include "assets/objects/object_sk2/object_sk2.h"
 
 struct EnTest;
 
