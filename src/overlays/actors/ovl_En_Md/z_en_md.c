@@ -663,7 +663,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(play, &this->unk14C, &gMidoSkel, NULL, this->unk258, this->unk2BE, ENMD_LIMB_MAX);
+    SkelAnime_InitFlex(play, &this->unk14C, &gMidoSkel, NULL, this->unk258, this->unk2BE, MIDO_LIMB_MAX);
     Collider_InitCylinder(play, &this->unk194);
     Collider_SetCylinder(play, &this->unk194, &this->actor, &D_80AAC310);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AAC33C);
@@ -699,7 +699,7 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
 
 void EnMd_Idle(EnMd* this, PlayState* play) {
     if (this->unk14C.animation == &gMidoIdleAnim) {
-        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     } else if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) &&
                (this->animSequence != ENMD_ANIM_SEQ_SURPRISE_TO_IDLE)) {
         EnMd_SetAnimSequence(this, ENMD_ANIM_SEQ_SURPRISE_TO_IDLE);
@@ -709,7 +709,7 @@ void EnMd_Idle(EnMd* this, PlayState* play) {
 
 void EnMd_Watch(EnMd* this, PlayState* play) {
     if (this->unk14C.animation == &gMidoIdleAnim) {
-        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     }
     EnMd_UpdateAnimSequence(this);
 }
@@ -753,7 +753,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
         this->actor.speed = 1.5f;
     } else {
         if (this->unk14C.animation == &gMidoIdleAnim) {
-            Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
+            Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
         }
         if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (play->sceneId == SCENE_LOST_WOODS)) {
             if (sp2C->stateFlags2 & PLAYER_STATE2_24) {
@@ -788,7 +788,7 @@ void EnMd_ListenToOcarina(EnMd* this, PlayState* play) {
 }
 
 void EnMd_Walk(EnMd* this, PlayState* play) {
-    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     EnMd_UpdateAnimSequence(this);
     if ((func_80AAB370(this, play) == 0) || (this->unk212 != 0)) {
         this->actor.shape.rot = this->actor.world.rot;
@@ -825,20 +825,20 @@ s32 func_80AABEF0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
     EnMd* this = (EnMd*)thisx;
     Vec3s limbRot;
 
-    if (limbIndex == ENMD_LIMB_HEAD) {
+    if (limbIndex == MIDO_LIMB_HEAD) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, 1U);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, 1U);
     }
-    if (limbIndex == ENMD_LIMB_TORSO) {
+    if (limbIndex == MIDO_LIMB_TORSO) {
         limbRot = this->interactInfo.torsoRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
     }
-    if ((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM) ||
-        (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
+    if ((limbIndex == MIDO_LIMB_TORSO) || (limbIndex == MIDO_LIMB_LEFT_UPPER_ARM) ||
+        (limbIndex == MIDO_LIMB_RIGHT_UPPER_ARM)) {
         rot->y += (Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE);
         rot->z += (Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE);
     }
@@ -850,7 +850,7 @@ void func_80AAC104(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void
     Vec3f sp18;
 
     sp18 = D_80AAC498;
-    if (limbIndex == ENMD_LIMB_HEAD) {
+    if (limbIndex == MIDO_LIMB_HEAD) {
         Matrix_MultVec3f(&sp18, &this->actor.focus.pos);
     }
 }
