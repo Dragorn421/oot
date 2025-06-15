@@ -776,8 +776,7 @@ void EnMd_ListenToOcarina(EnMd* this, PlayState* play) {
         this->unk190 = EnMd_BlockPath;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySfxGeneral(0x4802U, &gSfxDefaultPos, 4U, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
         this->actor.textId = 0x1067;
         Actor_OfferTalk(&this->actor, play, (f32)this->unk194.dim.radius + 30.0f);
         this->unk190 = EnMd_BlockPath;

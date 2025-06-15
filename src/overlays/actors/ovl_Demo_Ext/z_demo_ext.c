@@ -67,8 +67,7 @@ void DemoExt_Init(Actor* thisx, PlayState* play) {
 
 void func_80977450(DemoExt* this) {
     if (this->unk16C <= (gRegEditor->data[0xA43] + 40.0f - 15.0f)) {
-        Audio_PlaySfxGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4U,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_FANTOM_WARP_L - SFX_FLAG);
     }
 }
 

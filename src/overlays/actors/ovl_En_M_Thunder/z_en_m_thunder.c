@@ -93,10 +93,8 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
             (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
             ((PARAMS_GET_S(this->actor.params, 8, 8) != 0) &&
              (Magic_RequestChange(play, PARAMS_GET_S(this->actor.params, 8, 8), MAGIC_CONSUME_NOW) == 0))) {
-            Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4U,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_ROLLING_CUT);
+            SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_SWORD_SWING_HARD);
             Actor_Kill(&this->actor);
             return;
         }
@@ -111,8 +109,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
         }
         EnMThunder_SetupAction(this, func_80A9F9B4);
         this->unk1C4 = 8;
-        Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT_LV1, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_ROLLING_CUT_LV1);
         this->unk1AC = 1.0f;
     } else {
         EnMThunder_SetupAction(this, func_80A9F408);
@@ -141,10 +138,8 @@ void func_80A9F350(EnMThunder* this, PlayState* play) {
     player = GET_PLAYER(play);
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
-            Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4U,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_ROLLING_CUT);
+            SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_SWORD_SWING_HARD);
         }
         Actor_Kill(&this->actor);
         return;
@@ -185,10 +180,8 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         }
         if (player->unk_858 <= 0.15f) {
             if ((player->unk_858 >= 0.10f) && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H)) {
-                Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                Audio_PlaySfxGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4U,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_ROLLING_CUT);
+                SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_SWORD_SWING_HARD);
             }
             Actor_Kill(&this->actor);
             return;
@@ -225,8 +218,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
                 NA_SE_IT_ROLLING_CUT_LV1,
             };
 
-            Audio_PlaySfxGeneral(D_80AA0464[this->unk1C6], &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&player->actor.projectedPos, D_80AA0464[this->unk1C6]);
         }
 
         this->unk1AC = 1.0f;
