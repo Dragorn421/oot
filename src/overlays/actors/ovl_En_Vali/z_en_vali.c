@@ -252,7 +252,7 @@ void func_80B26D54(EnVali* this) {
     this->unk196 = 0x50;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
-    this->unk3FC.elem.acDmgInfo.effect = 0;
+    this->unk3FC.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_0;
     Actor_PlaySfx(&this->actor, 0x389EU);
     this->unk190 = func_80B27654;
     this->actor.velocity.y = 1.0f;
@@ -439,7 +439,7 @@ void func_80B27654(EnVali* this, PlayState* play) {
         }
     }
     if (this->unk196 == 0) {
-        this->unk3FC.elem.acDmgInfo.effect = 1;
+        this->unk3FC.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_1;
         func_80B268FC(this);
     }
 }
