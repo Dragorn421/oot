@@ -252,7 +252,7 @@ void func_80B26D54(EnVali* this) {
     this->unk196 = 0x50;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
-    this->unk3FC.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_0;
+    this->unk3FC.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_NONE;
     Actor_PlaySfx(&this->actor, 0x389EU);
     this->unk190 = func_80B27654;
     this->actor.velocity.y = 1.0f;
@@ -439,7 +439,7 @@ void func_80B27654(EnVali* this, PlayState* play) {
         }
     }
     if (this->unk196 == 0) {
-        this->unk3FC.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_1;
+        this->unk3FC.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_ELECTRIC;
         func_80B268FC(this);
     }
 }
@@ -482,7 +482,8 @@ void func_80B278A0(EnVali* this, PlayState* play) {
 void func_80B2790C(EnVali* this, PlayState* play) {
     if ((this->unk3FC.base.acFlags & AC_HIT)) {
         this->unk3FC.base.acFlags &= ~AC_HIT;
-        if (((Actor_SetDropFlag(&this->actor, &this->unk3FC.elem, true), (this->actor.colChkInfo.damageReaction != 0)) ||
+        if (((Actor_SetDropFlag(&this->actor, &this->unk3FC.elem, true),
+              (this->actor.colChkInfo.damageReaction != 0)) ||
              (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
