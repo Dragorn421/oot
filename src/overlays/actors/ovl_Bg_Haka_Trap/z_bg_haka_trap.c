@@ -1,5 +1,6 @@
 #include "z_bg_haka_trap.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
