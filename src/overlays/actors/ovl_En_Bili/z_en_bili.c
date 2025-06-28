@@ -77,8 +77,8 @@ static ColliderCylinderInit D_809C1640 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x03, 0x08 },
-        { 0xFFCFFFFF, 0x01, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_ELECTRIC, 0x08 },
+        { 0xFFCFFFFF, HIT_BACKLASH_ELECTRIC, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
         ACELEM_ON,
         OCELEM_ON,
