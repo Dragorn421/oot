@@ -94,6 +94,6 @@ void func_801CA280(UNK_PTR, UNK_TYPE, const char*);
 extern const char* D_801D3750[2];
 void func_801C9D68(char*, u16);
 
-extern u8 D_801DC880[];
+extern u8 gN64DDDiskReadTemporaryBuffer[];
 
 #endif

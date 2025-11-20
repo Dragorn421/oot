@@ -15,7 +15,7 @@
 
 s32 func_801C8310(struct_801E1598* arg0);
 
-void* D_801D36D0 = D_801DC880;
+void* D_801D36D0 = gN64DDDiskReadTemporaryBuffer;
 s32 (*D_801D36D4)(struct_801E1598*) = func_801C8310;
 
 struct_801C79DC D_801DA410;
