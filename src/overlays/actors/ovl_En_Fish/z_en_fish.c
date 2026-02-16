@@ -10,7 +10,9 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gFish1Anim.h"
+#include "assets/objects/gameplay_keep/gFish2Anim.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x18610.h"
 
 #define FLAGS 0
 
