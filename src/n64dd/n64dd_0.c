@@ -123,7 +123,7 @@ s32 func_801C7958(void) {
     p = func_801C8860;
     sp1C = p(&D_801DA5D0);
     if (sp1C < 0) {
-        func_800D31A0();
+        Freeze_CurrentThread();
     }
     return sp1C;
 }
@@ -342,7 +342,7 @@ s32 func_801C7818(void) {
 #endif
     if (func_801C8A24() != 2) {
         func_801C7E94();
-        func_800D31A0();
+        Freeze_CurrentThread();
         return -3;
     }
     func_801C78D8();
@@ -380,7 +380,7 @@ void func_801C8214(s32 arg0, void* arg1, s32 arg2) {
     }
     D_801DA5D0.unk0 = 7;
     if (p(&D_801DA5D0) != 0) {
-        func_800D31A0();
+        Freeze_CurrentThread();
     }
 }
 
