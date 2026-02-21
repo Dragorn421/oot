@@ -2,7 +2,12 @@
 #include "n64dd.h"
 #include "n64dd_internal.h"
 
-const char* D_801D3750[2] = {
-    "エラー番号　　　",
+/**
+ * Region-specific "error number" headers used in N64DD error handling.
+ * The first one is used if the current region is Japan (gCurrentRegion == REGION_JP),
+ * the second otherwise.
+ */
+const char* gN64DDLocalizedErrorNumberHeaders[2] = {
+    "エラー番号　　　", // "Error Number"
     "Error Number    ",
 };

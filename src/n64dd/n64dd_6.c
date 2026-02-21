@@ -1637,7 +1637,7 @@ void func_801CA4E4(u8* arg0, u8 arg1, s32 arg2) {
 }
 
 const char* func_801CA514(void) {
-    return D_801D3750[func_801CA4B8()];
+    return gN64DDLocalizedErrorNumberHeaders[func_801CA4B8()];
 }
 
 void func_801CA544(const char* arg0, s32 arg1) {

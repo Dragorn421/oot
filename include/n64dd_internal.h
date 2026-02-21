@@ -91,7 +91,7 @@ UNK_PTR func_801CA730(void);
 extern s32 (*D_801D36D4)(struct_801E1598*);
 s32 func_801C9BA4(struct_801E1598*);
 void func_801CA280(UNK_PTR, UNK_TYPE, const char*);
-extern const char* D_801D3750[2];
+extern const char* gN64DDLocalizedErrorNumberHeaders[2];
 void func_801C9D68(char*, u16);
 
 extern u8 gN64DDDiskReadTemporaryBuffer[];
