@@ -354,10 +354,10 @@ void func_809C02B8(EnBili* this, PlayState* play) {
 }
 
 void func_809C04B4(EnBili* this, PlayState* play) {
-    s32 sp2C;
+    s32 animFinished;
     f32 sp28;
 
-    sp2C = SkelAnime_Update(&this->unk14C);
+    animFinished = SkelAnime_Update(&this->unk14C);
     sp28 = this->unk14C.curFrame;
     if (Animation_OnFrame(&this->unk14C, 9.0f)) {
         Actor_PlaySfx(&this->actor, 0x3899U);
@@ -366,7 +366,7 @@ void func_809C04B4(EnBili* this, PlayState* play) {
         Math_ApproachF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.yDistToPlayer + 100.0f, 0.5f,
                        5.0f);
     }
-    if (sp2C != 0) {
+    if (animFinished) {
         func_809BFB5C(this);
     }
 }
