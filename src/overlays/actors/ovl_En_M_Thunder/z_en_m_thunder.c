@@ -32,9 +32,9 @@ void EnMThunder_Destroy(Actor* thisx, PlayState* play);
 void EnMThunder_Update(Actor* thisx, PlayState* play);
 void EnMThunder_Draw(Actor* thisx, PlayState* play2);
 
-void func_80A9F314(PlayState* play, f32 arg1);
-void func_80A9F408(EnMThunder* this, PlayState* play);
-void func_80A9F9B4(EnMThunder* this, PlayState* play);
+void EnMThunder_AdjustEnvLights(PlayState* play, f32 intensity);
+void EnMThunder_ChargingSpinAttack(EnMThunder* this, PlayState* play);
+void EnMThunder_SpinAttacking(EnMThunder* this, PlayState* play);
 
 ActorProfile En_M_Thunder_Profile = {
     /**/ ACTOR_EN_M_THUNDER,
@@ -48,7 +48,7 @@ ActorProfile En_M_Thunder_Profile = {
     /**/ EnMThunder_Draw,
 };
 
-static ColliderCylinderInit D_80AA0420 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
@@ -68,8 +68,8 @@ static ColliderCylinderInit D_80AA0420 = {
     { 200, 200, 0, { 0, 0, 0 } },
 };
 
-static u32 D_80AA044C[3] = { DMG_SPIN_MASTER, DMG_SPIN_KOKIRI, DMG_SPIN_GIANT };
-static u32 D_80AA0458[3] = { DMG_JUMP_MASTER, DMG_JUMP_KOKIRI, DMG_JUMP_GIANT };
+static u32 sSpinAttackDmgFlags[3] = { DMG_SPIN_MASTER, DMG_SPIN_KOKIRI, DMG_SPIN_GIANT };
+static u32 sJumpAttackDmgFlags[3] = { DMG_JUMP_MASTER, DMG_JUMP_KOKIRI, DMG_JUMP_GIANT };
 
 void EnMThunder_SetupAction(EnMThunder* this, EnMThunderActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -82,7 +82,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
 
     player = GET_PLAYER(play);
     Collider_InitCylinder(play, &this->unk14C);
-    Collider_SetCylinder(play, &this->unk14C, &this->actor, &D_80AA0420);
+    Collider_SetCylinder(play, &this->unk14C, &this->actor, &sCylinderInit);
     this->swordType = PARAMS_GET_U(this->actor.params, 0, 8) - 1;
     Lights_PointNoGlowSetInfo(&this->unk19C, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                               255, 255, 255, 0);
@@ -91,14 +91,14 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
     this->unk14C.dim.height = 40;
     this->unk14C.dim.yShift = -20;
     this->followPlayerTimer = 8;
-    this->unk1B4 = 0.0f;
+    this->spinTrailTexScroll = 0.0f;
     this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
-    this->unk1AC = 0.0f;
-    this->unk1BC = 0.0f;
+    this->spinAttackTimer = 0.0f;
+    this->dimmingIntensity = 0.0f;
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
     this->actor.room = -1;
     Actor_SetScale(&this->actor, 0.1f);
-    this->unk1CA = 0;
+    this->isUsingMagic = false;
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (((gSaveContext.save.info.playerData.isMagicAcquired) == 0) ||
             (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
@@ -110,20 +110,20 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
             return;
         }
         player->stateFlags2 &= ~PLAYER_STATE2_17;
-        this->unk1CA = 1;
-        this->unk14C.elem.atDmgInfo.dmgFlags = D_80AA044C[this->swordType];
+        this->isUsingMagic = true;
+        this->unk14C.elem.atDmgInfo.dmgFlags = sSpinAttackDmgFlags[this->swordType];
         this->attackStrength = M_THUNDER_ATTACK_WEAK;
         if (this->swordType == M_THUNDER_SWORD_KOKIRI) {
             this->targetScale = 2;
         } else {
             this->targetScale = 4;
         }
-        EnMThunder_SetupAction(this, func_80A9F9B4);
+        EnMThunder_SetupAction(this, EnMThunder_SpinAttacking);
         this->followPlayerTimer = 8;
         SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_ROLLING_CUT_LV1);
-        this->unk1AC = 1.0f;
+        this->spinAttackTimer = 1.0f;
     } else {
-        EnMThunder_SetupAction(this, func_80A9F408);
+        EnMThunder_SetupAction(this, EnMThunder_ChargingSpinAttack);
     }
     this->actor.child = NULL;
 }
@@ -131,19 +131,19 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
 void EnMThunder_Destroy(Actor* thisx, PlayState* play) {
     EnMThunder* this = (EnMThunder*)thisx;
 
-    if (this->unk1CA != 0) {
+    if (this->isUsingMagic) {
         Magic_Reset(play);
     }
     Collider_DestroyCylinder(play, &this->unk14C);
-    func_80A9F314(play, 0.0f);
+    EnMThunder_AdjustEnvLights(play, 0.0f);
     LightContext_RemoveLight(play, &play->lightCtx, this->unk198);
 }
 
-void func_80A9F314(PlayState* play, f32 arg1) {
-    Environment_AdjustLights(play, arg1, 850.0f, 0.2f, 0.0f);
+void EnMThunder_AdjustEnvLights(PlayState* play, f32 intensity) {
+    Environment_AdjustLights(play, intensity, 850.0f, 0.2f, 0.0f);
 }
 
-void func_80A9F350(EnMThunder* this, PlayState* play) {
+void EnMThunder_EmptySpinAttack(EnMThunder* this, PlayState* play) {
     Player* player;
 
     player = GET_PLAYER(play);
@@ -160,27 +160,27 @@ void func_80A9F350(EnMThunder* this, PlayState* play) {
     }
 }
 
-void func_80A9F408(EnMThunder* this, PlayState* play) {
+void EnMThunder_ChargingSpinAttack(EnMThunder* this, PlayState* play) {
     Player* player;
     Actor* child;
 
     player = GET_PLAYER(play);
     child = this->actor.child;
-    this->unk1B8 = player->unk_858;
+    this->spinChargePercent = player->unk_858;
     this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
-    if ((this->unk1CA == 0) && (player->unk_858 >= 0.10f)) {
+    if (!this->isUsingMagic && (player->unk_858 >= 0.10f)) {
         if ((gSaveContext.magicState != MAGIC_STATE_IDLE) ||
             ((PARAMS_GET_S(this->actor.params, 8, 8) != 0) &&
              (Magic_RequestChange(play, PARAMS_GET_S(this->actor.params, 8, 8), MAGIC_CONSUME_WAIT_PREVIEW) == 0))) {
-            func_80A9F350(this, play);
-            EnMThunder_SetupAction(this, func_80A9F350);
+            EnMThunder_EmptySpinAttack(this, play);
+            EnMThunder_SetupAction(this, EnMThunder_EmptySpinAttack);
             this->chargeAlpha = 0;
-            this->unk1BC = 0;
-            this->unk1AC = 0.0f;
+            this->dimmingIntensity = 0;
+            this->spinAttackTimer = 0.0f;
             return;
         }
-        this->unk1CA = 1;
+        this->isUsingMagic = true;
     }
     if (player->unk_858 >= 0.10f) {
         Rumble_Request(0.0f, (u8)(s32)(player->unk_858 * 150.0f), 2, (u8)(s32)(player->unk_858 * 150.0f));
@@ -202,7 +202,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
             gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
         }
         if (player->unk_858 < 0.85f) {
-            this->unk14C.elem.atDmgInfo.dmgFlags = D_80AA044C[this->swordType];
+            this->unk14C.elem.atDmgInfo.dmgFlags = sSpinAttackDmgFlags[this->swordType];
             this->attackStrength = M_THUNDER_ATTACK_WEAK;
             if (this->swordType == M_THUNDER_SWORD_KOKIRI) {
                 this->targetScale = 2;
@@ -210,7 +210,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
                 this->targetScale = 4;
             }
         } else {
-            this->unk14C.elem.atDmgInfo.dmgFlags = D_80AA0458[this->swordType];
+            this->unk14C.elem.atDmgInfo.dmgFlags = sJumpAttackDmgFlags[this->swordType];
             this->attackStrength = M_THUNDER_ATTACK_STRONG;
             if (this->swordType == M_THUNDER_SWORD_KOKIRI) {
                 this->targetScale = 4;
@@ -218,7 +218,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
                 this->targetScale = 8;
             }
         }
-        EnMThunder_SetupAction(this, func_80A9F9B4);
+        EnMThunder_SetupAction(this, EnMThunder_SpinAttacking);
         this->followPlayerTimer = 8;
 
         {
@@ -232,7 +232,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
             SFX_PLAY_AT_POS(&player->actor.projectedPos, D_80AA0464[this->attackStrength]);
         }
 
-        this->unk1AC = 1.0f;
+        this->spinAttackTimer = 1.0f;
         return;
     }
     if (!(player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK)) {
@@ -249,26 +249,27 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
                                this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0,
                                this->swordType + 2);
         }
-        this->unk1BC = this->unk1BC + ((((player->unk_858 - 0.15f) * 1.5f) - this->unk1BC) * 0.5f);
+        this->dimmingIntensity =
+            this->dimmingIntensity + ((((player->unk_858 - 0.15f) * 1.5f) - this->dimmingIntensity) * 0.5f);
     } else if (player->unk_858 > 0.1f) {
         this->chargeAlpha = (u8)(s32)((player->unk_858 - 0.1f) * 255.0f * 20.0f);
-        this->unk1AC = (player->unk_858 - 0.1f) * 10.0f;
+        this->spinAttackTimer = (player->unk_858 - 0.1f) * 10.0f;
     } else {
         this->chargeAlpha = 0;
     }
     if (player->unk_858 > 0.85f) {
-        func_800F4254(&player->actor.projectedPos, 2);
+        Audio_PlaySwordChargeSfx(&player->actor.projectedPos, 2);
     } else if (player->unk_858 > 0.15f) {
-        func_800F4254(&player->actor.projectedPos, 1);
+        Audio_PlaySwordChargeSfx(&player->actor.projectedPos, 1);
     } else if (player->unk_858 > 0.10f) {
-        func_800F4254(&player->actor.projectedPos, 0);
+        Audio_PlaySwordChargeSfx(&player->actor.projectedPos, 0);
     }
     if (Play_InCsMode(play)) {
         Actor_Kill(&this->actor);
     }
 }
 
-void func_80A9F938(EnMThunder* this, PlayState* play) {
+void EnMThunder_UpdateSpinAttack(EnMThunder* this, PlayState* play) {
     if (this->followPlayerTimer < 2) {
         if (this->chargeAlpha < 0x28) {
             this->chargeAlpha = 0;
@@ -276,19 +277,19 @@ void func_80A9F938(EnMThunder* this, PlayState* play) {
             this->chargeAlpha = this->chargeAlpha - 0x28;
         }
     }
-    this->unk1B4 += 2.0f * this->unk1B0;
-    if (this->unk1BC < this->unk1AC) {
-        this->unk1BC = this->unk1BC + ((this->unk1AC - this->unk1BC) * 0.1f);
+    this->spinTrailTexScroll += 2.0f * this->spinAttackAlpha;
+    if (this->dimmingIntensity < this->spinAttackTimer) {
+        this->dimmingIntensity = this->dimmingIntensity + ((this->spinAttackTimer - this->dimmingIntensity) * 0.1f);
     } else {
-        this->unk1BC = this->unk1AC;
+        this->dimmingIntensity = this->spinAttackTimer;
     }
 }
 
-void func_80A9F9B4(EnMThunder* this, PlayState* play) {
+void EnMThunder_SpinAttacking(EnMThunder* this, PlayState* play) {
     Player* player;
 
     player = GET_PLAYER(play);
-    if (Math_StepToF(&this->unk1AC, 0.0f, 1 / 16.0f)) {
+    if (Math_StepToF(&this->spinAttackTimer, 0.0f, 1 / 16.0f)) {
         Actor_Kill(&this->actor);
     } else {
         Math_SmoothStepToF(&this->actor.scale.x, (s32)this->targetScale, 0.6f, 0.8f, 0.0f);
@@ -302,12 +303,12 @@ void func_80A9F9B4(EnMThunder* this, PlayState* play) {
         this->actor.world.pos.z = player->bodyPartsPos[PLAYER_BODYPART_WAIST].z;
         this->followPlayerTimer = this->followPlayerTimer - 1;
     }
-    if (this->unk1AC > 0.6f) {
-        this->unk1B0 = 1.0f;
+    if (this->spinAttackTimer > 0.6f) {
+        this->spinAttackAlpha = 1.0f;
     } else {
-        this->unk1B0 = this->unk1AC * (5.0f / 3.0f);
+        this->spinAttackAlpha = this->spinAttackTimer * (5.0f / 3.0f);
     }
-    func_80A9F938(this, play);
+    EnMThunder_UpdateSpinAttack(this, play);
     if (Play_InCsMode(play)) {
         Actor_Kill(&this->actor);
     }
@@ -319,21 +320,21 @@ void EnMThunder_Update(Actor* thisx, PlayState* play) {
     EnMThunder* this = (EnMThunder*)thisx;
 
     this->actionFunc(this, play);
-    func_80A9F314(play, this->unk1BC);
-    temp_fv0 = this->unk1AC;
+    EnMThunder_AdjustEnvLights(play, this->dimmingIntensity);
+    temp_fv0 = this->spinAttackTimer;
     temp_v0 = (u32)(temp_fv0 * 255.0f) & 0xFF;
     Lights_PointNoGlowSetInfo(&this->unk19C, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                               temp_v0, temp_v0, temp_fv0 * 100.0f, temp_fv0 * 800.0f);
 }
 
-static f32 D_80AA046C[9] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f, 0.0f };
+static f32 sSpinChargeScale[9] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f, 0.0f };
 
 void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
-    f32 var_fa1;
+    f32 spinChargeScale;
     PlayState* play = play2;
     Player* player;
     EnMThunder* this = (EnMThunder*)thisx;
-    s32 var_t1;
+    s32 chargeTexScroll;
 
     player = GET_PLAYER(play);
     OPEN_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 0x34C);
@@ -345,18 +346,18 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
         case M_THUNDER_ATTACK_WEAK:
             gSPSegment(POLY_XLU_DISP++, 8,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE,
-                                        0xFF - ((u8)(s32)(this->unk1B4 * 30.0f) & 0xFF), 0, 64, 32, 1,
-                                        0xFF - ((u8)(s32)(this->unk1B4 * 20.0f) & 0xFF), 0, 8, 8));
+                                        0xFF - ((u8)(s32)(this->spinTrailTexScroll * 30.0f) & 0xFF), 0, 64, 32, 1,
+                                        0xFF - ((u8)(s32)(this->spinTrailTexScroll * 20.0f) & 0xFF), 0, 8, 8));
             break;
     }
     switch (this->attackStrength) {
         case M_THUNDER_ATTACK_STRONG:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 0xAA, (u8)(this->unk1B0 * 255.0f));
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 0xAA, (u8)(this->spinAttackAlpha * 255.0f));
             gSPDisplayList(POLY_XLU_DISP++, gSpinAttack3DL);
             gSPDisplayList(POLY_XLU_DISP++, gSpinAttack4DL);
             break;
         case M_THUNDER_ATTACK_WEAK:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 0xAA, 255, 255, (u8)(this->unk1B0 * 255.0f));
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 0xAA, 255, 255, (u8)(this->spinAttackAlpha * 255.0f));
             gSPDisplayList(POLY_XLU_DISP++, gSpinAttack1DL);
             gSPDisplayList(POLY_XLU_DISP++, gSpinAttack2DL);
             break;
@@ -379,22 +380,23 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
             Matrix_RotateX(16384.0f, MTXMODE_APPLY);
             break;
     }
-    if (this->unk1B8 >= 0.85f) {
-        var_fa1 = (D_80AA046C[play->gameplayFrames & 7] * 6.0f) + 1.0f;
+    if (this->spinChargePercent >= 0.85f) {
+        spinChargeScale = (sSpinChargeScale[play->gameplayFrames & 7] * 6.0f) + 1.0f;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 0xAA, this->chargeAlpha);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 100, 0, 128);
-        var_t1 = 0x28;
+        chargeTexScroll = 0x28;
     } else {
-        var_fa1 = (2.0f * D_80AA046C[play->gameplayFrames & 7]) + 1.0f;
+        spinChargeScale = (2.0f * sSpinChargeScale[play->gameplayFrames & 7]) + 1.0f;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 0xAA, 255, 255, this->chargeAlpha);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
-        var_t1 = 0x14;
+        chargeTexScroll = 0x14;
     }
-    Matrix_Scale(1.0f, var_fa1, var_fa1, MTXMODE_APPLY);
+    Matrix_Scale(1.0f, spinChargeScale, spinChargeScale, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_m_thunder.c", 960);
     gSPSegment(POLY_XLU_DISP++, 9,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->gameplayFrames * 5) & 0xFF, 0U, 32, 32, 1,
-                                (play->gameplayFrames * 0x14) & 0xFF, (play->gameplayFrames * var_t1) & 0xFF, 8, 8));
+                                (play->gameplayFrames * 0x14) & 0xFF, (play->gameplayFrames * chargeTexScroll) & 0xFF,
+                                8, 8));
     gSPDisplayList(POLY_XLU_DISP++, gSpinAttackChargingDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 0x407);
 }
