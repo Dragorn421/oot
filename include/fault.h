@@ -6,7 +6,9 @@
 #include "attributes.h"
 #include "ultra64.h"
 
-#if !PLATFORM_N64
+#include "always_gc_fault.h"
+
+#if !PLATFORM_N64 || ALWAYS_GC_FAULT
 // These are the same as the 3-bit ansi color codes
 #define FAULT_COLOR_BLACK      0
 #define FAULT_COLOR_RED        1
@@ -34,7 +36,7 @@ typedef struct FaultClient {
     /* 0x0C */ void* arg1;
 } FaultClient; // size = 0x10
 
-#if !PLATFORM_N64
+#if !PLATFORM_N64 || ALWAYS_GC_FAULT
 typedef struct FaultAddrConvClient {
     /* 0x00 */ struct FaultAddrConvClient* next;
     /* 0x04 */ void* callback;
@@ -62,7 +64,7 @@ NORETURN void Fault_AddHungupAndCrash(const char* file, int line);
 void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1);
 void Fault_RemoveClient(FaultClient* client);
 
-#if PLATFORM_GC
+#if PLATFORM_GC || ALWAYS_GC_FAULT
 void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* arg);
 void Fault_RemoveAddrConvClient(FaultAddrConvClient* client);
 #endif
@@ -77,7 +79,7 @@ void Fault_SetCursor(s32 x, s32 y);
 s32 Fault_Printf(const char* fmt, ...);
 void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
 
-#if PLATFORM_N64
+#if PLATFORM_N64 && !ALWAYS_GC_FAULT
 
 void func_800AE1F8(void);
 
@@ -92,7 +94,7 @@ s32 Fault_VPrintf(const char* fmt, va_list args);
 
 #endif
 
-#if PLATFORM_N64
+#if PLATFORM_N64 && !ALWAYS_GC_FAULT
 
 extern vs32 gFaultExit;
 extern vs32 gFaultMsgId;
