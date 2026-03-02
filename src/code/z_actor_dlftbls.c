@@ -102,7 +102,7 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
     u32 overlaySize;
     uintptr_t ramStart;
     uintptr_t ramEnd;
-#if PLATFORM_N64
+#if PLATFORM_N64 && !ALWAYS_GC_FAULT
     u32 offset;
     uintptr_t pc = gFaultFaultedThread != NULL ? gFaultFaultedThread->context.pc : 0;
     uintptr_t ra = gFaultFaultedThread != NULL ? gFaultFaultedThread->context.ra : 0;
@@ -111,7 +111,7 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
     s32 i;
 #endif
 
-#if PLATFORM_N64
+#if PLATFORM_N64 && !ALWAYS_GC_FAULT
     func_800AE1F8();
 
     Fault_Printf("actor_dlftbls %u\n", gMaxActorId);
@@ -127,11 +127,11 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
         overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
         ramStart = (uintptr_t)overlayEntry->loadedRamAddr;
         ramEnd = ramStart + overlaySize;
-#if PLATFORM_N64
+#if PLATFORM_N64 && !ALWAYS_GC_FAULT
         offset = (uintptr_t)overlayEntry->vramStart - ramStart;
 #endif
         if (ramStart != 0) {
-#if PLATFORM_N64
+#if PLATFORM_N64 && !ALWAYS_GC_FAULT
             Fault_Printf("%3d %08x-%08x %08x", i, ramStart, ramEnd, offset);
             if (ramStart <= pc && pc < ramEnd) {
                 Fault_Printf(" PC:%08x", pc + offset);
