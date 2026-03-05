@@ -218,7 +218,7 @@ void func_80063D7C_cc0(GraphicsContext* arg0) {
     s32 pad2[2];
     Gfx* sp30[4];
 
-    Graph_OpenDisp(sp30, arg0, "../z_debug.c", 0x274);
+    Graph_OpenDisps(sp30, arg0, "../z_debug.c", 0x274);
     GfxPrint_Ctor(&sp48);
     sp78 = arg0->polyOpa.p;
     temp_v0 = Graph_GfxPlusOne(sp78);
@@ -236,6 +236,6 @@ void func_80063D7C_cc0(GraphicsContext* arg0) {
     Graph_BranchDlist(sp78, temp_v0);
     arg0->polyOpa.p = temp_v0;
     if (1) {}
-    Graph_CloseDisp(sp30, arg0, "../z_debug.c", 0x298);
+    Graph_CloseDisps(sp30, arg0, "../z_debug.c", 0x298);
     GfxPrint_Dtor(&sp48);
 }

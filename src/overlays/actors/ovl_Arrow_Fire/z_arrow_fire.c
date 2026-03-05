@@ -83,7 +83,7 @@ void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
         this->unkPos = this->actor.posRot.pos;
         this->radius = 10;
         ArrowFire_SetupAction(this, ArrowFire_Fly);
-        this->alpha = 0xFF;
+        this->opacity = 0xFF;
     }
 }
 
@@ -123,7 +123,7 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx) {
             this->unk_158 += ((2.0f - this->unk_158) * 0.1f);
             if (this->timer < 16) {
                 if (1) {}
-                this->alpha = ((this->timer * 0x23) - 0x118);
+                this->opacity = ((this->timer * 0x23) - 0x118);
             }
         }
     }
@@ -139,7 +139,7 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer < 8) {
-        this->alpha = 0;
+        this->opacity = 0;
     }
 
     if (this->timer == 0) {
@@ -232,7 +232,7 @@ void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx) {
 
         // Draw fire on the arrow
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xC8, 0x00, this->alpha);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xC8, 0x00, this->opacity);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0x80);
         Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
