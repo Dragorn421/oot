@@ -48,7 +48,7 @@ glabel func_800B8F58
 /* B301AC 800B900C 93A4003B */  lbu   $a0, 0x3b($sp)
 /* B301B0 800B9010 02003825 */  move  $a3, $s0
 /* B301B4 800B9014 AFA60020 */  sw    $a2, 0x20($sp)
-/* B301B8 800B9018 0C018DDB */  jal   func_8006376C
+/* B301B8 800B9018 0C018DDB */  jal   func_8006376C_cc0
 /* B301BC 800B901C AFA50024 */   sw    $a1, 0x24($sp)
 /* B301C0 800B9020 8FA20028 */  lw    $v0, 0x28($sp)
 /* B301C4 800B9024 8FA50024 */  lw    $a1, 0x24($sp)
@@ -59,7 +59,7 @@ glabel func_800B8F58
 /* B301D8 800B9038 87A4003A */  lh    $a0, 0x3a($sp)
 /* B301DC 800B903C 26070014 */  addiu $a3, $s0, 0x14
 /* B301E0 800B9040 24840014 */  addiu $a0, $a0, 0x14
-/* B301E4 800B9044 0C018DDB */  jal   func_8006376C
+/* B301E4 800B9044 0C018DDB */  jal   func_8006376C_cc0
 /* B301E8 800B9048 308400FF */   andi  $a0, $a0, 0xff
 /* B301EC 800B904C 8FBF001C */  lw    $ra, 0x1c($sp)
 /* B301F0 800B9050 8FB00018 */  lw    $s0, 0x18($sp)

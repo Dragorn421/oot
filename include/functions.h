@@ -757,13 +757,13 @@ void func_80062D60(GlobalContext*, Vec3f*);
 // ? func_80062E14(?);
 s32 func_80062ECC(f32, f32, f32, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
 void SaveContext_Init(void);
-// ? func_800636C0(?);
-void func_8006375C(UNK_TYPE, UNK_TYPE, UNK_TYPE);
-// ? func_8006376C(?);
-// ? func_80063828(?);
-// ? func_8006390C(?);
-// ? func_80063C04(?);
-// ? func_80063D7C(?);
+void func_800636C0_cc0(void);
+void func_8006375C_cc0(UNK_TYPE, UNK_TYPE, UNK_TYPE);
+// ? func_8006376C_cc0(?);
+// ? func_80063828_cc0(?);
+void func_8006390C_cc0(struct struct_8006390C_arg0* arg0);
+// ? func_80063C04_cc0(?);
+void func_80063D7C_cc0(GraphicsContext* arg0);
 void DebugDisplay_Init(void);
 DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ,
                                         f32 scaleX, f32 scaleY, f32 scaleZ, u8 red, u8 green, u8 blue, u8 alpha,

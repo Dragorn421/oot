@@ -33,7 +33,11 @@
 // Data normally accessed through REG macros (see regs.h)
 typedef struct
 {
-    /* 0x00 */ char  unk_00[0x14];
+    /* 0x00 */ s32 unk0;
+    /* 0x04 */ s32 unk4;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ s32 unk10;
     /* 0x14 */ s16   data[0xAE0];
 } GameInfo; // size = 0x15D4
 
