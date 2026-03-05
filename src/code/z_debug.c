@@ -108,12 +108,6 @@ void func_80063828_cc0(GfxPrint* arg0) {
     }
 }
 
-typedef struct struct_8006390C_arg0 {
-    u16 unk00;
-    char unk02[0xA];
-    u16 unk0C;
-} struct_8006390C_arg0;
-
 void func_8006390C_cc0(struct_8006390C_arg0* arg0) {
     s32 var_a3;
     s32 var_v1;
