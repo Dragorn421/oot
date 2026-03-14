@@ -15,4 +15,27 @@ typedef struct {
     /* 0x01A0 */
 } TrailEffect; // size = unk
 
+// effect id 0
+typedef struct struct_8015D8A0 {
+    /* 0x000 */ Vec3s unk0;
+    /* 0x006 */ char unk_6[0x486];
+    /* 0x48C */ f32 unk48C;
+    /* 0x490 */ f32 unk490;
+    /* 0x494 */ s32 unk494;
+    /* 0x498 */ s32 unk498;
+    Color_RGBA8 unk49C[4];
+    Color_RGBA8 unk4AC[4];
+    s32 unk4BC;
+    s32 unk4C0;
+} struct_8015D8A0;
+
+// effect id 3
+typedef struct struct_8011E068 {
+    /* 0x00 */ char unk_0[2];
+    /* 0x02 */ Vec3s unk2;
+    /* 0x08 */ char unk_8[0x26];
+    /* 0x2E */ Vec3s unk2E;
+    /* 0x34 */ char unk_34[0xC];
+} struct_8011E068;
+
 #endif

@@ -891,8 +891,16 @@ typedef struct {
 } RoomContext; // size = 0x74
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x028C];
-} SubGlobalContext11E60; // size = 0x28C
+    /* 0x000 */ s16 nATColliders;
+    /* 0x002 */ u16 unk2;
+    /* 0x004 */ Collider* atColliders[50];
+    /* 0x0CC */ s32 nACColliders;
+    /* 0x0D0 */ Collider* acColliders[60];
+    /* 0x1C0 */ s32 nOCColliders;
+    /* 0x1C4 */ Collider* ocColliders[50];
+    s32 unk28C;
+    struct_ColliderCtx_290* unk290[3];
+} ColliderContext; // size = 0x29C
 
 typedef struct {
     /* 0x00 */ char unk_00[0x10];
@@ -1073,8 +1081,8 @@ typedef struct GlobalContext {
     /* 0x11E5D */ s8 bombchuBowlingAmmo; // "bombchu_game_flag"
     /* 0x11E5E */ u8 fadeTransition;
     /* 0x11E5F */ char unk_11E5F[0x1];
-    /* 0x11E60 */ SubGlobalContext11E60 sub_11E60;
-    /* 0x120EC */ char unk_120EC[0x38];
+    /* 0x11E60 */ ColliderContext colliderCtx;
+    /* 0x120FC */ char unk_120FC[0x28];
     /* 0x12124 */ PreRenderContext preRenderCtx;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
