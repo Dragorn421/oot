@@ -17,7 +17,7 @@ glabel D_8013A670
     .balign 4
 
 .text
-glabel func_8005BCC8
+glabel Collider_DestroySpheres
 /* AD2E68 8005BCC8 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AD2E6C 8005BCCC AFBF0024 */  sw    $ra, 0x24($sp)
 /* AD2E70 8005BCD0 AFB20020 */  sw    $s2, 0x20($sp)

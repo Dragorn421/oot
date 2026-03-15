@@ -8,7 +8,7 @@ glabel D_8013A738
     .balign 4
 
 .text
-glabel func_8005C050
+glabel Collider_LoadSpheres
 /* AD31F0 8005C050 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AD31F4 8005C054 AFBF0024 */  sw    $ra, 0x24($sp)
 /* AD31F8 8005C058 AFB30020 */  sw    $s3, 0x20($sp)

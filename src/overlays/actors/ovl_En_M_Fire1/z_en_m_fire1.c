@@ -24,9 +24,41 @@ const ActorInit En_M_Fire1_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit cylinderInitData = {
-    0x0A, 0x09, 0x00,       0x00, 0x08, 0x01, 0x00, 0x00, 0x02,   0x00,   0x00,   0x00,   0x00000001, 0x00,   0x00,
-    0x00, 0x00, 0xFFCFFFFF, 0x00, 0x00, 0x00, 0x00, 0x19, 0x0000, 0x0000, 0x0000, 0x00C8, 0x00C8,     0x0000,
+static ColliderCylinderSrc cylinderInitData = {
+    {
+        COL_MATERIAL_NONE,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE_PLAYER,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK2,
+        {
+            0x00000001,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0xFFCFFFFF,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
+        OCELEM_NONE,
+    },
+    {
+        200,
+        200,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 
 void EnMFire1_Init(EnMFire1* this, GlobalContext* globalCtx) {
@@ -39,13 +71,13 @@ void EnMFire1_Init(EnMFire1* this, GlobalContext* globalCtx) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &thisLocal->actor, ACTORTYPE_ITEMACTION);
     }
 
-    ActorCollider_AllocCylinder(globalCtx, &thisLocal->capsule);
-    ActorCollider_InitCylinder(globalCtx, &thisLocal->capsule, &thisLocal->actor, &cylinderInitData);
+    Collider_InitCylinder(globalCtx, &thisLocal->capsule);
+    Collider_LoadCylinder(globalCtx, &thisLocal->capsule, &thisLocal->actor, &cylinderInitData);
 }
 
 void EnMFire1_Destroy(EnMFire1* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* capsule = &this->capsule;
-    ActorCollider_FreeCylinder(globalCtx, capsule);
+    ColliderCylinder* capsule = &this->capsule;
+    Collider_DestroyCylinder(globalCtx, capsule);
 }
 
 void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx) {
@@ -55,7 +87,7 @@ void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx) {
     if (Math_ApproxF(&thisLocal->unk_0198, 1.0, 0.2)) {
         Actor_Kill(&this->actor);
     } else {
-        ActorCollider_Cylinder_Update(&thisLocal->actor, &thisLocal->capsule);
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &thisLocal->capsule);
+        Collider_UpdateCylinderShape(&thisLocal->actor, &thisLocal->capsule);
+        Collider_AddAT(globalCtx, &globalCtx->colliderCtx, &thisLocal->capsule);
     }
 }

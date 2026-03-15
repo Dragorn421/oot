@@ -39,7 +39,7 @@ glabel ObjSwitch_Destroy
 /* 00818 80B9DA28 10000004 */  beq     $zero, $zero, .L80B9DA3C   
 /* 0081C 80B9DA2C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B9DA30:
-/* 00820 80B9DA30 0C016F32 */  jal     func_8005BCC8              
+/* 00820 80B9DA30 0C016F32 */  jal     Collider_DestroySpheres              
 /* 00824 80B9DA34 24E50180 */  addiu   $a1, $a3, 0x0180           ## $a1 = 00000180
 /* 00828 80B9DA38 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B9DA3C:

@@ -7,14 +7,14 @@ glabel func_80B9D31C
 /* 00120 80B9D330 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00124 80B9D334 26050180 */  addiu   $a1, $s0, 0x0180           ## $a1 = 00000180
 /* 00128 80B9D338 AFA60038 */  sw      $a2, 0x0038($sp)           
-/* 0012C 80B9D33C 0C016EFE */  jal     func_8005BBF8              
+/* 0012C 80B9D33C 0C016EFE */  jal     Collider_InitSpheres              
 /* 00130 80B9D340 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 00134 80B9D344 260E01A0 */  addiu   $t6, $s0, 0x01A0           ## $t6 = 000001A0
 /* 00138 80B9D348 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 0013C 80B9D34C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00140 80B9D350 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00144 80B9D354 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00148 80B9D358 0C017014 */  jal     func_8005C050              
+/* 00148 80B9D358 0C017014 */  jal     Collider_LoadSpheres              
 /* 0014C 80B9D35C 8FA70038 */  lw      $a3, 0x0038($sp)           
 /* 00150 80B9D360 C60400BC */  lwc1    $f4, 0x00BC($s0)           ## 000000BC
 /* 00154 80B9D364 C6060054 */  lwc1    $f6, 0x0054($s0)           ## 00000054
@@ -31,7 +31,7 @@ glabel func_80B9D31C
 /* 00180 80B9D390 0C0342A3 */  jal     Matrix_Scale              
 /* 00184 80B9D394 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00188 80B9D398 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 0018C 80B9D39C 0C018A29 */  jal     func_800628A4              
+/* 0018C 80B9D39C 0C018A29 */  jal     func_800628A4_Type0              
 /* 00190 80B9D3A0 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00194 80B9D3A4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 00198 80B9D3A8 8FB00020 */  lw      $s0, 0x0020($sp)           

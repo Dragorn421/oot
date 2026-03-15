@@ -1,4 +1,4 @@
-glabel func_80061E48
+glabel Collider_InitCollideData
 /* AD8FE8 80061E48 3C0E8012 */  lui   $t6, %hi(D_8011DFEC) # $t6, 0x8012
 /* AD8FEC 80061E4C 25CEDFEC */  addiu $t6, %lo(D_8011DFEC) # addiu $t6, $t6, -0x2014
 /* AD8FF0 80061E50 8DD80000 */  lw    $t8, ($t6)

@@ -123,15 +123,15 @@ void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx) {
 
     Effect_Add(globalCtx, &this->effect, 1, 0, 0, &trail);
 
-    func_8005D018(globalCtx, &this->collider);
-    func_8005D104(globalCtx, &this->collider, this, &col);
+    Collider_InitQuad(globalCtx, &this->collider);
+    Collider_LoadQuad(globalCtx, &this->collider, this, &col);
 
     EnBoom_SetupAction(this, &EnBoom_Fly);
 }
 
 void EnBoom_Destroy(EnBoom* this, GlobalContext* globalCtx) {
     func_8002709C(globalCtx, this->effect);
-    func_8005D060(globalCtx, &this->collider);
+    Collider_DestroyQuad(globalCtx, &this->collider);
 }
 
 void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
@@ -183,7 +183,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     func_8002F974(this, 0x1010);
 
     // If the boomerang collides with EnItem00 or a Skulltula token, set grabbed pointer to pick it up
-    collided = (this->collider.colliderFlags & 0x2);
+    collided = (this->collider.atFlags & 0x2);
     collided = (!!(collided));
     if (collided) {
         if (((this->collider.at->id == ACTOR_EN_ITEM00) || (this->collider.at->id == ACTOR_EN_SI))) {
@@ -220,7 +220,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else {
-        collided = (this->collider.colliderFlags & 0x2);
+        collided = (this->collider.atFlags & 0x2);
         collided = (!!(collided));
         if (collided) {
             // Copy the position from the prevous frame to the boomerang to start the bounce back.

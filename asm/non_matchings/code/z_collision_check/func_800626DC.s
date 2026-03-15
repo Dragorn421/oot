@@ -1,4 +1,4 @@
-glabel ActorCollider_Cylinder_Update
+glabel Collider_UpdateCylinderShape
 /* AD987C 800626DC C4840024 */  lwc1  $f4, 0x24($a0)
 /* AD9880 800626E0 4600218D */  trunc.w.s $f6, $f4
 /* AD9884 800626E4 440F3000 */  mfc1  $t7, $f6

@@ -842,7 +842,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     actor->unk_F4 = 1000.0f;
     actor->unk_F8 = 350.0f;
     actor->unk_FC = 700.0f;
-    func_80061E48(&actor->sub_98);
+    Collider_InitCollideData(&actor->collideData);
     actor->floorPolySource = 0x32;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
     if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
@@ -870,9 +870,9 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
 
 void func_8002D7EC(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
-    actor->posRot.pos.x += (actor->velocity.x * speedRate) + actor->sub_98.displacement.x;
-    actor->posRot.pos.y += (actor->velocity.y * speedRate) + actor->sub_98.displacement.y;
-    actor->posRot.pos.z += (actor->velocity.z * speedRate) + actor->sub_98.displacement.z;
+    actor->posRot.pos.x += (actor->velocity.x * speedRate) + actor->collideData.displacement.x;
+    actor->posRot.pos.y += (actor->velocity.y * speedRate) + actor->collideData.displacement.y;
+    actor->posRot.pos.z += (actor->velocity.z * speedRate) + actor->collideData.displacement.z;
 }
 
 void func_8002D868(Actor* actor) {
@@ -1540,7 +1540,7 @@ s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2) {
 }
 
 s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
-    f32 var1 = 50.0f + actor->sub_98.unk_10;
+    f32 var1 = 50.0f + actor->collideData.unk_10;
     return func_8002F2CC(actor, globalCtx, var1);
 }
 
@@ -1752,7 +1752,7 @@ void func_8002F994(Actor* actor, s32 sfxId) {
 s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, UNK_TYPE arg2, UNK_TYPE arg3, UNK_TYPE arg4) {
     if (func_80041D4C(&globalCtx->colCtx, arg2, arg3) == 8) {
         globalCtx->unk_11D30[0] = 1;
-        func_8005DFAC(globalCtx, 0, arg4);
+        Collider_BlueBlood(globalCtx, 0, arg4);
         Audio_PlayActorSound2(actor, NA_SE_IT_WALL_HIT_BUYO);
         return 1;
     }
@@ -2097,7 +2097,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
                        (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->unk_68C) &&
                         (actor != player->heldActor) && (&player->actor != actor->attachedA))) {
-                func_80061E8C(&actor->sub_98);
+                func_80061E8C(&actor->collideData);
                 actor = actor->next;
             } else if (actor->update == NULL) {
                 if (!actor->activelyDrawn) {
@@ -2134,7 +2134,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     func_8003F8EC(globalCtx, &globalCtx->colCtx.dyna, actor);
                 }
 
-                func_80061E8C(&actor->sub_98);
+                func_80061E8C(&actor->collideData);
 
                 actor = actor->next;
             }
@@ -2484,7 +2484,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if ((HREG(64) != 1) || (HREG(76) != 0)) {
-        func_8005D62C(globalCtx, &globalCtx->sub_11E60);
+        func_8005D62C(globalCtx, &globalCtx->colliderCtx);
     }
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 6563);
@@ -2542,7 +2542,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
         }
     }
 
-    func_8005D40C(globalCtx, &globalCtx->sub_11E60);
+    func_8005D40C(globalCtx, &globalCtx->colliderCtx);
     actorCtx->flags.tempClear = 0;
     actorCtx->flags.tempSwch &= 0xFFFFFF;
     globalCtx->msgCtx.unk_E3F4 = 0;
@@ -3262,8 +3262,8 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
 }
 
 Actor* func_80033640(GlobalContext* globalCtx, Collider* collider) {
-    if ((collider->collideFlags & 0x2) && (collider->ac->type == ACTORTYPE_EXPLOSIVES)) {
-        collider->collideFlags &= ~0x2;
+    if ((collider->acFlags & 0x2) && (collider->ac->type == ACTORTYPE_EXPLOSIVES)) {
+        collider->acFlags &= ~0x2;
         return collider->ac;
     }
 
@@ -3331,7 +3331,7 @@ Actor_80033780* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg
                 spA8.y = itemActor->actor.posRot.pos.y + deltaY;
                 spA8.z = itemActor->actor.posRot.pos.z + deltaZ;
 
-                if (func_80062ECC(refActor->sub_98.unk_10, refActor->sub_98.unk_12, 0.0f, &refActor->posRot.pos,
+                if (func_80062ECC(refActor->collideData.unk_10, refActor->collideData.unk_12, 0.0f, &refActor->posRot.pos,
                                   &itemActor->actor.posRot.pos, &spA8, &sp90, &sp84)) {
                     return itemActor;
                 } else {
@@ -3982,7 +3982,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
             break;
     }
 
-    func_8002E4B4(globalCtx, actor, actor->sub_98.unk_12, actor->sub_98.unk_10, actor->sub_98.unk_10, 0x1D);
+    func_8002E4B4(globalCtx, actor, actor->collideData.unk_12, actor->collideData.unk_10, actor->collideData.unk_10, 0x1D);
 
     return ret;
 }
@@ -4061,10 +4061,11 @@ void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
     func_8003555C(globalCtx, arg1, &D_80116268, &D_80116274);
 }
 
-u8 func_800355E4(GlobalContext* globalCtx, ColliderCylinderInit* colCylinderInit) {
+// ColliderCylinderSrc* colCylinderInit is most likely mistyped
+u8 func_800355E4(GlobalContext* globalCtx, ColliderCylinderSrc* colCylinderInit) {
     Player* player = PLAYER;
 
-    if ((colCylinderInit->inner.toucherDamage & 0x08) && (player->swordState != 0) &&
+    if ((colCylinderInit->elem.atDmgInfo.damage & 0x08) && (player->swordState != 0) &&
         (player->swordAnimation == 0x16)) {
         return 1;
     } else {
@@ -4073,36 +4074,36 @@ u8 func_800355E4(GlobalContext* globalCtx, ColliderCylinderInit* colCylinderInit
 }
 
 u8 Actor_ApplyDamage(Actor* actor) {
-    if (actor->sub_98.damage >= actor->sub_98.health) {
-        actor->sub_98.health = 0;
+    if (actor->collideData.damage >= actor->collideData.health) {
+        actor->collideData.health = 0;
     } else {
-        actor->sub_98.health -= actor->sub_98.damage;
+        actor->collideData.health -= actor->collideData.damage;
     }
 
-    return actor->sub_98.health;
+    return actor->collideData.health;
 }
 
-void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
-    if (colBody->colliding == NULL) {
+void func_80035650(Actor* actor, ColliderElement* colBody, s32 freezeFlag) {
+    if (colBody->acHitElem == NULL) {
         actor->unk_116 = 0x00;
-    } else if (freezeFlag && (colBody->colliding->toucher.flags & 0x10060000)) {
-        actor->freeze = colBody->colliding->toucher.damage;
+    } else if (freezeFlag && (colBody->acHitElem->atDmgInfo.dmgFlags & 0x10060000)) {
+        actor->freeze = colBody->acHitElem->atDmgInfo.damage;
         actor->unk_116 = 0x00;
-    } else if (colBody->colliding->toucher.flags & 0x0800) {
+    } else if (colBody->acHitElem->atDmgInfo.dmgFlags & 0x0800) {
         actor->unk_116 = 0x01;
-    } else if (colBody->colliding->toucher.flags & 0x1000) {
+    } else if (colBody->acHitElem->atDmgInfo.dmgFlags & 0x1000) {
         actor->unk_116 = 0x02;
-    } else if (colBody->colliding->toucher.flags & 0x4000) {
+    } else if (colBody->acHitElem->atDmgInfo.dmgFlags & 0x4000) {
         actor->unk_116 = 0x04;
-    } else if (colBody->colliding->toucher.flags & 0x8000) {
+    } else if (colBody->acHitElem->atDmgInfo.dmgFlags & 0x8000) {
         actor->unk_116 = 0x08;
-    } else if ((colBody->colliding->toucher.flags << 0xF) < 0) {
+    } else if (colBody->acHitElem->atDmgInfo.dmgFlags & 0x10000) {
         actor->unk_116 = 0x10;
-    } else if (colBody->colliding->toucher.flags & 0x2000) {
+    } else if (colBody->acHitElem->atDmgInfo.dmgFlags & 0x2000) {
         actor->unk_116 = 0x20;
-    } else if ((colBody->colliding->toucher.flags << 0xC) < 0) {
+    } else if (colBody->acHitElem->atDmgInfo.dmgFlags & 0x80000) {
         if (freezeFlag) {
-            actor->freeze = colBody->colliding->toucher.damage;
+            actor->freeze = colBody->acHitElem->atDmgInfo.damage;
         }
         actor->unk_116 = 0x40;
     } else {
@@ -4110,35 +4111,35 @@ void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
     }
 }
 
-void func_8003573C(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
-    ColliderBody* curColBody;
+void func_8003573C(Actor* actor, ColliderSpheres* spheres, s32 freezeFlag) {
+    ColliderElement* curColBody;
     s32 flag;
     s32 i;
 
     actor->unk_116 = 0x00;
 
-    for (i = colBody->unk_18 - 1; i >= 0; i--) {
-        curColBody = &colBody->colBuf[i].c;
-        if (curColBody->colliding == NULL) {
+    for (i = spheres->nElements - 1; i >= 0; i--) {
+        curColBody = &spheres->elements[i].base;
+        if (curColBody->acHitElem == NULL) {
             flag = 0x00;
-        } else if (freezeFlag && (curColBody->colliding->toucher.flags & 0x10060000)) {
-            actor->freeze = curColBody->colliding->toucher.damage;
+        } else if (freezeFlag && (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x10060000)) {
+            actor->freeze = curColBody->acHitElem->atDmgInfo.damage;
             flag = 0x00;
-        } else if (curColBody->colliding->toucher.flags & 0x0800) {
+        } else if (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x0800) {
             flag = 0x01;
-        } else if (curColBody->colliding->toucher.flags & 0x1000) {
+        } else if (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x1000) {
             flag = 0x02;
-        } else if (curColBody->colliding->toucher.flags & 0x4000) {
+        } else if (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x4000) {
             flag = 0x04;
-        } else if (curColBody->colliding->toucher.flags & 0x8000) {
+        } else if (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x8000) {
             flag = 0x08;
-        } else if (curColBody->colliding->toucher.flags & 0x10000) {
+        } else if (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x10000) {
             flag = 0x10;
-        } else if (curColBody->colliding->toucher.flags & 0x2000) {
+        } else if (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x2000) {
             flag = 0x20;
-        } else if (curColBody->colliding->toucher.flags & 0x80000) {
+        } else if (curColBody->acHitElem->atDmgInfo.dmgFlags & 0x80000) {
             if (freezeFlag) {
-                actor->freeze = curColBody->colliding->toucher.damage;
+                actor->freeze = curColBody->acHitElem->atDmgInfo.damage;
             }
             flag = 0x40;
         } else {

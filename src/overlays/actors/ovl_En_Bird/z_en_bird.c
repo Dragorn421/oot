@@ -70,7 +70,7 @@ void EnBird_Init(EnBird* this, GlobalContext* globalCtx) {
     this->unk_194 = 0;
     this->unk_198 = 0;
     this->unk_1C0 = 0x9C4;
-    this->actor.sub_98.mass = 0;
+    this->actor.collideData.mass = 0;
     this->unk_1A8 = 1.5f;
     this->unk_1AC = 0.5f;
     this->unk_1A0 = 0.0f;

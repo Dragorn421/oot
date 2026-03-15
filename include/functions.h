@@ -412,10 +412,10 @@ Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, 
 s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5);
 void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3);
 void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1);
-u8 func_800355E4(GlobalContext* globalCtx, UNK_PTR colCylinderInit);
+u8 func_800355E4(GlobalContext* globalCtx, ColliderCylinderSrc* colCylinderInit);
 u8 Actor_ApplyDamage(Actor* actor);
 void func_80035650(Actor* actor, ColliderElement* colBody, s32 freezeFlag);
-void func_8003573C(Actor* actor, ColliderElement* colBody, s32 freezeFlag);
+void func_8003573C(Actor* actor, ColliderSpheres* spheres, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
 s32 Flags_GetEventChkInf(s32 flag);

@@ -28,10 +28,41 @@ const ActorInit Obj_Bombiwa_InitVars = {
     (ActorFunc)ObjBombiwa_Draw,
 };
 
-static ColliderCylinderInit colliderInit = {
-    0x0C, 0x00,       0x0D, 0x39, 0x20,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0x4FC1FFFE, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x01,       0x01, 0x00, 0x0037, 0x0046, 0x0000,     0x0000, 0x0000, 0x0000,
+static ColliderCylinderSrc colliderInit = {
+    {
+        COL_MATERIAL_HARD,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        {
+            0x00000000,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0x4FC1FFFE,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_NONE,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
+    {
+        55,
+        70,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 
 static u32 damageChart[] = {
@@ -54,9 +85,9 @@ extern Gfx* D_060009E0; // dlist
 
 void ObjBombiwa_InitCollision(ObjBombiwa* this, GlobalContext* globalCtx) {
     ObjBombiwa* thisLocal = this;
-    ActorCollider_AllocCylinder(globalCtx, &thisLocal->collider);
-    ActorCollider_InitCylinder(globalCtx, &thisLocal->collider, &thisLocal->actor, &colliderInit);
-    ActorCollider_Cylinder_Update(&thisLocal->actor, &thisLocal->collider);
+    Collider_InitCylinder(globalCtx, &thisLocal->collider);
+    Collider_LoadCylinder(globalCtx, &thisLocal->collider, &thisLocal->actor, &colliderInit);
+    Collider_UpdateCylinderShape(&thisLocal->actor, &thisLocal->collider);
 }
 
 void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
@@ -65,7 +96,7 @@ void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
     if ((Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) != 0)) {
         Actor_Kill(&this->actor);
     } else {
-        func_80061ED4(&this->actor.sub_98.damageChart, NULL, damageChart);
+        func_80061ED4(&this->actor.collideData.damageChart, NULL, damageChart);
         if (this->actor.shape.rot.y == 0) {
             s16 rand = (s16)Math_Rand_ZeroFloat(65536.0f);
             this->actor.posRot.rot.y = rand;
@@ -77,7 +108,7 @@ void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx) {
-    ActorCollider_FreeCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
@@ -105,12 +136,12 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
-    SubGlobalContext11E60* sub_11E60;
-    ColliderCylinderMain* collider;
+    ColliderContext* colliderCtx;
+    ColliderCylinder* collider;
 
     if (func_80033684(globalCtx, &this->actor) != NULL ||
-        ((this->collider.base.collideFlags & 2) != 0 &&
-         (this->collider.body.colliding->toucher.flags & 0x40000040) != 0)) {
+        ((this->collider.base.acFlags & 2) != 0 &&
+         (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & 0x40000040) != 0)) {
         ObjBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 80, NA_SE_EV_WALL_BROKEN);
@@ -119,12 +150,12 @@ void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
     } else {
-        this->collider.base.collideFlags &= ~0x2;
+        this->collider.base.acFlags &= ~0x2;
         if (this->actor.xzDistanceFromLink < 800.0f) {
-            sub_11E60 = &globalCtx->sub_11E60;
+            colliderCtx = &globalCtx->colliderCtx;
             collider = &this->collider;
-            Actor_CollisionCheck_SetAC(globalCtx, sub_11E60, collider);
-            Actor_CollisionCheck_SetOT(globalCtx, sub_11E60, collider);
+            Collider_AddAC(globalCtx, colliderCtx, collider);
+            Collider_AddOC(globalCtx, colliderCtx, collider);
         }
     }
 }

@@ -34,7 +34,7 @@ glabel D_8013A714
     .balign 4
 
 .text
-glabel func_8005BE50
+glabel Collider_LoadSpheresAltMalloc
 /* AD2FF0 8005BE50 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AD2FF4 8005BE54 AFBF0024 */  sw    $ra, 0x24($sp)
 /* AD2FF8 8005BE58 AFB30020 */  sw    $s3, 0x20($sp)

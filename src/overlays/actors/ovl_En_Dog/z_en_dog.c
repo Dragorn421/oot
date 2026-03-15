@@ -32,13 +32,44 @@ const ActorInit En_Dog_InitVars = {
     (ActorFunc)EnDog_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
-    0x06, 0x00,       0x09, 0x39, 0x10,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0xFFCFFFFF, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x01,       0x01, 0x00, 0x0010, 0x0014, 0x0000,     0x0000, 0x0000, 0x0000,
+static ColliderCylinderSrc cylinderInit = {
+    {
+        COL_MATERIAL_HIT6,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLTYPE_CYLINDER,
+    },
+    {
+        0,
+        {
+            0x00000000,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0xFFCFFFFF,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        0,
+        1,
+        1,
+    },
+    {
+        16,
+        20,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 
-static Sub98Init5 sub98Data = {
+static CollideDataInitAlt sub98Data = {
     0x00,   // health
     0x0000, // unk_10
     0x0000, // unk_12
@@ -155,8 +186,8 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
 }
 
 s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.collideFlags & 2)) {
-        this->collider.base.collideFlags &= ~2;
+    if ((this->collider.base.acFlags & 2)) {
+        this->collider.base.acFlags &= ~2;
         return 2;
     }
 
@@ -164,8 +195,8 @@ s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    if ((this->collider.base.maskB & 1)) {
-        this->collider.base.maskB &= ~1;
+    if ((this->collider.base.ocFlags2 & 1)) {
+        this->collider.base.ocFlags2 &= ~1;
         if (gSaveContext.dogParams != 0) {
             return 0;
         }
@@ -221,7 +252,7 @@ s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
 void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime;
     s16 followingDog;
-    ColliderCylinderMain* collider;
+    ColliderCylinder* collider;
 
     collider = &this->collider;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
@@ -239,9 +270,9 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
         return;
     }
 
-    ActorCollider_AllocCylinder(globalCtx, collider);
-    ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &cylinderInit);
-    func_80061EFC(&this->actor.sub_98, 0, &sub98Data);
+    Collider_InitCylinder(globalCtx, collider);
+    Collider_LoadCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+    func_80061EFC(&this->actor.collideData, 0, &sub98Data);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;
@@ -278,8 +309,8 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
 }
 
 void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider = &this->collider;
-    ActorCollider_FreeCylinder(globalCtx, collider);
+    ColliderCylinder* collider = &this->collider;
+    Collider_DestroyCylinder(globalCtx, collider);
 }
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
@@ -434,11 +465,11 @@ void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
 
     EnDog_PlayAnimAndSFX(this);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f, 5);
+    func_8002E4B4(globalCtx, &this->actor, this->collider.shape.radius, this->collider.shape.height * 0.5f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
-    ActorCollider_Cylinder_Update(&this->actor, &this->collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+    Collider_UpdateCylinderShape(&this->actor, &this->collider);
+    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider);
 }
 
 s32 EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {

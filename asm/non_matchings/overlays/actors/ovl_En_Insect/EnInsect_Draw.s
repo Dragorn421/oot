@@ -16,7 +16,7 @@ glabel EnInsect_Draw
 /* 0205C 80A7DE7C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 02060 80A7DE80 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 02064 80A7DE84 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 02068 80A7DE88 0C018A29 */  jal     func_800628A4              
+/* 02068 80A7DE88 0C018A29 */  jal     func_800628A4_Type0              
 /* 0206C 80A7DE8C 24A5014C */  addiu   $a1, $a1, 0x014C           ## $a1 = 0000014C
 /* 02070 80A7DE90 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 02074 80A7DE94 3C0180A8 */  lui     $at, %hi(D_80A7DEB4)       ## $at = 80A80000

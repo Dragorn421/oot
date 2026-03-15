@@ -9,8 +9,8 @@ typedef struct {
     /* 0x014C */ ActorFunc actionFunc;
     /* 0x0150 */ Collider collider;
     /* 0x0168 */ char unk_168[0x4];
-    /* 0x016C */ ColliderBody* colliderBodyPtr;
-    /* 0x0170 */ ColliderBody colliderBody;
+    /* 0x016C */ ColliderElement* colliderBodyPtr;
+    /* 0x0170 */ ColliderElement colliderBody;
     /* 0x0198 */ char unk_198[0x18];
     /* 0x01B0 */ s16 unk_1B0;
     /* 0x01B2 */ s16 unk_1B2;

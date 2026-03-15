@@ -14,12 +14,12 @@ glabel EnGeldB_Destroy
 /* 00258 80A35568 24A503EC */  addiu   $a1, $a1, 0x03EC           ## $a1 = 000003EC
 /* 0025C 80A3556C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00260 80A35570 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00264 80A35574 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00264 80A35574 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00268 80A35578 24A50320 */  addiu   $a1, $a1, 0x0320           ## $a1 = 00000320
 /* 0026C 80A3557C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00270 80A35580 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00274 80A35584 0C017418 */  jal     func_8005D060              
+/* 00274 80A35584 0C017418 */  jal     Collider_DestroyQuad              
 /* 00278 80A35588 24A5036C */  addiu   $a1, $a1, 0x036C           ## $a1 = 0000036C
 /* 0027C 80A3558C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00280 80A35590 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

@@ -42,10 +42,41 @@ const ActorInit Bg_Bdan_Objects_InitVars = {
     (ActorFunc)BgBdanObjects_Draw,
 };
 
-static ColliderCylinderInit D_8086CD70 = {
-    0x0A, 0x11,       0x00, 0x00, 0x20,   0x01,   0x00,   0x00,   0x00,   0x00,   0x00,
-    0x00, 0xFFCFFFFF, 0x00, 0x04, 0x00,   0x00,   0x00,   0x00,   0x00,   0x00,   0x00000000,
-    0x09, 0x00,       0x00, 0x00, 0x00BB, 0x0050, 0x0000, 0x0000, 0x0000, 0x0000,
+static ColliderCylinderSrc D_8086CD70 = {
+    {
+        COL_MATERIAL_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLTYPE_CYLINDER,
+    },
+    {
+        0,
+        {
+            0xFFCFFFFF,
+            HIT_SPECIAL_EFFECT_NONE,
+            4,
+        },
+        {
+            0x00000000,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        9,
+        0,
+        0,
+    },
+    {
+        187,
+        80,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 
 static InitChainEntry initChain[] = {
@@ -111,8 +142,8 @@ void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
     if (thisx->params == 0) {
         DynaPolyInfo_Alloc(&D_06008CE0, &localC);
-        ActorCollider_AllocCylinder(globalCtx, &this->collider);
-        ActorCollider_InitCylinder(globalCtx, &this->collider, this, &D_8086CD70);
+        Collider_InitCylinder(globalCtx, &this->collider);
+        Collider_LoadCylinder(globalCtx, &this->collider, this, &D_8086CD70);
         thisx->posRot.pos.y = (f32)(thisx->posRot.pos.y + -79.0f);
         if (Flags_GetClear(globalCtx, thisx->room)) {
             Flags_SetSwitch(globalCtx, this->unk_168);
@@ -157,7 +188,7 @@ void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx) {
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     if (thisx->params == 0) {
-        ActorCollider_FreeCylinder(globalCtx, &this->collider);
+        Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
 
@@ -296,8 +327,8 @@ void func_8086C5BC(BgBdanObjects* this, GlobalContext* globalCtx) {
 }
 
 void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx) {
-    ActorCollider_Cylinder_Update(&this->dyna.actor, &this->collider);
-    Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+    Collider_UpdateCylinderShape(&this->dyna.actor, &this->collider);
+    Collider_AddAT(globalCtx, &globalCtx->colliderCtx, &this->collider);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         Flags_SetSwitch(globalCtx, this->unk_168);
         this->dyna.actor.initPosRot.rot.y = (s16)(this->dyna.actor.shape.rot.y + 0x2000) & 0xC000;

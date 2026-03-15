@@ -4,7 +4,7 @@ glabel D_8013A608
     .balign 4
 
 .text
-glabel func_8005BC28
+glabel Collider_DestroySpheresMalloc
 /* AD2DC8 8005BC28 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AD2DCC 8005BC2C AFBF0024 */  sw    $ra, 0x24($sp)
 /* AD2DD0 8005BC30 AFB20020 */  sw    $s2, 0x20($sp)

@@ -8,7 +8,7 @@ glabel D_8013A828
     .balign 4
 
 .text
-glabel func_8005CBAC
+glabel Collider_LoadTris
 /* AD3D4C 8005CBAC 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* AD3D50 8005CBB0 AFBF002C */  sw    $ra, 0x2c($sp)
 /* AD3D54 8005CBB4 AFB30024 */  sw    $s3, 0x24($sp)

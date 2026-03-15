@@ -1,4 +1,4 @@
-glabel func_8005BBF8
+glabel Collider_InitSpheres
 /* AD2D98 8005BBF8 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AD2D9C 8005BBFC AFBF0014 */  sw    $ra, 0x14($sp)
 /* AD2DA0 8005BC00 0C016D97 */  jal   func_8005B65C

@@ -24,7 +24,7 @@ typedef struct {
     /* 0x1C */ ColliderCustomHelper* unk_1C;
     /* 0x20 */ s32 unk_20;
     /* 0x24 */ char unk_24[0x1C];
-    // after this is a guess based on ColliderCylinderMain
+    // after this is a guess based on ColliderCylinder
     /* 0x40 */ s16 radius;
     /* 0x42 */ s16 height;
     /* 0x44 */ s16 yShift;

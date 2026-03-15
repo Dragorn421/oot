@@ -5,7 +5,7 @@ glabel D_8013AC58
     .balign 4
 
 .text
-glabel func_80061C98
+glabel Collider_DoOCVsOC
 /* AD8E38 80061C98 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* AD8E3C 80061C9C AFBF0034 */  sw    $ra, 0x34($sp)
 /* AD8E40 80061CA0 AFB70030 */  sw    $s7, 0x30($sp)

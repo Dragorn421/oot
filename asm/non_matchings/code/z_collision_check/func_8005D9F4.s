@@ -31,7 +31,7 @@ glabel D_8013AA94
     .balign 4
 
 .text
-glabel Actor_CollisionCheck_SetAC
+glabel Collider_AddAC
 /* AD4B94 8005D9F4 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* AD4B98 8005D9F8 AFBF001C */  sw    $ra, 0x1c($sp)
 /* AD4B9C 8005D9FC AFB00018 */  sw    $s0, 0x18($sp)

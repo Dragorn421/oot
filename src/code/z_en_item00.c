@@ -40,7 +40,7 @@ typedef struct {
     /* 0x158 */ s16 unk_158;
     /* 0x15A */ s16 unk_15A;
     /* 0x15C */ f32 unk_15C;
-    /* 0x160 */ ColliderCylinderMain cylinderCollider;
+    /* 0x160 */ ColliderCylinder cylinderCollider;
 } ActorEnItem00;
 
 void func_8001DFC8(ActorEnItem00* this, GlobalContext* globalCtx);
@@ -50,7 +50,7 @@ void func_8001E5C8(ActorEnItem00* this, GlobalContext* globalCtx);
 
 // TODO: Define this part of code .data here and rename the symbols
 extern ActorInit En_Item00_InitVars;
-extern ColliderCylinderInit D_801154E0;
+extern ColliderCylinderSrc D_801154E0;
 extern InitChainEntry D_8011550C[];
 extern Color_RGB8 D_80115510;
 extern Color_RGB8 D_80115514;
@@ -93,8 +93,8 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx) {
     }
 
     Actor_ProcessInitChain(&this->actor, D_8011550C);
-    ActorCollider_AllocCylinder(globalCtx, &this->cylinderCollider);
-    ActorCollider_InitCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_801154E0);
+    Collider_InitCylinder(globalCtx, &this->cylinderCollider);
+    Collider_LoadCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_801154E0);
 
     this->unk_158 = 1;
 
@@ -301,8 +301,8 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx) {
 #endif
 
 void En_Item00_Destroy(ActorEnItem00* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* cylinderCollider = &this->cylinderCollider;
-    ActorCollider_FreeCylinder(globalCtx, cylinderCollider);
+    ColliderCylinder* cylinderCollider = &this->cylinderCollider;
+    Collider_DestroyCylinder(globalCtx, cylinderCollider);
 }
 
 void func_8001DFC8(ActorEnItem00* this, GlobalContext* globalCtx) {
@@ -529,8 +529,8 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx) {
         }
     }
 
-    ActorCollider_Cylinder_Update(&this->actor, &this->cylinderCollider);
-    Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this->cylinderCollider);
+    Collider_UpdateCylinderShape(&this->actor, &this->cylinderCollider);
+    Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->cylinderCollider);
 
     if ((this->actor.params == DROP_SHIELD_DEKU) || (this->actor.params == DROP_SHIELD_HYLIAN) ||
         (this->actor.params == DROP_TUNIC_ZORA) || (this->actor.params == DROP_TUNIC_GORON)) {

@@ -1,4 +1,4 @@
-glabel func_8006139C
+glabel Collider_DoATVsAC
 /* AD853C 8006139C 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AD8540 800613A0 AFBF0024 */  sw    $ra, 0x24($sp)
 /* AD8544 800613A4 AFB20020 */  sw    $s2, 0x20($sp)

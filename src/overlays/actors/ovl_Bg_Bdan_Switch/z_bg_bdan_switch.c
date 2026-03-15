@@ -86,8 +86,8 @@ void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 collision, 
 
 void func_8086D098(BgBdanSwitch* this, GlobalContext* globalCtx) {
     Actor* actor = &this->actor;
-    func_8005BBF8(globalCtx, &this->collider, actor);
-    func_8005C050(globalCtx, &this->collider, actor, &D_8086E0C4, &this->collider.unk_20);
+    Collider_InitSpheres(globalCtx, &this->collider, actor);
+    Collider_LoadSpheres(globalCtx, &this->collider, actor, &D_8086E0C4, &this->collider.unk_20);
 }
 
 void func_8086D0EC(BgBdanSwitch* this) {
@@ -187,7 +187,7 @@ void BgBdanSwitch_Destroy(BgBdanSwitch* this, GlobalContext* globalCtx) {
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            func_8005BCC8(globalCtx, &this->collider);
+            Collider_DestroySpheres(globalCtx, &this->collider);
     }
 }
 
@@ -383,14 +383,14 @@ void func_8086DB68(BgBdanSwitch* this, GlobalContext* globalCtx) {
         default:
             return;
         case YELLOW_TALL_1:
-            if (((this->collider.base.collideFlags & 2) != 0) && this->unk_1D8 <= 0) {
+            if (((this->collider.base.acFlags & 2) != 0) && this->unk_1D8 <= 0) {
                 this->unk_1D8 = 0xA;
                 func_8086DC30(this);
                 func_8086D4B4(this, globalCtx);
             }
             break;
         case YELLOW_TALL_2:
-            if (((this->collider.base.collideFlags & 2) != 0) && ((this->unk_1DC & 2) == 0) && this->unk_1D8 <= 0) {
+            if (((this->collider.base.acFlags & 2) != 0) && ((this->unk_1DC & 2) == 0) && this->unk_1D8 <= 0) {
                 this->unk_1D8 = 0xA;
                 func_8086DC30(this);
                 func_8086D4B4(this, globalCtx);
@@ -426,7 +426,7 @@ void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx) {
             }
             break;
         case YELLOW_TALL_2:
-            if (((this->collider.base.collideFlags & 2) != 0) && ((this->unk_1DC & 2) == 0) && (this->unk_1D8 <= 0)) {
+            if (((this->collider.base.acFlags & 2) != 0) && ((this->unk_1DC & 2) == 0) && (this->unk_1D8 <= 0)) {
                 this->unk_1D8 = 0xA;
                 func_8086DDA8(this);
                 func_8086D548(this, globalCtx);
@@ -468,12 +468,12 @@ void BgBdanSwitch_Update(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (!func_8008E988(globalCtx) && this->unk_1D8 > 0) {
         this->unk_1D8 -= 1;
     }
-    pad = this->collider.base.collideFlags;
-    this->collider.base.collideFlags &= 0xFFFD;
+    pad = this->collider.base.acFlags;
+    this->collider.base.acFlags &= 0xFFFD;
     this->unk_1DC = pad;
     this->collider.unk_1C->unk_2E = this->unk_1D4 * 370.0f;
-    Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this->collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+    Collider_AddAC(globalCtx, &globalCtx->colliderCtx, &this->collider);
+    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider);
 }
 
 void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
@@ -492,7 +492,7 @@ void BgBdanSwitch_Draw(BgBdanSwitch* this, GlobalContext* globalCtx) {
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
             func_8086DF58(this, globalCtx, &D_060061A0);
-            func_800628A4(0, &this->collider);
+            func_800628A4_Type0(0, &this->collider);
             Matrix_MultVec3f(&D_8086E0E0, &this->actor.posRot2);
             break;
         case BLUE:

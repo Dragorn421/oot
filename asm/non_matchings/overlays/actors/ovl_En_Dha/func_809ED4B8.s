@@ -37,20 +37,20 @@ glabel func_809ED4B8
 /* 00CC0 809ED540 8FB00058 */  lw      $s0, 0x0058($sp)           
 /* 00CC4 809ED544 24040002 */  addiu   $a0, $zero, 0x0002         ## $a0 = 00000002
 /* 00CC8 809ED548 26050200 */  addiu   $a1, $s0, 0x0200           ## $a1 = 00000200
-/* 00CCC 809ED54C 0C018A29 */  jal     func_800628A4              
+/* 00CCC 809ED54C 0C018A29 */  jal     func_800628A4_Type0              
 /* 00CD0 809ED550 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00CD4 809ED554 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 00CD8 809ED558 0C018A29 */  jal     func_800628A4              
+/* 00CD8 809ED558 0C018A29 */  jal     func_800628A4_Type0              
 /* 00CDC 809ED55C 24040003 */  addiu   $a0, $zero, 0x0003         ## $a0 = 00000003
 /* 00CE0 809ED560 10000017 */  beq     $zero, $zero, .L809ED5C0   
 /* 00CE4 809ED564 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809ED568:
 /* 00CE8 809ED568 26050200 */  addiu   $a1, $s0, 0x0200           ## $a1 = 00000200
 /* 00CEC 809ED56C AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00CF0 809ED570 0C018A29 */  jal     func_800628A4              
+/* 00CF0 809ED570 0C018A29 */  jal     func_800628A4_Type0              
 /* 00CF4 809ED574 24040004 */  addiu   $a0, $zero, 0x0004         ## $a0 = 00000004
 /* 00CF8 809ED578 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 00CFC 809ED57C 0C018A29 */  jal     func_800628A4              
+/* 00CFC 809ED57C 0C018A29 */  jal     func_800628A4_Type0              
 /* 00D00 809ED580 24040005 */  addiu   $a0, $zero, 0x0005         ## $a0 = 00000005
 /* 00D04 809ED584 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 00D08 809ED588 0C0346BD */  jal     Matrix_MultVec3f              
@@ -59,7 +59,7 @@ glabel func_809ED4B8
 /* 00D14 809ED594 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809ED598:
 /* 00D18 809ED598 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
-/* 00D1C 809ED59C 0C018A29 */  jal     func_800628A4              
+/* 00D1C 809ED59C 0C018A29 */  jal     func_800628A4_Type0              
 /* 00D20 809ED5A0 26050200 */  addiu   $a1, $s0, 0x0200           ## $a1 = 00000200
 /* 00D24 809ED5A4 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFF4
 /* 00D28 809ED5A8 0C0346BD */  jal     Matrix_MultVec3f              

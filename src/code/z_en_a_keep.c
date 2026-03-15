@@ -32,7 +32,7 @@ typedef struct {
     /* 0x172 */ s16 unk_172;
     /* 0x174 */ s16 unk_174;
     /* 0x178 */ f32 unk_178;
-    /* 0x17C */ ColliderCylinderMain cylinderCollider;
+    /* 0x17C */ ColliderCylinder cylinderCollider;
 } ActorEnAObj; // size = 0x1C8
 
 void func_8001D204(ActorEnAObj* this, GlobalContext* globalCtx);
@@ -48,7 +48,7 @@ void func_8001D5C8(ActorEnAObj* this, s16 params);
 
 // TODO: Define this part of code .data here and rename the symbols
 extern ActorInit En_A_Obj_InitVars;
-extern ColliderCylinderInit D_80115440;
+extern ColliderCylinderSrc D_80115440;
 extern u32 D_8011546C[];
 extern u32 D_80115484[];
 
@@ -140,9 +140,9 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
             this->actor.unk_4C = 500.0f;
             this->unk_178 = 45.0f;
             func_8001D234(this, this->actor.params);
-            ActorCollider_AllocCylinder(globalCtx, &this->cylinderCollider);
-            ActorCollider_InitCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_80115440);
-            this->actor.sub_98.mass = 0xFF;
+            Collider_InitCylinder(globalCtx, &this->cylinderCollider);
+            Collider_LoadCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_80115440);
+            this->actor.collideData.mass = 0xFF;
             this->actor.unk_1F = 0;
             break;
         case A_OBJ_KNOB:
@@ -156,7 +156,7 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params < 5) {
-        this->actor.sub_98.mass = 0xFF;
+        this->actor.collideData.mass = 0xFF;
     }
 
     if (this->dynaPolyId != -1) {
@@ -169,14 +169,14 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
 #endif
 
 void En_A_Obj_Destroy(ActorEnAObj* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* cylinderCollider = &this->cylinderCollider;
+    ColliderCylinder* cylinderCollider = &this->cylinderCollider;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 
     switch (this->actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            ActorCollider_FreeCylinder(globalCtx, cylinderCollider);
+            Collider_DestroyCylinder(globalCtx, cylinderCollider);
     }
 }
 
@@ -303,7 +303,7 @@ void func_8001D608(ActorEnAObj* this, GlobalContext* globalCtx) {
 }
 
 void En_A_Obj_Update(ActorEnAObj* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* cylinderCollider;
+    ColliderCylinder* cylinderCollider;
 
     this->updateFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
@@ -323,8 +323,8 @@ void En_A_Obj_Update(ActorEnAObj* this, GlobalContext* globalCtx) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
             cylinderCollider = &this->cylinderCollider;
-            ActorCollider_Cylinder_Update(&this->actor, cylinderCollider);
-            Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, cylinderCollider);
+            Collider_UpdateCylinderShape(&this->actor, cylinderCollider);
+            Collider_AddOC(globalCtx, &globalCtx->colliderCtx, cylinderCollider);
     }
 }
 

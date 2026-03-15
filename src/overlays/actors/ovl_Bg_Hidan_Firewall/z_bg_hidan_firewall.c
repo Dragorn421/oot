@@ -33,12 +33,44 @@ const ActorInit Bg_Hidan_Firewall_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit cylinderInitData = {
-    0x0A, 0x11, 0x00,       0x09, 0x20, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,   0x20000000, 0x01,   0x04,
-    0x00, 0x00, 0xFFCFFFFF, 0x00, 0x00, 0x00, 0x00, 0x19, 0x00, 0x01, 0x00, 0x001E, 0x0053,     0x0000,
+static ColliderCylinderSrc cylinderInitData = {
+    {
+        COL_MATERIAL_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        {
+            0x20000000,
+            HIT_SPECIAL_EFFECT_FIRE,
+            4,
+        },
+        {
+            0xFFCFFFFF,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
+    {
+        30,
+        83,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 
-static Sub98Init4 actor98InitData = {
+static CollideDataInit actor98InitData = {
     0x01,
     0x0050,
     0x0064,
@@ -62,19 +94,19 @@ void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx) {
 
     this->unk_150 = 0;
 
-    ActorCollider_AllocCylinder(globalCtx, &this->collider);
-    ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_LoadCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
 
-    this->collider.dim.position.y = this->actor.posRot.pos.y;
+    this->collider.shape.pos.y = this->actor.posRot.pos.y;
 
-    func_80061ED4(&this->actor.sub_98, NULL, &actor98InitData);
+    func_80061ED4(&this->actor.collideData, NULL, &actor98InitData);
 
     this->actionFunc = (ActorFunc)BgHidanFirewall_Wait;
 }
 
 void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx) {
     BgHidanFirewall* thing = this;
-    ActorCollider_FreeCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 s32 BgHidanFirewall_CheckProximity(BgHidanFirewall* this, GlobalContext* globalCtx) {
@@ -165,8 +197,8 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
     }
     sp28 = Math_Sins(this->actor.shape.rot.y);
     temp_ret = Math_Coss(this->actor.shape.rot.y);
-    this->collider.dim.position.x = this->actor.posRot.pos.x + sp30.x * temp_ret + sp30.z * sp28;
-    this->collider.dim.position.z = this->actor.posRot.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
+    this->collider.shape.pos.x = this->actor.posRot.pos.x + sp30.x * temp_ret + sp30.z * sp28;
+    this->collider.shape.pos.z = this->actor.posRot.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
 }
 
 void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx) {
@@ -175,16 +207,16 @@ void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx) {
 
     this->unk_150 = (this->unk_150 + 1) % 8;
 
-    if (this->collider.base.colliderFlags & 2) {
-        this->collider.base.colliderFlags &= ~2;
+    if (this->collider.base.atFlags & 2) {
+        this->collider.base.atFlags &= ~2;
         BgHidanFirewall_Collide(this, globalCtx);
     }
 
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == (ActorFunc)BgHidanFirewall_Erupt) {
         BgHidanFirewall_ColliderFollowPlayer(this, globalCtx);
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &this->collider);
-        Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+        Collider_AddAT(globalCtx, &globalCtx->colliderCtx, &this->collider);
+        Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->collider);
         func_8002F974(&this->actor, 0x2034);
     }
 }

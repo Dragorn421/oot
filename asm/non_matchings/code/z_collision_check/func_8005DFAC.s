@@ -1,4 +1,4 @@
-glabel func_8005DFAC
+glabel Collider_BlueBlood
 /* AD514C 8005DFAC 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AD5150 8005DFB0 AFBF001C */  sw    $ra, 0x1c($sp)
 /* AD5154 8005DFB4 AFA5002C */  sw    $a1, 0x2c($sp)

@@ -1588,7 +1588,7 @@ glabel L800BE148
 /* B35624 800BE484 34211E60 */  ori   $at, (0x00011E60 & 0xFFFF) # ori $at, $at, 0x1e60
 /* B35628 800BE488 02012821 */  addu  $a1, $s0, $at
 /* B3562C 800BE48C AFA50038 */  sw    $a1, 0x38($sp)
-/* B35630 800BE490 0C0184E7 */  jal   func_8006139C
+/* B35630 800BE490 0C0184E7 */  jal   Collider_DoATVsAC
 /* B35634 800BE494 02002025 */   move  $a0, $s0
 /* B35638 800BE498 3C188016 */  lui   $t8, %hi(gGameInfo) # $t8, 0x8016
 /* B3563C 800BE49C 8F18FA90 */  lw    $t8, %lo(gGameInfo)($t8)
@@ -1604,7 +1604,7 @@ glabel L800BE148
 /* B35664 800BE4C4 24050001 */   li    $a1, 1
 .L800BE4C8:
 /* B35668 800BE4C8 02002025 */  move  $a0, $s0
-/* B3566C 800BE4CC 0C018726 */  jal   func_80061C98
+/* B3566C 800BE4CC 0C018726 */  jal   Collider_DoOCVsOC
 /* B35670 800BE4D0 8FA50038 */   lw    $a1, 0x38($sp)
 /* B35674 800BE4D4 3C198016 */  lui   $t9, %hi(gGameInfo) # $t9, 0x8016
 /* B35678 800BE4D8 8F39FA90 */  lw    $t9, %lo(gGameInfo)($t9)

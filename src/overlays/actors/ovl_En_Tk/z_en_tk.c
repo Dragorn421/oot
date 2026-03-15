@@ -168,13 +168,44 @@ s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth
 
 /** z_en_tk_eff.c ends here probably **/
 
-static ColliderCylinderInit D_80B1D508 = {
-    0x0A, 0x00,       0x00, 0x39, 0x20,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0x00000000, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00,       0x01, 0x00, 0x001E, 0x0034, 0x0000,     0x0000, 0x0000, 0x0000,
+static ColliderCylinderSrc D_80B1D508 = {
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        {
+            0x00000000,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0x00000000,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
+    {
+        30,
+        52,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 
-static Sub98Init5 D_80B1D534 = {
+static CollideDataInitAlt D_80B1D534 = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -502,10 +533,10 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&thisAgain->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
                          0.f);
 
-    ActorCollider_AllocCylinder(globalCtx, &thisAgain->collider);
-    ActorCollider_InitCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
+    Collider_InitCylinder(globalCtx, &thisAgain->collider);
+    Collider_LoadCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
 
-    func_80061EFC(&thisAgain->actor.sub_98, NULL, &D_80B1D534);
+    func_80061EFC(&thisAgain->actor.collideData, NULL, &D_80B1D534);
 
     if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
@@ -524,7 +555,7 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
 
 void EnTk_Destroy(EnTk* this, GlobalContext* globalCtx) {
     EnTk* thisAgain = this;
-    ActorCollider_FreeCylinder(globalCtx, &thisAgain->collider);
+    Collider_DestroyCylinder(globalCtx, &thisAgain->collider);
 }
 
 void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
@@ -543,7 +574,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
             return;
         }
 
-        func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.f, func_80B1C54C,
+        func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.shape.radius + 30.f, func_80B1C54C,
                       func_80B1C5A0);
     } else if (EnTk_CheckFacingPlayer(this) != 0) {
         v1 = this->actor.shape.rot.y;
@@ -551,7 +582,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
         v1 = this->actor.rotTowardsLinkY - v1;
 
         this->actionCountdown = 0;
-        func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.f, func_80B1C54C,
+        func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.shape.radius + 30.f, func_80B1C54C,
                       func_80B1C5A0);
     } else if (func_8002F194(&this->actor, globalCtx) != 0) {
         v1 = this->actor.shape.rot.y;
@@ -672,10 +703,10 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
 
 void EnTk_Update(EnTk* this, GlobalContext* globalCtx) {
     EnTk* thisAgain = this;
-    ColliderCylinderMain* collider = &thisAgain->collider;
+    ColliderCylinder* collider = &thisAgain->collider;
 
-    ActorCollider_Cylinder_Update(&thisAgain->actor, collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, collider);
+    Collider_UpdateCylinderShape(&thisAgain->actor, collider);
+    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, collider);
 
     SkelAnime_FrameUpdateMatrix(&thisAgain->skelAnim);
 

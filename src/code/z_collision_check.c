@@ -1394,7 +1394,8 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderElement* arg1, Collider* co
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
+                                   &D_801333E8);
         }
     } else if ((arg1->atElemFlags & ATELEM_SFX_MASK) == ATELEM_SFX_NORMAL) {
         func_80029CA4(globalCtx, 3, arg3);
@@ -1408,14 +1409,16 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderElement* arg1, Collider* co
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
+                                   &D_801333E8);
         }
     } else if ((arg1->atElemFlags & ATELEM_SFX_MASK) == ATELEM_SFX_WOOD) {
         func_80029CA4(globalCtx, 1, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
+                                   &D_801333E8);
         }
     }
 }
@@ -1428,7 +1431,8 @@ s32 func_8005E4F8(Collider* collider, ColliderElement* arg1) {
         if (arg1->elemMaterial == 0) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else if (arg1->elemMaterial == 1) {
-            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
+                                   &D_801333E8);
         } else if (arg1->elemMaterial == 2) {
             Audio_PlaySoundGeneral(0, &actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         } else if (arg1->elemMaterial == 3) {
@@ -1507,7 +1511,8 @@ void func_8005E604(GlobalContext* globalCtx, Collider* atCollider, ColliderEleme
             } else if (sHitInfo[acCollider->colMaterial].effect == 4) {
                 if (atCollider->actor == NULL) {
                     func_80062CD4(globalCtx, arg5);
-                    Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4U, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
                 } else {
                     func_80062E14(globalCtx, arg5, &atCollider->actor->unk_E4);
                 }
@@ -1522,7 +1527,8 @@ void func_8005E604(GlobalContext* globalCtx, Collider* atCollider, ColliderEleme
             if (acCollider->actor == NULL) {
                 Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
-                Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &acCollider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &acCollider->actor->unk_E4, 4U, &D_801333E0, &D_801333E0,
+                                       &D_801333E8);
             }
         }
     }
@@ -1854,6 +1860,7 @@ void Collider_ATSpheresVsACQuad(GlobalContext* globalCtx, ColliderContext* colli
 }
 
 TriNorm D_8015E2A0;
+BSS_DUMMY;
 TriNorm D_8015E2D8;
 
 void Collider_ATQuadVsACSpheres(GlobalContext* globalCtx, ColliderContext* colliderCtx, Collider* atCollider,
