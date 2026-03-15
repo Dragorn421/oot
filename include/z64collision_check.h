@@ -193,10 +193,10 @@ typedef struct ColliderSpheresSrcAlt {
  */
 
 typedef struct ColliderCylinder {
-    Collider base;
-    ColliderElement elem;
-    Cylinder16 shape;
-} ColliderCylinder;
+    /* 0x00 */ Collider base;
+    /* 0x18 */ ColliderElement elem;
+    /* 0x40 */ Cylinder16 shape;
+} ColliderCylinder; // size = 0x4C
 
 typedef struct ColliderCylinderSrc {
     /* 0x00 */ ColliderSrc base;
@@ -221,9 +221,9 @@ typedef struct ColliderCylinderSrcAltWithActor {
  */
 
 typedef struct ColliderTrisElementSrc {
-    ColliderElementSrc base;
-    Vec3f vertices[3];
-} ColliderTrisElementSrc; /* size = 0x48 */
+    /* 0x00 */ ColliderElementSrc base;
+    /* 0x18 */ Vec3f vertices[3];
+} ColliderTrisElementSrc; /* size = 0x3C */
 
 typedef struct ColliderTrisSrc {
     ColliderSrc base;
@@ -292,6 +292,33 @@ typedef struct struct_ColliderCtx_290 {
     char unk_0[0x18];
     u16 unk18;
 } struct_ColliderCtx_290;
+
+typedef struct struct_8005C7E0 {
+    Collider unk0;
+    s32 unk18;
+    s32 unk1C;
+} struct_8005C7E0;
+
+typedef struct struct_8005C6F8 {
+    ColliderElement base;
+    char unk_28[0x5C - 0x28];
+} struct_8005C6F8; /* size = 0x5C */
+
+typedef struct struct_8005C8C8 {
+    Collider unk0;
+    s32 unk18;
+    struct_8005C6F8* unk1C;
+} struct_8005C8C8;
+
+typedef struct struct_800627A0_ptr {
+    /* 0x00 */ char unk_0[0x28];
+    /* 0x28 */ TriNorm unk28;
+} struct_800627A0_ptr;
+
+typedef struct struct_800627A0 {
+    char unk_0[0x1C];
+    struct_800627A0_ptr* unk1C;
+} struct_800627A0;
 
 /*
  * Collider properties, for all types

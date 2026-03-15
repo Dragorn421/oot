@@ -541,11 +541,6 @@ s32 Collider_InitTrisElement(GlobalContext* globalCtx, ColliderTrisElement* arg1
     return 1;
 }
 
-typedef struct struct_8005C6F8 {
-    ColliderElement base;
-    char unk_28[0x5C - 0x28];
-} struct_8005C6F8; /* size = 0x5C */
-
 s32 func_8005C6F8(GlobalContext* globalCtx, struct_8005C6F8* arg1) {
     Collider_DestroyElement(globalCtx, &arg1->base);
     func_8005C5F8(globalCtx, arg1->unk_28);
@@ -573,12 +568,6 @@ s32 Collider_ClearTrisElementOCHit(GlobalContext* globalCtx, ColliderTrisElement
     Collider_ClearElementOCHit(globalCtx, &trisElem->base);
     return 1;
 }
-
-typedef struct struct_8005C7E0 {
-    Collider unk0;
-    s32 unk18;
-    s32 unk1C;
-} struct_8005C7E0;
 
 // uses not decompiled
 s32 func_8005C7E0(GlobalContext* globalCtx, struct_8005C7E0* arg1) {
@@ -609,12 +598,6 @@ s32 func_8005C810(GlobalContext* globalCtx, struct_8005C810* arg1) {
     arg1->unk1C = 0;
     return 1;
 }
-
-typedef struct struct_8005C8C8 {
-    Collider unk0;
-    s32 unk18;
-    struct_8005C6F8* unk1C;
-} struct_8005C8C8;
 
 // uses not decompiled
 s32 func_8005C8C8(GlobalContext* globalCtx, struct_8005C8C8* arg1) {
@@ -3059,16 +3042,6 @@ void func_80062734(struct_80062734* arg0, Vec3f* cornerD, Vec3f* cornerC, Vec3f*
     Math_Vec3f_Copy(&arg0->unk40.corners.cornerC, cornerC);
     Collider_QuadShapeUpdateMidPoints(&arg0->unk40);
 }
-
-typedef struct struct_800627A0_ptr {
-    /* 0x00 */ char unk_0[0x28];
-    /* 0x28 */ TriNorm unk28;
-} struct_800627A0_ptr;
-
-typedef struct struct_800627A0 {
-    char unk_0[0x1C];
-    struct_800627A0_ptr* unk1C;
-} struct_800627A0;
 
 // uses not decompiled
 void func_800627A0(struct_800627A0* arg0, s32 arg1, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4) {

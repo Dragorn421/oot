@@ -518,7 +518,7 @@ f32 func_80038B7C(CollisionPoly*, Vec3f*);
 // ? func_8003C614(?);
 f32 func_8003C8EC(GlobalContext*, CollisionContext*, CollisionPoly**, Vec3f*);
 f32 func_8003C940(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
-// ? func_8003C9A4(?);
+f32 func_8003C9A4(CollisionContext *, CollisionPoly **, UNK_PTR, Actor *, Vec3f *);
 f32 func_8003CA0C(GlobalContext*, CollisionContext*, CollisionPoly**, u32*, Actor*, Vec3f*);
 f32 func_8003CB30(CollisionContext*, CollisionPoly*, Vec3f*, MtxF*);
 f32 func_8003CCA4(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
@@ -735,6 +735,9 @@ s32 Collider_LoadCylinder(GlobalContext* globalCtx, ColliderCylinder* collision,
                                ColliderCylinderSrc* src);
 s32 Collider_ClearCylinderACHit(GlobalContext* globalCtx, Collider* collision);
 s32 Collider_ClearCylinderOCHit(GlobalContext* globalCtx, Collider* collision);
+s32 func_8005C8C8(GlobalContext* globalCtx, struct_8005C8C8* arg1);
+s32 Collider_LoadTris(GlobalContext* globalCtx, ColliderTris* tris, Actor* actor, ColliderTrisSrc* trisSrc,
+                      ColliderTrisElement* trisElements);
 // ? Collider_InitTrisElementShape(?);
 // ? Collider_LoadTrisElementShape(?);
 // ? Collider_InitTrisElement(?);
@@ -743,6 +746,7 @@ s32 Collider_ClearCylinderOCHit(GlobalContext* globalCtx, Collider* collision);
 // ? Collider_ClearTrisElementATHit(?);
 // ? Collider_ClearTrisElementACHit(?);
 // ? Collider_ClearTrisElementOCHit(?);
+s32 func_8005C7E0(GlobalContext* globalCtx, struct_8005C7E0* arg1);
 // ? Collider_InitQuadShape(?);
 // ? Collider_ClearQuadShapeATHit(?);
 // ? Collider_QuadShapeUpdateMidPoints(?);
@@ -794,6 +798,7 @@ void func_80061EFC(CollideData* sub98, ActorDamageChart* damageChart, CollideDat
 // ? func_800626B0(?);
 void Collider_UpdateCylinderShape(Actor* actor, ColliderCylinder* collision);
 // ? func_80062734(?);
+void func_800627A0(struct_800627A0* arg0, s32 arg1, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4);
 // ? func_80062A28(?);
 // ? func_80062B80(?);
 // ? func_80062CD4(?);
