@@ -511,7 +511,7 @@ s32 Collider_InitTrisElementShape(GlobalContext* globalCtx, TriNorm* shape) {
     return 1;
 }
 
-s32 func_8005C5F8(GlobalContext* globalCtx, UNK_PTR arg1) {
+s32 Collider_DestroyTriNorm(GlobalContext* globalCtx, UNK_PTR arg1) {
     return 1;
 }
 
@@ -535,15 +535,15 @@ s32 Collider_LoadTrisElementShape(GlobalContext* globalCtx, TriNorm* shape, Vec3
     return 1;
 }
 
-s32 Collider_InitTrisElement(GlobalContext* globalCtx, ColliderTrisElement* arg1) {
-    Collider_InitElement(globalCtx, &arg1->base);
-    Collider_InitTrisElementShape(globalCtx, &arg1->shape);
+s32 Collider_InitTrisElement(GlobalContext* globalCtx, ColliderTrisElement* trisElem) {
+    Collider_InitElement(globalCtx, &trisElem->base);
+    Collider_InitTrisElementShape(globalCtx, &trisElem->shape);
     return 1;
 }
 
-s32 func_8005C6F8(GlobalContext* globalCtx, struct_8005C6F8* arg1) {
-    Collider_DestroyElement(globalCtx, &arg1->base);
-    func_8005C5F8(globalCtx, arg1->unk_28);
+s32 Collider_DestroyTrisElement(GlobalContext* globalCtx, ColliderTrisElement* trisElem) {
+    Collider_DestroyElement(globalCtx, &trisElem->base);
+    Collider_DestroyTriNorm(globalCtx, &trisElem->shape);
     return 1;
 }
 
@@ -569,46 +569,38 @@ s32 Collider_ClearTrisElementOCHit(GlobalContext* globalCtx, ColliderTrisElement
     return 1;
 }
 
-// uses not decompiled
-s32 func_8005C7E0(GlobalContext* globalCtx, struct_8005C7E0* arg1) {
-    Collider_InitCollider(globalCtx, &arg1->unk0);
-    arg1->unk18 = 0;
-    arg1->unk1C = 0;
+s32 func_8005C7E0(GlobalContext* globalCtx, ColliderTris* tris) {
+    Collider_InitCollider(globalCtx, &tris->base);
+    tris->nElements = 0;
+    tris->elements = NULL;
     return 1;
 }
-
-typedef struct struct_8005C810 {
-    Collider unk0;
-    s32 unk18;
-    struct_8005C6F8* unk1C;
-} struct_8005C810;
 
 // unused
-s32 func_8005C810(GlobalContext* globalCtx, struct_8005C810* arg1) {
-    struct_8005C6F8* var_s0;
+s32 func_8005C810(GlobalContext* globalCtx, ColliderTris* arg1) {
+    ColliderTrisElement* var_s0;
 
-    Collider_DestroyCollider(globalCtx, &arg1->unk0);
-    for (var_s0 = arg1->unk1C; var_s0 < (arg1->unk1C + arg1->unk18); var_s0++) {
-        func_8005C6F8(globalCtx, var_s0);
+    Collider_DestroyCollider(globalCtx, &arg1->base);
+    for (var_s0 = arg1->elements; var_s0 < (arg1->elements + arg1->nElements); var_s0++) {
+        Collider_DestroyTrisElement(globalCtx, var_s0);
     }
-    arg1->unk18 = 0;
-    if (arg1->unk1C != NULL) {
-        ZeldaArena_FreeDebug(arg1->unk1C, "../z_collision_check.c", 0x833);
+    arg1->nElements = 0;
+    if (arg1->elements != NULL) {
+        ZeldaArena_FreeDebug(arg1->elements, "../z_collision_check.c", 2099);
     }
-    arg1->unk1C = 0;
+    arg1->elements = NULL;
     return 1;
 }
 
-// uses not decompiled
-s32 func_8005C8C8(GlobalContext* globalCtx, struct_8005C8C8* arg1) {
-    struct_8005C6F8* var_s0;
+s32 func_8005C8C8(GlobalContext* globalCtx, ColliderTris* tris) {
+    ColliderTrisElement* trisElem;
 
-    Collider_DestroyCollider(globalCtx, &arg1->unk0);
-    for (var_s0 = arg1->unk1C; var_s0 < &arg1->unk1C[arg1->unk18]; var_s0++) {
-        func_8005C6F8(globalCtx, var_s0);
+    Collider_DestroyCollider(globalCtx, &tris->base);
+    for (trisElem = tris->elements; trisElem < &tris->elements[tris->nElements]; trisElem++) {
+        Collider_DestroyTrisElement(globalCtx, trisElem);
     }
-    arg1->unk18 = 0;
-    arg1->unk1C = NULL;
+    tris->nElements = 0;
+    tris->elements = NULL;
     return 1;
 }
 
@@ -3043,31 +3035,30 @@ void func_80062734(struct_80062734* arg0, Vec3f* cornerD, Vec3f* cornerC, Vec3f*
     Collider_QuadShapeUpdateMidPoints(&arg0->unk40);
 }
 
-// uses not decompiled
-void func_800627A0(struct_800627A0* arg0, s32 arg1, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4) {
-    struct_800627A0_ptr* temp_s0;
-    f32 sp40;
-    f32 sp3C;
-    f32 sp38;
-    f32 sp34;
+void func_800627A0(ColliderTris* tris, s32 elemIndex, Vec3f* vtx0, Vec3f* vtx1, Vec3f* vtx2) {
+    ColliderTrisElement* trisElem;
+    f32 nx;
+    f32 ny;
+    f32 nz;
+    f32 nd;
 
-    temp_s0 = &arg0->unk1C[arg1];
-    Math_Vec3f_Copy(&temp_s0->unk28.vtx[0], arg2);
-    Math_Vec3f_Copy(&temp_s0->unk28.vtx[1], arg3);
-    Math_Vec3f_Copy(&temp_s0->unk28.vtx[2], arg4);
-    func_800CC8B4(arg2, arg3, arg4, &sp40, &sp3C, &sp38, &sp34);
-    temp_s0->unk28.plane.normal.x = sp40;
-    temp_s0->unk28.plane.normal.y = sp3C;
-    temp_s0->unk28.plane.normal.z = sp38;
-    temp_s0->unk28.plane.originDist = sp34;
+    trisElem = &tris->elements[elemIndex];
+    Math_Vec3f_Copy(&trisElem->shape.vtx[0], vtx0);
+    Math_Vec3f_Copy(&trisElem->shape.vtx[1], vtx1);
+    Math_Vec3f_Copy(&trisElem->shape.vtx[2], vtx2);
+    func_800CC8B4(vtx0, vtx1, vtx2, &nx, &ny, &nz, &nd);
+    trisElem->shape.plane.normal.x = nx;
+    trisElem->shape.plane.normal.y = ny;
+    trisElem->shape.plane.normal.z = nz;
+    trisElem->shape.plane.originDist = nd;
 }
 
 // unused
-void func_8006285C(GlobalContext* globalCtx, struct_800627A0* arg1, s32 arg2, Vec3f* arg3) {
-    struct_800627A0_ptr* new_var;
+void func_8006285C(GlobalContext* globalCtx, ColliderTris* tris, s32 elemIndex, Vec3f* verticesSrc) {
+    ColliderTrisElement* trisElem;
 
-    new_var = &arg1->unk1C[arg2];
-    Collider_LoadTrisElementShape(globalCtx, &new_var->unk28, arg3);
+    trisElem = &tris->elements[elemIndex];
+    Collider_LoadTrisElementShape(globalCtx, &trisElem->shape, verticesSrc);
 }
 
 void func__800628A4_Type0(s32 arg0, ColliderSpheres* spheres) {

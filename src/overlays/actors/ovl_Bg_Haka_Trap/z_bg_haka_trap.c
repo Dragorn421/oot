@@ -156,7 +156,7 @@ void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
             DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
             if ((this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_1) ||
                 (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WOODEN_WALL_2)) {
-                func_8005C8C8(globalCtx, (struct_8005C8C8*)&this->unk1C4);
+                func_8005C8C8(globalCtx, &this->unk1C4);
             }
         }
         Collider_DestroyCylinder(globalCtx, &this->unk178);
