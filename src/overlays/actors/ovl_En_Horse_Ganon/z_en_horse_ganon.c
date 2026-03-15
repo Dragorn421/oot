@@ -21,7 +21,7 @@ void func_80A68AF0(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68B20(EnHorseGanon* this);
 void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx);
-void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem);
+void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderSpheresElement* colliderSphereItem);
 
 const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
@@ -48,24 +48,88 @@ AnimationHeader* D_80A691B0[] = { &D_06004AA4, &D_06005264, &D_06005B78, &D_0600
 AnimationHeader* D_80A691C0[] = { &D_06002650, &D_06003858 };
 static f32 animPlaybackSpeed[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
-static ColliderCylinderInit cylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x12, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 40, 100, 0, { 0, 0, 0 } },
-};
-static ColliderJntSphItemInit jntsphItemsInit[1] = {
+ColliderCylinderSrc cylinderInit_EnHorseGanon = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-        { 13, { { 0, 0, 0 }, 20 }, 100 },
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1 | OC2_UNK1,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        {
+            0x00000000,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0x00000000,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
+    {
+        40,
+        100,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
     },
 };
-static ColliderJntSphInit jntsphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x12, COLSHAPE_JNTSPH },
+ColliderSpheresElementSrc jntsphItemsInit_EnHorseGanon[1] = {
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            {
+                0x00000000,
+                HIT_SPECIAL_EFFECT_NONE,
+                0,
+            },
+            {
+                0x00000000,
+                HIT_BACKLASH_NONE,
+                0,
+            },
+            ATELEM_NONE,
+            ACELEM_NONE,
+            OCELEM_ON,
+        },
+        {
+            13,
+            {
+                {
+                    0,
+                    0,
+                    0,
+                },
+                20,
+            },
+            100,
+        },
+    }, // 0
+};
+ColliderSpheresSrc jntsphInit_EnHorseGanon = {
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1 | OC2_UNK1,
+        COLTYPE_SPHERES,
+    },
     1,
-    jntsphItemsInit,
+    jntsphItemsInit_EnHorseGanon,
 };
 
-static CollisionCheckInfoInit collisionCheckInfoInit = {
+static CollideDataInit collisionCheckInfoInit = {
     0x0A,
     0x0023,
     0x0064,
@@ -170,18 +234,18 @@ void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A691B0[0]);
 
     Collider_InitCylinder(globalCtx, colliderCylinder);
-    Collider_SetCylinder(globalCtx, colliderCylinder, &this->actor, &cylinderInit);
-    Collider_InitJntSph(globalCtx, &this->colliderSphere);
-    Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &jntsphInit, &this->colliderSphereItem);
+    Collider_LoadCylinder(globalCtx, colliderCylinder, &this->actor, &cylinderInit_EnHorseGanon);
+    Collider_InitSpheres(globalCtx, &this->colliderSphere);
+    Collider_LoadSpheres(globalCtx, &this->colliderSphere, &this->actor, &jntsphInit_EnHorseGanon, &this->colliderSphereItem);
 
-    func_80061ED4(&this->actor.colChkInfo, 0, &collisionCheckInfoInit);
+    func_80061ED4(&this->actor.collideData, 0, &collisionCheckInfoInit);
     func_80A68AC4(this);
 }
 
 void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx) {
     func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
-    Collider_DestroyJntSph(globalCtx, &this->colliderSphere);
+    Collider_DestroySpheres(globalCtx, &this->colliderSphere);
 }
 
 void func_80A68AC4(EnHorseGanon* this) {
@@ -277,31 +341,31 @@ void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 70.0f;
-    Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
+    Collider_UpdateCylinderShape(&this->actor, &this->colliderCylinder);
+    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->colliderCylinder.base);
 }
 
-void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem) {
+void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderSpheresElement* colliderSphereItem) {
     Vec3f sp4C;
     Vec3f sp40;
-    ColliderJntSphItem* temp_v0;
+    ColliderSpheresElement* temp_v0;
     s32 index;
 
-    for (index = 0; index < this->colliderSphere.count; index += 1) {
-        sp4C.x = this->colliderSphere.list[index].dim.modelSphere.center.x;
-        sp4C.y = this->colliderSphere.list[index].dim.modelSphere.center.y;
-        sp4C.z = this->colliderSphere.list[index].dim.modelSphere.center.z;
+    for (index = 0; index < this->colliderSphere.nElements; index += 1) {
+        sp4C.x = this->colliderSphere.elements[index].shape.model.center.x;
+        sp4C.y = this->colliderSphere.elements[index].shape.model.center.y;
+        sp4C.z = this->colliderSphere.elements[index].shape.model.center.z;
 
-        func_800A6408(colliderSphereItem, this->colliderSphere.list[index].dim.joint, &sp4C, &sp40);
+        func_800A6408(colliderSphereItem, this->colliderSphere.elements[index].shape.unk14, &sp4C, &sp40);
 
-        this->colliderSphere.list[index].dim.worldSphere.center.x = sp40.x;
-        this->colliderSphere.list[index].dim.worldSphere.center.y = sp40.y;
-        this->colliderSphere.list[index].dim.worldSphere.center.z = sp40.z;
+        this->colliderSphere.elements[index].shape.world.center.x = sp40.x;
+        this->colliderSphere.elements[index].shape.world.center.y = sp40.y;
+        this->colliderSphere.elements[index].shape.world.center.z = sp40.z;
 
-        temp_v0 = &this->colliderSphere.list[index];
-        temp_v0->dim.worldSphere.radius = temp_v0->dim.scale * temp_v0->dim.modelSphere.radius;
+        temp_v0 = &this->colliderSphere.elements[index];
+        temp_v0->shape.world.radius = temp_v0->shape.unkRadiusScale * temp_v0->shape.model.radius;
     }
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
+    Collider_AddOC(globalCtx, &globalCtx->colliderCtx, &this->colliderSphere.base);
 }
 
 void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx) {
