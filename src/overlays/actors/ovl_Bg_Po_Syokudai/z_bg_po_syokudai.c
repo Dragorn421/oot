@@ -13,9 +13,40 @@ extern Gfx D_404D4E0[];
 extern Gfx D_60003A0[];
 
 static ColliderCylinderSrc D_808A8960 = {
-    { 9, 0, 0xD, 0x39, 0x20, 1 },
-    { 0, { 0, 0, 0 }, { 0xFFCFFFFF, 0, 0 }, 0, 1, 1 },
-    { 0xC, 0x3C, 0, { 0, 0, 0 } },
+    {
+        COL_MATERIAL_METAL,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLTYPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        {
+            0x00000000,
+            HIT_SPECIAL_EFFECT_NONE,
+            0,
+        },
+        {
+            0xFFCFFFFF,
+            HIT_BACKLASH_NONE,
+            0,
+        },
+        ATELEM_NONE,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
+    {
+        12,
+        60,
+        0,
+        {
+            0,
+            0,
+            0,
+        },
+    },
 };
 static Color_RGBA8 D_808A898C[4] = {
     { 0xFF, 0xAA, 0xFF, 0xFF },
