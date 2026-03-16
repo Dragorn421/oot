@@ -5,7 +5,6 @@ import sys
 import struct
 import argparse
 import re
-from overlayhelpers.filemap import FileResult, GetFromVRam, GetFromRom
 
 ICHAIN_MACROS = [
     'ICHAIN_U8',
@@ -31,6 +30,7 @@ def get_rom_address(offset):
     offset = int(offset, 16)
 
     if offset >= 0x80000000:
+        assert False, "broken bc removed filemap.py"
         result = GetFromVRam(offset)
         offset = result.vrom.start + result.offset
 
