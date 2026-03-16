@@ -7,8 +7,12 @@
 struct BgPoSyokudai;
 
 typedef struct BgPoSyokudai {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x64];
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ u8 unk14C;
+    /* 0x14E */ s16 unk14E;
+    /* 0x150 */ LightNode* unk150;
+    /* 0x154 */ LightInfo unk154;
+    /* 0x164 */ ColliderCylinder unk164;
 } BgPoSyokudai; // size = 0x01B0
 
 extern const ActorInit Bg_Po_Syokudai_InitVars;
