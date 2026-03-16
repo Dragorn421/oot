@@ -7,8 +7,11 @@
 struct BgHidanRsekizou;
 
 typedef struct BgHidanRsekizou {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x1BC];
+    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x164 */ s16 unk164;
+    /* 0x166 */ s16 unk166;
+    /* 0x168 */ ColliderSpheres unk168;
+    /* 0x188 */ ColliderSpheresElement unk188[6];
 } BgHidanRsekizou; // size = 0x0308
 
 extern const ActorInit Bg_Hidan_Rsekizou_InitVars;

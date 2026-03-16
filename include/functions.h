@@ -724,12 +724,15 @@ void Collider_ClearElementACHit(GlobalContext* globalCtx, ColliderElement* body)
 s32 Collider_DestroySpheresElementShape(GlobalContext*, ColliderSpheresElementShape*);
 // ? Collider_LoadSpheresElementShape(?);
 // ? Collider_InitSpheresElement(?);
+s32 Collider_InitSpheres(GlobalContext* globalCtx, ColliderSpheres* spheres);
+s32 Collider_DestroySpheres(GlobalContext* globalCtx, ColliderSpheres* spheres);
 // ? Collider_DestroySpheresElement(?);
 // ? Collider_LoadSpheresElement(?);
 // ? Collider_ClearSpheresElementATHit(?);
 // ? Collider_ClearSpheresElementACHit(?);
 // ? Collider_ClearSpheresElementOCHit(?);
-// void Collider_LoadSpheres(GlobalContext* globalCtx, Collider* collision, Actor* actor, UNK_TYPE arg3, UNK_TYPE arg4);
+s32 Collider_LoadSpheres(GlobalContext* globalCtx, ColliderSpheres* spheres, Actor* actor,
+                         ColliderSpheresSrc* spheresSrc, ColliderSpheresElement* spheresElements);
 // ? Collider_InitCylinderShape(?);
 s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collision);
 s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collision);
