@@ -817,6 +817,8 @@ s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collision)
 s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collision);
 s32 Collider_LoadCylinder(GlobalContext* globalCtx, ColliderCylinder* collision, Actor* actor,
                                ColliderCylinderSrc* src);
+s32 Collider_LoadCylinderAlt(GlobalContext* globalCtx, ColliderCylinder* cylinder, Actor* actor,
+                             ColliderCylinderSrcAlt* src);
 s32 Collider_ClearCylinderACHit(GlobalContext* globalCtx, Collider* collision);
 s32 Collider_ClearCylinderOCHit(GlobalContext* globalCtx, Collider* collision);
 s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris);
