@@ -708,12 +708,12 @@ s32 Collider_ClearTrisOCHit(GlobalContext* globalCtx, Collider* collider) {
 }
 
 static ColliderQuadShape sColliderQuadShapeInit = {
-    { { {
+    {
         { 0.0f, 0.0f, 0.0f },
         { 0.0f, 0.0f, 0.0f },
         { 0.0f, 0.0f, 0.0f },
         { 0.0f, 0.0f, 0.0f },
-    } } },
+    },
     { 0, 0, 0 },
     { 0, 0, 0 },
     1e38f,
@@ -3011,18 +3011,12 @@ void Collider_CylinderSetPos(ColliderCylinder* cylinder, Vec3s* pos) {
     cylinder->shape.pos.z = pos->z;
 }
 
-typedef struct struct_80062734 {
-    char unk_0[0x40];
-    ColliderQuadShape unk40;
-} struct_80062734;
-
-// uses not decompiled
-void func_80062734(struct_80062734* arg0, Vec3f* cornerD, Vec3f* cornerC, Vec3f* cornerA, Vec3f* cornerB) {
-    Math_Vec3f_Copy(&arg0->unk40.corners.cornerA, cornerA);
-    Math_Vec3f_Copy(&arg0->unk40.corners.cornerB, cornerB);
-    Math_Vec3f_Copy(&arg0->unk40.corners.cornerD, cornerD);
-    Math_Vec3f_Copy(&arg0->unk40.corners.cornerC, cornerC);
-    Collider_QuadShapeUpdateMidPoints(&arg0->unk40);
+void func_80062734(ColliderQuad* arg0, Vec3f* cornerD, Vec3f* cornerC, Vec3f* cornerA, Vec3f* cornerB) {
+    Math_Vec3f_Copy(&arg0->shape.corners.cornerA, cornerA);
+    Math_Vec3f_Copy(&arg0->shape.corners.cornerB, cornerB);
+    Math_Vec3f_Copy(&arg0->shape.corners.cornerD, cornerD);
+    Math_Vec3f_Copy(&arg0->shape.corners.cornerC, cornerC);
+    Collider_QuadShapeUpdateMidPoints(&arg0->shape);
 }
 
 void func_800627A0(ColliderTris* tris, s32 elemIndex, Vec3f* vtx0, Vec3f* vtx1, Vec3f* vtx2) {

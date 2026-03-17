@@ -403,28 +403,24 @@ static ColliderQuadSrc sAttackQuadInit = {
     },
     {
         {
-            {
-                {
-                    0.0,
-                    0.0,
-                    0.0,
-                },
-                {
-                    0.0,
-                    0.0,
-                    0.0,
-                },
-                {
-                    0.0,
-                    0.0,
-                    0.0,
-                },
-                {
-                    0.0,
-                    0.0,
-                    0.0,
-                },
-            },
+            0.0,
+            0.0,
+            0.0,
+        },
+        {
+            0.0,
+            0.0,
+            0.0,
+        },
+        {
+            0.0,
+            0.0,
+            0.0,
+        },
+        {
+            0.0,
+            0.0,
+            0.0,
         },
     },
 };
@@ -937,29 +933,28 @@ void EnDodongo_CollisionCheck(EnDodongo* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDodongo_UpdateQuad(EnDodongo* this, GlobalContext* globalCtx) {
+void EnDodongo_UpdateQuad(EnDodongo* this2, GlobalContext* globalCtx) {
     Vec3f sp94 = { -1000.0f, -1500.0f, 0.0f };
     Vec3f sp88 = { -1000.0f, -200.0f, 1500.0f };
     Vec3f sp7C = { -1000.0f, -200.0f, -1500.0f };
     Vec3f sp70 = { 0.0f, 0.0f, 0.0f };
-    s32 pad4C[9]; // Possibly 3 more Vec3fs?
-    s32 a = 0;
-    s32 b = 1; // These indices are needed to match.
-    s32 c = 2; // Might be a way to quickly test vertex arrangements
-    s32 d = 3;
+    s32 pad[12];
+    EnDodongo* this = this2;
     f32 xMod = func_800CA720((this->skelAnime.animCurrentFrame - 28.0f) * 0.08f) * 5500.0f;
 
     sp7C.x -= xMod;
     sp94.x -= xMod;
     sp88.x -= xMod;
 
-    Matrix_MultVec3f(&sp94, &this->colliderAT.shape.corners.corners[b]);
-    Matrix_MultVec3f(&sp88, &this->colliderAT.shape.corners.corners[a]);
-    Matrix_MultVec3f(&sp7C, &this->colliderAT.shape.corners.corners[d]);
-    Matrix_MultVec3f(&sp70, &this->colliderAT.shape.corners.corners[c]);
+    if (0) {}
 
-    func_80062734(&this->colliderAT, &this->colliderAT.shape.corners.corners[a], &this->colliderAT.shape.corners.corners[b],
-                  &this->colliderAT.shape.corners.corners[c], &this->colliderAT.shape.corners.corners[d]);
+    Matrix_MultVec3f(&sp94, &this->colliderAT.shape.corners.cornerC);
+    Matrix_MultVec3f(&sp88, &this->colliderAT.shape.corners.cornerD);
+    Matrix_MultVec3f(&sp7C, &this->colliderAT.shape.corners.cornerB);
+    Matrix_MultVec3f(&sp70, &this->colliderAT.shape.corners.cornerA);
+
+    func_80062734(&this->colliderAT, &this->colliderAT.shape.corners.cornerD, &this->colliderAT.shape.corners.cornerC,
+                  &this->colliderAT.shape.corners.cornerA, &this->colliderAT.shape.corners.cornerB);
 }
 
 void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {

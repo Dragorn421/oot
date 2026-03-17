@@ -886,7 +886,7 @@ void func_80061EFC(CollideData* sub98, ActorDamageChart* damageChart, CollideDat
 // ? func_800626B0(?);
 void Collider_UpdateCylinderShape(Actor* actor, ColliderCylinder* collider);
 void Collider_CylinderSetPos(ColliderCylinder* cylinder, Vec3s* pos);
-// ? func_80062734(?);
+void func_80062734(ColliderQuad* arg0, Vec3f* cornerD, Vec3f* cornerC, Vec3f* cornerA, Vec3f* cornerB);
 void func_800627A0(ColliderTris* tris, s32 elemIndex, Vec3f* vtx0, Vec3f* vtx1, Vec3f* vtx2);
 void func__800628A4_Type0(s32 arg0, ColliderSpheres* collider);
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* arg1);
