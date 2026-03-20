@@ -6,21 +6,14 @@
 
 struct EnChanger;
 
-// EnBox
-typedef struct ActorA {
-    /* 0x000 */ Actor actor;
-    /* 0x14C */ char pad14C[0xA8];
-    /* 0x1F4 */ s16 unk1F4;
-} ActorA;
-
 typedef void (*EnChangerActionFunc)(struct EnChanger*, GlobalContext*);
 
 typedef struct EnChanger {
     /* 0x000 */ Actor actor;
     /* 0x14C */ EnChangerActionFunc unk14C;
-    /* 0x150 */ ActorA* unk150;
-    /* 0x154 */ ActorA* unk154;
-    /* 0x158 */ ActorA* unk158;
+    /* 0x150 */ struct EnBox* unk150;
+    /* 0x154 */ struct EnBox* unk154;
+    /* 0x158 */ struct EnBox* unk158;
     /* 0x15C */ s16 unk15C_l;
     /* 0x15E */ s16 unk15E_r;
     /* 0x160 */ s16 unk160;

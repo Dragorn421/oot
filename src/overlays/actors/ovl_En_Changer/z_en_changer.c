@@ -1,4 +1,5 @@
 #include "z_en_changer.h"
+#include "overlays/actors/ovl_En_Box/z_en_box.h"
 
 #define FLAGS 0x00000000
 
@@ -66,7 +67,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (globalCtx->roomCtx.curRoom.num >= 6) {
         sp6A_finalChestParams = (gSaveContext.itemGetInf[1] & 0x800) ? 0x4EA0 : 0x4EC0;
         sp6A_finalChestParams = sTreasureFlags[5] | sp6A_finalChestParams;
-        this->unk158 = (ActorA*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BOX, 20.0f,
+        this->unk158 = (EnBox*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BOX, 20.0f,
                                                    20.0f, -2500.0f, 0, 0x7FFF, 0, sp6A_finalChestParams);
         if (this->unk158 != NULL) {
             if (this->unk168 != 0) {
@@ -102,7 +103,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->unk160 = 0x71;
         sp64_leftChestThing = 0xD;
     }
-    this->unk150 = (ActorA*)Actor_SpawnAsChild(
+    this->unk150 = (EnBox*)Actor_SpawnAsChild(
         &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BOX,
         sLeftChestPositions[globalCtx->roomCtx.curRoom.num].x, sLeftChestPositions[globalCtx->roomCtx.curRoom.num].y,
         sLeftChestPositions[globalCtx->roomCtx.curRoom.num].z, 0, -0x3FFF, 0, sp6E_leftChestParams);
@@ -122,7 +123,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
                         ((this->unk15C_l & 0x1F) << 8) + (sp64_leftChestThing & 0xFF));
         }
     }
-    this->unk154 = (ActorA*)Actor_SpawnAsChild(
+    this->unk154 = (EnBox*)Actor_SpawnAsChild(
         &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BOX,
         sRightChestPositions[globalCtx->roomCtx.curRoom.num].x, sRightChestPositions[globalCtx->roomCtx.curRoom.num].y,
         sRightChestPositions[globalCtx->roomCtx.curRoom.num].z, 0, 0x3FFF, 0, sp6C_rightChestParams);
@@ -148,11 +149,11 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void func_809D2CCC(EnChanger* this, GlobalContext* globalCtx) {
-    if (this->unk150->unk1F4 != 0) {
+    if (this->unk150->unk_1F4 != 0) {
         this->unk166 = 0x50;
         Flags_SetTreasure(globalCtx, this->unk15E_r & 0x1F);
         this->unk14C = func_809D2D70;
-    } else if (this->unk154->unk1F4 != 0) {
+    } else if (this->unk154->unk_1F4 != 0) {
         this->unk164 = 1;
         this->unk166 = 0x50;
         Flags_SetTreasure(globalCtx, this->unk15C_l & 0x1F);
@@ -162,8 +163,8 @@ void func_809D2CCC(EnChanger* this, GlobalContext* globalCtx) {
 
 void func_809D2D70(EnChanger* this, GlobalContext* globalCtx) {
     Vec3f pos;
-    ActorA* temp_v0;
-    ActorA* temp_v1;
+    EnBox* temp_v0;
+    EnBox* temp_v1;
     s16 temp_s0;
 
     temp_v0 = this->unk150;
@@ -171,9 +172,9 @@ void func_809D2D70(EnChanger* this, GlobalContext* globalCtx) {
     if (this->unk166 == 0) {
         switch (this->unk164) {
             case 0:
-                pos.x = temp_v1->actor.posRot.pos.x;
-                pos.y = temp_v1->actor.posRot.pos.y;
-                pos.z = temp_v1->actor.posRot.pos.z;
+                pos.x = temp_v1->dyna.actor.posRot.pos.x;
+                pos.y = temp_v1->dyna.actor.posRot.pos.y;
+                pos.z = temp_v1->dyna.actor.posRot.pos.z;
                 if (this->unk162 == 0x71) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, 0xF);
                     Flags_SetSwitch(globalCtx, 0x32);
@@ -185,9 +186,9 @@ void func_809D2D70(EnChanger* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 1:
-                pos.x = temp_v0->actor.posRot.pos.x;
-                pos.y = temp_v0->actor.posRot.pos.y;
-                pos.z = temp_v0->actor.posRot.pos.z;
+                pos.x = temp_v0->dyna.actor.posRot.pos.x;
+                pos.y = temp_v0->dyna.actor.posRot.pos.y;
+                pos.z = temp_v0->dyna.actor.posRot.pos.z;
                 if (this->unk160 == 0x71) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_ITEM, pos.x, pos.y, pos.z, 0, 0, 0, 0xF);
                     Flags_SetSwitch(globalCtx, 0x32);
@@ -204,7 +205,7 @@ void func_809D2D70(EnChanger* this, GlobalContext* globalCtx) {
 }
 
 void func_809D2F74(EnChanger* this, GlobalContext* globalCtx) {
-    if (this->unk158->unk1F4 != 0) {
+    if (this->unk158->unk_1F4 != 0) {
         if (!(gSaveContext.itemGetInf[1] & 0x800)) {
             gSaveContext.itemGetInf[1] |= 0x800;
         }
