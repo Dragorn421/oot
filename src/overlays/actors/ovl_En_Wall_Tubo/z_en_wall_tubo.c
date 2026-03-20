@@ -7,6 +7,7 @@
 #include "z_en_wall_tubo.h"
 #include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
+#include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 
 #define FLAGS 0x00000010
 
@@ -63,13 +64,6 @@ void func_80B2EE5C(EnWallTubo* this, GlobalContext* globalCtx) {
     this->unk14C = func_80B2EE9C;
 }
 
-// EnBomChu
-typedef struct ActorDA {
-    Actor actor;
-    char pad14C[4];
-    s16 unk150;
-} ActorDA;
-
 void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
     Actor* var_v0;
     Actor* thisx = &this->actor;
@@ -95,7 +89,7 @@ void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
                 ((fabsf(diff.y) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
                 ((fabsf(diff.z) < 40.0f) || (gGameInfo->data[0x962] != 0))) {
                 this->unk160->unk23E_arr[this->actor.params] = 1;
-                ((ActorDA*)var_v0)->unk150 = 2;
+                ((EnBomChu*)var_v0)->unk150 = 2;
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 this->unk150 = 0x3C;
                 EffectSsBomb2_SpawnLayered(globalCtx, &this->unk154, &sp40, &sp4C, 200, 40);
