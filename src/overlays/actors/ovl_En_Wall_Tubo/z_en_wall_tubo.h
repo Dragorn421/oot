@@ -6,9 +6,16 @@
 
 struct EnWallTubo;
 
+typedef void (*EnWallTuboActionFunc)(struct EnWallTubo*, GlobalContext*);
+
 typedef struct EnWallTubo {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x24];
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ EnWallTuboActionFunc unk14C;
+    /* 0x150 */ s16 unk150;
+    /* 0x152 */ char pad152[2];
+    /* 0x154 */ Vec3f unk154;
+    /* 0x160 */ struct EnBomBowlMan* unk160;
+    /* 0x164 */ Vec3f unk164;
 } EnWallTubo; // size = 0x0170
 
 extern const ActorInit En_Wall_Tubo_InitVars;

@@ -171,10 +171,10 @@ typedef struct ColliderSpheresElementSrc {
 } ColliderSpheresElementSrc; /* size = 0x24 */
 
 typedef struct ColliderSpheresSrc {
-    ColliderSrc base;
-    s32 nElements;
-    ColliderSpheresElementSrc* elements;
-} ColliderSpheresSrc;
+    /* 0x00 */ ColliderSrc base;
+    /* 0x08 */ s32 nElements;
+    /* 0x0C */ ColliderSpheresElementSrc* elements;
+} ColliderSpheresSrc; // size = 0x10
 
 typedef struct ColliderSpheresSrcAltWithActor {
     ColliderSrcAltWithActor base;

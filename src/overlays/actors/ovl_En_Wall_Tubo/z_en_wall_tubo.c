@@ -5,6 +5,8 @@
  */
 
 #include "z_en_wall_tubo.h"
+#include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
+#include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 
 #define FLAGS 0x00000010
 
@@ -14,7 +16,10 @@ void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+void func_80B2EE5C(EnWallTubo* this, GlobalContext* globalCtx);
+void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx);
+void func_80B2F0B8(EnWallTubo* this, GlobalContext* globalCtx);
+
 const ActorInit En_Wall_Tubo_InitVars = {
     ACTOR_EN_WALL_TUBO,
     ACTORTYPE_PROP,
@@ -26,15 +31,127 @@ const ActorInit En_Wall_Tubo_InitVars = {
     (ActorFunc)EnWallTubo_Update,
     NULL,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/EnWallTubo_Init.s")
+Vec3f D_80B2F340 = { 0.0f, 0.1f, 0.0f };
+Vec3f D_80B2F34C = { 0.0f, 0.0f, 0.0f };
+Vec3f D_80B2F358 = { 0.0f, 0.1f, 0.0f };
+Vec3f D_80B2F364 = { 0.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/EnWallTubo_Destroy.s")
+void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnWallTubo* this = (EnWallTubo*)thisx;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/func_80B2EE5C.s")
+    osSyncPrintf("\n\n");
+    osSyncPrintf("\x1b[33m☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n\x1b[m");
+    this->unk164 = this->actor.posRot.pos;
+    this->unk14C = func_80B2EE5C;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/func_80B2EE9C.s")
+void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/func_80B2F0B8.s")
+void func_80B2EE5C(EnWallTubo* this, GlobalContext* globalCtx) {
+    Actor* var_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/EnWallTubo_Update.s")
+    var_v0 = globalCtx->actorCtx.actorList[4].first;
+    while (var_v0 != NULL) {
+        if (var_v0->id != ACTOR_EN_BOM_BOWL_MAN) {
+            var_v0 = var_v0->next;
+            continue;
+        }
+        this->unk160 = (EnBomBowlMan*)var_v0;
+        break;
+    }
+    this->unk14C = func_80B2EE9C;
+}
+
+// EnBomChu
+typedef struct ActorDA {
+    Actor actor;
+    char pad14C[4];
+    s16 unk150;
+} ActorDA;
+
+void func_80B2EE9C(EnWallTubo* this, GlobalContext* globalCtx) {
+    Actor* var_v0;
+    Actor* thisx = &this->actor;
+    Vec3f sp4C;
+    Vec3f sp40;
+    Vec3f diff;
+    s16 sp32;
+    s16 temp_v0;
+
+    sp4C = D_80B2F340;
+    sp40 = D_80B2F34C;
+    if ((this->unk160->unk_258 != 0) && (globalCtx->cameraPtrs[0]->setting == 0x15)) {
+        var_v0 = globalCtx->actorCtx.actorList[3].first;
+        while (var_v0 != NULL) {
+            if ((var_v0 == thisx) || (var_v0->id != ACTOR_EN_BOM_CHU)) {
+                var_v0 = var_v0->next;
+                continue;
+            }
+            diff.x = var_v0->posRot.pos.x - this->actor.posRot.pos.x;
+            diff.y = var_v0->posRot.pos.y - this->actor.posRot.pos.y;
+            diff.z = var_v0->posRot.pos.z - this->actor.posRot.pos.z;
+            if (((fabsf(diff.x) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
+                ((fabsf(diff.y) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
+                ((fabsf(diff.z) < 40.0f) || (gGameInfo->data[0x962] != 0))) {
+                this->unk160->unk23E_arr[this->actor.params] = 1;
+                ((ActorDA*)var_v0)->unk150 = 2;
+                func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                this->unk150 = 0x3C;
+                EffectSsBomb2_SpawnLayered(globalCtx, &this->unk154, &sp40, &sp4C, 200, 40);
+                temp_v0 = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 1U);
+                sp32 = temp_v0;
+                Quake_SetSpeed(temp_v0, 0x7FFF);
+                Quake_SetQuakeValues(sp32, 0x64, 0, 0, 0);
+                Quake_SetCountdown(sp32, 0x64);
+                this->unk14C = func_80B2F0B8;
+                return;
+            }
+            var_v0 = var_v0->next;
+        }
+    }
+}
+
+void func_80B2F0B8(EnWallTubo* this, GlobalContext* globalCtx) {
+    Actor* temp_v0;
+    Vec3f sp50;
+    Vec3f sp44;
+    Vec3f sp38;
+
+    sp50 = D_80B2F358;
+    sp44 = D_80B2F364;
+    if (!(globalCtx->gameplayFrames & 1)) {
+        sp38.x = Math_Rand_CenteredFloat(300.0f) + this->unk154.x;
+        sp38.y = Math_Rand_CenteredFloat(300.0f) + this->unk154.y;
+        sp38.z = this->unk154.z;
+        EffectSsBomb2_SpawnLayered(globalCtx, &sp38, &sp44, &sp50, 100, 30);
+        EffectSsHahen_SpawnBurst(globalCtx, &sp38, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
+        Audio_PlayActorSound2(&this->actor, 0x180EU);
+    }
+    if (this->unk150 == 0) {
+        temp_v0 = this->actor.parent;
+        if ((temp_v0 != NULL) && (temp_v0->update != NULL)) {
+            ((BgBowlWall*)temp_v0)->unk180 = 1;
+            osSyncPrintf("\x1b[32m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            osSyncPrintf("\x1b[33m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            osSyncPrintf("\x1b[34m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            osSyncPrintf("\x1b[35m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            osSyncPrintf("\x1b[36m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+        }
+        Actor_Kill(&this->actor);
+    }
+}
+
+void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnWallTubo* this = (EnWallTubo*)thisx;
+
+    if (this->unk150 != 0) {
+        this->unk150--;
+    }
+    this->unk14C(this, globalCtx);
+    if (gGameInfo->data[0x960] != 0) {
+        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
+                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+                               1.0f, 0, 0, 255, 255, 4, globalCtx->state.gfxCtx);
+    }
+}

@@ -782,7 +782,7 @@ Vec3f* func_8005AFB4(Vec3f* dst, Camera* camera);
 void Camera_SetCameraData(Camera*, s16, CutsceneCameraPoint*, CutsceneCameraPoint*, s16, s16, s32);
 // ? func_8005B044(?);
 s32 func_8005B198();
-// ? func_8005B1A4(?);
+s16 func_8005B1A4(Camera* camera);
 ActorDamageChart* CollisionBtlTbl_Get(s32 index);
 // ? func_8005B280(?);
 void func_8005B2AC(GraphicsContext* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, u8 arg4, u8 arg5, u8 arg6);
