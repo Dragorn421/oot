@@ -1,4 +1,5 @@
 #include "z_en_firefly.h"
+#include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
 #define FLAGS 0x00005005
 
@@ -270,12 +271,6 @@ s32 func_80A1379C_HoneInOnHomeIfPlayerFar_(EnFirefly* this, GlobalContext* globa
     }
 }
 
-// ObjSyokudai
-typedef struct struct_actor5E {
-    char unk0[0x1E4];
-    s16 unk1E4;
-} struct_actor5E;
-
 s32 func_80A138B8_HoneInOnLitTorch(EnFirefly* this, GlobalContext* globalCtx) {
     Actor* iter;
     f32 closestLitTorchDist;
@@ -287,7 +282,7 @@ s32 func_80A138B8_HoneInOnLitTorch(EnFirefly* this, GlobalContext* globalCtx) {
     closestLitTorch = NULL;
     closestLitTorchDist = 35000.0f;
     while (iter != NULL) {
-        if ((iter->id == ACTOR_OBJ_SYOKUDAI) && (((struct_actor5E*)iter)->unk1E4 != 0)) {
+        if ((iter->id == ACTOR_OBJ_SYOKUDAI) && (((ObjSyokudai*)iter)->litTimer != 0)) {
             dist = func_8002DB48(&this->actor, iter);
             if (dist < closestLitTorchDist) {
                 closestLitTorchDist = dist;
