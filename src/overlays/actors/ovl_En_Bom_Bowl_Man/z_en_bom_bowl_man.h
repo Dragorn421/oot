@@ -8,13 +8,6 @@ struct EnBomBowlMan;
 
 typedef void (*EnBomBowlManActionFunc)(struct EnBomBowlMan*, GlobalContext*);
 
-// EnExItem
-typedef struct Actor168 {
-    Actor actor;
-    char pad14C[0x160 - 0x14C];
-    s16 unk160;
-} Actor168;
-
 typedef struct EnBomBowlMan {
     /* 0x000 */ Actor actor;
     /* 0x14C */ SkelAnime unk14C;
@@ -45,7 +38,7 @@ typedef struct EnBomBowlMan {
     /* 0x258 */ u8 unk_258;
     /* 0x259 */ char pad259[3]; /* maybe part of unk_258[4]? */
     /* 0x25C */ struct EnBomBowlPit* unk25C;
-    /* 0x260 */ Actor168* unk260;
+    /* 0x260 */ struct EnExItem* unk260;
 } EnBomBowlMan; // size = 0x0264
 
 extern const ActorInit En_Bom_Bowl_Man_InitVars;

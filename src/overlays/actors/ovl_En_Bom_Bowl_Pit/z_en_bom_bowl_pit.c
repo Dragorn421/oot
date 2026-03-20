@@ -1,4 +1,5 @@
 #include "z_en_bom_bowl_pit.h"
+#include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 
 #define FLAGS 0x00000010
 
@@ -49,22 +50,16 @@ void func_809C4E60(EnBomBowlPit* this, GlobalContext* globalCtx) {
     }
 }
 
-// EnBomChu
-typedef struct ActorDA {
-    Actor actor;
-    char pad14C[4];
-    s16 unk150;
-} ActorDA;
-
 void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
     Actor* var_v1;
-    ActorDA* sp24;
+    EnBomChu* sp24;
     Vec3f diff;
+    Actor* thisx = &this->actor;
 
     if (globalCtx->cameraPtrs[0]->setting == 0x15) {
         var_v1 = globalCtx->actorCtx.actorList[3].first;
         while (var_v1 != NULL) {
-            if (((var_v1 + 0) == &this->actor) || (var_v1->id != ACTOR_EN_BOM_CHU)) {
+            if ((var_v1 == thisx) || (var_v1->id != ACTOR_EN_BOM_CHU)) {
                 var_v1 = var_v1->next;
                 continue;
             }
@@ -74,7 +69,7 @@ void func_809C4E8C(EnBomBowlPit* this, GlobalContext* globalCtx) {
             if (((fabsf(diff.x) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
                 ((fabsf(diff.y) < 40.0f) || (gGameInfo->data[0x962] != 0)) &&
                 ((fabsf(diff.z) < 40.0f) || (gGameInfo->data[0x962] != 0))) {
-                sp24 = (ActorDA*)var_v1;
+                sp24 = (EnBomChu*)var_v1;
                 func_8002DF54(globalCtx, NULL, 8U);
                 sp24->unk150 = 1;
                 this->unk152 = Gameplay_CreateSubCamera(globalCtx);

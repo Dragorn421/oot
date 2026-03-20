@@ -1,5 +1,7 @@
 #include "z_en_bom_bowl_man.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
+#include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0x08000039
 
@@ -58,21 +60,11 @@ Vec3f D_809C4A60[5] = {
 static s16 D_809C4A9C[6] = { 0x4268, 0x4268, -0x3E8, 0, 0x4268, 0 };
 static s32 D_809C4AA8[6] = { 0x06004110, 0x06004910, 0x06005110, 0, 0, 0 };
 
-// EnSyatekiNiw
-typedef struct Actor143 {
-    Actor actor;
-    char pad14C[0x2F4 - 0x14C];
-    f32 unk2F4;
-    char pad2F8[0x33C - 0x2F8];
-    s16 unk33C;
-    s16 unk33E;
-} Actor143;
-
 void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnBomBowlMan* this = (EnBomBowlMan*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s32 var_s1;
-    Actor143* temp_v0;
+    EnSyatekiNiw* temp_v0;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_06006EB0, &D_06000710, &this->unk190, &this->unk1D2, 0xB);
@@ -82,12 +74,12 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.shape.unk_08 = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
     for (var_s1 = 0; var_s1 < 2; var_s1++) {
-        temp_v0 = (Actor143*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x143, D_809C4A28[var_s1].x,
-                                         D_809C4A28[var_s1].y, D_809C4A28[var_s1].z, 0, 0, 0, 1);
+        temp_v0 = (EnSyatekiNiw*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x143, D_809C4A28[var_s1].x,
+                                             D_809C4A28[var_s1].y, D_809C4A28[var_s1].z, 0, 0, 0, 1);
         if (temp_v0 != NULL) {
-            temp_v0->unk2F4 = D_809C4A40[var_s1];
-            temp_v0->unk33C = (s16)(s32)D_809C4A10[var_s1].unk0;
-            temp_v0->unk33E = (s16)(s32)D_809C4A10[var_s1].unk4;
+            temp_v0->unk_2F4 = D_809C4A40[var_s1];
+            temp_v0->collider.shape.radius = (s16)(s32)D_809C4A10[var_s1].unk0;
+            temp_v0->collider.shape.height = (s16)(s32)D_809C4A10[var_s1].unk4;
         }
     }
     this->unk242 = (u16)(s32)Math_Rand_ZeroFloat(4.99f);
@@ -385,7 +377,7 @@ void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx) {
         if (gGameInfo->data[0x967] != 0) {
             this->unk230 = gGameInfo->data[0x967] - 1;
         }
-        this->unk260 = (Actor168*)Actor_SpawnAsChild(
+        this->unk260 = (EnExItem*)Actor_SpawnAsChild(
             &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM, D_809C4A60[this->unk230].x + 148.0f,
             D_809C4A60[this->unk230].y + 40.0f, D_809C4A60[this->unk230].z + 300.0f, 0, D_809C4A9C[this->unk230], 0,
             this->unk230 + 5);
