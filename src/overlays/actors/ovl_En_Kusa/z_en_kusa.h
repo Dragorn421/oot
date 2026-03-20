@@ -6,10 +6,16 @@
 
 struct EnKusa;
 
+typedef void (*EnKusaActionFunc)(struct EnKusa*, GlobalContext*);
+
 typedef struct EnKusa {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x54];
-} EnKusa; // size = 0x01A0
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ EnKusaActionFunc actionFunc;
+    /* 0x150 */ ColliderCylinder unk150;
+    /* 0x19C */ s16 unk19C;
+    /* 0x19E */ s8 unk19E;
+    /* 0x19F */ char pad19F[1];
+} EnKusa; // size = 0x1A0
 
 extern const ActorInit En_Kusa_InitVars;
 
