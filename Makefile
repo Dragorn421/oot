@@ -9,21 +9,13 @@ else
   MIPS_BINUTILS_PREFIX := mips64-elf-
 endif
 
-# check that either QEMU_IRIX is set or qemu-irix package installed
-ifndef QEMU_IRIX
-  QEMU_IRIX := $(shell which qemu-irix)
-  ifeq (, $(QEMU_IRIX))
-    $(error Please install qemu-irix package or set QEMU_IRIX env var to the full qemu-irix binary path)
-  endif
-endif
-
 AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 
-CC         := $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
-CC_OLD     := $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
+CC         := tools/ido-7.1-recomp-linux/cc
+CC_OLD     := tools/ido-5.3-recomp-linux/cc
 
 # Check code syntax with host compiler
 CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h
