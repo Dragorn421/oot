@@ -6,9 +6,14 @@
 
 struct BgIceTurara;
 
+typedef void (*BgIceTuraraActionFunc)(struct BgIceTurara*, GlobalContext*);
+
 typedef struct BgIceTurara {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x6C];
+    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x164 */ BgIceTuraraActionFunc unk164;
+    /* 0x168 */ s16 unk168;
+    /* 0x16A */ char pad16A[2];
+    /* 0x16C */ ColliderCylinder unk16C;
 } BgIceTurara; // size = 0x01B8
 
 extern const ActorInit Bg_Ice_Turara_InitVars;
