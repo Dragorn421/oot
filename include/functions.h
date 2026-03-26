@@ -848,6 +848,7 @@ s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Ve
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
 void func_80062718(ColliderCylinder* collider, Vec3s* pos);
 void func_80062734(ColliderQuad* collider, Vec3f* a, Vec3f* b, Vec3f* c, Vec3f* d);
+void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c);
 void func_800628A4(s32 arg0, ColliderJntSph* collider);
 void func_80062A28(GlobalContext*, Vec3f*);
 void func_80062B80(GlobalContext*, Vec3f*);

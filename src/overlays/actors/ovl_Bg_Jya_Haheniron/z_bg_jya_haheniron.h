@@ -3,12 +3,19 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "z64collision_check.h"
 
 struct BgJyaHaheniron;
 
+typedef void (*BgJyaHahenironActionFunc)(struct BgJyaHaheniron*, GlobalContext*);
+
 typedef struct BgJyaHaheniron {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x68];
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ BgJyaHahenironActionFunc unk14C;
+    /* 0x150 */ ColliderJntSph unk150;
+    /* 0x170 */ ColliderJntSphItem unk170[1];
+    /* 0x1B0 */ s16 unk1B0;
+    /* 0x1B2 */ char pad1B2[2];
 } BgJyaHaheniron; // size = 0x01B4
 
 extern const ActorInit Bg_Jya_Haheniron_InitVars;
