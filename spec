@@ -5534,7 +5534,8 @@ endseg
 beginseg
     name "object_bg"
     romalign 0x1000
-    include "build/baserom/object_bg.o"
+    include "build/assets/objects/object_bg/object_bg.o"
+    number 6
 endseg
 
 beginseg

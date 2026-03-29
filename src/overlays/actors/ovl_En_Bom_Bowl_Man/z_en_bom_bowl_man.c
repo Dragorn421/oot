@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
 #include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+#include "objects/object_bg/object_bg.h"
 
 #define FLAGS 0x08000039
 
@@ -26,11 +27,6 @@ void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx);
 void func_809C4318(EnBomBowlMan* this, GlobalContext* globalCtx);
 void func_809C441C(EnBomBowlMan* this, GlobalContext* globalCtx);
 void func_809C4664(EnBomBowlMan* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_6000080;
-extern AnimationHeader D_6000710;
-extern FlexSkeletonHeader D_6006EB0;
-extern AnimationHeader D_60072AC;
 
 const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
@@ -67,7 +63,8 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnSyatekiNiw* temp_v0;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->unk14C, &D_6006EB0, &D_6000710, &this->unk190, &this->unk1D2, 0xB);
+    SkelAnime_InitFlex(globalCtx, &this->unk14C, &object_bg_006EB0_Skel, &object_bg_000710_Anim, &this->unk190,
+                       &this->unk1D2, 0xB);
     osSyncPrintf("\x1b[32m☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n\x1b[m");
     osSyncPrintf("\x1b[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n\x1b[m", globalCtx->bombchuBowlingStatus);
     this->unk248 = this->actor.world.pos;
@@ -91,8 +88,9 @@ void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809C3820(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    this->unk254_curAnimFraceCount = Animation_GetLastFrame(&D_6000710);
-    Animation_Change(&this->unk14C, &D_6000710, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_LOOP, -10.0f);
+    this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_000710_Anim);
+    Animation_Change(&this->unk14C, &object_bg_000710_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_LOOP,
+                     -10.0f);
     this->actor.textId = 0xC0;
     this->unk22E = 5;
     this->actionFunc = func_809C38A8_WaitTalk;
@@ -123,8 +121,9 @@ void func_809C395C(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void func_809C39D0(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    this->unk254_curAnimFraceCount = Animation_GetLastFrame(&D_6000080);
-    Animation_Change(&this->unk14C, &D_6000080, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_ONCE, -10.0f);
+    this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_000080_Anim);
+    Animation_Change(&this->unk14C, &object_bg_000080_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_ONCE,
+                     -10.0f);
     this->unk238 = 1;
     this->actionFunc = func_809C3A54;
 }
@@ -156,8 +155,9 @@ void func_809C3B50(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->unk14C);
     if ((this->unk22E == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
-        this->unk254_curAnimFraceCount = Animation_GetLastFrame(&D_60072AC);
-        Animation_Change(&this->unk14C, &D_60072AC, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_LOOP, -10.0f);
+        this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_0072AC_Anim);
+        Animation_Change(&this->unk14C, &object_bg_0072AC_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount,
+                         ANIMMODE_LOOP, -10.0f);
         this->unk238 = 3;
         this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
         if (!(gSaveContext.eventChkInf[2] & 0x20) && (gGameInfo->data[0x962] == 0)) {
