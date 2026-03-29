@@ -5,46 +5,8 @@
  */
 
 #include "z_bg_dy_yoseizo.h"
-
-// TODO remove EnDyExtra struct and use include:
-// #include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
-struct EnDyExtra;
-typedef void (*EnDyExtraActionFunc)(struct EnDyExtra*, GlobalContext*);
-typedef struct EnDyExtra {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnDyExtraActionFunc actionFunc;
-    /* 0x0150 */ s16 type;
-    /* 0x0152 */ s16 unk_152;
-    /* 0x0154 */ s16 unk_154;
-    /* 0x0158 */ f32 unk_158;
-    /* 0x015C */ Vec3f unk_15C;
-    /* 0x0168 */ Vec3f unk_168;
-} EnDyExtra; // size = 0x0174
-
-// TODO remove EnExItem struct and use include:
-// #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
-struct EnExItem;
-typedef void (*EnExItemActionFunc)(struct EnExItem* this, GlobalContext* globalCtx);
-typedef void (*EnExItemLightFunc)(Actor*, GlobalContext*, s32);
-typedef struct EnExItem {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnExItemActionFunc actionFunc;
-    /* 0x0150 */ s16 getItemObjId;
-    /* 0x0152 */ s16 type;
-    /* 0x0152 */ s16 unusedParam;
-    /* 0x0156 */ s16 drawItemId;
-    /* 0x0158 */ s16 stopRotate;
-    /* 0x015A */ s16 timer;
-    /* 0x015A */ s16 chestKillTimer;
-    /* 0x015A */ s16 prizeRotateTimer;
-    /* 0x0160 */ s16 killItem;
-    /* 0x0164 */ f32 scale;
-    /* 0x0168 */ f32 unkFloat; // set to the same value as scale, but unused
-    /* 0x016C */ s8 objectIdx;
-    /* 0x0170 */ Vec3f initPos; // unused
-    /* 0x017C */ EnExItemLightFunc unk_17C;
-    /* 0x0180 */ EnExItemLightFunc unk_180;
-} EnExItem; // size = 0x0184
+#include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0x02000030
 
