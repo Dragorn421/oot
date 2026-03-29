@@ -7,9 +7,16 @@
 struct EnBili;
 
 typedef struct EnBili {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0xD4];
-} EnBili; // size = 0x0220
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ SkelAnime unk14C;
+    /* 0x190 */ void (*unk190)(struct EnBili*, GlobalContext*);
+    /* 0x194 */ u8 unk194;
+    /* 0x195 */ u8 unk195;
+    /* 0x196 */ s16 unk196;
+    /* 0x198 */ Vec3s unk198[5];
+    /* 0x1B6 */ Vec3s unk1B6[5];
+    /* 0x1D4 */ ColliderCylinder unk1D4;
+} EnBili; // size = 0x220
 
 extern const ActorInit En_Bili_InitVars;
 
