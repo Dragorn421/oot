@@ -1,0 +1,57 @@
+<Root>
+    <File Name="object_jj" Segment="6">
+        <Collision Name="object_jj_000A1C_Col" Offset="0xA1C"/>
+        <Collision Name="object_jj_001830_Col" Offset="0x1830"/>
+        <Animation Name="object_jj_001F4C_Anim" Offset="0x1F4C"/>
+        <DList Name="object_jj_0044A0_DL" Offset="0x44A0"/>
+        <DList Name="object_jj_004578_DL" Offset="0x4578"/>
+        <DList Name="object_jj_004648_DL" Offset="0x4648"/>
+        <DList Name="object_jj_004700_DL" Offset="0x4700"/>
+        <DList Name="object_jj_0047E0_DL" Offset="0x47E0"/>
+        <DList Name="object_jj_004880_DL" Offset="0x4880"/>
+        <DList Name="object_jj_004920_DL" Offset="0x4920"/>
+        <DList Name="object_jj_005400_DL" Offset="0x5400"/>
+        <DList Name="object_jj_0054D0_DL" Offset="0x54D0"/>
+        <DList Name="object_jj_0055B0_DL" Offset="0x55B0"/>
+        <DList Name="object_jj_005690_DL" Offset="0x5690"/>
+        <Texture Name="object_jj_005B58_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x5B58"/>
+        <Texture Name="object_jj_006358_Tex" Format="rgb5a1" Width="32" Height="16" Offset="0x6358"/>
+        <Texture Name="object_jj_006758_Tex" Format="rgb5a1" Width="8" Height="32" Offset="0x6758"/>
+        <Texture Name="object_jj_006958_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x6958"/>
+        <Texture Name="object_jj_006A58_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x6A58"/>
+        <Texture Name="object_jj_006B58_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x6B58"/>
+        <Texture Name="object_jj_006D58_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x6D58"/>
+        <Texture Name="object_jj_006E58_Tex" Format="rgb5a1" Width="16" Height="64" Offset="0x6E58"/>
+        <Texture Name="object_jj_007658_Tex" Format="rgb5a1" Width="4" Height="8" Offset="0x7658"/>
+        <Texture Name="object_jj_008298_Tex" Format="rgb5a1" Width="32" Height="64" Offset="0x8298"/>
+        <Texture Name="object_jj_009298_Tex" Format="rgb5a1" Width="4" Height="8" Offset="0x9298"/>
+        <Texture Name="object_jj_0092D8_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x92D8"/>
+        <Texture Name="object_jj_009358_Tex" Format="rgb5a1" Width="32" Height="64" Offset="0x9358"/>
+        <Texture Name="object_jj_00A358_Tex" Format="rgb5a1" Width="16" Height="32" Offset="0xA358"/>
+        <Texture Name="object_jj_00A758_Tex" Format="rgb5a1" Width="16" Height="8" Offset="0xA758"/>
+        <Texture Name="object_jj_00A858_Tex" Format="rgb5a1" Width="32" Height="64" Offset="0xA858"/>
+        <Limb Name="object_jj_00B858_Limb" LimbType="Standard" Offset="0xB858"/>
+        <Limb Name="object_jj_00B864_Limb" LimbType="Standard" Offset="0xB864"/>
+        <Limb Name="object_jj_00B870_Limb" LimbType="Standard" Offset="0xB870"/>
+        <Limb Name="object_jj_00B87C_Limb" LimbType="Standard" Offset="0xB87C"/>
+        <Limb Name="object_jj_00B888_Limb" LimbType="Standard" Offset="0xB888"/>
+        <Limb Name="object_jj_00B894_Limb" LimbType="Standard" Offset="0xB894"/>
+        <Limb Name="object_jj_00B8A0_Limb" LimbType="Standard" Offset="0xB8A0"/>
+        <Limb Name="object_jj_00B8AC_Limb" LimbType="Standard" Offset="0xB8AC"/>
+        <Limb Name="object_jj_00B8B8_Limb" LimbType="Standard" Offset="0xB8B8"/>
+        <Limb Name="object_jj_00B8C4_Limb" LimbType="Standard" Offset="0xB8C4"/>
+        <Limb Name="object_jj_00B8D0_Limb" LimbType="Standard" Offset="0xB8D0"/>
+        <Limb Name="object_jj_00B8DC_Limb" LimbType="Standard" Offset="0xB8DC"/>
+        <Limb Name="object_jj_00B8E8_Limb" LimbType="Standard" Offset="0xB8E8"/>
+        <Limb Name="object_jj_00B8F4_Limb" LimbType="Standard" Offset="0xB8F4"/>
+        <Limb Name="object_jj_00B900_Limb" LimbType="Standard" Offset="0xB900"/>
+        <Limb Name="object_jj_00B90C_Limb" LimbType="Standard" Offset="0xB90C"/>
+        <Limb Name="object_jj_00B918_Limb" LimbType="Standard" Offset="0xB918"/>
+        <Limb Name="object_jj_00B924_Limb" LimbType="Standard" Offset="0xB924"/>
+        <Limb Name="object_jj_00B930_Limb" LimbType="Standard" Offset="0xB930"/>
+        <Limb Name="object_jj_00B93C_Limb" LimbType="Standard" Offset="0xB93C"/>
+        <Limb Name="object_jj_00B948_Limb" LimbType="Standard" Offset="0xB948"/>
+        <Skeleton Name="object_jj_00B9A8_Skel" Type="Flex" LimbType="Standard" Offset="0xB9A8"/>
+        <Collision Name="object_jj_00BA8C_Col" Offset="0xBA8C"/>
+    </File>
+</Root>
