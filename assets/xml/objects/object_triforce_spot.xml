@@ -1,0 +1,12 @@
+<Root>
+    <File Name="object_triforce_spot" Segment="6">
+        <Array Name="object_triforce_spot_000000_Vtx" Count="96" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <DList Name="object_triforce_spot_000600_DL" Offset="0x600"/>
+        <DList Name="object_triforce_spot_000840_DL" Offset="0x840"/>
+        <Texture Name="object_triforce_spot_000910_Tex" Format="i8" Width="64" Height="64" Offset="0x910"/>
+        <Texture Name="object_triforce_spot_001910_Tex" Format="i8" Width="64" Height="32" Offset="0x1910"/>
+        <Texture Name="object_triforce_spot_002110_Tex" Format="i8" Width="64" Height="32" Offset="0x2110"/>
+    </File>
+</Root>

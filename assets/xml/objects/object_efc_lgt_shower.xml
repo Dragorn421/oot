@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_efc_lgt_shower" Segment="6">
+        <Texture Name="object_efc_lgt_shower_000000_Tex" Format="i8" Width="64" Height="64" Offset="0x0"/>
+        <DList Name="object_efc_lgt_shower_0011D0_DL" Offset="0x11D0"/>
+    </File>
+</Root>

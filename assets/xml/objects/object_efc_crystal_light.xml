@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_efc_crystal_light" Segment="6">
+        <Texture Name="object_efc_crystal_light_000000_Tex" Format="i4" Width="64" Height="64" Offset="0x0"/>
+        <DList Name="object_efc_crystal_light_000980_DL" Offset="0x980"/>
+    </File>
+</Root>
