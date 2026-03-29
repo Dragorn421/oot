@@ -4405,7 +4405,8 @@ endseg
 beginseg
     name "object_mir_ray"
     romalign 0x1000
-    include "build/baserom/object_mir_ray.o"
+    include "build/assets/objects/object_mir_ray/object_mir_ray.o"
+    number 6
 endseg
 
 beginseg

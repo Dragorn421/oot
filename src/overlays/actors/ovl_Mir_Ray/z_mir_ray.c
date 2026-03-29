@@ -6,6 +6,7 @@
 
 #include "z_mir_ray.h"
 #include "z64collision_check.h"
+#include "objects/object_mir_ray/object_mir_ray.h"
 
 #define FLAGS 0x00000030
 
@@ -33,9 +34,6 @@ typedef struct struct_80B8D8A0 {
 } struct_80B8D8A0; // size = 0x54
 
 s32 MirRay_IsInConeFrustum(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, s16 arg5, s16 arg6);
-
-extern UNK_TYPE D_60000B0;
-extern UNK_TYPE D_6000C50;
 
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
@@ -581,7 +579,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 150,
                             (u8)(s32)(this->lightReflectionFactor * 100.0f));
-            gSPDisplayList(POLY_XLU_DISP++, &D_6000C50);
+            gSPDisplayList(POLY_XLU_DISP++, &object_mir_ray_000C50_DL);
             func_80B8D8A0(this, globalCtx, sp7C);
             func_80B8DA78(sp7C);
             func_80B8DB7C(this, globalCtx, sp7C);
@@ -605,7 +603,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 150, sp7C[0].unk50);
-                    gSPDisplayList(POLY_XLU_DISP++, &D_60000B0);
+                    gSPDisplayList(POLY_XLU_DISP++, &object_mir_ray_0000B0_DL);
                 }
             }
             D_80B8E670 = true;
