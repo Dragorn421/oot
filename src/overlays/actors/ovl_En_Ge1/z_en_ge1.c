@@ -1,4 +1,5 @@
 #include "z_en_ge1.h"
+#include "objects/object_ge1/object_ge1.h"
 
 #define FLAGS 0x00000009
 
@@ -21,14 +22,6 @@ void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx);
 void func_80A31FE0(EnGe1* this, GlobalContext* globalCtx);
 void func_80A323B0(EnGe1* this);
 void func_80A323EC(EnGe1* this);
-
-extern AnimationHeader D_6000228;
-extern FlexSkeletonHeader D_6000330;
-extern Gfx D_6009198[];
-extern Gfx D_6009430[];
-extern Gfx D_6009690[];
-extern AnimationHeader D_600A048;
-extern AnimationHeader D_600A498;
 
 const ActorInit En_Ge1_InitVars = {
     ACTOR_EN_GE1,
@@ -62,7 +55,7 @@ static ColliderCylinderInit D_80A32770 = {
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
-static Gfx* D_80A3279C[3] = { D_6009198, D_6009430, D_6009690 };
+static Gfx* D_80A3279C[3] = { object_ge1_009198_DL, object_ge1_009430_DL, object_ge1_009690_DL };
 static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
 static s32 D_80A327B4[3] = { 0x06000708, 0x06000F08, 0x06001708 };
 
@@ -71,12 +64,13 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->unk198, &D_6000330, &D_6000228, this->unk1DC, this->unk23C, 16);
-    Animation_PlayOnce(&this->unk198, &D_6000228);
+    SkelAnime_InitFlex(globalCtx, &this->unk198, &object_ge1_000330_Skel, &object_ge1_000228_Anim, this->unk1DC,
+                       this->unk23C, 16);
+    Animation_PlayOnce(&this->unk198, &object_ge1_000228_Anim);
     Collider_InitCylinder(globalCtx, &this->unk14C);
     Collider_SetCylinder(globalCtx, &this->unk14C, &this->actor, &D_80A32770);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->unk2B0 = &D_6000228;
+    this->unk2B0 = &object_ge1_000228_Anim;
     this->unk2B8 = func_80A323B0;
     this->actor.targetMode = 6;
     Actor_SetScale(&this->actor, 0.01f);
@@ -159,9 +153,9 @@ s32 func_80A30C70(EnGe1* this, GlobalContext* globalCtx, u16 arg2, f32 arg3, EnG
         this->unk2B4 = arg4;
         this->unk2B8 = func_80A323EC;
         this->unk2AC &= ~4;
-        this->unk2B0 = &D_6000228;
-        Animation_Change(&this->unk198, &D_6000228, 1.0f, 0.0f, Animation_GetLastFrame(&D_6000228), ANIMMODE_ONCE,
-                         -8.0f);
+        this->unk2B0 = &object_ge1_000228_Anim;
+        Animation_Change(&this->unk198, &object_ge1_000228_Anim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_ge1_000228_Anim), ANIMMODE_ONCE, -8.0f);
         return 1;
     } else {
         this->actor.textId = arg2;
@@ -173,8 +167,9 @@ s32 func_80A30C70(EnGe1* this, GlobalContext* globalCtx, u16 arg2, f32 arg3, EnG
 }
 
 void func_80A30D48(EnGe1* this) {
-    Animation_Change(&this->unk198, &D_6000228, -1.0f, Animation_GetLastFrame(&D_6000228), 0.0f, ANIMMODE_ONCE, 8.0f);
-    this->unk2B0 = &D_6000228;
+    Animation_Change(&this->unk198, &object_ge1_000228_Anim, -1.0f, Animation_GetLastFrame(&object_ge1_000228_Anim),
+                     0.0f, ANIMMODE_ONCE, 8.0f);
+    this->unk2B0 = &object_ge1_000228_Anim;
     this->unk2B8 = func_80A323B0;
 }
 
@@ -301,9 +296,9 @@ void func_80A31234(EnGe1* this, GlobalContext* globalCtx) {
 void func_80A312E4(EnGe1* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         this->unk2B4 = func_80A31234;
-        Animation_Change(&this->unk198, &D_600A048, 1.0f, 0.0f, Animation_GetLastFrame(&D_600A048), ANIMMODE_ONCE,
-                         -3.0f);
-        this->unk2B0 = &D_600A048;
+        Animation_Change(&this->unk198, &object_ge1_00A048_Anim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_ge1_00A048_Anim), ANIMMODE_ONCE, -3.0f);
+        this->unk2B0 = &object_ge1_00A048_Anim;
         this->unk2B8 = func_80A323EC;
         this->unk2AC &= 0xFFFB;
     }
@@ -390,9 +385,9 @@ void func_80A316F4(EnGe1* this, GlobalContext* globalCtx) {
     this->unk2AC |= 1;
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         this->unk2B4 = func_80A31644;
-        Animation_Change(&this->unk198, &D_600A048, 1.0f, 0.0f, Animation_GetLastFrame(&D_600A048), ANIMMODE_ONCE,
-                         -3.0f);
-        this->unk2B0 = &D_600A048;
+        Animation_Change(&this->unk198, &object_ge1_00A048_Anim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_ge1_00A048_Anim), ANIMMODE_ONCE, -3.0f);
+        this->unk2B0 = &object_ge1_00A048_Anim;
         this->unk2B8 = func_80A323EC;
         this->unk2AC &= ~4;
     }
@@ -423,9 +418,9 @@ void func_80A31880(EnGe1* this, GlobalContext* globalCtx) {
     }
     if (func_80A30C70(this, globalCtx, temp_v0, 100.0f, func_80A3183C) != 0) {
         this->unk2B8 = func_80A323B0;
-        this->unk2B0 = &D_600A498;
-        Animation_Change(&this->unk198, &D_600A498, 1.0f, 0.0f, Animation_GetLastFrame(&D_600A498), ANIMMODE_ONCE,
-                         -8.0f);
+        this->unk2B0 = &object_ge1_00A498_Anim;
+        Animation_Change(&this->unk198, &object_ge1_00A498_Anim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_ge1_00A498_Anim), ANIMMODE_ONCE, -8.0f);
     }
 }
 
