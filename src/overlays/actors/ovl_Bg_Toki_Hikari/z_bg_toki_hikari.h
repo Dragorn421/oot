@@ -7,9 +7,10 @@
 struct BgTokiHikari;
 
 typedef struct BgTokiHikari {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x8];
-} BgTokiHikari; // size = 0x0154
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ f32 unk14C;
+    /* 0x150 */ void (*unk150)(struct BgTokiHikari*, GlobalContext*);
+} BgTokiHikari; // size = 0x154
 
 extern const ActorInit Bg_Toki_Hikari_InitVars;
 
