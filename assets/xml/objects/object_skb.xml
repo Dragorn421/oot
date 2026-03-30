@@ -1,0 +1,55 @@
+<Root>
+    <File Name="object_skb" Segment="6">
+        <Animation Name="object_skb_000460_Anim" Offset="0x460"/>
+        <Animation Name="object_skb_0009DC_Anim" Offset="0x9DC"/>
+        <Animation Name="object_skb_000D98_Anim" Offset="0xD98"/>
+        <Animation Name="object_skb_001854_Anim" Offset="0x1854"/>
+        <Texture Name="object_skb_0018A0_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x18A0"/>
+        <Texture Name="object_skb_001AA0_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x1AA0"/>
+        <Texture Name="object_skb_001BA0_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x1BA0"/>
+        <Texture Name="object_skb_001C20_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x1C20"/>
+        <Texture Name="object_skb_001CA0_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x1CA0"/>
+        <Texture Name="object_skb_001D20_Tex" Format="rgb5a1" Width="8" Height="16" Offset="0x1D20"/>
+        <Texture Name="object_skb_001E20_Tex" Format="rgb5a1" Width="16" Height="8" Offset="0x1E20"/>
+        <Texture Name="object_skb_001F20_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x1F20"/>
+        <Texture Name="object_skb_002120_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0x2120"/>
+        <DList Name="object_skb_003230_DL" Offset="0x3230"/>
+        <DList Name="object_skb_003598_DL" Offset="0x3598"/>
+        <DList Name="object_skb_003640_DL" Offset="0x3640"/>
+        <DList Name="object_skb_003708_DL" Offset="0x3708"/>
+        <DList Name="object_skb_0037A0_DL" Offset="0x37A0"/>
+        <DList Name="object_skb_0038A8_DL" Offset="0x38A8"/>
+        <DList Name="object_skb_003968_DL" Offset="0x3968"/>
+        <DList Name="object_skb_003A10_DL" Offset="0x3A10"/>
+        <DList Name="object_skb_003AD8_DL" Offset="0x3AD8"/>
+        <DList Name="object_skb_003B98_DL" Offset="0x3B98"/>
+        <DList Name="object_skb_003C40_DL" Offset="0x3C40"/>
+        <DList Name="object_skb_003D08_DL" Offset="0x3D08"/>
+        <DList Name="object_skb_003DA0_DL" Offset="0x3DA0"/>
+        <DList Name="object_skb_003E48_DL" Offset="0x3E48"/>
+        <DList Name="object_skb_003EE8_DL" Offset="0x3EE8"/>
+        <DList Name="object_skb_003F80_DL" Offset="0x3F80"/>
+        <DList Name="object_skb_004028_DL" Offset="0x4028"/>
+        <Limb Name="object_skb_0040C8_Limb" LimbType="Standard" Offset="0x40C8"/>
+        <Limb Name="object_skb_0040D4_Limb" LimbType="Standard" Offset="0x40D4"/>
+        <Limb Name="object_skb_0040E0_Limb" LimbType="Standard" Offset="0x40E0"/>
+        <Limb Name="object_skb_0040EC_Limb" LimbType="Standard" Offset="0x40EC"/>
+        <Limb Name="object_skb_0040F8_Limb" LimbType="Standard" Offset="0x40F8"/>
+        <Limb Name="object_skb_004104_Limb" LimbType="Standard" Offset="0x4104"/>
+        <Limb Name="object_skb_004110_Limb" LimbType="Standard" Offset="0x4110"/>
+        <Limb Name="object_skb_00411C_Limb" LimbType="Standard" Offset="0x411C"/>
+        <Limb Name="object_skb_004128_Limb" LimbType="Standard" Offset="0x4128"/>
+        <Limb Name="object_skb_004134_Limb" LimbType="Standard" Offset="0x4134"/>
+        <Limb Name="object_skb_004140_Limb" LimbType="Standard" Offset="0x4140"/>
+        <Limb Name="object_skb_00414C_Limb" LimbType="Standard" Offset="0x414C"/>
+        <Limb Name="object_skb_004158_Limb" LimbType="Standard" Offset="0x4158"/>
+        <Limb Name="object_skb_004164_Limb" LimbType="Standard" Offset="0x4164"/>
+        <Limb Name="object_skb_004170_Limb" LimbType="Standard" Offset="0x4170"/>
+        <Limb Name="object_skb_00417C_Limb" LimbType="Standard" Offset="0x417C"/>
+        <Limb Name="object_skb_004188_Limb" LimbType="Standard" Offset="0x4188"/>
+        <Limb Name="object_skb_004194_Limb" LimbType="Standard" Offset="0x4194"/>
+        <Limb Name="object_skb_0041A0_Limb" LimbType="Standard" Offset="0x41A0"/>
+        <Skeleton Name="object_skb_0041F8_Skel" Type="Normal" LimbType="Standard" Offset="0x41F8"/>
+        <Animation Name="object_skb_0047E0_Anim" Offset="0x47E0"/>
+    </File>
+</Root>

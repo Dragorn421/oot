@@ -1,4 +1,5 @@
 #include "z_en_skb.h"
+#include "objects/object_skb/object_skb.h"
 
 #define FLAGS 0x00000015
 
@@ -23,13 +24,6 @@ void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_6000460;
-extern AnimationHeader D_60009DC;
-extern AnimationHeader D_6000D98;
-extern AnimationHeader D_6001854;
-extern SkeletonHeader D_60041F8;
-extern AnimationHeader D_60047E0;
 
 static ColliderJntSphElementInit D_80AFE020[2] = {
     {
@@ -129,7 +123,8 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
-    SkelAnime_Init(globalCtx, &this->unk14C, &D_60041F8, &D_6001854, this->unk190, this->unk208, 20);
+    SkelAnime_Init(globalCtx, &this->unk14C, &object_skb_0041F8_Skel, &object_skb_001854_Anim, this->unk190,
+                   this->unk208, 20);
     this->actor.naviEnemyId = 0x55;
     Collider_InitJntSph(globalCtx, &this->unk2A4);
     Collider_SetJntSph(globalCtx, &this->unk2A4, &this->actor, &D_80AFE068, this->unk2C4);
@@ -176,7 +171,7 @@ void func_80AFCD60(EnSkb* this) {
 }
 
 void func_80AFCDF8(EnSkb* this) {
-    Animation_PlayOnceSetSpeed(&this->unk14C, &D_6001854, 1.0f);
+    Animation_PlayOnceSetSpeed(&this->unk14C, &object_skb_001854_Anim, 1.0f);
     this->unk280 = 0;
     this->actor.flags &= ~1;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
@@ -200,7 +195,8 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFCF48(EnSkb* this) {
-    Animation_Change(&this->unk14C, &D_6001854, -1.0f, Animation_GetLastFrame(&D_6001854), 0.0f, ANIMMODE_ONCE, -4.0f);
+    Animation_Change(&this->unk14C, &object_skb_001854_Anim, -1.0f, Animation_GetLastFrame(&object_skb_001854_Anim),
+                     0.0f, ANIMMODE_ONCE, -4.0f);
     this->unk280 = 0;
     this->unk281 = 0;
     this->actor.flags &= ~1;
@@ -221,8 +217,8 @@ void func_80AFCFF0(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD0A4(EnSkb* this) {
-    Animation_Change(&this->unk14C, &D_60047E0, 0.96000004f, 0.0f, Animation_GetLastFrame(&D_60047E0), ANIMMODE_LOOP,
-                     -4.0f);
+    Animation_Change(&this->unk14C, &object_skb_0047E0_Anim, 0.96000004f, 0.0f,
+                     Animation_GetLastFrame(&object_skb_0047E0_Anim), ANIMMODE_LOOP, -4.0f);
     this->unk280 = 4;
     this->unk288 = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
@@ -260,8 +256,8 @@ void func_80AFD13C(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD33C(EnSkb* this) {
-    Animation_Change(&this->unk14C, &D_6000460, 0.6f, 0.0f, Animation_GetLastFrame(&D_6000460), ANIMMODE_ONCE_INTERP,
-                     4.0f);
+    Animation_Change(&this->unk14C, &object_skb_000460_Anim, 0.6f, 0.0f,
+                     Animation_GetLastFrame(&object_skb_000460_Anim), ANIMMODE_ONCE_INTERP, 4.0f);
     this->unk2A4.base.atFlags &= ~AT_BOUNCED;
     this->unk280 = 3;
     this->actor.speedXZ = 0.0f;
@@ -288,7 +284,8 @@ void func_80AFD3D4(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD47C(EnSkb* this) {
-    Animation_Change(&this->unk14C, &D_6000460, -0.4f, this->unk14C.curFrame - 1.0f, 0.0f, ANIMMODE_ONCE_INTERP, 0.0f);
+    Animation_Change(&this->unk14C, &object_skb_000460_Anim, -0.4f, this->unk14C.curFrame - 1.0f, 0.0f,
+                     ANIMMODE_ONCE_INTERP, 0.0f);
     this->unk2A4.base.atFlags &= ~AT_BOUNCED;
     this->unk280 = 5;
     this->unk281 = 0;
@@ -332,7 +329,7 @@ void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD644(EnSkb* this) {
-    Animation_MorphToPlayOnce(&this->unk14C, &D_6000D98, -4.0f);
+    Animation_MorphToPlayOnce(&this->unk14C, &object_skb_000D98_Anim, -4.0f);
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = -4.0f;
     }
@@ -366,7 +363,7 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
-    Animation_MorphToPlayOnce(&this->unk14C, &D_60009DC, -4.0f);
+    Animation_MorphToPlayOnce(&this->unk14C, &object_skb_0009DC_Anim, -4.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = -6.0f;
