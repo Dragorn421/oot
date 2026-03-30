@@ -1,5 +1,6 @@
 #include "z_en_nb.h"
 #include "vt.h"
+#include "objects/object_nb/object_nb.h"
 
 #define FLAGS 0x00000010
 
@@ -52,6 +53,7 @@ void EnNb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNb_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+/*
 extern FlexSkeletonHeader D_060181C8;
 extern AnimationHeader D_06004BB4; // standing up hands on hips
 extern AnimationHeader D_06006E78;
@@ -77,6 +79,7 @@ extern AnimationHeader D_06005CA4; // crossed legs, turns head and looks behind 
 extern AnimationHeader D_06005614; // crossed legs, looking behind to the right
 extern Gfx D_06013158[];
 extern UNK_TYPE D_0600D8E8;
+*/
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
@@ -98,9 +101,9 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static UNK_PTR sEyeTextures[] = {
-    0x0600B428,
-    0x0600D0E8,
-    0x0600D4E8,
+    object_nb_00B428_Tex,
+    object_nb_00D0E8_Tex,
+    object_nb_00D4E8_Tex,
 };
 
 static s32 D_80AB4318 = 0;
@@ -322,7 +325,7 @@ void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 tr
 }
 
 void EnNb_SetChamberAnim(EnNb* this, GlobalContext* globalCtx) {
-    EnNb_SetCurrentAnim(this, &D_06009694, 0, 0, 0);
+    EnNb_SetCurrentAnim(this, &object_nb_009694_Anim, 0, 0, 0);
     this->actor.shape.yOffset = -10000.0f;
 }
 
@@ -385,7 +388,7 @@ void EnNb_SetupDefaultChamberIdle(EnNb* this) {
 }
 
 void EnNb_SetupArmRaise(EnNb* this, GlobalContext* globalCtx) {
-    AnimationHeader* animation = &D_0600274C;
+    AnimationHeader* animation = &object_nb_00274C_Anim;
     CsCmdActorAction* csCmdNPCAction;
 
     if (globalCtx->csCtx.state != CS_STATE_IDLE) {
@@ -399,7 +402,7 @@ void EnNb_SetupArmRaise(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetupRaisedArmTransition(EnNb* this, s32 animFinished) {
-    AnimationHeader* animation = &D_06002B4C;
+    AnimationHeader* animation = &object_nb_002B4C_Anim;
 
     if (animFinished) {
         Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
@@ -466,7 +469,7 @@ void func_80AB19FC(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetupLightArrowOrSealingCs(EnNb* this, GlobalContext* globalCtx) {
-    EnNb_SetCurrentAnim(this, &D_06000410, 2, 0.0f, 0);
+    EnNb_SetCurrentAnim(this, &object_nb_000410_Anim, 2, 0.0f, 0);
     this->action = NB_ACTION_7;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -579,7 +582,7 @@ void EnNb_DrawTransparency(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_InitKidnap(EnNb* this, GlobalContext* globalCtx) {
-    EnNb_SetCurrentAnim(this, &D_06001E7C, 0, 0.0f, 0);
+    EnNb_SetCurrentAnim(this, &object_nb_001E7C_Anim, 0, 0.0f, 0);
     this->action = NB_KIDNAPPED;
     this->actor.shape.shadowAlpha = 0;
     gSaveContext.eventChkInf[9] |= 0x20;
@@ -627,7 +630,7 @@ void EnNb_SetupCaptureCutsceneState(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetRaisedArmCaptureAnim(EnNb* this, s32 animFinished) {
-    AnimationHeader* animation = &D_06001350;
+    AnimationHeader* animation = &object_nb_001350_Anim;
 
     if (animFinished) {
         Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
@@ -636,7 +639,7 @@ void EnNb_SetRaisedArmCaptureAnim(EnNb* this, s32 animFinished) {
 }
 
 void EnNb_SetupLookAroundInKidnap(EnNb* this) {
-    AnimationHeader* animation = &D_06001E7C;
+    AnimationHeader* animation = &object_nb_001E7C_Anim;
 
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP, -8.0f);
     this->action = NB_KIDNAPPED_LOOK_AROUND;
@@ -644,7 +647,7 @@ void EnNb_SetupLookAroundInKidnap(EnNb* this) {
 }
 
 void EnNb_SetupKidnap(EnNb* this) {
-    AnimationHeader* animation = &D_06001104;
+    AnimationHeader* animation = &object_nb_001104_Anim;
 
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, -8.0f);
     this->action = NB_PORTAL_FALLTHROUGH;
@@ -707,7 +710,7 @@ void EnNb_SuckedInByPortal(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetupConfrontation(EnNb* this, GlobalContext* globalCtx) {
-    AnimationHeader* animation = &D_06008BD0;
+    AnimationHeader* animation = &object_nb_008BD0_Anim;
 
     EnNb_SetCurrentAnim(this, animation, 0, 0.0f, 0);
     this->action = NB_IN_CONFRONTATION;
@@ -766,7 +769,7 @@ void func_80AB26C8(EnNb* this) {
 
 void func_80AB26DC(EnNb* this, GlobalContext* globalCtx) {
     s32 pad;
-    AnimationHeader* animation = &D_06008BD0;
+    AnimationHeader* animation = &object_nb_008BD0_Anim;
     f32 frames = Animation_GetLastFrame(animation);
 
     EnNb_SetupCsPosRot(this, globalCtx, 1);
@@ -777,7 +780,7 @@ void func_80AB26DC(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetupKneel(EnNb* this) {
-    AnimationHeader* animation = &D_06008BD0;
+    AnimationHeader* animation = &object_nb_008BD0_Anim;
     f32 frames = Animation_GetLastFrame(animation);
 
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
@@ -787,7 +790,7 @@ void EnNb_SetupKneel(EnNb* this) {
 }
 
 void EnNb_CheckIfKneeling(EnNb* this, s32 animFinished) {
-    AnimationHeader* animation = &D_060046A8;
+    AnimationHeader* animation = &object_nb_0046A8_Anim;
 
     if (animFinished) {
         Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
@@ -797,7 +800,7 @@ void EnNb_CheckIfKneeling(EnNb* this, s32 animFinished) {
 }
 
 void EnNb_SetupLookRight(EnNb* this) {
-    AnimationHeader* animation = &D_06003954;
+    AnimationHeader* animation = &object_nb_003954_Anim;
     f32 frames = Animation_GetLastFrame(animation);
 
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
@@ -807,7 +810,7 @@ void EnNb_SetupLookRight(EnNb* this) {
 }
 
 void EnNb_CheckIfLookingRight(EnNb* this, s32 animFinished) {
-    AnimationHeader* animation = &D_06004030;
+    AnimationHeader* animation = &object_nb_004030_Anim;
 
     if (animFinished) {
         Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
@@ -817,7 +820,7 @@ void EnNb_CheckIfLookingRight(EnNb* this, s32 animFinished) {
 }
 
 void EnNb_SetupLookLeft(EnNb* this) {
-    AnimationHeader* animation = &D_06002DBC;
+    AnimationHeader* animation = &object_nb_002DBC_Anim;
     f32 frames = Animation_GetLastFrame(animation);
 
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
@@ -827,7 +830,7 @@ void EnNb_SetupLookLeft(EnNb* this) {
 }
 
 void EnNb_CheckIfLookLeft(EnNb* this, s32 animFinished) {
-    AnimationHeader* animation = &D_060035A8;
+    AnimationHeader* animation = &object_nb_0035A8_Anim;
 
     if (animFinished) {
         Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
@@ -843,7 +846,7 @@ void EnNb_SetupDemo6KInConfrontation(EnNb* this, GlobalContext* globalCtx, s32 a
 }
 
 void EnNb_SetupRun(EnNb* this) {
-    AnimationHeader* animation = &D_06006320;
+    AnimationHeader* animation = &object_nb_006320_Anim;
     f32 frames = Animation_GetLastFrame(animation);
 
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
@@ -975,8 +978,8 @@ void func_80AB2E70(EnNb* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_nb_inConfrontion.c", 572);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_0600D8E8));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600D8E8));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&object_nb_00D8E8_Tex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&object_nb_00D8E8_Tex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL,
@@ -989,7 +992,7 @@ s32 func_80AB2FC0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     EnNb* this = THIS;
 
     if (limbIndex == 15) {
-        *dList = D_06013158;
+        *dList = object_nb_013158_DL;
     }
 
     return 0;
@@ -1016,7 +1019,7 @@ void func_80AB2FE4(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetupCreditsSpawn(EnNb* this, GlobalContext* globalCtx) {
-    EnNb_SetCurrentAnim(this, &D_06000BC0, 0, 0.0f, 0);
+    EnNb_SetCurrentAnim(this, &object_nb_000BC0_Anim, 0, 0.0f, 0);
     this->action = NB_CREDITS_INIT;
     this->drawMode = NB_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
@@ -1052,13 +1055,13 @@ void EnNb_SetupCreditsSit(EnNb* this) {
 }
 
 void EnNb_SetupCreditsHeadTurn(EnNb* this) {
-    EnNb_SetCurrentAnim(this, &D_06005CA4, 2, -8.0f, 0);
+    EnNb_SetCurrentAnim(this, &object_nb_005CA4_Anim, 2, -8.0f, 0);
     this->action = NB_CREDITS_HEAD_TURN;
 }
 
 void EnNb_CheckIfLookingUp(EnNb* this, s32 animFinished) {
     if (animFinished) {
-        EnNb_SetCurrentAnim(this, &D_06005614, 0, 0.0f, 0);
+        EnNb_SetCurrentAnim(this, &object_nb_005614_Anim, 0, 0.0f, 0);
     }
 }
 
@@ -1122,11 +1125,11 @@ void EnNb_CrawlspaceSpawnCheck(EnNb* this, GlobalContext* globalCtx) {
 
         // looking into crawlspace
         if (!(gSaveContext.eventChkInf[9] & 0x10)) {
-            EnNb_SetCurrentAnim(this, &D_06006E78, 0, 0.0f, 0);
+            EnNb_SetCurrentAnim(this, &object_nb_006E78_Anim, 0, 0.0f, 0);
             this->action = NB_CROUCH_CRAWLSPACE;
             this->drawMode = NB_DRAW_DEFAULT;
         } else {
-            EnNb_SetCurrentAnim(this, &D_06004BB4, 0, 0.0f, 0);
+            EnNb_SetCurrentAnim(this, &object_nb_004BB4_Anim, 0, 0.0f, 0);
             this->headTurnFlag = 1;
             this->actor.flags |= 9;
             this->actor.world.pos = this->finalPos;
@@ -1195,7 +1198,7 @@ void func_80AB36DC(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_CheckNoticed(EnNb* this, GlobalContext* globalCtx) {
     if (EnNb_GetNoticedStatus(this, globalCtx)) {
-        EnNb_SetCurrentAnim(this, &D_06004E60, 2, -8.0f, 0);
+        EnNb_SetCurrentAnim(this, &object_nb_004E60_Anim, 2, -8.0f, 0);
         this->action = NB_NOTICE_PLAYER;
         EnNb_SetNoticeSFX(this);
     }
@@ -1203,7 +1206,7 @@ void EnNb_CheckNoticed(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
     if (animFinished) {
-        EnNb_SetCurrentAnim(this, &D_06004BB4, 0, -8.0f, 0);
+        EnNb_SetCurrentAnim(this, &object_nb_004BB4_Anim, 0, -8.0f, 0);
         this->headTurnFlag = 1;
         this->actor.flags |= 9;
         this->action = NB_IDLE_CRAWLSPACE;
@@ -1227,7 +1230,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetupPathMovement(EnNb* this, GlobalContext* globalCtx) {
-    EnNb_SetCurrentAnim(this, &D_06004E60, 2, -8.0f, 0);
+    EnNb_SetCurrentAnim(this, &object_nb_004E60_Anim, 2, -8.0f, 0);
     gSaveContext.eventChkInf[9] |= 0x10;
     this->action = NB_IN_PATH;
     this->actor.flags &= ~9;
@@ -1294,10 +1297,10 @@ void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, s32 animFinished) {
 
     if ((u16)(kREG(17) + 0x19) > movementTimer) {
         if (animFinished) {
-            EnNb_SetCurrentAnim(this, &D_06009238, 0, 0.0f, 0);
+            EnNb_SetCurrentAnim(this, &object_nb_009238_Anim, 0, 0.0f, 0);
         }
     } else {
-        EnNb_SetCurrentAnim(this, &D_06004BB4, 0, -8.0f, 0);
+        EnNb_SetCurrentAnim(this, &object_nb_004BB4_Anim, 0, -8.0f, 0);
         this->action = NB_IDLE_AFTER_TALK;
     }
 }
@@ -1443,7 +1446,7 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnNb_SetupCollider(thisx, globalCtx);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060181C8, NULL, this->jointTable, this->morphTable, 19);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_nb_0181C8_Skel, NULL, this->jointTable, this->morphTable, 19);
 
     switch (EnNb_GetType(this)) {
         case NB_TYPE_DEMO02:
