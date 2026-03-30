@@ -1,0 +1,94 @@
+<Root>
+    <File Name="object_nb" Segment="6">
+        <Animation Name="object_nb_000410_Anim" Offset="0x410"/>
+        <Animation Name="object_nb_000BC0_Anim" Offset="0xBC0"/>
+        <Animation Name="object_nb_001104_Anim" Offset="0x1104"/>
+        <Animation Name="object_nb_001350_Anim" Offset="0x1350"/>
+        <Animation Name="object_nb_001E7C_Anim" Offset="0x1E7C"/>
+        <Animation Name="object_nb_00274C_Anim" Offset="0x274C"/>
+        <Animation Name="object_nb_002B4C_Anim" Offset="0x2B4C"/>
+        <Animation Name="object_nb_002DBC_Anim" Offset="0x2DBC"/>
+        <Animation Name="object_nb_0035A8_Anim" Offset="0x35A8"/>
+        <Animation Name="object_nb_003954_Anim" Offset="0x3954"/>
+        <Animation Name="object_nb_004030_Anim" Offset="0x4030"/>
+        <Animation Name="object_nb_0046A8_Anim" Offset="0x46A8"/>
+        <Animation Name="object_nb_004BB4_Anim" Offset="0x4BB4"/>
+        <Animation Name="object_nb_004E60_Anim" Offset="0x4E60"/>
+        <Animation Name="object_nb_005614_Anim" Offset="0x5614"/>
+        <Animation Name="object_nb_005CA4_Anim" Offset="0x5CA4"/>
+        <Animation Name="object_nb_006320_Anim" Offset="0x6320"/>
+        <Animation Name="object_nb_00676C_Anim" Offset="0x676C"/>
+        <Animation Name="object_nb_006E78_Anim" Offset="0x6E78"/>
+        <Animation Name="object_nb_008BD0_Anim" Offset="0x8BD0"/>
+        <Animation Name="object_nb_009238_Anim" Offset="0x9238"/>
+        <Animation Name="object_nb_009694_Anim" Offset="0x9694"/>
+        <Texture Name="object_nb_0096B0_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x96B0"/>
+        <Texture Name="object_nb_0098B0_Tex" Format="ci8" Width="16" Height="16" Offset="0x98B0"/>
+        <Texture Name="object_nb_0099B0_Tex" Format="ci8" Width="8" Height="8" Offset="0x99B0"/>
+        <Texture Name="object_nb_0099F0_Tex" Format="ci8" Width="16" Height="16" Offset="0x99F0"/>
+        <Texture Name="object_nb_009AF0_Tex" Format="ci8" Width="32" Height="32" Offset="0x9AF0"/>
+        <Texture Name="object_nb_009EF0_Tex" Format="ci8" Width="8" Height="8" Offset="0x9EF0"/>
+        <Texture Name="object_nb_009F30_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x9F30"/>
+        <Texture Name="object_nb_00A130_Tex" Format="ci8" Width="16" Height="16" Offset="0xA130"/>
+        <Texture Name="object_nb_00A230_Tex" Format="ci8" Width="8" Height="8" Offset="0xA230"/>
+        <Texture Name="object_nb_00A270_Tex" Format="ci8" Width="16" Height="16" Offset="0xA270"/>
+        <Texture Name="object_nb_00A370_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0xA370"/>
+        <Texture Name="object_nb_00A570_Tex" Format="ci8" Width="16" Height="16" Offset="0xA570"/>
+        <Texture Name="object_nb_00A670_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0xA670"/>
+        <Texture Name="object_nb_00AE70_TLUT" Format="rgb5a1" Width="4" Height="59" Offset="0xAE70"/>
+        <Texture Name="object_nb_00B248_Tex" Format="ci8" Width="8" Height="8" Offset="0xB248"/>
+        <Texture Name="object_nb_00B288_Tex" Format="ci8" Width="8" Height="4" Offset="0xB288"/>
+        <Texture Name="object_nb_00B2A8_Tex" Format="ci8" Width="8" Height="16" Offset="0xB2A8"/>
+        <Texture Name="object_nb_00B328_Tex" Format="ci8" Width="16" Height="16" Offset="0xB328"/>
+        <Texture Name="object_nb_00B828_Tex" Format="ci8" Width="16" Height="16" Offset="0xB828"/>
+        <Texture Name="object_nb_00B928_Tex" Format="ci8" Width="16" Height="16" Offset="0xB928"/>
+        <Texture Name="object_nb_00BA28_Tex" Format="ci8" Width="8" Height="16" Offset="0xBA28"/>
+        <Texture Name="object_nb_00BAA8_Tex" Format="ci8" Width="32" Height="32" Offset="0xBAA8"/>
+        <Texture Name="object_nb_00BEA8_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0xBEA8"/>
+        <Texture Name="object_nb_00C6A8_Tex" Format="ci8" Width="32" Height="32" Offset="0xC6A8"/>
+        <Texture Name="object_nb_00CAA8_Tex" Format="ci8" Width="16" Height="16" Offset="0xCAA8"/>
+        <Texture Name="object_nb_00CBA8_Tex" Format="ci8" Width="8" Height="8" Offset="0xCBA8"/>
+        <Texture Name="object_nb_00CBE8_Tex" Format="ci8" Width="8" Height="8" Offset="0xCBE8"/>
+        <Texture Name="object_nb_00CC28_Tex" Format="ci8" Width="8" Height="8" Offset="0xCC28"/>
+        <Texture Name="object_nb_00CC68_Tex" Format="ci8" Width="8" Height="16" Offset="0xCC68"/>
+        <Texture Name="object_nb_00CCE8_Tex" Format="ci8" Width="32" Height="32" Offset="0xCCE8"/>
+        <Texture Name="object_nb_00DCE8_Tex" Format="rgb5a1" Width="8" Height="8" Offset="0xDCE8"/>
+        <DList Name="object_nb_0114A8_DL" Offset="0x114A8"/>
+        <DList Name="object_nb_0125A0_DL" Offset="0x125A0"/>
+        <DList Name="object_nb_0125A8_DL" Offset="0x125A8"/>
+        <DList Name="object_nb_0126B8_DL" Offset="0x126B8"/>
+        <DList Name="object_nb_012A00_DL" Offset="0x12A00"/>
+        <DList Name="object_nb_012D48_DL" Offset="0x12D48"/>
+        <DList Name="object_nb_012F50_DL" Offset="0x12F50"/>
+        <DList Name="object_nb_013158_DL" Offset="0x13158"/>
+        <DList Name="object_nb_016490_DL" Offset="0x16490"/>
+        <DList Name="object_nb_016848_DL" Offset="0x16848"/>
+        <DList Name="object_nb_016FE0_DL" Offset="0x16FE0"/>
+        <DList Name="object_nb_017120_DL" Offset="0x17120"/>
+        <DList Name="object_nb_0172D8_DL" Offset="0x172D8"/>
+        <DList Name="object_nb_0174A0_DL" Offset="0x174A0"/>
+        <DList Name="object_nb_017658_DL" Offset="0x17658"/>
+        <DList Name="object_nb_017818_DL" Offset="0x17818"/>
+        <DList Name="object_nb_017B40_DL" Offset="0x17B40"/>
+        <DList Name="object_nb_017D80_DL" Offset="0x17D80"/>
+        <Limb Name="object_nb_0180A8_Limb" LimbType="Standard" Offset="0x180A8"/>
+        <Limb Name="object_nb_0180B4_Limb" LimbType="Standard" Offset="0x180B4"/>
+        <Limb Name="object_nb_0180C0_Limb" LimbType="Standard" Offset="0x180C0"/>
+        <Limb Name="object_nb_0180CC_Limb" LimbType="Standard" Offset="0x180CC"/>
+        <Limb Name="object_nb_0180D8_Limb" LimbType="Standard" Offset="0x180D8"/>
+        <Limb Name="object_nb_0180E4_Limb" LimbType="Standard" Offset="0x180E4"/>
+        <Limb Name="object_nb_0180F0_Limb" LimbType="Standard" Offset="0x180F0"/>
+        <Limb Name="object_nb_0180FC_Limb" LimbType="Standard" Offset="0x180FC"/>
+        <Limb Name="object_nb_018108_Limb" LimbType="Standard" Offset="0x18108"/>
+        <Limb Name="object_nb_018114_Limb" LimbType="Standard" Offset="0x18114"/>
+        <Limb Name="object_nb_018120_Limb" LimbType="Standard" Offset="0x18120"/>
+        <Limb Name="object_nb_01812C_Limb" LimbType="Standard" Offset="0x1812C"/>
+        <Limb Name="object_nb_018138_Limb" LimbType="Standard" Offset="0x18138"/>
+        <Limb Name="object_nb_018144_Limb" LimbType="Standard" Offset="0x18144"/>
+        <Limb Name="object_nb_018150_Limb" LimbType="Standard" Offset="0x18150"/>
+        <Limb Name="object_nb_01815C_Limb" LimbType="Standard" Offset="0x1815C"/>
+        <Limb Name="object_nb_018168_Limb" LimbType="Standard" Offset="0x18168"/>
+        <Limb Name="object_nb_018174_Limb" LimbType="Standard" Offset="0x18174"/>
+        <Skeleton Name="object_nb_0181C8_Skel" Type="Flex" LimbType="Standard" Offset="0x181C8"/>
+    </File>
+</Root>

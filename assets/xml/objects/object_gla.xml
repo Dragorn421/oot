@@ -1,0 +1,67 @@
+<Root>
+    <File Name="object_gla" Segment="6">
+        <Animation Name="object_gla_000324_Anim" Offset="0x324"/>
+        <Animation Name="object_gla_000780_Anim" Offset="0x780"/>
+        <Animation Name="object_gla_0011F4_Anim" Offset="0x11F4"/>
+        <Animation Name="object_gla_0015D0_Anim" Offset="0x15D0"/>
+        <Animation Name="object_gla_001B3C_Anim" Offset="0x1B3C"/>
+        <DList Name="object_gla_003540_DL" Offset="0x3540"/>
+        <DList Name="object_gla_0039E0_DL" Offset="0x39E0"/>
+        <DList Name="object_gla_003B18_DL" Offset="0x3B18"/>
+        <DList Name="object_gla_003D18_DL" Offset="0x3D18"/>
+        <DList Name="object_gla_003E50_DL" Offset="0x3E50"/>
+        <DList Name="object_gla_004050_DL" Offset="0x4050"/>
+        <DList Name="object_gla_0041E8_DL" Offset="0x41E8"/>
+        <DList Name="object_gla_0042F8_DL" Offset="0x42F8"/>
+        <DList Name="object_gla_0044B8_DL" Offset="0x44B8"/>
+        <DList Name="object_gla_0045C8_DL" Offset="0x45C8"/>
+        <Texture Name="object_gla_004788_Tex" Format="rgb5a1" Width="16" Height="16" Offset="0x4788"/>
+        <Texture Name="object_gla_004988_Tex" Format="ci8" Width="8" Height="8" Offset="0x4988"/>
+        <Texture Name="object_gla_0049C8_Tex" Format="ci8" Width="8" Height="8" Offset="0x49C8"/>
+        <Texture Name="object_gla_004A08_Tex" Format="ci8" Width="16" Height="16" Offset="0x4A08"/>
+        <Texture Name="object_gla_004B08_Tex" Format="ci8" Width="16" Height="16" Offset="0x4B08"/>
+        <Texture Name="object_gla_004C08_Tex" Format="i8" Width="16" Height="16" Offset="0x4C08"/>
+        <Texture Name="object_gla_004EB8_Tex" Format="ci8" Width="8" Height="8" Offset="0x4EB8"/>
+        <Texture Name="object_gla_004EF8_Tex" Format="ci8" Width="8" Height="16" Offset="0x4EF8"/>
+        <Texture Name="object_gla_005378_Tex" Format="ci8" Width="8" Height="8" Offset="0x5378"/>
+        <Texture Name="object_gla_0053B8_Tex" Format="i8" Width="16" Height="16" Offset="0x53B8"/>
+        <Texture Name="object_gla_0054B8_Tex" Format="ci8" Width="8" Height="16" Offset="0x54B8"/>
+        <Texture Name="object_gla_005538_Tex" Format="ci8" Width="8" Height="8" Offset="0x5538"/>
+        <Texture Name="object_gla_005978_Tex" Format="i8" Width="8" Height="16" Offset="0x5978"/>
+        <Texture Name="object_gla_0059F8_Tex" Format="ci8" Width="16" Height="16" Offset="0x59F8"/>
+        <Texture Name="object_gla_005AF8_Tex" Format="i8" Width="16" Height="16" Offset="0x5AF8"/>
+        <DList Name="object_gla_007978_DL" Offset="0x7978"/>
+        <DList Name="object_gla_007B38_DL" Offset="0x7B38"/>
+        <DList Name="object_gla_007CF8_DL" Offset="0x7CF8"/>
+        <DList Name="object_gla_007E60_DL" Offset="0x7E60"/>
+        <DList Name="object_gla_007FC8_DL" Offset="0x7FC8"/>
+        <DList Name="object_gla_0081B8_DL" Offset="0x81B8"/>
+        <DList Name="object_gla_008270_DL" Offset="0x8270"/>
+        <DList Name="object_gla_008360_DL" Offset="0x8360"/>
+        <Limb Name="object_gla_008818_Limb" LimbType="Standard" Offset="0x8818"/>
+        <Limb Name="object_gla_008824_Limb" LimbType="Standard" Offset="0x8824"/>
+        <Limb Name="object_gla_008830_Limb" LimbType="Standard" Offset="0x8830"/>
+        <Limb Name="object_gla_00883C_Limb" LimbType="Standard" Offset="0x883C"/>
+        <Limb Name="object_gla_008848_Limb" LimbType="Standard" Offset="0x8848"/>
+        <Limb Name="object_gla_008854_Limb" LimbType="Standard" Offset="0x8854"/>
+        <Limb Name="object_gla_008860_Limb" LimbType="Standard" Offset="0x8860"/>
+        <Limb Name="object_gla_00886C_Limb" LimbType="Standard" Offset="0x886C"/>
+        <Limb Name="object_gla_008878_Limb" LimbType="Standard" Offset="0x8878"/>
+        <Limb Name="object_gla_008884_Limb" LimbType="Standard" Offset="0x8884"/>
+        <Limb Name="object_gla_008890_Limb" LimbType="Standard" Offset="0x8890"/>
+        <Limb Name="object_gla_00889C_Limb" LimbType="Standard" Offset="0x889C"/>
+        <Limb Name="object_gla_0088A8_Limb" LimbType="Standard" Offset="0x88A8"/>
+        <Limb Name="object_gla_0088B4_Limb" LimbType="Standard" Offset="0x88B4"/>
+        <Limb Name="object_gla_0088C0_Limb" LimbType="Standard" Offset="0x88C0"/>
+        <Limb Name="object_gla_0088CC_Limb" LimbType="Standard" Offset="0x88CC"/>
+        <Limb Name="object_gla_0088D8_Limb" LimbType="Standard" Offset="0x88D8"/>
+        <Limb Name="object_gla_0088E4_Limb" LimbType="Standard" Offset="0x88E4"/>
+        <Limb Name="object_gla_0088F0_Limb" LimbType="Standard" Offset="0x88F0"/>
+        <Limb Name="object_gla_0088FC_Limb" LimbType="Standard" Offset="0x88FC"/>
+        <Limb Name="object_gla_008908_Limb" LimbType="Standard" Offset="0x8908"/>
+        <Skeleton Name="object_gla_008968_Skel" Type="Flex" LimbType="Standard" Offset="0x8968"/>
+        <Animation Name="object_gla_008D60_Anim" Offset="0x8D60"/>
+        <Animation Name="object_gla_0098AC_Anim" Offset="0x98AC"/>
+        <Animation Name="object_gla_009ED4_Anim" Offset="0x9ED4"/>
+    </File>
+</Root>
