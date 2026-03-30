@@ -1,4 +1,5 @@
 #include "z_en_ge2.h"
+#include "objects/object_gla/object_gla.h"
 
 #define FLAGS 0x00000019
 
@@ -23,9 +24,6 @@ void func_80A33AFC(EnGe2* this, GlobalContext* globalCtx);
 void func_80A33D10(Actor* thisx, GlobalContext* globalCtx);
 void func_80A33DE0(Actor* thisx, GlobalContext* globalCtx);
 void func_80A3402C(Actor* thisx, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_6008968;
-extern AnimationHeader D_6009ED4;
 
 const ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,
@@ -64,15 +62,9 @@ static void (*D_80A3433C[9])(EnGe2*, GlobalContext*) = {
     func_80A331A0, func_80A330CC, func_80A336C4, func_80A339EC,
 };
 static AnimationHeader* D_80A34360[9] = {
-    &D_6009ED4,
-    (AnimationHeader*)0x060098AC,
-    (AnimationHeader*)0x060098AC,
-    (AnimationHeader*)0x060011F4,
-    (AnimationHeader*)0x060098AC,
-    (AnimationHeader*)0x06008D60,
-    (AnimationHeader*)0x060098AC,
-    (AnimationHeader*)0x060098AC,
-    (AnimationHeader*)0x060098AC,
+    &object_gla_009ED4_Anim, &object_gla_0098AC_Anim, &object_gla_0098AC_Anim,
+    &object_gla_0011F4_Anim, &object_gla_0098AC_Anim, &object_gla_008D60_Anim,
+    &object_gla_0098AC_Anim, &object_gla_0098AC_Anim, &object_gla_0098AC_Anim,
 };
 static u8 D_80A34384[9] = {
     ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP,
@@ -101,8 +93,8 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->unk198, &D_6008968, NULL, this->unk1DC, this->unk260, 22);
-    Animation_PlayLoop(&this->unk198, &D_6009ED4);
+    SkelAnime_InitFlex(globalCtx, &this->unk198, &object_gla_008968_Skel, NULL, this->unk1DC, this->unk260, 22);
+    Animation_PlayLoop(&this->unk198, &object_gla_009ED4_Anim);
     Collider_InitCylinder(globalCtx, &this->unk14C);
     Collider_SetCylinder(globalCtx, &this->unk14C, &this->actor, &D_80A34310);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
