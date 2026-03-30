@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tp.h"
+#include "objects/object_tp/object_tp.h"
 
 #define FLAGS 0x00000000
 
@@ -31,10 +32,6 @@ void func_80B21BDC(EnTp* this, GlobalContext* globalCtx);
 void func_80B21EE8(EnTp* this);
 void func_80B21F18(EnTp* this, GlobalContext* globalCtx);
 void func_80B221E8(EnTp* this, GlobalContext* globalCtx);
-
-extern Gfx D_6000000[];
-extern Gfx D_60008D0[];
-extern UNK_TYPE D_6000C68;
 
 const ActorInit En_Tp_InitVars = {
     ACTOR_EN_TP,
@@ -629,7 +626,7 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_80093D18(globalCtx->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5B3),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, D_60008D0);
+            gSPDisplayList(POLY_OPA_DISP++, object_tp_0008D0_DL);
             Matrix_Translate(0.0f, 0.0f, 8.0f, 1U);
         } else {
             func_80093D84(globalCtx->state.gfxCtx);
@@ -640,11 +637,11 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
                               TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,
                               TEXEL0, ENVIRONMENT);
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(&D_6000C68));
+            gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(object_tp_000C68_Tex));
             gDPPipeSync(POLY_XLU_DISP++);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5C8),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_6000000);
+            gSPDisplayList(POLY_XLU_DISP++, object_tp_000000_DL);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5D7);

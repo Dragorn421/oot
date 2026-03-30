@@ -3623,7 +3623,8 @@ endseg
 beginseg
     name "object_tp"
     romalign 0x1000
-    include "build/baserom/object_tp.o"
+    include "build/assets/objects/object_tp/object_tp.o"
+    number 6
 endseg
 
 beginseg
