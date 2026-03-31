@@ -1,5 +1,5 @@
 #include "z_en_fish.h"
-// #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -40,10 +40,6 @@ void func_80A169C8(EnFish* this, GlobalContext* globalCtx);
 void func_80A16A64(EnFish* this, GlobalContext* globalCtx);
 void func_80A16C68(EnFish* this, GlobalContext* globalCtx);
 void func_80A16DEC(EnFish* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_40185FC;
-extern FlexSkeletonHeader D_4018FE0;
-extern AnimationHeader D_401909C;
 
 static EnFish* D_80A17010 = NULL;
 static f32 D_80A17014 = 0.0f;
@@ -113,12 +109,12 @@ f32 func_80A15280(Vec3f* arg0, Vec3f* arg1) {
 }
 
 void func_80A152AC(EnFish* this) {
-    Animation_Change(&this->unk1AC, &D_401909C, 1.0f, 0.0f, Animation_GetLastFrame(&D_401909C), ANIMMODE_LOOP_INTERP,
+    Animation_Change(&this->unk1AC, &gFish2Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish2Anim), ANIMMODE_LOOP_INTERP,
                      2.0f);
 }
 
 void func_80A15310(EnFish* this) {
-    Animation_Change(&this->unk1AC, &D_40185FC, 1.0f, 0.0f, Animation_GetLastFrame(&D_40185FC), ANIMMODE_LOOP_INTERP,
+    Animation_Change(&this->unk1AC, &gFish1Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish1Anim), ANIMMODE_LOOP_INTERP,
                      2.0f);
 }
 
@@ -158,7 +154,7 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     sp3A = this->actor.params;
     Actor_ProcessInitChain(&this->actor, D_80A17070);
-    SkelAnime_InitFlex(globalCtx, &this->unk1AC, &D_4018FE0, &D_401909C, this->unk1F0, this->unk21A, 7);
+    SkelAnime_InitFlex(globalCtx, &this->unk1AC, &gFishSkel, &gFish2Anim, this->unk1F0, this->unk21A, 7);
     Collider_InitJntSph(globalCtx, &this->unk14C);
     Collider_SetJntSph(globalCtx, &this->unk14C, &this->actor, &D_80A17040, &this->unk16C);
     this->actor.colChkInfo.mass = 0x32;
