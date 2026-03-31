@@ -95,6 +95,7 @@
         <Texture Name="gMsgCharVerticalBarTex" OutName="msg_char_vertical_bar" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharRightCurlyBracketTex" OutName="msg_char_right_curly_bracket" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharOverlineTex" OutName="msg_char_overline" Format="i4" Width="16" Height="16"/>
+        <Texture Name="nes_font_static_Unk_Tex" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharUppercaseAccentedATex" OutName="msg_char_uppercase_accented_A" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharUppercaseCircumflexedITex" OutName="msg_char_uppercase_circumflexed_I" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharUppercaseCircumflexedATex" OutName="msg_char_uppercase_circumflexed_A" Format="i4" Width="16" Height="16"/>
