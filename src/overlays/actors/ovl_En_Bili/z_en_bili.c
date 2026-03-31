@@ -1,4 +1,5 @@
 #include "z_en_bili.h"
+#include "objects/object_bl/object_bl.h"
 
 #define FLAGS 0x00005005
 
@@ -39,12 +40,6 @@ void func_809C1020(EnBili* this, f32 arg1, Vec3f* arg2);
 void func_809C1240(EnBili* this, f32 arg1, Vec3f* arg2);
 s32 EnBili_OverrideLimbDraw(GlobalContext* arg0, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx,
                             Gfx** gfx);
-
-extern AnimationHeader D_6000024;
-extern AnimationHeader D_6000064;
-extern AnimationHeader D_60000A4;
-extern UNK_TYPE D_6004408;
-extern SkeletonHeader D_6005848;
 
 const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
@@ -98,7 +93,8 @@ void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, D_809C1698);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(globalCtx, &this->unk14C, &D_6005848, &D_60000A4, this->unk198, this->unk1B6, 5);
+    SkelAnime_Init(globalCtx, &this->unk14C, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6,
+                   5);
     Collider_InitCylinder(globalCtx, &this->unk1D4);
     Collider_SetCylinder(globalCtx, &this->unk1D4, &this->actor, &D_809C1640);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &D_809C1678, &D_809C166C);
@@ -129,7 +125,7 @@ void func_809BF9BC(EnBili* this) {
 }
 
 void func_809BFA14(EnBili* this) {
-    Animation_PlayLoop(&this->unk14C, &D_60000A4);
+    Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
     this->unk196 = 0x19;
     this->actor.velocity.y = 6.0f;
     this->actor.gravity = -0.3f;
@@ -139,7 +135,7 @@ void func_809BFA14(EnBili* this) {
 }
 
 void func_809BFA8C(EnBili* this) {
-    Animation_PlayLoop(&this->unk14C, &D_6000024);
+    Animation_PlayLoop(&this->unk14C, &object_bl_Anim_000024);
     this->unk196 = 0xA;
     this->unk190 = func_809C02B8;
     this->actor.speedXZ = 0.0f;
@@ -147,7 +143,7 @@ void func_809BFA8C(EnBili* this) {
 }
 
 void func_809BFAE8(EnBili* this) {
-    Animation_PlayOnce(&this->unk14C, &D_6000064);
+    Animation_PlayOnce(&this->unk14C, &object_bl_Anim_000064);
     this->unk1D4.base.atFlags &= ~AT_ON;
     this->unk190 = func_809C04B4;
     this->actor.speedXZ = 0.0f;
@@ -160,7 +156,7 @@ void func_809BFB40(EnBili* this) {
 }
 
 void func_809BFB5C(EnBili* this) {
-    Animation_PlayLoop(&this->unk14C, &D_60000A4);
+    Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
     this->unk196 = 0x60;
     this->actor.speedXZ = 0.9f;
     this->actor.home.pos.y = this->actor.world.pos.y;
@@ -169,8 +165,8 @@ void func_809BFB5C(EnBili* this) {
 }
 
 void func_809BFBC4(EnBili* this) {
-    if (this->unk14C.animation != &D_60000A4) {
-        Animation_PlayLoop(&this->unk14C, &D_60000A4);
+    if (this->unk14C.animation != &object_bl_Anim_0000A4) {
+        Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
     }
     this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->unk1D4.base.ac->prevPos) + 0x8000;
     this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->unk1D4.base.ac->prevPos);
@@ -180,7 +176,7 @@ void func_809BFBC4(EnBili* this) {
 
 void func_809BFC48(EnBili* this) {
     if (this->unk190 == func_809C04B4) {
-        Animation_PlayLoop(&this->unk14C, &D_60000A4);
+        Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
     }
     this->unk196 = 0x14;
     this->unk1D4.base.atFlags &= ~AT_ON;
@@ -455,7 +451,7 @@ void func_809C0754(EnBili* this, GlobalContext* globalCtx) {
 
 static Vec3f D_809C16C0 = { 1.0f, 1.0f, 1.0f };
 static s32 D_809C16CC[9] = {
-    0x06000E08, 0x06001708, 0x06002008, 0x06002908, 0x06003208, 0x06003B08, (s32)&D_6004408, 0x06004D08, 0,
+    0x06000E08, 0x06001708, 0x06002008, 0x06002908, 0x06003208, 0x06003B08, 0x06004408, 0x06004D08, 0,
 };
 static Gfx D_809C16F0[] = {
     gsDPSetCombineLERP(1, TEXEL0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, TEXEL1, 0,
