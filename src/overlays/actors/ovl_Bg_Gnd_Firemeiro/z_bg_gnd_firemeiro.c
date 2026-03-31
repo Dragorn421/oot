@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_gnd_firemeiro.h"
-// #include "objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
 #define FLAGS 0x00000030
 
@@ -17,9 +17,6 @@ void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, GlobalContext* globalCtx);
-
-extern Gfx gFireTrialPlatformDL[];
-extern CollisionHeader gFireTrialPlatformCol;
 
 const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
