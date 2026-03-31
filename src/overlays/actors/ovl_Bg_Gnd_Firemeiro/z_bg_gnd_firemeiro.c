@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_gnd_firemeiro.h"
-#include "objects/object_demo_kekkai/object_demo_kekkai.h"
+// #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
 #define FLAGS 0x00000030
 
@@ -16,14 +16,11 @@ void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgGndFiremeiro_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808795AC(BgGndFiremeiro* this, GlobalContext* globalCtx);
-void func_80879668(BgGndFiremeiro* this, GlobalContext* globalCtx);
-void func_80879808(BgGndFiremeiro* this, GlobalContext* globalCtx);
+void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, GlobalContext* globalCtx);
 
-// extern Gfx gFireTrialPlatformDL[];
-// extern CollisionHeader gFireTrialPlatformCol;
+extern Gfx gFireTrialPlatformDL[];
+extern CollisionHeader gFireTrialPlatformCol;
 
-/*
 const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
     ACTORCAT_PROP,
@@ -35,17 +32,119 @@ const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     (ActorFunc)BgGndFiremeiro_Update,
     (ActorFunc)BgGndFiremeiro_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Firemeiro/BgGndFiremeiro_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Firemeiro/BgGndFiremeiro_Destroy.s")
+void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
+    CollisionHeader* colHeader = NULL;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Firemeiro/func_808795AC.s")
+    ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
+    Actor_SetScale(&this->dyna.actor, 0.1f);
+    this->homePos = this->dyna.actor.world.pos;
+    if (this->dyna.actor.params == 0) {
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        CollisionHeader_GetVirtual(&gFireTrialPlatformCol, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->actionFunc = BgGndFiremeiro_RiseWaitAtTop;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Firemeiro/func_80879668.s")
+void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Firemeiro/func_80879808.s")
+    if (this->dyna.actor.params != 0) {
+        return;
+    }
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Firemeiro/BgGndFiremeiro_Update.s")
+void BgGndFIremeiro_Sink(BgGndFiremeiro* this, GlobalContext* globalCtx) {
+    f32 sinkTarget = this->homePos.y - 150.0f;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Firemeiro/BgGndFiremeiro_Draw.s")
+    if (func_8004356C(&this->dyna) != 0) {
+        this->timer = 10;
+    }
+    if (sinkTarget < this->dyna.actor.world.pos.y) {
+        this->dyna.actor.world.pos.y -= 0.5f;
+        // I was not able to get this to be true in fire trial.
+        if (this->dyna.actor.world.pos.y < sinkTarget) {
+            this->dyna.actor.world.pos.y = sinkTarget;
+        }
+        func_8002F948(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
+    }
+    if (this->timer > 0) {
+        this->timer--;
+    } else {
+        this->actionFunc = BgGndFiremeiro_RiseWaitAtTop;
+    }
+}
+
+void BgGndFiremeiro_Shake(BgGndFiremeiro* this, GlobalContext* globalCtx) {
+    s32 pad;
+    f32 shakeOffset;
+
+    if (func_8004356C(&this->dyna) != 0) {
+        if (this->timer > 0) {
+            this->timer--;
+            if ((this->timer % 2) != 0) {
+                shakeOffset = 2.0f;
+            } else {
+                shakeOffset = -2.0f;
+            }
+            this->dyna.actor.world.pos = this->homePos;
+            this->dyna.actor.world.pos.x += shakeOffset * Math_SinS(this->timer * 0x2FFF);
+            this->dyna.actor.world.pos.z += shakeOffset * Math_CosS(this->timer * 0x2FFF);
+            this->dyna.actor.world.pos.y += Math_CosS(this->timer * 0x7FFF);
+            if (!(this->timer % 4)) {
+                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+            }
+        } else {
+            this->timer = 10;
+            this->dyna.actor.world.pos = this->homePos;
+            this->actionFunc = BgGndFIremeiro_Sink;
+        }
+    } else {
+        this->dyna.actor.world.pos = this->homePos;
+        this->actionFunc = BgGndFiremeiro_RiseWaitAtTop;
+    }
+}
+
+void BgGndFiremeiro_RiseWaitAtTop(BgGndFiremeiro* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    Actor* thisx = &this->dyna.actor;
+
+    if ((player->currentBoots != 2) && (func_8004356C(&this->dyna) != 0)) {
+        if (thisx->world.pos.y < this->homePos.y) {
+            this->actionFunc = BgGndFIremeiro_Sink;
+            this->timer = 20;
+        } else {
+            this->actionFunc = BgGndFiremeiro_Shake;
+            this->timer = 20;
+        }
+    } else {
+        if (thisx->world.pos.y < this->homePos.y) {
+            thisx->world.pos.y += 2.0f;
+            if (this->homePos.y < thisx->world.pos.y) {
+                thisx->world.pos.y = this->homePos.y;
+            }
+        }
+    }
+}
+
+void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgGndFiremeiro* this = THIS;
+
+    this->actionFunc(this, globalCtx);
+}
+
+void BgGndFiremeiro_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 280);
+
+    func_800943C8(globalCtx->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 282),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_OPA_DISP++, gFireTrialPlatformDL);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 285);
+}
