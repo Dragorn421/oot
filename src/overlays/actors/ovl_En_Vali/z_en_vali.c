@@ -5,6 +5,7 @@
  */
 
 #include "z_en_vali.h"
+#include "objects/object_vali/object_vali.h"
 
 #define FLAGS 0x00001015
 
@@ -27,15 +28,6 @@ void func_80B274A0(EnVali* this, GlobalContext* globalCtx);
 void func_80B27654(EnVali* this, GlobalContext* globalCtx);
 void func_80B27710(EnVali* this, GlobalContext* globalCtx);
 void func_80B278A0(EnVali* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_6000710;
-extern AnimationHeader D_6000854;
-extern AnimationHeader D_6000B34;
-extern AnimationHeader D_60014AC;
-extern Gfx D_6002610[];
-extern Gfx D_6002740[];
-extern Gfx D_60027D8[];
-extern SkeletonHeader D_6004848;
 
 const ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
@@ -112,7 +104,8 @@ void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, D_80B28944);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(globalCtx, &this->unk14C, &D_6004848, &D_60014AC, this->unk198, this->unk246, 29);
+    SkelAnime_Init(globalCtx, &this->unk14C, &object_vali_004848_Skel, &object_vali_Anim_0014AC, this->unk198,
+                   this->unk246, 29);
     Collider_InitQuad(globalCtx, &this->unk2FC);
     Collider_SetQuad(globalCtx, &this->unk2FC, &this->actor, &D_80B288A0);
     Collider_InitQuad(globalCtx, &this->unk37C);
@@ -138,7 +131,7 @@ void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B26878(EnVali* this) {
-    Animation_PlayLoop(&this->unk14C, &D_60014AC);
+    Animation_PlayLoop(&this->unk14C, &object_vali_Anim_0014AC);
     this->actor.draw = NULL;
     this->unk3FC.base.acFlags &= ~AC_ON;
     this->unk190 = func_80B27098;
@@ -163,7 +156,7 @@ void func_80B268FC(EnVali* this) {
     f32 temp_fv1;
     s32 pad[6];
 
-    Animation_MorphToLoop(&this->unk14C, &D_6000710, -3.0f);
+    Animation_MorphToLoop(&this->unk14C, &object_vali_Anim_000710, -3.0f);
     sp3C = this->actor.world.pos;
     this->unk37C.dim.quad[1] = sp3C;
     sp48 = sp3C;
@@ -204,7 +197,7 @@ void func_80B26B18(EnVali* this) {
 }
 
 void func_80B26B4C(EnVali* this) {
-    Animation_MorphToPlayOnce(&this->unk14C, &D_6000854, -5.0f);
+    Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_000854, -5.0f);
     Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
     this->actor.params = 0;
     this->unk3FC.base.acFlags &= ~AC_ON;
@@ -212,7 +205,7 @@ void func_80B26B4C(EnVali* this) {
 }
 
 void func_80B26BBC(EnVali* this) {
-    Animation_PlayOnce(&this->unk14C, &D_6000B34);
+    Animation_PlayOnce(&this->unk14C, &object_vali_Anim_000B34);
     this->unk190 = func_80B2742C;
 }
 
@@ -243,7 +236,7 @@ void func_80B26C50(EnVali* this, GlobalContext* globalCtx) {
 }
 
 void func_80B26D54(EnVali* this) {
-    Animation_MorphToPlayOnce(&this->unk14C, &D_6000710, 10.0f);
+    Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_000710, 10.0f);
     this->unk196 = 0x50;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 80);
@@ -262,7 +255,7 @@ void func_80B26DE0(EnVali* this) {
 }
 
 void func_80B26E40(EnVali* this) {
-    Animation_MorphToPlayOnce(&this->unk14C, &D_60014AC, 10.0f);
+    Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_0014AC, 10.0f);
     this->actor.flags |= 0x10;
     this->actor.flags &= ~1;
     this->unk190 = func_80B278A0;
@@ -697,22 +690,22 @@ void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
     Matrix_Scale(sp68.x, sp68.y, sp68.z, 1U);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1436),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_6002610);
+    gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_002610);
     Matrix_Put(&sp80);
     Matrix_RotateY(-this->actor.shape.rot.y * 0.0000958738f, MTXMODE_APPLY);
     sp7C = Math_CosS(this->actor.shape.rot.y);
     sp78 = Math_SinS(this->actor.shape.rot.y);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_6002740);
+    gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_002740);
     Matrix_Translate((506.0f * sp7C) + (372.0f * sp78), 1114.0f, (372.0f * sp7C) - (506.0f * sp78), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1455),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_6002740);
+    gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_002740);
     Matrix_Translate((-964.0f * sp7C) - (804.0f * sp78), -108.0f, (-804.0f * sp7C) + (964.0f * sp78), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1463),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_6002740);
+    gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_002740);
     Matrix_Put(&sp80);
     sp68.z = 1.0f;
     sp68.y = 1.0f;
@@ -721,7 +714,7 @@ void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
     Matrix_Scale(sp68.x, sp68.y, sp68.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1471),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_60027D8);
+    gSPDisplayList(POLY_XLU_DISP++, object_vali_DL_0027D8);
     Matrix_Put(&sp80);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_vali.c", 1477);
 }
