@@ -1,0 +1,39 @@
+<Root>
+    <File Name="object_hata" Segment="6">
+        <Collision Name="object_hata_0000C0_Col" Offset="0xC0"/>
+        <Animation Name="object_hata_000444_Anim" Offset="0x444"/>
+        <Texture Name="object_hata_000460_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x460"/>
+        <Texture Name="object_hata_000C60_Tex" Format="rgb5a1" Width="32" Height="32" Offset="0xC60"/>
+        <Texture Name="object_hata_001460_Tex" Format="ia8" Width="128" Height="32" Offset="0x1460"/>
+        <DList Name="object_hata_0026D0_DL" Offset="0x26D0"/>
+        <DList Name="object_hata_002850_DL" Offset="0x2850"/>
+        <DList Name="object_hata_002920_DL" Offset="0x2920"/>
+        <DList Name="object_hata_0029F0_DL" Offset="0x29F0"/>
+        <DList Name="object_hata_002AC0_DL" Offset="0x2AC0"/>
+        <DList Name="object_hata_002B90_DL" Offset="0x2B90"/>
+        <DList Name="object_hata_002C60_DL" Offset="0x2C60"/>
+        <DList Name="object_hata_002D30_DL" Offset="0x2D30"/>
+        <DList Name="object_hata_002E00_DL" Offset="0x2E00"/>
+        <Limb Name="object_hata_002E90_Limb" LimbType="Standard" Offset="0x2E90"/>
+        <Limb Name="object_hata_002E9C_Limb" LimbType="Standard" Offset="0x2E9C"/>
+        <Limb Name="object_hata_002EA8_Limb" LimbType="Standard" Offset="0x2EA8"/>
+        <Limb Name="object_hata_002EB4_Limb" LimbType="Standard" Offset="0x2EB4"/>
+        <Limb Name="object_hata_002EC0_Limb" LimbType="Standard" Offset="0x2EC0"/>
+        <Limb Name="object_hata_002ECC_Limb" LimbType="Standard" Offset="0x2ECC"/>
+        <Limb Name="object_hata_002ED8_Limb" LimbType="Standard" Offset="0x2ED8"/>
+        <Limb Name="object_hata_002EE4_Limb" LimbType="Standard" Offset="0x2EE4"/>
+        <Limb Name="object_hata_002EF0_Limb" LimbType="Standard" Offset="0x2EF0"/>
+        <Limb Name="object_hata_002EFC_Limb" LimbType="Standard" Offset="0x2EFC"/>
+        <Limb Name="object_hata_002F08_Limb" LimbType="Standard" Offset="0x2F08"/>
+        <Limb Name="object_hata_002F14_Limb" LimbType="Standard" Offset="0x2F14"/>
+        <Limb Name="object_hata_002F20_Limb" LimbType="Standard" Offset="0x2F20"/>
+        <Limb Name="object_hata_002F2C_Limb" LimbType="Standard" Offset="0x2F2C"/>
+        <Limb Name="object_hata_002F38_Limb" LimbType="Standard" Offset="0x2F38"/>
+        <Limb Name="object_hata_002F44_Limb" LimbType="Standard" Offset="0x2F44"/>
+        <Limb Name="object_hata_002F50_Limb" LimbType="Standard" Offset="0x2F50"/>
+        <Limb Name="object_hata_002F5C_Limb" LimbType="Standard" Offset="0x2F5C"/>
+        <Limb Name="object_hata_002F68_Limb" LimbType="Standard" Offset="0x2F68"/>
+        <Limb Name="object_hata_002F74_Limb" LimbType="Standard" Offset="0x2F74"/>
+        <Skeleton Name="object_hata_002FD0_Skel" Type="Normal" LimbType="Standard" Offset="0x2FD0"/>
+    </File>
+</Root>
