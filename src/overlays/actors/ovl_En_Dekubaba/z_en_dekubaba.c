@@ -1,5 +1,5 @@
 #include "z_en_dekubaba.h"
-// #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000005
 
@@ -26,7 +26,6 @@ void func_809E7BB0(EnDekubaba* this, GlobalContext* globalCtx);
 void func_809E7F14(EnDekubaba* this, GlobalContext* globalCtx);
 void func_809E80D8(EnDekubaba* this, GlobalContext* globalCtx);
 
-extern Gfx D_4049210[];
 extern AnimationHeader D_6000208;
 extern AnimationHeader D_60002B8;
 extern Gfx D_60010F0[];
@@ -1065,7 +1064,7 @@ void func_809E8AD8(EnDekubaba* this, GlobalContext* globalCtx) {
     Matrix_Scale(temp_fa0, 1.0f, temp_fa0, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2710),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_4049210);
+    gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2715);
 }
 
