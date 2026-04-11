@@ -2160,6 +2160,7 @@ s32 func_80B49E4C(GlobalContext* globalCtx, EnZf* this) {
                 }
             }
         }
+        //! @bug if sp22 is exactly 0x5FFF, sp1E is used uninitialized
         this->unk408 = sp1E;
         this->unk40C = sp1C;
         return 1;
