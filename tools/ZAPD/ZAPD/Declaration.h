@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 
 // TODO: should we drop the `_t` suffix because of UNIX compliance?
 typedef uint32_t segptr_t;
@@ -12,8 +13,7 @@ typedef uint32_t offset_t;
 enum class DeclarationAlignment
 {
 	Align4,
-	Align8,
-	Align16
+	Align8
 };
 
 enum class StaticConfig
