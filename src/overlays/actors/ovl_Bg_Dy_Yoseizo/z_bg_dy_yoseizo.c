@@ -935,7 +935,7 @@ void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx) {
     for (var_s4 = 0; var_s4 < ARRAY_COUNT(this->unk394); var_s4++, var_s0++) {
         if (var_s0->unk0 == 1) {
             if (materialFlag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleAppearDL));
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));
                 gDPPipeSync(POLY_XLU_DISP++);
                 materialFlag++;
             }
@@ -948,7 +948,7 @@ void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx) {
             Matrix_RotateZ(var_s0->unk40, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleAliveDL));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleModelDL));
         }
     }
     CLOSE_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1819);
