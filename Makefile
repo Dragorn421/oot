@@ -76,6 +76,8 @@ MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
+FADO       := tools/fado/fado.elf
+SPEC_LS_SEG := tools/spec_ls_seg
 
 OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -32 -Iinclude
@@ -116,9 +118,10 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
+RELOC_O_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
+
 # Automatic dependency files
-# (Only asm_processor dependencies are handled for now)
-DEP_FILES := $(O_FILES:.o=.asmproc.d)
+DEP_FILES := $(O_FILES:.o=.asmproc.d) $(RELOC_O_FILES:.o=.d)
 
 TEXTURE_FILES_PNG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_JPG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.jpg))
@@ -178,7 +181,7 @@ endif
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(RELOC_O_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 build/$(SPEC): $(SPEC)
@@ -244,12 +247,12 @@ build/dmadata_table_spec.h: build/$(SPEC)
 build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 
-build/src/overlays/%.o: src/overlays/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(CC_CHECK) $<
-	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
-	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
-	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+o_files: $(O_FILES)
+$(RELOC_O_FILES): | o_files
+.PHONY: o_files
+build/src/overlays/%_reloc.o: build/$(SPEC)
+	$(FADO) -M $(@:.o=.d) -n $(notdir $*) -o $(@:.o=.s) $$($(SPEC_LS_SEG) build/$(SPEC) $(notdir $*) | grep -v _reloc.o)
+	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<

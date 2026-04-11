@@ -1,6 +1,8 @@
 #ifndef _SPEC_H_
 #define _SPEC_H_
 
+#include <stdint.h>
+
 enum
 {
     STMT_address,

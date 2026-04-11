@@ -1,6 +1,9 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
+#include <stddef.h>
+#include <stdint.h>
+
 #ifdef __GNUC__
 __attribute__((format(printf, 1, 2), noreturn))
 #endif
