@@ -711,13 +711,13 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
             func_80034F54(globalCtx, this->unk214, this->unk236, 0x11);
         }
         if ((this->unk1E0.unk_00 == 0) && (globalCtx->sceneNum == SCENE_SPOT10)) {
-            if (sp2C->stateFlags2 & 0x01000000) {
-                sp2C->stateFlags2 |= 0x02000000;
+            if (sp2C->stateFlags2 & PLAYER_STATE2_24) {
+                sp2C->stateFlags2 |= PLAYER_STATE2_25;
                 sp2C->unk_6A8 = &this->actor;
                 func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_SARIA);
                 this->unk190 = func_80AABC10;
             } else if (this->actor.xzDistToPlayer < (30.0f + (f32)this->unk194.dim.radius)) {
-                sp2C->stateFlags2 |= 0x800000;
+                sp2C->stateFlags2 |= PLAYER_STATE2_23;
             }
         }
     }
@@ -737,7 +737,7 @@ void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
         this->unk190 = func_80AAB948;
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
-        temp_v0->stateFlags2 |= 0x800000;
+        temp_v0->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 

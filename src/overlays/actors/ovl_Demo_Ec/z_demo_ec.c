@@ -753,9 +753,9 @@ void DemoEc_GerudoPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 
 void DemoEc_DrawGerudo(DemoEc* this, GlobalContext* globalCtx) {
     static void* eyeTextures[] = {
-        gGerudoWhiteEyeOpenTex,
-        gGerudoWhiteEyeHalfTex,
-        gGerudoWhiteEyeClosedTex,
+        0x06000708,
+        0x06000F08,
+        0x06001708,
     };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];

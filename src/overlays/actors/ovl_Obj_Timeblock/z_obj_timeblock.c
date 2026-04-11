@@ -166,11 +166,11 @@ s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx) {
 
     temp_v1 = GET_PLAYER(globalCtx);
     if (func_80BA032C(this, globalCtx) != 0) {
-        if (temp_v1->stateFlags2 & 0x01000000) {
+        if (temp_v1->stateFlags2 & PLAYER_STATE2_24) {
             func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->unk168 = func_80BA0480;
         } else {
-            temp_v1->stateFlags2 |= 0x800000;
+            temp_v1->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
     return 0;

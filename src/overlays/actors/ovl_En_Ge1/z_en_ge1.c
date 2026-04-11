@@ -522,7 +522,7 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
                     globalCtx->sceneLoadFlag = 0x14;
                     gSaveContext.eventInf[0] |= 0x100;
                     gSaveContext.eventChkInf[6] |= 0x100;
-                    if (!(player->stateFlags1 & 0x800000)) {
+                    if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                         func_8002DF54(globalCtx, &this->actor, 1U);
                     } else {
                         temp_v0_2 = Actor_FindNearby(globalCtx, &player->actor, ACTOR_EN_HORSE, 1U, 1200.0f);
@@ -603,7 +603,7 @@ void func_80A31FE0(EnGe1* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     u16 var_a2;
 
-    if (!(player->stateFlags1 & 0x800000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
         func_80A30C70(this, globalCtx, 0x603FU, 100.0f, func_80A31F9C);
     } else {
         if (gSaveContext.eventChkInf[6] & 0x100) {

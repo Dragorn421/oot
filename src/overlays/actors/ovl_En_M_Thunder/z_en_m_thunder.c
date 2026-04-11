@@ -82,7 +82,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.room = -1;
     Actor_SetScale(&this->actor, 0.1f);
     this->unk1CA = 0;
-    if (player->stateFlags2 & 0x20000) {
+    if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (((gSaveContext.magicAcquired) == 0) || (gSaveContext.unk_13F0 != 0) ||
             (((((this->actor.params & 0xFF00) >> 8) != 0)) &&
              (func_80087708(globalCtx, (s16)((this->actor.params & 0xFF00) >> 8), 0) == 0))) {
@@ -93,7 +93,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         }
-        player->stateFlags2 &= ~0x20000;
+        player->stateFlags2 &= ~PLAYER_STATE2_17;
         this->unk1CA = 1;
         this->unk14C.info.toucher.dmgFlags = D_80AA044C[this->unk1C7];
         this->unk1C6 = 1;
@@ -132,7 +132,7 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player;
 
     player = GET_PLAYER(globalCtx);
-    if (player->stateFlags2 & 0x20000) {
+    if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (player->swordAnimation >= 0x18) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
@@ -142,7 +142,7 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    if (!(player->stateFlags1 & 0x1000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -171,7 +171,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     if (player->unk_858 >= 0.10f) {
         func_800AA000(0.0f, (u8)(s32)(player->unk_858 * 150.0f), 2, (u8)(s32)(player->unk_858 * 150.0f));
     }
-    if (player->stateFlags2 & 0x20000) {
+    if (player->stateFlags2 & PLAYER_STATE2_17) {
         if ((child != NULL) && (child->update != NULL)) {
             child->parent = NULL;
         }
@@ -185,7 +185,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         }
-        player->stateFlags2 &= ~0x20000;
+        player->stateFlags2 &= ~PLAYER_STATE2_17;
         if (((this->actor.params & 0xFF00) >> 8) != 0) {
             gSaveContext.unk_13F0 = 1;
         }
@@ -213,7 +213,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         this->unk1AC = 1.0f;
         return;
     }
-    if (!(player->stateFlags1 & 0x1000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
         if (this->actor.child != NULL) {
             this->actor.child->parent = NULL;
         }

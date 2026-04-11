@@ -168,10 +168,10 @@ void func_809C54A8(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if ((this->unk160 == GI_BOMB_BAG_30) && (CUR_CAPACITY(1) == 30)) {
         this->unk160 = GI_BOMB_BAG_40;
     }
-    player->stateFlags1 &= ~0x20000000;
+    player->stateFlags1 &= ~PLAYER_STATE1_29;
     this->actor.parent = NULL;
     func_8002F434(&this->actor, globalCtx, this->unk160, 2000.0f, 1000.0f);
-    player->stateFlags1 |= 0x20000000;
+    player->stateFlags1 |= PLAYER_STATE1_29;
     this->unk14C = func_809C55B0;
 }
 

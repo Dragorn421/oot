@@ -272,7 +272,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
-    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & PLAYER_STATE1_23) &&
         (this->actor.yDistToWater < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         func_809E0384(this);
     }
@@ -310,7 +310,7 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
 
     if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) ||
         (this->collider.base.atFlags & AT_HIT) || (this->actor.bgCheckFlags & 9) ||
-        (player->stateFlags1 & 0x00800000) || (this->actor.yDistToWater > -40.0f)) {
+        (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);

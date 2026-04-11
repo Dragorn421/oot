@@ -558,7 +558,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags1 & 0x04000000) {
+    if (player->stateFlags1 & PLAYER_STATE1_26) {
         this->unk158 = 0;
     }
     if (this->actor.colChkInfo.health != 0) {

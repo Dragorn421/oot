@@ -449,7 +449,7 @@ s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this) {
 
     player = GET_PLAYER(globalCtx);
     if (this->actor.params >= 0) {
-        if (player->stateFlags1 & 0x6000) {
+        if (player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
             return false;
         } else {
             return true;
@@ -1058,7 +1058,7 @@ void func_80B46AE0(EnZf* this, GlobalContext* globalCtx) {
                     if (var_v0_2 > 0x3E80) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                         func_80B483E4(this, globalCtx);
-                    } else if (player->stateFlags1 & 0x6010) {
+                    } else if (player->stateFlags1 & (PLAYER_STATE1_4 | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
                         if (this->actor.isTargeted != 0) {
                             func_80B46A24(this);
                         } else {
