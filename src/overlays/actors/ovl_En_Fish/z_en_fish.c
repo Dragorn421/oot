@@ -12,7 +12,7 @@ f32 func_80A15280(Vec3f* arg0, Vec3f* arg1);
 void func_80A152AC(EnFish* this);
 void func_80A15310(EnFish* this);
 void func_80A15374(EnFish* this);
-void func_80A153AC(EnFish* this);
+void func_80A153AC(EnFish* this2);
 void func_80A15444(EnFish* this);
 void func_80A155D0(EnFish* this);
 s32 func_80A15688(EnFish* this, PlayState* play);

@@ -17,12 +17,12 @@ void ObjTimeblock_Draw(Actor* thisx, PlayState* play);
 s32 func_80BA040C(ObjTimeblock*, PlayState*);
 s32 func_80BA0480(ObjTimeblock*, PlayState*);
 void func_80BA0508(ObjTimeblock* arg0, PlayState* arg1);
-void func_80BA0514(ObjTimeblock* arg0);
-void func_80BA0524(ObjTimeblock* arg0, PlayState* arg1);
-void func_80BA0758(ObjTimeblock* arg0);
-void func_80BA0768(ObjTimeblock* arg0, PlayState* arg1);
-void func_80BA083C(ObjTimeblock* arg0);
-void func_80BA084C(ObjTimeblock* arg0, PlayState* arg1);
+void func_80BA0514(ObjTimeblock* this);
+void func_80BA0524(ObjTimeblock* this, PlayState* play);
+void func_80BA0758(ObjTimeblock* this);
+void func_80BA0768(ObjTimeblock* this, PlayState* play);
+void func_80BA083C(ObjTimeblock* this);
+void func_80BA084C(ObjTimeblock* this, PlayState* play);
 
 const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,

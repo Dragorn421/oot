@@ -6,7 +6,7 @@
 
 void EnFirefly_Init(Actor* thisx, PlayState* play);
 void EnFirefly_Destroy(Actor* thisx, PlayState* play);
-void EnFirefly_Update(Actor* thisx, PlayState* play);
+void EnFirefly_Update(Actor* thisx, PlayState* play2);
 void EnFirefly_DrawOpa(Actor* thisx, PlayState* play);
 
 void func_80A13A08_Action(EnFirefly*, PlayState*);

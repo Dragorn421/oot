@@ -3,7 +3,7 @@
 
 #define FLAGS 0
 
-void EnChanger_Init(Actor* thisx, PlayState* play);
+void EnChanger_Init(Actor* thisx, PlayState* play2);
 void EnChanger_Destroy(Actor* thisx, PlayState* play);
 void EnChanger_Update(Actor* thisx, PlayState* play);
 

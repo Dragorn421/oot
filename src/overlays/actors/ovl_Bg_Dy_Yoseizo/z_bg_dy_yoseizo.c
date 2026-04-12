@@ -13,9 +13,9 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
-void BgDyYoseizo_Init(Actor* thisx, PlayState* play);
+void BgDyYoseizo_Init(Actor* thisx, PlayState* play2);
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play);
-void BgDyYoseizo_Update(Actor* thisx, PlayState* play);
+void BgDyYoseizo_Update(Actor* thisx, PlayState* play2);
 
 void func_80872D20(BgDyYoseizo* this, PlayState* play);
 void func_80872DE4(BgDyYoseizo* this, PlayState* play);

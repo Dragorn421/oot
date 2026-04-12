@@ -9,10 +9,10 @@ void DemoExt_Update(Actor* thisx, PlayState* play);
 void DemoExt_Draw(Actor* thisx, PlayState* play);
 
 void func_80977854(DemoExt*, PlayState*);
-void func_80977874(DemoExt* arg0, PlayState* arg1);
-void func_809778AC(DemoExt* arg0, PlayState* arg1);
+void func_80977874(DemoExt* this, PlayState* play);
+void func_809778AC(DemoExt* this, PlayState* arg1);
 void func_80977944(DemoExt* arg0, PlayState* arg1);
-void func_80977950(DemoExt* arg0, PlayState* arg1);
+void func_80977950(DemoExt* this, PlayState* play);
 
 typedef void (*DemoExtUpdateFunc)(DemoExt*, PlayState*);
 static DemoExtUpdateFunc sUpdateFuncs[] = {

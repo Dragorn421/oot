@@ -12,7 +12,7 @@
 void EnJj_Init(Actor* thisx, PlayState* play);
 void EnJj_Destroy(Actor* thisx, PlayState* play);
 void EnJj_Update(Actor* thisx, PlayState* play);
-void EnJj_Draw(Actor* thisx, PlayState* play2);
+void EnJj_Draw(Actor* thisx, PlayState* play);
 
 void func_80A87BEC(EnJj* this, PlayState* play);
 void func_80A87C30(EnJj* this, PlayState* play);

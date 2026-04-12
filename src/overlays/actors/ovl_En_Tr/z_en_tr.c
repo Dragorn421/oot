@@ -108,7 +108,7 @@ void EnTr_Destroy(Actor* thisx, PlayState* play) {
 void func_80B22E6C(EnTr* this, PlayState* play) {
     if ((this->unk2D6 == 0xB) && ((this->actor.params != 0) || (gSaveContext.sceneSetupIndex == 6))) {
         Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_VOICE, &gSfxDefaultPos, 4U, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     if (this->unk2D6 > 0) {
         this->unk2D6--;

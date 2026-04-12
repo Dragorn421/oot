@@ -9,12 +9,12 @@
 
 #define FLAGS 0
 
-void EnWood02_Init(Actor* thisx, PlayState* play2);
+void EnWood02_Init(Actor* thisx, PlayState* play);
 void EnWood02_Destroy(Actor* thisx, PlayState* play);
-void EnWood02_Update(Actor* thisx, PlayState* play2);
+void EnWood02_Update(Actor* thisx, PlayState* play);
 void EnWood02_Draw(Actor* thisx, PlayState* play);
 
-s32 EnWood02_IsInUncullZone(EnWood02* this, PlayState* play, Vec3f* arg2);
+s32 EnWood02_IsInUncullZone(EnWood02* this, PlayState* play, Vec3f* pos);
 void EnWood02_SpawnUnculledChildren(EnWood02* this, PlayState* play);
 
 extern Gfx D_6000090[];

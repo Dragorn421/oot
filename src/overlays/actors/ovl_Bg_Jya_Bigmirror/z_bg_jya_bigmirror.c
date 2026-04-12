@@ -9,9 +9,9 @@ void BgJyaBigmirror_Update(Actor* thisx, PlayState* play);
 void BgJyaBigmirror_Draw(Actor* thisx, PlayState* play);
 
 void func_808936E0(BgJyaBigmirror* this, PlayState* play);
-void func_80893750(BgJyaBigmirror* this, PlayState* play);
+void func_80893750(BgJyaBigmirror* this2, PlayState* play);
 void func_8089394C(BgJyaBigmirror* this, PlayState* play);
-void func_8089399C(BgJyaBigmirror* this, PlayState* play);
+void func_8089399C(BgJyaBigmirror* this2, PlayState* play);
 void func_80893C68(BgJyaBigmirror* this, PlayState* play);
 
 static u8 D_80893ED0 = 0;

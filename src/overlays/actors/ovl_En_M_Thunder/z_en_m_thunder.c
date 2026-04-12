@@ -3,7 +3,7 @@
 
 #define FLAGS 0
 
-void EnMThunder_Init(Actor* thisx, PlayState* play2);
+void EnMThunder_Init(Actor* thisx, PlayState* play);
 void EnMThunder_Destroy(Actor* thisx, PlayState* play);
 void EnMThunder_Update(Actor* thisx, PlayState* play);
 void EnMThunder_Draw(Actor* thisx, PlayState* play2);
@@ -87,9 +87,9 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
             (((((this->actor.params & 0xFF00) >> 8) != 0)) &&
              (Magic_RequestChange(play, (s16)((this->actor.params & 0xFF00) >> 8), MAGIC_CONSUME_NOW) == 0))) {
             Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4U,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Actor_Kill(&this->actor);
             return;
         }
@@ -105,7 +105,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
         EnMThunder_SetupAction(this, func_80A9F9B4);
         this->unk1C4 = 8;
         Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT_LV1, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->unk1AC = 1.0f;
     } else {
         EnMThunder_SetupAction(this, func_80A9F408);
@@ -135,9 +135,9 @@ void func_80A9F350(EnMThunder* this, PlayState* play) {
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
             Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4U,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         Actor_Kill(&this->actor);
         return;
@@ -178,10 +178,10 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         }
         if (player->unk_858 <= 0.15f) {
             if ((player->unk_858 >= 0.10f) && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H)) {
-                Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 Audio_PlaySfxGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4U,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             Actor_Kill(&this->actor);
             return;
@@ -210,7 +210,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         EnMThunder_SetupAction(this, func_80A9F9B4);
         this->unk1C4 = 8;
         Audio_PlaySfxGeneral(D_80AA0464[this->unk1C6], &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->unk1AC = 1.0f;
         return;
     }

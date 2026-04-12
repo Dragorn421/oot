@@ -745,7 +745,7 @@ void func_80AABC10(EnMd* this, PlayState* play) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySfxGeneral(0x4802U, &gSfxDefaultPos, 4U, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultReverb);
+                             &gSfxDefaultReverb);
         this->actor.textId = 0x1067;
         func_8002F2CC(&this->actor, play, (f32)this->unk194.dim.radius + 30.0f);
         this->unk190 = func_80AAB948;

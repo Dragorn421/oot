@@ -31,7 +31,7 @@ typedef struct struct_80B8D8A0 {
     /* 0x50 */ u8 unk50;
 } struct_80B8D8A0; // size = 0x54
 
-s32 MirRay_IsInConeFrustum(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, s16 arg5, s16 arg6);
+s32 MirRay_IsInConeFrustum(Vec3f* centerTop, Vec3f* centerBase, f32 x, f32 y, f32 z, s16 radiusTop, s16 radiusBase);
 
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
