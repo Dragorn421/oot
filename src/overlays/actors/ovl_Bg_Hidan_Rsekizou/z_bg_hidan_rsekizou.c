@@ -76,7 +76,7 @@ void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
 
     sp30 = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, D_8088CD68);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gFireTempleSpinningFlamethrowerCol, &sp30);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp30);
     Collider_InitJntSph(play, &this->unk168);

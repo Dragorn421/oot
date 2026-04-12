@@ -36,7 +36,7 @@ void BgMenkuriKaiten_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyActor_Init(&this->actor, DPM_UNK3);
+    DynaPolyActor_Init(&this->actor, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     CollisionHeader_GetVirtual(&gGTGRotatingRingPlatformCol, &colHeader);
     this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
 }

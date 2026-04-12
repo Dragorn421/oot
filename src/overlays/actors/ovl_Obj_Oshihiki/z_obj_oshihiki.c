@@ -519,7 +519,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
         } else {
             dynaActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
-            if ((dynaActor != NULL) && (dynaActor->unk_15C & 1)) {
+            if ((dynaActor != NULL) && (dynaActor->transformFlags & DYNA_TRANSFORM_POS)) {
                 DynaPolyActor_SetActorOnTop(dynaActor);
                 func_80043538(dynaActor);
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;

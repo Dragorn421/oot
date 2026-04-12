@@ -101,7 +101,7 @@ s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play) {
     s32 pad[2];
 
     if (D_808B1F90[thisx->params] != NULL) {
-        DynaPolyActor_Init(thisx, DPM_UNK);
+        DynaPolyActor_Init(thisx, 0);
         CollisionHeader_GetVirtual(D_808B1F90[thisx->params], &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     }

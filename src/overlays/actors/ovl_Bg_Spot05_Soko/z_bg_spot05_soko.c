@@ -48,7 +48,7 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    DynaPolyActor_Init(thisx, DPM_UNK);
+    DynaPolyActor_Init(thisx, 0);
     if (thisx->params == 0) {
         CollisionHeader_GetVirtual(&object_spot05_objects_Col_000918, &colHeader);
         if (LINK_IS_ADULT) {

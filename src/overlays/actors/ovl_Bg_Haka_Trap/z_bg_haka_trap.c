@@ -98,7 +98,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
             }
             this->actionFunc = &func_80880484;
         } else {
-            DynaPolyActor_Init((DynaPolyActor*)this, DPM_PLAYER);
+            DynaPolyActor_Init((DynaPolyActor*)this, DYNA_TRANSFORM_POS);
             this->dyna.actor.flags |= ACTOR_FLAG_4;
             if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_CRUSHER) {
                 CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &sp2C);

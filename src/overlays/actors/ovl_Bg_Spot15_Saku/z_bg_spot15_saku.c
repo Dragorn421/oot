@@ -35,7 +35,7 @@ void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(thisx, DPM_UNK);
+    DynaPolyActor_Init(thisx, 0);
     CollisionHeader_GetVirtual(&gLonLonCorralFenceCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     thisx->scale.x = 0.1f;

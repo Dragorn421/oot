@@ -38,7 +38,7 @@ void BgSpot18Futa_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->actor, DPM_UNK);
+    DynaPolyActor_Init(&this->actor, 0);
     CollisionHeader_GetVirtual(&gGoronCityVaseLidCol, &colHeader);
     this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
     Actor_ProcessInitChain(&this->actor, sInitChain);

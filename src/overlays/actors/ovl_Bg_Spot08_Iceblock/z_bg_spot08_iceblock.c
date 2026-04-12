@@ -261,9 +261,9 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     }
     temp_v0_2 = this->dyna.actor.params & 0xF;
     if ((temp_v0_2 == 2) || (temp_v0_2 == 3)) {
-        func_808B0968(this, play, var_a2, DPM_UNK3);
+        func_808B0968(this, play, var_a2, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     } else {
-        func_808B0968(this, play, var_a2, DPM_UNK);
+        func_808B0968(this, play, var_a2, 0);
     }
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         Actor_Kill(&this->dyna.actor);

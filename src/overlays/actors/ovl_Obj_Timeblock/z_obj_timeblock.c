@@ -99,7 +99,7 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* sp2C;
 
     sp2C = NULL;
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
     CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &sp2C);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp2C);

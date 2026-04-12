@@ -59,7 +59,7 @@ void func_808B2F90(BgSpot12Gate* this, PlayState* play, CollisionHeader* collisi
 void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
-    func_808B2F90(this, play, &gGerudoFortressWastelandGateCol, DPM_UNK);
+    func_808B2F90(this, play, &gGerudoFortressWastelandGateCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
 
     if (Flags_GetSwitch(play, thisx->params & 0x3F)) {

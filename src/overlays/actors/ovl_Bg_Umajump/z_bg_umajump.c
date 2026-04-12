@@ -36,7 +36,7 @@ void BgUmaJump_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyActor_Init(&this->actor, DPM_UNK);
+    DynaPolyActor_Init(&this->actor, 0);
     CollisionHeader_GetVirtual(&gJumpableHorseFenceCol, &colHeader);
     this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
 

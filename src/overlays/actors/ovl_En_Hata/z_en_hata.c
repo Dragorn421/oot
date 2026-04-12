@@ -44,7 +44,7 @@ void EnHata_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
     SkelAnime_Init(play, &this->skelAnime, &object_hata_002FD0_Skel, &object_hata_000444_Anim, NULL, NULL, 0);
     Animation_Change(&this->skelAnime, &object_hata_000444_Anim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_hata_0000C0_Col, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.uncullZoneScale = 500.0f;
