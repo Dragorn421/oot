@@ -53,5 +53,5 @@ LEAF(func_800D71F0)
 END(func_800D71F0)
 
 DATA(D_800D7288)
-    .incbin "baserom.z64", 0xB4E428, 0xB4EE70 - 0xB4E428
+    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xB4E428, 0xB4EE70 - 0xB4E428
 ENDDATA(D_800D7288)
