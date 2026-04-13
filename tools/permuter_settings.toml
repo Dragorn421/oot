@@ -32,6 +32,7 @@ ACTOR_DEBUG_PRINTF = "void"
 
 PLAYER_LIMB_BUF_COUNT = "int"
 "BGCHECKFLAG_.*" = "int"
+GET_PLAYER = "void*"
 
 [decompme.compilers]
 "tools/ido_recomp/*/7.1/cc" = "ido7.1"
