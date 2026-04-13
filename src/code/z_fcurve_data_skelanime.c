@@ -7,8 +7,8 @@ void SkelCurve_Clear(SkelAnimeCurve* skelCurve) {
     skelCurve->animCurFrame = 0.0f;
     skelCurve->animSpeed = 0.0f;
     skelCurve->animFinalFrame = 0.0f;
-    skelCurve->transforms = NULL;
     skelCurve->unk_0C = 0.0f;
+    skelCurve->transforms = NULL;
 }
 
 s32 SkelCurve_Init(PlayState* play, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
@@ -50,7 +50,6 @@ s32 SkelCurve_Update(PlayState* play, SkelAnimeCurve* skelCurve) {
     s32 ret = 0;
     s32 k;
     TransformData* transData;
-    f32 transformValue;
     s32 j;
 
     transformIndex = SEGMENTED_TO_VIRTUAL(skelCurve->transUpdIdx);
@@ -69,7 +68,9 @@ s32 SkelCurve_Update(PlayState* play, SkelAnimeCurve* skelCurve) {
 
     for (i = 0; i < skelCurve->limbCount; i++) {
         for (j = 0; j < 3; j++) {
-            for (k = 0; k < 3; k++, transformRefIdx++, transforms++) {
+            for (k = 0; k < 3; k++) {
+                f32 transformValue;
+
                 if (*transformRefIdx == 0) {
                     transformValue = *transformCopyValues;
                     *transforms = transformValue;
@@ -85,6 +86,8 @@ s32 SkelCurve_Update(PlayState* play, SkelAnimeCurve* skelCurve) {
                         *transforms = transformValue * 100.0f;
                     }
                 }
+                transformRefIdx++;
+                transforms++;
             }
         }
     }

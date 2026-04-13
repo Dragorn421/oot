@@ -224,16 +224,16 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
             case 1:
                 if (!gSaveContext.save.info.playerData.isDoubleMagicAcquired) {
                     PRINTF("\x1b[33m ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n\x1b[m");
-                    var_v1 = 1;
                     this->unk2EA = 1;
+                    var_v1 = 1;
                 }
                 break;
 
             case 2:
                 if (!gSaveContext.save.info.playerData.isDoubleDefenseAcquired) {
                     PRINTF("\x1b[35m ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n\x1b[m");
-                    var_v1 = 1;
                     this->unk2EA = 1;
+                    var_v1 = 1;
                 }
                 break;
         }
@@ -929,8 +929,8 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
     u8 materialFlag;
 
     gfxCtx = play->state.gfxCtx;
-    effect = this->effects;
     materialFlag = 0;
+    effect = this->effects;
     OPEN_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1767);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     for (var_s4 = 0; var_s4 < BG_DY_YOSEIZO_EFFECT_COUNT; var_s4++, effect++) {

@@ -133,7 +133,7 @@ void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
 
     if (this->actionFunc != NULL) {
-        this->actionFunc(this);
+        this->actionFunc(this, play);
     }
     if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && !(this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE)) {
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);

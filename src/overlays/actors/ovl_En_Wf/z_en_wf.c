@@ -1128,9 +1128,6 @@ void func_80B36C8C(EnWf* this) {
 }
 
 void func_80B36D3C(EnWf* this, PlayState* play) {
-    s32 var_s0;
-    Vec3f sp88;
-    Vec3f sp7C;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speed = 0.0f;
@@ -1145,15 +1142,19 @@ void func_80B36D3C(EnWf* this, PlayState* play) {
             Flags_SetSwitch(play, (s32)this->unk2FC);
         }
         Actor_Kill(&this->actor);
-        return;
-    }
-    sp7C = D_80B37AD0;
-    this->unk2E8 -= 1;
-    for (var_s0 = ((s32)this->unk188.animLength - this->unk2E8) >> 1; var_s0 >= 0; var_s0--) {
-        sp88.x = this->actor.world.pos.x + Rand_CenteredFloat(60.0f);
-        sp88.z = this->actor.world.pos.z + Rand_CenteredFloat(60.0f);
-        sp88.y = this->actor.world.pos.y + 20.0f + Rand_CenteredFloat(50.0f);
-        EffectSsDeadDb_Spawn(play, &sp88, &sp7C, &sp7C, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+    } else {
+        s32 var_s0;
+        Vec3f sp88;
+        Vec3f sp7C;
+
+        sp7C = D_80B37AD0;
+        this->unk2E8 -= 1;
+        for (var_s0 = ((s32)this->unk188.animLength - this->unk2E8) >> 1; var_s0 >= 0; var_s0--) {
+            sp88.x = this->actor.world.pos.x + Rand_CenteredFloat(60.0f);
+            sp88.z = this->actor.world.pos.z + Rand_CenteredFloat(60.0f);
+            sp88.y = this->actor.world.pos.y + 20.0f + Rand_CenteredFloat(50.0f);
+            EffectSsDeadDb_Spawn(play, &sp88, &sp7C, &sp7C, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        }
     }
 }
 

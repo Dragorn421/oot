@@ -56,7 +56,6 @@ static Color_RGB8 D_80BA0B38[8] = {
 s32 func_80B9FFA0(ObjTimeblock* this) {
     s32 var_a1;
     s32 var_v1;
-    s32 var_v1_2;
 
     if (!((this->dyna.actor.params >> 0xA) & 1)) {
         if (this->unk177 == 0) {
@@ -69,13 +68,16 @@ s32 func_80B9FFA0(ObjTimeblock* this) {
         }
         if (this->unk177 == 1) {
             return this->unk174 ^ var_a1;
-        }
-        if (LINK_AGE_IN_YEARS == 5) {
-            var_v1_2 = 1;
         } else {
-            var_v1_2 = 0;
+            s32 var_v1_2;
+
+            if (LINK_AGE_IN_YEARS == 5) {
+                var_v1_2 = 1;
+            } else {
+                var_v1_2 = 0;
+            }
+            return this->unk174 ^ var_a1 ^ var_v1_2;
         }
-        return this->unk174 ^ var_a1 ^ var_v1_2;
     }
     return (((this->dyna.actor.params >> 0xF) & 1) ? 1 : 0) ^ this->unk174;
 }
