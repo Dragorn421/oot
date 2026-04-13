@@ -40,6 +40,10 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
+#if OOT_DEBUG
+#pragma increment_block_number 250
+#endif
+
 #include "global.h"
 #include "terminal.h"
 #include "alloca.h"
@@ -48,7 +52,7 @@
 // just above (the exact upper bound depends on the block numbers assigned to
 // extern variables declared in headers).
 #if OOT_DEBUG
-#pragma increment_block_number 20
+#pragma increment_block_number 21
 #else
 #pragma increment_block_number 25
 #endif
