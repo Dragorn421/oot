@@ -1606,9 +1606,6 @@ void func_80B48578(EnZf* this, PlayState* play) {
         if (this->unk3F8) {
             this->actor.speed = -this->actor.speed;
         }
-#if !OOT_DEBUG
-        goto x; //! FAKE
-#endif
     } else {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
             !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF)) {
@@ -1632,8 +1629,10 @@ void func_80B48578(EnZf* this, PlayState* play) {
                 }
             }
         }
+#if !OOT_DEBUG
+        if (1) {} //! FAKE
+#endif
     }
-x: //! FAKE
     if (Math_SinS(temp_t0_sp56 - this->actor.shape.rot.y) >= 0.0f) {
         this->actor.speed += 0.125f;
     } else {
