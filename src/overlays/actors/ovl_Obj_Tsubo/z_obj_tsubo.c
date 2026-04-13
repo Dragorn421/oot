@@ -131,8 +131,7 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
     } else {
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, D_80BA1B80[(this->actor.params >> 8) & 1]);
         if (this->requiredObjectSlot < 0) {
-            PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c",
-                         410);
+            PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
             Actor_Kill(&this->actor);
         } else {
             func_80BA152C(this);

@@ -591,8 +591,8 @@ void func_80A16A64(EnFish* this, PlayState* play) {
     sp4C = play->csCtx.actorCues[1];
     if (sp4C == NULL) {
         if (1) {}
-        PRINTF("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
-                     1169, this->actor.params);
+        PRINTF("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1169,
+               this->actor.params);
         func_80A15444(this);
         Actor_Kill(&this->actor);
         return;

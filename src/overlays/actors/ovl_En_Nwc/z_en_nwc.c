@@ -25,7 +25,10 @@ void EnNwc_Idle(EnNwc* this, PlayState* play);
 #define CHICK_BG_FLOOR (1 << 0)
 #define CHICK_BG_WALL (1 << 1)
 
-typedef enum { CHICK_NONE, CHICK_NORMAL } ChickTypes;
+typedef enum {
+    CHICK_NONE,
+    CHICK_NORMAL
+} ChickTypes;
 
 ActorInit En_Nwc_InitVars = {
     /**/ ACTOR_EN_NWC,

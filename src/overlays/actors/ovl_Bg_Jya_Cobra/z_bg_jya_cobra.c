@@ -425,7 +425,7 @@ void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
 
     // "(jya cobra)"
     PRINTF("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
-                 &this->shadowTexture, ALIGN16((s32)(&this->shadowTexture)));
+           &this->shadowTexture, ALIGN16((s32)(&this->shadowTexture)));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, PlayState* play) {

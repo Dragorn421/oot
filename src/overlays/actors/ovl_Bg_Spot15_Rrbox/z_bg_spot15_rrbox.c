@@ -314,7 +314,7 @@ void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
 
     if (actor->world.pos.y <= -31990.0f) {
         PRINTF("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 599,
-                     actor->params);
+               actor->params);
 
         Actor_Kill(actor);
 

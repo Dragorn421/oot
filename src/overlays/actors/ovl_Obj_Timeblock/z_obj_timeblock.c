@@ -132,9 +132,9 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     } else {
         func_80BA083C(this);
     }
-    PRINTF("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n",
-                 this->dyna.actor.params & 0xFFFF, this->unk177, this->dyna.actor.home.rot.z & 7,
-                 (this->dyna.actor.params >> 0xB) & 7, (this->dyna.actor.params >> 0xA) & 1);
+    PRINTF("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n", this->dyna.actor.params & 0xFFFF,
+           this->unk177, this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 0xB) & 7,
+           (this->dyna.actor.params >> 0xA) & 1);
 }
 
 void ObjTimeblock_Destroy(Actor* thisx, PlayState* play) {

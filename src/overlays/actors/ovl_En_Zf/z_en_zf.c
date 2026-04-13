@@ -958,8 +958,7 @@ void func_80B463E4(EnZf* this, PlayState* play) {
             }
         } else {
             if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-                !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed,
-                                            this->actor.shape.rot.y + 0x3FFF)) {
+                !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF)) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                     if (this->actor.speed >= 0.0f) {
                         var_v0_3_real = (this->actor.shape.rot.y + 0x3FFF);

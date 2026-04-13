@@ -55,8 +55,8 @@ void func_808B2F90(BgSpot12Gate* this, PlayState* play, CollisionHeader* collisi
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad[2];
 
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
-                     thisx->id, thisx->params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145, thisx->id,
+               thisx->params);
     }
 #endif
 }

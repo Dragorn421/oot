@@ -53,7 +53,7 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, PlayState* play, CollisionHea
         s32 pad2;
 
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
-                     this->actor.id, this->actor.params);
+               this->actor.id, this->actor.params);
     }
 #endif
 }

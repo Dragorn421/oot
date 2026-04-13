@@ -18,9 +18,9 @@ void func_80B22F1C(EnTr* this, PlayState* play);
 void func_80B234D4(EnTr* this, PlayState* play);
 void func_80B23820(EnTr* this, PlayState* play);
 void func_80B23A88(EnTr* this, PlayState* play);
-void func_80B24038(EnTr* this, PlayState* play, s32 arg2);
-void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 arg2);
-void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 arg2);
+void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel);
+void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
+void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 
 ActorInit En_Tr_InitVars = {
     /**/ ACTOR_EN_TR,

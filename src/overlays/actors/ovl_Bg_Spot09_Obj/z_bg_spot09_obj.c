@@ -141,12 +141,12 @@ void BgSpot09Obj_Init(Actor* thisx, PlayState* play) {
     BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
     PRINTF("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", thisx->params,
-                 gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
-                     EVENTCHKINF_CARPENTERS_FREE_MASK_ALL);
+           gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
+               EVENTCHKINF_CARPENTERS_FREE_MASK_ALL);
     thisx->params &= 0xFF;
     if ((thisx->params < 0) || (thisx->params >= 5)) {
-        PRINTF("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
-                     "../z_bg_spot09_obj.c", 322, thisx->params);
+        PRINTF("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot09_obj.c",
+               322, thisx->params);
     }
 
     if (!func_808B1C70(this, play)) {
