@@ -559,6 +559,7 @@ void func_80A31DE4(EnGe1* this, PlayState* play) {
 
 void func_80A31E2C(EnGe1* this, PlayState* play) {
     CLEAR_EVENTINF(EVENTINF_HORSES_08);
+#if OOT_DEBUG
     LogUtils_LogThreadId("../z_en_ge1.c", 0x456);
     PRINTF("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
     if (1) {}
@@ -568,6 +569,7 @@ void func_80A31E2C(EnGe1* this, PlayState* play) {
     // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
     // see the other occurrence of this for more details.
     PRINTF("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.save.info.highScores[0]);
+#endif
     this->actor.flags |= ACTOR_FLAG_16;
     if (gSaveContext.save.info.highScores[0] < gSaveContext.minigameScore) {
         gSaveContext.save.info.highScores[0] = gSaveContext.minigameScore;
