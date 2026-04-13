@@ -67,7 +67,7 @@ EXTRACTED_DIR := extracted/$(VERSION)
 VENV := .venv
 
 MAKE = make
-CPPFLAGS += -P -xc
+CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
 ifeq ($(DEBUG),1)
   CFLAGS += -DOOT_DEBUG=1
