@@ -2,6 +2,8 @@
 #include "quake.h"
 #include "terminal.h"
 
+#pragma increment_block_number 200
+
 #if OOT_DEBUG
 void* gDebugCutsceneScript = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused

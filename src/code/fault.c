@@ -42,6 +42,8 @@
  */
 #if OOT_DEBUG
 #pragma increment_block_number 250
+#else
+#pragma increment_block_number 128
 #endif
 
 #include "global.h"
@@ -54,7 +56,7 @@
 #if OOT_DEBUG
 #pragma increment_block_number 21
 #else
-#pragma increment_block_number 25
+#pragma increment_block_number 0
 #endif
 
 void FaultDrawer_Init(void);
