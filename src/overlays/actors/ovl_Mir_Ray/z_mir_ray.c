@@ -271,10 +271,7 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     PRINTF("this->actor.arg_data = %d\n", this->actor.params);
 #endif
     if (this->actor.params >= ARRAY_COUNT(D_80B8E6F8)) {
-#if OOT_DEBUG
-        LogUtils_LogThreadId("../z_mir_ray.c", 521);
-        PRINTF("\"反射光 発生失敗\" = %s\n", "反射光 発生失敗");
-#endif
+        LOG_STRING("反射光 発生失敗", "../z_mir_ray.c", 521);
         Actor_Kill(&this->actor);
     }
     this->coneFrustumCenterTop.x = temp_s1->coneFrustumCenterTop.x;
