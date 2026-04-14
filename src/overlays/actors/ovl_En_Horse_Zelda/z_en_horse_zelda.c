@@ -244,10 +244,10 @@ void EnHorseZelda_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder.base);
 }
 
-void EnHorseZelda_PostDraw(EnHorseZelda* this, PlayState* play, Skin* skin) {
+void EnHorseZelda_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     Vec3f offset;
     Vec3f dst;
-    s32 pad;
+    EnHorseZelda* this = (EnHorseZelda*)thisx;
     s32 i;
 
     for (i = 0; i < this->colliderSphere.count; i++) {

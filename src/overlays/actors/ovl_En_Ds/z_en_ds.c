@@ -189,7 +189,7 @@ void EnDs_OfferBluePotion(EnDs* this, PlayState* play) {
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
                         this->actor.flags &= ~ACTOR_FLAG_16;
-                        Actor_OfferGetItem(this, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
+                        Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
                 }
@@ -229,7 +229,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
         this->actor.textId = 0x5048;
 
         if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistToPlayer < 200.0f)) {
-            Actor_OfferTalkExchangeEquiCylinder(this, play, 100.0f, EXCH_ITEM_ODD_MUSHROOM);
+            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_ODD_MUSHROOM);
             this->unk_1E8 |= 1;
         }
     }
@@ -245,7 +245,7 @@ void EnDs_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->unk_1E8 & 1) {
-        Actor_TrackPlayer(play, this, &this->unk_1D8, &this->unk_1DE, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_1D8, &this->unk_1DE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_1D8.x, 0, 6, 0x1838, 100);
         Math_SmoothStepToS(&this->unk_1D8.y, 0, 6, 0x1838, 100);

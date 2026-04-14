@@ -534,7 +534,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
                 break;
             }
         case 2:
-            if (Actor_HasParent(this, play)) {
+            if (Actor_HasParent(&this->actor, play)) {
                 Play_CopyCamera(play, CAM_ID_MAIN, this->subCamId);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
                 Play_ClearCamera(play, this->subCamId);

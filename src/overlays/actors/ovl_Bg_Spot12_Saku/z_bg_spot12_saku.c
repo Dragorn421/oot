@@ -44,7 +44,7 @@ void func_808B3420(BgSpot12Saku* this, PlayState* play, CollisionHeader* collisi
     Actor* thisx = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(thisx, flags);
+    DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 

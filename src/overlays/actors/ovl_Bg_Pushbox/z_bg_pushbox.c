@@ -74,7 +74,7 @@ void BgPushbox_Update(Actor* thisx, PlayState* play) {
     BgPushbox* this = (BgPushbox*)thisx;
 
     this->actionFunc(this, play);
-    func_8002DF90(this);
+    func_8002DF90(&this->dyna);
 }
 
 void BgPushbox_Draw(Actor* thisx, PlayState* play) {

@@ -68,9 +68,9 @@ static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, 0xFF };
 void EnDodojr_Init(Actor* thisx, PlayState* play) {
     EnDodojr* this = (EnDodojr*)thisx;
 
-    ActorShape_Init(&this->actor.shape.rot.x, 0.0f, NULL, 18.0f);
-    SkelAnime_Init(play, &this->skelAnime, &object_dodojr_Skel_0020E0, &object_dodojr_Anim_0009D4, &this->jointTable,
-                   &this->morphTable, 15);
+    ActorShape_Init(&this->actor.shape, 0.0f, NULL, 18.0f);
+    SkelAnime_Init(play, &this->skelAnime, &object_dodojr_Skel_0020E0, &object_dodojr_Anim_0009D4, this->jointTable,
+                   this->morphTable, 15);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);
@@ -213,7 +213,7 @@ void EnDodojr_SetupDespawn(EnDodojr* this) {
 
 void EnDodojr_SetupEatBomb(EnDodojr* this) {
     Animation_Change(&this->skelAnime, &object_dodojr_Anim_000724, 1.0f, 8.0f, 12.0f, ANIMMODE_ONCE, 0.0f);
-    Actor_PlaySfx(this, NA_SE_EN_DODO_M_EAT);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_EAT);
     this->actor.speed = 0.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.z = 0.0f;
@@ -269,7 +269,7 @@ s32 EnDodojr_TryEatBomb(EnDodojr* this) {
     } else if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->bomb->world.pos) > 30.0f) {
         return false;
     } else {
-        this->bomb->parent = this;
+        this->bomb->parent = &this->actor;
         return true;
     }
 }
@@ -414,7 +414,7 @@ void EnDodojr_WaitUnderground(EnDodojr* this, PlayState* play) {
 void EnDodojr_EmergeFromGround(EnDodojr* this, PlayState* play) {
     f32 sp2C;
 
-    Math_SmoothStepToS(&this->actor.shape, 0, 4, 0x3E8, 0x64);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 4, 0x3E8, 0x64);
     sp2C = this->actor.shape.rot.x;
     sp2C /= 16384.0f;
     this->actor.world.pos.y = this->actor.home.pos.y + (60.0f * sp2C);
@@ -560,7 +560,7 @@ void EnDodojr_Despawn(EnDodojr* this, PlayState* play) {
 }
 
 void EnDodojr_StandardDeathBounce(EnDodojr* this, PlayState* play) {
-    Actor_UpdateVelocityXZGravity(this);
+    Actor_UpdateVelocityXZGravity(&this->actor);
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
     this->actor.world.rot.x = this->actor.shape.rot.x;
 
@@ -623,7 +623,7 @@ void EnDodojr_Update(Actor* thisx, PlayState* play) {
     EnDodojr_UpdateCollider(this, play);
 }
 
-s32 EnDodojr_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnDodojr_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDodojr* this = (EnDodojr*)thisx;
     Vec3f D_809F7F64 = { 480.0f, 620.0f, 0.0f };
 
@@ -639,7 +639,7 @@ s32 EnDodojr_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
     return 0;
 }
 
-void EnDodojr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnDodojr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 }
 
 void EnDodojr_Draw(Actor* thisx, PlayState* play) {

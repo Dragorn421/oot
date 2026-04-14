@@ -61,7 +61,7 @@ static Color_RGBA8 D_80B243C0[4] = {
     { 0xFF, 0xFF, 0xFF, 0xFF },
     { 0, 0, 0xFF, 0xFF },
 };
-static s32 D_80B243D0[3] = {
+static void* D_80B243D0[3] = {
     gKotakeKoumeEyeOpenTex,
     gKotakeKoumeEyeHalfTex,
     gKotakeKoumeEyeClosedTex,

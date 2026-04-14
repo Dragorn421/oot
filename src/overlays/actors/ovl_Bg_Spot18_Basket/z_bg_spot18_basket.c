@@ -78,7 +78,7 @@ void func_808B7710(Actor* thisx, PlayState* play) {
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
 
     Collider_InitJntSph(play, &this->colliderJntSph);
-    Collider_SetJntSph(play, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, &this->ColliderJntSphElements);
+    Collider_SetJntSph(play, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, this->ColliderJntSphElements);
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
@@ -134,7 +134,7 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
-    func_808B7710(this, play);
+    func_808B7710(&this->dyna.actor, play);
     CollisionHeader_GetVirtual(&gGoronCityVaseCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, actor, colHeader);
@@ -174,7 +174,7 @@ void func_808B7AEC(BgSpot18Basket* this) {
 
 void func_808B7AFC(BgSpot18Basket* this, PlayState* play) {
     if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
-        OnePointCutscene_Init(play, 4220, 80, this, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 4220, 80, &this->dyna.actor, CAM_ID_MAIN);
         func_808B7B58(this);
     }
 }
@@ -222,14 +222,14 @@ void func_808B7BCC(BgSpot18Basket* this, PlayState* play) {
             if (positionDiff > 120.0f && positionDiff < 200.0f) {
                 if (Math3D_Dist2DSq(colliderBaseAc->world.pos.z, this->colliderJntSph.base.ac->world.pos.x,
                                     this->dyna.actor.world.pos.z, this->dyna.actor.world.pos.x) < SQ(32.0f)) {
-                    OnePointCutscene_Init(play, 4210, 240, this, CAM_ID_MAIN);
+                    OnePointCutscene_Init(play, 4210, 240, &this->dyna.actor, CAM_ID_MAIN);
                     func_808B7D38(this);
                     DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 }
             }
         }
     }
-    func_8002F974(this, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+    func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 }
 
 void func_808B7D38(BgSpot18Basket* this) {
@@ -422,17 +422,18 @@ void func_808B81A0(BgSpot18Basket* this, PlayState* play) {
 
 void BgSpot18Basket_Update(Actor* thisx, PlayState* play) {
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
-    Vec3s temp;
+    s32 pad;
+    s32 temp;
 
     this->unk_216++;
     this->actionFunc(this, play);
     this->dyna.actor.floorHeight = BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &temp,
-                                                              &this->dyna.actor, &this->dyna.actor.world);
+                                                              &this->dyna.actor, &this->dyna.actor.world.pos);
     if (this->actionFunc != func_808B7AFC) {
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
         if (this->actionFunc != func_808B7B6C) {
             this->colliderJntSph.base.acFlags &= ~AC_HIT;
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
         }
     }
 }

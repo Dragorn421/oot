@@ -47,7 +47,7 @@ void BgJyaLift_InitDynapoly(BgJyaLift* this, PlayState* play, CollisionHeader* c
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collisionHeader, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgJyaLift_Init(Actor* thisx, PlayState* play) {
@@ -64,9 +64,9 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
     BgJyaLift_InitDynapoly(this, play, &gLiftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
-        BgJyaLift_SetFinalPosY(thisx);
+        BgJyaLift_SetFinalPosY(this);
     } else {
-        BgJyaLift_SetInitPosY(thisx);
+        BgJyaLift_SetInitPosY(this);
     }
     thisx->room = -1;
     D_8089A020 = 1;

@@ -86,7 +86,7 @@ void BgYdanMaruta_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     Collider_InitTris(play, &this->collider);
-    Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, &this->elements);
+    Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->elements);
 
     this->switchFlag = this->dyna.actor.params & 0xFFFF;
     thisx->params = (thisx->params >> 8) & 0xFF; // thisx is required to match here

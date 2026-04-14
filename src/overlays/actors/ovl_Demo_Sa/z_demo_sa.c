@@ -801,7 +801,7 @@ s32 DemoSa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
     DemoSa* this = (DemoSa*)thisx;
 
     if ((limbIndex == 15) && (this->unk_1B0 != 0)) {
-        *dList = &gSariaRightHandAndOcarinaDL;
+        *dList = gSariaRightHandAndOcarinaDL;
     }
     return false;
 }

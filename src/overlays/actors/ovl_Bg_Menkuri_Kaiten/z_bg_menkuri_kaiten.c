@@ -35,24 +35,24 @@ void BgMenkuriKaiten_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyActor_Init(&this->actor, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     CollisionHeader_GetVirtual(&gGTGRotatingRingPlatformCol, &colHeader);
-    this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgMenkuriKaiten_Destroy(Actor* thisx, PlayState* play) {
     BgMenkuriKaiten* this = (BgMenkuriKaiten*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgMenkuriKaiten_Update(Actor* thisx, PlayState* play) {
     BgMenkuriKaiten* this = (BgMenkuriKaiten*)thisx;
 
-    if (!Flags_GetSwitch(play, this->actor.params) && DynaPolyActor_IsPlayerAbove(&this->actor)) {
-        func_8002F974(&this->actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
-        this->actor.shape.rot.y += 0x80;
+    if (!Flags_GetSwitch(play, this->dyna.actor.params) && DynaPolyActor_IsPlayerAbove(&this->dyna)) {
+        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+        this->dyna.actor.shape.rot.y += 0x80;
     }
 }
 

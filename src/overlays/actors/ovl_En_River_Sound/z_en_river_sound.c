@@ -281,11 +281,11 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
     } else if (this->actor.params == RS_GORON_CITY_SARIAS_SONG) {
         // Play Sarias Song in Goron City at the entrance to lost woods
         // Volume depends on distance to source
-        Audio_PlaySariaBgm(&this->actor.home, NA_BGM_SARIA_THEME, 1000);
+        Audio_PlaySariaBgm(&this->actor.home.pos, NA_BGM_SARIA_THEME, 1000);
     } else if (this->actor.params == RS_GREAT_FAIRY) {
         // Play the Great Fairy Song inside the fairy fountain
         // Volume depends on distance to source
-        Audio_PlaySariaBgm(&this->actor.home, NA_BGM_GREAT_FAIRY, 800);
+        Audio_PlaySariaBgm(&this->actor.home.pos, NA_BGM_GREAT_FAIRY, 800);
     } else if ((this->actor.params == RS_SANDSTORM) || (this->actor.params == RS_CHAMBER_OF_SAGES_1) ||
                (this->actor.params == RS_CHAMBER_OF_SAGES_2) || (this->actor.params == RS_RUMBLING)) {
         // Play sfx in the fixed center of the screen

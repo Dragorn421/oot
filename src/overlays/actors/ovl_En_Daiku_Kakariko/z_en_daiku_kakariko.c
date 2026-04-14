@@ -157,7 +157,7 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_daiku_Skel_007958, NULL, &this->jointTable, &this->morphTable,
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_daiku_Skel_007958, NULL, this->jointTable, this->morphTable,
                        17);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -437,12 +437,12 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
 
     if (this->flags & 0x40) {
-        Actor_UpdateBgCheckInfo(play, this, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+        Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     } else if (this->flags & 0x80) {
         this->runFlag |= 1;
         this->flags &= ~0x0080;
     } else if (this->runFlag & 1) {
-        Actor_UpdateBgCheckInfo(play, this, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+        Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->runFlag &= ~1;
     }
 

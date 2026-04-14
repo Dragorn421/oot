@@ -60,7 +60,7 @@ void func_8088F47C(BgHidanSyoku* this) {
 }
 
 void func_8088F4B8(BgHidanSyoku* this, PlayState* play) {
-    if (Flags_GetClear(play, this->dyna.actor.room) && DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
+    if (Flags_GetClear(play, this->dyna.actor.room) && DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         this->unk_16A = 0x8C;
         this->actionFunc = func_8088F514;
     }
@@ -108,12 +108,12 @@ void BgHidanSyoku_Update(Actor* thisx, PlayState* play) {
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
 
     this->actionFunc(this, play);
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;
         }
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
-    } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
+    } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->unk_168 != 0) {
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }

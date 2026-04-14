@@ -5,6 +5,7 @@
  */
 
 #include "z_mir_ray.h"
+#include "z64bgcheck.h"
 #include "z64collision_check.h"
 #include "assets/objects/object_mir_ray/object_mir_ray.h"
 
@@ -15,19 +16,10 @@ void MirRay_Destroy(Actor* thisx, PlayState* play);
 void MirRay_Update(Actor* thisx, PlayState* play);
 void MirRay_Draw(Actor* thisx, PlayState* play);
 
-typedef struct struct_80B8D8A0_4C {
-    char pad0[8];
-    s16 unk8; // s16?
-    s16 unkA; // s16?
-    s16 unkC; // s16?
-    s16 unkE; // s16?
-    char pad10[UNK_SIZE];
-} struct_80B8D8A0_4C;
-
 typedef struct struct_80B8D8A0 {
     /* 0x00 */ Vec3f reflectionPos;
     /* 0x0C */ MtxF reflectionTransform;
-    /* 0x4C */ struct_80B8D8A0_4C* unk4C;
+    /* 0x4C */ CollisionPoly* unk4C;
     /* 0x50 */ u8 unk50;
 } struct_80B8D8A0; // size = 0x54
 
@@ -386,14 +378,13 @@ void func_80B8D6F0(MirRay* this, PlayState* play) {
 }
 
 void func_80B8D8A0(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
-    s32 pad[2];
+    Player* player; // v0
+    MtxF* shieldMf; // s0
     s32 i;
     Vec3f reflectionOriginPos; // sp88
     Vec3f reflectionMaxPos;    // sp7C
-    Player* player;            // v0
-    MtxF* shieldMf;            // s0
-    UNK_TYPE sp70;             // sp70
-    UNK_PTR sp6C;              // sp6C
+    Vec3f sp70;                // sp70
+    CollisionPoly* sp6C;       // sp6C
     Vec3f forwards;            // sp60
 
     player = GET_PLAYER(play);
@@ -428,10 +419,10 @@ void func_80B8DA78(struct_80B8D8A0* arg0) {
     for (i = 0; i < 6; i++) {
         for (j = i + 1; j < 6; j++) {
             if ((arg0[i].unk4C != NULL) && (arg0[j].unk4C != NULL) &&
-                (ABS(arg0[i].unk4C->unk8 - arg0[j].unk4C->unk8) < 100) &&
-                (ABS(arg0[i].unk4C->unkA - arg0[j].unk4C->unkA) < 100) &&
-                (ABS(arg0[i].unk4C->unkC - arg0[j].unk4C->unkC) < 100) &&
-                (arg0[i].unk4C->unkE == arg0[j].unk4C->unkE)) {
+                (ABS(arg0[i].unk4C->normal.x - arg0[j].unk4C->normal.x) < 100) &&
+                (ABS(arg0[i].unk4C->normal.y - arg0[j].unk4C->normal.y) < 100) &&
+                (ABS(arg0[i].unk4C->normal.z - arg0[j].unk4C->normal.z) < 100) &&
+                (arg0[i].unk4C->dist == arg0[j].unk4C->dist)) {
                 arg0[j].unk4C = NULL;
             }
         }
@@ -492,10 +483,10 @@ void func_80B8DB7C(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
             var_s0 = &arg2[i];
             if (var_s0->unk4C != NULL) {
                 if (&forwards) {} //! FAKE
-                spDC.x = COLPOLY_GET_NORMAL(var_s0->unk4C->unk8);
-                spDC.y = COLPOLY_GET_NORMAL(var_s0->unk4C->unkA);
-                spDC.z = COLPOLY_GET_NORMAL(var_s0->unk4C->unkC);
-                if (Math3D_LineSegVsPlane(*new_var, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPos, &inFrontPos,
+                spDC.x = COLPOLY_GET_NORMAL(var_s0->unk4C->normal.x);
+                spDC.y = COLPOLY_GET_NORMAL(var_s0->unk4C->normal.y);
+                spDC.z = COLPOLY_GET_NORMAL(var_s0->unk4C->normal.z);
+                if (Math3D_LineSegVsPlane(*new_var, spDC.y, spDC.z, var_s0->unk4C->dist, &originPos, &inFrontPos,
                                           &intersect, true)) {
                     var_s0->reflectionPos.x = intersect.x;
                     var_s0->reflectionPos.y = intersect.y;
@@ -534,7 +525,7 @@ void func_80B8DB7C(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
                     var_s0->reflectionTransform.yx = var_s0->reflectionTransform.zx = var_s0->reflectionTransform.wx =
                         var_s0->reflectionTransform.xy = var_s0->reflectionTransform.zy =
                             var_s0->reflectionTransform.wy = new_var3;
-                    if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPosWithOffset,
+                    if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->dist, &originPosWithOffset,
                                               &inFrontPosWithOffset, &intersectWithOffset, true)) {
                         do {
                         } while (0); //! FAKE
@@ -548,7 +539,7 @@ void func_80B8DB7C(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
                     inFrontPosWithOffset.x = (forwards.x * 4.0f) + originPosWithOffset.x;
                     inFrontPosWithOffset.y = (forwards.y * 4.0f) + originPosWithOffset.y;
                     inFrontPosWithOffset.z = (forwards.z * 4.0f) + originPosWithOffset.z;
-                    if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->unkE, &originPosWithOffset,
+                    if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->dist, &originPosWithOffset,
                                               &inFrontPosWithOffset, &intersectWithOffset, true)) {
                         if (!intersect.z) {} //! FAKE
                         var_s0->reflectionTransform.xy = intersectWithOffset.x - intersect.x;

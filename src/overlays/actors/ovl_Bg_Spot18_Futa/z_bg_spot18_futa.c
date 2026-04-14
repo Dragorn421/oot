@@ -38,30 +38,30 @@ void BgSpot18Futa_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->actor, 0);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gGoronCityVaseLidCol, &colHeader);
-    this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
-    Actor_ProcessInitChain(&this->actor, sInitChain);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
 void BgSpot18Futa_Destroy(Actor* thisx, PlayState* play) {
     BgSpot18Futa* this = (BgSpot18Futa*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot18Futa_Update(Actor* thisx, PlayState* play) {
     BgSpot18Futa* this = (BgSpot18Futa*)thisx;
     s32 iVar1;
 
-    if (this->actor.parent == NULL) {
-        iVar1 = Math_StepToF(&this->actor.scale.x, 0, 0.005);
+    if (this->dyna.actor.parent == NULL) {
+        iVar1 = Math_StepToF(&this->dyna.actor.scale.x, 0, 0.005);
 
         if (iVar1 != 0) {
-            Actor_Kill(&this->actor);
+            Actor_Kill(&this->dyna.actor);
         } else {
-            this->actor.scale.z = this->actor.scale.x;
-            this->actor.scale.y = this->actor.scale.x;
+            this->dyna.actor.scale.z = this->dyna.actor.scale.x;
+            this->dyna.actor.scale.y = this->dyna.actor.scale.x;
         }
     }
 }

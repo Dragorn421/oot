@@ -68,7 +68,7 @@ void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->actor.shape.yOffset = 800.0f;
-    BgTokiSwd_SetupAction(thisx, func_808BAF40);
+    BgTokiSwd_SetupAction(this, func_808BAF40);
 
     if (LINK_IS_ADULT) {
         thisx->draw = NULL;

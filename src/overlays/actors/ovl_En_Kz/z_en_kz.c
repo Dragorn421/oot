@@ -100,7 +100,8 @@ u16 EnKz_GetTextIdAdult(PlayState* play, EnKz* this) {
     }
 }
 
-u16 EnKz_GetTextId(PlayState* play, EnKz* this) {
+u16 EnKz_GetTextId(PlayState* play, Actor* thisx) {
+    EnKz* this = (EnKz*)thisx;
     u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KING_ZORA);
 
     if (textId != 0) {
@@ -114,8 +115,8 @@ u16 EnKz_GetTextId(PlayState* play, EnKz* this) {
     }
 }
 
-s16 EnKz_UpdateTalkState(PlayState* play, EnKz* this) {
-    s32 pad;
+s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
+    EnKz* this = (EnKz*)thisx;
     s16 talkState = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -362,7 +363,7 @@ void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_SetupMweep;
     } else {
-        func_80034F54(play, &this->unk_2A6, &this->unk_2BE, 12);
+        func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
     }
 }
 
@@ -422,7 +423,7 @@ void EnKz_Wait(EnKz* this, PlayState* play) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, play);
     } else {
-        func_80034F54(play, &this->unk_2A6, &this->unk_2BE, 12);
+        func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
     }
 }
 
@@ -431,7 +432,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
     f32 xzRange;
     f32 yRange;
 
-    if (Actor_HasParent(this, play)) {
+    if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
         this->actionFunc = EnKz_StartTimer;

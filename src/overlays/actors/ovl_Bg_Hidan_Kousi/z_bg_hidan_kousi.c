@@ -52,7 +52,7 @@ static s16 D_80889E7C[] = {
     0x0000,
 };
 
-static Gfx (*sMetalFencesDLs[])[] = {
+static Gfx* sMetalFencesDLs[] = {
     gFireTempleMetalFenceWithSlantDL,
     gFireTempleMetalFenceDL,
     gFireTempleMetalFence2DL,

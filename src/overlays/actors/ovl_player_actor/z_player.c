@@ -84,10 +84,10 @@ typedef enum {
 
 #define ANIMSFX_SHIFT_TYPE(type) ((type) << 11)
 
-#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame)&0x7FF)))
+#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame) & 0x7FF)))
 
-#define ANIMSFX_GET_TYPE(data) ((data)&0x7800)
-#define ANIMSFX_GET_FRAME(data) ((data)&0x7FF)
+#define ANIMSFX_GET_TYPE(data) ((data) & 0x7800)
+#define ANIMSFX_GET_FRAME(data) ((data) & 0x7FF)
 
 typedef struct {
     /* 0x00 */ u16 sfxId;
@@ -7106,7 +7106,7 @@ s32 Player_TryEnteringCrawlspace(Player* this, PlayState* play, u32 interactWall
         s32 i;
 
         wallPoly = this->actor.wallPoly;
-        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &play->colCtx, &wallVertices);
+        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &play->colCtx, wallVertices);
 
         // Determines min and max vertices for x & z (edges of the crawlspace hole)
         xVertex1 = xVertex2 = wallVertices[0].x;
@@ -15153,8 +15153,8 @@ static Vec3s D_80855210[2][2] = {
 
 void func_808526EC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    static Color_RGB8 primColor = { 255, 255, 255 };
-    static Color_RGB8 envColor = { 0, 128, 128 };
+    static Color_RGBA8 primColor = { 255, 255, 255, 0 };
+    static Color_RGBA8 envColor = { 0, 128, 128, 0 };
     s32 linkAge = gSaveContext.save.linkAge;
     Vec3f sparklePos;
     Vec3f sp34;

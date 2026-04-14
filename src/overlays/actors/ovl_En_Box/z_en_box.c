@@ -78,7 +78,7 @@ void EnBox_SetupAction(EnBox* this, EnBoxActionFunc actionFunc) {
 void EnBox_ClipToGround(EnBox* this, PlayState* play) {
     f32 newY;
     CollisionPoly* poly;
-    s32* bgId;
+    s32 bgId;
     Vec3f checkPos;
 
     checkPos = this->dyna.actor.world.pos;

@@ -76,8 +76,8 @@ void BgJyaBombchuiwa_SetDrawFlags(BgJyaBombchuiwa* this, u8 drawFlags) {
 void BgJyaBombchuiwa_Init(Actor* thisx, PlayState* play) {
     BgJyaBombchuiwa* this = (BgJyaBombchuiwa*)thisx;
 
-    Actor_ProcessInitChain(thisx, &sInitChain);
-    BgJyaBombchuiwa_SetupCollider(thisx, play);
+    Actor_ProcessInitChain(thisx, sInitChain);
+    BgJyaBombchuiwa_SetupCollider(this, play);
     if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
         BgJyaBombchuiwa_SpawnLightRay(this, play);
     } else {
@@ -225,7 +225,7 @@ void BgJyaBombchuiwa_Draw(Actor* thisx, PlayState* play) {
     BgJyaBombchuiwa* this = (BgJyaBombchuiwa*)thisx;
 
     if (this->drawFlags & 1) {
-        Gfx_DrawDListOpa(play, &gBombchuiwaDL);
+        Gfx_DrawDListOpa(play, gBombchuiwaDL);
         Collider_UpdateSpheres(0, &this->collider);
     }
 

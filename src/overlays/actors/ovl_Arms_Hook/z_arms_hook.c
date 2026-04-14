@@ -184,7 +184,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
                 grabbed = NULL;
                 this->grabbed = NULL;
             } else if (this->actor.child != NULL) {
-                curGrabbedDist = Actor_WorldDistXYZToActor(this, grabbed);
+                curGrabbedDist = Actor_WorldDistXYZToActor(&this->actor, grabbed);
                 grabbedDist =
                     sqrtf(SQ(this->grabbedDistDiff.x) + SQ(this->grabbedDistDiff.y) + SQ(this->grabbedDistDiff.z));
                 Math_Vec3f_Diff(&grabbed->world.pos, &this->grabbedDistDiff, &this->actor.world.pos);

@@ -92,7 +92,7 @@ void EnBoom_Init(Actor* thisx, PlayState* play) {
     Effect_Add(play, &this->effectIndex, EFFECT_BLURE1, 0, 0, &blure);
 
     Collider_InitQuad(play, &this->collider);
-    Collider_SetQuad(play, &this->collider, this, &sQuadInit);
+    Collider_SetQuad(play, &this->collider, &this->actor, &sQuadInit);
 
     EnBoom_SetupAction(this, EnBoom_Fly);
 }
@@ -115,7 +115,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
     s32 pad1;
     f32 distXYZScale;
     f32 distFromLink;
-    Actor* hitActor;
+    DynaPolyActor* hitActor;
     s32 hitDynaID;
     Vec3f hitPoint;
     s32 pad2;
@@ -150,7 +150,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
     // Set xyz speed, move forward, and play the boomerang sound effect
     Actor_SetProjectileSpeed(&this->actor, 12.0f);
     Actor_MoveXZGravity(&this->actor);
-    func_8002F974(this, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
+    func_8002F974(&this->actor, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
 
     // If the boomerang collides with EnItem00 or a Skulltula token, set grabbed pointer to pick it up
     collided = this->collider.base.atFlags & AT_HIT;
@@ -168,7 +168,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
     // Otherwise handle grabbing and colliding.
     if (DECR(this->returnTimer) == 0) {
         distFromLink = Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.focus.pos);
-        this->moveTo = player;
+        this->moveTo = &player->actor;
 
         // If the boomerang is less than 40 units away from Link, he can catch it.
         if (distFromLink < 40.0f) {
@@ -205,7 +205,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
                 // Otherwise play a clank sound effect and keep collided set to bounce back.
                 if (func_8002F9EC(play, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
                     (hitDynaID != BGCHECK_SCENE && ((hitActor = DynaPoly_GetActor(&play->colCtx, hitDynaID)) != NULL) &&
-                     hitActor->id == ACTOR_BG_BDAN_OBJECTS && hitActor->params == 0)) {
+                     hitActor->actor.id == ACTOR_BG_BDAN_OBJECTS && hitActor->actor.params == 0)) {
                     collided = false;
                 } else {
                     CollisionCheck_SpawnShieldParticlesMetal(play, &hitPoint);
@@ -218,7 +218,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
         if (collided) {
             this->actor.world.rot.x = -this->actor.world.rot.x;
             this->actor.world.rot.y += 0x8000;
-            this->moveTo = player;
+            this->moveTo = &player->actor;
             this->returnTimer = 0;
         }
     }

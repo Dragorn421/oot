@@ -328,7 +328,7 @@ u16 EnGo2_GetTextIdGoronCityRollingBig(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronCityRollingBig(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityRollingBig(PlayState* play, EnGo2* this) {
     s32 bombBagUpgrade;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -358,7 +358,7 @@ u16 EnGo2_GetTextIdGoronDmtBombFlower(PlayState* play, EnGo2* this) {
 }
 
 // DMT Goron by Bomb Flower Choice
-u16 EnGo2_UpdateTalkStateGoronDmtBombFlower(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtBombFlower(PlayState* play, EnGo2* this) {
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_CLOSING:
             if ((this->actor.textId == 0x300B) && !GET_INFTABLE(INFTABLE_EB)) {
@@ -394,7 +394,7 @@ u16 EnGo2_GetTextIdGoronDmtRollingSmall(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronDmtRollingSmall(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtRollingSmall(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -412,7 +412,7 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3008) {
             SET_INFTABLE(INFTABLE_E0);
@@ -433,7 +433,7 @@ u16 EnGo2_GetTextIdGoronCityEntrance(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronCityEntrance(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityEntrance(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3014) {
             SET_INFTABLE(INFTABLE_F0);
@@ -454,7 +454,7 @@ u16 EnGo2_GetTextIdGoronCityIsland(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronCityIsland(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityIsland(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3016) {
             SET_INFTABLE(INFTABLE_F4);
@@ -478,7 +478,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronCityLowestFloor(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityLowestFloor(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3018) {
             SET_INFTABLE(INFTABLE_F8);
@@ -503,7 +503,7 @@ u16 EnGo2_GetTextIdGoronCityLink(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronCityLink(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityLink(PlayState* play, EnGo2* this) {
     switch (EnGo2_GetDialogState(this, play)) {
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
@@ -576,7 +576,7 @@ u16 EnGo2_GetTextIdGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     s32 unusedPad;
     u8 dialogState = this->dialogState;
 
@@ -648,7 +648,7 @@ u16 EnGo2_GetTextIdGoronFireGeneric(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronFireGeneric(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronFireGeneric(PlayState* play, EnGo2* this) {
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_CLOSING:
             return NPC_TALK_STATE_IDLE;
@@ -670,7 +670,7 @@ u16 EnGo2_GetTextIdGoronCityStairwell(PlayState* play, EnGo2* this) {
     return !LINK_IS_ADULT ? GET_INFTABLE(INFTABLE_E3) ? 0x3022 : 0x300E : 0x3043;
 }
 
-u16 EnGo2_UpdateTalkStateGoronCityStairwell(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityStairwell(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x300E) {
             SET_INFTABLE(INFTABLE_E3);
@@ -686,7 +686,7 @@ u16 EnGo2_GetTextIdGoronMarketBazaar(PlayState* play, EnGo2* this) {
     return 0x7122;
 }
 
-u16 EnGo2_UpdateTalkStateGoronMarketBazaar(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronMarketBazaar(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -706,7 +706,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronCityLostWoods(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityLostWoods(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3024) {
             SET_INFTABLE(INFTABLE_E6);
@@ -726,7 +726,7 @@ u16 EnGo2_GetTextIdGoronDmtFairyHint(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_UpdateTalkStateGoronDmtFairyHint(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtFairyHint(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -734,7 +734,8 @@ u16 EnGo2_UpdateTalkStateGoronDmtFairyHint(PlayState* play, EnGo2* this) {
     }
 }
 
-u16 EnGo2_GetTextId(PlayState* play, EnGo2* this) {
+u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
+    EnGo2* this = (EnGo2*)thisx;
     u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GORON);
 
     if (textId != 0) {
@@ -776,7 +777,9 @@ u16 EnGo2_GetTextId(PlayState* play, EnGo2* this) {
 #endif
 }
 
-u16 EnGo2_UpdateTalkState(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
+    EnGo2* this = (EnGo2*)thisx;
+
     switch (this->actor.params & 0x1F) {
         case GORON_CITY_ROLLING_BIG:
             return EnGo2_UpdateTalkStateGoronCityRollingBig(play, this);
@@ -826,10 +829,10 @@ s32 func_80A44790(EnGo2* this, PlayState* play) {
             this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
             return true;
         } else if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
-            this->interactInfo.talkState = EnGo2_UpdateTalkState(play, this);
+            this->interactInfo.talkState = EnGo2_UpdateTalkState(play, &this->actor);
             return false;
         } else if (Actor_OfferTalk(&this->actor, play, this->interactRange)) {
-            this->actor.textId = EnGo2_GetTextId(play, this);
+            this->actor.textId = EnGo2_GetTextId(play, &this->actor);
         }
         return false;
     }
@@ -864,8 +867,8 @@ void EnGo2_CheckCollision(EnGo2* this, PlayState* play) {
     pos.z += (s16)(xzDist * Math_CosS(this->actor.shape.rot.y));
     pos.y += D_80A4816C[this->actor.params & 0x1F].yDist;
     this->collider.dim.pos = pos;
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider);
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 }
 
 void EnGo2_SwapInitialFrameAnimFrameCount(EnGo2* this) {
@@ -907,7 +910,7 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
 
                 play->damagePlayer(play, -4);
                 func_8002F71C(play, &this->actor, arg2, this->actor.yawTowardsPlayer, 6.0f);
-                Actor_PlaySfx(player, NA_SE_PL_BODY_HIT);
+                Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
                 this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
             }
         }
@@ -1512,7 +1515,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, &this->jointTable, &this->morphTable, 18);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);

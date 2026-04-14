@@ -57,10 +57,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 32767, ICHAIN_STOP),
 };
 
-static f32 D_808718FC[] = { 0.0f, 5.0f };
-static f32 D_80871904[] = { 0.0f };
-static f32 D_80871908[] = { 0.0f, -0.45f, 0.0f, 0.0f, 0.0f, 0.0f };
-
 void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -73,7 +69,7 @@ void BgDdanKd_Init(Actor* thisx, PlayState* play) {
     this->prevExplosive = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna.actor, DYNA_TRANSFORM_POS);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
     CollisionHeader_GetVirtual(&gDodongoFallingStairsCol, &colHeader);
@@ -98,7 +94,7 @@ void BgDdanKd_Destroy(Actor* thisx, PlayState* play) {
 void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play) {
     Actor* explosive;
 
-    explosive = Actor_GetCollidedExplosive(play, &this->collider);
+    explosive = Actor_GetCollidedExplosive(play, &this->collider.base);
     if (explosive != NULL) {
         PRINTF("dam    %d\n", this->dyna.actor.colChkInfo.damage);
         explosive->params = 2;
@@ -107,7 +103,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play) {
     if ((explosive != NULL) && (this->prevExplosive != NULL) && (explosive != this->prevExplosive) &&
         (Math_Vec3f_DistXZ(&this->prevExplosivePos, &explosive->world.pos) > 80.0f)) {
         BgDdanKd_SetupAction(this, BgDdanKd_LowerStairs);
-        OnePointCutscene_Init(play, 3050, 999, this, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 3050, 999, &this->dyna.actor, CAM_ID_MAIN);
     } else {
         if (this->timer != 0) {
             this->timer--;
@@ -124,6 +120,9 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play) {
 }
 
 void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play) {
+    static Vec3f D_808718FC = { 0.0f, 5.0f, 0.0f };
+    static Vec3f D_80871908 = { 0.0f, -0.45f, 0.0f };
+    static Vec3f D_80871914 = { 0.0f, 0.0f, 0.0f };
     Vec3f pos1;
     Vec3f pos2;
     f32 effectStrength;
@@ -156,8 +155,8 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play) {
             func_80033480(play, &pos1, 20.0f, 1, effectStrength * 135.0f, 60, 1);
             func_80033480(play, &pos2, 20.0f, 1, effectStrength * 135.0f, 60, 1);
 
-            D_808718FC[0] = Rand_CenteredFloat(3.0f);
-            D_80871904[0] = Rand_CenteredFloat(3.0f);
+            D_808718FC.x = Rand_CenteredFloat(3.0f);
+            D_808718FC.z = Rand_CenteredFloat(3.0f);
 
             func_8003555C(play, &pos1, &D_808718FC, &D_80871908);
             func_8003555C(play, &pos2, &D_808718FC, &D_80871908);
@@ -186,5 +185,5 @@ void BgDdanKd_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgDdanKd_Draw(Actor* thisx, PlayState* play) {
-    Gfx_DrawDListOpa(play, &gDodongoFallingStairsDL);
+    Gfx_DrawDListOpa(play, gDodongoFallingStairsDL);
 }

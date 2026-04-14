@@ -46,7 +46,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    &sJntSphElementsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -83,6 +83,8 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
+    BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
+
     if ((thisx->params & 0x3F) != 0x29) {
         PRINTF(VT_COL(YELLOW, BLACK));
 
@@ -91,8 +93,8 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
                thisx->params & 0x3F);
         PRINTF(VT_SGR());
     }
-    BgJyaBombiwa_SetupDynaPoly(thisx, play, &gBombiwaCol, 0);
-    BgJyaBombiwa_InitCollider(thisx, play);
+    BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, 0);
+    BgJyaBombiwa_InitCollider(this, play);
     if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
         Actor_Kill(thisx);
     } else {
@@ -160,7 +162,7 @@ void BgJyaBombiwa_Update(Actor* thisx, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, play);
         Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world, 40, NA_SE_EV_WALL_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

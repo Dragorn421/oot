@@ -42,7 +42,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(thisx, DYNA_TRANSFORM_POS);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Actor_ProcessInitChain(thisx, sInitChain);
     CollisionHeader_GetVirtual(&gKakarikoBOTWStoneCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);

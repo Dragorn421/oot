@@ -197,7 +197,7 @@ void BgJyaGoroiwa_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
     BgJyaGoroiwa* this = (BgJyaGoroiwa*)thisx;
-    UNK_PTR sp38;
+    s32 sp38;
     Vec3f checkPos;
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {

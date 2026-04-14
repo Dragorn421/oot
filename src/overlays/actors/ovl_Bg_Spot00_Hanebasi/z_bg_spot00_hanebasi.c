@@ -53,7 +53,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna.actor, DYNA_TRANSFORM_POS);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         CollisionHeader_GetVirtual(&gHyruleFieldCastleDrawbridgeCol, &colHeader);
@@ -160,12 +160,12 @@ void BgSpot00Hanebasi_DrawBridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
     Actor* childsChild;
     s16 angle = 80;
 
-    if (Math_ScaledStepToS(&this->dyna.actor.shape, this->destAngle, 80)) {
+    if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, this->destAngle, 80)) {
         this->actionFunc = BgSpot00Hanebasi_DrawBridgeWait;
     }
 
     if (this->dyna.actor.shape.rot.x >= -0x27D8) {
-        child = this->dyna.actor.child;
+        child = (BgSpot00Hanebasi*)this->dyna.actor.child;
         angle *= 0.4f;
         Math_ScaledStepToS(&child->dyna.actor.shape.rot.x, child->destAngle, angle);
         childsChild = child->dyna.actor.child;
@@ -214,7 +214,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
                     SET_EVENTCHKINF(EVENTCHKINF_80);
                     Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
-                    Player_SetCsActionWithHaltedActors(play, player, PLAYER_CSACTION_8);
+                    Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);
                     play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
                     play->transitionTrigger = TRANS_TRIGGER_START;

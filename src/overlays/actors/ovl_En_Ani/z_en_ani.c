@@ -132,10 +132,10 @@ void func_809B0558(EnAni* this, PlayState* play) {
 }
 
 void func_809B05F0(EnAni* this, PlayState* play) {
-    if (Actor_TextboxIsClosing(this, play)) {
+    if (Actor_TextboxIsClosing(&this->actor, play)) {
         EnAni_SetupAction(this, func_809B0558);
     }
-    Actor_OfferGetItem(this, play, GI_HEART_PIECE, 10000.0f, 200.0f);
+    Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, 10000.0f, 200.0f);
 }
 
 void func_809B064C(EnAni* this, PlayState* play) {

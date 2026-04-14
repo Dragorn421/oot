@@ -99,7 +99,7 @@ void ObjBombiwa_Destroy(Actor* thisx, PlayState* play2) {
 void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play) {
     Vec3f pos;
     Vec3f velocity;
-    Gfx** dlist;
+    Gfx* dlist;
     s16 arg5;
     s16 scale;
     s32 i;

@@ -81,7 +81,7 @@ void EnMs_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gBeanSalesmanSkel, &gBeanSalesmanEatingAnim, this->jointTable,
                        this->morphTable, 9);
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinderType1(play, &this->collider, this, &sCylinderInit);
+    Collider_SetCylinderType1(play, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     Actor_SetScale(&this->actor, 0.015f);
 
@@ -90,7 +90,7 @@ void EnMs_Init(Actor* thisx, PlayState* play) {
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
 
-    EnMs_SetOfferText(&this->actor, play);
+    EnMs_SetOfferText(this, play);
 
     this->actionFunc = EnMs_Wait;
 }
@@ -105,7 +105,7 @@ void EnMs_Wait(EnMs* this, PlayState* play) {
     s16 yawDiff;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    EnMs_SetOfferText(&this->actor, play);
+    EnMs_SetOfferText(this, play);
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnMs_Talk;
         return;

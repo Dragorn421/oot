@@ -278,7 +278,7 @@ void func_80A535BC(EnHeishi2* this, PlayState* play) {
 void func_80A53638(EnHeishi2* this, PlayState* play) {
     Actor* thisx;
     f32 frameCount;
-    BgSpot15Saku* actor;
+    Actor* actor;
 
     frameCount = this->skelAnime.curFrame;
     thisx = &this->actor;
@@ -290,16 +290,16 @@ void func_80A53638(EnHeishi2* this, PlayState* play) {
     }
     if (this->unk_2EC <= frameCount) {
         while (actor != NULL) {
-            if (ACTOR_BG_SPOT15_SAKU != actor->dyna.actor.id) {
-                actor = (BgSpot15Saku*)(actor->dyna.actor.next);
+            if (ACTOR_BG_SPOT15_SAKU != actor->id) {
+                actor = actor->next;
             } else {
                 this->gate = actor;
-                actor->unk_168 = 1;
+                ((BgSpot15Saku*)actor)->unk_168 = 1;
                 break;
             }
         }
         // "I've come!"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->dyna.actor.next);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->next);
         this->actionFunc = func_80A5372C;
     }
 }
@@ -444,10 +444,10 @@ void func_80A53C90(EnHeishi2* this, PlayState* play) {
 void func_80A53D0C(EnHeishi2* this, PlayState* play) {
     s32 pad;
     f32 frameCount;
-    BgGateShutter* gate;
+    Actor* gate;
 
     frameCount = this->skelAnime.curFrame;
-    gate = (BgGateShutter*)play->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
+    gate = play->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     SkelAnime_Update(&this->skelAnime);
     if (12.0f <= frameCount) {
         if (this->audioFlag == 0) {
@@ -457,16 +457,16 @@ void func_80A53D0C(EnHeishi2* this, PlayState* play) {
     }
     if (this->unk_2EC <= frameCount) {
         while (gate != NULL) {
-            if (gate->dyna.actor.id != ACTOR_BG_GATE_SHUTTER) {
-                gate = (BgGateShutter*)gate->dyna.actor.next;
+            if (gate->id != ACTOR_BG_GATE_SHUTTER) {
+                gate = gate->next;
             } else {
                 this->gate = gate;
-                gate->openingState = 1;
+                ((BgGateShutter*)gate)->openingState = 1;
                 break;
             }
         }
         // "I've come!"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->next);
         this->actionFunc = func_80A53DF8;
     }
 }
@@ -605,11 +605,11 @@ void func_80A54320(EnHeishi2* this, PlayState* play) {
 void func_80A543A0(EnHeishi2* this, PlayState* play) {
     Actor* thisx;
     f32 frameCount;
-    BgGateShutter* gate;
+    Actor* gate;
 
     frameCount = this->skelAnime.curFrame;
     thisx = &this->actor;
-    gate = (BgGateShutter*)(play->actorCtx.actorLists[ACTORCAT_ITEMACTION].head);
+    gate = play->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     SkelAnime_Update(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
         Actor_PlaySfx(thisx, NA_SE_EV_SPEAR_HIT);
@@ -617,15 +617,15 @@ void func_80A543A0(EnHeishi2* this, PlayState* play) {
     }
     if (this->unk_2EC <= frameCount) {
         while (gate != NULL) {
-            if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
-                gate = (BgGateShutter*)(gate->dyna.actor.next);
+            if (ACTOR_BG_GATE_SHUTTER != gate->id) {
+                gate = gate->next;
             } else {
                 this->gate = gate;
                 if (this->unk_30A != 2) {
-                    gate->openingState = -1;
+                    ((BgGateShutter*)gate)->openingState = -1;
                     break;
                 } else {
-                    gate->openingState = 2;
+                    ((BgGateShutter*)gate)->openingState = 2;
                     break;
                 }
             }

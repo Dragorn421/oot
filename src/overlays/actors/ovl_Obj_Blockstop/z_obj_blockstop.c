@@ -40,7 +40,7 @@ void ObjBlockstop_Destroy(Actor* thisx, PlayState* play) {
 
 void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
     ObjBlockstop* this = (ObjBlockstop*)thisx;
-    Actor* dynaActor;
+    DynaPolyActor* dynaActor;
     Vec3f sp4C;
     s32 bgId;
     s32 pad;
@@ -49,9 +49,9 @@ void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
                                 &this->actor.floorPoly, false, false, true, true, &bgId, &this->actor)) {
         dynaActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
-        if (dynaActor != NULL && dynaActor->id == ACTOR_OBJ_OSHIHIKI) {
-            if ((dynaActor->params & 0x000F) == PUSHBLOCK_HUGE_START_ON ||
-                (dynaActor->params & 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
+        if (dynaActor != NULL && dynaActor->actor.id == ACTOR_OBJ_OSHIHIKI) {
+            if ((dynaActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_ON ||
+                (dynaActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
                 Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             } else {
                 Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);

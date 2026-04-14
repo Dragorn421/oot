@@ -490,7 +490,7 @@ s32 EnSt_CheckColliders(EnSt* this, PlayState* play) {
         return true;
     }
 
-    if (EnSt_CheckHitBackside(&this->actor, play)) {
+    if (EnSt_CheckHitBackside(this, play)) {
         // player has hit the backside of the skulltulla
         return true;
     }

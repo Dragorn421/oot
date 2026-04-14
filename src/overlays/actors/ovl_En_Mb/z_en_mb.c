@@ -857,8 +857,8 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
                                               &effWhiteShockwaveDynamics);
             func_80033480(play, &effSpawnPos, 2.0f, 3, 0x12C, 0xB4, 1);
             Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
-            func_800358DC(&this->actor, &effSpawnPos, &this->actor.world.rot, &flamesParams, 20, &flamesUnused, play,
-                          -1, NULL);
+            func_800358DC(&this->actor, &effSpawnPos, &this->actor.world.rot, flamesParams, 20, flamesUnused, play, -1,
+                          NULL);
             EnMb_SetupClubWaitAfterAttack(this);
         }
     } else {

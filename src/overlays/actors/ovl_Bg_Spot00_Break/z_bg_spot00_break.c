@@ -38,26 +38,26 @@ void BgSpot00Break_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyActor_Init(&this->actor, 0);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, 0);
 
-    if (this->actor.params == 1) {
+    if (this->dyna.actor.params == 1) {
         CollisionHeader_GetVirtual(&gBarbedWireFenceCol, &colHeader);
     } else {
         CollisionHeader_GetVirtual(&gBrokenDrawbridgeCol, &colHeader);
     }
 
-    this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (!LINK_IS_ADULT) {
-        Actor_Kill(&this->actor);
+        Actor_Kill(&this->dyna.actor);
     }
 }
 
 void BgSpot00Break_Destroy(Actor* thisx, PlayState* play) {
     BgSpot00Break* this = (BgSpot00Break*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot00Break_Update(Actor* thisx, PlayState* play) {
@@ -66,7 +66,7 @@ void BgSpot00Break_Update(Actor* thisx, PlayState* play) {
 void BgSpot00Break_Draw(Actor* thisx, PlayState* play) {
     BgSpot00Break* this = (BgSpot00Break*)thisx;
 
-    if (this->actor.params == 1) {
+    if (this->dyna.actor.params == 1) {
         Gfx_DrawDListOpa(play, gBarbedWireFenceDL);
     } else {
         Gfx_DrawDListOpa(play, gBrokenDrawbridgeDL);

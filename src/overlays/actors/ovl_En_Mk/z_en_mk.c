@@ -55,8 +55,8 @@ void EnMk_Init(Actor* thisx, PlayState* play) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_mk_Skel_005DF0, &object_mk_Anim_000D88, &this->jointTable,
-                       &this->morphTable, 13);
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_mk_Skel_005DF0, &object_mk_Anim_000D88, this->jointTable,
+                       this->morphTable, 13);
     Animation_PlayLoop(&this->skelAnime, &object_mk_Anim_000D88);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -89,7 +89,7 @@ void func_80AACA40(EnMk* this, PlayState* play) {
 }
 
 void func_80AACA94(EnMk* this, PlayState* play) {
-    if (Actor_HasParent(this, play) != 0) {
+    if (Actor_HasParent(&this->actor, play) != 0) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AACA40;
         Interface_SetSubTimer(240);
@@ -342,7 +342,7 @@ void EnMk_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnMk_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnMk_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnMk* this = (EnMk*)thisx;
 
     if (limbIndex == 11) {
@@ -353,11 +353,12 @@ s32 EnMk_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     return 0;
 }
 
-void EnMk_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnMk_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80AAD64C = { 1000.0f, -100.0f, 0.0f };
+    EnMk* this = thisx;
 
     if (limbIndex == 11) {
-        Matrix_MultVec3f(&D_80AAD64C, &thisx->focus);
+        Matrix_MultVec3f(&D_80AAD64C, &this->actor.focus.pos);
     }
 }
 

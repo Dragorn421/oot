@@ -44,7 +44,7 @@ void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(thisx, DYNA_TRANSFORM_POS);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gFireTempleHookshotElevatorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x,
@@ -89,7 +89,7 @@ void BgHidanFslift_Idle(BgHidanFslift* this, PlayState* play) {
         if ((thisx->world.pos.y - thisx->home.pos.y) < 0.5f) {
             nearHomePos = true;
         }
-        if (DynaPolyActor_IsPlayerAbove(thisx)) {
+        if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
             if (nearHomePos) {
                 this->actionFunc = BgHidanFslift_Ascend;
                 return;
@@ -116,7 +116,7 @@ void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play) {
 void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
-    if (DynaPolyActor_IsPlayerAbove(thisx)) {
+    if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 790.0f, 4.0f)) {
             Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
             BgHidanFslift_SetupIdle(this);
@@ -133,12 +133,12 @@ void BgHidanFslift_Update(Actor* thisx, PlayState* play) {
     BgHidanFslift* this = (BgHidanFslift*)thisx;
 
     this->actionFunc(this, play);
-    if (DynaPolyActor_IsPlayerOnTop(thisx)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->cameraSetting == CAM_SET_NONE) {
             this->cameraSetting = CAM_SET_DUNGEON0;
         }
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
-    } else if (DynaPolyActor_IsPlayerOnTop(thisx) == 0) {
+    } else if (DynaPolyActor_IsPlayerOnTop(&this->dyna) == 0) {
         if (this->cameraSetting != CAM_SET_NONE) {
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }

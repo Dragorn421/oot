@@ -358,8 +358,9 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, PlayState* play) {
             attackCuccoPos.x = ((Rand_ZeroOne() - 0.5f) * viewX) + play->view.eye.x;
             attackCuccoPos.y = Rand_CenteredFloat(0.3f) + ((play->view.eye.y + 50.0f) + (viewY * 0.5f));
             attackCuccoPos.z = ((Rand_ZeroOne() - 0.5f) * viewZ) + play->view.eye.z;
-            attackCucco = Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ATTACK_NIW, attackCuccoPos.x,
-                                             attackCuccoPos.y, attackCuccoPos.z, 0, 0, 0, 0);
+            attackCucco =
+                (EnAttackNiw*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ATTACK_NIW,
+                                                 attackCuccoPos.x, attackCuccoPos.y, attackCuccoPos.z, 0, 0, 0, 0);
 
             if (attackCucco != NULL) {
                 this->unk_296++;
@@ -436,9 +437,9 @@ void func_80AB6324(EnNiw* this, PlayState* play) {
 
 void func_80AB63A8(EnNiw* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND && this->actor.velocity.y < 0.0f) {
-        this->unk_2AC = this->unk_2B8 = this->actor.world.pos.x;
-        this->unk_2B0 = this->unk_2BC = this->actor.world.pos.y;
-        this->unk_2B4 = this->unk_2C0 = this->actor.world.pos.z;
+        this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
+        this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
+        this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
 
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed = this->unk_2FC =
@@ -551,8 +552,8 @@ void func_80AB6570(EnNiw* this, PlayState* play) {
                     posZ += 20.0f;
                 }
             }
-            this->unk_2B8 = this->unk_2AC + posY;
-            this->unk_2C0 = this->unk_2B4 + posZ;
+            this->unk_2B8.x = this->unk_2AC.x + posY;
+            this->unk_2B8.z = this->unk_2AC.z + posZ;
         } else {
             this->timer4 = 4;
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
@@ -565,11 +566,11 @@ void func_80AB6570(EnNiw* this, PlayState* play) {
     if (this->timer4 != 0) {
         Math_ApproachZeroF(&this->unk_26C[9], 0.5f, 4000.0f);
         tmp = 1;
-        Math_ApproachF(&this->actor.world.pos.x, this->unk_2B8, 1.0f, this->unk_2FC);
-        Math_ApproachF(&this->actor.world.pos.z, this->unk_2C0, 1.0f, this->unk_2FC);
+        Math_ApproachF(&this->actor.world.pos.x, this->unk_2B8.x, 1.0f, this->unk_2FC);
+        Math_ApproachF(&this->actor.world.pos.z, this->unk_2B8.z, 1.0f, this->unk_2FC);
         Math_ApproachF(&this->unk_2FC, 3.0f, 1.0f, 0.3f);
-        posY = this->unk_2B8 - this->actor.world.pos.x;
-        posZ = this->unk_2C0 - this->actor.world.pos.z;
+        posY = this->unk_2B8.x - this->actor.world.pos.x;
+        posZ = this->unk_2B8.z - this->actor.world.pos.z;
 
         if (fabsf(posY) < 10.0f) {
             posY = 0.0;
@@ -597,9 +598,9 @@ void func_80AB6A38(EnNiw* this, PlayState* play) {
     s16 pathIndex = this->path - 1;
 
     if (this->path == 0) {
-        this->unk_2AC = this->unk_2B8 = this->actor.world.pos.x;
-        this->unk_2B0 = this->unk_2BC = this->actor.world.pos.y;
-        this->unk_2B4 = this->unk_2C0 = this->actor.world.pos.z;
+        this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
+        this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
+        this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed = this->unk_2FC =
             this->unk_300 = 0.0f;
@@ -657,9 +658,9 @@ void func_80AB6D08(EnNiw* this, PlayState* play) {
             return;
         }
         if (this->actor.params == 0xE) {
-            this->unk_2AC = this->unk_2B8 = this->actor.world.pos.x;
-            this->unk_2B0 = this->unk_2BC = this->actor.world.pos.y;
-            this->unk_2B4 = this->unk_2C0 = this->actor.world.pos.z;
+            this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
+            this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
+            this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
             this->timer5 = this->timer4 = this->unk_29E = 0;
 
             this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed =
@@ -804,7 +805,7 @@ void func_80AB714C(EnNiw* this, PlayState* play) {
         this->actionFunc = func_80AB7204;
     }
 
-    func_80AB5BF8(&this->actor, play, this->unk_2A2);
+    func_80AB5BF8(this, play, this->unk_2A2);
 }
 
 void func_80AB7204(EnNiw* this, PlayState* play) {
@@ -833,9 +834,9 @@ void func_80AB7328(EnNiw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->timer6 == 0) {
-        this->unk_2AC = this->unk_2B8 = this->actor.world.pos.x;
-        this->unk_2B0 = this->unk_2BC = this->actor.world.pos.y;
-        this->unk_2B4 = this->unk_2C0 = this->actor.world.pos.z;
+        this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
+        this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
+        this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed = this->unk_2FC =
             this->unk_300 = 0.0f;
@@ -928,7 +929,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         this->unk_2A6 = 0;
     }
 
-    EnNiw_UpdateEffects(&this->actor, play);
+    EnNiw_UpdateEffects(this, play);
     DECR(this->timer1);
     DECR(this->timer2);
     DECR(this->timer3);
@@ -988,8 +989,8 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         PRINTF("\n\n");
         thisx->speed = 0.0f;
         thisx->gravity = -2.0f;
-        Math_Vec3f_Copy(&this->unk_2AC, &thisx->home);
-        Math_Vec3f_Copy(&this->unk_2B8, &thisx->home);
+        Math_Vec3f_Copy(&this->unk_2AC, &thisx->home.pos);
+        Math_Vec3f_Copy(&this->unk_2B8, &thisx->home.pos);
         this->unk_300 = 0.0f;
         this->unk_2FC = 0.0f;
         this->unk_2F0.z = 0.0f;
@@ -1019,7 +1020,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         thisx->velocity.y = 0.0f;
         thisx->gravity = 0.0f;
-        Math_Vec3f_Copy(&pos, &thisx->world);
+        Math_Vec3f_Copy(&pos, &thisx->world.pos);
         pos.y += thisx->depthInWater;
         this->timer4 = 30;
         EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 400);
@@ -1046,9 +1047,9 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
             this->unk_26C[8] = 0.0f;
             this->sfxTimer1 = 10000;
             this->unk_2A8 = 1;
-            this->unk_2AC = this->unk_2B8 = thisx->world.pos.x;
-            this->unk_2B0 = this->unk_2BC = thisx->world.pos.y;
-            this->unk_2B4 = this->unk_2C0 = thisx->world.pos.z;
+            this->unk_2AC.x = this->unk_2B8.x = thisx->world.pos.x;
+            this->unk_2AC.y = this->unk_2B8.y = thisx->world.pos.y;
+            this->unk_2AC.z = this->unk_2B8.z = thisx->world.pos.z;
             this->actionFunc = func_80AB70A0;
             return;
         }
@@ -1060,7 +1061,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         func_8002F6D4(play, &this->actor, 2.0f, thisx->world.rot.y, 0.0f, 0x10);
     }
 
-    func_80AB747C(&this->actor, play);
+    func_80AB747C(this, play);
 
     if (this->sfxTimer2 == 0 && this->actionFunc == func_80AB6BF8) {
         this->sfxTimer2 = 7;

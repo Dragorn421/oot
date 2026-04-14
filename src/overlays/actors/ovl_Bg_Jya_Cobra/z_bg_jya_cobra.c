@@ -165,13 +165,13 @@ void func_80895A70(BgJyaCobra* this) {
             }
             break;
         case 1:
-            mirRay = mirror->unk160[1];
+            mirRay = (MirRay*)mirror->unk160[1];
             if (mirRay == NULL) {
                 return;
             }
             break;
         case 2:
-            mirRay = mirror->unk160[2];
+            mirRay = (MirRay*)mirror->unk160[2];
             if (mirRay == NULL) {
                 return;
             }
@@ -279,7 +279,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     s32 l;
     s16 rotY;
 
-    temp_s2 = ALIGN16((s32)(&this->shadowTexture));
+    temp_s2 = (u8*)ALIGN16((s32)(&this->shadowTexture));
     Lib_MemSet(temp_s2, 0x1000, 0);
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);

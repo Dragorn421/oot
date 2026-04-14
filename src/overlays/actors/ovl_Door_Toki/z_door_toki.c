@@ -34,24 +34,24 @@ void DoorToki_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyActor_Init(&this->actor, 0);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gDoorTokiCol, &colHeader);
-    this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void DoorToki_Destroy(Actor* thisx, PlayState* play) {
     DoorToki* this = (DoorToki*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void DoorToki_Update(Actor* thisx, PlayState* play) {
     DoorToki* this = (DoorToki*)thisx;
 
     if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
-        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
-        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }

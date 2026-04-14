@@ -331,7 +331,7 @@ void func_809E0E2C(EnCrow* this, PlayState* play) {
             this->actor.shape.rot.z += 0x1780;
         }
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
-            EffectSsDeadDb_Spawn(play, &this->actor.world, &sZeroVecAccel, &sZeroVecAccel,
+            EffectSsDeadDb_Spawn(play, &this->actor.world.pos, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);
         }

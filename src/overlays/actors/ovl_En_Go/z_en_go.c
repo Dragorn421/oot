@@ -82,14 +82,14 @@ static AnimationSpeedInfo sAnimationInfo[] = {
     { &gGoronAnim_010590, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
 };
 
-void EnGo_SetupAction(EnGo* this, EnGoActionFunc* actionFunc) {
+void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-u16 EnGo_GetTextID(PlayState* play, EnGo* this) {
+u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
 
-    switch (this->actor.params & 0xF0) {
+    switch (thisx->params & 0xF0) {
         case 0x90:
             if (gSaveContext.save.info.playerData.bgsFlag) {
                 return 0x305E;
@@ -133,7 +133,7 @@ u16 EnGo_GetTextID(PlayState* play, EnGo* this) {
                 }
             }
         case 0x10:
-            if (Flags_GetSwitch(play, this->actor.params >> 8)) {
+            if (Flags_GetSwitch(play, thisx->params >> 8)) {
                 return 0x3052;
             } else {
                 return 0x3051;
@@ -193,10 +193,11 @@ u16 EnGo_GetTextID(PlayState* play, EnGo* this) {
     }
 }
 
-s16 EnGo_UpdateTalkState(PlayState* play, EnGo* this) {
+s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
     s16 talkState = NPC_TALK_STATE_TALKING;
     f32 xzRange;
-    f32 yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
+    f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
+    EnGo* this = (EnGo*)thisx;
 
     xzRange = this->actor.xzDistToPlayer + 1.0f;
     switch (Message_GetState(&play->msgCtx)) {

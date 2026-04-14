@@ -1171,7 +1171,7 @@ s32 func_80987514(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
 
     if (*unk_2D0 != 0) {
         if (limbIndex == IMPA_LIMB_RIGHT_HAND) {
-            *dList = &gImpaHandPointingDL;
+            *dList = gImpaHandPointingDL;
         }
     }
     return 0;

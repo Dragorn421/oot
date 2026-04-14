@@ -35,24 +35,24 @@ void BgUmaJump_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyActor_Init(&this->actor, 0);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gJumpableHorseFenceCol, &colHeader);
-    this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->actor.params == 1) {
+    if (this->dyna.actor.params == 1) {
         if ((!Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) && (DREG(1) == 0)) {
-            Actor_Kill(&this->actor);
+            Actor_Kill(&this->dyna.actor);
             return;
         }
-        this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+        this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     }
 }
 
 void BgUmaJump_Destroy(Actor* thisx, PlayState* play) {
     BgUmaJump* this = (BgUmaJump*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgUmaJump_Update(Actor* thisx, PlayState* play) {

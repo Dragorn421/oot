@@ -72,7 +72,7 @@ void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision
 
 void func_80B93BF0(ObjHsblock* this, PlayState* play) {
     if ((this->dyna.actor.params >> 5) & 1) {
-        Actor_SpawnAsChild(&play->actorCtx, this, play, ACTOR_OBJ_ICE_POLY, this->dyna.actor.world.pos.x,
+        Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_OBJ_ICE_POLY, this->dyna.actor.world.pos.x,
                            this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, this->dyna.actor.world.rot.x,
                            this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 1);
     }

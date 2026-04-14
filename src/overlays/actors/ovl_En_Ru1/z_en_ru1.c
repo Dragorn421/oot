@@ -8,6 +8,8 @@
 #include "assets/objects/object_ru1/object_ru1.h"
 #include "terminal.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+#include "z64actor.h"
+#include "z64bgcheck.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
@@ -280,7 +282,7 @@ s32 func_80AEB020(EnRu1* this, PlayState* play) {
 
     while (actorIt != NULL) {
         if (actorIt->id == ACTOR_EN_RU1) {
-            someEnRu1 = actorIt;
+            someEnRu1 = (EnRu1*)actorIt;
             if (someEnRu1 != this) {
                 if ((someEnRu1->action == 31) || (someEnRu1->action == 32) || (someEnRu1->action == 24)) {
                     return true;
@@ -1013,8 +1015,8 @@ void func_80AECCB0(EnRu1* this, PlayState* play) {
     spawnX = ((kREG(1) + 12.0f) * Math_SinS(yawTowardsPlayer)) + pos->x;
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_CosS(yawTowardsPlayer)) + pos->z;
-    this->blueWarp = (DoorWarp1*)Actor_SpawnAsChild(&play->actorCtx, this, play, ACTOR_DOOR_WARP1, spawnX, spawnY,
-                                                    spawnZ, 0, yawTowardsPlayer, 0, WARP_BLUE_RUTO);
+    this->blueWarp = (DoorWarp1*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, spawnX,
+                                                    spawnY, spawnZ, 0, yawTowardsPlayer, 0, WARP_BLUE_RUTO);
 }
 
 void func_80AECDA0(EnRu1* this, PlayState* play) {
@@ -1335,9 +1337,9 @@ void func_80AED8DC(EnRu1* this) {
 
 void func_80AEDAE0(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
-    Actor* dyna = DynaPoly_GetActor(&play->colCtx, thisx->floorBgId);
+    DynaPolyActor* dyna = DynaPoly_GetActor(&play->colCtx, thisx->floorBgId);
 
-    if (dyna == NULL || dyna->id == ACTOR_EN_BOX) {
+    if (dyna == NULL || dyna->actor.id == ACTOR_EN_BOX) {
         thisx->bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL | BGCHECKFLAG_CEILING);
     }
 }
@@ -1348,14 +1350,14 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
     f32* gravity;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Actor* temp_dyna;
+        DynaPolyActor* temp_dyna;
 
         velocityY = &this->actor.velocity.y;
         temp_dyna = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
         if (*velocityY <= 0.0f) {
             speedXZ = &this->actor.speed;
             if (temp_dyna != NULL) {
-                if (temp_dyna->id != ACTOR_EN_BOX) {
+                if (temp_dyna->actor.id != ACTOR_EN_BOX) {
                     *speedXZ = 0.0f;
                 }
             } else {
@@ -1367,7 +1369,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
             }
             gravity = &this->actor.gravity;
             if (temp_dyna != NULL) {
-                if (temp_dyna->id != ACTOR_EN_BOX) {
+                if (temp_dyna->actor.id != ACTOR_EN_BOX) {
                     *velocityY = 0.0f;
                     this->actor.minVelocityY = 0.0f;
                     *gravity = 0.0f;
@@ -1434,9 +1436,9 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
 
 void func_80AEDEF4(EnRu1* this, PlayState* play) {
     f32* speedXZ = &this->actor.speed;
-    Actor* dyna = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
+    DynaPolyActor* dyna = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
 
-    if (dyna != NULL && dyna->id == ACTOR_EN_BOX) {
+    if (dyna != NULL && dyna->actor.id == ACTOR_EN_BOX) {
         if (*speedXZ != 0.0f) {
             *speedXZ *= 1.1f;
         } else {
@@ -1494,7 +1496,7 @@ void func_80AEE050(EnRu1* this) {
             }
             this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
             this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
-            Actor_UpdatePos(this);
+            Actor_UpdatePos(&this->actor);
         }
     } else {
         if (this->unk_350 == 1) {
@@ -1542,14 +1544,14 @@ s32 func_80AEE264(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEE2F8(EnRu1* this, PlayState* play) {
-    Actor* dyna;
+    DynaPolyActor* dyna;
     s32 floorBgId;
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.floorBgId != BGCHECK_SCENE)) {
         floorBgId = this->actor.floorBgId;
         dyna = DynaPoly_GetActor(&play->colCtx, floorBgId);
-        if ((dyna != NULL) && (dyna->id == ACTOR_BG_BDAN_SWITCH)) {
-            if (((dyna->params >> 8) & 0x3F) == 0x38) {
+        if ((dyna != NULL) && (dyna->actor.id == ACTOR_BG_BDAN_SWITCH)) {
+            if (((dyna->actor.params >> 8) & 0x3F) == 0x38) {
                 SET_INFTABLE(INFTABLE_140);
                 return;
             }
@@ -1609,7 +1611,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
             s32 pad;
 
             func_80AEE02C(this);
-            Actor_OfferCarry(this, play);
+            Actor_OfferCarry(&this->actor, play);
             this->action = 27;
             func_80AEADD8(this);
             return;
@@ -1661,7 +1663,7 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
     Player* player;
     f32* unk_370 = &this->unk_370;
 
-    if (Actor_HasNoParent(this, play)) {
+    if (Actor_HasNoParent(&this->actor, play)) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
 
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
@@ -1717,7 +1719,7 @@ s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
         s32 pad;
 
         func_80AEE02C(this);
-        Actor_OfferCarry(this, play);
+        Actor_OfferCarry(&this->actor, play);
         this->action = 27;
         func_80AEADD8(this);
         return true;
@@ -1737,7 +1739,7 @@ void func_80AEEB24(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEEBB4(EnRu1* this, PlayState* play) {
-    Actor_OfferCarry(this, play);
+    Actor_OfferCarry(&this->actor, play);
 }
 
 void func_80AEEBD4(EnRu1* this, PlayState* play) {
@@ -1888,7 +1890,7 @@ void func_80AEF1F0(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
         Message_CloseTextbox(play);
         SET_INFTABLE(INFTABLE_143);
         func_80AED6DC(this, play);
-        Actor_OfferCarry(this, play);
+        Actor_OfferCarry(&this->actor, play);
         this->action = 27;
         func_80AEADD8(this);
     }
@@ -2289,7 +2291,7 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
-    func_80AEAD20(this, play);
+    func_80AEAD20(&this->actor, play);
     switch (func_80AEADF0(this)) {
         case 0:
             func_80AECDA0(this, play);

@@ -7,6 +7,7 @@
 #include "z_obj_oshihiki.h"
 #include "overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+#include "z64actor.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -144,12 +145,12 @@ void ObjOshihiki_ResetFloors(ObjOshihiki* this) {
 }
 
 ObjOshihiki* ObjOshihiki_GetBlockUnder(ObjOshihiki* this, PlayState* play) {
-    Actor* dyna;
+    DynaPolyActor* dyna;
 
     if ((this->floorBgIds[this->highestFloor] != BGCHECK_SCENE) &&
         (fabsf(this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) < 0.001f)) {
         dyna = DynaPoly_GetActor(&play->colCtx, this->floorBgIds[this->highestFloor]);
-        if ((dyna != NULL) && (dyna->id == ACTOR_OBJ_OSHIHIKI)) {
+        if ((dyna != NULL) && (dyna->actor.id == ACTOR_OBJ_OSHIHIKI)) {
             return (ObjOshihiki*)dyna;
         }
     }

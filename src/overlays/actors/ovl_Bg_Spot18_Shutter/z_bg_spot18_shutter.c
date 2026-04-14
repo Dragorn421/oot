@@ -87,7 +87,7 @@ void func_808B95AC(BgSpot18Shutter* this, PlayState* play) {
 void func_808B95B8(BgSpot18Shutter* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
         Actor_SetFocus(&this->dyna.actor, 70.0f);
-        OnePointCutscene_Attention(play, this);
+        OnePointCutscene_Attention(play, &this->dyna.actor);
         this->actionFunc = func_808B9698;
     }
 }

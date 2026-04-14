@@ -37,5 +37,5 @@ void EnVase_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnVase_Draw(Actor* thisx, PlayState* play) {
-    Gfx_DrawDListOpa(play, &gUnusedVaseDL);
+    Gfx_DrawDListOpa(play, gUnusedVaseDL);
 }

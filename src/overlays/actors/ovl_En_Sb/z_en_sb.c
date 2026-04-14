@@ -49,7 +49,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-static DamageTable sDamageTable[] = {
+static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x0),
     /* Deku stick    */ DMG_ENTRY(0, 0x0),
     /* Slingshot     */ DMG_ENTRY(0, 0x0),
@@ -450,7 +450,7 @@ void EnSb_Update(Actor* thisx, PlayState* play) {
         } else {
             this->actor.params = 1;
         }
-        if (BodyBreak_SpawnParts(this, &this->bodyBreak, play, this->actor.params)) {
+        if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, this->actor.params)) {
             if (!this->hitByWindArrow) {
                 Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x80);
             } else {
@@ -498,7 +498,7 @@ void EnSb_Draw(Actor* thisx, PlayState* play) {
             flamePos.x = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.x + offset->x);
             flamePos.y = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.y + offset->y);
             flamePos.z = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.z + offset->z);
-            EffectSsEnFire_SpawnVec3f(play, this, &flamePos, 100, 0, 0, -1);
+            EffectSsEnFire_SpawnVec3f(play, &this->actor, &flamePos, 100, 0, 0, -1);
         }
     }
 }

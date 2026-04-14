@@ -72,10 +72,9 @@ UNK_TYPE DemoGo_GetCueChannel(DemoGo* this) {
 }
 
 void func_8097C8A8(DemoGo* this, PlayState* play) {
-    s32 pad[2];
     Actor* thisx = &this->actor;
-    Vec3f* sp20;
-    Vec3f* sp1C;
+    Vec3f sp20;
+    f32 sp1C;
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &thisx->world.pos, &sp20, &sp1C);

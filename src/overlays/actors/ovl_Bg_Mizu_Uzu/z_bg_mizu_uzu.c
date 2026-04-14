@@ -41,7 +41,7 @@ void BgMizuUzu_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(thisx, 0);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gObjectMizuObjectsUzuCol_0074EC, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->actionFunc = func_8089F788;

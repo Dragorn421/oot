@@ -121,8 +121,8 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(this, sInitChain);
-    DynaPolyActor_Init(this, DYNA_TRANSFORM_POS);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     this->var.switchFlag = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
     if (thisx->params == JABU_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
@@ -134,14 +134,14 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
     if (thisx->params == JABU_OBJECTS_TYPE_BIG_OCTO_PLATFORM) {
         CollisionHeader_GetVirtual(&gJabuBigOctoPlatformCol, &colHeader);
         Collider_InitCylinder(play, &this->collider);
-        Collider_SetCylinder(play, &this->collider, this, &sCylinderInit);
+        Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
         thisx->world.pos.y = (f32)(thisx->world.pos.y + -79.0f);
         if (Flags_GetClear(play, thisx->room)) {
             Flags_SetSwitch(play, this->var.switchFlag);
             this->actionFunc = BgBdanObjects_SinkToFloorHeight;
         } else {
             if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE)) {
-                if (Actor_SpawnAsChild(&play->actorCtx, this, play, ACTOR_EN_BIGOKUTA, thisx->home.pos.x,
+                if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_BIGOKUTA, thisx->home.pos.x,
                                        thisx->home.pos.y, thisx->home.pos.z, 0, thisx->shape.rot.y + 0x8000, 0,
                                        3) != NULL) {
                     thisx->child->world.pos.z = thisx->child->home.pos.z + 263.0f;
@@ -350,7 +350,7 @@ void BgBdanObjects_SinkToFloorHeight(BgBdanObjects* this, PlayState* play) {
 }
 
 void BgBdanObjects_WaitForPlayerInRange(BgBdanObjects* this, PlayState* play) {
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->dyna.actor.xzDistToPlayer < 120.0f) {
             this->actionFunc = BgBdanObjects_RaiseToUpperPosition;
             OnePointCutscene_Init(play, 3090, -99, &this->dyna.actor, CAM_ID_MAIN);
@@ -376,7 +376,7 @@ void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play) {
         this->unk_16A -= 1;
     }
     if (this->var.camChangeTimer == 0) {
-        if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
+        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             this->cameraSetting = play->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
             Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
@@ -384,7 +384,7 @@ void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play) {
         }
     } else {
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
-        if (!DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
+        if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->var.camChangeTimer != 0) {
                 this->var.camChangeTimer -= 1;
             }
@@ -415,12 +415,12 @@ void BgBdanObjects_ChangeWaterBoxLevel(BgBdanObjects* this, PlayState* play) {
             Flags_UnsetSwitch(play, this->var.switchFlag);
             this->actionFunc = BgBdanObjects_WaitForSwitch;
         }
-        func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 75.0f, 0.5f)) {
             this->actionFunc = BgBdanObjects_WaitForTimerExpired;
         }
-        func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
     play->colCtx.colHeader->waterBoxes[7].ySurface = this->dyna.actor.world.pos.y;
 }
@@ -436,7 +436,7 @@ void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play) {
 }
 
 void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play) {
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna.actor)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         Flags_SetSwitch(play, this->var.switchFlag);
         this->unk_16A = 0x32;
         this->actionFunc = BgBdanObjects_FallToLowerPos;
@@ -451,7 +451,7 @@ void BgBdanObjects_FallToLowerPos(BgBdanObjects* this, PlayState* play) {
     }
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->unk_16A * (M_PI / 50.0f)) * 200.0f);
     if (this->unk_16A == 0) {
-        Actor_PlaySfx(this, NA_SE_EV_BUYOSTAND_STOP_U);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->actionFunc = BgBdanObjects_DoNothing;
         // Using `CAM_ID_NONE` here defaults to the active camera
         Play_CopyCamera(play, CAM_ID_MAIN, CAM_ID_NONE);

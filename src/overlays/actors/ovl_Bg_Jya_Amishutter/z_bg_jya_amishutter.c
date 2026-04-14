@@ -46,16 +46,16 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, Collis
     s32 pad1;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->actor, flag);
+    DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
 #if OOT_DEBUG
-    if (this->bgId == BG_ACTOR_MAX) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
-               this->actor.id, this->actor.params);
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -64,14 +64,14 @@ void BgJyaAmishutter_Init(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
     BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, 0);
-    Actor_ProcessInitChain(&this->actor, sInitChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     BgJyaAmishutter_SetupWaitForPlayer(this);
 }
 
 void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
@@ -79,7 +79,7 @@ void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
 }
 
 void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this) {
-    if ((this->actor.xzDistToPlayer < 60.0f) && (fabsf(this->actor.yDistToPlayer) < 30.0f)) {
+    if ((this->dyna.actor.xzDistToPlayer < 60.0f) && (fabsf(this->dyna.actor.yDistToPlayer) < 30.0f)) {
         func_80893428(this);
     }
 }
@@ -89,11 +89,11 @@ void func_80893428(BgJyaAmishutter* this) {
 }
 
 void func_80893438(BgJyaAmishutter* this) {
-    if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 100.0f, 3.0f)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 100.0f, 3.0f)) {
         func_808934B0(this);
-        Actor_PlaySfx(&this->actor, NA_SE_EV_METALDOOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -102,7 +102,7 @@ void func_808934B0(BgJyaAmishutter* this) {
 }
 
 void func_808934C0(BgJyaAmishutter* this) {
-    if (this->actor.xzDistToPlayer > 300.0f) {
+    if (this->dyna.actor.xzDistToPlayer > 300.0f) {
         func_808934FC(this);
     }
 }
@@ -112,11 +112,11 @@ void func_808934FC(BgJyaAmishutter* this) {
 }
 
 void func_8089350C(BgJyaAmishutter* this) {
-    if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 3.0f)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f)) {
         BgJyaAmishutter_SetupWaitForPlayer(this);
-        Actor_PlaySfx(&this->actor, NA_SE_EV_METALDOOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 

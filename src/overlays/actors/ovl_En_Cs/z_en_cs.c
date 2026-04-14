@@ -12,7 +12,7 @@ void EnCs_Draw(Actor* thisx, PlayState* play);
 void EnCs_Walk(EnCs* this, PlayState* play);
 void EnCs_Talk(EnCs* this, PlayState* play);
 void EnCs_Wait(EnCs* this, PlayState* play);
-s32 EnCs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx);
+s32 EnCs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnCs_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 ActorInit En_Cs_InitVars = {
@@ -252,7 +252,7 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
     } else {
         Actor_GetScreenPos(play, &this->actor, &sp2A, &sp28);
 
-        if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) && (Actor_OfferTalk(this, play, 100.0f))) {
+        if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) && (Actor_OfferTalk(&this->actor, play, 100.0f))) {
             this->actor.textId = EnCs_GetTextId(this, play);
         }
     }
@@ -487,7 +487,7 @@ void EnCs_Draw(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_cs.c", 1015);
 }
 
-s32 EnCs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
+s32 EnCs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnCs* this = (EnCs*)thisx;
 
     if (this->flag & 1) {

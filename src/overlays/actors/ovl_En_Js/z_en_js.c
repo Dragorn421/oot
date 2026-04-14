@@ -206,7 +206,7 @@ void EnJs_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnJs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
+s32 EnJs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnJs* this = (EnJs*)thisx;
 
     if (limbIndex == 12) {

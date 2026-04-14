@@ -157,7 +157,7 @@ void func_80A1DB60(EnFu* this, PlayState* play) {
 }
 
 void func_80A1DBA0(EnFu* this, PlayState* play) {
-    if (Actor_TextboxIsClosing(this, play)) {
+    if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = EnFu_WaitAdult;
     }
 }

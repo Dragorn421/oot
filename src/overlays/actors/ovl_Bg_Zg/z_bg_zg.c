@@ -95,7 +95,7 @@ void BgZg_Update(Actor* thisx, PlayState* play) {
         // "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        sActionFuncs[action](&this->dyna.actor, play);
+        sActionFuncs[action](this, play);
     }
 }
 
@@ -105,7 +105,7 @@ void BgZg_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(thisx, 0);
+    DynaPolyActor_Init(&this->dyna, 0);
     colHeader = NULL;
     CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
