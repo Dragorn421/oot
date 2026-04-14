@@ -4,7 +4,7 @@
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number 2
+#pragma increment_block_number 1
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
