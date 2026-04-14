@@ -28,7 +28,7 @@ DB80,8001F260,src/code/z_actor
 48090,80059770,src/code/z_elf_message
 48770,80059E50,src/code/z_face_reaction
 487C0,80059EA0,src/code/code_8006C3A0
-48940,8005A020,src/code/z_fcurve_data
+48940,8005A020,src/code/code_8006C510
 48B80,8005A260,src/code/z_fcurve_data_skelanime
 49370,8005AA50,src/code/z_horse
 4A050,8005B730,src/code/z_jpeg
@@ -66,9 +66,9 @@ DB80,8001F260,src/code/z_actor
 80440,80091B20,src/code/z_rumble
 806E0,80091DC0,src/code/z_view
 81E10,800934F0,src/code/z_vimode
-82980,80094060,src/code/z_viscvg
+82980,80094060,src/code/code_800ACE70
 82B20,80094200,src/code/z_vismono
-83380,80094A60,src/code/z_viszbuf
+83380,80094A60,src/code/code_800AD920
 83670,80094D50,src/code/z_vr_box
 85F60,80097640,src/code/z_vr_box_draw
 86660,80097D40,src/code/z_player_call
@@ -109,7 +109,7 @@ DB80,8001F260,src/code/z_actor
 9C3A0,800ADA80,src/code/code_n64dd_800AD410
 9C450,800ADB30,src/code/code_n64dd_800AD4C0
 9C540,800ADC20,src/code/fault
-9E710,800AFDF0,src/code/kanread
+9E710,800AFDF0,src/code/code_800D71F0
 9F1F0,800B08D0,src/audio/lib/synthesis
 A2380,800B3A60,src/audio/lib/heap
 A5750,800B6E30,src/audio/lib/load
@@ -197,8 +197,8 @@ C4CA0,800D6380,src/libultra/io/vigetcurrframebuf
 C4CE0,800D63C0,src/libultra/io/spsetpc
 C4D20,800D6400,src/libultra/libc/sqrt
 C4D30,800D6410,src/code/fmodf
-C4D80,800D6460,src/code/__osMemset
-C4DB0,800D6490,src/code/__osMemmove
+C4D80,800D6460,src/code/code_80106860
+C4DB0,800D6490,src/code/code_801068B0
 C4E40,800D6520,src/code/z_message
 D0620,800E1D00,src/code/z_game_over
 D0B60,800E2240,src/code/z_construct
@@ -253,7 +253,7 @@ EAE70,800FC550,src/code/z_sram
 EB020,800FC700,src/code/z_ss_sram
 EB0D0,800FC7B0,data/unk_8012ABC0.data
 EB100,800FC7E0,src/code/z_view
-EB110,800FC7F0,src/code/z_viscvg
+EB110,800FC7F0,src/code/code_800ACE70
 EB1A0,800FC880,src/code/z_vr_box
 EB4A0,800FCB80,src/code/z_player_call
 EB4C0,800FCBA0,src/code/z_fbdemo
@@ -321,7 +321,7 @@ F6280,80107960,src/code/z_debug
 F6290,80107970,src/code/z_demo
 F6770,80107E50,src/code/z_draw
 F6780,80107E60,src/code/z_elf_message
-F68A0,80107F80,src/code/z_fcurve_data
+F68A0,80107F80,src/code/code_8006C510
 F68B0,80107F90,src/code/z_fcurve_data_skelanime
 F68C0,80107FA0,src/code/z_horse
 F68D0,80107FB0,src/code/z_jpeg
