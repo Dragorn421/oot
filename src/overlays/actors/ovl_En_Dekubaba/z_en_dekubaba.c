@@ -849,7 +849,8 @@ void func_809E7F14(EnDekubaba* this, PlayState* play) {
                 Item_DropCollectible(play, &this->actor.world.pos, 0xC);
             }
         } else {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x30);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_3, false));
         }
         Actor_Kill(&this->actor);
     }

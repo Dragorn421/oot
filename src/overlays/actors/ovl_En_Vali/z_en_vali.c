@@ -238,7 +238,8 @@ void func_80B26C50(EnVali* this, PlayState* play) {
         this->actor.world.rot.y += 0x5555;
     }
     temp_s1 = &this->actor.world;
-    Item_DropCollectibleRandom(play, &this->actor, &temp_s1->pos, 0x50);
+    Item_DropCollectibleRandom(play, &this->actor, &temp_s1->pos,
+                               COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_5, false));
     this->unk196 = Rand_S16Offset(0xA, 0xA);
     this->unk3FC.base.acFlags &= ~AC_ON;
     SfxSource_PlaySfxAtFixedWorldPos(play, &temp_s1->pos, 40, NA_SE_EN_BARI_SPLIT);

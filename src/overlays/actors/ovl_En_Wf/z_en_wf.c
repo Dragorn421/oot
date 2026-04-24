@@ -1155,7 +1155,8 @@ void func_80B36D3C(EnWf* this, PlayState* play) {
         this->unk300 = 0;
     }
     if (SkelAnime_Update(&this->unk188)) {
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xD0);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_13, false));
         if (this->unk2FC != 0xFF) {
             Flags_SetSwitch(play, (s32)this->unk2FC);
         }

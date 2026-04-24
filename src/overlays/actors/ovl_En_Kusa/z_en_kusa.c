@@ -125,7 +125,8 @@ void func_80A9B07C(EnKusa* this, PlayState* play) {
             if (var_v0 >= 0xD) {
                 var_v0 = 0;
             }
-            Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, var_v0 * 0x10);
+            Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(var_v0, false));
             break;
         case ENKUSA_TYPE_1:
             if (Rand_ZeroOne() < 0.5f) {

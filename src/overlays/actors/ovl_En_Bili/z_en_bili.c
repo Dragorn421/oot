@@ -430,7 +430,8 @@ void func_809C0754(EnBili* this, PlayState* play) {
     if (this->actor.draw != NULL) {
         if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
             this->actor.draw = NULL;
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_5, false));
         } else {
             return;
         }

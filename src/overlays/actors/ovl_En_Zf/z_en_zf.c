@@ -1847,10 +1847,10 @@ void func_80B490B4(EnZf* this, PlayState* play) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
                 Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
                 if (Actor_ApplyDamage(&this->actor) == 0) {
-                    var_a3 = 0x40;
+                    var_a3 = COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false);
                     func_80B48CEC(this);
                     if (this->actor.params == -2) {
-                        var_a3 = 0xE0;
+                        var_a3 = COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_14, false);
                     }
                     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, var_a3);
                     Enemy_StartFinishingBlow(play, &this->actor);
