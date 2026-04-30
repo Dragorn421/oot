@@ -802,6 +802,7 @@ beginseg
     name "n64dd"
     address 0x801C7740
     include "$(BUILD_DIR)/baserom/n64dd.o"
+    include "$(BUILD_DIR)/data/n64dd.bss.o"
 endseg
 #endif
 

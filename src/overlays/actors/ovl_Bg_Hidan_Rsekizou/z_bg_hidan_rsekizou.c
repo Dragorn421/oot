@@ -130,10 +130,9 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
 Gfx* func_8088C70C(GraphicsContext** arg0, BgHidanRsekizou* arg1, s16 arg2, MtxF* arg3, s32 arg4, Gfx* arg5) {
     s32 i;
     f32 sp58;
-    f32 temp_fv0;
+    f32 temp_fv1;
     f32 var_fa1;
     f32 var_fa0;
-    f32 temp_fv1;
 
     i = (s32)(((arg1->unk166 + arg2) % 8) * 7 * 0.14285715f);
     gSPSegment(arg5++, 9, SEGMENTED_TO_VIRTUAL(sFireballsTexs[i]));
@@ -152,9 +151,8 @@ Gfx* func_8088C70C(GraphicsContext** arg0, BgHidanRsekizou* arg1, s16 arg2, MtxF
         sp58 = Math_SinS((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
         var_fa0 = Math_CosS((s16)(arg1->dyna.actor.shape.rot.y - (arg2 * 0x5DC)));
     }
-    temp_fv0 = (0.7f * var_fa1) + 0.5f;
-    arg3->mf[0][0] = arg3->mf[1][1] = arg3->mf[2][2] = temp_fv0;
-    temp_fv1 = (temp_fv0 * 10.0f * var_fa1) + 20.0f;
+    arg3->mf[0][0] = arg3->mf[1][1] = arg3->mf[2][2] = (0.7f * var_fa1) + 0.5f;
+    temp_fv1 = (((0.7f * var_fa1) + 0.5f) * 10.0f * var_fa1) + 20.0f;
     arg3->mf[3][0] = (temp_fv1 * sp58) + arg1->dyna.actor.world.pos.x;
     arg3->mf[3][1] = arg1->dyna.actor.world.pos.y + 30.0f + (0.70f * var_fa1);
     arg3->mf[3][2] = (temp_fv1 * var_fa0) + arg1->dyna.actor.world.pos.z;
