@@ -106,7 +106,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
-#if OOT_DEBUG
+#if PLATFORM_N64 || OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
@@ -730,15 +730,6 @@ beginseg
     include "$(BUILD_DIR)/data/rsp.rodata.o"
 endseg
 
-#if PLATFORM_N64
-beginseg
-    // TODO
-    name "n64dd"
-    address 0x801C7740
-    include "$(BUILD_DIR)/baserom/n64dd.o"
-endseg
-#endif
-
 beginseg
     name "buffers"
     flags NOLOAD
@@ -747,6 +738,15 @@ beginseg
     include "$(BUILD_DIR)/src/buffers/gfxbuffers.o"
     include "$(BUILD_DIR)/src/buffers/audio_heap.o"
 endseg
+
+#if PLATFORM_N64
+beginseg
+    // TODO
+    name "n64dd"
+    address 0x801C7740
+    include "$(BUILD_DIR)/baserom/n64dd.o"
+endseg
+#endif
 
 beginseg
     name "ovl_title"
