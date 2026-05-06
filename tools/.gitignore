@@ -1,11 +1,10 @@
 # Output files
 *.exe
 bin2c
-elf2rom
 mkdmadata
 mkldscript
+mkspecrules
 preprocess_pragmas
-spec_ls_seg
 vtxdis
 yaz0
 
