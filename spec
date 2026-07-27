@@ -966,13 +966,63 @@ beginseg
     address 0x801C4EC0
 #endif
 #if OOT_VERSION == NTSC_1_2
+#define REAL_N64DD_SEGMENT
     address 0x801C7740
+    include "$(BUILD_DIR)/src/n64dd/n64dd_0.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_1.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_2.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_3.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_4.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_5.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_6.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_7.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/readwrite.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leofunc.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoram.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoint.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leocmdex.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/getaadr2.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoread.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/lbatobyte.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoinquiry.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leodiskinit.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/readdiskid.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leord_diskid.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leomecha.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leotempbuffer.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoc2_syndrome.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leo_tbl.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/spdlmotor.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoc2ecc.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leomseq_tbl.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoglobals.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leomotor.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/driveexist.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leomode_sel.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leord_capa.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoutil.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/rezero.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/clearqueue.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/bytetolba.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoreset.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leotranslat.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leotimer.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/getkadr.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/getaadr.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/cjcreateleomanager.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leointerrupt.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/cacreateleomanager.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/testunitready.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leotestunit.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leoseek.o"
 #endif
 #if OOT_VERSION == PAL_1_1
     address 0x801C4F00
 #endif
+#ifndef REAL_N64DD_SEGMENT
     include "$(BUILD_DIR)/baserom/n64dd.o"
     include "$(BUILD_DIR)/data/n64dd.bss.o"
+#endif
 endseg
 #endif
 

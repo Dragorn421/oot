@@ -1,6 +1,8 @@
 #include "z_door_warp1.h"
 #include "assets/objects/object_warp1/object_warp1.h"
 
+#pragma increment_block_number "ntsc-1.2:128"
+
 #define FLAGS 0
 
 void DoorWarp1_Init(Actor* thisx, PlayState* play);

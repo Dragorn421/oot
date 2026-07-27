@@ -1,6 +1,10 @@
 #ifndef ULTRA64_H
 #define ULTRA64_H
 
+#define BADCASTP (void*)
+#define BADCASTI (u32)
+#define STATIC
+
 #include "libc/assert.h"
 #include "libc/math.h"
 #include "libc/stdarg.h"
@@ -31,6 +35,8 @@
 #include "ultra64/motor.h"
 #include "ultra64/R4300.h"
 #include "ultra64/ucode.h"
+
+#include "ultra64/leo.h"
 
 union uObjBg;
 
