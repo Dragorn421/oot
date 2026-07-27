@@ -169,11 +169,13 @@ void func_801CA1C4(const char* arg0, s32* arg1, s32* arg2) {
         case 0x20:
             *arg2 = 0;
             *arg1 = 0;
-            break;
+            return;
         case 0x49:
         case 0x69:
+#if OOT_NTSC
             *arg2 = 2;
             if (1) {}
+#endif
             *arg1 = 2;
             *arg2 = 2;
             if (v1 == 0x20) {
@@ -182,14 +184,14 @@ void func_801CA1C4(const char* arg0, s32* arg1, s32* arg2) {
             if (v2 == 0x20) {
                 *arg2 = 0;
             }
-            break;
-        default:
-            *arg2 = 1;
-            if (1) {}
-            *arg1 = 1;
-            *arg2 = 1;
-            break;
+            return;
     }
+#if OOT_NTSC
+    *arg2 = 1;
+    if (1) {}
+#endif
+    *arg1 = 1;
+    *arg2 = 1;
 }
 
 void func_801CA280(void* arg0, s32 arg1, const char* arg2) {

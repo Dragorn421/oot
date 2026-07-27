@@ -5,9 +5,10 @@
 #include "functions.h"
 #include "libc64/sleep.h"
 #include "stackcheck.h"
+#include "versions.h"
 #include "z64audio.h"
 
-#pragma increment_block_number "ntsc-1.2:128"
+#pragma increment_block_number "ntsc-1.2:128 pal-1.1:128"
 
 s32 func_801C8310(struct_801E1598* arg0);
 
@@ -36,7 +37,11 @@ StackEntry D_801DC828;
 s32 D_801DC844;
 
 u32 func_801C6E80(void) {
+#if OOT_NTSC
     return LeoDriveExist();
+#else
+    return 0;
+#endif
 }
 
 void func_801C6EA0(Gfx** gfxP) {
@@ -352,19 +357,22 @@ void func_801C8304(LEODiskID* arg0) {
 }
 
 s32 func_801C8310(struct_801E1598* arg0) {
-    LEODiskID* temp_s0;
-
-    temp_s0 = &arg0->unk38;
-    func_801C8304(temp_s0);
+    func_801C8304(&arg0->unk38);
     if (D_801DC870 == 0) {
-        if ((bcmp(temp_s0, "EZLJ", 4) == 0) || (bcmp(temp_s0, "EZLE", 4) == 0)) {
-            D_801DC850 = *temp_s0;
+        if (
+#if OOT_NTSC
+            (bcmp(&arg0->unk38, "EZLJ", 4) == 0) || (bcmp(&arg0->unk38, "EZLE", 4) == 0)
+#else
+            (bcmp(&arg0->unk38, "EZLP", 4) == 0)
+#endif
+        ) {
+            D_801DC850 = arg0->unk38;
             D_801DC870 = 1;
             D_801DA648 = 1;
         } else {
             D_801DA648 = 2;
         }
-    } else if (bcmp(&D_801DC850, temp_s0, 0x20) == 0) {
+    } else if (bcmp(&D_801DC850, &arg0->unk38, 0x20) == 0) {
         D_801DA648 = 1;
     } else {
         D_801DA648 = 2;

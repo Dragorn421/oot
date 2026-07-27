@@ -110,32 +110,4 @@ func_801C7658 = 0x801C563C;
 
 #endif
 
-#if OOT_VERSION == NTSC_1_2
-
-func_801C6E80 = 0x801C7740;
-func_801C7C1C = 0x801C8510;
-func_801C7E78 = 0x801C86F0;
-func_801C6EA0 = 0x801C7760;
-func_801C70FC = 0x801C79BC;
-n64dd_SetDiskVersion = 0x801C8808;
-func_801C7818 = 0x801C8090;
-func_801C7268 = 0x801C7BC4;
-func_801C7658 = 0x801C7ED0;
-
-#endif
-
-#if OOT_VERSION == PAL_1_1
-
-func_801C6E80 = 0x801c4f00;
-func_801C7C1C = 0x801c5cac;
-func_801C7E78 = 0x801c5e8c;
-func_801C6EA0 = 0x801c4f0c;
-func_801C70FC = 0x801c5168;
-n64dd_SetDiskVersion = 0x801c5fa4;
-func_801C7818 = 0x801c583c;
-func_801C7268 = 0x801c5370;
-func_801C7658 = 0x801c567c;
-
-#endif
-
 #endif
