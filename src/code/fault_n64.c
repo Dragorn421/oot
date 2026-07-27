@@ -8,7 +8,7 @@
 #include "stack.h"
 #include "terminal.h"
 
-#pragma increment_block_number "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "ntsc-1.0:192 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 typedef struct FaultMgr {
     OSThread thread;

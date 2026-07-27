@@ -8,7 +8,7 @@
 #include "versions.h"
 #include "z64audio.h"
 
-#pragma increment_block_number "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 s32 func_801C8310(struct_801E1598* arg0);
 
@@ -95,7 +95,13 @@ void func_801C7898(void) {
 
 void func_801C78D8(void) {
     if (D_80121213 != 0) {
-        Fault_AddHungupAndCrash("../z_n64dd.c", 573);
+        Fault_AddHungupAndCrash("../z_n64dd.c",
+#if OOT_VERSION <= NTSC_1_1
+                                551
+#else
+                                573
+#endif
+        );
     }
     D_80121213 = 1;
 }
@@ -111,6 +117,10 @@ s32 func_801C7924(void) {
 s32 func_801C7958(void) {
     s32 sp1C;
     s32 (*p)(struct_801DA5D0*);
+
+#if OOT_VERSION <= NTSC_1_1
+    if (1) {}
+#endif
 
     D_801DA5D0.unk0 = 0xA;
     p = func_801C8860;
@@ -232,6 +242,9 @@ void func_801C7CEC(s32 arg0, s32 arg1, s32 arg2) {
             if (arg2 != 0) {
                 func_801CAA60(BADCASTP arg2, 0, 0xB0, 0x140, 0x20, 0xB, BADCASTP sp2C, 0x140);
             }
+#if OOT_VERSION <= NTSC_1_1
+            osViBlack(0);
+#endif
         }
     }
 }
@@ -262,6 +275,11 @@ s32 func_801C7658(void) {
     if (D_80121212 != 0) {
         return 0;
     }
+#if OOT_VERSION <= NTSC_1_1
+    StackCheck_Init(&D_801DB808, D_801DA808, STACK_TOP(D_801DA808), 0, 0x100, "ddmsg");
+    osCreateThread(&D_801DA658, 9, func_801C79DC, &D_801DA410, STACK_TOP(D_801DA808), 0xD);
+    osStartThread(&D_801DA658);
+#endif
     osCreateMesgQueue(&D_801DA600, &D_801DA630, 1);
     osCreateMesgQueue(&D_801DA618, &D_801DA634, 1);
     StackCheck_Init(&D_801DC828, D_801DB828, STACK_TOP(D_801DB828), 0, 0x100, "n64dd");
@@ -281,9 +299,11 @@ s32 func_801C7658(void) {
     (&func_801C8860)(&D_801DA5D0);
     D_801DA5D0.unk0 = 0xD;
     (&func_801C8860)(&D_801DA5D0);
+#if OOT_VERSION > NTSC_1_1
     StackCheck_Init(&D_801DB808, D_801DA808, STACK_TOP(D_801DA808), 0, 0x100, "ddmsg");
     osCreateThread(&D_801DA658, 9, func_801C79DC, &D_801DA410, STACK_TOP(D_801DA808), 0xD);
     osStartThread(&D_801DA658);
+#endif
     return 0;
 }
 
