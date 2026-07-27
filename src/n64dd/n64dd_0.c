@@ -8,7 +8,7 @@
 #include "versions.h"
 #include "z64audio.h"
 
-#pragma increment_block_number "ntsc-1.2:128 pal-1.1:128"
+#pragma increment_block_number "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 s32 func_801C8310(struct_801E1598* arg0);
 
