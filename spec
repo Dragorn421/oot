@@ -1009,6 +1009,7 @@ beginseg
     include "$(BUILD_DIR)/src/n64dd/libleo/leotimer.o"
     include "$(BUILD_DIR)/src/n64dd/libleo/getkadr.o"
     include "$(BUILD_DIR)/src/n64dd/libleo/getaadr.o"
+    include "$(BUILD_DIR)/src/n64dd/libleo/leowrite.o"
     include "$(BUILD_DIR)/src/n64dd/libleo/cjcreateleomanager.o"
     include "$(BUILD_DIR)/src/n64dd/libleo/leointerrupt.o"
     include "$(BUILD_DIR)/src/n64dd/libleo/cacreateleomanager.o"
