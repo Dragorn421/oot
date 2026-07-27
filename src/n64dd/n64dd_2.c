@@ -297,7 +297,9 @@ s32 func_801C90A4(void) {
 s32 func_801C90BC(void) {
     D_801E1598.unk64 = 3;
     func_801C8E50(&D_801E1598, 1);
+#if OOT_VERSION > NTSC_1_0
     D_801D3710 = 0;
+#endif
     if ((D_801E1598.unk6C == 3) || (D_801E1598.unk6C == 4)) {
         return -1;
     } else {
@@ -308,7 +310,9 @@ s32 func_801C90BC(void) {
 s32 func_801C9114(void) {
     D_801E1598.unk64 = 4;
     func_801C8E50(&D_801E1598, 1);
+#if OOT_VERSION > NTSC_1_0
     D_801D3710 = 0;
+#endif
     if ((D_801E1598.unk6C == 3) || (D_801E1598.unk6C == 4)) {
         return -1;
     } else {

@@ -8,7 +8,7 @@
 #include "versions.h"
 #include "z64audio.h"
 
-#pragma increment_block_number "ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 s32 func_801C8310(struct_801E1598* arg0);
 
@@ -96,7 +96,9 @@ void func_801C7898(void) {
 void func_801C78D8(void) {
     if (D_80121213 != 0) {
         Fault_AddHungupAndCrash("../z_n64dd.c",
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION == NTSC_1_0
+                                503
+#elif OOT_VERSION == NTSC_1_1
                                 551
 #else
                                 573
@@ -177,6 +179,7 @@ void func_801C79DC(void* arg) {
 LEODiskID D_801DC850;
 s32 D_801DC870;
 
+#if OOT_VERSION > NTSC_1_0
 void func_801C7B28(void) {
     s32 temp_v1_2;
 
@@ -187,6 +190,7 @@ void func_801C7B28(void) {
         }
     }
 }
+#endif
 
 void func_801C7268(void) {
     s32 pad;
@@ -203,10 +207,26 @@ void func_801C7268(void) {
     } else if (D_801DA648 != 0) {
         D_801DA648 = 0;
     }
+#if OOT_VERSION == NTSC_1_0
+    if (D_801DA640 != 0) {
+        s32 temp_v1_2;
+
+        temp_v1_2 = OS_CYCLES_TO_USEC(osGetTime() - D_801DA640);
+
+        (void)(osGetTime() - D_801DA640);
+        (void)OS_CYCLES_TO_USEC(osGetTime() - D_801DA640);
+        (void)OS_CYCLES_TO_USEC(osGetTime() - D_801DA640);
+
+        if ((1000000 - temp_v1_2) > 0) {
+            Sleep_Usec(1000000 - temp_v1_2);
+        }
+    }
+#else
     if ((D_801D3728 == 1) || (D_801E17E0 == 1) || (D_801E17E4 == 1)) {
         D_801DA640 = osGetTime();
     }
     func_801C7B28();
+#endif
     if (sp18 == 0) {
         func_801C7838();
     }
@@ -310,17 +330,21 @@ s32 func_801C7658(void) {
 s32 func_801C7818(void) {
     s32 (*p)(struct_801DA5D0*) = func_801C8860;
 
+#if OOT_VERSION > NTSC_1_0
     D_801DA638 = 1;
     D_801DA640 = 0;
+#endif
     D_801DA5D0.unk0 = 0xC;
     p(&D_801DA5D0);
     while (func_801C8A24() == 0) {
         Sleep_Usec(1000000 / 60);
     }
+#if OOT_VERSION > NTSC_1_0
     if ((D_801D3728 == 1) || (D_801E17E0 == 1) || (D_801E17E4 == 1)) {
         D_801DA640 = osGetTime();
     }
     func_801C7B28();
+#endif
     if (func_801C8A24() != 2) {
         func_801C7E94();
         func_800D31A0();
@@ -474,7 +498,18 @@ void func_801C7C1C(void* arg0, s32 arg1, s32 arg2) {
             bcopy(sp34, (void*)(((func_801C84E0(sp44) + (s32)arg0) - sp3C) + var_s1), sp38);
         }
     }
+#if OOT_VERSION == NTSC_1_0
+    if (D_801DA640 != 0) {
+        s32 temp_v1_2;
+
+        temp_v1_2 = OS_CYCLES_TO_USEC(osGetTime() - D_801DA640);
+        if ((1000000 - temp_v1_2) > 0) {
+            Sleep_Usec(1000000 - temp_v1_2);
+        }
+    }
+#else
     func_801C7B28();
+#endif
     func_801C78D8();
     func_801C7838();
 }

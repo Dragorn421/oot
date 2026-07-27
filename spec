@@ -954,13 +954,7 @@ endseg
 
 #if PLATFORM_N64
 beginseg
-    // TODO
     name "n64dd"
-#if OOT_VERSION == NTSC_1_0
-    address 0x801C6E80
-#endif
-#if OOT_VERSION == NTSC_1_1 || OOT_VERSION == PAL_1_0 || OOT_VERSION == NTSC_1_2 || OOT_VERSION == PAL_1_1
-#define REAL_N64DD_SEGMENT
     align 0x40
     include "$(BUILD_DIR)/src/n64dd/n64dd_0.o"
     include "$(BUILD_DIR)/src/n64dd/n64dd_1.o"
@@ -1010,11 +1004,6 @@ beginseg
     include "$(BUILD_DIR)/src/n64dd/libleo/testunitready.o"
     include "$(BUILD_DIR)/src/n64dd/libleo/leotestunit.o"
     include "$(BUILD_DIR)/src/n64dd/libleo/leoseek.o"
-#endif
-#ifndef REAL_N64DD_SEGMENT
-    include "$(BUILD_DIR)/baserom/n64dd.o"
-    include "$(BUILD_DIR)/data/n64dd.bss.o"
-#endif
 endseg
 #endif
 
