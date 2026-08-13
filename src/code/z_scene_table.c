@@ -109,8 +109,7 @@ EntranceInfo gEntranceTable[] = {
 #undef DEFINE_ENTRANCE
 
 // Scene Table definition
-#define DEFINE_SCENE(name, title, _2, drawConfig, unk_10, unk_12) \
-    { name, title, unk_10, drawConfig, unk_12, 0 },
+#define DEFINE_SCENE(name, title, _2, drawConfig, unk_10, unk_12) { name, title, unk_10, drawConfig, unk_12, 0 },
 
 SceneTableEntry gSceneTable[] = {
 #include "tables/scene_table.h"

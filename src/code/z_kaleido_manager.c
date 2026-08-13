@@ -9,12 +9,7 @@
 #include "play_state.h"
 
 #define KALEIDO_OVERLAY(dll_name, nameString) \
-    {                                         \
-        NULL,                                 \
-        dll_name,                             \
-        0,                                    \
-        nameString,                           \
-    }
+    { NULL, dll_name, 0, nameString, }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
     KALEIDO_OVERLAY("misc/ovl_kaleido_scope", "kaleido_scope"),
