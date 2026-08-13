@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "rand.h"
 #include "sys_matrix.h"
+#include "unk.h"
 #include "z_lib.h"
 #include "play_state.h"
 

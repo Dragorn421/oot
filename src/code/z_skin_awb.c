@@ -1,3 +1,4 @@
+#include "assert_uppercase.h"
 #include "array_count.h"
 #include "segmented_address.h"
 #include "zelda_arena.h"

@@ -1,8 +1,7 @@
 #ifndef AUDIOMGR_H
 #define AUDIOMGR_H
 
-#include "sched.h"
-#include "audio.h"
+#include "game_audio.h"
 
 typedef enum AudioMgrActivityLevel {
     /* 0 */ AUDIOMGR_ACTIVITY_LEVEL_ALL,
@@ -11,20 +10,11 @@ typedef enum AudioMgrActivityLevel {
 } AudioMgrActivityLevel;
 
 typedef struct AudioMgr {
-    /* 0x0000 */ IrqMgr* irqMgr;
-    /* 0x0004 */ Scheduler* sched;
-    /* 0x0008 */ OSScTask audioTask;
+    /* 0x0008 */ OSTask audioTask;
     /* 0x0070 */ AudioTask* rspTask;
-    /* 0x0074 */ OSMesgQueue interruptQueue;
-    /* 0x008C */ OSMesg interruptMsgBuf[8];
-    /* 0x00AC */ OSMesgQueue taskDoneQueue;
-    /* 0x00C4 */ OSMesg taskDoneMsg;
-    /* 0x00C8 */ OSMesgQueue initQueue;
-    /* 0x00E0 */ OSMesg initMsg;
-    /* 0x00E8 */ OSThread thread;
 } AudioMgr; // size = 0x298
 
-void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Scheduler* sched, IrqMgr* irqMgr);
+void AudioMgr_Init(AudioMgr* audioMgr);
 
 void AudioMgr_WaitForInit(AudioMgr* audioMgr);
 

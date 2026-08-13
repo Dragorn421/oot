@@ -1,7 +1,7 @@
 #ifndef Z_LOCALE_H
 #define Z_LOCALE_H
 
-#include "ultra64/ultratypes.h"
+#include "ultra64.h"
 
 extern s32 gCurrentRegion;
 

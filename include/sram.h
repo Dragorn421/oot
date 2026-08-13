@@ -1,7 +1,7 @@
 #ifndef SRAM_H
 #define SRAM_H
 
-#include "ultra64/ultratypes.h"
+#include "ultra64.h"
 
 struct FileSelectState;
 struct GameState;

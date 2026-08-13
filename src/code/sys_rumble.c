@@ -33,7 +33,8 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
         if (sWasEnabled) {
             // If it was previously enabled, reset pak type
             for (i = 0; i < MAXCONTROLLERS; i++) {
-                gPadMgr.pakType[i] = CONT_PAK_NONE;
+                // TODO-ootdragon should the rumbling be turned off here?
+                // gPadMgr.pakType[i] = CONT_PAK_NONE;
             }
         }
         sWasEnabled = rumbleMgr->updateEnabled;
@@ -44,10 +45,6 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
 
     if (rumbleMgr->state == RUMBLE_STATE_RESET) {
         // Reset
-        for (i = 0; i < MAXCONTROLLERS; i++) {
-            gPadMgr.pakType[i] = CONT_PAK_NONE;
-        }
-
         for (i = 0; i < RUMBLE_MAX_REQUESTS; i++) {
             rumbleMgr->reqAccumulators[i] = 0;
             rumbleMgr->reqDecreaseRates[i] = 0;

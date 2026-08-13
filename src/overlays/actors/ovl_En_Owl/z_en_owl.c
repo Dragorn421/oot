@@ -6,6 +6,7 @@
 
 #include "z_en_owl.h"
 
+#include "assert_uppercase.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -22,7 +23,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "play_state.h"
 #include "player.h"
 #include "save.h"

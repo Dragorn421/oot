@@ -1,5 +1,6 @@
 #include "z_demo_effect.h"
 
+#include "assert_uppercase.h"
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
 #include "animation_curve.h"
@@ -17,7 +18,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "draw.h"
 #include "cutscene_flags.h"
 #include "effect.h"

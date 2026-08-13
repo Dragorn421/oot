@@ -1,7 +1,10 @@
+#include "assert_uppercase.h"
+#include "attributes.h"
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "libc64/math64.h"
 #include "libu64/overlay.h"
 #include "array_count.h"
-#include "fault.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -20,7 +23,7 @@
 #include "z_lib.h"
 #include "zelda_arena.h"
 #include "actor.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "effect.h"
 #include "light.h"
 #include "horse.h"
@@ -800,10 +803,13 @@ void TitleCard_InitBossName(PlayState* play, TitleCardContext* titleCtx, void* t
 void TitleCard_InitPlaceName(PlayState* play, TitleCardContext* titleCtx, void* texture, s32 x, s32 y, s32 width,
                              s32 height, s32 delay) {
     SceneTableEntry* loadedScene = play->loadedScene;
-    u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
+    u32 size = elf_section_get_size_fmtname("textures.%s", loadedScene->title_name);
 
     if ((size != 0) && (size <= 0x1000 * LANGUAGE_MAX)) {
-        DMA_REQUEST_SYNC(texture, loadedScene->titleFile.vromStart, size, "../z_actor.c", 2765);
+        struct dma_request req;
+
+        elf_section_dma_queue_read_fmtname(texture, "textures.%s", &req, loadedScene->title_name);
+        dma_queue_wait(&req);
     }
 
     titleCtx->texture = texture;
@@ -936,7 +942,7 @@ void Actor_SetScale(Actor* actor, f32 scale) {
 }
 
 void Actor_SetObjectDependency(PlayState* play, Actor* actor) {
-    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[actor->objectSlot].segment);
+    gSegments[6] = PhysicalAddr(play->objectCtx.slots[actor->objectSlot].segment);
 }
 
 void Actor_Init(Actor* actor, PlayState* play) {
@@ -1685,8 +1691,7 @@ typedef struct AttentionRangeParams {
     /* 0x4 */ f32 lockOnLeashScale;
 } AttentionRangeParams; // size = 0x8
 
-#define ATTENTION_RANGES(range, lockOnLeashRange) \
-    { SQ(range), (f32)range / lockOnLeashRange }
+#define ATTENTION_RANGES(range, lockOnLeashRange) { SQ(range), (f32)range / lockOnLeashRange }
 
 AttentionRangeParams sAttentionRanges[ATTENTION_RANGE_MAX] = {
     ATTENTION_RANGES(70, 140),        // ATTENTION_RANGE_0
@@ -2541,40 +2546,11 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     DynaPoly_UpdateBgActorTransforms(play, &play->colCtx.dyna);
 }
 
-void Actor_FaultPrint(Actor* actor, char* command) {
-    ActorOverlay* overlayEntry;
-    char* name;
-
-    if ((actor == NULL) || (actor->overlayEntry == NULL)) {
-        Fault_SetCursor(48, 24);
-        Fault_Printf("ACTOR NAME is NULL");
-    }
-
-#if DEBUG_FEATURES
-    overlayEntry = actor->overlayEntry;
-    name = overlayEntry->name != NULL ? overlayEntry->name : "";
-#else
-    name = "";
-#endif
-
-    PRINTF(T("アクターの名前(%08x:%s)\n", "Actor name (%08x:%s)\n"), actor, name);
-
-    if (command != NULL) {
-        PRINTF(T("コメント:%s\n", "Command: %s\n"), command);
-    }
-
-    Fault_SetCursor(48, 24);
-    Fault_Printf("ACTOR NAME %08x:%s", actor, name);
-}
-
 void Actor_Draw(PlayState* play, Actor* actor) {
-    FaultClient faultClient;
     Lights* lights;
 #if PLATFORM_IQUE
     ObjectEntry* slots;
 #endif
-
-    Fault_AddClient(&faultClient, Actor_FaultPrint, actor, "Actor_draw");
 
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 6035);
 
@@ -2640,8 +2616,6 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 6119);
-
-    Fault_RemoveClient(&faultClient);
 }
 
 void Actor_UpdateFlaggedAudio(Actor* actor) {
@@ -3179,6 +3153,8 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     uintptr_t temp;
     char* name;
     u32 overlaySize;
+    char dll_name[100];
+    int nchar;
 
     overlayEntry = &gActorOverlayTable[actorId];
     ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
@@ -3187,7 +3163,9 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 #endif
 
-    overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
+    nchar = snprintf(dll_name, sizeof(dll_name), "effects/%s", overlayEntry->ovl_name);
+    assert(nchar < sizeof(dll_name));
+    overlaySize = elf_section_get_dll_ramsize(dll_name);
 
     ACTOR_DEBUG_PRINTF(T("アクタークラス追加 [%d:%s]\n", "Actor class addition [%d:%s]\n"), actorId, name);
 
@@ -3196,7 +3174,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
         return NULL;
     }
 
-    if (overlayEntry->vramStart == NULL) {
+    if (overlayEntry->ovl_name == NULL) {
         ACTOR_DEBUG_PRINTF(T("オーバーレイではありません\n", "Not an overlay\n"));
 
         profile = overlayEntry->profile;
@@ -3229,15 +3207,11 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                 return NULL;
             }
 
-            Overlay_Load(overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
-                         overlayEntry->vramEnd, overlayEntry->loadedRamAddr);
+            elf_section_load_dll(dll_name, overlayEntry->loadedRamAddr);
 
             PRINTF_COLOR_GREEN();
-            PRINTF("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart, overlayEntry->vramEnd,
-                   overlayEntry->loadedRamAddr,
-                   (uintptr_t)overlayEntry->loadedRamAddr + (uintptr_t)overlayEntry->vramEnd -
-                       (uintptr_t)overlayEntry->vramStart,
-                   (uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr, name);
+            PRINTF("OVL(a): Ram:%08x-%08x %s\n", overlayEntry->loadedRamAddr,
+                   (uintptr_t)overlayEntry->loadedRamAddr + overlaySize, name);
             PRINTF_RST();
 
             overlayEntry->numLoaded = 0;
@@ -3245,7 +3219,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
         profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
                                          ? (void*)((uintptr_t)overlayEntry->profile -
-                                                   (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                   (intptr_t)((uintptr_t)elf_section_get_dll_vram_start(dll_name) -
                                                               (uintptr_t)overlayEntry->loadedRamAddr))
                                          : NULL);
     }
@@ -3412,7 +3386,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
 
     ZELDA_ARENA_FREE(actor, "../z_actor.c", 7242);
 
-    if (overlayEntry->vramStart == NULL) {
+    if (overlayEntry->ovl_name == NULL) {
         ACTOR_DEBUG_PRINTF(T("オーバーレイではありません\n", "Not an overlay\n"));
     } else {
         ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);

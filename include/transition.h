@@ -1,7 +1,7 @@
 #ifndef TRANSITION_H
 #define TRANSITION_H
 
-#include "ultra64/ultratypes.h"
+#include "ultra64.h"
 #include "ultra64/gbi.h"
 #include "transition_circle.h"
 #include "transition_fade.h"

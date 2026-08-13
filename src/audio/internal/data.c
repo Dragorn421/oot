@@ -1,6 +1,6 @@
 #include "alignment.h"
 #include "ultra64.h"
-#include "audio.h"
+#include "game_audio.h"
 
 // clang-format off
 ALIGNED(16) s16 gSawtoothWaveSample[] = {

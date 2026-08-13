@@ -14,8 +14,6 @@ ldscript_p: Path = args.ldscript
 with Path("assets_list.toml").open("rb") as f:
     assets_list = tomllib.load(f)
 
-assets = {_name: _info["segment"] for _name, _info in assets_list.items()}
-
 dlls = []
 for _dllrootdir_p in (
     Path("src/overlays/actors"),
@@ -30,30 +28,39 @@ for _dllrootdir_p in (
         )
     )
 
-script_assets = """
-    _offset = ALIGN(8);
-""" + "".join(
-    f"""
-    assets.{_name} {_seg << 24:#08X} (OVERLAY) : AT(_offset) {{
-        KEEP(build/assets/{f"{_name}.o" if _name.startswith("scenes/") else f"{_name}/*"} (.data* .rodata*))
-    }}
-    _offset += SIZEOF(assets.{_name});
-    _offset = ALIGN(_offset, 8);
-"""
-    for _name, _seg in assets.items()
-)
+script_assets_lines = []
+script_assets_lines.append("    _offset = ALIGN(8);")
+for name, asset_info in assets_list.items():
+    seg = asset_info["segment"]
+    script_assets_lines.append(
+        f"    assets.{name} 0x{seg << 24:08X} (OVERLAY) : AT(_offset) " "{"
+    )
+    srcs = asset_info["srcs"]
+    if isinstance(srcs, str):
+        srcs = [srcs]
+    for src in srcs:
+        assert src.endswith(".c")
+        script_assets_lines.append(
+            f'        KEEP(build/{f"{src.removesuffix(".c")}.o"} (.data* .rodata*))'
+        )
+    script_assets_lines.append("    }")
+    script_assets_lines.append(f"    _offset += SIZEOF(assets.{name});")
+    script_assets_lines.append(f"    _offset = ALIGN(_offset, 8);")
+    script_assets_lines.append("")
+script_assets = "\n".join(script_assets_lines)
+
 
 script_assets_text = """
-    assets_text.staff (OVERLAY) : {
+    assets_text.staff 0x07000000 (OVERLAY) : {
         KEEP(build/assets/text/staff_message_data_static.o (.data* .rodata*))
     }
-    assets_text.fra (OVERLAY) : {
+    assets_text.fra 0x07000000 (OVERLAY) : {
         KEEP(build/assets/text/fra_message_data_static.o (.data* .rodata*))
     }
-    assets_text.ger (OVERLAY) : {
+    assets_text.ger 0x07000000 (OVERLAY) : {
         KEEP(build/assets/text/ger_message_data_static.o (.data* .rodata*))
     }
-    assets_text.nes (OVERLAY) : {
+    assets_text.nes 0x07000000 (OVERLAY) : {
         KEEP(build/assets/text/nes_message_data_static.o (.data* .rodata*))
     }
 """
@@ -68,18 +75,14 @@ script_dlls = """
     dlls.bss.{_name} (NOLOAD) : {{
         KEEP(build/src/overlays/{_name}/dll.o (dll.code.bss))
     }} :ptnul
-"""
-    for _name in dlls
+""" for _name in dlls
 )
 
-script_dlls_relocs = "".join(
-    f"""
+script_dlls_relocs = "".join(f"""
     dlls.rel.{_name} (OVERLAY) : {{
         KEEP(build/src/overlays/{_name}/dll.o (dll.rel))
     }}
-"""
-    for _name in dlls
-)
+""" for _name in dlls)
 
 ldscript_p.write_text(
     (

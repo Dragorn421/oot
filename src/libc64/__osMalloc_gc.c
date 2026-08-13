@@ -1,10 +1,10 @@
 #include "libc64/os_malloc.h"
 
 #include "alignment.h"
-#include "fault.h"
 #include "printf.h"
 #include "terminal.h"
 #include "translation.h"
+#include <string.h>
 
 #define FILL_ALLOC_BLOCK_FLAG (1 << 0)
 #define FILL_FREE_BLOCK_FLAG (1 << 1)
@@ -28,19 +28,19 @@
 
 #define SET_DEBUG_INFO(node, file, line, arena) ArenaImpl_SetDebugInfo(node, file, line, arena)
 
-#define FILL_UNINIT_BLOCK(arena, node, size) func_80106860(node, BLOCK_UNINIT_MAGIC, size) // memset
+#define FILL_UNINIT_BLOCK(arena, node, size) memset(node, BLOCK_UNINIT_MAGIC, size)
 
 #define FILL_ALLOC_BLOCK(arena, alloc, size)   \
     if ((arena)->flag & FILL_ALLOC_BLOCK_FLAG) \
-    func_80106860(alloc, BLOCK_ALLOC_MAGIC, size)
+    memset(alloc, BLOCK_ALLOC_MAGIC, size)
 
 #define FILL_FREE_BLOCK_HEADER(arena, node)   \
     if ((arena)->flag & FILL_FREE_BLOCK_FLAG) \
-    func_80106860(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode))
+    memset(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode))
 
 #define FILL_FREE_BLOCK_CONTENTS(arena, node) \
     if ((arena)->flag & FILL_FREE_BLOCK_FLAG) \
-    func_80106860((void*)((u32)(node) + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, (node)->size)
+    memset((void*)((u32)(node) + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, (node)->size)
 
 #define CHECK_FREE_BLOCK(arena, node)          \
     if ((arena)->flag & CHECK_FREE_BLOCK_FLAG) \
@@ -72,8 +72,6 @@ u32 gTotalAllocFailures = 0; // "Arena_failcnt"
     } while (0)
 
 #endif
-
-OSMesg sArenaLockMsg;
 
 void __osMallocAddBlock(Arena* arena, void* start, s32 size);
 
@@ -113,22 +111,17 @@ void ArenaImpl_UnsetCheckFreeBlock(Arena* arena) {
 void ArenaImpl_SetDebugInfo(ArenaNode* node, const char* file, int line, Arena* arena) {
     node->filename = file;
     node->line = line;
-    node->threadId = osGetThreadId(NULL);
     node->arena = arena;
-    node->time = osGetTime();
 }
 #endif
 
 void ArenaImpl_LockInit(Arena* arena) {
-    osCreateMesgQueue(&arena->lockQueue, &sArenaLockMsg, 1);
 }
 
 void ArenaImpl_Lock(Arena* arena) {
-    osSendMesg(&arena->lockQueue, NULL, OS_MESG_BLOCK);
 }
 
 void ArenaImpl_Unlock(Arena* arena) {
-    osRecvMesg(&arena->lockQueue, NULL, OS_MESG_BLOCK);
 }
 
 #if DEBUG_FEATURES
@@ -222,7 +215,7 @@ void ArenaImpl_RemoveAllBlocks(Arena* arena) {
     iter = arena->head;
     while (iter != NULL) {
         next = NODE_GET_NEXT(iter);
-        func_80106860(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode)); // memset
+        memset(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode));
         iter = next;
     }
 
@@ -653,7 +646,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
                 }
                 node->next = newNext;
                 node->size = newSize;
-                func_801068B0(node->next, next, sizeof(ArenaNode)); // memcpy
+                memcpy(node->next, next, sizeof(ArenaNode));
             } else {
                 osSyncPrintf(T("新たにメモリブロックを確保して内容を移動します\n",
                                "Allocate a new memory block and move the contents\n"));
@@ -776,8 +769,7 @@ void __osDisplayArena(Arena* arena) {
                          iter->isFree ? T("空き", "Free") : T("確保", "Secure"), iter->size);
 
             if (!iter->isFree) {
-                osSyncPrintf(" [%016llu:%2d:%s:%d]", OS_CYCLES_TO_NSEC(iter->time), iter->threadId,
-                             iter->filename != NULL ? iter->filename : "**NULL**", iter->line);
+                osSyncPrintf(" [%s:%d]", iter->filename != NULL ? iter->filename : "**NULL**", iter->line);
             }
 
             osSyncPrintf("\n");
@@ -805,56 +797,6 @@ void __osDisplayArena(Arena* arena) {
     ArenaImpl_Unlock(arena);
 }
 #endif
-
-void ArenaImpl_FaultClient(Arena* arena) {
-    u32 freeSize;
-    u32 allocatedSize;
-    u32 maxFree;
-    ArenaNode* iter;
-    ArenaNode* next;
-
-    Fault_Printf("ARENA INFO (0x%08x)\n", arena);
-    if (!__osMallocIsInitialized(arena)) {
-        Fault_Printf("Arena is uninitalized\n", arena);
-        return;
-    }
-
-    maxFree = 0;
-    freeSize = 0;
-    allocatedSize = 0;
-
-    Fault_Printf("Memory Block Region status size\n");
-
-    iter = arena->head;
-    while (iter != NULL) {
-        if (iter != NULL && iter->magic == NODE_MAGIC) {
-            next = iter->next;
-            Fault_Printf("%08x-%08x%c %s %08x", iter, ((u32)iter + sizeof(ArenaNode) + iter->size),
-                         (!next) ? '$' : (iter != next->prev ? '!' : ' '), iter->isFree ? "F" : "A", iter->size);
-
-            Fault_Printf("\n");
-
-            if (iter->isFree) {
-                freeSize += iter->size;
-                if (maxFree < iter->size) {
-                    maxFree = iter->size;
-                }
-            } else {
-                allocatedSize += iter->size;
-            }
-        } else {
-            Fault_SetFontColor(0xF801);
-            Fault_Printf("%08x Block Invalid\n", iter);
-            next = NULL;
-        }
-        iter = next;
-    }
-
-    Fault_SetFontColor(0x7F1);
-    Fault_Printf("Total Alloc Block Size  %08x\n", allocatedSize);
-    Fault_Printf("Total Free Block Size   %08x\n", freeSize);
-    Fault_Printf("Largest Free Block Size %08x\n", maxFree);
-}
 
 s32 __osCheckArena(Arena* arena) {
     ArenaNode* iter;

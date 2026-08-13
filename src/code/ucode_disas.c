@@ -60,7 +60,7 @@ typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 void* UCodeDisas_TranslateAddr(UCodeDisas* this, uintptr_t addr) {
     uintptr_t physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
 
-    return OS_PHYSICAL_TO_K0(physical);
+    return VirtualCachedAddr(physical);
 }
 
 F3dzexConst sUCodeDisasGeometryModes[] = {

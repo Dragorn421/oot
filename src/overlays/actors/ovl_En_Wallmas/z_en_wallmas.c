@@ -24,7 +24,7 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
-#define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
+#define TIMER_SCALE (1.0f / 160.0f)
 
 void EnWallmas_Init(Actor* thisx, PlayState* play);
 void EnWallmas_Destroy(Actor* thisx, PlayState* play);

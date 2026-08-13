@@ -14,7 +14,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "effect.h"
 #include "frame_advance.h"
 #include "play_state.h"

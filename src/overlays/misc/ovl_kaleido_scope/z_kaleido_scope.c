@@ -1,8 +1,10 @@
 #include "z_kaleido_scope.h"
 
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "libc64/sleep.h"
 #include "array_count.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
@@ -13,7 +15,6 @@
 #endif
 #include "printf.h"
 #include "regs.h"
-#include "segment_symbols.h"
 #include "segmented_address.h"
 #include "seqcmd.h"
 #include "sfx.h"
@@ -22,7 +23,7 @@
 #include "title_setup_state.h"
 #include "translation.h"
 #include "versions.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "ocarina.h"
 #include "play_state.h"
 #include "player.h"
@@ -941,7 +942,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     Gfx* gfxRef;
     void* fbuf;
 
-    fbuf = play->state.gfxCtx->curFrameBuffer;
+    fbuf = play->state.gfxCtx->curSurf->buffer;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 496);
 
@@ -2151,14 +2152,13 @@ void KaleidoScope_DrawUIOverlay(PlayState* play) {
 void KaleidoScope_UpdateNamePanel(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     u16 texIndex;
+    struct dma_request req;
 
     if ((pauseCtx->namedItem != pauseCtx->cursorItem[pauseCtx->pageIndex]) ||
         ((pauseCtx->pageIndex == PAUSE_MAP) && (pauseCtx->cursorSpecialPos != 0))) {
 
         pauseCtx->namedItem = pauseCtx->cursorItem[pauseCtx->pageIndex];
         texIndex = pauseCtx->namedItem;
-
-        osCreateMesgQueue(&pauseCtx->loadQueue, &pauseCtx->loadMsg, 1);
 
         if (pauseCtx->namedItem != PAUSE_ITEM_NONE) {
             if ((pauseCtx->pageIndex == PAUSE_MAP) && !sInDungeonScene) {
@@ -2174,9 +2174,9 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
                 }
 #endif
 
-                DMA_REQUEST_SYNC(pauseCtx->nameSegment,
-                                 (uintptr_t)_map_name_staticSegmentRomStart + (texIndex * MAP_NAME_TEX1_SIZE),
-                                 MAP_NAME_TEX1_SIZE, "../z_kaleido_scope_PAL.c", 2093);
+                elf_section_dma_queue_read_fragment(pauseCtx->nameSegment, "assets.textures.map_name_static",
+                                                    texIndex * MAP_NAME_TEX1_SIZE, MAP_NAME_TEX1_SIZE, &req);
+                dma_queue_wait(&req);
             } else {
                 PRINTF("zoom_name=%d\n", pauseCtx->namedItem);
 
@@ -2192,9 +2192,9 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
 
                 PRINTF("J_N=%d  point=%d\n", gSaveContext.language, texIndex);
 
-                DMA_REQUEST_SYNC(pauseCtx->nameSegment,
-                                 (uintptr_t)_item_name_staticSegmentRomStart + (texIndex * ITEM_NAME_TEX_SIZE),
-                                 ITEM_NAME_TEX_SIZE, "../z_kaleido_scope_PAL.c", 2120);
+                elf_section_dma_queue_read_fragment(pauseCtx->nameSegment, "assets.textures.item_name_static",
+                                                    texIndex * ITEM_NAME_TEX_SIZE, ITEM_NAME_TEX_SIZE, &req);
+                dma_queue_wait(&req);
             }
 
             pauseCtx->nameDisplayTimer = 0;
@@ -3619,14 +3619,16 @@ void KaleidoScope_LoadDungeonMap(PlayState* play) {
 #if PLATFORM_N64 || OOT_PAL
     s32 pad;
 #endif
+    struct dma_request req;
 
-    DMA_REQUEST_SYNC(interfaceCtx->mapSegment,
-                     (uintptr_t)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 0) * MAP_48x85_TEX_SIZE),
-                     MAP_48x85_TEX_SIZE, "../z_kaleido_scope_PAL.c", 3467);
+    elf_section_dma_queue_read_fragment(interfaceCtx->mapSegment, "assets.textures.map_48x85_static",
+                                        (R_MAP_TEX_INDEX + 0) * MAP_48x85_TEX_SIZE, MAP_48x85_TEX_SIZE, &req);
+    dma_queue_wait(&req);
 
-    DMA_REQUEST_SYNC(interfaceCtx->mapSegment + ALIGN16(MAP_48x85_TEX_SIZE),
-                     (uintptr_t)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 1) * MAP_48x85_TEX_SIZE),
-                     MAP_48x85_TEX_SIZE, "../z_kaleido_scope_PAL.c", 3471);
+    elf_section_dma_queue_read_fragment(interfaceCtx->mapSegment + ALIGN16(MAP_48x85_TEX_SIZE),
+                                        "assets.textures.map_48x85_static", (R_MAP_TEX_INDEX + 1) * MAP_48x85_TEX_SIZE,
+                                        MAP_48x85_TEX_SIZE, &req);
+    dma_queue_wait(&req);
 }
 
 void KaleidoScope_UpdateDungeonMap(PlayState* play) {
@@ -3680,6 +3682,7 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepG;
     s16 stepB;
     s16 stepA;
+    struct dma_request req;
 
     if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) &&
         (((pauseCtx->state >= PAUSE_STATE_OPENING_1) && (pauseCtx->state <= PAUSE_STATE_SAVE_PROMPT)) ||
@@ -3727,6 +3730,8 @@ void KaleidoScope_Update(PlayState* play) {
             size1 = Player_InitPauseDrawData(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
             PRINTF(T("プレイヤー size1＝%x\n", "Player size1=%x\n"), size1);
 
+            // TODO-ootdragon port over this code
+            /*
             size0 = (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
             pauseCtx->iconItemSegment = (void*)ALIGN16((uintptr_t)pauseCtx->playerSegment + size1);
 
@@ -3734,7 +3739,7 @@ void KaleidoScope_Update(PlayState* play) {
             DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, size0,
                              "../z_kaleido_scope_PAL.c", 3662);
 
-            gSegments[8] = OS_K0_TO_PHYSICAL(pauseCtx->iconItemSegment);
+            gSegments[8] = PhysicalAddr(pauseCtx->iconItemSegment);
 
             for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
                 if (!CHECK_AGE_REQ_ITEM(i)) {
@@ -3875,6 +3880,7 @@ void KaleidoScope_Update(PlayState* play) {
                 }
 #endif
             }
+            */
 
             sPreRenderCvg = (void*)ALIGN16((uintptr_t)pauseCtx->nameSegment +
                                            MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE) + MAP_NAME_TEX2_SIZE);
@@ -4374,23 +4380,22 @@ void KaleidoScope_Update(PlayState* play) {
 
             //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->iconItemSegment = (void*)(((uintptr_t)play->objectCtx.spaceStart + 0x30) & ~0x3F);
-            size0 = (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
+            size0 = elf_section_get_size("assets.textures.icon_item_static");
             PRINTF("icon_item size0=%x\n", size0);
-            DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, size0,
-                             "../z_kaleido_scope_PAL.c", 4356);
+            elf_section_dma_queue_read(pauseCtx->iconItemSegment, "assets.textures.icon_item_static", &req);
+            dma_queue_wait(&req);
 
             pauseCtx->iconItem24Segment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemSegment + size0);
-            size = (uintptr_t)_icon_item_24_staticSegmentRomEnd - (uintptr_t)_icon_item_24_staticSegmentRomStart;
+            size = elf_section_get_size("assets.textures.icon_item_24");
             PRINTF("icon_item24 size=%x\n", size);
-            DMA_REQUEST_SYNC(pauseCtx->iconItem24Segment, (uintptr_t)_icon_item_24_staticSegmentRomStart, size,
-                             "../z_kaleido_scope_PAL.c", 4363);
+            elf_section_dma_queue_read(pauseCtx->iconItem24Segment, "assets.textures.icon_item_24", &req);
+            dma_queue_wait(&req);
 
             pauseCtx->iconItemAltSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItem24Segment + size);
-            size2 = (uintptr_t)_icon_item_gameover_staticSegmentRomEnd -
-                    (uintptr_t)_icon_item_gameover_staticSegmentRomStart;
+            size2 = elf_section_get_size("assets.textures.icon_item_gameover");
             PRINTF("icon_item_dungeon gameover-size2=%x\n", size2);
-            DMA_REQUEST_SYNC(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_gameover_staticSegmentRomStart, size2,
-                             "../z_kaleido_scope_PAL.c", 4370);
+            elf_section_dma_queue_read(pauseCtx->iconItemAltSegment, "assets.textures.icon_item_gameover", &req);
+            dma_queue_wait(&req);
 
             pauseCtx->iconItemLangSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemAltSegment + size2);
 
@@ -4408,20 +4413,20 @@ void KaleidoScope_Update(PlayState* play) {
             }
 #else
             if (gSaveContext.language == LANGUAGE_ENG) {
-                size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
+                size = elf_section_get_size("assets.textures.icon_item_nes_static");
                 PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
-                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 4379);
+                elf_section_dma_queue_read(pauseCtx->iconItemLangSegment, "assets.textures.icon_item_nes_static", &req);
+                dma_queue_wait(&req);
             } else if (gSaveContext.language == LANGUAGE_GER) {
-                size = (uintptr_t)_icon_item_ger_staticSegmentRomEnd - (uintptr_t)_icon_item_ger_staticSegmentRomStart;
+                size = elf_section_get_size("assets.textures.icon_item_ger_static");
                 PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
-                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_ger_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 4386);
+                elf_section_dma_queue_read(pauseCtx->iconItemLangSegment, "assets.textures.icon_item_ger_static", &req);
+                dma_queue_wait(&req);
             } else {
-                size = (uintptr_t)_icon_item_fra_staticSegmentRomEnd - (uintptr_t)_icon_item_fra_staticSegmentRomStart;
+                size = elf_section_get_size("assets.textures.icon_item_fra_static");
                 PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
-                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 4393);
+                elf_section_dma_queue_read(pauseCtx->iconItemLangSegment, "assets.textures.icon_item_fra_static", &req);
+                dma_queue_wait(&req);
             }
 #endif
 

@@ -1,24 +1,27 @@
+#include "dma_queue.h"
+#include "elf_reader.h"
+#include "interface.h"
 #include "libu64/gfxprint.h"
 #include "array_count.h"
 #include "attributes.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
 #include "language_array.h"
 #include "memory_utils.h"
 #include "message_data_static.h"
+#include "unk.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
 #include "printf.h"
-#include "segment_symbols.h"
 #include "sequence.h"
 #include "regs.h"
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "ocarina.h"
 #include "play_state.h"
 #include "player.h"
@@ -1721,6 +1724,7 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
     static s16 sIconItem24XOffsets[] = LANGUAGE_ARRAY(50, 72, 72, 72);
     MessageContext* msgCtx = &play->msgCtx;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
+    struct dma_request req;
 
     if (itemId == ITEM_DUNGEON_MAP) {
         interfaceCtx->mapPalette[30] = -1;
@@ -1730,15 +1734,19 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem32XOffsets[gSaveContext.language];
         R_TEXTBOX_ICON_YPOS = y + ((44 - ITEM_ICON_HEIGHT) / 2);
         R_TEXTBOX_ICON_DIMENSION = ITEM_ICON_WIDTH; // assumes the image is square
-        DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, GET_ITEM_ICON_VROM(itemId), ITEM_ICON_SIZE,
-                         "../z_message_PAL.c", 1473);
+        elf_section_dma_queue_read_fragment(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
+                                            "assets.textures.icon_item_static", GET_ITEM_ICON_VROM_OFFSET(itemId),
+                                            ITEM_ICON_SIZE, &req);
+        dma_queue_wait(&req);
         PRINTF(T("アイテム32-0\n", "Item 32-0\n"));
     } else {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem24XOffsets[gSaveContext.language];
         R_TEXTBOX_ICON_YPOS = y + ((44 - QUEST_ICON_HEIGHT) / 2);
         R_TEXTBOX_ICON_DIMENSION = QUEST_ICON_WIDTH; // assumes the image is square
-        DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, GET_QUEST_ICON_VROM(itemId), QUEST_ICON_SIZE,
-                         "../z_message_PAL.c", 1482);
+        elf_section_dma_queue_read_fragment(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
+                                            "assets.textures.icon_item_24_static", GET_QUEST_ICON_VROM_OFFSET(itemId),
+                                            QUEST_ICON_SIZE, &req);
+        dma_queue_wait(&req);
         PRINTF(T("アイテム24＝%d (%d) {%d}\n", "Item 24=%d (%d) {%d}\n"), itemId, itemId - ITEM_KOKIRI_EMERALD, 84);
     }
     msgCtx->msgBufPos++;
@@ -2485,14 +2493,18 @@ void Message_Decode(PlayState* play) {
 #endif
                 msgCtx->textboxBackgroundYOffsetIdx = (MSG_BUF[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
                 msgCtx->textboxBackgroundUnkArg = MSG_BUF[msgCtx->msgBufPos + 3] & 0xF;
-                DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                                 (uintptr_t)_message_texture_staticSegmentRomStart +
-                                     msgCtx->textboxBackgroundIdx * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
-                                 MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", 1830);
-                DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + MESSAGE_TEXTURE_STATIC_TEX_SIZE,
-                                 (uintptr_t)_message_texture_staticSegmentRomStart +
-                                     (msgCtx->textboxBackgroundIdx + 1) * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
-                                 MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", 1834);
+                struct dma_request req;
+                elf_section_dma_queue_read_fragment(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
+                                                    "assets.textures.message_texture_static",
+                                                    msgCtx->textboxBackgroundIdx * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                                                    MESSAGE_TEXTURE_STATIC_TEX_SIZE, &req);
+                dma_queue_wait(&req);
+                elf_section_dma_queue_read_fragment(
+                    msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                    "assets.textures.message_texture_static",
+                    (msgCtx->textboxBackgroundIdx + 1) * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                    MESSAGE_TEXTURE_STATIC_TEX_SIZE, &req);
+                dma_queue_wait(&req);
                 msgCtx->msgBufPos += 3;
                 R_TEXTBOX_BG_YPOS = R_TEXTBOX_Y + 8;
                 numLines = 2;
@@ -2619,19 +2631,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
     }
 
     if (sTextIsCredits) {
+        struct dma_request req;
         Message_FindCreditsMessage(play, textId);
         msgCtx->msgLength = font->msgLength;
-#if PLATFORM_N64
-        if ((B_80121220 != NULL) && (B_80121220->unk_60 != NULL) && B_80121220->unk_60(&play->msgCtx.font)) {
-
-        } else {
-            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
-                             font->msgLength, "../z_message_PAL.c", UNK_LINE);
-        }
-#else
-        DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
-                         font->msgLength, "../z_message_PAL.c", 1954);
-#endif
+        elf_section_dma_queue_read_fragment(MSG_BUF, "assets_text.staff", font->msgOffset, font->msgLength, &req);
+        dma_queue_wait(&req);
     } else {
 #if OOT_NTSC
         if (gSaveContext.language == LANGUAGE_JPN) {
@@ -2665,49 +2669,23 @@ void Message_OpenText(PlayState* play, u16 textId) {
         }
 #else
         if (gSaveContext.language == LANGUAGE_ENG) {
+            struct dma_request req;
             Message_FindMessagePAL(play, textId);
             msgCtx->msgLength = font->msgLength;
-#if PLATFORM_N64
-            if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_64(&play->msgCtx.font)) {
-
-            } else {
-                DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
-                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
-            }
-#else
-            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
-                             font->msgLength, "../z_message_PAL.c", 1966);
-#endif
+            elf_section_dma_queue_read_fragment(MSG_BUF, "assets_text.nes", font->msgOffset, font->msgLength, &req);
+            dma_queue_wait(&req);
         } else if (gSaveContext.language == LANGUAGE_GER) {
+            struct dma_request req;
             Message_FindMessagePAL(play, textId);
             msgCtx->msgLength = font->msgLength;
-#if PLATFORM_N64
-            //! @bug checks unk_64 != NULL instead of unk_68 != NULL
-            if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_68(&play->msgCtx.font)) {
-
-            } else {
-                DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
-                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
-            }
-#else
-            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
-                             font->msgLength, "../z_message_PAL.c", 1978);
-#endif
+            elf_section_dma_queue_read_fragment(MSG_BUF, "assets_text.ger", font->msgOffset, font->msgLength, &req);
+            dma_queue_wait(&req);
         } else {
+            struct dma_request req;
             Message_FindMessagePAL(play, textId);
             msgCtx->msgLength = font->msgLength;
-#if PLATFORM_N64
-            //! @bug checks unk_64 != NULL instead of unk_6C_PAL != NULL
-            if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_6C_PAL(&play->msgCtx.font)) {
-
-            } else {
-                DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
-                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
-            }
-#else
-            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
-                             font->msgLength, "../z_message_PAL.c", 1990);
-#endif
+            elf_section_dma_queue_read_fragment(MSG_BUF, "assets_text.fra", font->msgOffset, font->msgLength, &req);
+            dma_queue_wait(&req);
         }
 #endif
     }
@@ -2717,10 +2695,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
     textBoxType = msgCtx->textBoxType;
     PRINTF(T("吹き出し種類＝%d\n", "Text Box Type = %d\n"), msgCtx->textBoxType);
     if (textBoxType < TEXTBOX_TYPE_NONE_BOTTOM) {
-        DMA_REQUEST_SYNC(msgCtx->textboxSegment,
-                         (uintptr_t)_message_staticSegmentRomStart +
-                             (messageStaticIndices[textBoxType] * MESSAGE_STATIC_TEX_SIZE),
-                         MESSAGE_STATIC_TEX_SIZE, "../z_message_PAL.c", 2006);
+        struct dma_request req;
+        elf_section_dma_queue_read_fragment(msgCtx->textboxSegment, "assets.textures.message_static",
+                                            messageStaticIndices[textBoxType] * MESSAGE_STATIC_TEX_SIZE,
+                                            MESSAGE_STATIC_TEX_SIZE, &req);
+        dma_queue_wait(&req);
         if (textBoxType == TEXTBOX_TYPE_BLACK) {
             msgCtx->textboxColorRed = 0;
             msgCtx->textboxColorGreen = 0;

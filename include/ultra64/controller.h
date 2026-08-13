@@ -1,7 +1,7 @@
 #ifndef ULTRA64_CONTROLLER_H
 #define ULTRA64_CONTROLLER_H
 
-#include "message.h"
+#include "ultratypes.h"
 
 #define CHNL_ERR(readFormat) (((readFormat).rxsize & CHNL_ERR_MASK) >> 4)
 

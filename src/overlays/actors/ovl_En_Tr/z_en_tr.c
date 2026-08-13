@@ -6,6 +6,7 @@
 
 #include "z_en_tr.h"
 
+#include "assert_uppercase.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"

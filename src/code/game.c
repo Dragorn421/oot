@@ -1,16 +1,17 @@
 #include "libc64/malloc.h"
 #include "libc64/os_malloc.h"
+#include "libdragon/include/n64sys.h"
 #include "libu64/debug.h"
 #include "libu64/gfxprint.h"
 #include "array_count.h"
 #include "audiomgr.h"
 #include "buffers.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "debug_arena.h"
 #include "gfx.h"
 #include "gfxalloc.h"
-#include "fault.h"
 #include "idle.h"
+#include "libultra_ucode.h"
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
@@ -24,10 +25,8 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "vi_mode.h"
 #include "zelda_arena.h"
-#include "debug.h"
-#include "dma.h"
+#include "game_debug.h"
 #include "game.h"
 #include "play_state.h"
 #include "vis.h"
@@ -38,24 +37,9 @@ SpeedMeter D_801664D0;
 VisCvg sGameStateVisCvg;
 VisZBuffer sGameStateVisZBuffer;
 VisMono sGameStateVisMono;
-ViMode sViMode;
 
 #if DEBUG_FEATURES
-FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
-
-void GameState_FaultPrint(void) {
-    static char sBtnChars[] = "ABZSuldr*+LRudlr";
-    s32 i;
-
-    PRINTF("last_button=%04x\n", sLastButtonPressed);
-    Fault_DrawText(120, 180, "%08x", sLastButtonPressed);
-    for (i = 0; i < ARRAY_COUNT(sBtnChars); i++) {
-        if (sLastButtonPressed & (1 << i)) {
-            Fault_DrawText((i * 8) + 120, 190, "%c", sBtnChars[i]);
-        }
-    }
-}
 #endif
 
 void GameState_SetFBFilter(Gfx** gfx) {
@@ -128,8 +112,6 @@ void func_800C4344(GameState* gameState) {
         Regs_UpdateEditor(&gameState->input[1]);
     }
 
-    gDmaMgrVerbose = HREG(60);
-    gDmaMgrDmaBuffSize = SREG(21) != 0 ? ALIGN16(SREG(21)) : DMAMGR_DEFAULT_BUFSIZE;
     gSystemArenaLogSeverity = HREG(61);
     gZeldaArenaLogSeverity = HREG(62);
 
@@ -250,13 +232,13 @@ void GameState_SetFrameBuffer(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../game.c", 814);
 
     gSPSegment(POLY_OPA_DISP++, 0, 0);
-    gSPSegment(POLY_OPA_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(POLY_OPA_DISP++, 0xF, gfxCtx->curSurf->buffer);
     gSPSegment(POLY_OPA_DISP++, 0xE, gZBuffer);
     gSPSegment(POLY_XLU_DISP++, 0, 0);
-    gSPSegment(POLY_XLU_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(POLY_XLU_DISP++, 0xF, gfxCtx->curSurf->buffer);
     gSPSegment(POLY_XLU_DISP++, 0xE, gZBuffer);
     gSPSegment(OVERLAY_DISP++, 0, 0);
-    gSPSegment(OVERLAY_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(OVERLAY_DISP++, 0xF, gfxCtx->curSurf->buffer);
     gSPSegment(OVERLAY_DISP++, 0xE, gZBuffer);
 
     CLOSE_DISPS(gfxCtx, "../game.c", 838);
@@ -293,6 +275,8 @@ void GameState_ReqPadData(GameState* gameState) {
 void GameState_Update(GameState* gameState) {
     GraphicsContext* gfxCtx = gameState->gfxCtx;
 
+    Rumble_Update(&gPadMgr);
+
     GameState_SetFrameBuffer(gfxCtx);
 
     gameState->main(gameState);
@@ -316,82 +300,6 @@ void GameState_Update(GameState* gameState) {
     }
 #endif
 
-#if OOT_VERSION >= PAL_1_0 && DEBUG_FEATURES
-    if (SREG(63) == 1u) {
-        if (R_VI_MODE_EDIT_STATE < VI_MODE_EDIT_STATE_INACTIVE) {
-            R_VI_MODE_EDIT_STATE = VI_MODE_EDIT_STATE_INACTIVE;
-            gfxCtx->viMode = &gViConfigMode;
-            gfxCtx->viFeatures = gViConfigFeatures;
-            gfxCtx->xScale = gViConfigXScale;
-            gfxCtx->yScale = gViConfigYScale;
-        } else if (R_VI_MODE_EDIT_STATE > VI_MODE_EDIT_STATE_INACTIVE) {
-            ViMode_Update(&sViMode, &gameState->input[0]);
-            gfxCtx->viMode = &sViMode.customViMode;
-            gfxCtx->viFeatures = sViMode.viFeatures;
-            gfxCtx->xScale = 1.0f;
-            gfxCtx->yScale = 1.0f;
-        }
-    } else if (SREG(63) >= 2) {
-        gfxCtx->viMode = &gViConfigMode;
-        gfxCtx->viFeatures = gViConfigFeatures;
-        gfxCtx->xScale = gViConfigXScale;
-        gfxCtx->yScale = gViConfigYScale;
-
-        if (SREG(63) == 6 || (SREG(63) == 2u && (u32)osTvType == OS_TV_NTSC)) {
-            gfxCtx->viMode = &osViModeNtscLan1;
-            gfxCtx->yScale = 1.0f;
-        }
-
-        if (SREG(63) == 5 || (SREG(63) == 2u && (u32)osTvType == OS_TV_MPAL)) {
-            gfxCtx->viMode = &osViModeMpalLan1;
-            gfxCtx->yScale = 1.0f;
-        }
-
-        if (SREG(63) == 4 || (SREG(63) == 2u && (u32)osTvType == OS_TV_PAL)) {
-            gfxCtx->viMode = &osViModePalLan1;
-            gfxCtx->yScale = 1.0f;
-        }
-
-        if (SREG(63) == 3 || (SREG(63) == 2u && (u32)osTvType == OS_TV_PAL)) {
-            gfxCtx->viMode = &osViModeFpalLan1;
-            gfxCtx->yScale = 0.833f;
-        }
-    } else {
-        gfxCtx->viMode = NULL;
-    }
-
-    if (R_HREG_MODE == HREG_MODE_VI) {
-        if (R_VI_INIT != HREG_MODE_VI) {
-            R_VI_INIT = HREG_MODE_VI;
-            R_VI_NEXT_Y_SCALE_MODE = 0;
-            R_VI_NEXT_ADDI_SCAN_LINES = gViConfigAdditionalScanLines;
-            R_VI_CUR_ADDI_SCAN_LINES = 0;
-            R_VI_CUR_Y_SCALE_MODE = 0;
-        }
-
-        if (R_VI_NEXT_ADDI_SCAN_LINES < 0) {
-            R_VI_NEXT_ADDI_SCAN_LINES = 0;
-        }
-
-        if (R_VI_NEXT_ADDI_SCAN_LINES > 0x30) {
-            R_VI_NEXT_ADDI_SCAN_LINES = 0x30;
-        }
-
-        if ((R_VI_CUR_ADDI_SCAN_LINES != R_VI_NEXT_ADDI_SCAN_LINES) ||
-            R_VI_CUR_Y_SCALE_MODE != R_VI_NEXT_Y_SCALE_MODE) {
-
-            R_VI_CUR_ADDI_SCAN_LINES = R_VI_NEXT_ADDI_SCAN_LINES;
-            R_VI_CUR_Y_SCALE_MODE = R_VI_NEXT_Y_SCALE_MODE;
-
-            gViConfigAdditionalScanLines = R_VI_NEXT_ADDI_SCAN_LINES;
-            gViConfigYScale = R_VI_NEXT_Y_SCALE_MODE == 0
-                                  ? ((f32)SCREEN_HEIGHT) / (gViConfigAdditionalScanLines + (f32)SCREEN_HEIGHT)
-                                  : 1.0f;
-            D_80009430 = 1;
-        }
-    }
-#endif
-
     if (R_PAUSE_BG_PRERENDER_STATE != (u32)PAUSE_BG_PRERENDER_PROCESS) {
         GameState_Draw(gameState, gfxCtx);
         func_800C49F4(gfxCtx);
@@ -412,7 +320,7 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     } else {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル確保失敗\n", "Failure to secure Hyrule\n"));
-        HUNGUP_AND_CRASH("../game.c", LN4(895, 898, 985, 999, 999));
+        assert(false);
     }
 }
 
@@ -453,13 +361,13 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         SystemArena_Display();
 #endif
 
-        HUNGUP_AND_CRASH("../game.c", LN4(940, 943, 1030, 1044, 1044));
+        assert(false);
     }
 }
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
-    UNUSED_NDEBUG OSTime startTime;
-    UNUSED_NDEBUG OSTime endTime;
+    u64 startTime;
+    u64 endTime;
 
     PRINTF(T("game コンストラクタ開始\n", "game constructor start\n"));
     gameState->gfxCtx = gfxCtx;
@@ -467,7 +375,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     gameState->main = NULL;
     gameState->destroy = NULL;
     gameState->running = 1;
-    startTime = osGetTime();
+    startTime = get_ticks();
 
     // These assignments must be written this way for matching and to avoid a warning due to casting a pointer to an
     // integer without a cast. This assigns init = NULL and size = 0.
@@ -475,42 +383,34 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 
     {
         s32 requiredScopeTemp;
-        endTime = osGetTime();
+        endTime = get_ticks();
         PRINTF(T("game_set_next_game_null 処理時間 %d us\n", "game_set_next_game_null processing time %d us\n"),
-               OS_CYCLES_TO_USEC(endTime - startTime));
+               TICKS_TO_US(endTime - startTime));
         startTime = endTime;
         GameAlloc_Init(&gameState->alloc);
     }
 
-    endTime = osGetTime();
+    endTime = get_ticks();
     PRINTF(T("gamealloc_init 処理時間 %d us\n", "gamealloc_init processing time %d us\n"),
-           OS_CYCLES_TO_USEC(endTime - startTime));
+           TICKS_TO_US(endTime - startTime));
     startTime = endTime;
     GameState_InitArena(gameState, 0x100000);
 
     R_UPDATE_RATE = 3;
     init(gameState);
-    endTime = osGetTime();
-    PRINTF(T("init 処理時間 %d us\n", "init processing time %d us\n"), OS_CYCLES_TO_USEC(endTime - startTime));
+    endTime = get_ticks();
+    PRINTF(T("init 処理時間 %d us\n", "init processing time %d us\n"), TICKS_TO_US(endTime - startTime));
 
     startTime = endTime;
     LOG_UTILS_CHECK_NULL_POINTER("this->cleanup", gameState->destroy, "../game.c", 1088);
     VisCvg_Init(&sGameStateVisCvg);
     VisZBuffer_Init(&sGameStateVisZBuffer);
     VisMono_Init(&sGameStateVisMono);
-    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !DEBUG_FEATURES) {
-        ViMode_Init(&sViMode);
-    }
     SpeedMeter_Init(&D_801664D0);
     Rumble_Init();
-    osSendMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
-    endTime = osGetTime();
+    endTime = get_ticks();
     PRINTF(T("その他初期化 処理時間 %d us\n", "Other initialization processing time %d us\n"),
-           OS_CYCLES_TO_USEC(endTime - startTime));
-
-#if DEBUG_FEATURES
-    Fault_AddClient(&sGameFaultClient, GameState_FaultPrint, NULL, NULL);
-#endif
+           TICKS_TO_US(endTime - startTime));
 
     PRINTF(T("game コンストラクタ終了\n", "game constructor end\n"));
 }
@@ -519,7 +419,7 @@ void GameState_Destroy(GameState* gameState) {
     PRINTF(T("game デストラクタ開始\n", "game destructor start\n"));
     AudioMgr_StopAllSfx();
     Audio_Update();
-    osRecvMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
+    libultra_ucode_wait(&gameState->gfxCtx->task_handle);
     LOG_UTILS_CHECK_NULL_POINTER("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {
         gameState->destroy(gameState);
@@ -529,18 +429,11 @@ void GameState_Destroy(GameState* gameState) {
     VisCvg_Destroy(&sGameStateVisCvg);
     VisZBuffer_Destroy(&sGameStateVisZBuffer);
     VisMono_Destroy(&sGameStateVisMono);
-    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !DEBUG_FEATURES) {
-        ViMode_Destroy(&sViMode);
-    }
     THA_Destroy(&gameState->tha);
     GameAlloc_Cleanup(&gameState->alloc);
 
 #if PLATFORM_GC && DEBUG_FEATURES
     SystemArena_Display();
-#endif
-
-#if DEBUG_FEATURES
-    Fault_RemoveClient(&sGameFaultClient);
 #endif
 
     PRINTF(T("game デストラクタ終了\n", "game destructor end\n"));

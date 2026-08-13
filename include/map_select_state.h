@@ -32,7 +32,6 @@ typedef struct MapSelectState {
     /* 0x022C */ s32 lockUp;
     /* 0x0230 */ s32 lockDown;
     /* 0x0234 */ s32 unk_234; // unused
-    /* 0x0238 */ u8* staticSegment;
 } MapSelectState; // size = 0x240
 
 void MapSelect_Init(GameState* thisx);

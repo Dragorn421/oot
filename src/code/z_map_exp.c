@@ -1,13 +1,15 @@
+#include "assert_uppercase.h"
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "map.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
 #include "printf.h"
 #include "regs.h"
-#include "segment_symbols.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
@@ -104,6 +106,7 @@ void Map_InitData(PlayState* play, s16 room) {
     s32 mapIndex = gSaveContext.mapIndex;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 extendedMapIndex;
+    struct dma_request req;
 
     switch (play->sceneId) {
         case SCENE_HYRULE_FIELD:
@@ -148,10 +151,10 @@ void Map_InitData(PlayState* play, s16 room) {
             PRINTF("ＫＫＫ＝%d\n", extendedMapIndex);
             PRINTF_RST();
             sEntranceIconMapIndex = extendedMapIndex;
-            DMA_REQUEST_SYNC(interfaceCtx->mapSegment,
-                             (uintptr_t)_map_grand_staticSegmentRomStart +
-                                 gMapData->owMinimapTexOffset[extendedMapIndex],
-                             gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
+            elf_section_dma_queue_read_fragment(interfaceCtx->mapSegment, "assets.textures.map_grand_static",
+                                                gMapData->owMinimapTexOffset[extendedMapIndex],
+                                                gMapData->owMinimapTexSize[mapIndex], &req);
+            dma_queue_wait(&req);
             interfaceCtx->unk_258 = mapIndex;
             break;
         case SCENE_DEKU_TREE:
@@ -178,20 +181,10 @@ void Map_InitData(PlayState* play, s16 room) {
                    room, mapIndex, VREG(30));
             PRINTF_RST();
 
-#if PLATFORM_N64
-            if ((B_80121220 != NULL) && (B_80121220->unk_28 != NULL) && B_80121220->unk_28(play)) {
-            } else {
-                DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
-                                 (uintptr_t)_map_i_staticSegmentRomStart +
-                                     ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
-                                 MAP_I_TEX_SIZE, "../z_map_exp.c", UNK_LINE);
-            }
-#else
-            DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
-                             (uintptr_t)_map_i_staticSegmentRomStart +
-                                 ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
-                             MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
-#endif
+            elf_section_dma_queue_read_fragment(play->interfaceCtx.mapSegment, "assets.textures.map_i_static",
+                                                (gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE,
+                                                MAP_I_TEX_SIZE, &req);
+            dma_queue_wait(&req);
 
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];

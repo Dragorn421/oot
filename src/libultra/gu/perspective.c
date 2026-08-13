@@ -1,5 +1,9 @@
 #include "ultra64.h"
 
+#ifndef GU_PI
+#define GU_PI 3.1415926
+#endif
+
 void guPerspectiveF(f32 mf[4][4], u16* perspNorm, f32 fovy, f32 aspect, f32 near, f32 far, f32 scale) {
     f32 yscale;
     s32 row;

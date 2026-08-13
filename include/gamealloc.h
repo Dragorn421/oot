@@ -1,7 +1,7 @@
 #ifndef GAMEALLOC_H
 #define GAMEALLOC_H
 
-#include "ultra64/ultratypes.h"
+#include "ultra64.h"
 
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;

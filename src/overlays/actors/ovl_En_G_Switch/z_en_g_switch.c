@@ -22,7 +22,7 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "debug_display.h"
 #include "effect.h"
 #include "play_state.h"
@@ -220,7 +220,7 @@ void EnGSwitch_Break(EnGSwitch* this, PlayState* play) {
 
 void EnGSwitch_WaitForObject(EnGSwitch* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+        gSegments[6] = PhysicalAddr(play->objectCtx.slots[this->requiredObjectSlot].segment);
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = EnGSwitch_DrawPot;
         this->actionFunc = EnGSwitch_ArcheryPot;

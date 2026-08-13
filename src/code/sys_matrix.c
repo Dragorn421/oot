@@ -1,7 +1,7 @@
+#include "assert_uppercase.h"
 #include "libc64/math64.h"
 #include "gfx.h"
 #if DEBUG_FEATURES
-#include "fault.h"
 #endif
 #include "printf.h"
 #include "sys_matrix.h"
@@ -993,7 +993,7 @@ MtxF* Matrix_CheckFloats(MtxF* mf, const char* file, int line) {
                        "\\ %12.6f %12.6f %12.6f %12.6f /\n",
                        file, line, "mf", mf->xx, mf->xy, mf->xz, mf->xw, mf->yx, mf->yy, mf->yz, mf->yw, mf->zx, mf->zy,
                        mf->zz, mf->zw, mf->wx, mf->wy, mf->wz, mf->ww);
-                Fault_AddHungupAndCrash(file, line);
+                assert(false);
             }
         }
     }

@@ -10,65 +10,66 @@
 #include "terminal.h"
 #include "zelda_arena.h"
 #include "game.h"
+#include "versions.h"
 #include "view.h"
 
 /**
  * How much time the audio update on the audio thread (`AudioThread_Update`) took in total, between scheduling the last
  * two graphics tasks.
  */
-volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
+volatile u64 gAudioThreadUpdateTimeTotalPerGfxTask;
 
 /**
  * How much time elapsed between scheduling the previous graphics task and the current one being ready (the previous
  * task not necessarily being finished yet), without the amount of time spent on the audio update in the audio thread.
  */
-volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
+volatile u64 gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
 
 /**
  * How much time the RSP ran audio tasks for over the course of `gGraphUpdatePeriod`.
  */
-volatile OSTime gRSPAudioTimeTotal;
+volatile u64 gRSPAudioTimeTotal;
 
 /**
  * How much time the RSP ran graphics tasks for over the course of `gGraphUpdatePeriod`.
  * Typically the RSP runs 1 graphics task per `Graph_Update` cycle, but may run 0 (see `Graph_Update`).
  */
-volatile OSTime gRSPGfxTimeTotal;
+volatile u64 gRSPGfxTimeTotal;
 
 /**
  * How much time the RDP ran for over the course of `gGraphUpdatePeriod`.
  */
-volatile OSTime gRDPTimeTotal;
+volatile u64 gRDPTimeTotal;
 
 /**
  * How much time elapsed between the last two `Graph_Update` ending.
  * This is expected to be at least the duration of a single frame, since it includes the time spent waiting on the
  * graphics task to be done.
  */
-volatile OSTime gGraphUpdatePeriod;
+volatile u64 gGraphUpdatePeriod;
 
 /**
  * The time at which the audio thread audio update started.
  */
-volatile OSTime gAudioThreadUpdateTimeStart;
+volatile u64 gAudioThreadUpdateTimeStart;
 
 // Accumulator for `gAudioThreadUpdateTimeStart`
-volatile OSTime gAudioThreadUpdateTimeAcc;
+volatile u64 gAudioThreadUpdateTimeAcc;
 
 // Accumulator for `gRSPAudioTimeTotal`
-volatile OSTime gRSPAudioTimeAcc;
+volatile u64 gRSPAudioTimeAcc;
 
 // Accumulator for `gRSPGfxTimeTotal`.
-volatile OSTime gRSPGfxTimeAcc;
+volatile u64 gRSPGfxTimeAcc;
 
-volatile OSTime gRSPOtherTimeAcc;
-volatile OSTime D_8016A578;
+volatile u64 gRSPOtherTimeAcc;
+volatile u64 D_8016A578;
 
 // Accumulator for `gRDPTimeTotal`
-volatile OSTime gRDPTimeAcc;
+volatile u64 gRDPTimeAcc;
 
 typedef struct SpeedMeterTimeEntry {
-    /* 0x00 */ volatile OSTime* time;
+    /* 0x00 */ volatile u64* time;
     /* 0x04 */ u8 x;
     /* 0x05 */ u8 y;
     /* 0x06 */ u16 color;
@@ -125,20 +126,22 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     View view;
     u32 pad2[3];
     Gfx* gfx;
+    float retrace_time;
 
     uly = this->y;
     lry = this->y + 2;
 
     OPEN_DISPS(gfxCtx, "../speed_meter.c", 225);
 
-    /*! @bug if gIrqMgrRetraceTime is 0, CLOSE_DISPS will never be reached */
-    if (gIrqMgrRetraceTime == 0) {
-        return;
-    }
+#if OOT_PAL
+    retrace_time = 1.0f / 50.0f;
+#else
+    retrace_time = 1.0f / 60.0f;
+#endif
 
     sSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
     for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-        width = ((f64)*sSpeedMeterTimeEntryPtr->time / gIrqMgrRetraceTime) * 64.0;
+        width = ((f64)*sSpeedMeterTimeEntryPtr->time / retrace_time) * 64.0;
         sSpeedMeterTimeEntryPtr->x = baseX + width;
         sSpeedMeterTimeEntryPtr++;
     }

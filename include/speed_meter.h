@@ -12,19 +12,19 @@ typedef struct SpeedMeter {
     /* 0x1C */ s32 y;
 } SpeedMeter; // size = 0x20
 
-extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
-extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
-extern volatile OSTime gRSPAudioTimeTotal;
-extern volatile OSTime gRSPGfxTimeTotal;
-extern volatile OSTime gRDPTimeTotal;
-extern volatile OSTime gGraphUpdatePeriod;
-extern volatile OSTime gAudioThreadUpdateTimeStart;
-extern volatile OSTime gAudioThreadUpdateTimeAcc;
-extern volatile OSTime gRSPAudioTimeAcc;
-extern volatile OSTime gRSPGfxTimeAcc;
-extern volatile OSTime gRSPOtherTimeAcc;
-extern volatile OSTime D_8016A578;
-extern volatile OSTime gRDPTimeAcc;
+extern volatile u64 gAudioThreadUpdateTimeTotalPerGfxTask;
+extern volatile u64 gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
+extern volatile u64 gRSPAudioTimeTotal;
+extern volatile u64 gRSPGfxTimeTotal;
+extern volatile u64 gRDPTimeTotal;
+extern volatile u64 gGraphUpdatePeriod;
+extern volatile u64 gAudioThreadUpdateTimeStart;
+extern volatile u64 gAudioThreadUpdateTimeAcc;
+extern volatile u64 gRSPAudioTimeAcc;
+extern volatile u64 gRSPGfxTimeAcc;
+extern volatile u64 gRSPOtherTimeAcc;
+extern volatile u64 D_8016A578;
+extern volatile u64 gRDPTimeAcc;
 
 void SpeedMeter_Init(SpeedMeter* this);
 void SpeedMeter_Destroy(SpeedMeter* this);

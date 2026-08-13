@@ -21,6 +21,7 @@
 #include "assets/objects/object_mjin_flame/object_mjin_flame.h"
 #include "assets/objects/object_mjin_flash/object_mjin_flash.h"
 #include "assets/objects/object_mjin_oka/object_mjin_oka.h"
+#include "unk.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -117,7 +118,7 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
         s32 objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[thisx->params - 1]);
 
         if (objectSlot >= 0) {
-            gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+            gSegments[6] = PhysicalAddr(play->objectCtx.slots[objectSlot].segment);
         }
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));

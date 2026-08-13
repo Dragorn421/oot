@@ -1,6 +1,10 @@
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "libc64/math64.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "n64sys.h"
+#include "object.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
@@ -1546,7 +1550,7 @@ void Player_DrawGetItemImpl(PlayState* play, Player* this, Vec3f* refPos, s32 dr
 
     OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2401);
 
-    gSegments[6] = OS_K0_TO_PHYSICAL(this->giObjectSegment);
+    gSegments[6] = PhysicalAddr(this->giObjectSegment);
 
     gSPSegment(POLY_OPA_DISP++, 0x06, this->giObjectSegment);
     gSPSegment(POLY_XLU_DISP++, 0x06, this->giObjectSegment);
@@ -1562,7 +1566,7 @@ void Player_DrawGetItemImpl(PlayState* play, Player* this, Vec3f* refPos, s32 dr
 }
 
 void Player_DrawGetItem(PlayState* play, Player* this) {
-    if (!this->giObjectLoading || osRecvMesg(&this->giObjectLoadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
+    if (!this->giObjectLoading || dma_queue_finished(&this->giObjectDmaRequest)) {
         this->giObjectLoading = false;
         Player_DrawGetItemImpl(play, this, &sGetItemRefPos, ABS(this->unk_862));
     }
@@ -1889,23 +1893,28 @@ u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime)
     s16 linkObjectId = gLinkObjectIds[(void)0, gSaveContext.save.linkAge];
     u32 size;
     void* ptr;
+    struct dma_request req;
+    char object_section_name[100];
 
     // Note that since gameplay_keep is typically a compressed segment and due to constraints in the DMA manager,
     // the entire segment is loaded even when only the first bytes up to PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE
     // are kept for later use.
-    size = gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart;
+    make_object_section_name(object_section_name, sizeof(object_section_name), OBJECT_GAMEPLAY_KEEP);
     ptr = PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment);
-    DMA_REQUEST_SYNC(ptr, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, size, "../z_player_lib.c", 2982);
+    elf_section_dma_queue_read(ptr, object_section_name, &req);
+    dma_queue_wait(&req);
 
-    size = gObjectTable[linkObjectId].vromEnd - gObjectTable[linkObjectId].vromStart;
+    make_object_section_name(object_section_name, sizeof(object_section_name), linkObjectId);
+    size = elf_section_get_size(object_section_name);
     ptr = PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment);
-    DMA_REQUEST_SYNC(ptr, gObjectTable[linkObjectId].vromStart, size, "../z_player_lib.c", 2988);
+    elf_section_dma_queue_read(ptr, object_section_name, &req);
+    dma_queue_wait(&req);
 
     // Joint tables are placed after the link object
     ptr = (void*)ALIGN16((uintptr_t)ptr + size);
 
-    gSegments[4] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment));
-    gSegments[6] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment));
+    gSegments[4] = PhysicalAddr(PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment));
+    gSegments[6] = PhysicalAddr(PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment));
 
     SkelAnime_InitLink(play, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.save.linkAge],
                        &gPlayerAnim_link_normal_wait, 9, ptr, ptr, PLAYER_LIMB_MAX);
@@ -2080,8 +2089,8 @@ void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f*
     Vec3s* srcTable;
     s32 i;
 
-    gSegments[4] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment));
-    gSegments[6] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment));
+    gSegments[4] = PhysicalAddr(PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment));
+    gSegments[6] = PhysicalAddr(PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment));
 
     if (!LINK_IS_ADULT) {
         if (shield == PLAYER_SHIELD_DEKU) {
@@ -2108,6 +2117,6 @@ void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f*
     Player_DrawPauseImpl(play, PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment),
                          PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment), skelAnime, pos, rot, scale, sword, tunic, shield,
                          boots, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT, &eye, &at, 60.0f,
-                         play->state.gfxCtx->curFrameBuffer,
-                         play->state.gfxCtx->curFrameBuffer + (PAUSE_EQUIP_PLAYER_WIDTH * PAUSE_EQUIP_PLAYER_HEIGHT));
+                         play->state.gfxCtx->curSurf->buffer,
+                         play->state.gfxCtx->curSurf->buffer + (PAUSE_EQUIP_PLAYER_WIDTH * PAUSE_EQUIP_PLAYER_HEIGHT));
 }

@@ -8,7 +8,7 @@
 
 #include "libc64/qrand.h"
 #include "libu64/pad.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
@@ -17,7 +17,7 @@
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "effect.h"
 #include "play_state.h"
 #include "player.h"

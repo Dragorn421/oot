@@ -2,8 +2,8 @@
 #ifndef ULTRA64_GBI_H
 #define ULTRA64_GBI_H
 
-#include "mbi.h"
 #include "ultratypes.h"
+#include "mbi.h"
 
 #ifdef GBI_DOWHILE
 /* Private macro to wrap other macros in do {...} while (0) */
@@ -2824,11 +2824,11 @@ _DW({                                                       \
         gsSPLoadUcodeEx((uc_start), (uc_dstart), SP_UCODE_DATA_SIZE)
 
 #define gSPLoadUcodeL(pkt, ucode)                                   \
-        gSPLoadUcode((pkt), OS_K0_TO_PHYSICAL(& ucode##TextStart),  \
-                            OS_K0_TO_PHYSICAL(& ucode##DataStart))
+        gSPLoadUcode((pkt), PhysicalAddr(& ucode##TextStart),  \
+                            PhysicalAddr(& ucode##DataStart))
 #define gsSPLoadUcodeL(ucode)                                       \
-        gsSPLoadUcode(      OS_K0_TO_PHYSICAL(& ucode##TextStart),  \
-                            OS_K0_TO_PHYSICAL(& ucode##DataStart))
+        gsSPLoadUcode(      PhysicalAddr(& ucode##TextStart),  \
+                            PhysicalAddr(& ucode##DataStart))
 #endif
 
 #ifdef  F3DEX_GBI_2

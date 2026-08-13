@@ -6,6 +6,7 @@
 #include "bgcheck.h"
 #include "environment.h"
 #include "light.h"
+#include "romfile.h"
 #include "z_math.h"
 #include "path.h"
 
@@ -16,8 +17,8 @@ struct PlayState;
 struct RoomShapeBase;
 
 typedef struct SceneTableEntry {
-    /* 0x00 */ RomFile sceneFile;
-    /* 0x08 */ RomFile titleFile;
+    /* 0x00 */ const char* scene_name;
+    /* 0x08 */ const char* title_name;
     /* 0x10 */ u8  unk_10;
     /* 0x11 */ u8  drawConfig;
     /* 0x12 */ u8  unk_12;
@@ -87,7 +88,7 @@ typedef struct SCmdColHeader {
 typedef struct SCmdRoomList {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  length;
-    /* 0x04 */ RomFile* data;
+    /* 0x04 */ const char** data;
 } SCmdRoomList;
 
 typedef struct SCmdWindSettings {

@@ -1,6 +1,7 @@
 #include "z_demo_tre_lgt.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 
+#include "assert_uppercase.h"
 #include "animation_curve.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

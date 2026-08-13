@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 
-void Sleep_Cycles(OSTime cycles);
+void Sleep_Cycles(u32 cycles);
 void Sleep_Nsec(u32 nsec);
 void Sleep_Usec(u32 usec);
 void Sleep_Msec(u32 ms);

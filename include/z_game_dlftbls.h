@@ -2,13 +2,10 @@
 #define Z_GAME_DLFTBLS_H
 
 #include "ultra64.h"
-#include "romfile.h"
 
 typedef struct GameStateOverlay {
     /* 0x00 */ void*     loadedRamAddr;
-    /* 0x04 */ RomFile   file;      // if applicable
-    /* 0x0C */ void*     vramStart; // if applicable
-    /* 0x10 */ void*     vramEnd;   // if applicable
+    /* 0x04 */ const char* file;      // if applicable
     /* 0x14 */ void*     unk_14;
     /* 0x18 */ void*     init;    // initializes and executes the given context
     /* 0x1C */ void*     destroy; // deconstructs the context, and sets the next context to load

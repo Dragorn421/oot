@@ -1,22 +1,19 @@
 #include "libc64/malloc.h"
-#include "libc64/sprintf.h"
+#include "libdragon/include/n64sys.h"
 #include "libu64/debug.h"
 #include "array_count.h"
 #include "buffers.h"
 #include "console_logo_state.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
-#include "fault.h"
 #include "file_select_state.h"
+#include "libultra_ucode.h"
 #include "line_numbers.h"
 #include "map_select_state.h"
-#include "prenmi_buff.h"
-#include "prenmi_state.h"
 #include "printf.h"
 #include "regs.h"
 #include "setup_state.h"
 #include "speed_meter.h"
-#include "sys_cfb.h"
 #include "sys_debug_controller.h"
 #include "sys_ucode.h"
 #include "terminal.h"
@@ -24,9 +21,8 @@
 #include "translation.h"
 #include "ucode_disas.h"
 #include "versions.h"
-#include "vi_mode.h"
 #include "z_game_dlftbls.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "save.h"
 #include "play_state.h"
 
@@ -39,16 +35,14 @@
 /**
  * The time at which the previous `Graph_Update` ended.
  */
-OSTime sGraphPrevUpdateEndTime;
+u64 sGraphPrevUpdateEndTime;
 
 /**
  * The time at which the previous graphics task was scheduled to run.
  */
-OSTime sGraphPrevTaskTimeStart;
+u64 sGraphPrevTaskTimeStart;
 
 #if DEBUG_FEATURES
-FaultClient sGraphFaultClient;
-
 UCodeInfo D_8012D230[3] = {
 #ifndef F3DEX_GBI_PL
     { UCODE_TYPE_F3DZEX, gspF3DZEX2_NoN_fifoTextStart },
@@ -68,15 +62,6 @@ UCodeInfo D_8012D248[3] = {
     { UCODE_TYPE_UNK, NULL },
     { UCODE_TYPE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
-
-void Graph_FaultClient(void) {
-    void* nextFb = osViGetNextFramebuffer();
-    void* newFb = (SysCfb_GetFbPtr(0) != nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
-
-    osViSwapBuffer(newFb);
-    Fault_WaitForInput();
-    osViSwapBuffer(nextFb);
-}
 
 // TODO: merge Gfx and GfxMod to make this function's arguments consistent
 void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
@@ -157,14 +142,7 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->overlayBuffer = pool->overlayBuffer;
     gfxCtx->workBuffer = pool->workBuffer;
 
-    //! @bug fbIdx is a signed integer that can overflow into the negatives. When compiled with a C99+ compiler or IDO,
-    //! the remainder operator will yield -1 for odd negative values of fbIdx.
-    //! This causes SysCfb_GetFbPtr to read beyond the bounds of an array when retrieving the framebuffer pointer, which
-    //! will likely crash the game.
-    //!
-    //! This isn't an issue in practice. In the worst case scenario with the game operating at a consistent 60 FPS,
-    //! it would take approximately 414.25 days of continuous operation for fbIdx to overflow.
-    gfxCtx->curFrameBuffer = SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
+    gfxCtx->curSurf = display_get();
     gfxCtx->unk_014 = 0;
 }
 
@@ -189,28 +167,15 @@ void Graph_Init(GraphicsContext* gfxCtx) {
     bzero(gfxCtx, sizeof(GraphicsContext));
     gfxCtx->gfxPoolIdx = 0;
     gfxCtx->fbIdx = 0;
-    gfxCtx->viMode = NULL;
-
-#if OOT_VERSION < PAL_1_0
-    gfxCtx->viFeatures = 0;
-#else
-    gfxCtx->viFeatures = gViConfigFeatures;
-    gfxCtx->xScale = gViConfigXScale;
-    gfxCtx->yScale = gViConfigYScale;
-#endif
-
-    osCreateMesgQueue(&gfxCtx->queue, gfxCtx->msgBuff, ARRAY_COUNT(gfxCtx->msgBuff));
 
 #if DEBUG_FEATURES
     func_800D31F0();
-    Fault_AddClient(&sGraphFaultClient, Graph_FaultClient, NULL, NULL);
 #endif
 }
 
 void Graph_Destroy(GraphicsContext* gfxCtx) {
 #if DEBUG_FEATURES
     func_800D3210();
-    Fault_RemoveClient(&sGraphFaultClient);
 #endif
 }
 
@@ -218,57 +183,24 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 #if DEBUG_FEATURES
     static Gfx* sPrevTaskWorkBuffer = NULL;
 #endif
-    OSTask_t* task = &gfxCtx->task.list.t;
-    OSScTask* scTask = &gfxCtx->task;
+    OSTask_t* task = &gfxCtx->task.t;
 
     gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime =
-        osGetTime() - sGraphPrevTaskTimeStart - gAudioThreadUpdateTimeAcc;
+        get_ticks() - sGraphPrevTaskTimeStart - gAudioThreadUpdateTimeAcc;
 
-    {
-        OSTimer timer;
-        OSMesg msg;
-
-        // Schedule a message to be handled in 3 seconds, for RCP timeout
-        osSetTimer(&timer, OS_USEC_TO_CYCLES(3000000), 0, &gfxCtx->queue, (OSMesg)666);
-
-        osRecvMesg(&gfxCtx->queue, &msg, OS_MESG_BLOCK);
-        osStopTimer(&timer);
-
-        if (msg == (OSMesg)666) {
-#if DEBUG_FEATURES
-            PRINTF_COLOR_RED();
-            PRINTF(T("RCPが帰ってきませんでした。", "RCP did not return."));
-            PRINTF_RST();
-
-            LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
-            LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
-            LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
-
-            SREG(6) = -1;
-            if (sPrevTaskWorkBuffer != NULL) {
-                R_HREG_MODE = HREG_MODE_UCODE_DISAS;
-                R_UCODE_DISAS_TOGGLE = 1;
-                R_UCODE_DISAS_LOG_LEVEL = 2;
-                Graph_DisassembleUCode(sPrevTaskWorkBuffer);
-            }
-#endif
-
-            Fault_AddHungupAndCrashImpl("RCP is HUNG UP!!", "Oh! MY GOD!!");
-        }
-
-        osRecvMesg(&gfxCtx->queue, &msg, OS_MESG_NOBLOCK);
+    // TODO-ootdragon compared to ootultra we don't sync here
+    // I don't think we need to, display_get() is where the "sync" happens?
 
 #if DEBUG_FEATURES
-        sPrevTaskWorkBuffer = gfxCtx->workBuffer;
+    sPrevTaskWorkBuffer = gfxCtx->workBuffer;
 #endif
-    }
 
     if (gfxCtx->callback != NULL) {
         gfxCtx->callback(gfxCtx, gfxCtx->callbackParam);
     }
 
     {
-        OSTime timeNow = osGetTime();
+        u64 timeNow = get_ticks();
 
         if (gAudioThreadUpdateTimeStart != 0) {
             // The audio thread update is running
@@ -280,11 +212,11 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         gAudioThreadUpdateTimeTotalPerGfxTask = gAudioThreadUpdateTimeAcc;
         gAudioThreadUpdateTimeAcc = 0;
 
-        sGraphPrevTaskTimeStart = osGetTime();
+        sGraphPrevTaskTimeStart = get_ticks();
     }
 
     task->type = M_GFXTASK;
-    task->flags = OS_SC_DRAM_DLIST;
+    task->flags = 0; // TODO-ootdragon was OS_SC_DRAM_DLIST, probably doesn't matter as scheduler stuff?
     task->ucode_boot = SysUcode_GetUCodeBoot();
     task->ucode_boot_size = SysUcode_GetUCodeBootSize();
     task->ucode = SysUcode_GetUCode();
@@ -305,44 +237,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
-    scTask->next = NULL;
-    scTask->flags = OS_SC_NEEDS_RSP | OS_SC_NEEDS_RDP | OS_SC_SWAPBUFFER | OS_SC_LAST_TASK;
-    if (R_GRAPH_TASKSET00_FLAGS & 1) {
-        R_GRAPH_TASKSET00_FLAGS &= ~1;
-        scTask->flags &= ~OS_SC_SWAPBUFFER;
-        gfxCtx->fbIdx--;
-    }
-
-    scTask->msgQueue = &gfxCtx->queue;
-    scTask->msg = NULL;
-
-    {
-        static CfbInfo sGraphCfbInfos[3];
-        static s32 sGraphCfbInfoIdx = 0;
-        CfbInfo* cfb;
-
-        cfb = &sGraphCfbInfos[sGraphCfbInfoIdx];
-
-        sGraphCfbInfoIdx = (sGraphCfbInfoIdx + 1) % ARRAY_COUNT(sGraphCfbInfos);
-        cfb->framebuffer = gfxCtx->curFrameBuffer;
-        cfb->swapBuffer = gfxCtx->curFrameBuffer;
-
-        cfb->viMode = gfxCtx->viMode;
-        cfb->viFeatures = gfxCtx->viFeatures;
-#if OOT_VERSION >= PAL_1_0
-        cfb->xScale = gfxCtx->xScale;
-        cfb->yScale = gfxCtx->yScale;
-#endif
-        cfb->unk_10 = 0;
-        cfb->updateRate = R_UPDATE_RATE;
-
-        scTask->framebuffer = cfb;
-    }
-
-    gfxCtx->schedMsgQueue = &gScheduler.cmdQueue;
-
-    osSendMesg(&gScheduler.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
-    Sched_Notify(&gScheduler);
+    libultra_ucode_run(&gfxCtx->task, &gfxCtx->task_handle);
 }
 
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
@@ -395,21 +290,11 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     }
 
     if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_TOGGLE != 0) {
-        static FaultClient sGraphUcodeFaultClient;
-
-        if (R_UCODE_DISAS_LOG_MODE == 3) {
-            Fault_AddClient(&sGraphUcodeFaultClient, Graph_UCodeFaultClient, gfxCtx->workBuffer, "do_count_fault");
-        }
-
         Graph_DisassembleUCode(gfxCtx->workBuffer);
 
-        if (R_UCODE_DISAS_LOG_MODE == 3) {
-            Fault_RemoveClient(&sGraphUcodeFaultClient);
-        }
-
         if (R_UCODE_DISAS_TOGGLE < 0) {
-            LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
-            LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
+            LogUtils_LogHexDump((void*)VirtualUncachedAddr(0x04040000), 0x20);
+            LogUtils_LogHexDump((void*)VirtualUncachedAddr(0x04100000), 0x20);
         }
 
         if (R_UCODE_DISAS_TOGGLE < 0) {
@@ -428,7 +313,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
             PRINTF("%c", BEL);
             PRINTF(VT_COL(RED, WHITE) T("ダイナミック領域先頭が破壊されています\n", "Dynamic area head is destroyed\n")
                        VT_RST);
-            Fault_AddHungupAndCrash("../graph.c", LN4(937, 940, 951, 1067, 1070));
+            assert(false);
         }
 
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
@@ -436,7 +321,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
             PRINTF("%c", BEL);
             PRINTF(VT_COL(RED, WHITE)
                        T("ダイナミック領域末尾が破壊されています\n", "Dynamic region tail is destroyed\n") VT_RST);
-            Fault_AddHungupAndCrash("../graph.c", LN4(943, 946, 957, 1073, 1076));
+            assert(false);
         }
     }
 
@@ -465,10 +350,11 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         gfxCtx->fbIdx++;
     }
 
-    Audio_Update();
+    // TODO-ootdragon audio
+    // Audio_Update();
 
     {
-        OSTime timeNow = osGetTime();
+        u64 timeNow = get_ticks();
         s32 pad;
 
         gRSPGfxTimeTotal = gRSPGfxTimeAcc;
@@ -489,13 +375,6 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         CHECK_BTN_ALL(gameState->input[0].cur.button, BTN_L | BTN_R)) {
         gSaveContext.gameMode = GAMEMODE_NORMAL;
         SET_NEXT_GAMESTATE(gameState, MapSelect_Init, MapSelectState);
-        gameState->running = false;
-    }
-
-    if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->inPreNMIState) {
-        PRINTF(VT_COL(YELLOW, BLACK) T("PRE-NMIによりリセットモードに移行します\n",
-                                       "PRE-NMI causes the system to transition to reset mode\n") VT_RST);
-        SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIState);
         gameState->running = false;
     }
 #endif
@@ -527,9 +406,9 @@ void Graph_ThreadEntry(void* arg0) {
             PRINTF(T("確保失敗\n", "Failure to secure\n"));
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
-            Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
+            assert(false);
 #else
-            Fault_AddHungupAndCrash("../graph.c", LN4(1067, 1070, 1081, 1197, 1200));
+            assert(false);
 #endif
         }
 

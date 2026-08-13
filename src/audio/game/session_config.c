@@ -1,4 +1,4 @@
-#include "audio.h"
+#include "game_audio.h"
 
 AudioContext gAudioCtx;
 AudioCustomUpdateFunction gAudioCustomUpdateFunction;

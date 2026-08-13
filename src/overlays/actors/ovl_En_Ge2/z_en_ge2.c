@@ -1,5 +1,6 @@
 #include "z_en_ge2.h"
 
+#include "assert_uppercase.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"

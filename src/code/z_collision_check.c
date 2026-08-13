@@ -1,3 +1,4 @@
+#include "assert_uppercase.h"
 #include "gfx.h"
 #include "printf.h"
 #include "regs.h"

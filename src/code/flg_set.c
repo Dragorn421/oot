@@ -4,7 +4,7 @@
 #include "libu64/pad.h"
 #include "gfx.h"
 #include "gfxalloc.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "play_state.h"
 #include "save.h"
 

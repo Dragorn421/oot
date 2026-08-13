@@ -1,17 +1,22 @@
+#include "assert_uppercase.h"
+#include "attributes.h"
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "libc64/malloc.h"
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
 #include "array_count.h"
 #include "buffers.h"
 #include "color.h"
-#include "controller.h"
-#include "fault.h"
+#include "game_controller.h"
 #include "file_select_state.h"
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "kaleido_manager.h"
 #include "letterbox.h"
 #include "line_numbers.h"
+#include "n64sys.h"
+#include "unk.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -36,7 +41,7 @@
 #include "versions.h"
 #include "z_actor_dlftbls.h"
 #include "zelda_arena.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "cutscene_flags.h"
 #include "debug_display.h"
 #include "effect.h"
@@ -54,10 +59,6 @@ TransitionTile gTransitionTile;
 s32 gTransitionTileState;
 VisMono sPlayVisMono;
 Color_RGBA8_u32 gVisMonoColor;
-
-#if DEBUG_FEATURES
-FaultClient D_801614B8;
-#endif
 
 s16 sTransitionFillTimer;
 
@@ -212,7 +213,7 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
-                HUNGUP_AND_CRASH("../z_play.c", LN5(2263, 2266, 2269, 2272, 2282, 2287, 2290, 2293));
+                assert(false);
                 break;
         }
     }
@@ -278,10 +279,6 @@ void Play_Destroy(GameState* thisx) {
     if ((B_80121220 != NULL) && (B_80121220->unk_14 != NULL)) {
         B_80121220->unk_14(this);
     }
-#endif
-
-#if DEBUG_FEATURES
-    Fault_RemoveClient(&D_801614B8);
 #endif
 }
 
@@ -456,7 +453,7 @@ void Play_Init(GameState* thisx) {
     gTransitionTileState = TRANS_TILE_OFF;
     this->transitionMode = TRANS_MODE_OFF;
     FrameAdvance_Init(&this->frameAdvCtx);
-    Rand_Seed((u32)osGetTime());
+    Rand_Seed((u32)get_ticks());
     Matrix_Init(&this->state);
     this->state.main = Play_Main;
     this->state.destroy = Play_Destroy;
@@ -494,10 +491,6 @@ void Play_Init(GameState* thisx) {
     PRINTF(T("ゼルダヒープ %08x-%08x\n", "Zelda Heap %08x-%08x\n"), zAllocAligned,
            (u8*)zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
 
-#if PLATFORM_GC && DEBUG_FEATURES
-    Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
-#endif
-
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
     // Busyloop until the room loads
@@ -531,19 +524,6 @@ void Play_Init(GameState* thisx) {
     Actor_InitPlayerHorse(this, GET_PLAYER(this));
     AnimTaskQueue_Update(this, &this->animTaskQueue);
     gSaveContext.respawnFlag = 0;
-
-#if DEBUG_FEATURES
-    if (R_USE_DEBUG_CUTSCENE) {
-        static u64 sDebugCutsceneScriptBuf[0xA00];
-
-        gDebugCutsceneScript = sDebugCutsceneScriptBuf;
-        PRINTF("\nkawauso_data=[%x]", gDebugCutsceneScript);
-
-        // This hardcoded ROM address extends past the end of the ROM file.
-        // Presumably the ROM was larger at a previous point in development when this debug feature was used.
-        DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutsceneScript, sizeof(sDebugCutsceneScriptBuf));
-    }
-#endif
 }
 
 void Play_Update(PlayState* this) {
@@ -559,24 +539,6 @@ void Play_Update(PlayState* this) {
 #endif
     }
 
-    if ((R_HREG_MODE == HREG_MODE_PRINT_OBJECT_TABLE) && (R_PRINT_OBJECT_TABLE_TRIGGER < 0)) {
-        u32 i;
-        s32 pad2;
-
-        R_PRINT_OBJECT_TABLE_TRIGGER = 0;
-        PRINTF("object_exchange_rom_address %u\n", gObjectTableSize);
-        PRINTF("RomStart RomEnd   Size\n");
-
-        for (i = 0; i < gObjectTableSize; i++) {
-            s32 size = gObjectTable[i].vromEnd - gObjectTable[i].vromStart;
-
-            PRINTF("%08x-%08x %08x(%8.3fKB)\n", gObjectTable[i].vromStart, gObjectTable[i].vromEnd, size,
-                   size / 1024.0f);
-        }
-
-        PRINTF("\n");
-    }
-
     // HREG(81) was very likely intended to be HREG(80), which would make more sense given how the
     // HREG debugging system works. If this condition used HREG(80) instead, `HREG_MODE_PRINT_OBJECT_TABLE`
     // would also include the actor overlay table and HREG(82) would be used to trigger it instead.
@@ -586,9 +548,9 @@ void Play_Update(PlayState* this) {
     }
 #endif
 
-    gSegments[4] = OS_K0_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
-    gSegments[5] = OS_K0_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
-    gSegments[2] = OS_K0_TO_PHYSICAL(this->sceneSegment);
+    gSegments[4] = PhysicalAddr(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSegments[5] = PhysicalAddr(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
+    gSegments[2] = PhysicalAddr(this->sceneSegment);
 
     if (FrameAdvance_Update(&this->frameAdvCtx, &input[1])) {
         if ((this->transitionMode == TRANS_MODE_OFF) && (this->transitionTrigger != TRANS_TRIGGER_OFF)) {
@@ -1144,9 +1106,9 @@ void Play_Draw(PlayState* this) {
 
     OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
 
-    gSegments[4] = OS_K0_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
-    gSegments[5] = OS_K0_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
-    gSegments[2] = OS_K0_TO_PHYSICAL(this->sceneSegment);
+    gSegments[4] = PhysicalAddr(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSegments[5] = PhysicalAddr(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
+    gSegments[2] = PhysicalAddr(this->sceneSegment);
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     gSPSegment(POLY_XLU_DISP++, 0x00, NULL);
@@ -1234,13 +1196,13 @@ void Play_Draw(PlayState* this) {
             goto Play_Draw_DrawOverlayElements;
         }
 
-        PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
+        PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curSurf->buffer, gZBuffer);
 
         if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_PROCESS) {
             // Wait for the previous frame's display list to be processed,
             // so that `pauseBgPreRender.fbufSave` and `pauseBgPreRender.cvgSave` are filled with the appropriate
             // content and can be used by `PreRender_ApplyFilters` below.
-            Sched_FlushTaskQueue();
+            libultra_ucode_wait_all();
 
             PreRender_ApplyFilters(&this->pauseBgPreRender);
 
@@ -1374,11 +1336,11 @@ void Play_Draw(PlayState* this) {
 
             // Copy the frame buffer contents at this point in the display list to the zbuffer
             // The zbuffer must then stay untouched until unpausing
-            this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
+            this->pauseBgPreRender.fbuf = gfxCtx->curSurf->buffer;
             this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
             PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
             if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) {
-                this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
+                this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curSurf->buffer;
                 PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
 
                 R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
@@ -1517,29 +1479,18 @@ f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* pos) {
     return floorY;
 }
 
-void* Play_LoadFile(PlayState* this, RomFile* file) {
+void* Play_LoadFile(PlayState* this, const char* section_name) {
     u32 size;
     void* allocp;
+    struct dma_request req;
 
-    size = file->vromEnd - file->vromStart;
+    size = elf_section_get_size(section_name);
     allocp = GAME_STATE_ALLOC(&this->state, size, "../z_play.c", 4692);
-    DMA_REQUEST_SYNC(allocp, file->vromStart, size, "../z_play.c", 4694);
+    elf_section_dma_queue_read(allocp, section_name, &req);
+    dma_queue_wait(&req);
 
     return allocp;
 }
-
-#if PLATFORM_N64
-void* Play_LoadFileFromDiskDrive(PlayState* this, RomFile* file) {
-    u32 size;
-    void* allocp;
-
-    size = file->vromEnd - file->vromStart;
-    allocp = GAME_STATE_ALLOC(&this->state, size, "../z_play.c", UNK_LINE);
-    func_801C7C1C(allocp, file->vromStart, size);
-
-    return allocp;
-}
-#endif
 
 void Play_InitEnvironment(PlayState* this, s16 skyboxId) {
     Skybox_Init(&this->state, &this->skyboxCtx, skyboxId);
@@ -1588,24 +1539,16 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     this->sceneId = sceneId;
     this->sceneDrawConfig = scene->drawConfig;
 
-    PRINTF("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
-
-#if PLATFORM_N64
-    if ((B_80121220 != NULL) && (scene->unk_12 > 0)) {
-        this->sceneSegment = Play_LoadFileFromDiskDrive(this, &scene->sceneFile);
-        scene->unk_13 = 1;
-    } else {
-        this->sceneSegment = Play_LoadFile(this, &scene->sceneFile);
-        scene->unk_13 = 0;
-    }
-#else
-    this->sceneSegment = Play_LoadFile(this, &scene->sceneFile);
+    char scene_section_name[100];
+    int nchar;
+    nchar = snprintf(scene_section_name, sizeof(scene_section_name), "assets.maps.%s", scene->scene_name);
+    assert(nchar < sizeof(scene_section_name));
+    this->sceneSegment = Play_LoadFile(this, scene_section_name);
     scene->unk_13 = 0;
-#endif
 
     ASSERT(this->sceneSegment != NULL, "this->sceneSegment != NULL", "../z_play.c", 4960);
 
-    gSegments[2] = OS_K0_TO_PHYSICAL(this->sceneSegment);
+    gSegments[2] = PhysicalAddr(this->sceneSegment);
 
     Play_InitScene(this, spawn);
 

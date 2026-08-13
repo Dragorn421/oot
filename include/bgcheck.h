@@ -1,7 +1,7 @@
 #ifndef BGCHECK_H
 #define BGCHECK_H
 
-#include "ultra64/ultratypes.h"
+#include "ultra64.h"
 #include "z_math.h"
 
 struct PlayState;
@@ -31,6 +31,7 @@ typedef struct ScaleRotPos {
 
 // Macros for `CollisionPoly`
 
+#define SHT_MAX 32767.0f
 #define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
 #define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
 #define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)

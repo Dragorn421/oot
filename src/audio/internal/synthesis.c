@@ -3,7 +3,7 @@
  */
 #include "alignment.h"
 #include "ultra64.h"
-#include "audio.h"
+#include "game_audio.h"
 
 // DMEM Addresses for the RSP
 #define DMEM_TEMP 0x3C0

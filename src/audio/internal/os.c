@@ -3,20 +3,24 @@
  */
 
 #include "ultra64.h"
-#include "audio.h"
+#include "game_audio.h"
 
 void Audio_InvalDCache(void* buf, s32 size) {
+#ifndef STUB_AUDIO
     OSIntMask prevMask = osSetIntMask(OS_IM_NONE);
 
     osInvalDCache(buf, size);
     osSetIntMask(prevMask);
+#endif
 }
 
 void Audio_WritebackDCache(void* buf, s32 size) {
+#ifndef STUB_AUDIO
     OSIntMask prevMask = osSetIntMask(OS_IM_NONE);
 
     osWritebackDCache(buf, size);
     osSetIntMask(prevMask);
+#endif
 }
 
 /**
@@ -31,6 +35,9 @@ void Audio_WritebackDCache(void* buf, s32 size) {
  * @return 0 if the DMA was enqueued successfully, -1 if the DMA could not yet be queued.
  */
 s32 osAiSetNextBuffer(void* buf, u32 size) {
+#ifdef STUB_AUDIO
+    return -1;
+#else
     static u8 hdwrBugFlag = false;
     u32 bufAdjusted = (u32)buf;
     s32 status;
@@ -60,4 +67,5 @@ s32 osAiSetNextBuffer(void* buf, u32 size) {
     IO_WRITE(AI_DRAM_ADDR_REG, OS_K0_TO_PHYSICAL(bufAdjusted));
     IO_WRITE(AI_LEN_REG, size);
     return 0;
+#endif
 }

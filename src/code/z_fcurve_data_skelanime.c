@@ -1,3 +1,4 @@
+#include "assert_uppercase.h"
 #include "animation.h"
 #include "animation_curve.h"
 #include "gfx.h"

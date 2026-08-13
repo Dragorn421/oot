@@ -1,28 +1,23 @@
+#include <libdragon.h>
 #include "ultra64.h"
 
-void Sleep_Cycles(OSTime cycles) {
-    OSMesgQueue mq;
-    OSMesg msg;
-    OSTimer timer;
-
-    osCreateMesgQueue(&mq, &msg, 1);
-    osSetTimer(&timer, cycles, 0, &mq, NULL);
-    osRecvMesg(&mq, NULL, OS_MESG_BLOCK);
+void Sleep_Cycles(u32 cycles) {
+    wait_ticks(cycles);
 }
 
 void Sleep_Nsec(u32 nsec) {
-    Sleep_Cycles(OS_NSEC_TO_CYCLES(nsec));
+    Sleep_Cycles(TICKS_FROM_US(nsec / 1000));
 }
 
 void Sleep_Usec(u32 usec) {
-    Sleep_Cycles(OS_USEC_TO_CYCLES(usec));
+    Sleep_Cycles(TICKS_FROM_US(usec));
 }
 
 // originally "msleep"
 void Sleep_Msec(u32 ms) {
-    Sleep_Cycles((ms * OS_CPU_COUNTER) / 1000ull);
+    Sleep_Cycles(TICKS_FROM_MS(ms));
 }
 
 void Sleep_Sec(u32 sec) {
-    Sleep_Cycles(sec * OS_CPU_COUNTER);
+    Sleep_Cycles(TICKS_FROM_MS(sec * 1000));
 }

@@ -5,8 +5,6 @@
 
 void Idle_ThreadEntry(void* arg);
 
-extern OSMesgQueue gPiMgrCmdQueue;
-extern OSViMode gViConfigMode;
 extern u8 gViConfigModeType;
 
 #endif

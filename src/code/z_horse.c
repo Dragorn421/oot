@@ -1,3 +1,4 @@
+#include "assert_uppercase.h"
 #include "array_count.h"
 #include "terminal.h"
 #include "z_lib.h"

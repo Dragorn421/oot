@@ -14,6 +14,7 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
+#include "unk.h"
 #include "z_lib.h"
 #include "face_reaction.h"
 #include "play_state.h"

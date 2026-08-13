@@ -11,6 +11,7 @@
  *
  * @note Original filename is likely z_vibrate.c or similar as it is ordered after z_ss_sram.c and before z_view.c
  */
+#include "joypad.h"
 #include "rumble.h"
 #include "padmgr.h"
 #include "z_math.h"
@@ -18,12 +19,7 @@
 static s32 sUnused[4];
 RumbleMgr sRumbleMgr;
 
-/**
- * Padmgr callback to update the state of rumble on Vertical Retrace.
- *
- * Unlike every other function in this file, this runs on the padmgr thread.
- */
-void Rumble_Update(PadMgr* padMgr, void* arg) {
+void Rumble_Update(PadMgr* padMgr) {
     RumbleMgr_Update(&sRumbleMgr);
     PadMgr_RumbleSet(padMgr, sRumbleMgr.rumbleEnable);
 }
@@ -111,18 +107,16 @@ void Rumble_Request(f32 distSq, u8 sourceStrength, u8 duration, u8 decreaseRate)
 
 void Rumble_Init(void) {
     RumbleMgr_Init(&sRumbleMgr);
-    PADMGR_SET_RETRACE_CALLACK(&gPadMgr, Rumble_Update, NULL);
 }
 
 void Rumble_Destroy(void) {
     PadMgr* padmgr = &gPadMgr;
 
-    PADMGR_UNSET_RETRACE_CALLACK(padmgr, Rumble_Update, NULL);
     RumbleMgr_Destroy(&sRumbleMgr);
 }
 
 s32 Rumble_Controller1HasRumblePak(void) {
-    return gPadMgr.pakType[0] == CONT_PAK_RUMBLE;
+    return joypad_get_accessory_type(JOYPAD_PORT_1) == JOYPAD_ACCESSORY_TYPE_RUMBLE_PAK;
 }
 
 void Rumble_Reset(void) {

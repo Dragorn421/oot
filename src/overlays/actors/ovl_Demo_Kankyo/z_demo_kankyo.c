@@ -1,5 +1,6 @@
 #include "z_demo_kankyo.h"
 
+#include "assert_uppercase.h"
 #include "libc64/qrand.h"
 #include "attributes.h"
 #include "gfx.h"

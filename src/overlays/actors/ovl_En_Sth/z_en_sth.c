@@ -6,6 +6,7 @@
 
 #include "z_en_sth.h"
 
+#include "assert_uppercase.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -158,7 +159,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
     s16* params;
 
     EnSth_SetupShapeColliderUpdate2AndDraw(this, play);
-    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+    gSegments[6] = PhysicalAddr(play->objectCtx.slots[this->requiredObjectSlot].segment);
     SkelAnime_InitFlex(play, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable, this->morphTable,
                        16);
     Animation_PlayLoop(&this->skelAnime, sAnimations[this->actor.params]);
@@ -401,7 +402,7 @@ void EnSth_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sth.c", 2133);
 
-    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+    gSegments[6] = PhysicalAddr(play->objectCtx.slots[this->requiredObjectSlot].segment);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,

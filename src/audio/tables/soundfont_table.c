@@ -1,5 +1,5 @@
 #include "attributes.h"
-#include "audio.h"
+#include "game_audio.h"
 
 // Symbol definition
 

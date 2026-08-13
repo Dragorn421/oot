@@ -1,10 +1,12 @@
 #ifndef GFX_H
 #define GFX_H
 
+#include <libdragon.h>
+
+#include "libultra_ucode.h"
 #include "ultra64.h"
 #include "ultra64/gbi.h"
 #include "alignment.h"
-#include "sched.h"
 #include "thga.h"
 #include "versions.h"
 
@@ -31,21 +33,18 @@ typedef struct GraphicsContext {
     /* 0x0010 */ Gfx* overlayBuffer; // Pointer to "Zelda 4"
     /* 0x0014 */ u32 unk_014;
     /* 0x0018 */ char unk_018[0x20];
-    /* 0x0038 */ OSMesg msgBuff[0x08];
-    /* 0x0058 */ OSMesgQueue* schedMsgQueue;
-    /* 0x005C */ OSMesgQueue queue;
-    /* 0x0078 */ OSScTask task;
+    struct libultra_ucode_task_handle task_handle;
+    /* 0x0078 */ OSTask task;
     /* 0x00E0 */ char unk_0E0[0xD0];
     /* 0x01B0 */ Gfx* workBuffer;
     /* 0x01B4 */ TwoHeadGfxArena work;
     /* 0x01C4 */ char unk_01C4[0xC0];
-    /* 0x0284 */ OSViMode* viMode;
     /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
     /* 0x02A8 */ TwoHeadGfxArena overlay; // "Zelda 4"
     /* 0x02B8 */ TwoHeadGfxArena polyOpa; // "Zelda 0"
     /* 0x02C8 */ TwoHeadGfxArena polyXlu; // "Zelda 1"
     /* 0x02D8 */ u32 gfxPoolIdx;
-    /* 0x02DC */ u16* curFrameBuffer;
+    /* 0x02DC */ surface_t* curSurf; // TODO-ootdragon I'm blindly replacing curFrameBuffer with curSurf->buffer but in many spots it looks like using an offscreen buffer would be better
     /* 0x02E0 */ char unk_2E0[0x04];
     /* 0x02E4 */ u32 viFeatures;
     /* 0x02E8 */ s32 fbIdx;

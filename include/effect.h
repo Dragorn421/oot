@@ -2,7 +2,6 @@
 #define EFFECT_H
 
 #include "color.h"
-#include "romfile.h"
 #include "light.h"
 #include "z_math.h"
 
@@ -206,9 +205,7 @@ typedef struct EffectSsProfile {
 } EffectSsProfile; // size = 0x08
 
 typedef struct EffectSsOverlay {
-    /* 0x00 */ RomFile file;
-    /* 0x08 */ void* vramStart;
-    /* 0x0C */ void* vramEnd;
+    /* 0x00 */ const char* ovl_name;
     /* 0x10 */ void* loadedRamAddr;
     /* 0x14 */ EffectSsProfile* profile;
     /* 0x18 */ u8 unk_18;

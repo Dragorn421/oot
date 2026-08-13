@@ -1,7 +1,7 @@
 #include "file_select.h"
 #include "file_select_state.h"
 
-#include "controller.h"
+#include "game_controller.h"
 #include "printf.h"
 #include "regs.h"
 #include "rumble.h"

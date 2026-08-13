@@ -1,6 +1,6 @@
 #include "ultra64.h"
 #include "attributes.h"
-#include "audio.h"
+#include "game_audio.h"
 
 /**
  * original name: __Nas_CallWaveProcess_Sub

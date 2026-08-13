@@ -1,3 +1,5 @@
+#include "dma_queue.h"
+#include "elf_reader.h"
 #pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
                                "ique-cn:160 ntsc-1.0:160 ntsc-1.1:160 ntsc-1.2:160 pal-1.0:160 pal-1.1:160"
 
@@ -12,7 +14,6 @@
 #include "printf.h"
 #include "regs.h"
 #include "rumble.h"
-#include "segment_symbols.h"
 #include "segmented_address.h"
 #include "seqcmd.h"
 #include "sequence.h"
@@ -24,7 +25,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "cutscene.h"
 #include "frame_advance.h"
 #include "environment.h"
@@ -756,23 +757,15 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
         if ((envCtx->skybox1Index != newSkybox1Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
             envCtx->skyboxDmaState = SKYBOX_DMA_TEXTURE1_START;
-            size = gNormalSkyFiles[newSkybox1Index].file.vromEnd - gNormalSkyFiles[newSkybox1Index].file.vromStart;
-
-            osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->staticSegments[0],
-                              gNormalSkyFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                              "../z_kankyo.c", 1264);
+            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[0], "textures.%s", &envCtx->dma_request,
+                                               gNormalSkyFiles[newSkybox1Index].file);
             envCtx->skybox1Index = newSkybox1Index;
         }
 
         if ((envCtx->skybox2Index != newSkybox2Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
             envCtx->skyboxDmaState = SKYBOX_DMA_TEXTURE2_START;
-            size = gNormalSkyFiles[newSkybox2Index].file.vromEnd - gNormalSkyFiles[newSkybox2Index].file.vromStart;
-
-            osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->staticSegments[1],
-                              gNormalSkyFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                              "../z_kankyo.c", 1281);
+            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[1], "textures.%s", &envCtx->dma_request,
+                                               gNormalSkyFiles[newSkybox2Index].file);
             envCtx->skybox2Index = newSkybox2Index;
         }
 
@@ -780,20 +773,12 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             envCtx->skyboxDmaState = SKYBOX_DMA_TLUT1_START;
 
             if ((newSkybox1Index & 1) ^ ((newSkybox1Index & 4) >> 2)) {
-                size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
-                       gNormalSkyFiles[newSkybox1Index].palette.vromStart;
-
-                osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->palettes,
-                                  gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                  "../z_kankyo.c", 1307);
+                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "textures.%s", &envCtx->dma_request,
+                                                   gNormalSkyFiles[newSkybox1Index].palette);
             } else {
-                size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
-                       gNormalSkyFiles[newSkybox1Index].palette.vromStart;
-                osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
-                                  gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                  "../z_kankyo.c", 1320);
+                size = elf_section_get_size_fmtname("textures.%s", gNormalSkyFiles[newSkybox1Index].palette);
+                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "textures.%s", &envCtx->dma_request,
+                                                   gNormalSkyFiles[newSkybox1Index].palette);
             }
         }
 
@@ -801,30 +786,22 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             envCtx->skyboxDmaState = SKYBOX_DMA_TLUT2_START;
 
             if ((newSkybox2Index & 1) ^ ((newSkybox2Index & 4) >> 2)) {
-                size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
-                       gNormalSkyFiles[newSkybox2Index].palette.vromStart;
-
-                osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->palettes,
-                                  gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                  "../z_kankyo.c", 1342);
+                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "textures.%s", &envCtx->dma_request,
+                                                   gNormalSkyFiles[newSkybox2Index].palette);
             } else {
-                size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
-                       gNormalSkyFiles[newSkybox2Index].palette.vromStart;
-                osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
-                                  gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                  "../z_kankyo.c", 1355);
+                size = elf_section_get_size_fmtname("textures.%s", gNormalSkyFiles[newSkybox2Index].palette);
+                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "textures.%s", &envCtx->dma_request,
+                                                   gNormalSkyFiles[newSkybox2Index].palette);
             }
         }
 
         if ((envCtx->skyboxDmaState == SKYBOX_DMA_TEXTURE1_START) ||
             (envCtx->skyboxDmaState == SKYBOX_DMA_TEXTURE2_START)) {
-            if (osRecvMesg(&envCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
+            if (dma_queue_finished(&envCtx->dma_request)) {
                 envCtx->skyboxDmaState++;
             }
         } else if (envCtx->skyboxDmaState >= SKYBOX_DMA_TEXTURE1_DONE) {
-            if (osRecvMesg(&envCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
+            if (dma_queue_finished(&envCtx->dma_request)) {
                 envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
             }
         }

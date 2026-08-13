@@ -2,7 +2,7 @@
 #include "libc64/qrand.h"
 #include "array_count.h"
 #include "attributes.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "db_camera.h"
 #include "gfx.h"
 #include "letterbox.h"
@@ -17,14 +17,15 @@
 #include "ultra64.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "cutscene_spline.h"
-#include "debug.h"
+#include "game_debug.h"
 #include "olib.h"
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include <string.h>
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
                                "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
@@ -7477,7 +7478,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     s16 curUID;
     s16 j;
 
-    func_80106860(camera, 0, sizeof(*camera));
+    memset(camera, 0, sizeof(*camera));
     if (sInitRegs) {
         s32 i;
 

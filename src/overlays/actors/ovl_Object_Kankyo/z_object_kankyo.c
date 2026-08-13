@@ -6,6 +6,7 @@
 
 #include "z_object_kankyo.h"
 
+#include "assert_uppercase.h"
 #include "libc64/qrand.h"
 #include "array_count.h"
 #include "gfx.h"
@@ -16,7 +17,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "play_state.h"
 #include "player.h"
 #include "save.h"

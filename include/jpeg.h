@@ -2,7 +2,6 @@
 #define JPEG_H
 
 #include "ultra64.h"
-#include "sched.h"
 
 typedef struct JpegQuantizationTable {
     /* 0x00 */ u16 table[8*8];
@@ -61,9 +60,6 @@ typedef struct JpegContext {
     /* 0x14 */ u8* dhtPtr[4];
     /* 0x24 */ void* imageData;
     /* 0x28 */ u32 mode; // 0 if Y V0 is 1 and 2 if Y V0 is 2
-    /* 0x30 */ OSScTask scTask;
-    /* 0x98 */ OSMesgQueue mq;
-    /* 0xB0 */ OSMesg msg;
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 

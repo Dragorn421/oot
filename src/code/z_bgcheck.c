@@ -1,3 +1,4 @@
+#include "assert_uppercase.h"
 #include "libu64/debug.h"
 #include "array_count.h"
 #include "attributes.h"

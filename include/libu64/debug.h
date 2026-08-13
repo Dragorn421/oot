@@ -6,7 +6,6 @@
 #if DEBUG_FEATURES
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
-        LogUtils_LogThreadId(file, line);           \
         osSyncPrintf(exp " = " format "\n", value); \
     } while (0)
 #else
@@ -37,7 +36,6 @@ void LogUtils_LogPointer(s32 value, u32 max, void* ptr, const char* name, const 
 void LogUtils_CheckBoundary(const char* name, s32 value, s32 unk, const char* file, int line);
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, int line);
 void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, int line);
-void LogUtils_LogThreadId(const char* name, int line);
 #else
 
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) (void)0

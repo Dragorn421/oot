@@ -2,13 +2,9 @@
 #define INTERFACE_H
 
 #include "ultra64.h"
-#include "dma.h"
 #include "view.h"
 
 struct PlayState;
-
-extern u8 _icon_item_staticSegmentRomStart[];
-extern u8 _icon_item_24_staticSegmentRomStart[];
 
 // An "item icon" (gItemIcon*Tex) is 32x32 rgba32
 #define ITEM_ICON_WIDTH 32
@@ -20,7 +16,7 @@ extern u8 _icon_item_24_staticSegmentRomStart[];
  *
  * @param itemId An ItemId value in the range `ITEM_DEKU_STICK`..`ITEM_FISHING_POLE`
  */
-#define GET_ITEM_ICON_VROM(itemId) ((uintptr_t)_icon_item_staticSegmentRomStart + ((itemId)*ITEM_ICON_SIZE))
+#define GET_ITEM_ICON_VROM_OFFSET(itemId) ((itemId)*ITEM_ICON_SIZE)
 
 // A "quest icon" (gQuestIcon*Tex) is 24x24 rgba32
 #define QUEST_ICON_WIDTH 24
@@ -32,8 +28,8 @@ extern u8 _icon_item_24_staticSegmentRomStart[];
  *
  * @param itemId An ItemId value in the range `ITEM_MEDALLION_FOREST`..`ITEM_MAGIC_JAR_BIG`
  */
-#define GET_QUEST_ICON_VROM(itemId) \
-    ((uintptr_t)_icon_item_24_staticSegmentRomStart + (((itemId)-ITEM_MEDALLION_FOREST) * QUEST_ICON_SIZE))
+#define GET_QUEST_ICON_VROM_OFFSET(itemId) \
+    (((itemId)-ITEM_MEDALLION_FOREST) * QUEST_ICON_SIZE)
 
 typedef enum DoAction {
     /* 0x00 */ DO_ACTION_ATTACK,
@@ -77,11 +73,7 @@ typedef struct InterfaceContext {
     /* 0x0138 */ u8*    iconItemSegment;
     /* 0x013C */ u8*    mapSegment;
     /* 0x0140 */ char   mapPalette[32];
-    /* 0x0160 */ DmaRequest dmaRequest_160;
-    /* 0x0180 */ DmaRequest dmaRequest_180;
     /* 0x01A0 */ char   unk_1A0[0x20];
-    /* 0x01C0 */ OSMesgQueue loadQueue;
-    /* 0x01D8 */ OSMesg loadMsg;
     /* 0x01DC */ Viewport viewport;
     /* 0x01EC */ s16    unk_1EC;
     /* 0x01EE */ u16    unk_1EE;

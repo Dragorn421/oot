@@ -3,7 +3,7 @@
 
 #include "libu64/gfxprint.h"
 #include "array_count.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "letterbox.h"
@@ -21,7 +21,7 @@
 #include "sfx.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "camera.h"
 #include "cutscene.h"
 #include "cutscene_flags.h"

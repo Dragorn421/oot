@@ -1,12 +1,12 @@
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "versions.h"
 #if OOT_NTSC
 #include "kanji_tex.h"
 #endif
 #include "message_data_static.h"
 #include "printf.h"
-#include "segment_symbols.h"
 #include "translation.h"
-#include "dma.h"
 #include "font.h"
 #include "message.h"
 
@@ -28,9 +28,11 @@ void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex) {
  */
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex) {
     s32 offset = character * FONT_CHAR_TEX_SIZE;
+    struct dma_request req;
 
-    DMA_REQUEST_SYNC(&font->charTexBuf[codePointIndex], (uintptr_t)_nes_font_staticSegmentRomStart + offset,
-                     FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 93);
+    elf_section_dma_queue_read_fragment(&font->charTexBuf[codePointIndex], "assets.textures.nes_font_static", offset,
+                                        FONT_CHAR_TEX_SIZE, &req);
+    dma_queue_wait(&req);
 }
 
 #if PLATFORM_IQUE
@@ -48,10 +50,12 @@ void Font_LoadCharCHN(Font* font, u16 character, u16 codePointIndex) {
  * The different icons are given in the MessageBoxIcon enum.
  */
 void Font_LoadMessageBoxIcon(Font* font, u16 icon) {
-    DMA_REQUEST_SYNC(font->iconBuf,
-                     (uintptr_t)_message_staticSegmentRomStart + 4 * MESSAGE_STATIC_TEX_SIZE +
-                         icon * FONT_CHAR_TEX_SIZE,
-                     FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 100);
+    struct dma_request req;
+
+    elf_section_dma_queue_read_fragment(font->iconBuf, "assets.textures.message_static",
+                                        4 * MESSAGE_STATIC_TEX_SIZE + icon * FONT_CHAR_TEX_SIZE, FONT_CHAR_TEX_SIZE,
+                                        &req);
+    dma_queue_wait(&req);
 }
 
 /**
@@ -66,6 +70,7 @@ void Font_LoadOrderedFont(Font* font) {
     u32 offset;
     const char* messageDataStart;
     u16* msgBufWide;
+    struct dma_request req;
 
 #if OOT_NTSC && !PLATFORM_IQUE
     messageDataStart = (const char*)_jpn_message_data_staticSegmentStart;
@@ -92,12 +97,12 @@ void Font_LoadOrderedFont(Font* font) {
         }
     }
 #elif OOT_PAL
-    messageDataStart = (const char*)_nes_message_data_staticSegmentStart;
+    messageDataStart = (const char*)0x07000000;
     font->msgOffset = _message_0xFFFC_nes - messageDataStart;
     size = font->msgLength = _message_0xFFFD_nes - _message_0xFFFC_nes;
     len = size;
-    DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset, len,
-                     "../z_kanfont.c", 122);
+    elf_section_dma_queue_read_fragment(font->msgBuf, "assets_text.nes", font->msgOffset, len, &req);
+    dma_queue_wait(&req);
 
     PRINTF("msg_data=%x,  msg_data0=%x   jj=%x\n", font->msgOffset, font->msgLength, len * 1);
 
@@ -112,8 +117,9 @@ void Font_LoadOrderedFont(Font* font) {
             PRINTF("nes_mes_buf[%d]=%d\n", codePointIndex, font->msgBuf[codePointIndex]);
 
             offset = (font->msgBuf[codePointIndex] - ' ') * FONT_CHAR_TEX_SIZE;
-            DMA_REQUEST_SYNC(font->fontBuf + fontBufIndex * 8, (uintptr_t)_nes_font_staticSegmentRomStart + offset,
-                             FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 134);
+            elf_section_dma_queue_read_fragment(font->fontBuf + fontBufIndex * 8, "assets.textures.nes_font_static",
+                                                offset, FONT_CHAR_TEX_SIZE, &req);
+            dma_queue_wait(&req);
             fontBufIndex += FONT_CHAR_TEX_SIZE / 8;
         }
     }

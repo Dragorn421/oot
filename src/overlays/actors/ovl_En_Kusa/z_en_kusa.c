@@ -8,6 +8,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "sfx.h"
+#include "unk.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "effect.h"

@@ -6,6 +6,7 @@
 
 #include "z_item_etcetera.h"
 
+#include "assert_uppercase.h"
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
 #include "printf.h"

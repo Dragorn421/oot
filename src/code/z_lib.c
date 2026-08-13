@@ -7,6 +7,8 @@
 #include "rand.h"
 #include "sfx.h"
 
+#define SHT_MINV (1.0f / 32767.0f)
+
 void Lib_MemSet(u8* dest, size_t size, u8 val) {
     u32 i;
 

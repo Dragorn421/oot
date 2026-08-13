@@ -2,15 +2,16 @@
 #include "array_count.h"
 #include "attributes.h"
 #include "audiothread_cmd.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "padmgr.h"
 #include "printf.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "ultra64.h"
+#include "unk.h"
 #include "versions.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "ocarina.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
@@ -2317,7 +2318,7 @@ void AudioOcarina_ResetStaffs(void) {
     sOcarinaDropInputTimer = 0;
 }
 
-#if DEBUG_FEATURES
+#if DEBUG_FEATURES && !defined(STUB_AUDIO)
 #include "debug.inc.c"
 #else
 void AudioDebug_Draw(GfxPrint* printer) {
@@ -2337,7 +2338,9 @@ void Audio_Update(void) {
     if (func_800FAD34() == 0) {
 #if DEBUG_FEATURES
         sAudioUpdateTaskStart = gAudioCtx.totalTaskCount;
+#ifndef STUB_AUDIO
         sAudioUpdateStartTime = osGetTime();
+#endif
 #endif
 
         AudioOcarina_Update();
@@ -2354,7 +2357,7 @@ void Audio_Update(void) {
         func_800F8F88();
         Audio_UpdateActiveSequences();
 
-#if DEBUG_FEATURES
+#if DEBUG_FEATURES && !defined(STUB_AUDIO)
         AudioDebug_SetInput();
         AudioDebug_ProcessInput();
 #endif
@@ -2363,7 +2366,9 @@ void Audio_Update(void) {
 
 #if DEBUG_FEATURES
         sAudioUpdateTaskEnd = gAudioCtx.totalTaskCount;
+#ifndef STUB_AUDIO
         sAudioUpdateEndTime = osGetTime();
+#endif
 #endif
     }
 }
@@ -2786,7 +2791,9 @@ void func_800F4010(Vec3f* pos, u16 sfxId, f32 arg2) {
     u16 sfxId2;
 
 #if DEBUG_FEATURES
+#ifndef STUB_AUDIO
     D_80131C8C = arg2;
+#endif
 #endif
 
     sp24 = func_800F3F84(arg2);
@@ -3967,7 +3974,9 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData) 
         Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28 | NA_BGM_NATURE_AMBIENCE, SEQCMD_OP_MASK | 0xFF)) {
 
 #if DEBUG_FEATURES
+#ifndef STUB_AUDIO
         sAudioNatureFailed = true;
+#endif
 #endif
 
         return;

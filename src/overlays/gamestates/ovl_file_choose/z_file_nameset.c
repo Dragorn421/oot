@@ -2,7 +2,7 @@
 #include "file_select_state.h"
 
 #include "array_count.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "language_array.h"
@@ -14,7 +14,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "save.h"
 
 #include "assets/textures/title_static/title_static.h"

@@ -5,7 +5,6 @@
 #include "color.h"
 
 typedef struct GfxPrint {
-    /* 0x00 */ PrintCallback callback;
     /* 0x04 */ Gfx* dList;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;

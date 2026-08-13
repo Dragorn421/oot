@@ -2,15 +2,12 @@
 #define KALEIDO_MANAGER_H
 
 #include "ultra64.h"
-#include "romfile.h"
 
 struct PlayState;
 
 typedef struct KaleidoMgrOverlay {
     /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ RomFile file;
-    /* 0x0C */ void* vramStart;
-    /* 0x10 */ void* vramEnd;
+    /* 0x04 */ const char* dll_name;
     /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
     /* 0x18 */ const char* name;
 } KaleidoMgrOverlay; // size = 0x1C

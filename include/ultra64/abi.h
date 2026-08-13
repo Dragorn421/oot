@@ -1,6 +1,8 @@
 #ifndef ULTRA64_ABI_H
 #define ULTRA64_ABI_H
 
+#include "ultratypes.h"
+
 /* Audio commands: */
 #define A_SPNOOP        0
 #define A_ADPCM         1

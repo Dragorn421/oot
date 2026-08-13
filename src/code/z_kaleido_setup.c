@@ -1,11 +1,11 @@
-#include "controller.h"
+#include "game_controller.h"
 #include "letterbox.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
 #include "printf.h"
 #include "regs.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "play_state.h"
 #include "save.h"
 

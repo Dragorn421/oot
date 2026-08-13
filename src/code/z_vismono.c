@@ -11,6 +11,7 @@
  * See the rest of the file for specifics.
  */
 
+#include "assert_uppercase.h"
 #include "libc64/malloc.h"
 #include "libu64/debug.h"
 #include "attributes.h"

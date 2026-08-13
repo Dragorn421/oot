@@ -6,6 +6,7 @@
 #include "z_lib.h"
 #include "olib.h"
 #include "play_state.h"
+#include <string.h>
 
 typedef struct QuakeRequest {
     /* 0x00 */ s16 index;
@@ -175,7 +176,7 @@ QuakeRequest* Quake_RequestImpl(Camera* camera, u32 type) {
     s16 index = Quake_GetFreeIndex();
     QuakeRequest* req = &sQuakeRequests[index];
 
-    func_80106860(req, 0, sizeof(QuakeRequest)); // memset
+    memset(req, 0, sizeof(QuakeRequest));
 
     req->cam = camera;
     req->camId = camera->camId;

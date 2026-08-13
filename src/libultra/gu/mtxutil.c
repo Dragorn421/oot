@@ -1,5 +1,9 @@
 #include "ultra64.h"
 
+#ifndef FIX32TOF
+#define FIX32TOF(x) ((f32)(x) * (1.0f / (f32)0x00010000))
+#endif
+
 void guMtxF2L(f32 mf[4][4], Mtx* m) {
     s32 i, j;
     s32 e1, e2;

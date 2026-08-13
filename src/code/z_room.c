@@ -1,8 +1,11 @@
+#include "assert_uppercase.h"
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "libu64/debug.h"
+#include "n64sys.h"
 #include "ultra64/gs2dex.h"
 #include "array_count.h"
 #include "buffers.h"
-#include "fault.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "jpeg.h"
@@ -19,7 +22,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "play_state.h"
 #include "player.h"
 #include "room.h"
@@ -284,19 +287,19 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
  * Uses the depth frame buffer as temporary storage.
  */
 s32 Room_DecodeJpeg(void* data) {
-    OSTime time;
+    u64 time;
 
     if (*(u32*)data == JPEG_MARKER) {
         PRINTF(T("JPEGデータを展開します\n", "Expanding jpeg data\n"));
         PRINTF(T("JPEGデータアドレス %08x\n", "Jpeg data address %08x\n"), data);
         PRINTF(T("ワークバッファアドレス（Ｚバッファ）%08x\n", "Work buffer address (Z buffer) %08x\n"), gZBuffer);
 
-        time = osGetTime();
+        time = get_ticks();
         if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
-            time = osGetTime() - time;
+            time = get_ticks() - time;
 
             PRINTF(T("成功…だと思う。 time = %6.3f ms \n", "Success... I think. time = %6.3f ms\n"),
-                   OS_CYCLES_TO_USEC(time) / 1000.0f);
+                   TICKS_TO_US(time) / 1000.0f);
             PRINTF(T("ワークバッファから元のアドレスに書き戻します。\n",
                      "Writing back to original address from work buffer.\n"));
             PRINTF(T("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n",
@@ -608,10 +611,10 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
 
     // Set roomBufferSize to the largest room
     {
-        RomFile* roomList = play->roomList.romFiles;
+        const char** roomList = play->roomList.room_names;
 
         for (i = 0; i < play->roomList.count; i++) {
-            roomSize = roomList[i].vromEnd - roomList[i].vromStart;
+            roomSize = elf_section_get_size_fmtname("assets.maps.%s", roomList[i]);
             PRINTF("ROOM%d size=%d\n", i, roomSize);
             if (roomBufferSize < roomSize) {
                 roomBufferSize = roomSize;
@@ -621,7 +624,7 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
 
     // If there any rooms are connected, find their combined size and update roomBufferSize if larger
     if ((u32)play->transitionActors.count != 0) {
-        RomFile* roomList = play->roomList.romFiles;
+        const char** roomList = play->roomList.room_names;
         TransitionActorEntry* transitionActor = &play->transitionActors.list[0];
 
         LOG_NUM("game_play->room_rom_address.num", play->roomList.count, "../z_room.c", 912);
@@ -629,8 +632,8 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
         for (j = 0; j < play->transitionActors.count; j++) {
             frontRoom = transitionActor->sides[0].room;
             backRoom = transitionActor->sides[1].room;
-            frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
-            backRoomSize = (backRoom < 0) ? 0 : roomList[backRoom].vromEnd - roomList[backRoom].vromStart;
+            frontRoomSize = (frontRoom < 0) ? 0 : elf_section_get_size_fmtname("assets.maps.%s", roomList[frontRoom]);
+            backRoomSize = (backRoom < 0) ? 0 : elf_section_get_size_fmtname("assets.maps.%s", roomList[backRoom]);
             cumulRoomSize = (frontRoom != backRoom) ? frontRoomSize + backRoomSize : frontRoomSize;
 
             PRINTF("DOOR%d=<%d> ROOM1=<%d, %d> ROOM2=<%d, %d>\n", j, cumulRoomSize, frontRoom, frontRoomSize, backRoom,
@@ -691,24 +694,12 @@ s32 Room_RequestNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
 
         ASSERT(roomNum < play->roomList.count, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
-        size = play->roomList.romFiles[roomNum].vromEnd - play->roomList.romFiles[roomNum].vromStart;
+        size = elf_section_get_size_fmtname("assets.maps.%s", play->roomList.room_names[roomNum]);
         roomCtx->roomRequestAddr = (void*)ALIGN16((intptr_t)roomCtx->bufPtrs[roomCtx->activeBufPage] -
                                                   ((size + 8) * roomCtx->activeBufPage + 7));
 
-        osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
-
-#if PLATFORM_N64
-        if ((B_80121220 != NULL) && (B_80121220->unk_08 != NULL)) {
-            B_80121220->unk_08(play, roomCtx, roomNum);
-        } else {
-            DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->roomRequestAddr,
-                              play->roomList.romFiles[roomNum].vromStart, size, 0, &roomCtx->loadQueue, NULL,
-                              "../z_room.c", 1036);
-        }
-#else
-        DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->roomRequestAddr, play->roomList.romFiles[roomNum].vromStart,
-                          size, 0, &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
-#endif
+        elf_section_dma_queue_read_fmtname(roomCtx->roomRequestAddr, "maps.assets.%s", &roomCtx->dma_request,
+                                           play->roomList.room_names[roomNum]);
 
         roomCtx->activeBufPage ^= 1;
         return true;
@@ -725,10 +716,10 @@ s32 Room_RequestNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
  */
 s32 Room_ProcessRoomRequest(PlayState* play, RoomContext* roomCtx) {
     if (roomCtx->status == 1) {
-        if (osRecvMesg(&roomCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
+        if (dma_queue_finished(&roomCtx->dma_request)) {
             roomCtx->status = 0;
             roomCtx->curRoom.segment = roomCtx->roomRequestAddr;
-            gSegments[3] = OS_K0_TO_PHYSICAL(roomCtx->curRoom.segment);
+            gSegments[3] = PhysicalAddr(roomCtx->curRoom.segment);
 
             Scene_ExecuteCommands(play, roomCtx->curRoom.segment);
             Player_SetBootData(play, GET_PLAYER(play));
@@ -743,7 +734,7 @@ s32 Room_ProcessRoomRequest(PlayState* play, RoomContext* roomCtx) {
 
 void Room_Draw(PlayState* play, Room* room, u32 flags) {
     if (room->segment != NULL) {
-        gSegments[3] = OS_K0_TO_PHYSICAL(room->segment);
+        gSegments[3] = PhysicalAddr(room->segment);
         ASSERT(room->roomShape->base.type < ARRAY_COUNTU(sRoomDrawHandlers),
                "this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
         sRoomDrawHandlers[room->roomShape->base.type](play, room, flags);

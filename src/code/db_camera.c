@@ -1,7 +1,8 @@
+#include "alignment.h"
 #include "libu64/gfxprint.h"
 #include "array_count.h"
 #include "attributes.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "db_camera.h"
 #include "debug_arena.h"
 #include "letterbox.h"
@@ -13,11 +14,21 @@
 #include "camera.h"
 #include "cutscene.h"
 #include "cutscene_spline.h"
-#include "debug.h"
+#include "game_debug.h"
 #include "debug_display.h"
 #include "olib.h"
 #include "play_state.h"
 #include "save.h"
+
+#define Mempak_Read(...) false
+#define Mempak_GetFileSize(...) 0
+#define Mempak_GetFreeBytes(...) 0
+#define Mempak_CreateFile(...) false
+#define Mempak_Write(...) false
+#define Mempak_DeleteFile(...) false
+#define Mempak_Init(...) false
+#define Mempak_FindFiles(...) 0
+#define MEMPAK_INDEX_TO_LETTER(...) 'A'
 
 #define DEBUG_CAM_CONTROLLER_PORT 2
 

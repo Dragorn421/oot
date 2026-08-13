@@ -1,7 +1,6 @@
 #ifndef Z_ACTOR_DLFTBLS_H
 #define Z_ACTOR_DLFTBLS_H
 
-#include "romfile.h"
 #include "actor_profile.h"
 
 /**
@@ -54,9 +53,7 @@
 #define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
 typedef struct ActorOverlay {
-    /* 0x00 */ RomFile file;
-    /* 0x08 */ void* vramStart;
-    /* 0x0C */ void* vramEnd;
+    /* 0x00 */ const char* ovl_name;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
     /* 0x14 */ ActorProfile* profile;
     /* 0x18 */ char* name;

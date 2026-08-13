@@ -19,6 +19,7 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
+#include "unk.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "effect.h"

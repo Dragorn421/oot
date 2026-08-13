@@ -14,6 +14,7 @@
 #include "sfx.h"
 #include "terminal.h"
 #include "translation.h"
+#include "unk.h"
 #include "z_lib.h"
 #include "play_state.h"
 #include "skin_matrix.h"

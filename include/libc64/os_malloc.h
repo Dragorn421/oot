@@ -12,7 +12,6 @@ typedef struct Arena {
     /* 0x08 */ u32 size;
     /* 0x0C */ u8 allocFailures;
 #else
-    /* 0x08 */ OSMesgQueue lockQueue;
     /* 0x20 */ u8 allocFailures; // only used in non-debug builds
     /* 0x21 */ u8 isInit;
     /* 0x22 */ u8 flag;
@@ -28,9 +27,7 @@ typedef struct ArenaNode {
 #if PLATFORM_N64 || DEBUG_FEATURES
     /* 0x10 */ const char* filename;
     /* 0x14 */ int line;
-    /* 0x18 */ OSId threadId;
     /* 0x1C */ Arena* arena;
-    /* 0x20 */ OSTime time;
     /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
 #endif
 } ArenaNode; // size = 0x30 (N64 and GC debug), size = 0x10 (GC retail)

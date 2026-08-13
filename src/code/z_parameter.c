@@ -1,15 +1,17 @@
 #include "array_count.h"
 #include "attributes.h"
-#include "controller.h"
+#include "dma_queue.h"
+#include "elf_reader.h"
+#include "game_controller.h"
 #include "flag_set.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "interface.h"
 #include "language_array.h"
 #include "main.h"
 #include "map.h"
 #include "printf.h"
 #include "regs.h"
-#include "segment_symbols.h"
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
@@ -17,7 +19,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "lifemeter.h"
 #include "horse.h"
 #include "ocarina.h"
@@ -28,6 +30,7 @@
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
+#include <stdint.h>
 
 #pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ntsc-1.0:128 ntsc-1.1:128" \
                                "ntsc-1.2:128"
@@ -1340,22 +1343,17 @@ void func_800849EC(PlayState* play) {
 
 void Interface_LoadItemIcon1(PlayState* play, u16 button) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
+    void* ram = interfaceCtx->iconItemSegment + (button * ITEM_ICON_SIZE);
+    uint32_t offset = GET_ITEM_ICON_VROM_OFFSET(gSaveContext.save.info.equips.buttonItems[button]);
+    size_t size = ITEM_ICON_SIZE;
+    struct dma_request req;
 
-    osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DMA_REQUEST_ASYNC(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + (button * ITEM_ICON_SIZE),
-                      GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[button]), ITEM_ICON_SIZE, 0,
-                      &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
-    osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
+    elf_section_dma_queue_read_fragment(ram, "assets.textures.icon_item_static", offset, size, &req);
+    dma_queue_wait(&req);
 }
 
 void Interface_LoadItemIcon2(PlayState* play, u16 button) {
-    InterfaceContext* interfaceCtx = &play->interfaceCtx;
-
-    osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DMA_REQUEST_ASYNC(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + (button * ITEM_ICON_SIZE),
-                      GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[button]), ITEM_ICON_SIZE, 0,
-                      &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
-    osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
+    Interface_LoadItemIcon1(play, button);
 }
 
 void func_80084BF4(PlayState* play, u16 flag) {
@@ -2159,14 +2157,15 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
         (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE))
 #endif
     {
-        osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-        DMA_REQUEST_ASYNC(&interfaceCtx->dmaRequest_160,
-                          interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),
-                          (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE),
-                          DO_ACTION_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
-        osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
+        void* ram = interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE);
+        uint32_t offset = action * DO_ACTION_TEX_SIZE;
+        size_t size = DO_ACTION_TEX_SIZE;
+        struct dma_request req;
+
+        elf_section_dma_queue_read_fragment(ram, "assets.textures.do_action_static", offset, size, &req);
+        dma_queue_wait(&req);
     } else {
-        gSegments[7] = OS_K0_TO_PHYSICAL(interfaceCtx->doActionSegment);
+        gSegments[7] = PhysicalAddr(interfaceCtx->doActionSegment);
         func_80086D5C(SEGMENTED_TO_VIRTUAL(sDoActionTextures[loadOffset]), DO_ACTION_TEX_SIZE / 4);
     }
 }
@@ -2223,11 +2222,13 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
 
     interfaceCtx->unk_1FC = action;
 
-    osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DMA_REQUEST_ASYNC(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE,
-                      (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE), DO_ACTION_TEX_SIZE,
-                      0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2228);
-    osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
+    void* ram = interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE;
+    uint32_t offset = action * DO_ACTION_TEX_SIZE;
+    size_t size = DO_ACTION_TEX_SIZE;
+    struct dma_request req;
+
+    elf_section_dma_queue_read_fragment(ram, "assets.textures.do_action_static", offset, size, &req);
+    dma_queue_wait(&req);
 
     interfaceCtx->unk_1FA = true;
 }

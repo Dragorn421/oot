@@ -5,7 +5,6 @@
 #endif
 #include "quake.h"
 #include "regs.h"
-#include "segment_symbols.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
@@ -109,22 +108,9 @@ EntranceInfo gEntranceTable[] = {
 
 #undef DEFINE_ENTRANCE
 
-// Linker symbol declarations (used in the table below)
-#define DEFINE_SCENE(name, title, _2, _3, _4, _5) \
-    DECLARE_ROM_SEGMENT(name)                     \
-    DECLARE_ROM_SEGMENT(title)
-
-#include "tables/scene_table.h"
-
-#undef DEFINE_SCENE
-
 // Scene Table definition
 #define DEFINE_SCENE(name, title, _2, drawConfig, unk_10, unk_12) \
-    { ROM_FILE(name), ROM_FILE(title), unk_10, drawConfig, unk_12, 0 },
-
-// Handle `none` as a special case for scenes without a title card
-#define _noneSegmentRomStart NULL
-#define _noneSegmentRomEnd NULL
+    { name, title, unk_10, drawConfig, unk_12, 0 },
 
 SceneTableEntry gSceneTable[] = {
 #include "tables/scene_table.h"

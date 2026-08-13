@@ -1,5 +1,6 @@
 #include "view.h"
 
+#include "assert_uppercase.h"
 #include "libc64/malloc.h"
 #include "libu64/debug.h"
 #include "avoid_ub.h"
@@ -11,6 +12,7 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
+#include <string.h>
 
 vu32 sLogOnNextViewInit = true;
 
@@ -35,7 +37,7 @@ View* View_New(GraphicsContext* gfxCtx) {
     View* view = SYSTEM_ARENA_MALLOC(sizeof(View), "../z_view.c", 285);
 
     if (view != NULL) {
-        func_80106860(view, 0, sizeof(View)); // memset
+        memset(view, 0, sizeof(View));
         View_Init(view, gfxCtx);
     }
 

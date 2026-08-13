@@ -1,7 +1,9 @@
+#include "assert_uppercase.h"
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "map.h"
 #include "printf.h"
 #include "regs.h"
-#include "segment_symbols.h"
 #include "translation.h"
 #include "versions.h"
 #include "lifemeter.h"
@@ -23,6 +25,7 @@ void Interface_Init(PlayState* play) {
     u32 parameterSize;
     u16 doActionOffset;
     u8 timerId;
+    struct dma_request req;
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
@@ -42,7 +45,7 @@ void Interface_Init(PlayState* play) {
     interfaceCtx->minimapAlpha = 0;
     interfaceCtx->unk_260 = 0;
 
-    parameterSize = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
+    parameterSize = elf_section_get_size("assets.textures.parameter_static");
 
     PRINTF(T("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", "Permanent PARAMETER Segment = %x\n"), parameterSize);
 
@@ -51,8 +54,8 @@ void Interface_Init(PlayState* play) {
     PRINTF("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
 
     ASSERT(interfaceCtx->parameterSegment != NULL, "parameter->parameterSegment != NULL", "../z_construct.c", 161);
-    DMA_REQUEST_SYNC(interfaceCtx->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, parameterSize,
-                     "../z_construct.c", 162);
+    elf_section_dma_queue_read(interfaceCtx->parameterSegment, "assets.textures.parameter_static", &req);
+    dma_queue_wait(&req);
 
     interfaceCtx->doActionSegment = GAME_STATE_ALLOC(&play->state, 3 * DO_ACTION_TEX_SIZE, "../z_construct.c", 166);
 
@@ -77,8 +80,9 @@ void Interface_Init(PlayState* play) {
     }
 #endif
 
-    DMA_REQUEST_SYNC(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
-                     2 * DO_ACTION_TEX_SIZE, "../z_construct.c", 174);
+    elf_section_dma_queue_read_fragment(interfaceCtx->doActionSegment, "assets.textures.do_action_static",
+                                        doActionOffset, 2 * DO_ACTION_TEX_SIZE, &req);
+    dma_queue_wait(&req);
 
 #if OOT_NTSC
     if (gSaveContext.language == LANGUAGE_JPN) {
@@ -96,9 +100,9 @@ void Interface_Init(PlayState* play) {
     }
 #endif
 
-    DMA_REQUEST_SYNC(interfaceCtx->doActionSegment + 2 * DO_ACTION_TEX_SIZE,
-                     (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, DO_ACTION_TEX_SIZE,
-                     "../z_construct.c", 178);
+    elf_section_dma_queue_read_fragment(interfaceCtx->doActionSegment + 2 * DO_ACTION_TEX_SIZE,
+                                        "assets.textures.do_action_static", doActionOffset, DO_ACTION_TEX_SIZE, &req);
+    dma_queue_wait(&req);
 
     interfaceCtx->iconItemSegment = GAME_STATE_ALLOC(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
 
@@ -113,33 +117,36 @@ void Interface_Init(PlayState* play) {
            gSaveContext.save.info.equips.buttonItems[3]);
 
     if (gSaveContext.save.info.equips.buttonItems[0] < 0xF0) {
-        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
-
-                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
-                         "../z_construct.c", 198);
+        elf_section_dma_queue_read_fragment(
+            interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE), "assets.textures.icon_item_static",
+            GET_ITEM_ICON_VROM_OFFSET(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE, &req);
+        dma_queue_wait(&req);
     } else if (gSaveContext.save.info.equips.buttonItems[0] != 0xFF) {
-        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
-
-                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
-                         "../z_construct.c", 203);
+        elf_section_dma_queue_read_fragment(
+            interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE), "assets.textures.icon_item_static",
+            GET_ITEM_ICON_VROM_OFFSET(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE, &req);
+        dma_queue_wait(&req);
     }
 
     if (gSaveContext.save.info.equips.buttonItems[1] < 0xF0) {
-        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (1 * ITEM_ICON_SIZE),
-                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[1]), ITEM_ICON_SIZE,
-                         "../z_construct.c", 209);
+        elf_section_dma_queue_read_fragment(
+            interfaceCtx->iconItemSegment + (1 * ITEM_ICON_SIZE), "assets.textures.icon_item_static",
+            GET_ITEM_ICON_VROM_OFFSET(gSaveContext.save.info.equips.buttonItems[1]), ITEM_ICON_SIZE, &req);
+        dma_queue_wait(&req);
     }
 
     if (gSaveContext.save.info.equips.buttonItems[2] < 0xF0) {
-        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (2 * ITEM_ICON_SIZE),
-                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[2]), ITEM_ICON_SIZE,
-                         "../z_construct.c", 214);
+        elf_section_dma_queue_read_fragment(
+            interfaceCtx->iconItemSegment + (2 * ITEM_ICON_SIZE), "assets.textures.icon_item_static",
+            GET_ITEM_ICON_VROM_OFFSET(gSaveContext.save.info.equips.buttonItems[2]), ITEM_ICON_SIZE, &req);
+        dma_queue_wait(&req);
     }
 
     if (gSaveContext.save.info.equips.buttonItems[3] < 0xF0) {
-        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (3 * ITEM_ICON_SIZE),
-                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[3]), ITEM_ICON_SIZE,
-                         "../z_construct.c", 219);
+        elf_section_dma_queue_read_fragment(
+            interfaceCtx->iconItemSegment + (3 * ITEM_ICON_SIZE), "assets.textures.icon_item_static",
+            GET_ITEM_ICON_VROM_OFFSET(gSaveContext.save.info.equips.buttonItems[3]), ITEM_ICON_SIZE, &req);
+        dma_queue_wait(&req);
     }
 
     PRINTF("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));

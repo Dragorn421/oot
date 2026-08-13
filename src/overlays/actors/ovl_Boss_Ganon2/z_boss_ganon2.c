@@ -18,6 +18,7 @@
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "tex_len.h"
+#include "unk.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -395,7 +396,7 @@ void BossGanon2_SetObjectSegment(BossGanon2* this, PlayState* play, s32 objectId
     s32 pad;
     s32 objectSlot = Object_GetSlot(&play->objectCtx, objectId);
 
-    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+    gSegments[6] = PhysicalAddr(play->objectCtx.slots[objectSlot].segment);
 
     if (setRSPSegment) {
         OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 790);
@@ -1358,7 +1359,7 @@ void func_808FFDB0(BossGanon2* this, PlayState* play) {
     s32 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GANON2);
 
     if (Object_IsLoaded(&play->objectCtx, objectSlot)) {
-        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+        gSegments[6] = PhysicalAddr(play->objectCtx.slots[objectSlot].segment);
         Animation_MorphToLoop(&this->skelAnime, &gGanonGuardIdleAnim, -10.0f);
         this->actionFunc = func_808FFEBC;
 

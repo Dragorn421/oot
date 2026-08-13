@@ -2,7 +2,7 @@
 
 #include "stdbool.h"
 
-#include "controller.h"
+#include "game_controller.h"
 #include "libu64/pad.h"
 
 void FrameAdvance_Init(FrameAdvanceContext* frameAdvCtx) {

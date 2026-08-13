@@ -1,3 +1,5 @@
+#include "assert_uppercase.h"
+#include "elf_reader.h"
 #include "libu64/overlay.h"
 #include "array_count.h"
 #include "printf.h"
@@ -8,6 +10,7 @@
 #include "frame_advance.h"
 #include "effect.h"
 #include "play_state.h"
+#include <stdio.h>
 
 EffectSsInfo sEffectSsInfo = { 0 }; // "EffectSS2Info"
 
@@ -15,15 +18,6 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
     u32 i;
     EffectSs* effectSs;
     EffectSsOverlay* overlay;
-
-#if DEBUG_FEATURES
-    for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
-        overlay = &gEffectSsOverlayTable[i];
-        PRINTF("effect index %3d:size=%6dbyte romsize=%6dbyte\n", i,
-               (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart,
-               overlay->file.vromEnd - overlay->file.vromStart);
-    }
-#endif
 
     sEffectSsInfo.table =
         GAME_STATE_ALLOC(&play->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
@@ -181,6 +175,8 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     u32 overlaySize;
     EffectSsOverlay* overlayEntry;
     EffectSsProfile* profile;
+    char dll_name[100];
+    int nchar;
 
     overlayEntry = &gEffectSsOverlayTable[type];
 
@@ -192,9 +188,13 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     }
 
     sEffectSsInfo.searchStartIndex = index + 1;
-    overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
-    if (overlayEntry->vramStart == NULL) {
+    nchar = snprintf(dll_name, sizeof(dll_name), "effects/%s", overlayEntry->ovl_name);
+    assert(nchar < sizeof(dll_name));
+
+    overlaySize = elf_section_get_dll_ramsize(dll_name);
+
+    if (overlayEntry->ovl_name == NULL) {
         PRINTF(T("EffectSoftSprite2_makeEffect():オーバーレイではありません。\n",
                  "EffectSoftSprite2_makeEffect(): Not an overlay.\n"));
         profile = overlayEntry->profile;
@@ -217,19 +217,16 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
                 return;
             }
 
-            Overlay_Load(overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
-                         overlayEntry->vramEnd, overlayEntry->loadedRamAddr);
+            elf_section_load_dll(dll_name, overlayEntry->loadedRamAddr);
 
             PRINTF_COLOR_GREEN();
-            PRINTF("EFFECT SS OVL:SegRom %08x %08x, Seg %08x %08x, RamStart %08x, type: %d\n",
-                   overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
-                   overlayEntry->vramEnd, overlayEntry->loadedRamAddr, type);
+            PRINTF("EFFECT SS OVL:RamStart %08x, type: %d\n", overlayEntry->loadedRamAddr, type);
             PRINTF_RST();
         }
 
         profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
                                          ? (void*)((uintptr_t)overlayEntry->profile -
-                                                   (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                   (intptr_t)((uintptr_t)elf_section_get_dll_vram_start(dll_name) -
                                                               (uintptr_t)overlayEntry->loadedRamAddr))
                                          : NULL);
     }

@@ -1,4 +1,4 @@
-#include "fault.h"
+#include <libdragon.h>
 #include "printf.h"
 #include "terminal.h"
 #include "translation.h"
@@ -99,30 +99,24 @@ void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, int
 }
 
 void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, int line) {
-    if (ptr == NULL || (u32)ptr < 0x80000000 || (0x80000000 + osMemSize) <= (u32)ptr) {
+    if (ptr == NULL || (u32)ptr < 0x80000000 || (0x80000000 + get_memory_size()) <= (u32)ptr) {
         PRINTF(VT_COL(RED, WHITE) T("%s %d:ポインタ %s(%08x) が異常です\n", "%s %d: Pointer %s(%08x) is invalid\n")
                    VT_RST,
                file, line, exp, ptr);
     }
 }
-
-void LogUtils_LogThreadId(const char* name, int line) {
-    PRINTF("<%d %s %d>", osGetThreadId(NULL), name, line);
-}
 #endif
 
 void LogUtils_HungupThread(const char* name, int line) {
-    OSId threadId = osGetThreadId(NULL);
-
 #if PLATFORM_N64 || DEBUG_FEATURES
-    osSyncPrintf("*** HungUp in thread %d, [%s:%d] ***\n", threadId, name, line);
+    osSyncPrintf("*** HungUp, [%s:%d] ***\n", name, line);
 #endif
-    Fault_AddHungupAndCrash(name, line);
+    assert(false);
 }
 
 void LogUtils_ResetHungup(void) {
 #if PLATFORM_N64 || DEBUG_FEATURES
     osSyncPrintf("*** Reset ***\n");
 #endif
-    Fault_AddHungupAndCrash("Reset", 0);
+    assert(false);
 }

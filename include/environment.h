@@ -1,9 +1,9 @@
 #ifndef ENVIRONMENT_H_
 #define ENVIRONMENT_H_
 
+#include "dma_queue.h"
 #include "z_math.h"
 #include "light.h"
-#include "dma.h"
 
 struct GameOverContext;
 struct MessageContext;
@@ -198,9 +198,7 @@ typedef struct EnvironmentContext {
     /* 0x28 */ LightInfo dirLight1; // used as sunlight for `LIGHT_MODE_TIME`
     /* 0x36 */ LightInfo dirLight2; // used as moonlight for `LIGHT_MODE_TIME`
     /* 0x44 */ s8 skyboxDmaState;
-    /* 0x48 */ DmaRequest dmaRequest;
-    /* 0x68 */ OSMesgQueue loadQueue;
-    /* 0x80 */ OSMesg loadMsg;
+    /* 0x48 */ struct dma_request dma_request;
     /* 0x84 */ f32 glareAlpha;
     /* 0x88 */ f32 lensFlareAlphaScale;
     /* 0x8C */ s16 adjAmbientColor[3];

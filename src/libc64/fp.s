@@ -1,5 +1,4 @@
 #include "ultra64/asm.h"
-#include "ultra64/regdef.h"
 
 .data
 

@@ -1,3 +1,4 @@
+#include "assert_uppercase.h"
 #include "rand.h"
 #include "translation.h"
 #include "play_state.h"

@@ -15,7 +15,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "debug_display.h"
 #include "ocarina.h"
 #include "play_state.h"

@@ -1,7 +1,7 @@
 #ifndef LIFEMETER_H
 #define LIFEMETER_H
 
-#include "ultra64/ultratypes.h"
+#include "ultra64.h"
 
 struct PlayState;
 

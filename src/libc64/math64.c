@@ -1,9 +1,12 @@
 #include "libc64/math64.h"
 #include "z_math.h"
+#include <stdbool.h>
 
 #if !PLATFORM_N64
 s32 gUseAtanContFrac;
 #endif
+
+extern float qNaN0x10000;
 
 /**
  * @param angle radians

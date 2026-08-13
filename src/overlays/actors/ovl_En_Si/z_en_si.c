@@ -8,7 +8,7 @@
 
 #include "sequence.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "draw.h"
 #include "play_state.h"
 #include "player.h"

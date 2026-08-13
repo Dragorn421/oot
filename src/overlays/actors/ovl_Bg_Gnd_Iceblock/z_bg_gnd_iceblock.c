@@ -6,6 +6,7 @@
 
 #include "z_bg_gnd_iceblock.h"
 
+#include "assert_uppercase.h"
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
 #include "ichain.h"

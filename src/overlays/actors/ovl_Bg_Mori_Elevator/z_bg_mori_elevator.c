@@ -8,7 +8,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "translation.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "play_state.h"
 #include "player.h"
 

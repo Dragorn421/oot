@@ -1,10 +1,12 @@
+#include "assert_uppercase.h"
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "array_count.h"
 #include "avoid_ub.h"
 #include "printf.h"
 #include "regs.h"
 #include "romfile.h"
 #include "seqcmd.h"
-#include "segment_symbols.h"
 #include "segmented_address.h"
 #include "terminal.h"
 #include "translation.h"
@@ -15,9 +17,17 @@
 #include "player.h"
 #include "save.h"
 #include "scene.h"
+#include <assert.h>
 
 SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];
-RomFile sNaviQuestHintFiles[];
+const char* sNaviQuestHintFiles[];
+
+void make_object_section_name(char* buf, size_t buf_sz, s16 objectId) {
+    int nchars;
+
+    nchars = snprintf(buf, buf_sz, "assets.objects.%s", gObjectTable[objectId]);
+    assert(nchars < buf_sz);
+}
 
 /**
  * Spawn an object file of a specified ID that will persist through room changes.
@@ -33,9 +43,13 @@ RomFile sNaviQuestHintFiles[];
  */
 s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     u32 size;
+    char object_section_name[100];
+    struct dma_request req;
+
+    make_object_section_name(object_section_name, sizeof(object_section_name), objectId);
 
     objectCtx->slots[objectCtx->numEntries].id = objectId;
-    size = gObjectTable[objectId].vromEnd - gObjectTable[objectId].vromStart;
+    size = elf_section_get_size(object_section_name);
 
     PRINTF("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, size / 1024.0f, objectCtx->slots[objectCtx->numEntries].segment);
 
@@ -47,8 +61,8 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
            "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
            "../z_scene.c", 142);
 
-    DMA_REQUEST_SYNC(objectCtx->slots[objectCtx->numEntries].segment, gObjectTable[objectId].vromStart, size,
-                     "../z_scene.c", 145);
+    elf_section_dma_queue_read(objectCtx->slots[objectCtx->numEntries].segment, object_section_name, &req);
+    dma_queue_wait(&req);
 
     if (objectCtx->numEntries < (ARRAY_COUNT(objectCtx->slots) - 1)) {
         objectCtx->slots[objectCtx->numEntries + 1].segment =
@@ -110,27 +124,26 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     objectCtx->spaceEnd = (void*)((uintptr_t)objectCtx->spaceStart + spaceSize);
 
     objectCtx->mainKeepSlot = Object_SpawnPersistent(objectCtx, OBJECT_GAMEPLAY_KEEP);
-    gSegments[4] = OS_K0_TO_PHYSICAL(objectCtx->slots[objectCtx->mainKeepSlot].segment);
+    gSegments[4] = PhysicalAddr(objectCtx->slots[objectCtx->mainKeepSlot].segment);
 }
 
 void Object_UpdateEntries(ObjectContext* objectCtx) {
     s32 i;
     ObjectEntry* entry = &objectCtx->slots[0];
-    RomFile* objectFile;
     u32 size;
+    char object_section_name[100];
 
     for (i = 0; i < objectCtx->numEntries; i++) {
         if (entry->id < 0) {
-            if (entry->dmaRequest.vromAddr == 0) {
-                osCreateMesgQueue(&entry->loadQueue, &entry->loadMsg, 1);
-                objectFile = &gObjectTable[-entry->id];
-                size = objectFile->vromEnd - objectFile->vromStart;
+            if (!entry->dma_requested) {
+                entry->dma_requested = true;
 
-                PRINTF("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, entry->segment);
+                make_object_section_name(object_section_name, sizeof(object_section_name), -entry->id);
 
-                DMA_REQUEST_ASYNC(&entry->dmaRequest, entry->segment, objectFile->vromStart, size, 0, &entry->loadQueue,
-                                  NULL, "../z_scene.c", 266);
-            } else if (osRecvMesg(&entry->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
+                PRINTF("OBJECT EXCHANGE BANK-%2d SEG=%08x\n", i, entry->segment);
+
+                elf_section_dma_queue_read(entry->segment, object_section_name, &entry->dma_request);
+            } else if (dma_queue_finished(&entry->dma_request)) {
                 entry->id = -entry->id;
             }
         }
@@ -160,29 +173,31 @@ s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot) {
 
 void func_800981B8(ObjectContext* objectCtx) {
     s32 i;
-    s32 id;
     u32 size;
+    struct dma_request req;
+    char object_section_name[100];
 
     for (i = 0; i < objectCtx->numEntries; i++) {
-        id = objectCtx->slots[i].id;
-        size = gObjectTable[id].vromEnd - gObjectTable[id].vromStart;
-        PRINTF("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->slots[i].id, size / 1024.0f, objectCtx->slots[i].segment);
-        PRINTF("num=%d adrs=%x end=%x\n", objectCtx->numEntries, (uintptr_t)objectCtx->slots[i].segment + size,
-               objectCtx->spaceEnd);
-        DMA_REQUEST_SYNC(objectCtx->slots[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
+        make_object_section_name(object_section_name, sizeof(object_section_name), objectCtx->slots[i].id);
+        PRINTF("OBJECT[%d] SEG=%x\n", objectCtx->slots[i].id, objectCtx->slots[i].segment);
+        PRINTF("num=%d end=%x\n", objectCtx->numEntries, objectCtx->spaceEnd);
+        elf_section_dma_queue_read(objectCtx->slots[i].segment, object_section_name, &req);
+        dma_queue_wait(&req);
     }
 }
 
 void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
     ObjectEntry* entry = &objectCtx->slots[slot];
-    RomFile* objectFile = &gObjectTable[objectId];
     u32 size;
     void* nextPtr;
+    char object_section_name[100];
 
     entry->id = -objectId;
-    entry->dmaRequest.vromAddr = 0;
+    entry->dma_requested = false;
 
-    size = objectFile->vromEnd - objectFile->vromStart;
+    make_object_section_name(object_section_name, sizeof(object_section_name), objectId);
+
+    size = elf_section_get_size(object_section_name);
     PRINTF("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", slot, objectId, size / 1024.0f);
 
     nextPtr = (void*)ALIGN16((uintptr_t)entry->segment + size);
@@ -256,7 +271,7 @@ BAD_RETURN(s32) Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
 
 BAD_RETURN(s32) Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
     play->roomList.count = cmd->roomList.length;
-    play->roomList.romFiles = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
+    play->roomList.room_names = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
 }
 
 BAD_RETURN(s32) Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
@@ -266,11 +281,17 @@ BAD_RETURN(s32) Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
 BAD_RETURN(s32) Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
         play->objectCtx.subKeepSlot = Object_SpawnPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
-        gSegments[5] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
+        gSegments[5] = PhysicalAddr(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
     }
 
     if (cmd->specialFiles.naviQuestHintFileId != NAVI_QUEST_HINTS_NONE) {
-        play->naviQuestHints = Play_LoadFile(play, &sNaviQuestHintFiles[cmd->specialFiles.naviQuestHintFileId - 1]);
+        char section_name[100];
+        int nchar;
+
+        nchar = snprintf(section_name, sizeof(section_name), "assets.elf_message.%s",
+                         sNaviQuestHintFiles[cmd->specialFiles.naviQuestHintFileId - 1]);
+        assert(nchar < sizeof(section_name));
+        play->naviQuestHints = Play_LoadFile(play, section_name);
     }
 }
 
@@ -559,7 +580,7 @@ SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
     Scene_CommandMiscSettings,             // SCENE_CMD_ID_MISC_SETTINGS
 };
 
-RomFile sNaviQuestHintFiles[] = {
-    ROM_FILE(elf_message_field),
-    ROM_FILE(elf_message_ydan),
+const char* sNaviQuestHintFiles[] = {
+    "elf_message_field",
+    "elf_message_ydan",
 };

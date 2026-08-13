@@ -1,7 +1,7 @@
 #ifndef SYS_DEBUG_CONTROLLER_H
 #define SYS_DEBUG_CONTROLLER_H
 
-#include "ultra64/ultratypes.h"
+#include "ultra64.h"
 
 #if DEBUG_FEATURES
 extern u32 gIsCtrlr2Valid;

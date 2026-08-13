@@ -6,6 +6,7 @@
 
 #include "z_en_rr.h"
 
+#include "assert_uppercase.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

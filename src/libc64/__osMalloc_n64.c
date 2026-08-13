@@ -1,7 +1,6 @@
 #include "libc64/os_malloc.h"
 
 #include "alignment.h"
-#include "fault.h"
 #include "translation.h"
 
 #define NODE_MAGIC 0x7373
@@ -404,7 +403,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
                 }
                 node->next = newNext;
                 node->size = newSize;
-                func_801068B0(node->next, next, sizeof(ArenaNode));
+                memcpy(node->next, next, sizeof(ArenaNode));
             } else {
                 newAlloc = __osMalloc(arena, newSize);
                 if (newAlloc != NULL) {

@@ -10,7 +10,7 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "play_state.h"
 #include "player.h"
 #include "save.h"

@@ -11,15 +11,16 @@
 #include "regs.h"
 #include "speed_meter.h"
 #include "translation.h"
-#include "dma.h"
 
 void AudioMgr_NotifyTaskDone(AudioMgr* audioMgr) {
+#ifndef STUB_AUDIO
     AudioTask* task = audioMgr->rspTask;
 
     // If the audio rsp task has a message queue to receive task done notifications, post a message to it.
     if (audioMgr->rspTask->msgQueue != NULL) {
         osSendMesg(task->msgQueue, NULL, OS_MESG_BLOCK);
     }
+#endif
 }
 
 /**
@@ -27,6 +28,7 @@ void AudioMgr_NotifyTaskDone(AudioMgr* audioMgr) {
  * Update the audio driver and schedule audio rsp tasks.
  */
 void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
+#ifndef STUB_AUDIO
     AudioTask* rspTask;
 
     if (R_AUDIOMGR_ACTIVITY_LEVEL > AUDIOMGR_ACTIVITY_LEVEL_ALL) {
@@ -78,6 +80,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
     }
     // Update rsp task to be scheduled on next retrace
     audioMgr->rspTask = rspTask;
+#endif
 }
 
 /**
@@ -93,6 +96,7 @@ void AudioMgr_HandlePreNMI(AudioMgr* audioMgr) {
 }
 
 void AudioMgr_ThreadEntry(void* arg) {
+#ifndef STUB_AUDIO
     AudioMgr* audioMgr = (AudioMgr*)arg;
     IrqMgrClient irqClient;
     s16* msg = NULL;
@@ -139,6 +143,7 @@ void AudioMgr_ThreadEntry(void* arg) {
                 break;
         }
     }
+#endif
 }
 
 /**
@@ -149,12 +154,15 @@ void AudioMgr_ThreadEntry(void* arg) {
  * the queue.
  */
 void AudioMgr_WaitForInit(AudioMgr* audioMgr) {
+#ifndef STUB_AUDIO
     osRecvMesg(&audioMgr->initQueue, NULL, OS_MESG_BLOCK);
+#endif
 }
 
-void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Scheduler* sched, IrqMgr* irqMgr) {
+void AudioMgr_Init(AudioMgr* audioMgr) {
     bzero(audioMgr, sizeof(AudioMgr));
 
+#ifndef STUB_AUDIO
     audioMgr->sched = sched;
     audioMgr->irqMgr = irqMgr;
     audioMgr->rspTask = NULL;
@@ -172,4 +180,5 @@ void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Schedule
 
     osCreateThread(&audioMgr->thread, id, AudioMgr_ThreadEntry, audioMgr, stack, pri);
     osStartThread(&audioMgr->thread);
+#endif
 }

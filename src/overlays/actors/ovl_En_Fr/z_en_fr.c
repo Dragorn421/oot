@@ -1,7 +1,8 @@
 #include "z_en_fr.h"
 
+#include "assert_uppercase.h"
 #include "array_count.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -15,7 +16,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "debug_display.h"
 #include "effect.h"
 #include "light.h"

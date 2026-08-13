@@ -4,12 +4,15 @@
  * Description: Displays the Nintendo Logo
  */
 
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "libu64/gfxprint.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #include "n64dd.h"
 #endif
 
+#include "assert_uppercase.h"
 #include "alloca.h"
 #include "build.h"
 #include "console_logo_state.h"
@@ -18,7 +21,6 @@
 #include "padmgr.h"
 #include "printf.h"
 #include "regs.h"
-#include "segment_symbols.h"
 #include "sequence.h"
 #include "sys_matrix.h"
 #include "sys_debug_controller.h"
@@ -217,8 +219,9 @@ void ConsoleLogo_Destroy(GameState* thisx) {
 }
 
 void ConsoleLogo_Init(GameState* thisx) {
-    u32 size = (uintptr_t)_nintendo_rogo_staticSegmentRomEnd - (uintptr_t)_nintendo_rogo_staticSegmentRomStart;
+    u32 size = elf_section_get_size("assets.textures.nintendo_rogo_static");
     ConsoleLogoState* this = (ConsoleLogoState*)thisx;
+    struct dma_request req;
 
 #if PLATFORM_N64
     if ((D_80121210 != 0) && (D_80121211 != 0) && (D_80121212 == 0)) {
@@ -234,7 +237,8 @@ void ConsoleLogo_Init(GameState* thisx) {
     this->staticSegment = GAME_STATE_ALLOC(&this->state, size, "../z_title.c", 611);
     PRINTF("z_title.c\n");
     ASSERT(this->staticSegment != NULL, "this->staticSegment != NULL", "../z_title.c", 614);
-    DMA_REQUEST_SYNC(this->staticSegment, (uintptr_t)_nintendo_rogo_staticSegmentRomStart, size, "../z_title.c", 615);
+    elf_section_dma_queue_read(this->staticSegment, "assets.textures.nintendo_rogo_static", &req);
+    dma_queue_wait(&req);
     R_UPDATE_RATE = 1;
     Matrix_Init(&this->state);
     View_Init(&this->view, this->state.gfxCtx);

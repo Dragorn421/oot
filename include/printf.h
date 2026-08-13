@@ -1,6 +1,7 @@
 #ifndef PRINTF_H
 #define PRINTF_H
 
+#include <libdragon.h>
 #include "terminal.h"
 #include "ultra64.h"
 
@@ -13,7 +14,7 @@
 #define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !M2CTX)
 
 #if DEBUG_FEATURES
-#define PRINTF osSyncPrintf
+#define PRINTF debugf
 #elif defined(EGCS)
 #define PRINTF(format, args...) while (0) osSyncPrintf(format, ##args)
 #elif IDO_PRINTF_WORKAROUND

@@ -17,7 +17,7 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "effect.h"
 #include "play_state.h"
 

@@ -1,18 +1,22 @@
+#include "assert_uppercase.h"
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "libu64/debug.h"
 #include "avoid_ub.h"
 #include "gfx.h"
 #include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
-#include "segment_symbols.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
+#include "ultra64/mbi.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
 #include "animation.h"
 #include "animation_legacy.h"
 #include "play_state.h"
+#include <stdint.h>
 
 #define ANIM_INTERP 1
 
@@ -862,15 +866,6 @@ AnimTask* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
     return task;
 }
 
-#if !PLATFORM_GC
-#define LINK_ANIMATION_OFFSET(addr, offset) \
-    (((uintptr_t)_link_animetionSegmentRomStart) + SEGMENT_OFFSET(addr) + (offset))
-#else
-#define LINK_ANIMATION_OFFSET(addr, offset)                                                                         \
-    (((uintptr_t)_link_animetionSegmentRomStart) + ((uintptr_t)(addr)) - ((uintptr_t)_link_animetionSegmentStart) + \
-     (offset))
-#endif
-
 /**
  * Creates a task which will load a single frame of animation data from the link_animetion file.
  * The asynchronous DMA request to load the data is made as soon as the task is created.
@@ -882,13 +877,14 @@ void AnimTaskQueue_AddLoadPlayerFrame(PlayState* play, LinkAnimationHeader* anim
 
     if (task != NULL) {
         LinkAnimationHeader* linkAnimHeader = SEGMENTED_TO_VIRTUAL(animation);
-        s32 pad;
+        uint32_t link_animetion_offset = SEGMENT_OFFSET(linkAnimHeader->segment);
+        uint32_t anim_frame_offset = (sizeof(Vec3s) * limbCount + 2) * frame;
+        size_t size = sizeof(Vec3s) * limbCount + 2;
 
-        osCreateMesgQueue(&task->data.loadPlayerFrame.msgQueue, &task->data.loadPlayerFrame.msg, 1);
-        DMA_REQUEST_ASYNC(&task->data.loadPlayerFrame.req, frameTable,
-                          LINK_ANIMATION_OFFSET(linkAnimHeader->segment, ((sizeof(Vec3s) * limbCount + 2) * frame)),
-                          sizeof(Vec3s) * limbCount + 2, 0, &task->data.loadPlayerFrame.msgQueue, NULL,
-                          "../z_skelanime.c", 2004);
+        // TODO-ootdragon cache the rom offset of link_animetion rather than look up the name each time
+        elf_section_dma_queue_read_fragment(frameTable, "assets.misc.link_animetion",
+                                            link_animetion_offset + anim_frame_offset, size,
+                                            &task->data.loadPlayerFrame.req);
     }
 }
 
@@ -989,7 +985,7 @@ void AnimTaskQueue_AddActorMovement(PlayState* play, Actor* actor, SkelAnime* sk
 void AnimTask_LoadPlayerFrame(PlayState* play, AnimTaskData* data) {
     AnimTaskLoadPlayerFrame* task = &data->loadPlayerFrame;
 
-    osRecvMesg(&task->msgQueue, NULL, OS_MESG_BLOCK);
+    dma_queue_wait(&task->req);
 }
 
 /**

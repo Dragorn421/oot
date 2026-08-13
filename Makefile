@@ -154,7 +154,7 @@ else
   CPP_DEFINES += -DDEBUG_FEATURES=0 -DNDEBUG
 endif
 
-INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
+INC := -Iinclude -Iinclude/ootdragon -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
 CPP            := $(N64_GCCPREFIX_TRIPLET)cpp
 MKDMADATA      := tools/mkdmadata
@@ -320,7 +320,6 @@ $(BUILD_DIR)/src/audio/internal/seqplayer.o: N64_C_AND_CXX_FLAGS += -DMML_VERSIO
 
 # Note that if adding additional assets directories for modding reasons these flags must also be used there
 $(BUILD_DIR)/assets/%.o: CFLAGS += -fno-zero-initialized-in-bss -fno-toplevel-reorder
-$(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/overlays/%.o: CFLAGS += -mno-explicit-relocs -mno-split-addresses
 
 #### Main Targets ###
@@ -381,40 +380,34 @@ $(BUILD_DIR)/assets/text/ger_message_data_static.o: $(BUILD_DIR)/assets/text/mes
 $(BUILD_DIR)/assets/text/fra_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.nes.h
 $(BUILD_DIR)/assets/text/staff_message_data_static.o: $(BUILD_DIR)/assets/text/message_data_staff.enc.nes.h
 
-N64_C_AND_CXX_FLAGS := $(filter-out -I$(N64_INCLUDEDIR),$(N64_C_AND_CXX_FLAGS))
 N64_C_AND_CXX_FLAGS += $(CPP_DEFINES) $(GBI_DEFINES) $(INC)
 
 N64_C_AND_CXX_FLAGS += -Wno-error=maybe-uninitialized
 N64_C_AND_CXX_FLAGS += -Wno-missing-braces
 N64_C_AND_CXX_FLAGS += -Wno-error=strict-aliasing -Wno-error=format=
-N64_C_AND_CXX_FLAGS += -Wno-error=unknown-pragmas # #pragma increment_block_number
+N64_C_AND_CXX_FLAGS += -Wno-unknown-pragmas # #pragma increment_block_number
 N64_C_AND_CXX_FLAGS += -Wno-error=array-bounds= # (at least) OS_K0_TO_PHYSICAL
 N64_C_AND_CXX_FLAGS += -Wno-error=address -Wno-error=return-type -Wno-error=switch-unreachable
 N64_C_AND_CXX_FLAGS += -Wno-unused-variable
-N64_C_AND_CXX_FLAGS += -Wno-error=char-subscripts
+N64_C_AND_CXX_FLAGS += -Wno-char-subscripts
 N64_C_AND_CXX_FLAGS += -Wno-error=unused-value
 N64_C_AND_CXX_FLAGS += -Wno-error=trigraphs
+N64_C_AND_CXX_FLAGS += -Wno-error=format-extra-args
+N64_C_AND_CXX_FLAGS += -Wno-format
 
 # TODO enable small data
 N64_C_AND_CXX_FLAGS += -G 0
 
-code_SRCS := $(shell find src/libc64 src/libu64 src/libultra src/boot src/code src/audio src/buffers data \( \( -name '*.c' -not -name '*.inc.c' \) -o -name '*.[sS]' \))
+# TODO-ootdragon figure out audio
+N64_C_AND_CXX_FLAGS += -D STUB_AUDIO
+
+code_SRCS := $(shell find src/libc64 src/libu64 src/libultra src/boot src/code src/audio src/buffers data src/ootdragon \( \( -name '*.c' -not -name '*.inc.c' \) -o -name '*.[sS]' \))
 exclude_code_SRCS :=
-exclude_code_SRCS += src/libultra/bb/sa/common.c  # "libc" stuff
-exclude_code_SRCS += src/boot/z_std_dma.c  # we will need complete rehandling of dmaing
 exclude_code_SRCS += src/code/fault_n64.c  # keep the fault_gc.c one
 exclude_code_SRCS += src/boot/is_debug_ique.c  # keep the is_debug.c one
 exclude_code_SRCS += src/libc64/__osMalloc_n64.c  # keep the __osMalloc_gc.c one
 exclude_code_SRCS += src/libu64/loadfragment2_n64.c  # keep the load_gc.c one and co
-exclude_code_SRCS += src/libultra/mgu/scale.s  # can't assemble it as is with gas, and gu/scale.c implements it in C anyway
-exclude_code_SRCS += src/libultra/mgu/mtxf2l.s  # can't assemble it as is with gas, and gu/mtxutil.c implements it in C anyway
-exclude_code_SRCS += src/libultra/mgu/mtxl2f.s  # can't assemble it as is with gas, and gu/mtxutil.c implements it in C anyway
-exclude_code_SRCS += src/libultra/mgu/normalize.s  # can't assemble it as is with gas, and gu/normalize.c implements it in C anyway
-exclude_code_SRCS += src/libultra/mgu/translate.s  # can't assemble it as is with gas, and gu/translate.c implements it in C anyway
-exclude_code_SRCS += src/libultra/gu/sqrtf.s  # can't assemble it as is with gas, and function should be in libm anyway
 exclude_code_SRCS += data/gspF3DZEX2.NoN.fifo.s  # we use gspF3DZEX2_NoN_PosLight_fifo
-exclude_code_SRCS += src/libultra/mgu/mtxident.s  # duplicates mtxutil.c
-exclude_code_SRCS += src/libultra/mgu/mtxidentf.s  # duplicates mtxutil.c
 code_SRCS := $(filter-out $(exclude_code_SRCS),$(code_SRCS))
 code_OBJS := $(addprefix $(BUILD_DIR)/,$(patsubst %.S,%.o,$(patsubst %.s,%.o,$(code_SRCS:.c=.o))))
 code_OBJS += $(BUILD_DIR)/rsp/rspboot.o  #
@@ -422,7 +415,8 @@ code_OBJS += $(BUILD_DIR)/rsp/rspboot.o  #
 ifeq ($(wildcard $(EXTRACTED_DIR)/assets),)
 assets_SRCS :=
 else
-assets_SRCS := $(shell find assets $(EXTRACTED_DIR)/assets \( -name '*.c' -not -name '*.inc.c' \))
+# TODO-ootdragon not sure where to put src/elf_message. Here for now
+assets_SRCS := $(shell find assets $(EXTRACTED_DIR)/assets src/elf_message \( -name '*.c' -not -name '*.inc.c' \))
 endif
 exclude_assets_SRCS :=
 exclude_assets_SRCS += assets/textures/icon_item_jpn_static/icon_item_jpn_static.c  # we're building gc-eu-mq-dbg for now
@@ -466,6 +460,10 @@ $(BUILD_DIR)/src/%.o: src/%.s
 	@mkdir -p $(dir $@)
 	echo "    [AS] $<"
 	$(CC) -c -x assembler-with-cpp $(INC) $(foreach i,$(INC),-Wa,$(i)) $(ASFLAGS) -o $@ $<
+$(BUILD_DIR)/data/%.o: data/%.s
+	@mkdir -p $(dir $@)
+	echo "    [AS] $<"
+	$(CC) -c -x assembler-with-cpp $(INC) $(foreach i,$(INC),-Wa,$(i)) $(ASFLAGS) -o $@ $<
 
 $(BUILD_DIR)/src/overlays/%/dll.plf:
 	@mkdir -p $(dir $@)
@@ -480,12 +478,13 @@ $(BUILD_DIR)/src/overlays/%/dll.o: $(BUILD_DIR)/src/overlays/%/dll.plf
 
 $(ROM): N64_ROM_TITLE = "oot-$(VERSION)"
 
-$(ELF): $(BUILD_DIR)/ldscript.ld $(code_OBJS) $(assets_OBJS) $(dlls_OBJS)
+$(ELF): $(BUILD_DIR)/ldscript.ld $(code_OBJS) $(assets_OBJS) $(dlls_OBJS) \
+        $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) $(BUILD_DIR)/assets/audio/sequence_font_table.o
 	@echo "    [LD] $@"
 	@$(N64_CXX) -o $@ $(code_OBJS) $(assets_OBJS) $(dlls_OBJS) -lc -mabi=o64 -T$(BUILD_DIR)/ldscript.ld -Tlinker_scripts/undefined_syms.ld $(patsubst %,-Wl$(COMMA)%,$(filter-out -Tn64.ld,$(LDFLAGS))) -Wl,-Map=$(@:.elf=.map)
 	$(N64_SIZE) -G $@
 
-$(BUILD_DIR)/ldscript.ld: tools/mkldscript.py
+$(BUILD_DIR)/ldscript.ld: tools/mkldscript.py assets_list.toml
 	@mkdir -p $(dir $@)
 	@echo "    [mkldscript] $@"
 	python3 tools/mkldscript.py $@
@@ -627,7 +626,7 @@ $(BUILD_DIR)/assets/audio/soundfonts/%.c $(BUILD_DIR)/assets/audio/soundfonts/%.
 
 $(BUILD_DIR)/assets/audio/soundfonts/%.o: $(BUILD_DIR)/assets/audio/soundfonts/%.c $(BUILD_DIR)/assets/audio/soundfonts/%.name
 	@echo "    [soundfont] $@"
-	$(CPP) $(MIPS_BUILTIN_DEFS) $(CPPFLAGS) -x assembler-with-cpp $(INC) -I include/audio -MD -MP -MF $(@:.o=.d) -MT $@ $< -o /dev/null
+	$(CPP) $(MIPS_BUILTIN_DEFS) $(CPPFLAGS) -x assembler-with-cpp $(INC) -I$(N64_INCLUDEDIR) -I include/audio -MD -MP -MF $(@:.o=.d) -MT $@ $< -o /dev/null
 # compile c to unlinked object
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -I include/audio -o $(@:.o=.tmp) $<
 # partial link

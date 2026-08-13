@@ -1,8 +1,11 @@
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "file_select.h"
 #include "file_select_state.h"
 
+#include "assert_uppercase.h"
 #include "attributes.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "language_array.h"
@@ -16,7 +19,6 @@
 #include "printf.h"
 #include "regs.h"
 #include "rumble.h"
-#include "segment_symbols.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
@@ -25,7 +27,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "environment.h"
 #include "play_state.h"
 #include "save.h"
@@ -739,12 +741,12 @@ void FileSelect_PulsateCursor(GameState* thisx) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_ENG;
         *((u8*)0x80000002) = LANGUAGE_ENG;
 
-        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
+        SsSram_ReadWrite(PhysicalAddr((void*)0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
         PRINTF("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                sramCtx->readBuff[SRAM_HEADER_Z_TARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                sramCtx->readBuff[SRAM_HEADER_MAGIC]);
 
-        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+        SsSram_ReadWrite(PhysicalAddr((void*)0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
         PRINTF("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                sramCtx->readBuff[SRAM_HEADER_Z_TARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                sramCtx->readBuff[SRAM_HEADER_MAGIC]);
@@ -752,11 +754,11 @@ void FileSelect_PulsateCursor(GameState* thisx) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_GER;
         *((u8*)0x80000002) = LANGUAGE_GER;
 
-        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
+        SsSram_ReadWrite(PhysicalAddr((void*)0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
         PRINTF("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                sramCtx->readBuff[SRAM_HEADER_Z_TARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                sramCtx->readBuff[SRAM_HEADER_MAGIC]);
-        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+        SsSram_ReadWrite(PhysicalAddr((void*)0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
         PRINTF("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                sramCtx->readBuff[SRAM_HEADER_Z_TARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                sramCtx->readBuff[SRAM_HEADER_MAGIC]);
@@ -764,12 +766,12 @@ void FileSelect_PulsateCursor(GameState* thisx) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_FRA;
         *((u8*)0x80000002) = LANGUAGE_FRA;
 
-        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
+        SsSram_ReadWrite(PhysicalAddr((void*)0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
         PRINTF("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                sramCtx->readBuff[SRAM_HEADER_Z_TARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                sramCtx->readBuff[SRAM_HEADER_MAGIC]);
 
-        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+        SsSram_ReadWrite(PhysicalAddr((void*)0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
         PRINTF("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                sramCtx->readBuff[SRAM_HEADER_Z_TARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                sramCtx->readBuff[SRAM_HEADER_MAGIC]);
@@ -2315,7 +2317,7 @@ void FileSelect_InitContext(GameState* thisx) {
         this->defense[2] = 0;
 
 #if PLATFORM_GC && OOT_PAL
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+    SsSram_ReadWrite(PhysicalAddr((void*)0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
     gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
 
@@ -2331,7 +2333,8 @@ void FileSelect_Destroy(GameState* thisx) {
 void FileSelect_Init(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     s32 pad;
-    u32 size = (uintptr_t)_title_staticSegmentRomEnd - (uintptr_t)_title_staticSegmentRomStart;
+    u32 size = elf_section_get_size("assets.textures.title_static");
+    struct dma_request req;
 
 #if PLATFORM_N64
     if (D_80121212 != 0) {
@@ -2348,13 +2351,14 @@ void FileSelect_Init(GameState* thisx) {
 
     this->staticSegment = GAME_STATE_ALLOC(&this->state, size, "../z_file_choose.c", 3392);
     ASSERT(this->staticSegment != NULL, "this->staticSegment != NULL", "../z_file_choose.c", 3393);
-    DMA_REQUEST_SYNC(this->staticSegment, (uintptr_t)_title_staticSegmentRomStart, size, "../z_file_choose.c", 3394);
+    elf_section_dma_queue_read(this->staticSegment, "assets.textures.title_static", &req);
+    dma_queue_wait(&req);
 
-    size = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
+    size = elf_section_get_size("assets.textures.parameter_static");
     this->parameterSegment = GAME_STATE_ALLOC(&this->state, size, "../z_file_choose.c", 3398);
     ASSERT(this->parameterSegment != NULL, "this->parameterSegment != NULL", "../z_file_choose.c", 3399);
-    DMA_REQUEST_SYNC(this->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, size, "../z_file_choose.c",
-                     3400);
+    elf_section_dma_queue_read(this->parameterSegment, "assets.textures.parameter_static", &req);
+    dma_queue_wait(&req);
 
 #if OOT_PAL_N64
     size = gObjectTable[OBJECT_MAG].vromEnd - gObjectTable[OBJECT_MAG].vromStart;

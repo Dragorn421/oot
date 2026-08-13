@@ -1,7 +1,7 @@
 #include "z_kaleido_scope.h"
 
 #include "libu64/pad.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"

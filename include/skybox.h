@@ -1,10 +1,9 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
-#include "ultra64/ultratypes.h"
+#include "ultra64.h"
 #include "ultra64/gbi.h"
 
-#include "romfile.h"
 #include "z_math.h"
 
 struct GameState;
@@ -60,8 +59,8 @@ typedef struct SkyboxContext {
 } SkyboxContext; // size = 0x160
 
 typedef struct SkyboxFile {
-    /* 0x00 */ RomFile file;
-    /* 0x08 */ RomFile palette;
+    /* 0x00 */ const char* file;
+    /* 0x08 */ const char* palette;
 } SkyboxFile; // size = 0x10
 
 extern SkyboxFile gNormalSkyFiles[];

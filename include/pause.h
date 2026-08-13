@@ -202,8 +202,6 @@ typedef struct PauseContext {
     /* 0x0170 */ char unk_170[0x24];
     /* 0x0194 */ struct OcarinaStaff* ocarinaStaff;
     /* 0x0198 */ char unk_198[0x20];
-    /* 0x01B8 */ OSMesgQueue loadQueue;
-    /* 0x01D0 */ OSMesg loadMsg;
     /* 0x01D4 */ u16 state;
     /* 0x01D6 */ u16 debugState;
     /* 0x01D8 */ Vec3f eye;

@@ -1,8 +1,8 @@
-#include "libc64/aprintf.h"
 #include "libu64/gfxprint.h"
 #include "alignment.h"
 #include "attributes.h"
 #include "translation.h"
+#include <stdio.h>
 
 ALIGNED(8) u16 sGfxPrintFontTLUT[64] = {
     0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000,
@@ -355,7 +355,6 @@ void* GfxPrint_Callback(void* arg, const char* str, size_t size) {
 void GfxPrint_Init(GfxPrint* this) {
     this->flags &= ~GFXP_FLAG_OPEN;
 
-    this->callback = GfxPrint_Callback;
     this->dList = NULL;
     this->posX = 0;
     this->posY = 0;
@@ -406,7 +405,14 @@ Gfx* GfxPrint_Close(GfxPrint* this) {
 }
 
 s32 GfxPrint_VPrintf(GfxPrint* this, const char* fmt, va_list args) {
-    return PrintUtils_VPrintf(&this->callback, fmt, args);
+    char buf[256];
+    int nchar;
+
+    nchar = vsnprintf(buf, sizeof(buf), fmt, args);
+    assert(nchar < sizeof(buf));
+    GfxPrint_Callback(this, buf, nchar);
+
+    return nchar;
 }
 
 s32 GfxPrint_Printf(GfxPrint* this, const char* fmt, ...) {

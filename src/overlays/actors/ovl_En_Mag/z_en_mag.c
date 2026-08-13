@@ -8,7 +8,7 @@
 
 #include "array_count.h"
 #include "avoid_ub.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
@@ -20,7 +20,7 @@
 #include "sfx.h"
 #include "translation.h"
 #include "versions.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "cutscene_flags.h"
 #include "play_state.h"
 #include "save.h"

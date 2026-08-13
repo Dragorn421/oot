@@ -157,6 +157,10 @@ typedef struct SfxParams {
 #define SFX_DIST_SCALING 10.0f
 #endif
 
+#ifdef STUB_AUDIO
+#define SFX_PLAY_CENTERED(sfxId) (void)0
+#define SFX_PLAY_AT_POS(projectedPos, sfxId) (void)0
+#else
 #define SFX_PLAY_CENTERED(sfxId)                                                                              \
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, \
                          &gSfxDefaultReverb);
@@ -164,6 +168,7 @@ typedef struct SfxParams {
 #define SFX_PLAY_AT_POS(projectedPos, sfxId)                                                               \
     Audio_PlaySfxGeneral(sfxId, projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, \
                          &gSfxDefaultReverb);
+#endif
 
 void Audio_SetSfxBanksMute(u16 muteMask);
 void Audio_QueueSeqCmdMute(u8 channelIndex);

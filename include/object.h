@@ -2,16 +2,15 @@
 #define OBJECT_H
 
 #include "ultra64.h"
-#include "dma.h"
+#include "dma_queue.h"
 
 struct PlayState;
 
 typedef struct ObjectEntry {
     /* 0x00 */ s16 id;
     /* 0x04 */ void* segment;
-    /* 0x08 */ DmaRequest dmaRequest;
-    /* 0x28 */ OSMesgQueue loadQueue;
-    /* 0x40 */ OSMesg loadMsg;
+    /* 0x08 */ struct dma_request dma_request;
+    bool dma_requested;
 } ObjectEntry; // size = 0x44
 
 typedef struct ObjectContext {
@@ -37,6 +36,7 @@ typedef enum ObjectId {
 #undef DEFINE_OBJECT_EMPTY
 #undef DEFINE_OBJECT_UNSET
 
+void make_object_section_name(char* buf, size_t buf_sz, s16 objectId);
 void Object_InitContext(struct PlayState* play, ObjectContext* objectCtx);
 void Object_UpdateEntries(ObjectContext* objectCtx);
 s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId);
@@ -44,6 +44,6 @@ s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot);
 void func_800981B8(ObjectContext* objectCtx);
 
 extern u32 gObjectTableSize;
-extern RomFile gObjectTable[OBJECT_ID_MAX];
+extern const char* gObjectTable[OBJECT_ID_MAX];
 
 #endif

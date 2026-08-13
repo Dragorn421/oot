@@ -2,7 +2,7 @@
  * original filename: channel.c
  */
 #include "ultra64.h"
-#include "audio.h"
+#include "game_audio.h"
 
 /**
  * original name: Nas_smzSetParam

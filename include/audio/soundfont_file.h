@@ -4,7 +4,7 @@
 #include "stdbool.h"
 #include "alignment.h"
 #include "attributes.h"
-#include "audio.h"
+#include "game_audio.h"
 
 // Envelope definitions
 

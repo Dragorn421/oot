@@ -1,3 +1,4 @@
+#include "assert_uppercase.h"
 #include "libc64/math64.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

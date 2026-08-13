@@ -4,6 +4,8 @@
  * Description: Link
  */
 
+#include "elf_reader.h"
+#include "object.h"
 #include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
@@ -16,11 +18,12 @@
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
+#include "assert_uppercase.h"
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
 #include "array_count.h"
 #include "avoid_ub.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -42,8 +45,8 @@
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
-#include "audio.h"
-#include "debug.h"
+#include "game_audio.h"
+#include "game_debug.h"
 #include "effect.h"
 #include "lifemeter.h"
 #include "ocarina.h"
@@ -111,10 +114,10 @@ typedef enum AnimSfxType {
 
 #define ANIMSFX_SHIFT_TYPE(type) ((type) << 11)
 
-#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame)&0x7FF)))
+#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame) & 0x7FF)))
 
-#define ANIMSFX_GET_TYPE(data) ((data)&0x7800)
-#define ANIMSFX_GET_FRAME(data) ((data)&0x7FF)
+#define ANIMSFX_GET_TYPE(data) ((data) & 0x7800)
+#define ANIMSFX_GET_FRAME(data) ((data) & 0x7FF)
 
 typedef struct AnimSfxEntry {
     /* 0x00 */ u16 sfxId;
@@ -5949,15 +5952,16 @@ void func_8083AE40(Player* this, s16 objectId) {
 
     if (objectId != OBJECT_INVALID) {
         this->giObjectLoading = true;
-        osCreateMesgQueue(&this->giObjectLoadQueue, &this->giObjectLoadMsg, 1);
+        char object_section_name[100];
 
-        size = gObjectTable[objectId].vromEnd - gObjectTable[objectId].vromStart;
+        make_object_section_name(object_section_name, sizeof(object_section_name), objectId);
+
+        size = elf_section_get_size(object_section_name);
 
         LOG_HEX("size", size, "../z_player.c", 9090);
         ASSERT(size <= 1024 * 8, "size <= 1024 * 8", "../z_player.c", 9091);
 
-        DMA_REQUEST_ASYNC(&this->giObjectDmaRequest, this->giObjectSegment, gObjectTable[objectId].vromStart, size, 0,
-                          &this->giObjectLoadQueue, NULL, "../z_player.c", 9099);
+        elf_section_dma_queue_read(this->giObjectSegment, object_section_name, &this->giObjectDmaRequest);
     }
 }
 
@@ -10700,7 +10704,6 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     Player* this = (Player*)thisx;
     PlayState* play = play2;
     SceneTableEntry* scene = play->loadedScene;
-    u32 titleFileSize;
     s32 startMode;
     s32 respawnFlag;
     s32 respawnMode;
@@ -10763,9 +10766,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     }
 
     if ((respawnFlag == 0) || (respawnFlag < -1)) {
-        titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
-
-        if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
+        if ((scene->title_name != NULL) && gSaveContext.showTitleCard) {
             if (!IS_CUTSCENE_LAYER &&
                 (gEntranceTable[(0, gSaveContext.save.entranceIndex) + (0, gSaveContext.sceneLayer)].field &
                  ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&

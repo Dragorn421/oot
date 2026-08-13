@@ -1,13 +1,17 @@
 #include "jpeg.h"
 
+#include "assert_uppercase.h"
 #include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
+#include "libultra_ucode.h"
+#include "n64sys.h"
 #include "printf.h"
 #include "sys_ucode.h"
 #include "terminal.h"
 #include "translation.h"
 #include "ultra64.h"
+#include <assert.h>
 
 #define MARKER_ESCAPE 0x00
 #define MARKER_SOI 0xD8
@@ -48,12 +52,12 @@ void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
     JpegWork* workBuf = ctx->workBuf;
     s32 pad[2];
 
-    workBuf->taskData.address = OS_K0_TO_PHYSICAL(&workBuf->data);
+    workBuf->taskData.address = PhysicalAddr(&workBuf->data);
     workBuf->taskData.mode = ctx->mode;
     workBuf->taskData.mbCount = 4;
-    workBuf->taskData.qTableYPtr = OS_K0_TO_PHYSICAL(&workBuf->qTableY);
-    workBuf->taskData.qTableUPtr = OS_K0_TO_PHYSICAL(&workBuf->qTableU);
-    workBuf->taskData.qTableVPtr = OS_K0_TO_PHYSICAL(&workBuf->qTableV);
+    workBuf->taskData.qTableYPtr = PhysicalAddr(&workBuf->qTableY);
+    workBuf->taskData.qTableUPtr = PhysicalAddr(&workBuf->qTableU);
+    workBuf->taskData.qTableVPtr = PhysicalAddr(&workBuf->qTableV);
 
     sJpegTask.t.flags = 0;
     sJpegTask.t.ucode_boot = SysUcode_GetUCodeBoot();
@@ -61,16 +65,9 @@ void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
     sJpegTask.t.yield_data_ptr = workBuf->yieldData;
     sJpegTask.t.data_ptr = (u64*)&workBuf->taskData;
 
-    ctx->scTask.next = NULL;
-    ctx->scTask.flags = OS_SC_NEEDS_RSP;
-    ctx->scTask.msgQueue = &ctx->mq;
-    ctx->scTask.msg = NULL;
-    ctx->scTask.framebuffer = NULL;
-    ctx->scTask.list = sJpegTask;
-
-    osSendMesg(&gScheduler.cmdQueue, (OSMesg)&ctx->scTask, OS_MESG_BLOCK);
-    Sched_Notify(&gScheduler);
-    osRecvMesg(&ctx->mq, NULL, OS_MESG_BLOCK);
+    struct libultra_ucode_task_handle task_handle;
+    libultra_ucode_run(&sJpegTask, &task_handle);
+    libultra_ucode_wait(&task_handle);
 }
 
 /**
@@ -248,36 +245,33 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     JpegDecoder decoder;
     JpegDecoderState state;
     JpegWork* workBuff;
-    UNUSED_NDEBUG OSTime diff;
-    OSTime time;
-    OSTime curTime;
+    UNUSED_NDEBUG u64 diff;
+    u64 time;
+    u64 curTime;
 
     workBuff = work;
 
-    time = osGetTime();
+    time = get_ticks();
     // (?) I guess MB_SIZE=0x180, PROC_OF_MBS=5 which means data is not a part of JpegWork
     ASSERT(workSize >= sizeof(JpegWork), "worksize >= sizeof(JPEGWork) + MB_SIZE * (PROC_OF_MBS - 1)", "../z_jpeg.c",
            527);
 
-    osCreateMesgQueue(&ctx.mq, &ctx.msg, 1);
-    Sched_FlushTaskQueue();
-
-    curTime = osGetTime();
+    curTime = get_ticks();
     diff = curTime - time;
     time = curTime;
     PRINTF(T("*** fifoバッファの同期待ち time = %6.3f ms ***\n",
              "*** Wait for synchronization of fifo buffer time = %6.3f ms ***\n"),
-           OS_CYCLES_TO_USEC(diff) / 1000.0f);
+           TICKS_TO_US(diff) / 1000.0f);
 
     ctx.workBuf = workBuff;
     Jpeg_ParseMarkers(data, &ctx);
 
-    curTime = osGetTime();
+    curTime = get_ticks();
     diff = curTime - time;
     time = curTime;
     PRINTF(T("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n",
              "*** Check markers for each segment time = %6.3f ms ***\n"),
-           OS_CYCLES_TO_USEC(diff) / 1000.0f);
+           TICKS_TO_US(diff) / 1000.0f);
 
     switch (ctx.dqtCount) {
         case 1:
@@ -297,11 +291,11 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
             return -1;
     }
 
-    curTime = osGetTime();
+    curTime = get_ticks();
     diff = curTime - time;
     time = curTime;
     PRINTF(T("*** 量子化テーブル作成 time = %6.3f ms ***\n", "*** Create quantization table time = %6.3f ms ***\n"),
-           OS_CYCLES_TO_USEC(diff) / 1000.0f);
+           TICKS_TO_US(diff) / 1000.0f);
 
     switch (ctx.dhtCount) {
         case 1:
@@ -327,11 +321,11 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
             return -1;
     }
 
-    curTime = osGetTime();
+    curTime = get_ticks();
     diff = curTime - time;
     time = curTime;
     PRINTF(T("*** ハフマンテーブル作成 time = %6.3f ms ***\n", "*** Huffman table creation time = %6.3f ms ***\n"),
-           OS_CYCLES_TO_USEC(diff) / 1000.0f);
+           TICKS_TO_US(diff) / 1000.0f);
 
     decoder.imageData = ctx.imageData;
     decoder.mode = ctx.mode;
@@ -350,7 +344,8 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
             PRINTF_RST();
         } else {
             Jpeg_ScheduleDecoderTask(&ctx);
-            osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));
+            // TODO-ootdragon I'm not sure data_cache_hit_invalidate is the same as osInvalDCache
+            data_cache_hit_invalidate(&workBuff->data, sizeof(workBuff->data[0]));
 
             for (j = 0; j < ARRAY_COUNT(workBuff->data); j++) {
                 Jpeg_CopyToZbuffer(workBuff->data[j], zbuffer, x, y);
@@ -364,11 +359,11 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
         }
     }
 
-    curTime = osGetTime();
+    curTime = get_ticks();
     diff = curTime - time;
     time = curTime;
     PRINTF(T("*** 展開 & 描画 time = %6.3f ms ***\n", "*** Unfold & draw time = %6.3f ms ***\n"),
-           OS_CYCLES_TO_USEC(diff) / 1000.0f);
+           TICKS_TO_US(diff) / 1000.0f);
 
     return 0;
 }

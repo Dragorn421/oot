@@ -2,8 +2,8 @@
 #define ANIMATION_H
 
 #include "avoid_ub.h"
+#include "dma_queue.h"
 #include "ultra64.h"
-#include "dma.h"
 #include "z_math.h"
 
 struct PlayState;
@@ -311,9 +311,7 @@ typedef enum AnimTaskType {
 } AnimTaskType;
 
 typedef struct AnimTaskLoadPlayerFrame {
-    /* 0x00 */ DmaRequest req;
-    /* 0x20 */ OSMesgQueue msgQueue;
-    /* 0x38 */ OSMesg msg;
+    struct dma_request req;
 } AnimTaskLoadPlayerFrame; // size = 0x3C
 
 typedef struct AnimTaskCopy {

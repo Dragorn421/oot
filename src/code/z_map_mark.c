@@ -1,3 +1,4 @@
+#include "elf_reader.h"
 #include "libu64/debug.h"
 #include "libu64/overlay.h"
 #include "map.h"
@@ -6,8 +7,6 @@
 #include "n64dd.h"
 #endif
 #include "regs.h"
-#include "romfile.h"
-#include "segment_symbols.h"
 #include "terminal.h"
 #include "translation.h"
 #include "map_mark.h"
@@ -30,9 +29,7 @@ typedef struct MapMarkInfo {
 
 typedef struct MapMarkDataOverlay {
     /* 0x00 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x04 */ RomFile file;
-    /* 0x0C */ void* vramStart;
-    /* 0x10 */ void* vramEnd;
+    /* 0x04 */ const char* file_name;
     /* 0x14 */ void* vramTable;
 } MapMarkDataOverlay; // size = 0x18
 
@@ -45,26 +42,28 @@ MapMarkInfo sMapMarkInfoTable[] = {
 };
 
 static MapMarkDataOverlay sMapMarkDataOvl = {
-    NULL, ROM_FILE(ovl_map_mark_data), _ovl_map_mark_dataSegmentStart, _ovl_map_mark_dataSegmentEnd, gMapMarkDataTable,
+    NULL,
+    "ovl_map_mark_data",
+    gMapMarkDataTable,
 };
 
 static MapMarkData** sLoadedMarkDataTable;
 
 void MapMark_Init(PlayState* play) {
     MapMarkDataOverlay* overlay = &sMapMarkDataOvl;
-    u32 overlaySize = (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart;
+    u32 overlaySize = elf_section_get_size_fmtname("dlls.misc/%s", overlay->file_name);
 
     overlay->loadedRamAddr = GAME_STATE_ALLOC(&play->state, overlaySize, "../z_map_mark.c", 235);
     LOG_UTILS_CHECK_NULL_POINTER("dlftbl->allocp", overlay->loadedRamAddr, "../z_map_mark.c", 236);
 
-    Overlay_Load(overlay->file.vromStart, overlay->file.vromEnd, overlay->vramStart, overlay->vramEnd,
-                 overlay->loadedRamAddr);
+    elf_section_load_dll(overlay->file_name, overlay->loadedRamAddr);
 
     sLoadedMarkDataTable = gMapMarkDataTable;
     sLoadedMarkDataTable =
         (void*)(uintptr_t)((overlay->vramTable != NULL)
                                ? (void*)((uintptr_t)overlay->vramTable -
-                                         (intptr_t)((uintptr_t)overlay->vramStart - (uintptr_t)overlay->loadedRamAddr))
+                                         (intptr_t)((uintptr_t)elf_section_get_dll_vram_start(overlay->file_name) -
+                                                    (uintptr_t)overlay->loadedRamAddr))
                                : NULL);
 
 #if PLATFORM_N64

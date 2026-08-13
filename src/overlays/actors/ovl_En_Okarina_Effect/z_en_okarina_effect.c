@@ -12,7 +12,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "cutscene_flags.h"
 #include "debug_display.h"
 #include "frame_advance.h"

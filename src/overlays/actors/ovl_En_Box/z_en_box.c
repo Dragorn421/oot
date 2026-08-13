@@ -1,6 +1,7 @@
 #include "z_en_box.h"
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 
+#include "assert_uppercase.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -11,8 +12,9 @@
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
+#include "unk.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "effect.h"
 #include "ocarina.h"
 #include "play_state.h"

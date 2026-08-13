@@ -1,7 +1,6 @@
 #ifndef ULTRA64_RCP_H
 #define ULTRA64_RCP_H
 
-#include "R4300.h"
 #include "ultratypes.h"
 
 /**

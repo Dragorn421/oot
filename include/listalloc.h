@@ -1,7 +1,7 @@
 #ifndef LISTALLOC_H
 #define LISTALLOC_H
 
-#include "ultra64/ultratypes.h"
+#include "ultra64.h"
 
 typedef struct ListAlloc {
     /* 0x00 */ struct ListAlloc* prev;

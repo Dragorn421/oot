@@ -1,10 +1,10 @@
+#include "dma_queue.h"
+#include "elf_reader.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "regs.h"
 #include "sample_state.h"
-#include "segment_symbols.h"
-#include "dma.h"
 #include "play_state.h"
 
 void Sample_HandleStateChange(SampleState* this) {
@@ -84,10 +84,12 @@ void Sample_SetupView(SampleState* this) {
 }
 
 void Sample_LoadTitleStatic(SampleState* this) {
-    u32 size = _title_staticSegmentRomEnd - _title_staticSegmentRomStart;
+    u32 size = elf_section_get_size("assets.textures.title_static");
+    struct dma_request req;
 
     this->staticSegment = GAME_STATE_ALLOC(&this->state, size, "../z_sample.c", 163);
-    DMA_REQUEST_SYNC(this->staticSegment, (uintptr_t)_title_staticSegmentRomStart, size, "../z_sample.c", 164);
+    elf_section_dma_queue_read(this->staticSegment, "assets.textures.title_static", &req);
+    dma_queue_wait(&req);
 }
 
 void Sample_Init(GameState* thisx) {

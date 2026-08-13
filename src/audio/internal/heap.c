@@ -4,7 +4,7 @@
 #include "alignment.h"
 #include "ultra64.h"
 #include "versions.h"
-#include "audio.h"
+#include "game_audio.h"
 
 void AudioHeap_InitSampleCaches(u32 persistentSampleCacheSize, u32 temporarySampleCacheSize);
 SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size);
@@ -953,7 +953,9 @@ void AudioHeap_Init(void) {
     s32 temporarySize;
     s32 cachePoolSize;
     s32 miscPoolSize;
+#ifndef STUB_AUDIO
     OSIntMask intMask;
+#endif
     s32 i;
     s32 j;
     s32 pad2;
@@ -963,8 +965,10 @@ void AudioHeap_Init(void) {
 
     // audio buffer parameters
     gAudioCtx.audioBufferParameters.samplingFrequency = spec->samplingFrequency;
+#ifndef STUB_AUDIO
     gAudioCtx.audioBufferParameters.aiSamplingFrequency =
         osAiSetFrequency(gAudioCtx.audioBufferParameters.samplingFrequency);
+#endif
     gAudioCtx.audioBufferParameters.samplesPerFrameTarget =
         ALIGN16(gAudioCtx.audioBufferParameters.samplingFrequency / gAudioCtx.refreshRate);
     gAudioCtx.audioBufferParameters.minAiBufferLength = gAudioCtx.audioBufferParameters.samplesPerFrameTarget - 0x10;
@@ -1168,9 +1172,11 @@ void AudioHeap_Init(void) {
     gAudioCtx.unk_4 = 0x1000;
     AudioLoad_LoadPermanentSamples();
 
+#ifndef STUB_AUDIO
     intMask = osSetIntMask(OS_IM_NONE);
     osWritebackDCacheAll();
     osSetIntMask(intMask);
+#endif
 }
 
 /**

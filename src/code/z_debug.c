@@ -3,13 +3,13 @@
 #include "libu64/pad.h"
 #include "array_count.h"
 #include "color.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "regs.h"
 #include "rumble.h"
 #include "ultra64.h"
-#include "debug.h"
+#include "game_debug.h"
 
 typedef struct DebugCamTextBufferEntry {
     /* 0x0 */ u8 x;

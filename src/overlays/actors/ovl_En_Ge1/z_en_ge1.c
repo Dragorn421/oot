@@ -589,12 +589,10 @@ void EnGe1_Archery_NoReward(EnGe1* this, PlayState* play) {
 void EnGe1_Archery_ChooseReward(EnGe1* this, PlayState* play) {
     CLEAR_EVENTINF(EVENTINF_HORSES_08);
 #if DEBUG_FEATURES
-    LogUtils_LogThreadId("../z_en_ge1.c", 1110);
     PRINTF("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
     if (1) {}
     if (1) {}
     if (1) {}
-    LogUtils_LogThreadId("../z_en_ge1.c", 1111);
     // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
     // see the other occurrence of this for more details.
     PRINTF("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", HIGH_SCORE(HS_HBA));

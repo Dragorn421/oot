@@ -2,6 +2,7 @@
 #define RUMBLE_H
 
 #include "ultra64.h"
+#include "padmgr.h"
 
 #define RUMBLE_MAX_REQUESTS 64
 
@@ -39,6 +40,7 @@ void Rumble_Override(f32 distSq, u8 sourceStrength, u8 duration, u8 decreaseRate
 void Rumble_Request(f32 distSq, u8 sourceStrength, u8 duration, u8 decreaseRate);
 
 void Rumble_Init(void);
+void Rumble_Update(PadMgr* padMgr);
 void Rumble_Destroy(void);
 
 s32 Rumble_Controller1HasRumblePak(void);

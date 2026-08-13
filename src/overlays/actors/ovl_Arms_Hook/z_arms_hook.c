@@ -1,7 +1,7 @@
 #include "z_arms_hook.h"
 
 #include "libc64/math64.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"

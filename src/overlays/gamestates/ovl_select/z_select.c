@@ -9,7 +9,7 @@
 #include "alloca.h"
 #include "array_count.h"
 #include "console_logo_state.h"
-#include "controller.h"
+#include "game_controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "map_select_state.h"
@@ -18,7 +18,6 @@
 #endif
 #include "printf.h"
 #include "regs.h"
-#include "segment_symbols.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
@@ -728,13 +727,6 @@ void MapSelect_Init(GameState* thisx) {
     }
 
     R_UPDATE_RATE = 1;
-
-    {
-        u32 size = (uintptr_t)_z_select_staticSegmentRomEnd - (uintptr_t)_z_select_staticSegmentRomStart;
-
-        this->staticSegment = GAME_STATE_ALLOC(&this->state, size, "../z_select.c", 1114);
-        DMA_REQUEST_SYNC(this->staticSegment, (uintptr_t)_z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
-    }
 
     gSaveContext.save.cutsceneIndex = CS_INDEX_DAY;
     gSaveContext.save.linkAge = LINK_AGE_CHILD;

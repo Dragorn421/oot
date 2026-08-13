@@ -4,7 +4,7 @@
 #include "sfx.h"
 #include "terminal.h"
 #include "ultra64.h"
-#include "audio.h"
+#include "game_audio.h"
 
 typedef struct SfxRequest {
     /* 0x00 */ u16 sfxId;

@@ -13,7 +13,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "audio.h"
+#include "game_audio.h"
 #include "face_reaction.h"
 #include "ocarina.h"
 #include "play_state.h"
