@@ -19,6 +19,7 @@ docs/doxygen/
 *.z64
 *.n64
 *.v64
+libdragon_inst/
 
 # Tools
 .venv/

@@ -108,12 +108,47 @@
     .set x, y
 #endif
 
+#ifdef __GNUC__
+#define zero $zero
+#define AT $at
+#define v0 $v0
+#define v1 $v1
+#define a0 $a0
+#define a1 $a1
+#define a2 $a2
+#define a3 $a3
+#define t0 $t0
+#define t1 $t1
+#define t2 $t2
+#define t3 $t3
+#define t4 $t4
+#define t5 $t5
+#define t6 $t6
+#define t7 $t7
+#define s0 $s0
+#define s1 $s1
+#define s2 $s2
+#define s3 $s3
+#define s4 $s4
+#define s5 $s5
+#define s6 $s6
+#define s7 $s7
+#define t8 $t8
+#define t9 $t9
+#define k0 $k0
+#define k1 $k1
+#define gp $gp
+#define sp $sp
+#define fp $fp
+#define ra $ra
+#endif
+
 #endif
 
 /**
  *  Stack Alignment
  */
-#if   (_MIPS_SIM == _ABIO32)
+#if   (_MIPS_SIM == _ABIO32 || _MIPS_SIM == _ABIO64) // TODO-ootdragon port other required changes for o64 from https://github.com/zeldaret/oot/compare/main...Thar0:oot:n32
 #define NARGSAVE 4      /* space for 4 args must be allocated */
 #define ALSZ    (8-1)
 #define ALMASK ~(8-1)
