@@ -59,7 +59,7 @@ void CIC6105_RemoveFaultClient(void) {
 void CIC6105_RunBootTask(void) {
     struct libultra_ucode_task_handle task_handle;
 
-    libultra_ucode_run(&sCIC6105Task, &task_handle);
+    libultra_ucode_run(&sCIC6105Task, false, &task_handle);
     libultra_ucode_wait(&task_handle);
 
     // Retrieve results from RSP DMEM, it is assumed no other RSP task is running

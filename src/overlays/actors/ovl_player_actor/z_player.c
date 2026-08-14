@@ -5,6 +5,7 @@
  */
 
 #include "elf_reader.h"
+#include "math.h"
 #include "object.h"
 #include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
@@ -11573,7 +11574,7 @@ void Player_UpdateBodyBurn(PlayState* play, Player* this) {
 }
 
 void Player_DetectRumbleSecrets(Player* this) {
-    if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY)) {
+    if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY) && this->closestSecretDistSq != MAXFLOAT) {
         f32 temp = 200000.0f - (this->closestSecretDistSq * 5.0f);
 
         if (temp < 0.0f) {

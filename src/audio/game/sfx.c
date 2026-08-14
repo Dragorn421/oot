@@ -572,6 +572,7 @@ void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos) {
 }
 
 void Audio_StopSfxByPos(Vec3f* pos) {
+#ifndef STUB_AUDIO
     u8 i;
     SfxBankEntry cmp;
 
@@ -580,6 +581,7 @@ void Audio_StopSfxByPos(Vec3f* pos) {
     }
     cmp.posX = &pos->x;
     Audio_RemoveMatchingSfxRequests(2, &cmp);
+#endif
 }
 
 void Audio_StopSfxByPosAndId(Vec3f* pos, u16 sfxId) {

@@ -1,3 +1,9 @@
+#include <libdragon.h>
+#include <stdint.h>
+#include "actor_profile.h"
+#include "dragonfs.h"
+#include "elf_reader.h"
+#include "libdragon/include/backtrace.h"
 #include "printf.h"
 #include "z_actor_dlftbls.h"
 
@@ -67,10 +73,46 @@ void ActorOverlayTable_LogPrint(void) {
 #endif
 }
 
+bool actor_dll_syms_callback(void* ram, struct custom_module* mod) {
+    ActorOverlay* entry;
+    char dll_name[100];
+    int nchars;
+    size_t size;
+    uintptr_t ramint = (uintptr_t)ram;
+    uintptr_t dll_start_int;
+
+    for (int i = 0; i < ACTOR_ID_MAX; i++) {
+        entry = &gActorOverlayTable[i];
+        if (entry->loadedRamAddr == NULL) {
+            continue;
+        }
+        nchars = snprintf(dll_name, sizeof(dll_name), "actors/%s", entry->ovl_name);
+        // note: we should be more resilient here as this runs in the crash inspector context.
+        // but the dll already having loaded successfully should mean this is safe
+        assert(nchars < sizeof(dll_name));
+        size = elf_section_get_dll_ramsize(dll_name);
+        dll_start_int = (uintptr_t)entry->loadedRamAddr;
+        if (ramint >= dll_start_int && ramint < (dll_start_int + size)) {
+            char path[200];
+            snprintf(path, sizeof(path), "src/overlays/actors/%s/dll.sym", entry->ovl_name);
+            mod->symt_rom = dfs_rom_addr(path);
+            mod->addrtable_base = dll_start_int;
+            if (mod->symt_rom == 0) {
+                debugf("bad path %s\n", path);
+            }
+            return mod->symt_rom != 0;
+        }
+    }
+
+    return false;
+}
+
 void ActorOverlayTable_Init(void) {
     gMaxActorId = ACTOR_ID_MAX;
+    register_custom_module_callback(actor_dll_syms_callback);
 }
 
 void ActorOverlayTable_Cleanup(void) {
+    unregister_custom_module_callback(actor_dll_syms_callback);
     gMaxActorId = 0;
 }

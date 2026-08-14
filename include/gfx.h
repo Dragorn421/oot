@@ -34,6 +34,7 @@ typedef struct GraphicsContext {
     /* 0x0014 */ u32 unk_014;
     /* 0x0018 */ char unk_018[0x20];
     struct libultra_ucode_task_handle task_handle;
+    bool task_sent;
     /* 0x0078 */ OSTask task;
     /* 0x00E0 */ char unk_0E0[0xD0];
     /* 0x01B0 */ Gfx* workBuffer;

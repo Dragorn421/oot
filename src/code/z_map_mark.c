@@ -29,7 +29,7 @@ typedef struct MapMarkInfo {
 
 typedef struct MapMarkDataOverlay {
     /* 0x00 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x04 */ const char* file_name;
+    /* 0x04 */ const char* dll_name;
     /* 0x14 */ void* vramTable;
 } MapMarkDataOverlay; // size = 0x18
 
@@ -43,7 +43,7 @@ MapMarkInfo sMapMarkInfoTable[] = {
 
 static MapMarkDataOverlay sMapMarkDataOvl = {
     NULL,
-    "ovl_map_mark_data",
+    "misc/ovl_map_mark_data",
     gMapMarkDataTable,
 };
 
@@ -51,18 +51,18 @@ static MapMarkData** sLoadedMarkDataTable;
 
 void MapMark_Init(PlayState* play) {
     MapMarkDataOverlay* overlay = &sMapMarkDataOvl;
-    u32 overlaySize = elf_section_get_size_fmtname("dlls.misc/%s", overlay->file_name);
+    u32 overlaySize = elf_section_get_dll_ramsize(overlay->dll_name);
 
     overlay->loadedRamAddr = GAME_STATE_ALLOC(&play->state, overlaySize, "../z_map_mark.c", 235);
     LOG_UTILS_CHECK_NULL_POINTER("dlftbl->allocp", overlay->loadedRamAddr, "../z_map_mark.c", 236);
 
-    elf_section_load_dll(overlay->file_name, overlay->loadedRamAddr);
+    elf_section_load_dll(overlay->dll_name, overlay->loadedRamAddr);
 
     sLoadedMarkDataTable = gMapMarkDataTable;
     sLoadedMarkDataTable =
         (void*)(uintptr_t)((overlay->vramTable != NULL)
                                ? (void*)((uintptr_t)overlay->vramTable -
-                                         (intptr_t)((uintptr_t)elf_section_get_dll_vram_start(overlay->file_name) -
+                                         (intptr_t)((uintptr_t)elf_section_get_dll_vram_start(overlay->dll_name) -
                                                     (uintptr_t)overlay->loadedRamAddr))
                                : NULL);
 

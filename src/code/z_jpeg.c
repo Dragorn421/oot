@@ -66,7 +66,7 @@ void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
     sJpegTask.t.data_ptr = (u64*)&workBuf->taskData;
 
     struct libultra_ucode_task_handle task_handle;
-    libultra_ucode_run(&sJpegTask, &task_handle);
+    libultra_ucode_run(&sJpegTask, false, &task_handle);
     libultra_ucode_wait(&task_handle);
 }
 

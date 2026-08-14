@@ -10,6 +10,7 @@ typedef struct KaleidoMgrOverlay {
     /* 0x04 */ const char* dll_name;
     /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
     /* 0x18 */ const char* name;
+    const char* symt_path;
 } KaleidoMgrOverlay; // size = 0x1C
 
 typedef enum KaleidoOverlayType {

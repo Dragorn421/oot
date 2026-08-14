@@ -421,7 +421,9 @@ void GameState_Destroy(GameState* gameState) {
     AudioMgr_StopAllSfx();
     Audio_Update();
 #endif
-    libultra_ucode_wait(&gameState->gfxCtx->task_handle);
+    if (gameState->gfxCtx->task_sent) {
+        libultra_ucode_wait(&gameState->gfxCtx->task_handle);
+    }
     LOG_UTILS_CHECK_NULL_POINTER("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {
         gameState->destroy(gameState);

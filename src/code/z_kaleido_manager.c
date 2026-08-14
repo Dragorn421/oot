@@ -7,13 +7,16 @@
 #include "terminal.h"
 #include "translation.h"
 #include "play_state.h"
+#include <stdint.h>
 
-#define KALEIDO_OVERLAY(dll_name, nameString) \
-    { NULL, dll_name, 0, nameString, }
+#define KALEIDO_OVERLAY(dll_name, nameString, symt_path) \
+    {                                                    \
+        NULL, dll_name, 0, nameString, symt_path,        \
+    }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
-    KALEIDO_OVERLAY("misc/ovl_kaleido_scope", "kaleido_scope"),
-    KALEIDO_OVERLAY("actors/ovl_player_actor", "player_actor"),
+    KALEIDO_OVERLAY("misc/ovl_kaleido_scope", "kaleido_scope", "src/overlays/misc/ovl_kaleido_scope/dll.sym"),
+    KALEIDO_OVERLAY("actors/ovl_player_actor", "player_actor", "src/overlays/actors/ovl_player_actor/dll.sym"),
 };
 
 void* sKaleidoAreaPtr = NULL;
@@ -43,6 +46,24 @@ void KaleidoManager_ClearOvl(KaleidoMgrOverlay* ovl) {
     }
 }
 
+bool kaleido_manager_dll_callback(void* ram, struct custom_module* mod) {
+    if (gKaleidoMgrCurOvl != NULL) {
+        uintptr_t ramint = (uintptr_t)ram;
+        uintptr_t dll_ramint = (uintptr_t)gKaleidoMgrCurOvl->loadedRamAddr;
+        uintptr_t dll_ramsize = elf_section_get_dll_ramsize(gKaleidoMgrCurOvl->dll_name);
+
+        if (ramint >= dll_ramint && ramint < (dll_ramint + dll_ramsize)) {
+            mod->symt_rom = dfs_rom_addr(gKaleidoMgrCurOvl->symt_path);
+            mod->addrtable_base = dll_ramint;
+            if (mod->symt_rom == 0) {
+                debugf("bad path %s\n", gKaleidoMgrCurOvl->symt_path);
+            }
+            return mod->symt_rom != 0;
+        }
+    }
+    return false;
+}
+
 void KaleidoManager_Init(PlayState* play) {
     s32 largestSize = 0;
     s32 size;
@@ -68,9 +89,13 @@ void KaleidoManager_Init(PlayState* play) {
     PRINTF_RST();
 
     gKaleidoMgrCurOvl = NULL;
+
+    register_custom_module_callback(kaleido_manager_dll_callback);
 }
 
 void KaleidoManager_Destroy(void) {
+    unregister_custom_module_callback(kaleido_manager_dll_callback);
+
     if (gKaleidoMgrCurOvl != NULL) {
         KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
         gKaleidoMgrCurOvl = NULL;

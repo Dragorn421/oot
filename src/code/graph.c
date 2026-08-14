@@ -1,3 +1,4 @@
+#include "display.h"
 #include "libc64/malloc.h"
 #include "libdragon/include/n64sys.h"
 #include "libu64/debug.h"
@@ -143,8 +144,8 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->workBuffer = pool->workBuffer;
 
     gfxCtx->curSurf = display_get();
-    display_show(gfxCtx->curSurf); // TODO-ootdragon figure out where to put this
     gfxCtx->unk_014 = 0;
+    gfxCtx->task_sent = false;
 }
 
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
@@ -180,10 +181,16 @@ void Graph_Destroy(GraphicsContext* gfxCtx) {
 #endif
 }
 
-void Graph_TaskSet00(GraphicsContext* gfxCtx) {
+void on_gfx_task_done(void* cb_arg) {
+    GraphicsContext* gfxCtx = cb_arg;
+
+    display_show(gfxCtx->curSurf);
+}
+
 #if DEBUG_FEATURES
-    static Gfx* sPrevTaskWorkBuffer = NULL;
+Gfx* gPrevTaskWorkBuffer = NULL;
 #endif
+void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     OSTask_t* task = &gfxCtx->task.t;
 
     gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime =
@@ -193,7 +200,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     // I don't think we need to, display_get() is where the "sync" happens?
 
 #if DEBUG_FEATURES
-    sPrevTaskWorkBuffer = gfxCtx->workBuffer;
+    gPrevTaskWorkBuffer = gfxCtx->workBuffer;
 #endif
 
     if (gfxCtx->callback != NULL) {
@@ -238,7 +245,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
-    libultra_ucode_run(&gfxCtx->task, &gfxCtx->task_handle);
+    libultra_ucode_run_with_callback(&gfxCtx->task, true, on_gfx_task_done, gfxCtx, &gfxCtx->task_handle);
+    gfxCtx->task_sent = true;
 }
 
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {

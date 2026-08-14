@@ -143,6 +143,8 @@ include $(N64_INST)/include/n64.mk
 # TODO-ootdragon we nop N64_ELFCOMPRESS because it strips the elf, yet we want to keep information such as the section names table
 N64_ELFCOMPRESS := @:
 
+N64_MKDFS_ROOT := $(BUILD_DIR)/dfs
+
 # Converts e.g. ntsc-1.0 to NTSC_1_0
 VERSION_MACRO := $(shell echo $(VERSION) | tr a-z-. A-Z__)
 CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO)
@@ -455,6 +457,8 @@ ifeq ($(wildcard dlls.mk),)
 endif
 include dlls.mk
 
+DFS_FILES := $(dlls_OBJS:$(BUILD_DIR)/%.o=$(BUILD_DIR)/dfs/%.sym)
+
 assets_incc: $(assets_INCC)
 $(code_OBJS) $(assets_OBJS) $(dlls_OBJS): | assets_incc
 
@@ -481,7 +485,15 @@ $(BUILD_DIR)/src/overlays/%/dll.o: $(BUILD_DIR)/src/overlays/%/dll.plf
 	$(PYTHON) tools/mkdllrel.py $< $(@:.o=.rel.bin)
 	$(N64_OBJCOPY) --add-section dll.rel=$(@:.o=.rel.bin) $< $@
 
+$(BUILD_DIR)/dfs/src/overlays/%/dll.sym: $(BUILD_DIR)/src/overlays/%/dll.o
+	@mkdir -p $(dir $@)
+	@echo "    [n64sym] $@"
+	$(N64_SYM) $< $@
+
 $(ROM): N64_ROM_TITLE = "oot-$(VERSION)"
+
+$(ROM): $(BUILD_DIR)/dfs.dfs
+$(BUILD_DIR)/dfs.dfs: $(DFS_FILES)
 
 $(ELF): $(BUILD_DIR)/ldscript.ld $(code_OBJS) $(assets_OBJS) $(dlls_OBJS) \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) $(BUILD_DIR)/assets/audio/sequence_font_table.o

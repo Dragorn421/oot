@@ -1,6 +1,7 @@
 #include "debug.h"
 #include "display.h"
 #include "dma_queue.h"
+#include "dragonfs.h"
 #include "elf_reader.h"
 #include "gfx.h"
 #include "idle.h"
@@ -15,6 +16,7 @@
 
 int main(void) {
     debug_init_emulog();
+    dfs_init(DFS_DEFAULT_LOCATION);
     display_init((resolution_t){ SCREEN_WIDTH, SCREEN_HEIGHT, false }, DEPTH_16_BPP, 2, GAMMA_NONE,
                  FILTERS_RESAMPLE_ANTIALIAS_DEDITHER);
     dma_queue_init();
