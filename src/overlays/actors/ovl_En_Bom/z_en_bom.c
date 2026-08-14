@@ -304,9 +304,9 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
         }
 
         if ((this->timer < 100) && ((this->timer & (this->flashSpeedScale + 1)) != 0)) {
-            Math_SmoothStepToF(&this->flashIntensity, 140.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
+            Math_SmoothStepToF(&this->flashIntensity, 140.0f, 1.0f, 140.0f / MAX(1, this->flashSpeedScale), 0.0f);
         } else {
-            Math_SmoothStepToF(&this->flashIntensity, 0.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
+            Math_SmoothStepToF(&this->flashIntensity, 0.0f, 1.0f, 140.0f / MAX(1, this->flashSpeedScale), 0.0f);
         }
 
         if (this->timer < 3) {

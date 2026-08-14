@@ -444,7 +444,14 @@ assets_OBJS := $(addprefix $(BUILD_DIR)/,$(patsubst $(EXTRACTED_DIR)/%,%,$(asset
 
 assets_INCC := $(ASSET_FILES_OUT) $(TEXTURE_FILES_OUT)
 
-$(BUILD_DIR)/%.o: $(EXTRACTED_DIR)/%.c 
+$(BUILD_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo "    [CC] $<"
+	$(CC) -c $(CFLAGS) -o $@.tmp $<
+# including libdragon.h brings RESOLUTION_256x240 and co as const data...
+	$(N64_OBJCOPY) --remove-section='.rodata.RESOLUTION_*' $@.tmp $@
+
+$(BUILD_DIR)/%.o: $(EXTRACTED_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@echo "    [CC] $<"
 	$(CC) -c $(CFLAGS) -o $@.tmp $<

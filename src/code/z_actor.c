@@ -803,12 +803,12 @@ void TitleCard_InitBossName(PlayState* play, TitleCardContext* titleCtx, void* t
 void TitleCard_InitPlaceName(PlayState* play, TitleCardContext* titleCtx, void* texture, s32 x, s32 y, s32 width,
                              s32 height, s32 delay) {
     SceneTableEntry* loadedScene = play->loadedScene;
-    u32 size = elf_section_get_size_fmtname("textures.%s", loadedScene->title_name);
+    u32 size = elf_section_get_size_fmtname("assets.textures.%s", loadedScene->title_name);
 
     if ((size != 0) && (size <= 0x1000 * LANGUAGE_MAX)) {
         struct dma_request req;
 
-        elf_section_dma_queue_read_fmtname(texture, "textures.%s", &req, loadedScene->title_name);
+        elf_section_dma_queue_read_fmtname(texture, "assets.textures.%s", &req, loadedScene->title_name);
         dma_queue_wait(&req);
     }
 

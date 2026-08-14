@@ -3197,6 +3197,7 @@ void Audio_SplitBgmChannels(s8 volSplit) {
 }
 
 void Audio_PlaySariaBgm(Vec3f* pos, u16 seqId, u16 distMax) {
+#ifndef STUB_AUDIO
     f32 absY;
     f32 dist;
     u8 vol;
@@ -3240,6 +3241,7 @@ void Audio_PlaySariaBgm(Vec3f* pos, u16 seqId, u16 distMax) {
 
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_BGM_SUB, vol, 0);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, 0x7F - vol, 0);
+#endif
 }
 
 void Audio_ClearSariaBgm2(void) {
@@ -3446,6 +3448,7 @@ void func_800F5C2C(void) {
 }
 
 void Audio_PlayFanfare(u16 seqId) {
+#ifndef STUB_AUDIO
     u16 curSeqId;
     u32 outNumFonts;
     u8* curFontId;
@@ -3465,6 +3468,7 @@ void Audio_PlayFanfare(u16 seqId) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
     }
     sFanfareSeqId = seqId;
+#endif
 }
 
 void Audio_UpdateFanfare(void) {

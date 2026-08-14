@@ -706,6 +706,9 @@ void func_800F8F88(void) {
 }
 
 u8 Audio_IsSfxPlaying(u32 sfxId) {
+#ifdef STUB_AUDIO
+    return false;
+#else
     SfxBankEntry* entry;
     u8 entryIndex = gSfxBanks[SFX_BANK(sfxId)][0].next;
 
@@ -717,6 +720,7 @@ u8 Audio_IsSfxPlaying(u32 sfxId) {
         entryIndex = entry->next;
     }
     return false;
+#endif
 }
 
 void Audio_ResetSfx(void) {
