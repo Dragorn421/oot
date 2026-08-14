@@ -16,6 +16,7 @@
 
 int main(void) {
     debug_init_emulog();
+    debug_init_usblog();
     dfs_init(DFS_DEFAULT_LOCATION);
     display_init((resolution_t){ SCREEN_WIDTH, SCREEN_HEIGHT, false }, DEPTH_16_BPP, 2, GAMMA_NONE,
                  FILTERS_RESAMPLE_ANTIALIAS_DEDITHER);

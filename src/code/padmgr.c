@@ -92,6 +92,8 @@ void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest) {
     Input* inputOut;
     s32 buttonDiff;
 
+    joypad_poll();
+
     for (inputIn = &padMgr->inputs[0], inputOut = &inputs[0], i = 0; i < MAXCONTROLLERS; i++, inputIn++, inputOut++) {
         joypad_inputs_t joypad_input_cur = joypad_get_inputs(i);
         OSContPad input_cur = {
