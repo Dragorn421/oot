@@ -140,6 +140,9 @@ endif
 
 include $(N64_INST)/include/n64.mk
 
+# TODO-ootdragon we nop N64_ELFCOMPRESS because it strips the elf, yet we want to keep information such as the section names table
+N64_ELFCOMPRESS := @:
+
 # Converts e.g. ntsc-1.0 to NTSC_1_0
 VERSION_MACRO := $(shell echo $(VERSION) | tr a-z-. A-Z__)
 CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO)
@@ -442,7 +445,9 @@ assets_INCC := $(ASSET_FILES_OUT) $(TEXTURE_FILES_OUT)
 $(BUILD_DIR)/%.o: $(EXTRACTED_DIR)/%.c 
 	@mkdir -p $(dir $@)
 	@echo "    [CC] $<"
-	$(CC) -c $(CFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) -o $@.tmp $<
+# including libdragon.h brings RESOLUTION_256x240 and co as const data...
+	$(N64_OBJCOPY) --remove-section='.rodata.RESOLUTION_*' $@.tmp $@
 
 dlls_OBJS :=
 ifeq ($(wildcard dlls.mk),)

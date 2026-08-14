@@ -215,6 +215,6 @@ SECTIONS {
 }
 """
     )
-    .replace("EXCLUDE_FILE_repl", "EXCLUDE_FILE(build/assets/* build/src/overlays/*)")
+    .replace("EXCLUDE_FILE_repl", "EXCLUDE_FILE(build/assets/* build/src/overlays/* build/src/elf_message/*)")
     .replace("build/", "build/gc-eu-mq-dbg/")
 )

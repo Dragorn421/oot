@@ -265,6 +265,7 @@ void Audio_ProcessSfxRequest(void) {
 }
 
 void Audio_RemoveSfxBankEntry(u8 bankId, u8 entryIndex) {
+#ifndef STUB_AUDIO
     SfxBankEntry* entry = &gSfxBanks[bankId][entryIndex];
     u8 i;
 
@@ -289,6 +290,7 @@ void Audio_RemoveSfxBankEntry(u8 bankId, u8 entryIndex) {
             i = gChannelsPerBank[gSfxChannelLayout][bankId];
         }
     }
+#endif
 }
 
 void Audio_ChooseActiveSfx(u8 bankId) {
@@ -518,6 +520,7 @@ void Audio_PlayActiveSfx(u8 bankId) {
 }
 
 void Audio_StopSfxByBank(u8 bankId) {
+#ifndef STUB_AUDIO
     SfxBankEntry* entry;
     s32 pad;
     SfxBankEntry cmp;
@@ -535,6 +538,7 @@ void Audio_StopSfxByBank(u8 bankId) {
     }
     cmp.sfxId = bankId << 12;
     Audio_RemoveMatchingSfxRequests(0, &cmp);
+#endif
 }
 
 void Audio_RemoveSfxFromBankByPos(u8 bankId, Vec3f* pos) {
@@ -634,6 +638,7 @@ void Audio_StopSfxByTokenAndId(u8 token, u16 sfxId) {
 }
 
 void Audio_StopSfxById(u32 sfxId) {
+#ifndef STUB_AUDIO
     SfxBankEntry* entry;
     u8 entryIndex = gSfxBanks[SFX_BANK(sfxId)][0].next;
     u8 prevEntryIndex = 0;
@@ -655,6 +660,7 @@ void Audio_StopSfxById(u32 sfxId) {
     }
     cmp.sfxId = sfxId;
     Audio_RemoveMatchingSfxRequests(5, &cmp);
+#endif
 }
 
 void Audio_ProcessSfxRequests(void) {

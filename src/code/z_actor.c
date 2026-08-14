@@ -3153,9 +3153,6 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     ActorOverlay* overlayEntry;
     uintptr_t temp;
     char* name;
-    u32 overlaySize;
-    char dll_name[100];
-    int nchar;
 
     overlayEntry = &gActorOverlayTable[actorId];
     ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
@@ -3163,10 +3160,6 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 #if DEBUG_FEATURES
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 #endif
-
-    nchar = snprintf(dll_name, sizeof(dll_name), "effects/%s", overlayEntry->ovl_name);
-    assert(nchar < sizeof(dll_name));
-    overlaySize = elf_section_get_dll_ramsize(dll_name);
 
     ACTOR_DEBUG_PRINTF(T("アクタークラス追加 [%d:%s]\n", "Actor class addition [%d:%s]\n"), actorId, name);
 
@@ -3180,6 +3173,14 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
         profile = overlayEntry->profile;
     } else {
+        u32 overlaySize;
+        char dll_name[100];
+        int nchar;
+
+        nchar = snprintf(dll_name, sizeof(dll_name), "actors/%s", overlayEntry->ovl_name);
+        assert(nchar < sizeof(dll_name));
+        overlaySize = elf_section_get_dll_ramsize(dll_name);
+
         if (overlayEntry->loadedRamAddr != NULL) {
             ACTOR_DEBUG_PRINTF(T("既にロードされています\n", "Already loaded\n"));
         } else {

@@ -499,47 +499,47 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
                 }
             }
 
-            size = elf_section_get_size_fmtname("textures.%s", gNormalSkyFiles[skybox1Index].file);
+            size = elf_section_get_size_fmtname("assets.textures.%s", gNormalSkyFiles[skybox1Index].file);
             skyboxCtx->staticSegments[0] = GAME_STATE_ALLOC(&play->state, size, "../z_vr_box.c", 1054);
             ASSERT(skyboxCtx->staticSegments[0] != NULL, "vr_box->vr_box_staticSegment[0] != NULL", "../z_vr_box.c",
                    1055);
-            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[0], "textures.%s", &req,
+            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[0], "assets.textures.%s", &req,
                                                gNormalSkyFiles[skybox1Index].file);
             dma_queue_wait(&req);
 
-            size = elf_section_get_size_fmtname("textures.%s", gNormalSkyFiles[skybox2Index].file);
+            size = elf_section_get_size_fmtname("assets.textures.%s", gNormalSkyFiles[skybox2Index].file);
             skyboxCtx->staticSegments[1] = GAME_STATE_ALLOC(&play->state, size, "../z_vr_box.c", 1060);
             ASSERT(skyboxCtx->staticSegments[1] != NULL, "vr_box->vr_box_staticSegment[1] != NULL", "../z_vr_box.c",
                    1061);
 
-            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[1], "textures.%s", &req,
+            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[1], "assets.textures.%s", &req,
                                                gNormalSkyFiles[skybox2Index].file);
             dma_queue_wait(&req);
 
             if ((skybox1Index & 1) ^ ((skybox1Index & 4) >> 2)) {
-                size = elf_section_get_size_fmtname("textures.%s", gNormalSkyFiles[skybox1Index].palette);
+                size = elf_section_get_size_fmtname("assets.textures.%s", gNormalSkyFiles[skybox1Index].palette);
 
                 skyboxCtx->palettes = GAME_STATE_ALLOC(&play->state, size * 2, "../z_vr_box.c", 1072);
 
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1073);
 
-                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "textures.%s", &req,
+                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "assets.textures.%s", &req,
                                                    gNormalSkyFiles[skybox1Index].palette);
                 dma_queue_wait(&req);
-                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "textures.%s", &req,
+                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "assets.textures.%s", &req,
                                                    gNormalSkyFiles[skybox2Index].palette);
                 dma_queue_wait(&req);
             } else {
-                size = elf_section_get_size_fmtname("textures.%s", gNormalSkyFiles[skybox1Index].palette);
+                size = elf_section_get_size_fmtname("assets.textures.%s", gNormalSkyFiles[skybox1Index].palette);
 
                 skyboxCtx->palettes = GAME_STATE_ALLOC(&play->state, size * 2, "../z_vr_box.c", 1085);
 
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1086);
 
-                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "textures.%s", &req,
+                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "assets.textures.%s", &req,
                                                    gNormalSkyFiles[skybox2Index].palette);
                 dma_queue_wait(&req);
-                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "textures.%s", &req,
+                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "assets.textures.%s", &req,
                                                    gNormalSkyFiles[skybox1Index].palette);
                 dma_queue_wait(&req);
             }

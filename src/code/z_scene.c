@@ -272,6 +272,9 @@ BAD_RETURN(s32) Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
 BAD_RETURN(s32) Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
     play->roomList.count = cmd->roomList.length;
     play->roomList.room_names = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
+    for (int i = 0; i < play->roomList.count; i++) {
+        play->roomList.room_names[i] = SEGMENTED_TO_VIRTUAL(play->roomList.room_names[i]);
+    }
 }
 
 BAD_RETURN(s32) Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {

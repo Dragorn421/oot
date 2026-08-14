@@ -4,6 +4,7 @@
 #include "printf.h"
 #include "terminal.h"
 #include "translation.h"
+#include <stdint.h>
 #include <string.h>
 
 #define FILL_ALLOC_BLOCK_FLAG (1 << 0)
@@ -167,6 +168,7 @@ ArenaNode* ArenaImpl_GetLastBlock(Arena* arena) {
 }
 
 void __osMallocInit(Arena* arena, void* start, s32 size) {
+    assert(ALIGN16((uintptr_t)start) == (uintptr_t)start);
     bzero(arena, sizeof(Arena));
     ArenaImpl_LockInit(arena);
     __osMallocAddBlock(arena, start, size);

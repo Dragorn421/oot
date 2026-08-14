@@ -698,7 +698,7 @@ s32 Room_RequestNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
         roomCtx->roomRequestAddr = (void*)ALIGN16((intptr_t)roomCtx->bufPtrs[roomCtx->activeBufPage] -
                                                   ((size + 8) * roomCtx->activeBufPage + 7));
 
-        elf_section_dma_queue_read_fmtname(roomCtx->roomRequestAddr, "maps.assets.%s", &roomCtx->dma_request,
+        elf_section_dma_queue_read_fmtname(roomCtx->roomRequestAddr, "assets.maps.%s", &roomCtx->dma_request,
                                            play->roomList.room_names[roomNum]);
 
         roomCtx->activeBufPage ^= 1;

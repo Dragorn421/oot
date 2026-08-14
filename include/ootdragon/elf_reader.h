@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include "dma_queue.h"
 
+void read_elf_metadata(void);
+
 size_t elf_section_get_size(const char* section_name);
 __attribute__((format(printf, 1, 2))) size_t elf_section_get_size_fmtname(const char* section_name_format, ...);
 void elf_section_dma_queue_read(void* ram, const char* section_name, struct dma_request* req);

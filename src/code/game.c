@@ -417,8 +417,10 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 
 void GameState_Destroy(GameState* gameState) {
     PRINTF(T("game デストラクタ開始\n", "game destructor start\n"));
+#ifndef STUB_AUDIO
     AudioMgr_StopAllSfx();
     Audio_Update();
+#endif
     libultra_ucode_wait(&gameState->gfxCtx->task_handle);
     LOG_UTILS_CHECK_NULL_POINTER("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {

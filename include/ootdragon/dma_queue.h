@@ -13,6 +13,7 @@ struct dma_request {
     struct dma_request* next;
 };
 
+void dma_queue_init(void);
 void dma_queue_read(void* ram, uint32_t rom, size_t size, struct dma_request* req);
 bool dma_queue_finished(struct dma_request* req);
 void dma_queue_wait(struct dma_request* req);

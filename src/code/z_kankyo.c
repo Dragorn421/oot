@@ -757,14 +757,14 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
         if ((envCtx->skybox1Index != newSkybox1Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
             envCtx->skyboxDmaState = SKYBOX_DMA_TEXTURE1_START;
-            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[0], "textures.%s", &envCtx->dma_request,
+            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[0], "assets.textures.%s", &envCtx->dma_request,
                                                gNormalSkyFiles[newSkybox1Index].file);
             envCtx->skybox1Index = newSkybox1Index;
         }
 
         if ((envCtx->skybox2Index != newSkybox2Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
             envCtx->skyboxDmaState = SKYBOX_DMA_TEXTURE2_START;
-            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[1], "textures.%s", &envCtx->dma_request,
+            elf_section_dma_queue_read_fmtname(skyboxCtx->staticSegments[1], "assets.textures.%s", &envCtx->dma_request,
                                                gNormalSkyFiles[newSkybox2Index].file);
             envCtx->skybox2Index = newSkybox2Index;
         }
@@ -773,12 +773,12 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             envCtx->skyboxDmaState = SKYBOX_DMA_TLUT1_START;
 
             if ((newSkybox1Index & 1) ^ ((newSkybox1Index & 4) >> 2)) {
-                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "textures.%s", &envCtx->dma_request,
+                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "assets.textures.%s", &envCtx->dma_request,
                                                    gNormalSkyFiles[newSkybox1Index].palette);
             } else {
-                size = elf_section_get_size_fmtname("textures.%s", gNormalSkyFiles[newSkybox1Index].palette);
-                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "textures.%s", &envCtx->dma_request,
-                                                   gNormalSkyFiles[newSkybox1Index].palette);
+                size = elf_section_get_size_fmtname("assets.textures.%s", gNormalSkyFiles[newSkybox1Index].palette);
+                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "assets.textures.%s",
+                                                   &envCtx->dma_request, gNormalSkyFiles[newSkybox1Index].palette);
             }
         }
 
@@ -786,12 +786,12 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             envCtx->skyboxDmaState = SKYBOX_DMA_TLUT2_START;
 
             if ((newSkybox2Index & 1) ^ ((newSkybox2Index & 4) >> 2)) {
-                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "textures.%s", &envCtx->dma_request,
+                elf_section_dma_queue_read_fmtname(skyboxCtx->palettes, "assets.textures.%s", &envCtx->dma_request,
                                                    gNormalSkyFiles[newSkybox2Index].palette);
             } else {
-                size = elf_section_get_size_fmtname("textures.%s", gNormalSkyFiles[newSkybox2Index].palette);
-                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "textures.%s", &envCtx->dma_request,
-                                                   gNormalSkyFiles[newSkybox2Index].palette);
+                size = elf_section_get_size_fmtname("assets.textures.%s", gNormalSkyFiles[newSkybox2Index].palette);
+                elf_section_dma_queue_read_fmtname((u8*)skyboxCtx->palettes + size, "assets.textures.%s",
+                                                   &envCtx->dma_request, gNormalSkyFiles[newSkybox2Index].palette);
             }
         }
 

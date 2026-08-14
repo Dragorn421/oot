@@ -143,6 +143,7 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->workBuffer = pool->workBuffer;
 
     gfxCtx->curSurf = display_get();
+    display_show(gfxCtx->curSurf); // TODO-ootdragon figure out where to put this
     gfxCtx->unk_014 = 0;
 }
 

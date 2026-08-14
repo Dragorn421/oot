@@ -28,9 +28,11 @@ typedef struct ArenaNode {
     /* 0x10 */ const char* filename;
     /* 0x14 */ int line;
     /* 0x1C */ Arena* arena;
-    /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
+    char pad[4];
 #endif
 } ArenaNode; // size = 0x30 (N64 and GC debug), size = 0x10 (GC retail)
+
+static_assert(sizeof(ArenaNode) % 16 == 0, "ArenaNode struct must be size-aligned to 16 to not mess up __osMalloc");
 
 #if PLATFORM_N64
 #define DECLARE_INTERRUPT_MASK OSIntMask __mask;
