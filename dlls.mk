@@ -1276,6 +1276,3 @@ dlls_OBJS += $(BUILD_DIR)/src/overlays/actors/ovl_Oceff_Wipe4/dll.o
 
 $(BUILD_DIR)/src/overlays/actors/ovl_Shot_Sun/dll.plf: $(BUILD_DIR)/src/overlays/actors/ovl_Shot_Sun/z_shot_sun.o
 dlls_OBJS += $(BUILD_DIR)/src/overlays/actors/ovl_Shot_Sun/dll.o
-
-$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/dll.plf: $(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data_mq.o
-dlls_OBJS += $(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/dll.o

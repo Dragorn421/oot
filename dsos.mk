@@ -123,3 +123,6 @@ DSOS += $(BUILD_DIR)/dfs/gamestates/ovl_select.dso
 
 $(BUILD_DIR)/dfs/gamestates/ovl_title.dso: $(BUILD_DIR)/src/overlays/gamestates/ovl_title/z_title.o
 DSOS += $(BUILD_DIR)/dfs/gamestates/ovl_title.dso
+
+$(BUILD_DIR)/dfs/misc/ovl_map_mark_data.dso: $(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data_mq.o
+DSOS += $(BUILD_DIR)/dfs/misc/ovl_map_mark_data.dso

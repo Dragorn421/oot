@@ -1,3 +1,4 @@
+#include "dlfcn.h"
 #include "elf_reader.h"
 #include "libu64/debug.h"
 #include "libu64/overlay.h"
@@ -28,9 +29,9 @@ typedef struct MapMarkInfo {
 } MapMarkInfo; // size = 0x24
 
 typedef struct MapMarkDataOverlay {
-    /* 0x00 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x04 */ const char* dll_name;
-    /* 0x14 */ void* vramTable;
+    void* dso_handle;
+    const char* dso_path;
+    const char* table_sym_name;
 } MapMarkDataOverlay; // size = 0x18
 
 #define GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS
@@ -43,45 +44,29 @@ MapMarkInfo sMapMarkInfoTable[] = {
 
 static MapMarkDataOverlay sMapMarkDataOvl = {
     NULL,
-    "misc/ovl_map_mark_data",
-    gMapMarkDataTable,
+    "rom:/misc/ovl_map_mark_data.dso",
+    "gMapMarkDataTable",
 };
 
 static MapMarkData** sLoadedMarkDataTable;
 
 void MapMark_Init(PlayState* play) {
     MapMarkDataOverlay* overlay = &sMapMarkDataOvl;
-    u32 overlaySize = elf_section_get_dll_ramsize(overlay->dll_name);
 
-    overlay->loadedRamAddr = GAME_STATE_ALLOC(&play->state, overlaySize, "../z_map_mark.c", 235);
-    LOG_UTILS_CHECK_NULL_POINTER("dlftbl->allocp", overlay->loadedRamAddr, "../z_map_mark.c", 236);
+    assert(overlay->dso_handle == NULL);
+    overlay->dso_handle = dlopen(overlay->dso_path, 0);
+    assert(overlay->dso_handle != NULL);
 
-    elf_section_load_dll(overlay->dll_name, overlay->loadedRamAddr);
-
-    sLoadedMarkDataTable = gMapMarkDataTable;
-    sLoadedMarkDataTable =
-        (void*)(uintptr_t)((overlay->vramTable != NULL)
-                               ? (void*)((uintptr_t)overlay->vramTable -
-                                         (intptr_t)((uintptr_t)elf_section_get_dll_vram_start(overlay->dll_name) -
-                                                    (uintptr_t)overlay->loadedRamAddr))
-                               : NULL);
-
-#if PLATFORM_N64
-    if ((B_80121220 != NULL) && (B_80121220->unk_2C != NULL)) {
-        B_80121220->unk_2C(&sLoadedMarkDataTable);
-    }
-#endif
+    sLoadedMarkDataTable = dlsym(overlay->dso_handle, overlay->table_sym_name);
+    assert(sLoadedMarkDataTable != NULL);
 }
 
 void MapMark_ClearPointers(PlayState* play) {
-#if PLATFORM_N64
-    if ((B_80121220 != NULL) && (B_80121220->unk_30 != NULL)) {
-        B_80121220->unk_30(&sLoadedMarkDataTable);
-    }
-#endif
-
-    sMapMarkDataOvl.loadedRamAddr = NULL;
     sLoadedMarkDataTable = NULL;
+    if (sMapMarkDataOvl.dso_handle != NULL) {
+        dlclose(sMapMarkDataOvl.dso_handle);
+        sMapMarkDataOvl.dso_handle = NULL;
+    }
 }
 
 void MapMark_DrawForDungeon(PlayState* play) {

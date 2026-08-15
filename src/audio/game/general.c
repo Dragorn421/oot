@@ -3155,6 +3155,7 @@ void Audio_ClearSariaBgmAtPos(Vec3f* pos) {
  * equally between the two bgm channels. Split based on note priority
  */
 void Audio_SplitBgmChannels(s8 volSplit) {
+#ifndef STUB_AUDIO
     u8 volume;
     u8 notePriority;
     u16 channelBits;
@@ -3194,6 +3195,7 @@ void Audio_SplitBgmChannels(s8 volSplit) {
             SEQCMD_SET_CHANNEL_DISABLE_MASK(bgmPlayers[i], channelBits);
         }
     }
+#endif
 }
 
 void Audio_PlaySariaBgm(Vec3f* pos, u16 seqId, u16 distMax) {
@@ -3514,6 +3516,7 @@ void Audio_PlaySequenceWithSeqPlayerIO(u8 seqPlayerIndex, u16 seqId, u8 fadeInDu
 }
 
 void Audio_SetSequenceMode(u8 seqMode) {
+#ifndef STUB_AUDIO
     s32 volumeFadeInTimer;
     u16 seqId;
     u8 volumeFadeOutTimer;
@@ -3613,6 +3616,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
             SEQCMD_SET_SEQPLAYER_IO(SEQ_PLAYER_BGM_MAIN, 2, seqMode);
         }
     }
+#endif
 }
 
 void Audio_SetBgmEnemyVolume(f32 dist) {

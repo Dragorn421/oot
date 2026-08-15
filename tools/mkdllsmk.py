@@ -12,12 +12,9 @@ dllsmk_p: Path = args.dllsmk
 
 dllsmk_frags = []
 
-for dllrootdir_p in (
-    Path("src/overlays/actors"),
-    Path("src/overlays/misc"),
-):
+for dllrootdir_p in (Path("src/overlays/actors"),):
     for dlldir_p in sorted(dllrootdir_p.iterdir()):
-        if dlldir_p.name in {"ovl_player_actor", "ovl_kaleido_scope"}:
+        if dlldir_p.name in {"ovl_player_actor"}:
             continue
         c_files = sorted(
             _p

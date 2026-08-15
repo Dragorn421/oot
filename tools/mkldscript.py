@@ -15,10 +15,7 @@ with Path("assets_list.toml").open("rb") as f:
     assets_list = tomllib.load(f)
 
 dlls = []
-for _dllrootdir_p in (
-    Path("src/overlays/actors"),
-    Path("src/overlays/misc"),
-):
+for _dllrootdir_p in (Path("src/overlays/actors"),):
     dlls.extend(
         sorted(
             _dlldir_p.relative_to(Path("src/overlays"))
@@ -26,7 +23,6 @@ for _dllrootdir_p in (
         )
     )
 dlls.remove(Path("actors/ovl_player_actor"))
-dlls.remove(Path("misc/ovl_kaleido_scope"))
 
 script_assets_lines = []
 for name, asset_info in assets_list.items():
