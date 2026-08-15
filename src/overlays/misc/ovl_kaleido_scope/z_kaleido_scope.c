@@ -3730,14 +3730,12 @@ void KaleidoScope_Update(PlayState* play) {
             size1 = Player_InitPauseDrawData(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
             PRINTF(T("プレイヤー size1＝%x\n", "Player size1=%x\n"), size1);
 
-            // TODO-ootdragon port over this code
-            /*
-            size0 = (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
+            size0 = elf_section_get_size("assets.textures.icon_item_static");
             pauseCtx->iconItemSegment = (void*)ALIGN16((uintptr_t)pauseCtx->playerSegment + size1);
 
             PRINTF("icon_item size0=%x\n", size0);
-            DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, size0,
-                             "../z_kaleido_scope_PAL.c", 3662);
+            elf_section_dma_queue_read(pauseCtx->iconItemSegment, "assets.textures.icon_item_static", &req);
+            dma_queue_wait(&req);
 
             gSegments[8] = PhysicalAddr(pauseCtx->iconItemSegment);
 
@@ -3750,10 +3748,10 @@ void KaleidoScope_Update(PlayState* play) {
 
             pauseCtx->iconItem24Segment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemSegment + size0);
 
-            size = (uintptr_t)_icon_item_24_staticSegmentRomEnd - (uintptr_t)_icon_item_24_staticSegmentRomStart;
+            size = elf_section_get_size("assets.textures.icon_item_24_static");
             PRINTF("icon_item24 size=%x\n", size);
-            DMA_REQUEST_SYNC(pauseCtx->iconItem24Segment, (uintptr_t)_icon_item_24_staticSegmentRomStart, size,
-                             "../z_kaleido_scope_PAL.c", 3675);
+            elf_section_dma_queue_read(pauseCtx->iconItem24Segment, "assets.textures.icon_item_24_static", &req);
+            dma_queue_wait(&req);
 
             pauseCtx->iconItemAltSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItem24Segment + size);
 
@@ -3777,11 +3775,11 @@ void KaleidoScope_Update(PlayState* play) {
                 case SCENE_SPIRIT_TEMPLE_BOSS:
                 case SCENE_SHADOW_TEMPLE_BOSS:
                     sInDungeonScene = true;
-                    size2 = (uintptr_t)_icon_item_dungeon_staticSegmentRomEnd -
-                            (uintptr_t)_icon_item_dungeon_staticSegmentRomStart;
+                    size2 = elf_section_get_size("assets.textures.icon_item_dungeon_static");
                     PRINTF("icon_item_dungeon dungeon-size2=%x\n", size2);
-                    DMA_REQUEST_SYNC(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_dungeon_staticSegmentRomStart,
-                                     size2, "../z_kaleido_scope_PAL.c", 3712);
+                    elf_section_dma_queue_read(pauseCtx->iconItemAltSegment, "assets.textures.icon_item_dungeon_static",
+                                               &req);
+                    dma_queue_wait(&req);
 
                     interfaceCtx->mapPalette[28] = 6;
                     interfaceCtx->mapPalette[29] = 99;
@@ -3790,11 +3788,11 @@ void KaleidoScope_Update(PlayState* play) {
 
                 default:
                     sInDungeonScene = false;
-                    size2 = (uintptr_t)_icon_item_field_staticSegmentRomEnd -
-                            (uintptr_t)_icon_item_field_staticSegmentRomStart;
+                    size2 = elf_section_get_size("assets.textures.icon_item_field_static");
                     PRINTF("icon_item_field field-size2=%x\n", size2);
-                    DMA_REQUEST_SYNC(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_field_staticSegmentRomStart,
-                                     size2, "../z_kaleido_scope_PAL.c", 3726);
+                    elf_section_dma_queue_read(pauseCtx->iconItemAltSegment, "assets.textures.icon_item_field_static",
+                                               &req);
+                    dma_queue_wait(&req);
                     break;
             }
 
@@ -3814,20 +3812,20 @@ void KaleidoScope_Update(PlayState* play) {
             }
 #else
             if (gSaveContext.language == LANGUAGE_ENG) {
-                size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
+                size = elf_section_get_size("assets.textures.icon_item_nes_static");
                 PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
-                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 3739);
+                elf_section_dma_queue_read(pauseCtx->iconItemLangSegment, "assets.textures.icon_item_nes_static", &req);
+                dma_queue_wait(&req);
             } else if (gSaveContext.language == LANGUAGE_GER) {
-                size = (uintptr_t)_icon_item_ger_staticSegmentRomEnd - (uintptr_t)_icon_item_ger_staticSegmentRomStart;
+                size = elf_section_get_size("assets.textures.icon_item_ger_static");
                 PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
-                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_ger_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 3746);
+                elf_section_dma_queue_read(pauseCtx->iconItemLangSegment, "assets.textures.icon_item_ger_static", &req);
+                dma_queue_wait(&req);
             } else {
-                size = (uintptr_t)_icon_item_fra_staticSegmentRomEnd - (uintptr_t)_icon_item_fra_staticSegmentRomStart;
+                size = elf_section_get_size("assets.textures.icon_item_fra_static");
                 PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
-                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 3753);
+                elf_section_dma_queue_read(pauseCtx->iconItemLangSegment, "assets.textures.icon_item_fra_static", &req);
+                dma_queue_wait(&req);
             }
 #endif
 
@@ -3857,30 +3855,32 @@ void KaleidoScope_Update(PlayState* play) {
                 }
 #else
                 if (gSaveContext.language == LANGUAGE_ENG) {
-                    DMA_REQUEST_SYNC(
+                    elf_section_dma_queue_read_fragment(
                         pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
-                        (uintptr_t)_map_name_staticSegmentRomStart +
-                            ((((void)0, gSaveContext.worldMapArea) + 22 * LANGUAGE_ENG) * MAP_NAME_TEX2_SIZE) +
+                        "assets.textures.map_name_static",
+                        ((((void)0, gSaveContext.worldMapArea) + 22 * LANGUAGE_ENG) * MAP_NAME_TEX2_SIZE) +
                             36 * MAP_NAME_TEX1_SIZE,
-                        MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3776);
+                        MAP_NAME_TEX2_SIZE, &req);
+                    dma_queue_wait(&req);
                 } else if (gSaveContext.language == LANGUAGE_GER) {
-                    DMA_REQUEST_SYNC(
+                    elf_section_dma_queue_read_fragment(
                         pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
-                        (uintptr_t)_map_name_staticSegmentRomStart +
-                            ((((void)0, gSaveContext.worldMapArea) + 22 * LANGUAGE_GER) * MAP_NAME_TEX2_SIZE) +
+                        "assets.textures.map_name_static",
+                        ((((void)0, gSaveContext.worldMapArea) + 22 * LANGUAGE_GER) * MAP_NAME_TEX2_SIZE) +
                             36 * MAP_NAME_TEX1_SIZE,
-                        MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3780);
+                        MAP_NAME_TEX2_SIZE, &req);
+                    dma_queue_wait(&req);
                 } else {
-                    DMA_REQUEST_SYNC(
+                    elf_section_dma_queue_read_fragment(
                         pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
-                        (uintptr_t)_map_name_staticSegmentRomStart +
-                            ((((void)0, gSaveContext.worldMapArea) + 22 * LANGUAGE_FRA) * MAP_NAME_TEX2_SIZE) +
+                        "assets.textures.map_name_static",
+                        ((((void)0, gSaveContext.worldMapArea) + 22 * LANGUAGE_FRA) * MAP_NAME_TEX2_SIZE) +
                             36 * MAP_NAME_TEX1_SIZE,
-                        MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3784);
+                        MAP_NAME_TEX2_SIZE, &req);
+                    dma_queue_wait(&req);
                 }
 #endif
             }
-            */
 
             sPreRenderCvg = (void*)ALIGN16((uintptr_t)pauseCtx->nameSegment +
                                            MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE) + MAP_NAME_TEX2_SIZE);

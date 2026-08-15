@@ -33,6 +33,7 @@ void KaleidoScopeCall_Destroy(struct PlayState* play);
 void KaleidoScopeCall_Update(struct PlayState* play);
 void KaleidoScopeCall_Draw(struct PlayState* play);
 
+void PlayerCall_InitFuncPtrs(void);
 void PlayerCall_ClearFuncPtrs(void);
 
 #endif

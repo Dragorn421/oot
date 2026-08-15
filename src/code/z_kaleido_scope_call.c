@@ -37,6 +37,7 @@ void KaleidoScopeCall_LoadPlayer(void) {
         PRINTF_RST();
 
         KaleidoManager_LoadOvl(playerActorOvl);
+        PlayerCall_InitFuncPtrs();
     }
 }
 

@@ -54,7 +54,6 @@ void PlayerCall_ClearFuncPtrs(void) {
 
 void PlayerCall_Init(Actor* thisx, PlayState* play) {
     KaleidoScopeCall_LoadPlayer();
-    PlayerCall_InitFuncPtrs();
     sPlayerCallInitFunc(thisx, play);
 }
 

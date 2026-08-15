@@ -387,6 +387,8 @@ $(BUILD_DIR)/assets/text/staff_message_data_static.o: $(BUILD_DIR)/assets/text/m
 
 N64_C_AND_CXX_FLAGS += $(CPP_DEFINES) $(GBI_DEFINES) $(INC)
 
+N64_C_AND_CXX_FLAGS += -ggdb3
+
 N64_C_AND_CXX_FLAGS += -Wno-error=maybe-uninitialized
 N64_C_AND_CXX_FLAGS += -Wno-missing-braces
 N64_C_AND_CXX_FLAGS += -Wno-error=strict-aliasing -Wno-error=format=
@@ -472,7 +474,7 @@ DFS_FILES := $(DSOS)
 assets_incc: $(assets_INCC)
 $(code_OBJS) $(assets_OBJS) $(others_OBJS): | assets_incc
 
-$(assets_OBJS): N64_C_AND_CXX_FLAGS := $(filter-out -g,$(N64_C_AND_CXX_FLAGS))
+$(assets_OBJS): N64_C_AND_CXX_FLAGS := $(filter-out -g -ggdb3,$(N64_C_AND_CXX_FLAGS))
 
 # like n64.mk's .S rule but lowercase .s and add -x assembler-with-cpp and -Wa,-I flags
 $(BUILD_DIR)/src/%.o: src/%.s
