@@ -3,12 +3,13 @@
 #include "printf.h"
 #include "translation.h"
 #include "save.h"
+#include "z_game_dlftbls.h"
 
 void Setup_InitImpl(SetupState* this) {
     PRINTF(T("ゼルダ共通データ初期化\n", "Zelda common data initialization\n"));
     SaveContext_Init();
     this->state.running = false;
-    SET_NEXT_GAMESTATE(&this->state, ConsoleLogo_Init, ConsoleLogoState);
+    SET_NEXT_GAMESTATE(&this->state, GAMESTATE_CONSOLE_LOGO);
 }
 
 void Setup_Destroy(GameState* thisx) {

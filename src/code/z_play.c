@@ -17,6 +17,7 @@
 #include "line_numbers.h"
 #include "n64sys.h"
 #include "unk.h"
+#include "z_game_dlftbls.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -297,7 +298,7 @@ void Play_Init(GameState* thisx) {
     if (gSaveContext.save.entranceIndex == ENTR_LOAD_OPENING) {
         gSaveContext.save.entranceIndex = 0;
         this->state.running = false;
-        SET_NEXT_GAMESTATE(&this->state, TitleSetup_Init, TitleSetupState);
+        SET_NEXT_GAMESTATE(&this->state, GAMESTATE_TITLE_SETUP);
         return;
     }
 
@@ -709,14 +710,14 @@ void Play_Update(PlayState* this) {
                             this->state.running = false;
 
                             if (gSaveContext.gameMode != GAMEMODE_FILE_SELECT) {
-                                SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
+                                SET_NEXT_GAMESTATE(&this->state, GAMESTATE_PLAY);
                                 gSaveContext.save.entranceIndex = this->nextEntranceIndex;
 
                                 if (gSaveContext.minigameState == 1) {
                                     gSaveContext.minigameState = 3;
                                 }
                             } else {
-                                SET_NEXT_GAMESTATE(&this->state, FileSelect_Init, FileSelectState);
+                                SET_NEXT_GAMESTATE(&this->state, GAMESTATE_FILE_SELECT);
                             }
                         } else {
                             this->transitionCtx.destroy(&this->transitionCtx.instanceData);
@@ -760,7 +761,7 @@ void Play_Update(PlayState* this) {
 
                     if (sTransitionFillTimer >= 20) {
                         this->state.running = false;
-                        SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
+                        SET_NEXT_GAMESTATE(&this->state, GAMESTATE_PLAY);
                         gSaveContext.save.entranceIndex = this->nextEntranceIndex;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
@@ -802,7 +803,7 @@ void Play_Update(PlayState* this) {
                 case TRANS_MODE_INSTANT:
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         this->state.running = false;
-                        SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
+                        SET_NEXT_GAMESTATE(&this->state, GAMESTATE_PLAY);
                         gSaveContext.save.entranceIndex = this->nextEntranceIndex;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
@@ -845,7 +846,7 @@ void Play_Update(PlayState* this) {
                     } else {
                         if (this->envCtx.sandstormEnvA == 255) {
                             this->state.running = false;
-                            SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
+                            SET_NEXT_GAMESTATE(&this->state, GAMESTATE_PLAY);
                             gSaveContext.save.entranceIndex = this->nextEntranceIndex;
                             this->transitionTrigger = TRANS_TRIGGER_OFF;
                             this->transitionMode = TRANS_MODE_OFF;

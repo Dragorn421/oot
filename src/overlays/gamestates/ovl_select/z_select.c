@@ -30,7 +30,7 @@
 
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;
-    SET_NEXT_GAMESTATE(&this->state, ConsoleLogo_Init, ConsoleLogoState);
+    SET_NEXT_GAMESTATE(&this->state, GAMESTATE_CONSOLE_LOGO);
 }
 
 void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
@@ -60,7 +60,7 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
     gWeatherMode = WEATHER_MODE_CLEAR;
 
     this->state.running = false;
-    SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
+    SET_NEXT_GAMESTATE(&this->state, GAMESTATE_PLAY);
 }
 
 #if PLATFORM_N64

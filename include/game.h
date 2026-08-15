@@ -6,6 +6,7 @@
 #include "libu64/pad.h"
 #include "gamealloc.h"
 #include "tha.h"
+#include "z_game_dlftbls.h"
 
 struct GraphicsContext;
 struct GameState;
@@ -24,15 +25,16 @@ typedef struct GameState {
     /* 0x98 */ u32 running;
     /* 0x9C */ u32 frames;
     /* 0xA0 */ u32 inPreNMIState;
+    GameStateId next;
 } GameState; // size = 0xA4
 
-#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
-    if (1) {                                             \
-        GameState* state = curState;                     \
-                                                         \
-        (state)->init = newInit;                         \
-        (state)->size = sizeof(newStruct);               \
-    } (void)0
+#define SET_NEXT_GAMESTATE(curState, nextId) \
+    if (1) {                                 \
+        GameState* state = (curState);       \
+                                             \
+        state->next = (nextId);              \
+    }                                        \
+    (void)0
 
 void GameState_ReqPadData(GameState* gameState);
 void GameState_Update(GameState* gameState);

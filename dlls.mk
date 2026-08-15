@@ -1385,17 +1385,5 @@ dlls_OBJS += $(BUILD_DIR)/src/overlays/effects/ovl_Effect_Ss_Stick/dll.o
 $(BUILD_DIR)/src/overlays/effects/ovl_Effect_Ss_Stone1/dll.plf: $(BUILD_DIR)/src/overlays/effects/ovl_Effect_Ss_Stone1/z_eff_ss_stone1.o
 dlls_OBJS += $(BUILD_DIR)/src/overlays/effects/ovl_Effect_Ss_Stone1/dll.o
 
-$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/dll.plf: $(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_choose.o $(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o $(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_nameset.o $(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_nameset_data.o
-dlls_OBJS += $(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/dll.o
-
-$(BUILD_DIR)/src/overlays/gamestates/ovl_opening/dll.plf: $(BUILD_DIR)/src/overlays/gamestates/ovl_opening/z_opening.o
-dlls_OBJS += $(BUILD_DIR)/src/overlays/gamestates/ovl_opening/dll.o
-
-$(BUILD_DIR)/src/overlays/gamestates/ovl_select/dll.plf: $(BUILD_DIR)/src/overlays/gamestates/ovl_select/z_select.o
-dlls_OBJS += $(BUILD_DIR)/src/overlays/gamestates/ovl_select/dll.o
-
-$(BUILD_DIR)/src/overlays/gamestates/ovl_title/dll.plf: $(BUILD_DIR)/src/overlays/gamestates/ovl_title/z_title.o
-dlls_OBJS += $(BUILD_DIR)/src/overlays/gamestates/ovl_title/dll.o
-
 $(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/dll.plf: $(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data_mq.o
 dlls_OBJS += $(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/dll.o

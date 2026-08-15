@@ -4673,7 +4673,7 @@ void KaleidoScope_Update(PlayState* play) {
                         PRINTF_RST();
                     } else {
                         play->state.running = false;
-                        SET_NEXT_GAMESTATE(&play->state, TitleSetup_Init, TitleSetupState);
+                        SET_NEXT_GAMESTATE(&play->state, GAMESTATE_TITLE_SETUP);
                     }
                 }
             }

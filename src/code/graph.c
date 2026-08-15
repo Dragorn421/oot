@@ -149,20 +149,7 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
 }
 
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
-    void* gameStateInitFunc = GameState_GetInit(gameState);
-
-    // Generates code to match gameStateInitFunc to a gamestate entry and returns it if found
-#define DEFINE_GAMESTATE_INTERNAL(typeName, enumName) \
-    if (gameStateInitFunc == typeName##_Init) {       \
-        return &gGameStateOverlayTable[enumName];     \
-    }
-#define DEFINE_GAMESTATE(typeName, enumName, name) DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
-#include "tables/gamestate_table.h"
-#undef DEFINE_GAMESTATE
-#undef DEFINE_GAMESTATE_INTERNAL
-
-    LOG_ADDRESS("game_init_func", gameStateInitFunc, "../graph.c", 696);
-    return NULL;
+    return &gGameStateOverlayTable[gameState->next];
 }
 
 void Graph_Init(GraphicsContext* gfxCtx) {
@@ -383,7 +370,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     if (gIsCtrlr2Valid && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
         CHECK_BTN_ALL(gameState->input[0].cur.button, BTN_L | BTN_R)) {
         gSaveContext.gameMode = GAMEMODE_NORMAL;
-        SET_NEXT_GAMESTATE(gameState, MapSelect_Init, MapSelectState);
+        SET_NEXT_GAMESTATE(gameState, GAMESTATE_MAP_SELECT);
         gameState->running = false;
     }
 #endif

@@ -13,6 +13,7 @@
 #include "main.h"
 #include "map_select_state.h"
 #include "memory_utils.h"
+#include "z_game_dlftbls.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -1874,7 +1875,7 @@ void FileSelect_LoadGame(GameState* thisx) {
         gSaveContext.fileNum = this->buttonIndex;
         Sram_OpenSave(&this->sramCtx);
         gSaveContext.gameMode = GAMEMODE_NORMAL;
-        SET_NEXT_GAMESTATE(&this->state, MapSelect_Init, MapSelectState);
+        SET_NEXT_GAMESTATE(&this->state, GAMESTATE_MAP_SELECT);
         this->state.running = false;
     } else
 #endif
@@ -1883,7 +1884,7 @@ void FileSelect_LoadGame(GameState* thisx) {
         gSaveContext.fileNum = this->buttonIndex;
         Sram_OpenSave(&this->sramCtx);
         gSaveContext.gameMode = GAMEMODE_NORMAL;
-        SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
+        SET_NEXT_GAMESTATE(&this->state, GAMESTATE_PLAY);
         this->state.running = false;
     }
 
