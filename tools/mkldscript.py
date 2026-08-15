@@ -29,12 +29,9 @@ for _dllrootdir_p in (
     )
 
 script_assets_lines = []
-script_assets_lines.append("    _offset = ALIGN(8);")
 for name, asset_info in assets_list.items():
     seg = asset_info["segment"]
-    script_assets_lines.append(
-        f"    assets.{name} 0x{seg << 24:08X} (OVERLAY) : AT(_offset) " "{"
-    )
+    script_assets_lines.append(f"    assets.{name} 0x{seg << 24:08X} (OVERLAY) : " "{")
     srcs = asset_info["srcs"]
     if isinstance(srcs, str):
         srcs = [srcs]
@@ -44,8 +41,6 @@ for name, asset_info in assets_list.items():
             f'        KEEP(build/{f"{src.removesuffix(".c")}.o"} (.data* .rodata*))'
         )
     script_assets_lines.append("    }")
-    script_assets_lines.append(f"    _offset += SIZEOF(assets.{name});")
-    script_assets_lines.append(f"    _offset = ALIGN(_offset, 8);")
     script_assets_lines.append("")
 script_assets = "\n".join(script_assets_lines)
 
@@ -215,6 +210,9 @@ SECTIONS {
 }
 """
     )
-    .replace("EXCLUDE_FILE_repl", "EXCLUDE_FILE(build/assets/* build/src/overlays/* build/src/elf_message/*)")
+    .replace(
+        "EXCLUDE_FILE_repl",
+        "EXCLUDE_FILE(build/assets/* build/src/overlays/* build/src/elf_message/*)",
+    )
     .replace("build/", "build/gc-eu-mq-dbg/")
 )
