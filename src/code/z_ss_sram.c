@@ -19,4 +19,7 @@ void SsSram_Dma(void* dramAddr, size_t size, s32 direction) {
 
 void SsSram_ReadWrite(s32 addr, void* dramAddr, size_t size, s32 direction) {
     PRINTF("ssSRAMReadWrite:%08x %08x %08x %d\n", addr, dramAddr, size, direction);
+    if (direction == OS_READ) {
+        memset(dramAddr, 0, size);
+    }
 }
