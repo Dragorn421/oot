@@ -1277,9 +1277,6 @@ dlls_OBJS += $(BUILD_DIR)/src/overlays/actors/ovl_Oceff_Wipe4/dll.o
 $(BUILD_DIR)/src/overlays/actors/ovl_Shot_Sun/dll.plf: $(BUILD_DIR)/src/overlays/actors/ovl_Shot_Sun/z_shot_sun.o
 dlls_OBJS += $(BUILD_DIR)/src/overlays/actors/ovl_Shot_Sun/dll.o
 
-$(BUILD_DIR)/src/overlays/actors/ovl_player_actor/dll.plf: $(BUILD_DIR)/src/overlays/actors/ovl_player_actor/z_player.o
-dlls_OBJS += $(BUILD_DIR)/src/overlays/actors/ovl_player_actor/dll.o
-
 $(BUILD_DIR)/src/overlays/effects/ovl_Effect_Ss_Blast/dll.plf: $(BUILD_DIR)/src/overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.o
 dlls_OBJS += $(BUILD_DIR)/src/overlays/effects/ovl_Effect_Ss_Blast/dll.o
 
@@ -1399,9 +1396,6 @@ dlls_OBJS += $(BUILD_DIR)/src/overlays/gamestates/ovl_select/dll.o
 
 $(BUILD_DIR)/src/overlays/gamestates/ovl_title/dll.plf: $(BUILD_DIR)/src/overlays/gamestates/ovl_title/z_title.o
 dlls_OBJS += $(BUILD_DIR)/src/overlays/gamestates/ovl_title/dll.o
-
-$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/dll.plf: $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_collect.o $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_debug.o $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_equipment.o $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_item.o $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_map.o $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_prompt.o $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope.o $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark.o $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data_mq.o
-dlls_OBJS += $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/dll.o
 
 $(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/dll.plf: $(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data_mq.o
 dlls_OBJS += $(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/dll.o

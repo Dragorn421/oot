@@ -27,6 +27,8 @@ for _dllrootdir_p in (
             for _dlldir_p in _dllrootdir_p.iterdir()
         )
     )
+dlls.remove(Path("actors/ovl_player_actor"))
+dlls.remove(Path("misc/ovl_kaleido_scope"))
 
 script_assets_lines = []
 for name, asset_info in assets_list.items():
@@ -104,9 +106,9 @@ SECTIONS {
     } :irq
 
     .text 0x80000400 : {
+        __text_start = .;
         EXCLUDE_FILE_repl *(.boot)
         . = ALIGN(16);
-        __text_start = .;
         EXCLUDE_FILE_repl *(.text)
         EXCLUDE_FILE_repl *(.text.*)
         EXCLUDE_FILE_repl *(.init)
@@ -129,6 +131,9 @@ SECTIONS {
         EXCLUDE_FILE_repl *(.rodata)
         EXCLUDE_FILE_repl *(.rodata.*)
         EXCLUDE_FILE_repl *(.gnu.linkonce.r.*)
+        . = ALIGN(4);
+        __tdata_align = .;
+        LONG (ALIGNOF(.tdata));
         . = ALIGN(8);
     }
 
@@ -136,7 +141,9 @@ SECTIONS {
 
     .ctors : {
         __CTOR_LIST__ = .;
-        KEEP(EXCLUDE_FILE_repl *(.ctors))
+        KEEP(EXCLUDE_FILE_repl *(EXCLUDE_FILE (*crtend.o) .ctors))
+        KEEP(EXCLUDE_FILE_repl *(SORT(.ctors.*)))
+        KEEP(EXCLUDE_FILE_repl *crtend.o(.ctors))
         __CTOR_END__ = .;
     }
 
@@ -149,6 +156,28 @@ SECTIONS {
         EXCLUDE_FILE_repl *(.gnu.linkonce.d.*)
         . = ALIGN(8);
     }
+
+    .tdata : {
+        __tls_base = .;
+        __tdata_start = .;
+        EXCLUDE_FILE_repl *(.tdata)
+        EXCLUDE_FILE_repl *(.tdata.*)
+        EXCLUDE_FILE_repl *(.gnu.linkonce.td.*)
+        __tdata_end = .;
+    }
+
+    .tbss : {
+        __tbss_start = .;
+        EXCLUDE_FILE_repl *(.tbss)
+        EXCLUDE_FILE_repl *(.tbss.*)
+        EXCLUDE_FILE_repl *(.gnu.linkonce.tb.*)
+        . = ALIGN(8);
+        __tbss_end = .;
+        __tls_end = .;
+    }
+
+    /* Fix dot for TBSS Sections */
+    . = .+(__tbss_end-__tbss_start);
 
     .sdata : {
         _gp = . + 0x8000;
@@ -188,6 +217,9 @@ SECTIONS {
         EXCLUDE_FILE_repl *(.bss*)
         EXCLUDE_FILE_repl *(.gnu.linkonce.b.*)
         EXCLUDE_FILE_repl *(COMMON)
+        . = ALIGN(8);
+        __th_tdata_copy = .;
+        . = .+(__tdata_end-__tdata_start);
         . = ALIGN(8);
          __bss_end = .;
     }

@@ -28,6 +28,7 @@ void KaleidoScopeCall_LoadPlayer(void) {
             PRINTF(T("カレイド領域 強制排除\n", "Kaleido area forced exclusion\n"));
             PRINTF_RST();
 
+            KaleidoScopeCall_ClearFuncPtrs();
             KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
         }
 
@@ -39,16 +40,21 @@ void KaleidoScopeCall_LoadPlayer(void) {
     }
 }
 
+void KaleidoScopeCall_InitFuncPtrs(void) {
+    sKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr("KaleidoScope_Update");
+    sKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr("KaleidoScope_Draw");
+
+    LOG_ADDRESS("kaleido_scope_move_func", sKaleidoScopeUpdateFunc, "../z_kaleido_scope_call.c", 99);
+    LOG_ADDRESS("kaleido_scope_draw_func", sKaleidoScopeDrawFunc, "../z_kaleido_scope_call.c", 101);
+}
+
+void KaleidoScopeCall_ClearFuncPtrs(void) {
+    sKaleidoScopeUpdateFunc = NULL;
+    sKaleidoScopeDrawFunc = NULL;
+}
+
 void KaleidoScopeCall_Init(PlayState* play) {
     PRINTF(T("カレイド・スコープ入れ替え コンストラクト \n", "Kaleidoscope replacement construction\n"));
-
-    sKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr(KaleidoScope_Update);
-    sKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr(KaleidoScope_Draw);
-
-    LOG_ADDRESS("kaleido_scope_move", KaleidoScope_Update, "../z_kaleido_scope_call.c", 98);
-    LOG_ADDRESS("kaleido_scope_move_func", sKaleidoScopeUpdateFunc, "../z_kaleido_scope_call.c", 99);
-    LOG_ADDRESS("kaleido_scope_draw", KaleidoScope_Draw, "../z_kaleido_scope_call.c", 100);
-    LOG_ADDRESS("kaleido_scope_draw_func", sKaleidoScopeDrawFunc, "../z_kaleido_scope_call.c", 101);
 
     KaleidoSetup_Init(play);
 }
@@ -100,6 +106,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
                     PRINTF(T("カレイド領域 プレイヤー 強制排除\n", "Kaleido area Player Forced Elimination\n"));
                     PRINTF_RST();
 
+                    PlayerCall_ClearFuncPtrs();
                     KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
                 }
 
@@ -108,6 +115,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 PRINTF_RST();
 
                 KaleidoManager_LoadOvl(kaleidoScopeOvl);
+                KaleidoScopeCall_InitFuncPtrs();
             }
 
             if (gKaleidoMgrCurOvl == kaleidoScopeOvl) {

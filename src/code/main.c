@@ -58,6 +58,7 @@ void Main(void* arg) {
     gScreenHeight = SCREEN_HEIGHT;
     gSystemHeapSize = 3 * 1024 * 1024; // TODO-ootdragon this is probably much more than needed
     systemHeapStart = (uintptr_t)aligned_alloc(16, gSystemHeapSize);
+    assert(systemHeapStart != 0);
     systemHeapEnd = systemHeapStart + gSystemHeapSize;
     PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initialization %08x-%08x %08x\n"), systemHeapStart,
            systemHeapEnd, gSystemHeapSize);

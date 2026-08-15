@@ -39,10 +39,17 @@ ActorProfile Player_Profile = {
 };
 
 void PlayerCall_InitFuncPtrs(void) {
-    sPlayerCallInitFunc = KaleidoManager_GetRamAddr(Player_Init);
-    sPlayerCallDestroyFunc = KaleidoManager_GetRamAddr(Player_Destroy);
-    sPlayerCallUpdateFunc = KaleidoManager_GetRamAddr(Player_Update);
-    sPlayerCallDrawFunc = KaleidoManager_GetRamAddr(Player_Draw);
+    sPlayerCallInitFunc = KaleidoManager_GetRamAddr("Player_Init");
+    sPlayerCallDestroyFunc = KaleidoManager_GetRamAddr("Player_Destroy");
+    sPlayerCallUpdateFunc = KaleidoManager_GetRamAddr("Player_Update");
+    sPlayerCallDrawFunc = KaleidoManager_GetRamAddr("Player_Draw");
+}
+
+void PlayerCall_ClearFuncPtrs(void) {
+    sPlayerCallInitFunc = NULL;
+    sPlayerCallDestroyFunc = NULL;
+    sPlayerCallUpdateFunc = NULL;
+    sPlayerCallDrawFunc = NULL;
 }
 
 void PlayerCall_Init(Actor* thisx, PlayState* play) {

@@ -114,6 +114,7 @@ void Regs_Init(void) {
     s32 i;
 
     gRegEditor = SYSTEM_ARENA_MALLOC(sizeof(RegEditor), "../z_debug.c", 260);
+    assert(gRegEditor != NULL);
     gRegEditor->regPage = 0;
     gRegEditor->regGroup = 0;
     gRegEditor->regCur = 0;

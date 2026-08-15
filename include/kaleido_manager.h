@@ -6,11 +6,8 @@
 struct PlayState;
 
 typedef struct KaleidoMgrOverlay {
-    /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ const char* dll_name;
-    /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
-    /* 0x18 */ const char* name;
-    const char* symt_path;
+    const char* dso_path;
+    void* dso_handle;
 } KaleidoMgrOverlay; // size = 0x1C
 
 typedef enum KaleidoOverlayType {
@@ -23,15 +20,19 @@ void KaleidoManager_LoadOvl(KaleidoMgrOverlay* ovl);
 void KaleidoManager_ClearOvl(KaleidoMgrOverlay* ovl);
 void KaleidoManager_Init(struct PlayState* play);
 void KaleidoManager_Destroy(void);
-void* KaleidoManager_GetRamAddr(void* vram);
+void* KaleidoManager_GetRamAddr(const char* sym);
 
 extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
 extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 
 void KaleidoScopeCall_LoadPlayer(void);
+void KaleidoScopeCall_InitFuncPtrs(void);
+void KaleidoScopeCall_ClearFuncPtrs(void);
 void KaleidoScopeCall_Init(struct PlayState* play);
 void KaleidoScopeCall_Destroy(struct PlayState* play);
 void KaleidoScopeCall_Update(struct PlayState* play);
 void KaleidoScopeCall_Draw(struct PlayState* play);
+
+void PlayerCall_ClearFuncPtrs(void);
 
 #endif

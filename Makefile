@@ -464,7 +464,13 @@ ifeq ($(wildcard dlls.mk),)
 endif
 include dlls.mk
 
-DFS_FILES := $(dlls_OBJS:$(BUILD_DIR)/%.o=$(BUILD_DIR)/dfs/%.sym)
+DSOS :=
+ifeq ($(wildcard dsos.mk),)
+  $(error Run tools/mkdsosmk.py (to be written) to generate dsos.mk)
+endif
+include dsos.mk
+
+DFS_FILES := $(dlls_OBJS:$(BUILD_DIR)/%.o=$(BUILD_DIR)/dfs/%.sym) $(DSOS)
 
 assets_incc: $(assets_INCC)
 $(code_OBJS) $(assets_OBJS) $(dlls_OBJS): | assets_incc
@@ -497,6 +503,11 @@ $(BUILD_DIR)/dfs/src/overlays/%/dll.sym: $(BUILD_DIR)/src/overlays/%/dll.o
 	@echo "    [n64sym] $@"
 	$(N64_SYM) $< $@
 
+$(ELF): $(ELF:.elf=.externs)
+$(ELF:.elf=.externs): $(DSOS)
+$(ROM): $(ELF:.elf=.msym)
+$(ELF:.elf=.msym): $(ELF) $(ELF:.elf=.externs)
+
 $(ROM): N64_ROM_TITLE = "oot-$(VERSION)"
 
 $(ROM): $(BUILD_DIR)/dfs.dfs
@@ -505,7 +516,7 @@ $(BUILD_DIR)/dfs.dfs: $(DFS_FILES)
 $(ELF): $(BUILD_DIR)/ldscript.ld $(code_OBJS) $(assets_OBJS) $(dlls_OBJS) \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) $(BUILD_DIR)/assets/audio/sequence_font_table.o
 	@echo "    [LD] $@"
-	@$(N64_CXX) -o $@ $(code_OBJS) $(assets_OBJS) $(dlls_OBJS) -lc -mabi=o64 -T$(BUILD_DIR)/ldscript.ld -Tlinker_scripts/undefined_syms.ld $(patsubst %,-Wl$(COMMA)%,$(filter-out -Tn64.ld,$(LDFLAGS))) -Wl,-Map=$(@:.elf=.map)
+	@$(N64_CXX) -o $@ $(code_OBJS) $(assets_OBJS) $(dlls_OBJS) -lc -mabi=o64 -T$(BUILD_DIR)/ldscript.ld -Tlinker_scripts/undefined_syms.ld $(patsubst %,-Wl$(COMMA)%,$(filter-out -Tn64.ld,$(LDFLAGS))) -Wl,-T"$(ELF:.elf=.externs)" -Wl,-Map=$(@:.elf=.map)
 	$(N64_SIZE) -G $@
 
 $(BUILD_DIR)/ldscript.ld: tools/mkldscript.py assets_list.toml
