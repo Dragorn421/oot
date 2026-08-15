@@ -15,8 +15,4 @@ elf_section_dma_queue_read_fmtname(void* ram, const char* section_name_format, s
 void elf_section_dma_queue_read_fragment(void* ram, const char* section_name, uint32_t offset, size_t size,
                                          struct dma_request* req);
 
-size_t elf_section_get_dll_ramsize(const char* dll_name);
-void* elf_section_get_dll_vram_start(const char* dll_name);
-void elf_section_load_dll(const char* dll_name, void* ram);
-
 #endif

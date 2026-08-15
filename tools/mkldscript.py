@@ -14,16 +14,6 @@ ldscript_p: Path = args.ldscript
 with Path("assets_list.toml").open("rb") as f:
     assets_list = tomllib.load(f)
 
-dlls = []
-for _dllrootdir_p in (Path("src/overlays/actors"),):
-    dlls.extend(
-        sorted(
-            _dlldir_p.relative_to(Path("src/overlays"))
-            for _dlldir_p in _dllrootdir_p.iterdir()
-        )
-    )
-dlls.remove(Path("actors/ovl_player_actor"))
-
 script_assets_lines = []
 for name, asset_info in assets_list.items():
     seg = asset_info["segment"]
@@ -55,25 +45,6 @@ script_assets_text = """
         KEEP(build/assets/text/nes_message_data_static.o (.data* .rodata*))
     }
 """
-
-script_dlls = """
-    . = 0x80800000;
-""" + "".join(
-    f"""
-    dlls.{_name} (OVERLAY) : {{
-        KEEP(build/src/overlays/{_name}/dll.o (dll.code))
-    }}
-    dlls.bss.{_name} (NOLOAD) : {{
-        KEEP(build/src/overlays/{_name}/dll.o (dll.code.bss))
-    }} :ptnul
-""" for _name in dlls
-)
-
-script_dlls_relocs = "".join(f"""
-    dlls.rel.{_name} (OVERLAY) : {{
-        KEEP(build/src/overlays/{_name}/dll.o (dll.rel))
-    }}
-""" for _name in dlls)
 
 ldscript_p.write_text(
     (
@@ -223,8 +194,6 @@ SECTIONS {
 """
         + script_assets
         + script_assets_text
-        + script_dlls
-        + script_dlls_relocs
         + """
 
     /DISCARD/ : {

@@ -406,7 +406,7 @@ N64_C_AND_CXX_FLAGS += -G 0
 # TODO-ootdragon figure out audio
 N64_C_AND_CXX_FLAGS += -D STUB_AUDIO
 
-code_SRCS := $(shell find src/libc64 src/libu64 src/libultra src/boot src/code src/audio src/buffers data src/ootdragon \( \( -name '*.c' -not -name '*.inc.c' \) -o -name '*.[sS]' \))
+code_SRCS := $(shell find src data \( -path src/elf_message -o -path src/overlays \) -prune -o \( \( -name '*.c' -not -name '*.inc.c' \) -o -name '*.[sS]' \) -print)
 exclude_code_SRCS :=
 exclude_code_SRCS += src/code/fault_n64.c  # keep the fault_gc.c one
 exclude_code_SRCS += src/boot/is_debug_ique.c  # keep the is_debug.c one
@@ -442,6 +442,9 @@ exclude_assets_SRCS += extracted/gc-eu-mq-dbg/assets/textures/icon_item_static/i
 assets_SRCS := $(filter-out $(exclude_assets_SRCS),$(assets_SRCS))
 assets_OBJS := $(addprefix $(BUILD_DIR)/,$(patsubst $(EXTRACTED_DIR)/%,%,$(assets_SRCS:.c=.o)))
 
+others_SRCS := $(shell find src/overlays -not -name '*.inc.c' -name '*.c')
+others_OBJS := $(others_SRCS:.c=.o)
+
 assets_INCC := $(ASSET_FILES_OUT) $(TEXTURE_FILES_OUT)
 
 $(BUILD_DIR)/%.o: %.c
@@ -458,22 +461,16 @@ $(BUILD_DIR)/%.o: $(EXTRACTED_DIR)/%.c
 # including libdragon.h brings RESOLUTION_256x240 and co as const data...
 	$(N64_OBJCOPY) --remove-section='.rodata.RESOLUTION_*' $@.tmp $@
 
-dlls_OBJS :=
-ifeq ($(wildcard dlls.mk),)
-  $(error Run tools/mkdllsmk.py to generate dlls.mk)
-endif
-include dlls.mk
-
 DSOS :=
 ifeq ($(wildcard dsos.mk),)
-  $(error Run tools/mkdsosmk.py (to be written) to generate dsos.mk)
+  $(error Run tools/mkdsosmk.py to generate dsos.mk)
 endif
 include dsos.mk
 
-DFS_FILES := $(dlls_OBJS:$(BUILD_DIR)/%.o=$(BUILD_DIR)/dfs/%.sym) $(DSOS)
+DFS_FILES := $(DSOS)
 
 assets_incc: $(assets_INCC)
-$(code_OBJS) $(assets_OBJS) $(dlls_OBJS): | assets_incc
+$(code_OBJS) $(assets_OBJS) $(others_OBJS): | assets_incc
 
 $(assets_OBJS): N64_C_AND_CXX_FLAGS := $(filter-out -g,$(N64_C_AND_CXX_FLAGS))
 
@@ -487,22 +484,6 @@ $(BUILD_DIR)/data/%.o: data/%.s
 	echo "    [AS] $<"
 	$(CC) -c -x assembler-with-cpp $(INC) $(foreach i,$(INC),-Wa,$(i)) $(ASFLAGS) -o $@ $<
 
-$(BUILD_DIR)/src/overlays/%/dll.plf:
-	@mkdir -p $(dir $@)
-	@echo "    [LD] $@"
-	$(N64_LD) -r -Tlinker_scripts/dllcode.ld $^ -o $@
-
-$(BUILD_DIR)/src/overlays/%/dll.o: $(BUILD_DIR)/src/overlays/%/dll.plf
-	@mkdir -p $(dir $@)
-	@echo "    [mkdllrel] $@"
-	$(PYTHON) tools/mkdllrel.py $< $(@:.o=.rel.bin)
-	$(N64_OBJCOPY) --add-section dll.rel=$(@:.o=.rel.bin) $< $@
-
-$(BUILD_DIR)/dfs/src/overlays/%/dll.sym: $(BUILD_DIR)/src/overlays/%/dll.o
-	@mkdir -p $(dir $@)
-	@echo "    [n64sym] $@"
-	$(N64_SYM) $< $@
-
 $(ELF): $(ELF:.elf=.externs)
 $(ELF:.elf=.externs): $(DSOS)
 $(ROM): $(ELF:.elf=.msym)
@@ -513,10 +494,10 @@ $(ROM): N64_ROM_TITLE = "oot-$(VERSION)"
 $(ROM): $(BUILD_DIR)/dfs.dfs
 $(BUILD_DIR)/dfs.dfs: $(DFS_FILES)
 
-$(ELF): $(BUILD_DIR)/ldscript.ld $(code_OBJS) $(assets_OBJS) $(dlls_OBJS) \
+$(ELF): $(BUILD_DIR)/ldscript.ld $(code_OBJS) $(assets_OBJS) \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) $(BUILD_DIR)/assets/audio/sequence_font_table.o
 	@echo "    [LD] $@"
-	@$(N64_CXX) -o $@ $(code_OBJS) $(assets_OBJS) $(dlls_OBJS) -lc -mabi=o64 -T$(BUILD_DIR)/ldscript.ld -Tlinker_scripts/undefined_syms.ld $(patsubst %,-Wl$(COMMA)%,$(filter-out -Tn64.ld,$(LDFLAGS))) -Wl,-T"$(ELF:.elf=.externs)" -Wl,-Map=$(@:.elf=.map)
+	@$(N64_CXX) -o $@ $(code_OBJS) $(assets_OBJS) -lc -mabi=o64 -T$(BUILD_DIR)/ldscript.ld -Tlinker_scripts/undefined_syms.ld $(patsubst %,-Wl$(COMMA)%,$(filter-out -Tn64.ld,$(LDFLAGS))) -Wl,-T"$(ELF:.elf=.externs)" -Wl,-Map=$(@:.elf=.map)
 	$(N64_SIZE) -G $@
 
 $(BUILD_DIR)/ldscript.ld: tools/mkldscript.py assets_list.toml

@@ -1,7 +1,6 @@
 #include <dlfcn.h>
 #include "elf_reader.h"
 #include "libc64/malloc.h"
-#include "libu64/overlay.h"
 #include "printf.h"
 #include "terminal.h"
 #include "translation.h"

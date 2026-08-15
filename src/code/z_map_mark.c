@@ -1,7 +1,6 @@
 #include "dlfcn.h"
 #include "elf_reader.h"
 #include "libu64/debug.h"
-#include "libu64/overlay.h"
 #include "map.h"
 #include "printf.h"
 #if PLATFORM_N64

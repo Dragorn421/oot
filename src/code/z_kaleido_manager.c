@@ -1,7 +1,6 @@
 #include <dlfcn.h>
 #include "elf_reader.h"
 #include "libu64/debug.h"
-#include "libu64/overlay.h"
 #include "array_count.h"
 #include "kaleido_manager.h"
 #include "printf.h"
@@ -10,7 +9,8 @@
 #include "play_state.h"
 #include <stdint.h>
 
-#define KALEIDO_OVERLAY(dso_path) { dso_path, NULL }
+#define KALEIDO_OVERLAY(dso_path) \
+    { dso_path, NULL }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
     KALEIDO_OVERLAY("rom:/misc/ovl_kaleido_scope.dso"),

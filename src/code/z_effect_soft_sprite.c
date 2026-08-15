@@ -1,7 +1,6 @@
 #include "assert_uppercase.h"
 #include "dlfcn.h"
 #include "elf_reader.h"
-#include "libu64/overlay.h"
 #include "array_count.h"
 #include "printf.h"
 #include "sfx.h"

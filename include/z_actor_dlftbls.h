@@ -53,8 +53,9 @@
 #define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
 typedef struct ActorOverlay {
-    /* 0x00 */ const char* ovl_name;
-    /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
+    void* dso_handle;
+    const char* dso_path; // if a dso
+    const char* profile_sym_name; // if a dso
     /* 0x14 */ ActorProfile* profile;
     /* 0x18 */ char* name;
     /* 0x1C */ u16 allocType; // See `ACTOROVL_ALLOC_` defines

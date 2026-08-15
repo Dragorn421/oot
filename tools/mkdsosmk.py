@@ -5,22 +5,29 @@ import argparse
 from pathlib import Path
 
 parser = argparse.ArgumentParser()
-parser.add_argument("dllsmk", type=Path)
+parser.add_argument("dsosmk", type=Path)
 args = parser.parse_args()
 
-dllsmk_p: Path = args.dllsmk
+dllsmk_p: Path = args.dsosmk
 
 dllsmk_frags = []
 
-for dllrootdir_p in (Path("src/overlays/actors"),):
+for dllrootdir_p in (
+    Path("src/overlays/actors"),
+    Path("src/overlays/effects"),
+    Path("src/overlays/gamestates"),
+    Path("src/overlays/misc"),
+):
     for dlldir_p in sorted(dllrootdir_p.iterdir()):
-        if dlldir_p.name in {"ovl_player_actor"}:
-            continue
         c_files = sorted(
             _p
             for _p in dlldir_p.iterdir()
             if _p.suffix == ".c" and _p.suffixes[-2:] != [".inc", ".c"]
         )
+        if dlldir_p.name == "ovl_kaleido_scope":
+            c_files.remove(
+                Path("src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data.c")
+            )
         if dlldir_p.name == "ovl_map_mark_data":
             c_files.remove(
                 Path("src/overlays/misc/ovl_map_mark_data/z_map_mark_data.c")
@@ -28,9 +35,10 @@ for dllrootdir_p in (Path("src/overlays/actors"),):
         o_files_reqs = " ".join(
             f"$(BUILD_DIR)/{_p.with_suffix(".o")}" for _p in c_files
         )
+        dso_pstem = dlldir_p.relative_to("src/overlays")
         dllsmk_frags.append(f"""
-$(BUILD_DIR)/{dlldir_p}/dll.plf: {o_files_reqs}
-dlls_OBJS += $(BUILD_DIR)/{dlldir_p}/dll.o
+$(BUILD_DIR)/dfs/{dso_pstem}.dso: {o_files_reqs}
+DSOS += $(BUILD_DIR)/dfs/{dso_pstem}.dso
 """)
 
 dllsmk_p.write_text("".join(dllsmk_frags))
