@@ -205,10 +205,10 @@ typedef struct EffectSsProfile {
 } EffectSsProfile; // size = 0x08
 
 typedef struct EffectSsOverlay {
-    /* 0x00 */ const char* ovl_name;
-    /* 0x10 */ void* loadedRamAddr;
-    /* 0x14 */ EffectSsProfile* profile;
-    /* 0x18 */ u8 unk_18;
+    const char* dso_path;
+    void* dso_handle;
+    const char* profile_sym_name;
+    EffectSsProfile* profile;
 } EffectSsOverlay; // size = 0x1C
 
 typedef struct EffectSs {

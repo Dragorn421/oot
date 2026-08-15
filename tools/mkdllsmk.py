@@ -14,8 +14,6 @@ dllsmk_frags = []
 
 for dllrootdir_p in (
     Path("src/overlays/actors"),
-    Path("src/overlays/effects"),
-    Path("src/overlays/gamestates"),
     Path("src/overlays/misc"),
 ):
     for dlldir_p in sorted(dllrootdir_p.iterdir()):

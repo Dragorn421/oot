@@ -17,8 +17,6 @@ with Path("assets_list.toml").open("rb") as f:
 dlls = []
 for _dllrootdir_p in (
     Path("src/overlays/actors"),
-    Path("src/overlays/effects"),
-    Path("src/overlays/gamestates"),
     Path("src/overlays/misc"),
 ):
     dlls.extend(

@@ -1,4 +1,5 @@
 #include "assert_uppercase.h"
+#include "dlfcn.h"
 #include "elf_reader.h"
 #include "libu64/overlay.h"
 #include "array_count.h"
@@ -32,7 +33,7 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
 
     overlay = &gEffectSsOverlayTable[0];
     for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
-        overlay->loadedRamAddr = NULL;
+        assert(overlay->dso_handle == NULL);
         overlay++;
     }
 }
@@ -41,7 +42,7 @@ void EffectSs_ClearAll(PlayState* play) {
     u32 i;
     EffectSs* effectSs;
     EffectSsOverlay* overlay;
-    void* addr;
+    void* dso_handle;
 
     sEffectSsInfo.table = NULL;
     sEffectSsInfo.searchStartIndex = 0;
@@ -54,13 +55,14 @@ void EffectSs_ClearAll(PlayState* play) {
 
     overlay = &gEffectSsOverlayTable[0];
     for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
-        addr = overlay->loadedRamAddr;
+        dso_handle = overlay->dso_handle;
 
-        if (addr != NULL) {
-            ZELDA_ARENA_FREE(addr, "../z_effect_soft_sprite.c", 337);
+        if (dso_handle != NULL) {
+            overlay->profile = NULL;
+            dlclose(dso_handle);
         }
 
-        overlay->loadedRamAddr = NULL;
+        overlay->dso_handle = NULL;
         overlay++;
     }
 }
@@ -172,11 +174,8 @@ void EffectSs_Insert(PlayState* play, EffectSs* effectSs) {
 // original name: "EffectSoftSprite2_makeEffect"
 void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     s32 index;
-    u32 overlaySize;
     EffectSsOverlay* overlayEntry;
     EffectSsProfile* profile;
-    char dll_name[100];
-    int nchar;
 
     overlayEntry = &gEffectSsOverlayTable[type];
 
@@ -189,46 +188,24 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
 
     sEffectSsInfo.searchStartIndex = index + 1;
 
-    nchar = snprintf(dll_name, sizeof(dll_name), "effects/%s", overlayEntry->ovl_name);
-    assert(nchar < sizeof(dll_name));
-
-    overlaySize = elf_section_get_dll_ramsize(dll_name);
-
-    if (overlayEntry->ovl_name == NULL) {
+    if (overlayEntry->dso_path == NULL) {
         PRINTF(T("EffectSoftSprite2_makeEffect():オーバーレイではありません。\n",
                  "EffectSoftSprite2_makeEffect(): Not an overlay.\n"));
-        profile = overlayEntry->profile;
+        assertf(false, "non-dso effects not implemented");
     } else {
-        if (overlayEntry->loadedRamAddr == NULL) {
-            overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC_R(overlaySize, "../z_effect_soft_sprite.c", 585);
+        if (overlayEntry->dso_handle == NULL) {
+            overlayEntry->dso_handle = dlopen(overlayEntry->dso_path, 0);
+            assert(overlayEntry->dso_handle != NULL);
 
-            if (overlayEntry->loadedRamAddr == NULL) {
-                PRINTF_COLOR_RED();
-                PRINTF(T("EffectSoftSprite2_makeEffect():zelda_malloc_r()により,%dbyteのメモリ確保ができま\n"
-                         "せん。そのため、プログラムのロードも\n"
-                         "出来ません。ただいま危険な状態です！\n"
-                         "もちろん,エフェクトも出ません。\n",
-                         "EffectSoftSprite2_makeEffect():zelda_malloc_r() The memory of %d byte cannot be\n"
-                         "secured. Therefore, the program\n"
-                         "cannot be loaded. What a dangerous situation!\n"
-                         "Naturally, effects will not be produced either.\n"),
-                       overlaySize);
-                PRINTF_RST();
-                return;
-            }
-
-            elf_section_load_dll(dll_name, overlayEntry->loadedRamAddr);
+            overlayEntry->profile = dlsym(overlayEntry->dso_handle, overlayEntry->profile_sym_name);
+            assert(overlayEntry->profile != NULL);
 
             PRINTF_COLOR_GREEN();
-            PRINTF("EFFECT SS OVL:RamStart %08x, type: %d\n", overlayEntry->loadedRamAddr, type);
+            PRINTF("EFFECT SS type: %d\n", type);
             PRINTF_RST();
         }
 
-        profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
-                                         ? (void*)((uintptr_t)overlayEntry->profile -
-                                                   (intptr_t)((uintptr_t)elf_section_get_dll_vram_start(dll_name) -
-                                                              (uintptr_t)overlayEntry->loadedRamAddr))
-                                         : NULL);
+        profile = overlayEntry->profile;
     }
 
     if (profile->init == NULL) {
