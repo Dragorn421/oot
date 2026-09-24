@@ -116,7 +116,7 @@ static void* sEyeTextures[] = {
 };
 
 #if DEBUG_FEATURES
-static UNK_TYPE D_80AF4118 = 0;
+static s32 D_80AF4118 = 0;
 #endif
 
 #include "z_en_ru2_cutscene_data.inc.c"

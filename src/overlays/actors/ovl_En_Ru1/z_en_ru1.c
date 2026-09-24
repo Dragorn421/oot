@@ -780,7 +780,7 @@ void EnRu1_EndSwimBack(EnRu1* this, PlayState* play) {
     }
 }
 
-void EnRu1_EndGivingSapphire(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
+void EnRu1_EndGivingSapphire(EnRu1* this, PlayState* play, s32 arg2) {
     if ((EnRu1_CheckFountainCueMatchingId(play, 8)) && (arg2 != 0)) {
         Actor_Kill(&this->actor);
     }
