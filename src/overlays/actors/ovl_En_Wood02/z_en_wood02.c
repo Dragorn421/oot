@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -115,7 +116,7 @@ s32 EnWood02_IsInUncullZone(EnWood02* this, PlayState* play, Vec3f* pos) {
 }
 
 void EnWood02_SpawnUnculledChildren(EnWood02* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f newEnWood02Pos;
     EnWood02* newEnWood02;
     s16 spawnAngleModifier;
@@ -161,7 +162,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
     f32 floorY;
     CollisionPoly* floorPoly;
     s32 floorBgId;
-    s32 pad;
+    STACK_PAD(s32);
     s16 spawnAngleModifier;
 
     scale = 1.0f;
@@ -295,12 +296,12 @@ void EnWood02_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnWood02_Update(Actor* thisx, PlayState* play) {
-    s32 pad2;
+    STACK_PAD(s32);
     EnWood02* this = (EnWood02*)thisx;
     f32 sp6C;
     u8 v;
     u8 var_v0;
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((this->unk153 == 1) && (this->actor.parent != NULL)) {
         if (!(this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {

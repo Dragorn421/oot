@@ -10,6 +10,7 @@
 #include "one_point_cutscene.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -60,7 +61,7 @@ typedef enum BgDdanJdState {
 
 void BgDdanJd_Init(Actor* thisx, PlayState* play) {
     BgDdanJd* this = (BgDdanJd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);

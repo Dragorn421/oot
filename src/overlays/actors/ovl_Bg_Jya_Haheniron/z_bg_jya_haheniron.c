@@ -10,6 +10,7 @@
 #include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -66,7 +67,7 @@ static Gfx* D_808987B8[] = {
 };
 
 void func_808980C0(BgJyaHaheniron* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);

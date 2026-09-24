@@ -14,6 +14,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -157,7 +158,7 @@ void func_80AFC9A8(PlayState* play, EnSkb* this, Vec3f* arg2) {
     Vec3f sp50;
     Vec3f sp44;
     f32 temp_fa0;
-    s32 pad;
+    STACK_PAD(s32);
 
     sp50 = D_80AFE0B8;
     sp44 = D_80AFE0C4;
@@ -325,7 +326,7 @@ void EnSkb_SetupAttack(EnSkb* this) {
 
 void EnSkb_Attack(EnSkb* this, PlayState* play) {
     s32 temp_ft1;
-    u8 temp_v0;
+    STACK_PAD(s32);
 
     temp_ft1 = (s32)this->skelAnime.curFrame;
     if (temp_ft1 == 3) {
@@ -368,7 +369,7 @@ void func_80AFD540(EnSkb* this) {
 }
 
 void EnSkb_Stunned(EnSkb* this, PlayState* play) {
-    f32 temp_fv0;
+    STACK_PAD(s32);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speed = 0.0f;
@@ -516,7 +517,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
 
 void EnSkb_Update(Actor* thisx, PlayState* play) {
     EnSkb* this = (EnSkb*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     EnSkb_CheckDamage(this, play);
     Actor_MoveXZGravity(&this->actor);

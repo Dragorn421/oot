@@ -7,6 +7,7 @@
 #include "gfx.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -611,7 +612,7 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
 
 s32 func_80AAB370(EnMd* this, PlayState* play) {
     Path* temp_a0;
-    s32 pad;
+    STACK_PAD(s32);
     f32 temp_fa0;
     f32 temp_fa1;
     Vec3s* temp_v0;
@@ -675,7 +676,7 @@ void EnMd_UpdateAlphaByDistance(EnMd* this, PlayState* play) {
 
 void EnMd_Init(Actor* thisx, PlayState* play) {
     EnMd* this = (EnMd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->unk258, this->unk2BE, MIDO_LIMB_MAX);
@@ -734,7 +735,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
     f32 temp_fv1;
     Player* sp24;
     s16 temp_v0_3;
-    s32 temp_v0_4;
+    STACK_PAD(s32);
 
     sp2C = GET_PLAYER(play);
     sp24 = GET_PLAYER(play);
@@ -822,7 +823,7 @@ void EnMd_Walk(EnMd* this, PlayState* play) {
 
 void EnMd_Update(Actor* thisx, PlayState* play) {
     EnMd* this = (EnMd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

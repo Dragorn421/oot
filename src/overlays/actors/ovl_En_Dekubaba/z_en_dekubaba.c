@@ -5,6 +5,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -1009,7 +1010,7 @@ void EnDekubaba_CheckCollide(EnDekubaba* this, PlayState* play) {
 
 void EnDekubaba_Update(Actor* thisx, PlayState* play) {
     EnDekubaba* this = (EnDekubaba*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;

@@ -10,6 +10,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -47,7 +48,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgYdanHasi* this = (BgYdanHasi*)thisx;
     CollisionHeader* colHeader = NULL;
     WaterBox* waterBox;

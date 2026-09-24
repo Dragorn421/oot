@@ -9,6 +9,7 @@
 #include "sys_matrix.h"
 #include "play_state.h"
 #include "skin.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_fhg/object_fhg.h"
 
@@ -208,7 +209,7 @@ void func_80977950(DemoExt* this, PlayState* play) {
     Mtx* mtx;
     Vec3f* temp_v0;
     s16* texScrollPos;
-    s32 pad;
+    STACK_PAD(s32);
 
     gfxCtx = play->state.gfxCtx;
     texScrollPos = this->texScrollPos;

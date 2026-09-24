@@ -15,6 +15,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -325,7 +326,7 @@ void EnAnubice_Die(EnAnubice* this, PlayState* play) {
     f32 phi_f2;
     Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
     Vec3f fireEffectPos = { 0.0f, 0.0f, 0.0f };
-    s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.shadowScale, 0.4f, 0.25f);

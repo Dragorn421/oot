@@ -14,6 +14,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -458,7 +459,7 @@ void func_80A53C90(EnHeishi2* this, PlayState* play) {
 }
 
 void func_80A53D0C(EnHeishi2* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 frameCount;
     Actor* gate;
 
@@ -782,7 +783,7 @@ void func_80A549E8(EnHeishi2* this, PlayState* play) {
 }
 
 void EnHeishi2_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnHeishi2* this = (EnHeishi2*)thisx;
     s32 i;
 

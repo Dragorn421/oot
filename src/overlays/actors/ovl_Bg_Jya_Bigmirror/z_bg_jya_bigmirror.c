@@ -4,6 +4,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "play_state.h"
@@ -203,7 +204,7 @@ void BgJyaBigmirror_Update(Actor* thisx, PlayState* play) {
 }
 
 void func_80893C68(BgJyaBigmirror* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Actor* temp_v0;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);

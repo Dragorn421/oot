@@ -12,6 +12,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -121,7 +122,7 @@ void BgZg_Update(Actor* thisx, PlayState* play) {
 
 void BgZg_Init(Actor* thisx, PlayState* play) {
     BgZg* this = (BgZg*)thisx;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(thisx, sInitChain);

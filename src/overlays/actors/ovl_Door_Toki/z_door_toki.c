@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "play_state.h"
 #include "save.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
@@ -36,7 +37,7 @@ static InitChainEntry sInitChain[] = {
 
 void DoorToki_Init(Actor* thisx, PlayState* play) {
     DoorToki* this = (DoorToki*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

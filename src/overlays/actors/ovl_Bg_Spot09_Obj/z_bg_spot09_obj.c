@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "play_state.h"
@@ -109,7 +110,7 @@ s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play) {
 s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (D_808B1F90[thisx->params] != NULL) {
         DynaPolyActor_Init(&this->dyna, 0);

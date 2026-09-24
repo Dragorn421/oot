@@ -6,6 +6,7 @@
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "play_state.h"
 #include "save.h"
@@ -90,7 +91,7 @@ void func_8099375C(DemoTreLgt* this, PlayState* play) {
 
 void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame) {
     SkelAnimeCurve* skelCurve = &this->skelCurve;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
 
@@ -104,24 +105,25 @@ void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame) {
 void func_80993848(DemoTreLgt* this, PlayState* play) {
     f32 currentFrame = this->skelCurve.animCurFrame;
 
-    if (currentFrame < sDemoTreLgtInfo[(0, gSaveContext.save.linkAge)].endFrame) {
+    if (currentFrame < sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].endFrame) {
         this->unk_170 = 255;
     } else {
-        if (currentFrame <= (sDemoTreLgtInfo[(0, gSaveContext.save.linkAge)].endFrame +
-                             sDemoTreLgtInfo[(0, gSaveContext.save.linkAge)].unk_08)) {
-            this->unk_170 = ((((sDemoTreLgtInfo[(0, gSaveContext.save.linkAge)].endFrame - currentFrame) /
-                               sDemoTreLgtInfo[(0, gSaveContext.save.linkAge)].unk_08) *
+        if (currentFrame <= (sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].endFrame +
+                             sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_08)) {
+            this->unk_170 = ((((sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].endFrame - currentFrame) /
+                               sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_08) *
                               255.0f) +
                              255.0f);
         } else {
             this->unk_170 = 0;
         }
     }
-    if (currentFrame < sDemoTreLgtInfo[(0, gSaveContext.save.linkAge)].unk_0C) {
+    if (currentFrame < sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_0C) {
         this->unk_174 = 255;
-    } else if (currentFrame < (sDemoTreLgtInfo[(0, gSaveContext.save.linkAge)].unk_0C + 10.0f)) {
+    } else if (currentFrame < (sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_0C + 10.0f)) {
         this->unk_174 =
-            ((((sDemoTreLgtInfo[(0, gSaveContext.save.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) + 255.0f);
+            ((((sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) +
+             255.0f);
     } else {
         this->unk_174 = 0;
     }
@@ -141,7 +143,7 @@ void DemoTreLgt_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 DemoTreLgt_OverrideLimbDraw(PlayState* play, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
-    s32 pad;
+    STACK_PAD(s32);
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_tre_lgt.c", 423);

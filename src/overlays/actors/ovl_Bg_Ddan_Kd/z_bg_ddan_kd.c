@@ -13,6 +13,7 @@
 #include "rand.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -74,7 +75,7 @@ void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
 
 void BgDdanKd_Init(Actor* thisx, PlayState* play) {
     BgDdanKd* this = (BgDdanKd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     this->prevExplosive = NULL;
@@ -133,7 +134,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play) {
 void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play) {
     static Vec3f D_808718FC = { 0.0f, 5.0f, 0.0f };
     static Vec3f D_80871908 = { 0.0f, -0.45f, 0.0f };
-    static Vec3f D_80871914 = { 0.0f, 0.0f, 0.0f };
+    UNUSED static Vec3f D_80871914 = { 0.0f, 0.0f, 0.0f };
     Vec3f pos1;
     Vec3f pos2;
     f32 effectStrength;

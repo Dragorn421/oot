@@ -4,6 +4,7 @@
 #include "libc64/qrand.h"
 #include "ichain.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
@@ -58,7 +59,7 @@ void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockAction
 
 void BgSpot08Iceblock_InitDynapoly(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* colHeaderSeg,
                                    s32 transformFlags) {
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, transformFlags);
@@ -67,7 +68,7 @@ void BgSpot08Iceblock_InitDynapoly(BgSpot08Iceblock* this, PlayState* play, Coll
 
 #if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        s32 pad2;
+        STACK_PAD(s32);
 
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 217,
                this->dyna.actor.id, this->dyna.actor.params);
@@ -166,7 +167,7 @@ s32 BgSpot08Iceblock_VecNormalize(Vec3f* dest, Vec3f* src) {
 
 void BgSpot08Iceblock_UpdateSwaying(BgSpot08Iceblock* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f spD4;
     Vec3f spC8;
     Vec3f spBC;
@@ -238,7 +239,7 @@ void BgSpot08Iceblock_UpdateSwaying(BgSpot08Iceblock* this, PlayState* play) {
 }
 
 void BgSpot08Iceblock_SetupIcebergDuo(BgSpot08Iceblock* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 dx = Math_SinS(this->dyna.actor.home.rot.y) * 100.0f;
     f32 dz = Math_CosS(this->dyna.actor.home.rot.y) * 100.0f;
 
@@ -257,7 +258,7 @@ void BgSpot08Iceblock_SetupIcebergDuo(BgSpot08Iceblock* this, PlayState* play) {
 }
 
 void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader;
     s32 behaviorType;
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;

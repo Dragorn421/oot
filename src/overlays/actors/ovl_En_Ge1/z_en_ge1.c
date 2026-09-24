@@ -6,6 +6,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -89,7 +90,7 @@ static void* sEyeTextures[3] = {
 
 void EnGe1_Init(Actor* thisx, PlayState* play) {
     EnGe1* this = (EnGe1*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gObjectGe1Skel, &gObjectGe1ArmsCrossedAnim, this->jointTable,
@@ -652,7 +653,7 @@ void EnGe1_Archery_OfferTalk(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_TrackPlayer(EnGe1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 relYawTowardsPlayer;
 
     relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
@@ -684,7 +685,7 @@ void EnGe1_TrackPlayerIfNear(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGe1* this = (EnGe1*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -726,7 +727,7 @@ void EnGe1_PlayAnimOnce(EnGe1* this) {
 
 s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnGe1* this = (EnGe1*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (limbIndex == OBJECT_GE1_LIMB_HEAD) {
         rot->x += this->headRot.y;
@@ -757,7 +758,7 @@ void EnGe1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
 void EnGe1_Draw(Actor* thisx, PlayState* play) {
     EnGe1* this = (EnGe1*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge1.c", 1442);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);

@@ -5,6 +5,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "light.h"
 #include "play_state.h"
@@ -69,7 +70,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     BgPoSyokudai* this = (BgPoSyokudai*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->unk14C = PARAMS_GET_U(thisx->params, 8, 8);
@@ -110,7 +111,7 @@ void BgPoSyokudai_Destroy(Actor* thisx, PlayState* play) {
 
 void BgPoSyokudai_Update(Actor* thisx, PlayState* play) {
     BgPoSyokudai* this = (BgPoSyokudai*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -123,7 +124,7 @@ void BgPoSyokudai_Update(Actor* thisx, PlayState* play) {
 void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
     BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     f32 temp_fv1;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_po_syokudai.c", 315);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

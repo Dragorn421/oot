@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
+#include "attributes.h"
 
 extern vu16 LEOrw_flags;
 
@@ -12,7 +13,7 @@ void leoRead_common(unsigned int offset) {
     u32 tg_lba;
     u32 tg_blocks;
     u32 message;
-    u16 retry_cnt;
+    UNUSED u16 retry_cnt;
 
     tg_lba = LEOcur_command->data.readwrite.lba;
     tg_blocks = LEOcur_command->data.readwrite.xfer_blks;

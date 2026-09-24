@@ -12,6 +12,7 @@
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "play_state.h"
 #include "player.h"
@@ -150,7 +151,7 @@ void MagicWind_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 MagicWind_OverrideLimbDraw(PlayState* play, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
-    MagicWind* this = (MagicWind*)thisx;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_magic_wind.c", 615);
 

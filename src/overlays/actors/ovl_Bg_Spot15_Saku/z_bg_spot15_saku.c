@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "play_state.h"
 #include "save.h"
@@ -40,7 +41,7 @@ ActorProfile Bg_Spot15_Saku_Profile = {
 
 void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
     BgSpot15Saku* this = (BgSpot15Saku*)thisx;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

@@ -1,9 +1,11 @@
 #include "animation.h"
 #include "animation_curve.h"
 #include "gfx.h"
+#include "attributes.h"
 #include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "zelda_arena.h"
@@ -21,9 +23,9 @@ void SkelCurve_Clear(SkelAnimeCurve* skelCurve) {
     skelCurve->transforms = NULL;
 }
 
-s32 SkelCurve_Init(PlayState* play, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
-                   TransformUpdateIndex* transUpdIdx) {
-    SkelCurveLimb** limbs;
+s32 SkelCurve_Init(UNUSED PlayState* play, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
+                   UNUSED TransformUpdateIndex* transUpdIdx) {
+    STACK_PAD(s32);
     SkelCurveLimbList* limbList = SEGMENTED_TO_VIRTUAL(limbListSeg);
 
     skelCurve->limbCount = limbList->limbCount;
@@ -36,7 +38,7 @@ s32 SkelCurve_Init(PlayState* play, SkelAnimeCurve* skelCurve, SkelCurveLimbList
     return 1;
 }
 
-void SkelCurve_Destroy(PlayState* play, SkelAnimeCurve* skelCurve) {
+void SkelCurve_Destroy(UNUSED PlayState* play, SkelAnimeCurve* skelCurve) {
     if (skelCurve->transforms != NULL) {
         ZELDA_ARENA_FREE(skelCurve->transforms, "../z_fcurve_data_skelanime.c", 146);
     }
@@ -51,7 +53,7 @@ void SkelCurve_SetAnim(SkelAnimeCurve* skelCurve, TransformUpdateIndex* transUpd
     skelCurve->transUpdIdx = transUpdIdx;
 }
 
-s32 SkelCurve_Update(PlayState* play, SkelAnimeCurve* skelCurve) {
+s32 SkelCurve_Update(UNUSED PlayState* play, SkelAnimeCurve* skelCurve) {
     s16* transforms;
     u8* transformRefIdx;
     TransformUpdateIndex* transformIndex;
@@ -136,7 +138,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelAnimeCurve* skelCurv
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
         if (lod == 0) {
-            s32 pad1;
+            STACK_PAD(s32);
 
             dList = limb->dList[0];
             if (dList != NULL) {
@@ -144,7 +146,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelAnimeCurve* skelCurv
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
         } else if (lod == 1) {
-            s32 pad2;
+            STACK_PAD(s32);
 
             dList = limb->dList[0];
             if (dList != NULL) {
@@ -178,8 +180,8 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelAnimeCurve* skelCurv
     CLOSE_DISPS(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 371);
 }
 
-void SkelCurve_Draw(Actor* actor, PlayState* play, SkelAnimeCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
-                    PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
+void SkelCurve_Draw(UNUSED Actor* actor, PlayState* play, SkelAnimeCurve* skelCurve,
+                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
     if (skelCurve->transforms != NULL) {
         SkelCurve_DrawLimb(play, 0, skelCurve, overrideLimbDraw, postLimbDraw, lod, data);
     }

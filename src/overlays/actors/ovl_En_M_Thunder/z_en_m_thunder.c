@@ -11,6 +11,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "stack_pad.h"
 
 #include "assets/objects/gameplay_keep/spin_attack.h"
 
@@ -76,7 +77,7 @@ void EnMThunder_SetupAction(EnMThunder* this, EnMThunderActionFunc actionFunc) {
 }
 
 void EnMThunder_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnMThunder* this = (EnMThunder*)thisx;
     Player* player;
 

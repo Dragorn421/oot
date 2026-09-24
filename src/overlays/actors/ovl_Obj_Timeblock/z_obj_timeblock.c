@@ -12,6 +12,7 @@
 #include "one_point_cutscene.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -72,7 +73,7 @@ static Color_RGB8 D_80BA0B38[8] = {
 
 s32 func_80B9FFA0(ObjTimeblock* this) {
     s32 var_a1;
-    s32 var_v1;
+    STACK_PAD(s32);
 
     if (!PARAMS_GET_U(this->dyna.actor.params, 10, 1)) {
         if (this->unk177 == 0) {
@@ -114,7 +115,7 @@ void func_80BA00CC(PlayState* play, s32 arg1) {
 
 void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     ObjTimeblock* this = (ObjTimeblock*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* sp2C;
 
     sp2C = NULL;

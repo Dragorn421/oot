@@ -10,6 +10,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -71,7 +72,7 @@ static Color_RGBA8 D_8089268C = { 0, 0x32, 0x64, 0xFF };
 
 void BgIceTurara_Init(Actor* thisx, PlayState* play) {
     BgIceTurara* this = (BgIceTurara*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* sp24;
 
     sp24 = NULL;
@@ -211,7 +212,7 @@ void BgIceTurara_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgIceTurara_Draw(Actor* thisx, PlayState* play) {
-    BgIceTurara* this = (BgIceTurara*)thisx;
+    STACK_PAD(s32);
 
     Gfx_DrawDListOpa(play, object_ice_objects_DL_0023D0);
 }

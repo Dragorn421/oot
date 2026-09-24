@@ -1,9 +1,10 @@
 #include "ultra64.h"
 #include "animation_curve.h"
 #include "math.h"
+#include "stack_pad.h"
 
 f32 func_8006C510(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
-    char pad[0x1C];
+    STACK_PADS(s32, 7);
     f32 sq = SQ(arg0);
     f32 cube = sq * arg0;
 

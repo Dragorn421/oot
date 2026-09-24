@@ -3,6 +3,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "play_state.h"
 #include "save.h"
@@ -60,7 +61,7 @@ void BgTokiHikari_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgTokiHikari_Destroy(Actor* thisx, PlayState* play) {
-    BgTokiHikari* this = (BgTokiHikari*)thisx;
+    STACK_PAD(s32);
 }
 
 void BgTokiHikari_WindowsAndLight_DoNothing(BgTokiHikari* this, PlayState* play) {
@@ -133,7 +134,7 @@ void BgTokiHikari_TriforceFlash_FadeAway(BgTokiHikari* this, PlayState* play) {
 
 void BgTokiHikari_TriforceFlash_Draw(Actor* thisx, PlayState* play) {
     BgTokiHikari* this = (BgTokiHikari*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0x15E);
 

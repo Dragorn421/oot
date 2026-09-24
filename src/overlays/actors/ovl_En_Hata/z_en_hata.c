@@ -6,10 +6,12 @@
 
 #include "z_en_hata.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -44,7 +46,7 @@ static Vec3f sVec = { 0, 0, 0 };
 
 void EnHata_Init(Actor* thisx, PlayState* play) {
     EnHata* this = (EnHata*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader;
     f32 frameCount;
 

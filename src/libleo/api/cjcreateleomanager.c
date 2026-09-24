@@ -6,8 +6,8 @@ s32 LeoCJCreateLeoManager(s32 comPri, s32 intPri, void** cmdBuf, s32 cmdMsgCnt) 
     OSPiHandle* driveRomHandle;
     OSPiHandle* leoDiskHandle;
     volatile LEOCmdInquiry cmdBlockInq;
-    volatile LEOCmd cmdBlockID;
-    LEODiskID thisID;
+    UNUSED volatile LEOCmd cmdBlockID;
+    UNUSED LEODiskID thisID;
     u32 stat;
     u32 data;
 

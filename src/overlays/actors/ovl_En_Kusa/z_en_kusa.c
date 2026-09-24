@@ -12,6 +12,7 @@
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
+#include "stack_pad.h"
 
 #include "assets/objects/gameplay_keep/cuttable_shrub.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
@@ -106,7 +107,7 @@ void func_80A9AFA0(EnKusa* this, EnKusaActionFunc actionFunc) {
 }
 
 s32 func_80A9AFAC(EnKusa* this, PlayState* play, f32 arg2) {
-    s32 pad;
+    STACK_PAD(s32);
     CollisionPoly* sp38;
     Vec3f sp2C;
     UNK_TYPE sp28;
@@ -130,7 +131,7 @@ s32 func_80A9AFAC(EnKusa* this, PlayState* play, f32 arg2) {
 
 void func_80A9B07C(EnKusa* this, PlayState* play) {
     s16 var_v0;
-    s32 temp_v0;
+    STACK_PAD(s32);
 
     switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
         case ENKUSA_TYPE_0:
@@ -178,7 +179,7 @@ void func_80A9B21C(EnKusa* this, PlayState* play) {
     Vec3f* dir;
     s32 new_var;
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
 
     for (i = 0; i < ARRAY_COUNT(sUnitDirections); i++) {
         dir = &sUnitDirections[i];
@@ -279,7 +280,7 @@ void EnKusa_SetupMain(EnKusa* this) {
 }
 
 void EnKusa_Main(EnKusa* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if (Actor_HasParent(&this->actor, play)) {
         func_80A9BA98(this);
@@ -348,7 +349,7 @@ void EnKusa_SetupFall(EnKusa* this) {
 }
 
 void EnKusa_Fall(EnKusa* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sp30;
 
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) {

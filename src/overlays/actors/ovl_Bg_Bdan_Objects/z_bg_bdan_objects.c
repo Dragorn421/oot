@@ -12,6 +12,7 @@
 #include "quake.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -136,7 +137,7 @@ void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
 
 void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
     BgBdanObjects* this = (BgBdanObjects*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

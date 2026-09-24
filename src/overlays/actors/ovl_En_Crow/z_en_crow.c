@@ -5,6 +5,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -439,7 +440,7 @@ void func_809E1174(EnCrow* this, PlayState* play) {
 
 void EnCrow_Update(Actor* thisx, PlayState* play) {
     EnCrow* this = (EnCrow*)thisx;
-    f32 pad;
+    STACK_PAD(s32);
     f32 height;
     f32 scale;
 

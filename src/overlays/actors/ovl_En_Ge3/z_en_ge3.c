@@ -10,6 +10,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -78,7 +79,7 @@ void EnGe3_SetupAction(EnGe3* this, s32 action) {
 
 void EnGe3_Init(Actor* thisx, PlayState* play) {
     EnGe3* this = (EnGe3*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, NULL, this->jointTable, this->morphTable, 24);
@@ -105,7 +106,7 @@ void EnGe3_Destroy(Actor* thisx, PlayState* play) {
 
 void EnGe3_TrackPlayer(EnGe3* this, PlayState* play) {
     s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
@@ -182,7 +183,7 @@ void EnGe3_StartTalk(EnGe3* this, PlayState* play) {
 }
 
 void EnGe3_UpdateImplPre(EnGe3* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -289,7 +290,7 @@ void EnGe3_Draw(Actor* thisx, PlayState* play) {
         gGerudoRedEyeHalfTex,
         gGerudoRedEyeShutTex,
     };
-    s32 pad;
+    STACK_PAD(s32);
     EnGe3* this = (EnGe3*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 614);

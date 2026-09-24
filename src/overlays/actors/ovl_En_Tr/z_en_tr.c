@@ -6,10 +6,12 @@
 
 #include "z_en_tr.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
@@ -45,7 +47,7 @@ ActorProfile En_Tr_Profile = {
     /**/ EnTr_Update,
     /**/ EnTr_Draw,
 };
-static AnimationHeader* D_80B24360[2] = {
+UNUSED static AnimationHeader* D_80B24360[2] = {
     &gKotakeKoumeStandingBroomOverRightShoulderAnim,
     &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
 };
@@ -376,7 +378,7 @@ void func_80B23A88(EnTr* this, PlayState* play) {
 
 void EnTr_Update(Actor* thisx, PlayState* play) {
     EnTr* this = (EnTr*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
@@ -432,7 +434,7 @@ s32 EnTr_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Ve
 
 void EnTr_Draw(Actor* thisx, PlayState* play) {
     EnTr* this = (EnTr*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.actorCues[this->cueChannel] == NULL)) {
         this->actor.shape.shadowDraw = NULL;

@@ -10,6 +10,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -158,7 +159,7 @@ void ObjTsubo_Destroy(Actor* thisx, PlayState* play2) {
 }
 
 void func_80BA100C(ObjTsubo* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 sin;
     f32 cos;
     Vec3f spC8;
@@ -202,7 +203,7 @@ void func_80BA1294(ObjTsubo* this, PlayState* play) {
     Vec3f spBC;
     s32 var_s0;
     s32 var_s2;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     spC8 = this->actor.world.pos;
     spC8.y += this->actor.depthInWater;
@@ -249,8 +250,7 @@ void func_80BA15AC(ObjTsubo* this) {
 
 void func_80BA15BC(ObjTsubo* this, PlayState* play) {
     s16 temp_v0;
-    s16 var_v1;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (Actor_HasParent(&this->actor, play)) {
         func_80BA17C4(this);
@@ -315,7 +315,7 @@ void func_80BA188C(ObjTsubo* this) {
 }
 
 void func_80BA1958(ObjTsubo* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
         (this->collider.base.atFlags & AT_HIT)) {

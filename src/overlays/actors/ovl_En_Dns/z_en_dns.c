@@ -16,6 +16,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 
@@ -507,7 +508,7 @@ void EnDns_PostBurrow(EnDns* this, PlayState* play) {
 
 void EnDns_Update(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->unk2B8++;
     this->actor.textId = sStartingTextIds[DNS_GET_TYPE(&this->actor)];

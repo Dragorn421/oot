@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "translation.h"
@@ -273,7 +274,7 @@ void MirRay_UpdateLight(MirRay* this, PlayState* play) {
 }
 
 void MirRay_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     struct_80B8E6F8* temp_s1;
     MirRay* this = (MirRay*)thisx;
 
@@ -337,7 +338,7 @@ void MirRay_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void MirRay_Update(Actor* thisx, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player;
     MirRay* this = (MirRay*)thisx;
 
@@ -489,7 +490,7 @@ void func_80B8DB7C(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
         float new_var3;
         f32* new_var;
         f32 sp80; // sp80
-        s32 pad2;
+        STACK_PAD(s32);
         f32 temp_fv0;
 
         // Above the mirror shield origin
@@ -580,7 +581,7 @@ void func_80B8DB7C(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
 void MirRay_Draw(Actor* thisx, PlayState* play) {
     MirRay* this = (MirRay*)thisx;
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
     struct_80B8D8A0 sp7C[6];
     Player* player;
 

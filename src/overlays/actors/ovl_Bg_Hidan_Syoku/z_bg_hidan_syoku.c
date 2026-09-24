@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "play_state.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
@@ -41,7 +42,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHidanSyoku_Init(Actor* thisx, PlayState* play) {
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

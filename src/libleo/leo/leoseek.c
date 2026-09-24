@@ -1,8 +1,9 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
+#include "attributes.h"
 
 void leoSeek(void) {
-    u32 tgt_tk;
+    UNUSED u32 tgt_tk;
     u8 sense_code;
     u8 retry_cntr = 20;
 

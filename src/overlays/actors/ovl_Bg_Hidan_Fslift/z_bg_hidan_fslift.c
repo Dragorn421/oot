@@ -8,6 +8,7 @@
 
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -45,9 +46,9 @@ static InitChainEntry sInitChain[] = {
 
 void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
     BgHidanFslift* this = (BgHidanFslift*)thisx;
-    s32 pad1;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);

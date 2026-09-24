@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -85,7 +86,7 @@ void BgGndFIremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
 }
 
 void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 shakeOffset;
 
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna) != 0) {
