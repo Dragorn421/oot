@@ -30,6 +30,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -518,7 +519,7 @@ static Color_RGBA8 sFogBlack = { 0, 0, 0, 0 };
 
 void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
     BgHakaTrap* this = (BgHakaTrap*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actionFunc == BgHakaTrap_SpikedWall_Burn) {
         func_80026230(play, &sFogBlack, this->unk168 + 0x14, 40);
