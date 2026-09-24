@@ -11,6 +11,7 @@
 #include "src/overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
@@ -75,7 +76,7 @@ typedef enum BgDyYoseizoRewardMagic {
 } BgDyYoseizoRewardMagic;
 
 // This unused data is probably { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE }
-static s32 D_80875440[3] = { 0x5D, 0x5E, 0x5C };
+UNUSED static s32 D_80875440[3] = { 0x5D, 0x5E, 0x5C };
 
 ActorProfile Bg_Dy_Yoseizo_Profile = {
     /**/ ACTOR_BG_DY_YOSEIZO,

@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -171,7 +172,7 @@ void EnMm_ChangeAnim(EnMm* this, s32 index, s32* currentIndex) {
 }
 
 void EnMm_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnMm* this = (EnMm*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -209,7 +210,7 @@ void EnMm_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnMm_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnMm* this = (EnMm*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);
@@ -226,7 +227,7 @@ s32 func_80AADA70(void) {
 }
 
 s32 func_80AADAA0(EnMm* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s32 sp1C = 1;
 
@@ -514,7 +515,7 @@ void func_80AAE598(EnMm* this, PlayState* play) {
 }
 
 void EnMm_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnMm* this = (EnMm*)thisx;
 
     this->actionFunc(this, play);
@@ -525,7 +526,7 @@ void EnMm_Update(Actor* thisx, PlayState* play) {
 
 void EnMm_Draw(Actor* thisx, PlayState* play) {
     static void* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
-    s32 pad;
+    STACK_PAD(s32);
     EnMm* this = (EnMm*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_mm.c", 1065);

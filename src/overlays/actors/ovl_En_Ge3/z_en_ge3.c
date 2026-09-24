@@ -11,6 +11,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -105,7 +106,7 @@ void EnGe3_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnGe3_TurnToFacePlayer(EnGe3* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(angleDiff) <= 0x4000) {
@@ -183,8 +184,7 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
 }
 
 void EnGe3_UpdateCollision(EnGe3* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

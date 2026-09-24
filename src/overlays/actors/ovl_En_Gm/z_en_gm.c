@@ -14,6 +14,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -206,7 +207,7 @@ void func_80A3DBF4(EnGm* this, PlayState* play) {
 void func_80A3DC44(EnGm* this, PlayState* play) {
     f32 dx;
     f32 dz;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     EnGm_SetTextID(this);
@@ -335,7 +336,7 @@ void func_80A3E090(EnGm* this) {
 void EnGm_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     EnGm* this = (EnGm*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_gm.c", 613);
 

@@ -7,6 +7,7 @@
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -137,7 +138,7 @@ void EnCs_ChangeAnim(EnCs* this, s32 index, s32* currentIndex) {
 
 void EnCs_Init(Actor* thisx, PlayState* play) {
     EnCs* this = (EnCs*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (!IS_DAY) {
         Actor_Kill(&this->actor);
@@ -179,8 +180,7 @@ void EnCs_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 EnCs_GetTalkState(EnCs* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     s32 talkState = 1;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -242,7 +242,7 @@ s32 EnCs_GetTextId(EnCs* this, PlayState* play) {
 }
 
 void EnCs_HandleTalking(EnCs* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 sp2A;
     s16 sp28;
 
@@ -434,7 +434,7 @@ void EnCs_Talk(EnCs* this, PlayState* play) {
 void EnCs_Update(Actor* thisx, PlayState* play) {
     static s32 eyeBlinkFrames[] = { 70, 1, 1 };
     EnCs* this = (EnCs*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->currentAnimIndex == 0) {
         if (((s32)this->skelAnime.curFrame == 9) || ((s32)this->skelAnime.curFrame == 23)) {
@@ -475,7 +475,7 @@ void EnCs_Draw(Actor* thisx, PlayState* play) {
         gGraveyardKidEyesClosedTex,
     };
     EnCs* this = (EnCs*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_cs.c", 968);
 

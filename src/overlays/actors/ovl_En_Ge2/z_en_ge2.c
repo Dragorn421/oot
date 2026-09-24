@@ -7,11 +7,13 @@
 #include "z_en_ge2.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -129,7 +131,7 @@ void EnGe2_ChangeAction(EnGe2* this, s32 i) {
 
 void EnGe2_Init(Actor* thisx, PlayState* play) {
     EnGe2* this = (EnGe2*)thisx;
-    s16 params = this->actor.params;
+    UNUSED s16 params = this->actor.params;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoPurpleSkel, NULL, this->jointTable, this->morphTable,
@@ -407,7 +409,7 @@ void EnGe2_Stand(EnGe2* this, PlayState* play) {
 }
 
 void EnGe2_TurnToFacePlayer(EnGe2* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(angleDiff) <= 0x4000) {
@@ -502,8 +504,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, PlayState* play) {
 }
 
 void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -662,7 +663,7 @@ void EnGe2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
 void EnGe2_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = { gGerudoPurpleEyeOpenTex, gGerudoPurpleEyeHalfTex, gGerudoPurpleEyeClosedTex };
-    s32 pad;
+    STACK_PAD(s32);
     EnGe2* this = (EnGe2*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge2.c", 1274);

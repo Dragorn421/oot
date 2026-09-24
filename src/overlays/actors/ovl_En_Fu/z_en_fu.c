@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -88,7 +89,7 @@ typedef enum EnFuFace {
 } EnFuFace;
 
 void EnFu_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnFu* this = (EnFu*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -250,7 +251,7 @@ void EnFu_WaitAdult(EnFu* this, PlayState* play) {
 }
 
 void EnFu_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnFu* this = (EnFu*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -275,7 +276,7 @@ void EnFu_Update(Actor* thisx, PlayState* play) {
 
 s32 EnFu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnFu* this = (EnFu*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (limbIndex == WINDMILL_MAN_LIMB_UNK) {
         return false;
@@ -311,7 +312,7 @@ void EnFu_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 void EnFu_Draw(Actor* thisx, PlayState* play) {
     static void* sEyesSegments[] = { gWindmillManEyeClosedTex, gWindmillManEyeAngryTex };
     static void* sMouthSegments[] = { gWindmillManMouthOpenTex, gWindmillManMouthAngryTex };
-    s32 pad;
+    STACK_PAD(s32);
     EnFu* this = (EnFu*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fu.c", 773);

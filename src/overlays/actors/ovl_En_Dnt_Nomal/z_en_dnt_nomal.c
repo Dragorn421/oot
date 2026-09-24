@@ -20,6 +20,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -139,7 +140,7 @@ static Color_RGBA8 sLeafColors[] = {
 };
 
 void EnDntNomal_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDntNomal* this = (EnDntNomal*)thisx;
 
     this->type = this->actor.params;
@@ -180,7 +181,7 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnDntNomal_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDntNomal* this = (EnDntNomal*)thisx;
 
     if (this->type == ENDNTNOMAL_TARGET) {
@@ -239,7 +240,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
     f32 dz;
     Vec3f scoreAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f scoreVel = { 0.0f, 0.0f, 0.0f };
-    s32 pad;
+    STACK_PAD(s32);
 
     this->targetVtx[0].x = targetX;
     this->targetVtx[0].y = targetY - 24.0f;
@@ -782,7 +783,7 @@ void EnDntNomal_StageReturn(EnDntNomal* this, PlayState* play) {
 }
 
 void EnDntNomal_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDntNomal* this = (EnDntNomal*)thisx;
 
     if (this->timer1 != 0) {
@@ -897,7 +898,7 @@ void EnDntNomal_DrawStageScrub(Actor* thisx, PlayState* play) {
     static void* blinkTex[] = { gDntStageEyeOpenTex, gDntStageEyeHalfTex, gDntStageEyeShutTex };
     EnDntNomal* this = (EnDntNomal*)thisx;
     Vec3f dustScale = { 0.25f, 0.25f, 0.25f };
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1790);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

@@ -9,6 +9,7 @@
 #include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -79,7 +80,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnHintnuts_Init(Actor* thisx, PlayState* play) {
     EnHintnuts* this = (EnHintnuts*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (this->actor.params == 0xA) {
@@ -486,7 +487,7 @@ void EnHintnuts_ColliderCheck(EnHintnuts* this, PlayState* play) {
 
 void EnHintnuts_Update(Actor* thisx, PlayState* play) {
     EnHintnuts* this = (EnHintnuts*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actor.params != 0xA) {
         EnHintnuts_ColliderCheck(this, play);

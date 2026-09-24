@@ -10,6 +10,7 @@
 #include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -117,7 +118,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnDekunuts_Init(Actor* thisx, PlayState* play) {
     EnDekunuts* this = (EnDekunuts*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (thisx->params == DEKUNUTS_FLOWER) {
@@ -432,8 +433,7 @@ void EnDekunuts_BeStunned(EnDekunuts* this, PlayState* play) {
 
 void EnDekunuts_Die(EnDekunuts* this, PlayState* play) {
     static Vec3f effectVelAndAccel = { 0.0f, 0.0f, 0.0f };
-
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f effectPos;
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -481,7 +481,7 @@ void EnDekunuts_ColliderCheck(EnDekunuts* this, PlayState* play) {
 
 void EnDekunuts_Update(Actor* thisx, PlayState* play) {
     EnDekunuts* this = (EnDekunuts*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actor.params != DEKUNUTS_FLOWER) {
         EnDekunuts_ColliderCheck(this, play);

@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "light.h"
@@ -71,7 +72,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnPoDesert_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnPoDesert* this = (EnPoDesert*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -200,7 +201,7 @@ void EnPoDesert_Disappear(EnPoDesert* this, PlayState* play) {
 
 void EnPoDesert_Update(Actor* thisx, PlayState* play) {
     EnPoDesert* this = (EnPoDesert*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);

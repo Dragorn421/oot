@@ -8,6 +8,7 @@
 #include "src/overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -53,11 +54,11 @@ ActorProfile En_Jj_Profile = {
     /**/ EnJj_Draw,
 };
 
-static s32 sUnused = 0;
+UNUSED static s32 sUnused = 0;
 
 #include "z_en_jj_cutscene_data.inc.c"
 
-static s32 sUnused2[] = { 0, 0 };
+UNUSED static s32 sUnused2[] = { 0, 0 };
 
 static ColliderCylinderInit sCylinderInit = {
     {

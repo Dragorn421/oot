@@ -20,6 +20,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -113,7 +114,7 @@ void EnDntJiji_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnDntJiji_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDntJiji* this = (EnDntJiji*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);
@@ -389,7 +390,7 @@ void EnDntJiji_Return(EnDntJiji* this, PlayState* play) {
 }
 
 void EnDntJiji_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDntJiji* this = (EnDntJiji*)thisx;
 
     Actor_SetScale(&this->actor, 0.015f);
