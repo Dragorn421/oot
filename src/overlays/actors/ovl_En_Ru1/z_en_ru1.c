@@ -2104,7 +2104,7 @@ void EnRu1_SetupRetrievingSapphireAnimation(EnRu1* this, PlayState* play) {
         EnRu1_StartWalkingTowardSapphire(this, play);
         this->action = ENRU1_ACTION_RETRIEVING_SAPPHIRE;
         this->drawConfig = ENRU1_DRAW_OPA;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
