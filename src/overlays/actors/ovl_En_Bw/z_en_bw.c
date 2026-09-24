@@ -14,6 +14,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "versions.h"
@@ -174,7 +175,7 @@ void EnBw_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnBw_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnBw* this = (EnBw*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider1);
@@ -766,7 +767,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
     EnBw* this = (EnBw*)thisx;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
-    s32 pad[3]; // probably an unused Vec3f
+    STACK_PADS(s32, 3); // probably an unused Vec3f
     Color_RGBA8 sp50 = { 255, 200, 0, 255 };
     Color_RGBA8 sp4C = { 255, 80, 0, 255 };
     Color_RGBA8 sp48 = { 0, 0, 0, 255 };
@@ -876,7 +877,7 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
     if (this->color1.a == 0xFF) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, this->color1.r, this->color1.g, this->color1.b, this->color1.a);
-        gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnBw_OverrideLimbDraw, NULL, this, POLY_OPA_DISP);
     } else {
@@ -884,7 +885,7 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->color1.a);
         gDPSetEnvColor(POLY_XLU_DISP++, this->color1.r, this->color1.g, this->color1.b, this->color1.a);
-        gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
+        gSPSegment(POLY_XLU_DISP++, 0x08, gActorSetupXluDL);
         POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnBw_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
     }

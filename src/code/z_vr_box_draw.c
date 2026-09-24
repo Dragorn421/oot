@@ -1,7 +1,11 @@
+#include "skybox.h"
+
 #include "gfx.h"
+#include "attributes.h"
 #include "gfx_setupdl.h"
 #include "sys_matrix.h"
-#include "skybox.h"
+
+#include "ultra64.h"
 
 Mtx* sSkyboxDrawMatrix;
 
@@ -99,5 +103,5 @@ void Skybox_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId
     CLOSE_DISPS(gfxCtx, "../z_vr_box_draw.c", 125);
 }
 
-void Skybox_Update(SkyboxContext* skyboxCtx) {
+void Skybox_Update(UNUSED SkyboxContext* skyboxCtx) {
 }

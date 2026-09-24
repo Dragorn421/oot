@@ -17,6 +17,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "z_en_item00.h"
@@ -246,7 +247,7 @@ void EnWf_SetupAction(EnWf* this, EnWfActionFunc actionFunc) {
 
 void EnWf_Init(Actor* thisx, PlayState* play) {
     EnWf* this = (EnWf*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -316,7 +317,7 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
  */
 s32 EnWf_PickAction(PlayState* play, EnWf* this, s16 mustPick) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 absRelWallYaw;
     s16 absRelYawTowardsPlayer;
 
@@ -454,7 +455,7 @@ void EnWf_SetupIdle(EnWf* this) {
 
 void EnWf_Idle(EnWf* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 yaw;
 
     SkelAnime_Update(&this->skelAnime);
@@ -522,15 +523,15 @@ void EnWf_SetupRunToAttack(EnWf* this, PlayState* play) {
 void EnWf_RunToAttack(EnWf* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
-    s32 pad;
+    STACK_PAD(s32);
     f32 sp50_real = 0.0f;
-    s32 pad2;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
-    s32 pad3;
+    STACK_PAD(s32);
     s16 temp_v1_real;
     s16 var_v0_real;
     f32 absPlaySpeed;
-    s32 pad4;
+    STACK_PAD(s32);
 
     if (!EnWf_ReactToProjectile(play, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
@@ -1012,8 +1013,8 @@ void EnWf_SetupBlock(EnWf* this) {
 
 void EnWf_Block(EnWf* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
-    s16 pad2;
+    STACK_PAD(s32);
+    STACK_PAD(s16);
     s16 yawDiff;
     s16 relYawTowardsPlayer;
 
@@ -1284,7 +1285,7 @@ void EnWf_CheckCollide(EnWf* this, PlayState* play) {
 
 void EnWf_Update(Actor* thisx, PlayState* play) {
     EnWf* this = (EnWf*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     EnWf_CheckCollide(this, play);
     if (this->actor.colChkInfo.damageReaction != ENWF_DMG_REACT_6) {
