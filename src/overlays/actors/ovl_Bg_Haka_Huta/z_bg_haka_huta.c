@@ -7,6 +7,7 @@
 #include "one_point_cutscene.h"
 #include "quake.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -46,7 +47,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaHuta_Init(Actor* thisx, PlayState* play) {
     BgHakaHuta* this = (BgHakaHuta*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
