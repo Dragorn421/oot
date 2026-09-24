@@ -16,6 +16,7 @@
 #include "rumble.h"
 // clang-format on
 
+#include "attributes.h"
 #include "padmgr.h"
 #include "z_math.h"
 
@@ -23,7 +24,7 @@
 #include <math.h>
 #include <stddef.h>
 
-static s32 sUnused[4];
+UNUSED static s32 sUnused[4];
 RumbleMgr sRumbleMgr;
 
 /**
@@ -31,7 +32,7 @@ RumbleMgr sRumbleMgr;
  *
  * Unlike every other function in this file, this runs on the padmgr thread.
  */
-void Rumble_Update(PadMgr* padMgr, void* arg) {
+void Rumble_Update(PadMgr* padMgr, UNUSED void* arg) {
     RumbleMgr_Update(&sRumbleMgr);
     PadMgr_RumbleSet(padMgr, sRumbleMgr.rumbleEnable);
 }
