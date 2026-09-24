@@ -5,7 +5,7 @@
  */
 
 #include "z_en_am.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "src/overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"
@@ -45,13 +45,13 @@ void EnAm_Stunned(EnAm* this, PlayState* play);
 void EnAm_RecoilFromDamage(EnAm* this, PlayState* play);
 
 typedef enum ArmosBehavior {
-    /* 00 */ AM_BEHAVIOR_NONE,
-    /* 01 */ AM_BEHAVIOR_DAMAGED,
-    /* 03 */ AM_BEHAVIOR_DO_NOTHING = 3,
-    /* 05 */ AM_BEHAVIOR_5 = 5, // checked but never set
-    /* 06 */ AM_BEHAVIOR_STUNNED,
-    /* 07 */ AM_BEHAVIOR_GO_HOME,
-    /* 08 */ AM_BEHAVIOR_RICOCHET,
+    /*  0 */ AM_BEHAVIOR_NONE,
+    /*  1 */ AM_BEHAVIOR_DAMAGED,
+    /*  3 */ AM_BEHAVIOR_DO_NOTHING = 3,
+    /*  5 */ AM_BEHAVIOR_5 = 5, // checked but never set
+    /*  6 */ AM_BEHAVIOR_STUNNED,
+    /*  7 */ AM_BEHAVIOR_GO_HOME,
+    /*  8 */ AM_BEHAVIOR_RICOCHET,
     /* 10 */ AM_BEHAVIOR_AGGRO = 10
 } ArmosBehavior;
 

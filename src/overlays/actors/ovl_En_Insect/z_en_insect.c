@@ -5,7 +5,7 @@
  */
 
 #include "z_en_insect.h"
-#include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
+#include "src/overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
@@ -134,7 +134,7 @@ s32 EnInsect_InBottleRange(EnInsect* this, PlayState* play) {
         pos.y = player->actor.world.pos.y;
         pos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f + player->actor.world.pos.z;
 
-        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
+        //! @bug this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
         //! been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's
         //! world rotation.
         if (EnInsect_XZDistanceSquared(&pos, &this->actor.world.pos) <= SQ(20.0f)) {

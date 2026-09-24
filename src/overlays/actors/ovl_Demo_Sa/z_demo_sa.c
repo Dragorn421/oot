@@ -5,8 +5,8 @@
  */
 
 #include "z_demo_sa.h"
-#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -406,7 +406,7 @@ void DemoSa_InitTrialOrSealingGanon(DemoSa* this, PlayState* play) {
 void DemoSa_SageMagic_LowerEyes(DemoSa* this) {
     f32 curFrame = this->skelAnime.curFrame;
 
-    if ((this->skelAnime.mode == 2) && (curFrame >= 32.0f)) {
+    if ((this->skelAnime.mode == ANIMMODE_ONCE) && (curFrame >= 32.0f)) {
         DemoSa_SetEyes(this, SARIA_EYE_HALF);
         DemoSa_SetMouth(this, SARIA_MOUTH_CLOSED2);
     }

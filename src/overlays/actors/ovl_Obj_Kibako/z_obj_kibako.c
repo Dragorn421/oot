@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_kibako.h"
-#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
 #include "ichain.h"
@@ -231,7 +231,7 @@ void ObjKibako_Idle(ObjKibako* this, PlayState* play) {
 void ObjKibako_SetupHeld(ObjKibako* this) {
     this->actionFunc = ObjKibako_Held;
     this->actor.room = -1;
-    //! @bug: This is an unsafe cast, although the sound effect will still play
+    //! @bug This is an unsafe cast, although the sound effect will still play
     Player_PlaySfx((Player*)&this->actor, NA_SE_PL_PULL_UP_WOODBOX);
 }
 

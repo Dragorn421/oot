@@ -5,7 +5,7 @@
  */
 
 #include "z_en_zl2.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "libc64/math64.h"
 #include "gfx.h"
@@ -1261,7 +1261,7 @@ void func_80B514F8(EnZl2* this, PlayState* play) {
 void func_80B5154C(EnZl2* this, PlayState* play) {
     CutsceneContext* csCtx;
 
-    if (this->skelAnime.mode != 0) {
+    if (this->skelAnime.mode != ANIMMODE_LOOP) {
         EnZl2_UpdateEyes(this);
     } else {
         csCtx = &play->csCtx;
