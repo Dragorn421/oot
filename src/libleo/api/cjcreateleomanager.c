@@ -1,14 +1,15 @@
 #include "ultra64.h"
 #include "ultra64/asm.h"
 #include "ultra64/leo_internal.h"
+#include "attributes.h"
 
 s32 LeoCJCreateLeoManager(s32 comPri, s32 intPri, void** cmdBuf, s32 cmdMsgCnt) {
     OSPiHandle* driveRomHandle;
-    OSPiHandle* leoDiskHandle;
+    UNUSED OSPiHandle* leoDiskHandle;
     volatile LEOCmdInquiry cmdBlockInq;
     UNUSED volatile LEOCmd cmdBlockID;
     UNUSED LEODiskID thisID;
-    u32 stat;
+    UNUSED u32 stat;
     u32 data;
 
     if (__leoActive) {
