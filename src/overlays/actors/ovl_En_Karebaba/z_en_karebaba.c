@@ -5,12 +5,13 @@
  */
 
 #include "z_en_karebaba.h"
-#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -419,7 +420,7 @@ void EnKarebaba_Regrow(EnKarebaba* this, PlayState* play) {
 }
 
 void EnKarebaba_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnKarebaba* this = (EnKarebaba*)thisx;
     f32 height;
 

@@ -1,10 +1,12 @@
 #include "z_en_ge2.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -130,7 +132,7 @@ void EnGe2_SetupAction(EnGe2* this, s32 action) {
 
 void EnGe2_Init(Actor* thisx, PlayState* play) {
     EnGe2* this = (EnGe2*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gObjectGlaSkel, NULL, this->jointTable, this->morphTable,
@@ -394,7 +396,7 @@ void EnGe2_Static(EnGe2* this, PlayState* play) {
 
 void EnGe2_TrackPlayer(EnGe2* this, PlayState* play) {
     s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
@@ -488,7 +490,7 @@ void EnGe2_SetupPlayerCaught(EnGe2* this, PlayState* play) {
 }
 
 void EnGe2_UpdateImplPre(EnGe2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -635,7 +637,7 @@ void EnGe2_Draw(Actor* thisx, PlayState* play) {
         gObjectGlaEyeClosedTex,
     };
     EnGe2* this = (EnGe2*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge2.c", 1274);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
