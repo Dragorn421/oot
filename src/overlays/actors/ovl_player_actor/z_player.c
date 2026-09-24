@@ -4335,7 +4335,7 @@ typedef enum PlayerActionInterruptResult {
  *
  * Note that while this function can set up a new action with `sActionHandlerListIdle`, this function
  * will not set up an appropriate action for moving.
- * It is the callers responsibility to react accordingly to `PLAYER_INTERRUPT_MOVE`.
+ * It is the caller's responsibility to react accordingly to `PLAYER_INTERRUPT_MOVE`.
  *
  * @param frameRange  The number of frames, from the end of the current animation, where an interrupt can occur.
  * @return The interrupt result. See `PlayerActionInterruptResult`.
