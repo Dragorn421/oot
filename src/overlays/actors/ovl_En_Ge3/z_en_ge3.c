@@ -10,6 +10,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -105,7 +106,7 @@ void EnGe3_Destroy(Actor* thisx, PlayState* play) {
 
 void EnGe3_TrackPlayer(EnGe3* this, PlayState* play) {
     s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
@@ -182,7 +183,7 @@ void EnGe3_StartTalk(EnGe3* this, PlayState* play) {
 }
 
 void EnGe3_UpdateImplPre(EnGe3* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
