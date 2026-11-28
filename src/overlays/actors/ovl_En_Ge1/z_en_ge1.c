@@ -494,7 +494,9 @@ void EnGe1_Archery_GiveReward(EnGe1* this, PlayState* play) {
     } else {
         giReward = GI_HEART_PIECE;
     }
-    //! @bug giReward may be used uninitialized
+    //! @bug giReward may be used uninitialized.
+    //! In that case in practice at runtime it holds the `&this->skelAnime` address.
+    //! See the bug comment in EnGe1_Archery_WaitTalkEndGiveReward for more details.
     Actor_OfferGetItem(&this->actor, play, giReward, 10000.0f, 50.0f);
 }
 
@@ -517,7 +519,23 @@ void EnGe1_Archery_WaitTalkEndGiveReward(EnGe1* this, PlayState* play) {
     } else {
         giReward = GI_HEART_PIECE;
     }
-    //! @bug giReward may be used uninitialized
+    //! @bug giReward may be used uninitialized.
+    //! In that case in practice at runtime it holds the `&this->skelAnime` address.
+    //! This means the reward depends on the memory address the actor is loaded at, which depends on the version and
+    //! possibly other manipulations. So winning a "quiver" at gerudo archery without already having a quiver (without
+    //! having obtained bow) (which requires sequence breaking as the player is supposed to have bow by then) actually
+    //! gives a different reward.
+    //! Note `&this->skelAnime` is always equal to 8 modulo 16, since allocations are 16-aligned and `EnGe1.skelAnime`
+    //! is at struct offset 0x198. Additionally `Player.getItemId` is a s8 and its absolute value is used.
+    //! All in all this means there are 8 possible rewards:
+    //! 0x08 = GI_HOOKSHOT
+    //! 0x18 = GI_MASK_SPOOKY
+    //! 0x28 = GI_SWORD_KNIFE
+    //! 0x38 = GI_SCALE_GOLDEN
+    //! 0x48 = GI_RECOVERY_HEART
+    //! 0x58 = GI_ARROW_FIRE
+    //! 0x68 = GI_BOMBS_30
+    //! 0x78 = GI_DEKU_STICK_UPGRADE_30
     Actor_OfferGetItem(&this->actor, play, giReward, 10000.0f, 50.0f);
 }
 
